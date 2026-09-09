@@ -63,9 +63,42 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
 
+% Quantum computing packages
+\usepackage{tikz}
+\usepackage{quantikz}
+
+% -----------------------------------------------------------------------------
 %maths stuff
 \usepackage{amsmath}
+\numberwithin{equation}{section}
+
 \usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{braket}
+
+\usepackage{amsthm}
+% Definitions usually use upright text
+% Define a new theorem style for definitions
+\newtheoremstyle{boldnote}
+  {\topsep}       % Space above
+  {\topsep}       % Space below
+  {\normalfont}   % Body font (upright text for definitions)
+  {}              % Indent amount
+  {\bfseries}     % Theorem head font (this makes the header bold)
+  {:}             % Punctuation after theorem head
+  {.5em}          % Space after theorem head
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec
+
+% 3. Apply the custom style to definitions
+\theoremstyle{boldnote}
+\newtheorem{definition}{Definition}
+
+% 4. Apply the default plain style to theorems and corollaries
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+% -----------------------------------------------------------------------------
 
 \setcounter{secnumdepth}{5}
 

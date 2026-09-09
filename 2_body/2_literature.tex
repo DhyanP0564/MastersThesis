@@ -1,8 +1,109 @@
+\subsection{Fundamentals of Quantum Computation}
+
+In classical computing, the fundamental unit of information is the bit, which can take one of two values: 0 or 1.
+
+The fundamental unit of information in quantum computing is the qubit, which can exist in a superposition of states, allowing it to encode both 0 and 1 simultaneously. This property enables quantum computers to perform certain computations more efficiently than classical computers.
+
+\todo{Write a mini summary: this section will... Add linlin reference here.}
+
+\begin{definition}[State Space]
+    The set of all quantum states that a quantum system can occupy is a complex vector space with inner product structure known as a Hilbert space (denoted $\mathcal{H}$). A finite dimensional Hilbert space is isomorphic to $\mathbb{C}^N$ ($\mathcal{H} \cong \mathbb{C}^N$) for some $N \in \mathbb{N}$, where $N$ is the dimension of the Hilbert space. A quantum state is a unit vector in this Hilbert space, represented in dirac notation as $\ket{\psi} \in \mathcal{H}$, with $\braket{\psi|\psi} = 1$ (normalisation condition). A quantum state $\ket{\psi}$ can be expressed as a linear combination of basis states $\{\ket{i}\}_{i=0}^{N-1}$, where $\ket{i}$ is the $i^{th}$ basis state of the Hilbert space.
+    \begin{equation}
+        \ket{\psi} = \sum_{i=0}^{N-1} \psi_i \ket{i} = 
+        \begin{pmatrix}
+            \psi_0 \\
+            \psi_1 \\
+            \vdots \\
+            \psi_{N-1}
+        \end{pmatrix}`'
+    \end{equation}
+    Its hermitian conjugate (or adjoint) is denoted as $\bra{\psi} = \ket{\psi}^{\dagger}$. Note that for some $e^{i \theta}$ for $\theta \in [0, 2\pi)$, the states $\ket{\psi}$ and $e^{\imath \theta}\ket{\psi}$ are physically indistinguishable, and thus correspond to the same physical quantum state. This is known as a global phase factor.
+\end{definition}
+
+\begin{definition}[The Qubit]
+    A quantum bit (qubit) is a two-state quantum system, characterised by $\ket{\psi} \in \mathbb{C}^2$.
+    \begin{equation}
+        \ket{\psi} = \alpha \ket{0} + \beta \ket{1} = 
+        \begin{pmatrix}
+            \alpha \\
+            \beta
+        \end{pmatrix}
+    \end{equation}
+
+    where $\alpha, \beta \in \mathbb{C}$, $\ket{0}$ and $\ket{1}$ are the computational basis states, and $|\alpha|^2, |\beta|^2$ are the probabilities of measuring the qubit in the $\ket{0}$ and $\ket{1}$ states, respectively. The normalisation condition requires that $|\alpha|^2 + |\beta|^2 = 1$.
+\end{definition}
+
+\begin{definition}[Composite Systems]
+    The state space of a composite quantum system is the tensor product of the state spaces of its subsystems. Consider two quantum states $\ket{\psi}_A \in \mathcal{H}_A$ and $\ket{\psi}_B \in \mathcal{H}_B$, the composite state $\ket{\psi}_{AB}$ is given by:
+    \begin{equation}
+        \ket{\psi}_{AB} = \ket{\psi}_A \otimes \ket{\psi}_B \in \mathcal{H}_A \otimes \mathcal{H}_B
+    \end{equation}
+    where $\otimes$ denotes the tensor product and is often hidden by convention. The dimension of the composite state space is the product of the dimensions of the individual state spaces. If a composite system cannot be written as a tensor product of its subsystems, it is said to be entangled. Entanglement is a unique feature of quantum mechanics that has no classical counterpart and plays a crucial role in quantum information processing.
+
+    We often consider the state of a composite system of $n$ qubits, which is represented in a $2^n$-dimensional Hilbert space $\mathcal{H} \cong \mathbb{C}^{2^n}$.
+\end{definition}
+
+\subsubsection{Quantum Gates and Circuits}
+
+\begin{definition}[Quantum Algorithm]
+    A quantum algorithm is a sequence of operations that manipulates qubits to perform a specific computation.
+    
+    The goal of any quantum algorithm is to manipulate quantum states in a controlled manner to achieve a desired outcome. This is accomplished through the application of quantum gates, which are unitary operations that transform quantum states. Quantum gates can be combined to form quantum circuits, which represent the sequence of operations performed on qubits. Each quantum gate can be implemented using physical operations on hardware, and the design of efficient quantum algorithms is a central challenge in quantum computing research.\todo{May need to rewrite}
+\end{definition}
+
+\begin{definition}[Unitary Evolution]
+    The evolution of a closed quantum system between two states is described by unitary transformations $U \in \mathbb{C}^{2^n \times 2^n}$, where $n$ is the number of qubits in the system.
+    \begin{equation}
+        \ket{\psi}_{final} = U \ket{\psi}_{initial}, \quad U^{\dagger}U = UU^{\dagger} = I
+    \end{equation}
+    where $U^{\dagger}$ is the hermitian conjugate of $U$ and $I$ is the identity operator. Unitary transformations preserve the inner product and thus the norm of quantum states, ensuring that states have a physical interpretation as probability amplitudes.
+
+    These unitary transformations are known as quantum gates, and each gate serves a specific purpose in manipulating quantum states. 
+\end{definition}
+
+The quantum circuit diagram offers a succinct and intuitive representation of quantum algorithms, analogous to Feynman diagrams in quantum field theory. 
+
+Time flows left to right, and each wire (horizontal line) represents a qubit or a quantum register. Gates are placed sequentially on the wires indicating operations applied to qubits. An example is the Hadamard gate, which creates superposition, and the CNOT gate, which entangles qubits. A full list of quantum gates and their corresponding circuit symbols can be found in \todo{Create a table in the appendix}.
+
+\todo{Insert a figure with a diagram of an example quantum circuit}
+
+\subsubsection{Complexity of Quantum Algorithms}
+\begin{definition}[Gate Complexity]
+    The total number of quantum gates used in a quantum circuit.
+\end{definition}
+
+\begin{definition}[Circuit Depth]
+    The maximum number of gates applied sequentially on any qubit in a quantum circuit.
+\end{definition}
+
+\begin{definition}[Ancillary Qubits]
+    Additional qubits introduced into a quantum circuit beyond the primary input qubits, typically initialized to a baseline state (such as $\vert 0 \rangle$) to assist with intermediate calculations, temporary storage, or entanglement generation.
+\end{definition}
+
+\begin{definition}[Big-$\mathcal{O}$ Notation]
+    Big-$\mathcal{O}$ notation is a mathematical notation used to describe the asymptotic behavior of functions.
+    \begin{equation}
+        \mathcal{O}(f(n)) = \{ g(n) : \exists c > 0, n_0 \in \mathbb{N} \text{ such that } 0 \leq g(n) \leq c f(n) \text{ for all } n \geq n_0 \}
+    \end{equation}
+    In the context of quantum algorithms, it is used to express the scaling of gate complexity, circuit depth, and space requirements with respect to the number of qubits $n$. 
+    
+    For example, if a quantum algorithm has a gate complexity of $\mathcal{O}(n^2)$, it means that the number of gates required grows quadratically with the number of qubits.
+    
+\end{definition}
+
+A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate complexity, and the number of ancillary qubits all scale polynomially with the number of qubits $n$.
+
+\subsubsection{Noisy Intermediate-Scale Quantum (NISQ) Era}
+
+\todo{Write this section. Use Josh's as a guide.}
+
 \subsection{Quantum Algorithms for Differential Equations}
+
+\subsection{Spectral Galerkin Method for Differential Equations}
 
 \subsection{Physics-Informed Effective Hamiltonian Framework}
 
-\subsection{Block-Encoding}
+\subsection{Block-Encoding \& Qubitisation}
 
 \subsection{Quantum Signal Processing}
 
