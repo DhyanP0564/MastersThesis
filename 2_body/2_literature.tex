@@ -1,4 +1,16 @@
-\subsection{Fundamentals of Quantum Computation}
+% =============================================================================
+% §2 Background and Literature Review  --  budget ~13 pp
+% rubric: Introduction & Literature Review /20
+%
+% This section now carries the PIHM framework of Wu et al. as PRIOR ART, on the
+% same footing as GQSP.  §2.4.3 is where the published collocation encoding is
+% judged; that critical assessment is the pivot into §3 and is the explicit HD
+% gate in the mark sheet.
+% =============================================================================
+
+\subsection{Quantum Computation Preliminaries}
+% BUDGET: <= 2 pp.  Compress the definitions below into flowing prose and keep
+% numbered environments only for objects re-invoked later.  Gate table -> Appendix A.
 
 In classical computing, the fundamental unit of information is the bit, which can take one of two values: 0 or 1.
 
@@ -99,22 +111,45 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 
 \subsection{Quantum Algorithms for Differential Equations}
 
-\subsection{Spectral Galerkin Method for Differential Equations}
+\subsubsection{Linear-Systems and Hamiltonian-Simulation Routes}
 
-\subsection{Physics-Informed Effective Hamiltonian Framework}
+\subsubsection{Variational and Carleman-Linearisation Routes}
 
-\subsection{Block-Encoding \& Qubitisation}
+\subsubsection{Critical Assessment}
 
-\subsection{Quantum Signal Processing}
+\subsection{Classical Spectral Methods and the Chebyshev Basis}
+% Credit Olver & Townsend (2013) ultraspherical spectral method HERE, before any
+% descriptor claim is made in §3.  Marker checklist: antecedent before contribution.
 
-\subsubsection{Basic Quantum Signal Processing}
+\subsubsection{Chebyshev Expansion and Differentiation}
 
-\subsubsection{Quantum Singular Value Transformation}
+\subsubsection{The Ultraspherical Spectral Method and Banded Differentiation}
 
-\subsubsection{Generalised Quantum Signal Processing}
+\subsection{The Physics-Informed Effective Hamiltonian Framework}
+% PRIOR ART -- Wu et al. (2025).  Present at the same depth as GQSP below.
+% Everything in this subsection is attributed, not claimed.
 
-\subsection{Quantum Imaginary Time Evolution}
+\subsubsection{The Residual Construction and Its Ground State}
 
-\subsection{Hadamard Test \& Interferometric Measurement}
+\subsubsection{The Published collocation Encoding}
 
-\subsection{Oblivious Amplitude Amplification}
+\subsubsection{Critical Assessment: The Encoding Wall}
+% THE PIVOT.  Dense G => Theta(N^2) uniformly-controlled rotations, (n+3) ancilla,
+% alpha_H ~ Theta(N^8), relative gap below machine epsilon at n >~ 7.
+% Assert the structural diagnosis here; the MEASURED evidence for it is §5.2.
+
+\subsection{Block Encoding, LCU and Qubitisation}
+
+\subsection{Quantum Signal Processing and Imaginary-Time Filtering}
+
+\subsubsection{From QSP and QSVT to the Generalised Construction}
+
+\subsubsection{Ground-State Preparation by Imaginary-Time Filtering}
+
+\subsection{Readout and Amplitude Amplification}
+% ~1/3 pp, prior art only.  Costs quoted from the literature; this thesis
+% implements no measurement protocol (see §3.9 and §6.5).
+
+\subsection{Synthesis: The Gap This Thesis Addresses}
+% Rubric (Theoretical /40) names a notation table explicitly; it now lives in
+% the frontmatter (1_header/6_notation.tex) rather than here -- see main.tex.

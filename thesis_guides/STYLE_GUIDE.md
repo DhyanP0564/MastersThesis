@@ -36,10 +36,13 @@ For your work the boundary is sharp and you should police it:
 | :-- | :-- |
 | $O(n^2)$ gates, $O(1)$ ancilla for the descriptor $E_{A}$ | **Assert** — gate-level, verified |
 | $\alpha_H \to \|H_{\mathrm{sys}}\|$, tight | **Assert** — measured |
-| Spectral gap $\sim 10^{-6}$ (descriptor) vs $\sim 10^{-15}$ (state-space) at $n=7$ | **Assert**, and state the machine-epsilon consequence |
+| Spectral gap $\sim 10^{-6}$ (descriptor) vs $\sim 10^{-15}$ (collocation) at $n=7$ | **Assert**, and state the machine-epsilon consequence |
 | Composed $H$ correctness at 22+ qubits | **Hedge explicitly** — verified *by parts*, not end-to-end; say so and say why (dense simulation allocates hundreds of GB) |
 | "A ground state has been prepared" | **Never assert.** Every GQSP figure is a classical simulation of the minimax filter, capped at $\dim \lesssim 2000$ by simulation cost, not by the algorithm |
-| End-to-end poly-log speed-up | **Deny it yourself, first.** Neither regime is poly-log; $\alpha_H \ge \|H_{\mathrm{sys}}\| = \Theta(N^2)$ against $\Delta = \Theta(1)$ forces $\tilde\Theta(N^2)$ queries for *any* encoding of this $H$. The claim is that descriptor **meets** that floor |
+| End-to-end poly-log speed-up | **Deny it yourself, first.** Neither route is poly-log; $\alpha_H \ge \|H_{\mathrm{sys}}\| = \Theta(N^2)$ against $\Delta = \Theta(1)$ forces $\tilde\Theta(N^2)$ queries for *any* encoding of this $H$. The claim is that the descriptor construction **meets** that floor |
+| The physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in §2.4 in the register of reported prior art, cite at the head of the subsection and at each specific construction, and reserve the verdict for §2.4.3 |
+| The collocation encoding's failure | **Assert** — you implemented and measured it (§5.2). But frame it as *characterising the published route*, never as a rival method you also invented |
+| "The solution was read out" | **Never assert.** No measurement protocol is implemented in this thesis. Every reported solution error is a classical state-vector read; readout appears only as prior art (§2.7), a costed feasibility statement (§3.9), a limitation (§6.5) and future work (§7.2) |
 
 Pre-empting the examiner's objection in your own voice is worth more than any
 amount of enthusiasm. Snow devotes a whole subsection to it:
@@ -98,8 +101,8 @@ with proofs for the results that carry the thesis.
 The rule: **a numbered environment is for objects you will refer back to.** If a
 definition is never re-invoked, it is background prose and belongs in a sentence or
 an appendix. Your current lit review has ~9 definition blocks for standard QC
-material — that is the right *style* but likely too many for the page budget (see
-STRUCTURE_AND_RUBRIC.md §4). Compress the elementary ones into flowing prose with
+material — that is the right *style* but far too many for a subsection now capped at
+two pages (see STRUCTURE_AND_RUBRIC.md §2.1 and §4/§2). Compress the elementary ones into flowing prose with
 inline definitions, and reserve numbered blocks for:
 
 - Block-encoding, $(\alpha, m, \epsilon)$ — you use $\alpha$ throughout
@@ -153,10 +156,16 @@ with a caption that explains the *structure*, not just names the parts:
 > single-qubit gate at site $n$. Increasing $\chi$ does not add gates — the layer
 > always holds $n$ of them, one per site — but widens those in the bulk." — Snow, Fig. 6.1
 
-Draw circuits for: the descriptor `PREPARE/SELECT/PREPARE†` LCU, the GQSP-QITE
-filter, and one readout primitive. Do **not** draw a Hadamard-and-CNOT toy circuit
-in the background section; put the gate table in an appendix as your `\todo` already
-plans.
+Draw, in the body: the end-to-end pipeline schematic that opens §3.1, the descriptor
+`PREPARE/SELECT/PREPARE†` LCU, one representative derivative atom, and the GQSP-QITE
+filter. That is four body circuits and it is enough. Do **not** draw a
+Hadamard-and-CNOT toy circuit in the background section, and do not draw a readout
+primitive — no measurement protocol is implemented, so a circuit for one would imply
+work that was not done. Put the gate table in Appendix A as your `\todo` already plans.
+
+The §3.1 pipeline schematic is the most valuable figure in the thesis. It is what a
+marker skimming `\listoffigures` will use to decide what the work *is*. Caption it so
+it stands alone as a summary of the contribution.
 
 ### 2.5 Notation discipline
 
@@ -175,6 +184,49 @@ glossary you already load. Then **verify consistency at every review** — see
 Footnote the one genuine trap: if you quote entropies or logs in different bases in
 different sections, say so where it changes. Snow does exactly this in a footnote to
 §2.3.2 rather than letting the reader trip over it.
+
+### 2.6 Narrative primacy — what stays in the body, what goes to an appendix
+
+The governing structural decision of this thesis is that **the body carries the
+story and the appendices carry the apparatus.** The appendices do not count against
+the 40–60 page limit, and both rubric variants explicitly invite their use. This is
+not a licence to hide work; it is a licence to keep the argument legible.
+
+A body passage earns its space if it does one of four things:
+
+1. **States the idea** — the move, in words, before any algebra.
+2. **States the object** — the construction written down once, not derived.
+3. **States the cost** — a formal proposition, or a measured number.
+4. **Interprets** — what the object or the number means operationally.
+
+Everything else is apparatus: entry-level formulae, atom-by-atom constructions,
+proofs, per-case parameter tables, software architecture, protocol detail. Send it to
+an appendix and point at it.
+
+**The equation test.** Before an equation stays in the body, ask: *does the argument
+break if a reader skips it?* If the surrounding prose still carries the reader to the
+next claim, the equation is illustrating rather than arguing, and it belongs in an
+appendix. Applied honestly this removes most of a construction's algebra and none of
+its persuasive force — a referee reading §3 wants to see $G = \tilde{B}^{-1}\tilde{D}$
+and the block structure it induces, not the recurrence that generates $\tilde{B}$'s
+entries.
+
+**The figure test.** The same question, harder. Every body figure must be interpreted
+in at least one paragraph of prose (the rubric penalises displayed-but-undiscussed
+results). If you cannot write that paragraph, the figure is not carrying narrative
+weight, and it belongs in an appendix or nowhere.
+
+**The pointer rule.** Never write a bare cross-reference. Not *"see Appendix C"* but
+*"the atom-by-atom constructions, and the column-by-column residuals establishing
+each, are given in Appendix C."* A body that offloads without naming what was
+offloaded reads as evasive; one that names it reads as disciplined, and it is the
+difference between a marker trusting the structure and suspecting it.
+
+**What this does not license.** Self-containment is required twice in the marking
+guide: results must be understandable *"without reference to any other documents."*
+Appendices are part of the document; the repository is not. Every number in the body
+must be derivable from the body or from an appendix — never from `DESolverLib`, the
+notebooks, or a README.
 
 ---
 
@@ -208,7 +260,7 @@ declares its bias.
 > advantage reported below is thus a *lower bound* on the advantage available under
 > improved compilation."
 
-Do the same before any descriptor-vs-state-space number: say what counts as a gate,
+Do the same before any descriptor-vs-collocation number: say what counts as a gate,
 which decomposition you assume, whether ancilla are counted per-atom or composed,
 and — critically — **which direction your convention biases the comparison.** A
 conservative convention that still favours your method is far more persuasive than a
@@ -256,10 +308,13 @@ whose columns are *resources*. Green's Table 5.4 (Depth | Ancillas | Avoids
 Arithmetic | Scope); Snow's Table 5.1 (Loss function | Layerwise | Joint | Init |
 Complexity). Each has a "This Work" row.
 
-You need at least two: (i) quantum DE-solving approaches (HHL-family / Carleman /
-variational / PIHM) with your row; (ii) encoding cost — FABLE vs atom-compose vs
-descriptor across gates, ancilla, $\alpha$, exactness, gap. The second is your
-headline result and should probably be referenced from the Abstract.
+You need two. **(i)** In §2, quantum DE-solving approaches (HHL-family / Carleman /
+variational / physics-informed) with a "this work" row — this table is where the
+literature review's critical assessment becomes legible at a glance. **(ii)** In §5.3,
+encoding cost: the published collocation encoding versus the descriptor construction,
+across gates, ancilla, $\alpha$, exactness and gap. **Two rows, not three** — FABLE is
+not part of this thesis's story and does not appear. The second table is your headline
+result and should be referenced from the Abstract.
 
 ### 3.6 Report the negative and the dimension-capped honestly
 
@@ -288,10 +343,17 @@ Snow's closing move is worth copying almost structurally:
 > disentangling use?* Chapter 4 argues that… *(ii) How expressive should each layer
 > be?* … Chapter 6 treats per-layer bond dimension as a design variable…"
 
-Your analogue: *(i) Can the PIHM residual be block-encoded without the $\Theta(N^2)$
-uniformly-controlled-rotation cost?* → the descriptor reformulation. *(ii) Does the
-same structural move extend to polynomial nonlinearity?* → the Carleman lift and
-nodal fold.
+Your analogue, and note that under the current framing both questions are raised *by
+the critical assessment of Wu et al.'s encoding in §2.4.3*, not by a gap you assert
+into existence: *(i) Can the physics-informed residual be block-encoded without the
+$\Theta(N^2)$ uniformly-controlled-rotation cost, and with a spectral gap that survives
+double precision?* → §3, the descriptor reformulation. *(ii) Does the same structural
+move extend to polynomial nonlinearity?* → §4, the Carleman lift and nodal fold.
+
+This is the strongest available version of the gap statement, because the reader has
+just watched you diagnose the published method rather than being told a gap exists.
+§2.8 should pose the two questions in italics and name the section that answers each,
+by `\Cref`, exactly as Snow does.
 
 ### 4.2 Chapter-opening roadmaps, one to three sentences
 
@@ -357,6 +419,10 @@ Drawn from the marking guide's four stated assessment dimensions.
 | 10 | **Figures without discussion** | "results & analysis" must be analysed, not displayed | Every figure gets at least one paragraph of interpretation; if it does not deserve one, it belongs in an appendix |
 | 11 | **Boilerplate transitions** | Wastes the page budget the rubric is scoring you against | "This section will discuss…" → state the finding |
 | 12 | **A one-paragraph Discussion** | The rubric weights significance-awareness heavily | Discussion must engage: why the trade-off exists, where the method fails, what a practitioner should choose, what it means for the field |
+| 13 | **Blurring prior art into contribution** | Fatal to credibility, and the fastest route to an academic-integrity conversation. The physics-informed effective Hamiltonian framework is Wu et al.'s | Attribute at the head of §2.4 and at each specific construction. Read every sentence of §2.4 asking *could this be mistaken for a claim of authorship?* Reserve first-person-plural authorial "we" for §3 onwards |
+| 14 | **Presenting the published route as a rival you also built** | Implies you invented two methods and picked one; halves the apparent focus of the thesis and invites "so what is actually new?" | §5.2 is framed as reproducing and characterising the published encoding. There is no descriptor-versus-collocation chapter, and the headline table in §5.3 has two rows |
+| 15 | **Body pages spent on derivation** | Buries the narrative the whole structure is built to protect, and burns the page budget the rubric penalises you for exceeding | Apply the equation test in §2.6. Statement and cost in the body; derivation in Appendices B–E, with a pointer that names what is there |
+| 16 | **Implying readout was performed** | No measurement protocol was implemented; every reported error is a classical state-vector read. A QC-literate marker will ask | Readout appears as prior art (§2.7), a costed feasibility statement (§3.9), a limitation (§6.5) and future work (§7.2). Never a method, never a results subsection, never a circuit figure |
 
 ---
 
@@ -367,9 +433,11 @@ Before submitting any section, check it against these. Both exemplars pass all s
 1. **Could a referee reproduce it?** Every construction has parameters, a cost model,
    and a verification residual.
 2. **Is the contribution separable from the background?** A reader must be able to
-   say in one sentence what is new. Yours: *the descriptor reformulation makes the
-   PIHM residual banded, replacing a $\Theta(N^2)$-gate, $(n{+}3)$-ancilla encoding
-   with an $O(n^2)$-gate, $O(1)$-ancilla one, and keeps the spectral gap resolvable.*
+   say in one sentence what is new, and must be able to say in one sentence what was
+   already there. Yours: *the physics-informed effective Hamiltonian framework is Wu
+   et al.'s; the descriptor reformulation is this thesis's, and it makes their
+   residual banded — replacing a $\Theta(N^2)$-gate, $(n{+}3)$-ancilla encoding with an
+   $O(n^2)$-gate, $O(1)$-ancilla one, and keeping the spectral gap resolvable.*
 3. **Are the limitations stated by the author, not discovered by the referee?**
 4. **Does every figure earn its half-page?**
 5. **Is the comparison fair by construction?** Cost conventions stated and biased
@@ -385,8 +453,11 @@ Rewrites illustrating the target register. Use the pattern, not the text.
 
 | Weak | Target register |
 | :-- | :-- |
-| "We tried a few different ways to encode $H$ and the descriptor one worked best." | "Three routes to encoding $H$ are compared under a common cost model; the descriptor construction is the only one whose subnormalisation remains tight in $N$." |
-| "The gap is really small in the state-space case." | "At $n = 7$ the state-space composed $H$ has relative gap $\sim 10^{-15}$ — below double-precision machine epsilon, so the ground state is not resolvable at all — against $\sim 10^{-6}$ for $H_{\mathrm{sys}}$." |
+| "We tried a few different ways to encode $H$ and the descriptor one worked best." | "Under a common cost model, the descriptor construction attains a subnormalisation that remains tight in $N$, which the published collocation encoding does not." |
+| "We developed a physics-informed Hamiltonian method for differential equations." | "Wu et al. cast the differential equation as the ground state of a physics-informed effective Hamiltonian \\cite{wu2025pihm}. This thesis reformulates the residual that Hamiltonian is built from, so that its block encoding becomes banded." |
+| "Our collocation implementation performs worse than our descriptor one." | "The published collocation encoding, reimplemented here and characterised in \\Cref{sec:baseline}, exhibits the failure diagnosed in \\Cref{sec:critical}: at $n = 7$ its composed $H$ has relative gap $\\sim 10^{-15}$." |
+| "The prepared solution can then be read out." | "Extracting an observable from the prepared state requires a measurement protocol; the cost of the interferometric route is $\\mathcal{O}(\\cdot)$ per \\cite{williams2024readout}. No such protocol is implemented here — every error reported in \\Cref{sec:results} is computed from the classically simulated state vector." |
+| "The gap is really small in the collocation case." | "At $n = 7$ the collocation composed $H$ has relative gap $\sim 10^{-15}$ — below double-precision machine epsilon, so the ground state is not resolvable at all — against $\sim 10^{-6}$ for $H_{\mathrm{sys}}$." |
 | "This gives an exponential speed-up." | "The per-query encoding cost falls from $\Theta(N^2)$ to $O(n^2)$ gates. The end-to-end complexity does not become poly-logarithmic: $\alpha_H \ge \|H_{\mathrm{sys}}\| = \Theta(N^2)$ against $\Delta = \Theta(1)$ imposes an $\tilde\Theta(N^2)$ query floor on any block encoding of this $H$, which the descriptor construction meets." |
 | "The results were verified." | "Atoms are state-vector-verified against reference matrices to $10^{-9}$–$10^{-11}$ column-by-column; the composition recipe is verified to $<10^{-10}$. The composed $H$ is not verified end-to-end — at 22+ qubits a dense simulation is infeasible — so correctness is established compositionally." |
 

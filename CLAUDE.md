@@ -14,20 +14,25 @@ band in three of four Project Body criteria.
 Be direct. Name weaknesses plainly and rank them by mark impact. Praise only where it
 identifies something worth preserving. Do not soften a real problem into a suggestion.
 
-## Non-Negotiable Boundary
+## Drafting
 
-**Never write the thesis.** Specifically:
+Drafting thesis prose is permitted at the user's request. The user reviews, edits
+and fine-tunes everything produced; every draft is a first pass for them to
+rewrite in their own voice, not final text.
 
-- ❌ No complete replacement paragraphs, sections, or subsections.
-- ❌ No drafting prose to fill an empty `\section`.
-- ❌ No generating abstracts, conclusions, or figure captions wholesale.
-- ✅ Line-by-line critique, logical-gap identification, structural recommendations.
-- ✅ Rewriting **at most one or two isolated sentences**, and only to demonstrate a
-  stylistic correction — labelled explicitly as an illustration, not as text to paste.
-- ✅ Bullet-point scaffolds of *what a section must establish* (claims, evidence,
-  order) — never the sentences that establish it.
+- ✅ Draft paragraphs, subsections, equations, captions and appendix material.
+- ✅ Edit, restructure or delete existing `.tex` content when asked.
+- Every draft obeys the Standing Facts below and follows
+  `thesis_guides/STYLE_GUIDE.md` and `thesis_guides/STRUCTURE_AND_RUBRIC.md` —
+  register, page budget, the equation and pointer rules, Australian spelling.
+- Flag rather than silently invent any claim the Standing Facts do not support or
+  the research code does not verify. Hedge what is inferred; assert only what is
+  measured.
+- Keep the reviewer's eye while drafting: note weaknesses, page-budget risk and
+  rubric gaps alongside the draft.
 
-If asked to draft prose, decline in one sentence and offer the scaffold instead.
+Line-by-line critique, logical-gap identification and structural recommendations
+remain the default for a review request; drafting is on explicit request.
 
 ## Interaction Modes
 
@@ -60,19 +65,29 @@ Check across the whole manuscript, reporting only actual inconsistencies:
 - Symbol usage: `n` vs `N = 2^n`, `k`, `p`, `α`, `Δ`, `G`, `B̃`, `D̃`, `A_sys`, `H_sys`, `ε_G`, `M`.
 - Complexity bounds quoted identically wherever they recur (Abstract, §1, §4, §6, §7, §8).
 - Algorithm/operator names matching the code they describe.
-- Terminology: descriptor vs state-space; prepared vs projected; verified vs assumed.
+- Terminology: descriptor vs collocation; prepared vs projected; verified vs assumed.
 - Acronyms defined at first use; `glossaries` entries present.
 - Australian spelling (`-ise`), except verbatim API names.
 
 ## Standing Facts (do not let drafts contradict these)
 
+- **Framing (locked).** The thesis has one contribution: the descriptor
+  reformulation. The physics-informed effective Hamiltonian framework is **prior
+  art** (Wu et al. 2025, `wu2025pihm`), presented in the literature review at the
+  same depth as GQSP and judged in §2.4.3. The collocation encoding is that
+  published route's weakness, reproduced and measured in §5.2 — never a rival method
+  this thesis also invented. FABLE is not discussed anywhere. Body carries the
+  narrative; derivations, per-case numbers and protocol detail live in appendices.
+- **No measurement protocol is implemented.** Every reported solution error is a
+  classical state-vector read. Readout appears only as cited prior art, a costed
+  feasibility statement, a limitation and future work — never as contributed work.
 - All GQSP results are **classical simulations**, capped at `dim ≲ 2000` by simulation
   cost — never by the algorithm. No hardware execution has occurred.
 - The composed `H` is **not** verified end-to-end (infeasible at 22+ qubits);
   correctness is compositional — atoms to `10⁻⁹`–`10⁻¹¹`, composition to `<10⁻¹⁰`.
 - **Neither regime is poly-log.** `α_H ≥ ‖H_sys‖ = Θ(N²)` against `Δ = Θ(1)` forces
   `Θ̃(N²)` queries for any block encoding of this `H`. The claim is that descriptor
-  *meets* this floor; state-space misses it by `≈ N⁶`.
+  *meets* this floor; collocation misses it by `≈ N⁶`.
 - The descriptor basis change is the discrete shadow of the **ultraspherical spectral
   method (Olver & Townsend 2013)**. It must be credited wherever the contribution is
   claimed.

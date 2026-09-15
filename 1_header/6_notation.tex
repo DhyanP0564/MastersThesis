@@ -1,0 +1,69 @@
+% =============================================================================
+% Notation and Conventions -- frontmatter, ungrouped by section, referenced
+% throughout the body and appendices. A symbol used with a different LOCAL
+% meaning inside one short, self-contained derivation (e.g. Appendix B's own
+% $a_\ell, p_\ell$ for a function and its derivative, before the construction
+% is restated in the $c^{(j)}$ notation below) is resolved back to this table
+% before it recurs elsewhere, and is not itself listed here.
+% =============================================================================
+
+A quick reference for symbols used across the thesis; each is properly
+introduced at its first use in the text below.
+
+\bigskip
+\noindent\textbf{Discretisation}
+\begin{center}
+\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$n$ & Number of qubits in the Chebyshev coefficient register (the resolution). \\
+$N = 2^n$ & Chebyshev truncation degree; dimension of the single-field Hilbert space. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\noindent\textbf{Differential-equation structure}
+\begin{center}
+\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$k$ & Order of an \gls{ode}. \\
+$p$ & Polynomial (nonlinear) degree of the \gls{ode} (\S4). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\noindent\textbf{Chebyshev and descriptor operators}
+\begin{center}
+\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$T_\ell$ & Chebyshev polynomial of the first kind, degree $\ell$. \\
+$G$ & Dense $N \times N$ Chebyshev differentiation matrix (the collocation route's operator; Wu et al.\ \cite{wu2025pihm}). \\
+$\tilde{B}, \tilde{D}$ & Banded factors of $G$ (\Cref{app:cheb}). \\
+$M$ & Coefficient-multiplication operator in Chebyshev coefficient space (\Cref{app:cheb}). \\
+$w$ & The stacked descriptor state, $w = (c^{(0)}; \dots; c^{(k)})$. \\
+$A$ & The residual operator of a linear-system reformulation of the \gls{ode} (dense in the collocation route, banded in the descriptor route). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\noindent\textbf{Physical and complexity quantities}
+\begin{center}
+\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$H$ & The physics-informed effective Hamiltonian (Wu et al.\ \cite{wu2025pihm}). \\
+$\alpha$ & Block-encoding subnormalisation factor. \\
+$\Delta$ & Spectral gap of $H$ between its ground state and first excited state. \\
+$\epsilon_G$ & Block-encoding / truncation error associated with representing $G$. \\
+\bottomrule
+\end{tabular}
+\end{center}

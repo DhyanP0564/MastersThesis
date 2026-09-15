@@ -55,8 +55,8 @@
       \strng{authornamehash}{2bafa6628e55ec5bd44f150cdb0bb54d}
       \strng{authorfullhash}{13b27b7c497361d4b703ed4a769f2d37}
       \strng{authorfullhashraw}{13b27b7c497361d4b703ed4a769f2d37}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -64,9 +64,49 @@
       \field{note}{Source paper for this repo's PIHM + qubitization + GQSP-QITE pipeline}
       \field{title}{{Quantum algorithm for solving nonlinear differential equations based on physics-informed effective Hamiltonians}}
       \field{year}{2025}
-      \true{nocite}
       \verb{eprint}
       \verb 2504.13174
+      \endverb
+    \endentry
+    \entry{olver2013}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=d7e72f3ba5e2ab5ec1db539485dc0d7c}{%
+           family={Olver},
+           familyi={O\bibinitperiod},
+           given={Sheehan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1e1c35e12ba2721c4b022a82d9f2d8dc}{%
+           family={Townsend},
+           familyi={T\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{fullhash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{fullhashraw}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{bibnamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authorbibnamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authornamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authorfullhash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authorfullhashraw}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{SIAM Review}
+      \field{note}{Ultraspherical spectral method; banded, well-conditioned differentiation via a change of ultraspherical basis. Antecedent of the descriptor basis change $\tilde{B}$ (see arXiv:1202.1347 in References.md)}
+      \field{number}{3}
+      \field{title}{{A Fast and Well-Conditioned Spectral Method}}
+      \field{volume}{55}
+      \field{year}{2013}
+      \field{pages}{462\bibrangedash 489}
+      \range{pages}{28}
+      \verb{doi}
+      \verb 10.1137/120865458
+      \endverb
+      \verb{eprint}
+      \verb 1202.1347
       \endverb
     \endentry
     \entry{Lin2022Lecture}{misc}{}{}
@@ -85,8 +125,8 @@
       \strng{authornamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
       \strng{authorfullhash}{fb72b03bb0004672eb40dd00cb76bdcd}
       \strng{authorfullhashraw}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{https://arxiv.org/abs/2201.08309}
@@ -111,8 +151,8 @@
       \strng{authornamehash}{84e4c1fc56182ace7d420baa57651de1}
       \strng{authorfullhash}{84e4c1fc56182ace7d420baa57651de1}
       \strng{authorfullhashraw}{84e4c1fc56182ace7d420baa57651de1}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -154,8 +194,8 @@
       \strng{authornamehash}{02d754ef58210c6b7c16c4ddff8eb8a5}
       \strng{authorfullhash}{a43dedea373002cbc4c0313225258d31}
       \strng{authorfullhashraw}{a43dedea373002cbc4c0313225258d31}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -203,8 +243,8 @@
       \strng{authornamehash}{69dbbd525c896fc3ff6514fefb96728c}
       \strng{authorfullhash}{4262fd64795eb0e73d7b5bdf04a981f0}
       \strng{authorfullhashraw}{4262fd64795eb0e73d7b5bdf04a981f0}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -248,8 +288,8 @@
       \strng{authornamehash}{07de7c08a8e5a865459ac3b08f723626}
       \strng{authorfullhash}{260a71d5255a0117d78d042829019aa3}
       \strng{authorfullhashraw}{260a71d5255a0117d78d042829019aa3}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -296,8 +336,8 @@
       \strng{authornamehash}{37b963e792296dcb2fc6e781683c3731}
       \strng{authorfullhash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
       \strng{authorfullhashraw}{1a2b5799f04e6f7eef0dfc6df73e18bd}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the 46th Annual ACM Symposium on Theory of Computing (STOC 2014)}
@@ -354,8 +394,8 @@
       \strng{authornamehash}{39ee71a5749ec2c0e7a76207dc05f45a}
       \strng{authorfullhash}{c268e53982bf637b5edd1ff1b3bf5a55}
       \strng{authorfullhashraw}{c268e53982bf637b5edd1ff1b3bf5a55}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -677,8 +717,8 @@
       \strng{authornamehash}{6694ba5e6ae2f394ce06e57be20e43e5}
       \strng{authorfullhash}{6694ba5e6ae2f394ce06e57be20e43e5}
       \strng{authorfullhashraw}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -716,8 +756,8 @@
       \strng{authornamehash}{3faa0157fc13296047845e2b24c7659c}
       \strng{authorfullhash}{3faa0157fc13296047845e2b24c7659c}
       \strng{authorfullhashraw}{3faa0157fc13296047845e2b24c7659c}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -730,8 +770,8 @@
       \endverb
     \endentry
     \entry{qrtlib2025}{misc}{}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
       \field{eprinttype}{arXiv}
@@ -744,8 +784,8 @@
       \endverb
     \endentry
     \entry{dyadic2026fractional}{misc}{}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
       \field{eprinttype}{arXiv}
@@ -1048,8 +1088,8 @@
       \strng{authornamehash}{38ee591f8385dad688e75b659d696ed6}
       \strng{authorfullhash}{38ee591f8385dad688e75b659d696ed6}
       \strng{authorfullhashraw}{38ee591f8385dad688e75b659d696ed6}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -1092,8 +1132,8 @@
       \strng{authornamehash}{9475fff3207ef0315a9212a2d886f0ec}
       \strng{authorfullhash}{4359ed509075061d0bc17a08dc16b6b0}
       \strng{authorfullhashraw}{4359ed509075061d0bc17a08dc16b6b0}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -1125,13 +1165,12 @@
       \strng{authorfullhash}{e3376455eaec77b00950a1dc9ce095f5}
       \strng{authorfullhashraw}{e3376455eaec77b00950a1dc9ce095f5}
       \field{extraname}{1}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Spectral Methods in MATLAB}}
       \field{year}{2000}
-      \true{nocite}
     \endentry
     \entry{trefethen2013approximation}{book}{}{}
       \name{author}{1}{}{%
@@ -1153,8 +1192,8 @@
       \strng{authorfullhash}{e3376455eaec77b00950a1dc9ce095f5}
       \strng{authorfullhashraw}{e3376455eaec77b00950a1dc9ce095f5}
       \field{extraname}{2}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Approximation Theory and Approximation Practice}}
@@ -1344,8 +1383,8 @@
       \strng{authornamehash}{e0e311fbe2fd6503a2c44372823bb0fb}
       \strng{authorfullhash}{e0e311fbe2fd6503a2c44372823bb0fb}
       \strng{authorfullhashraw}{e0e311fbe2fd6503a2c44372823bb0fb}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}

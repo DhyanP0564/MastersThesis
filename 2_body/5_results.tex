@@ -1,33 +1,39 @@
-\subsection{Circuits for Chebyshev-Basis Operators}
+% =============================================================================
+% §5 Numerical Study  --  budget ~11 pp
+% rubric: Project Body, results & discussion (/20--30)
+%
+% Self-containment rule: every number quoted here must be derivable from what is
+% printed in the thesis or its appendices.  Catalogue of all cases -> Appendix G.
+% =============================================================================
 
-\subsubsection{Chebyshev Feature Map}
+\subsection{Experimental Design and Cost Conventions}
+% State BEFORE the first comparison: what counts as a gate, the assumed
+% decomposition, how ancilla are counted, and which direction the convention
+% biases the comparison.  Also the two scope statements:
+%   (i) all results are classical simulations, dim <~ 2000 capped by simulation
+%       cost, never by the algorithm;
+%   (ii) all solution errors are classical state-vector reads, no measurement
+%       protocol is executed.
+% Software (DESolverLib / desolver_hpc / Setonix) named here, detail -> Appendix I.
 
-\subsubsection{Differential Operator}
+\subsection{The Published collocation Encoding, Reproduced and Characterised}
+% Your measured evidence for the §2.4.3 diagnosis.  Framed as "we implemented and
+% characterised the published route", not as a competing contribution.
+% Carries the gap-collapse figure: relative gap ~1e-15 vs eps_mach at n >~ 7.
 
-\subsubsection{Data Constraints}
+\subsection{Encoding Cost of the Descriptor Construction}
+% Headline table: gates, ancilla, alpha, exactness, gap -- published route vs descriptor.
 
-\subsubsection{Net Differential Operator}
+\subsection{Spectral Gap and Success Probability}
 
-\subsubsection{Effective Hamiltonian}
+\subsection{Solution Accuracy on Representative Problems}
+% THREE cases carried in depth, no more.  Everything else -> Appendix G table.
 
-\subsection{Numerical Results}
+\subsection{Nonlinear Benchmarks}
 
-\subsubsection{Ordinary Differential Equations}
+\subsection{An Application Case Study}
+% ONE of Black--Scholes or Navier--Stokes.  Not both.
 
-\subsubsection{Partial Differential Equations}
-
-\subsubsection{Nonlinear Differential Equations}
-
-\subsubsection{Nonlinear Partial Differential Equations}
-
-\subsubsection{Coupled Differential Equations}
-
-\subsubsection{Partial Coupled Differential Equations}
-
-\subsubsection{Black-Scholes Equation}
-
-\subsubsection{Navier-Stokes Equations}
-
-\subsection{Readout Methods}
-
-\subsection{Complexity Analysis}
+\subsection{Summary of Findings}
+% 4--6 numbered findings, at least one a limitation of the descriptor construction
+% itself (Hilbert-space growth; the doubled-space route projecting, not preparing).

@@ -1,0 +1,73 @@
+§.§ Overview
+
+ §.§ Design Rationale
+
+The differentiation operator  is dense. Generally, dense operators are expensive to block-encode and sparse matrices are cheapAdd a reference for this.
+
+Remember to define dense vs sparse as part of background
+
+The doubled Hilbert space method can create degenerate kernels. qite can't select the physical solution from amongst a set of degenerate ground states, so although it is possible to encode the solution to the original problem in the ground state of the Hamiltonian, it is not possible to extract it from the ground state of the descriptor Hamiltonian.
+
+ §.§ Descriptor Form Construction
+
+Differentiation of a Chebyshev series is a sparse operation written densely. Let  have derivative ; the coefficient vectors  and  are tied by the recurrence
+
+which relates the coefficient  to just two coefficients of the derivative. In the normalised Chebyshev basis this is a matrix identity
+
+with  banded (its main diagonal and its second superdiagonal), and  carrying a single superdiagonal, such that both hold  non-zero entries. The dense Chebyshev derivative matrix  is the operator that sends a function's coefficients directly to those of its derivative, . A simple rearranging of <Ref> recovers it as the inverse
+
+an identity that holds exactly. The density of  is due to inverting a banded matrix, and <Ref> is the same linear map before that inverse is done. This is the discrete form of the ultraspherical spectral method <cit.>, in which differentiation becomes sparse once the derivative is allowed to sit in a polynomial basis one order above the function.
+
+Consider the homogeneous order- linear ode
+
+where  are the (possibly -dependent) coefficients of each  derivative .
+
+We discretise by representing every function appearing in the equation
+by its first  coefficients in the normalised Chebyshev basis. Concretely,
+let  denote the coefficient vector of , for  and stack these into a single vector,
+
+Two kinds of linear relations couple the blocks :
+
+Recurrence rows. The coefficients of consecutive derivatives are related by
+
+This gives  rows of the system, each enforcing the derivative relationship between  and . These rows are algebraic since they carry no derivative and only fix each  as the derivative of , being <Ref> applied block-wise and hence equivalent to  on .
+
+Differential row. The differential equation itself becomes one
+further row, obtained by multiplying each coefficient vector  by
+the (possibly -dependent) coefficient  and summing:
+
+where  is the matrix representing multiplication by  in
+coefficient space (reducing to  when  is constant). This single row is the equation itself: we carry the intermediate derivatives as their own unknown coefficient vectors within , rather than representing them via , so that <Ref> (the only dense step) never appears.
+
+Together these  block rows ( recurrence rows and one
+differential row) define a linear system for  and transform the original ode problem into a dae.
+
+Collecting all block rows, the descriptor form chebyshev spectral operator
+ is the  block matrix
+
+where the first  rows are the recurrence rows and the -th row is
+the differential row, so that the whole system is compactly written as
+
+A first-order example.
+For  the state is , and the two facts relating its blocks are the recurrence  and the equation , giving
+
+Every block is ,  or a multiple of the identity, so  is banded, against the dense  that substituting  would produce. The fully populated  instance of <Ref>, the entries of  and , and the numerical check of <Ref>, are given in <Ref>.
+
+Cost, and what it buys.
+The reformulation is not free:  has  components against the  of the eliminated form, a factor of  more Hilbert space (<Ref> accounts for the further, block-encoding-driven cost of rounding this up to a power-of-two qubit register). What that buys is structural. Each block of  is , , or a banded multiplication operator (bandwidth  for a degree- polynomial coefficient; <Ref>), so  carries  occupied diagonals per block, whereas the eliminated residual  is dense with  non-zero entries. A banded matrix is a short linear combination of shift and diagonal operators, each with an -gate circuit; this is what lets the whole of  be block-encoded as a single flat linear combination of unitaries (<Ref>) at an ancilla count flat in , and it is the precondition for the cost result of <Ref>. The encoding is exact for constant coefficients and for polynomial coefficients resolved below degree ; the sole approximation is the truncation of the top  Chebyshev modes in the resolution- multiplication operator, at the  level.
+
+Appending a boundary or initial condition selects the physical solution from , a rank-one construction deferred to <Ref>. The reformulation does not otherwise change the answer: the -block of the recovered null vector is the Chebyshev coefficient vector the eliminated form solves for, agreeing with it to within numerical precision, quantified in <Ref>. Carrying the intermediate derivatives instead of eliminating them converts the dense physics-informed residual into a banded one, and every later stage of the pipeline — block encoding, subnormalisation, and imaginary-time filtering — inherits that structure.
+
+ §.§ Gate-Level Encoding of the Derivative Atoms
+
+ §.§ The Block Encoding
+
+ §.§ Descriptor Encoding Complexity Analysis
+
+ §.§ Boundary Conditions and Data Injection
+
+ §.§ Ground-State Preparation on the Descriptor Hamiltonian
+
+ §.§ Extracting the Solution
+
+ §.§ Verification: What Is Established, and How

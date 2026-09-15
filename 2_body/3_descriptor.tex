@@ -1,0 +1,140 @@
+% =============================================================================
+% §3 The Descriptor Reformulation  --  budget ~15 pp  --  THE CORE
+% rubric: Project Body, groundwork / model formulation (/30--40)
+%
+% Narrative rule for this section: the body carries the IDEA, the OBJECT stated
+% once, the COST as a formal proposition, and the INTERPRETATION.  Entry-level
+% formulae, atom-by-atom constructions and proofs live in Appendices B--D.
+% =============================================================================
+
+\subsection{Overview}
+% One pipeline figure + one page of narrative.  This is the spine of the thesis;
+% every later subsection is a stage of the figure.
+
+\subsection{Design Rationale}
+The differentiation operator $G$ is dense. Generally, dense operators are expensive to block-encode and sparse matrices are cheap\todo{Add a reference for this}.
+
+\todo{Remember to define dense vs sparse as part of background}
+
+The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't select the physical solution from amongst a set of degenerate ground states, so although it is possible to encode the solution to the original problem in the ground state of the Hamiltonian, it is not possible to extract it from the ground state of the descriptor Hamiltonian.
+
+\subsection{Descriptor Form Construction}
+\label{sec:descriptor-construction}
+% Entries of Btilde, Dtilde and the fully populated N=4 instance -> Appendix B.
+
+Differentiation of a Chebyshev series is a sparse operation written densely. Let $f = \sum_\ell c^{(0)}_\ell T_\ell$ have derivative $f' = \sum_\ell c^{(1)}_\ell T_\ell$; for $\ell \ge 2$ the coefficient vectors $c^{(0)}$ and $c^{(1)}$ are tied by the recurrence
+\begin{equation}
+    c^{(1)}_{\ell-1} - c^{(1)}_{\ell+1} = 2\ell\,c^{(0)}_\ell ,
+    \label{eq:cheb-recurrence}
+\end{equation}
+with the $\ell = 1$ row carrying an extra factor of 2 on $c^{(1)}_0$, a normalisation artefact of $T_0$ that \Cref{app:cheb} states in full and derives. Each row relates the coefficient $c^{(0)}_\ell$ to just two coefficients of the derivative. In the normalised Chebyshev basis this is a matrix identity
+\begin{equation}
+    \tilde{B}\,c^{(1)} = \tilde{D}\,c^{(0)} ,
+    \label{eq:banded-factorisation}
+\end{equation}
+with $\tilde{B}$ banded (its main diagonal and its second superdiagonal), and $\tilde{D}$ carrying a single superdiagonal, such that both hold $\mathcal{O}(N)$ non-zero entries. The dense Chebyshev derivative matrix $G$ is the operator that sends a function's coefficients directly to those of its derivative, $c^{(1)} = G\,c^{(0)}$. A simple rearranging of \Cref{eq:banded-factorisation} recovers it as the inverse
+\begin{equation}
+    G = \tilde{B}^{-1}\tilde{D} ,
+    \label{eq:G-factorisation}
+\end{equation}
+an identity that holds exactly. The density of $G$ is due to inverting a banded matrix, and \Cref{eq:banded-factorisation} is the same linear map before that inverse is done. This is the discrete form of the ultraspherical spectral method \cite{olver2013}, in which differentiation becomes sparse once the derivative is allowed to sit in a polynomial basis one order above the function.
+
+Consider the homogeneous order-$k$ linear \gls{ode}
+\begin{equation}
+  \sum_{j=0}^{k} a_j(x)\, f^{(j)}(x) = 0, \qquad x \in [-1,1],
+\end{equation}
+where $a_j(x)$ are the (possibly $x$-dependent) coefficients of each $j^\text{th}$ derivative $f^{(j)}$.
+
+We discretise by representing every function appearing in the equation
+by its first $N$ coefficients in the normalised Chebyshev basis. Concretely,
+let $c^{(j)} \in \mathbb{C}^N$ denote the coefficient vector of $f^{(j)}$, for $j = 0, \dots, k$ and stack these into a single vector,
+\begin{equation}
+  w = (c^{(0)};\, c^{(1)};\, \dots;\, c^{(k)}).
+\end{equation}
+Two kinds of linear relations couple the blocks $c^{(j)}$:
+
+\paragraph{Recurrence rows.} The coefficients of consecutive derivatives are related by
+\begin{equation}
+  -\tilde D\, c^{(j)} + \tilde B\, c^{(j+1)} = 0, \qquad j = 0, \dots, k-1.
+  \label{eq:descriptor-recurrence-rows}
+\end{equation}
+This gives $k$ rows of the system, each enforcing the derivative relationship between $c^{(j+1)}$ and $c^{(j)}$. These rows are algebraic since they carry no derivative and only fix each $c^{(j+1)}$ as the derivative of $c^{(j)}$, being \Cref{eq:banded-factorisation} applied block-wise and hence equivalent to $c^{(j+1)} = G c^{(j)}$ on $\ker A$.
+
+\paragraph{Differential row.} The differential equation itself becomes one
+further row, obtained by multiplying each coefficient vector $c^{(j)}$ by
+the (possibly $x$-dependent) coefficient $a_j(x)$ and summing:
+\begin{equation}
+  \sum_{j=0}^{k} M_{a_j}\, c^{(j)} = 0,
+  \label{eq:descriptor-ode-row}
+\end{equation}
+where $M_{a_j}$ is the matrix representing multiplication by $a_j(x)$ in
+coefficient space (reducing to $a_j I_N$ when $a_j$ is constant). This single row is the equation itself: we carry the intermediate derivatives as their own unknown coefficient vectors within $w$, rather than representing them via $c^{(j)} = G^j\,c^{(0)}$, so that \Cref{eq:G-factorisation} (the only dense step) never appears.
+
+Together these $k+1$ block rows ($k$ recurrence rows and one
+differential row) define a linear system for $w$ and transform the original \gls{ode} problem into a \gls{dae} system.
+
+\begin{definition}[Descriptor form residual operator]
+\label{def:descriptor-residual-operator}
+Collecting all block rows, the descriptor form chebyshev residual operator
+$A$ is the $(k+1)N \times (k+1)N$ block matrix
+\begin{equation}
+A =
+\begin{pmatrix}
+-\tilde D & \tilde B &        &        &          \\
+          & -\tilde D & \tilde B &      &          \\
+          &          & \ddots & \ddots &          \\
+          &          &        & -\tilde D & \tilde B \\
+M_{a_0}   & M_{a_1}  & \cdots & \cdots & M_{a_k}
+\end{pmatrix},
+\end{equation}
+where the first $k$ rows are the recurrence rows and the $(k+1)$-th row is
+the differential row, so that the whole system is compactly written as
+\begin{equation}
+  A\, w = 0.
+\end{equation}
+\end{definition}
+
+\paragraph{A first-order example.}
+For $f' + 2f = 0$ the state is $w = (c^{(0)};\, c^{(1)})$, and the two facts relating its blocks are the recurrence $\tilde{B}c^{(1)} - \tilde{D}c^{(0)} = 0$ and the equation $2c^{(0)} + c^{(1)} = 0$, giving
+\begin{equation}
+    A =
+    \begin{pmatrix}
+        -\tilde{D} & \tilde{B} \\[2pt]
+        2 I_N & I_N
+    \end{pmatrix},
+    \qquad w = \begin{pmatrix} c^{(0)} \\ c^{(1)} \end{pmatrix} .
+    \label{eq:descriptor-first-order}
+\end{equation}
+Every block is $\tilde{B}$, $\tilde{D}$ or a multiple of the identity, so $A$ is banded, against the dense $G + 2I$ that substituting $c^{(1)} = G c^{(0)}$ would produce. The fully populated $N = 4$ instance of \Cref{eq:descriptor-first-order}, the entries of $\tilde{B}$ and $\tilde{D}$, and the exactness of \Cref{eq:G-factorisation}, are given in \Cref{app:cheb}.
+
+\paragraph{Cost.}
+The reformulation trades a higher dimensional Hilbert space (and with it a higher qubit count) for a sparser residual operator. $w$ has $(k+1)N$ components at the classical, unpadded level; realising the field register on $\lceil\log_2(k+1)\rceil$ qubits pads this to $2^{\lceil\log_2(k+1)\rceil}N$ (\Cref{app:cheb}), which is what should be compared against the $N$ of the collocation form. Each block of $A$ is $\tilde{B}$, $\tilde{D}$, or a banded multiplication operator (bandwidth $q$ for a degree-$q$ polynomial coefficient; \Cref{app:cheb}), so $A$ carries $\mathcal{O}(1)$ occupied diagonals per block, whereas the collocation form residual $\sum_j a_j G^j$ is dense with $\Theta(N^2)$ non-zero entries. The $c^{(0)}$-block of the recovered null vector is the Chebyshev coefficient vector the collocation form solves for, agreeing with it to within numerical precision, quantified in \Cref{sec:results}. Carrying the intermediate derivatives instead of eliminating them converts the dense physics-informed residual into a banded one, and every later stage of the pipeline inherits that structure.
+
+\subsection{Gate-Level Encoding of the Derivative Atoms}
+\label{sec:descriptor-atoms}
+% ONE section, per the agreed structure.  Name the atoms, tabulate their cost and
+% verified residual, show ONE representative circuit.  Full constructions -> Appendix C.
+
+\subsection{The Block Encoding}
+\label{sec:descriptor-block-encoding}
+
+\subsection{Descriptor Encoding Complexity Analysis}
+\label{sec:descriptor-cost}
+% Formal proposition + two paragraphs of operational interpretation.
+% Proof -> Appendix D.
+
+\subsection{Boundary Conditions and Data Injection}
+\label{sec:descriptor-bc}
+
+\subsection{Ground-State Preparation on the Descriptor Hamiltonian}
+% GQSP-QITE applied to H_sys: filter design, degree, why the gap makes it viable.
+% GQSP itself is prior art and was covered in §2.6.
+
+\subsection{Extracting the Solution}
+% ~1/2 pp.  What the pipeline hands you; the cost of a hardware read, quoted from
+% cited work; explicit statement that no measurement protocol is implemented here
+% and that every error reported in §5 is a classical state-vector read.
+
+\subsection{Verification: What Is Established, and How}
+% Compositional correctness.  Atoms to 1e-9--1e-11, composition to <1e-10, composed
+% H NOT verified end-to-end at 22+ qubits.  State the limit here, not in a footnote.

@@ -1,7 +1,25 @@
-\subsection{Design Choices}
+% =============================================================================
+% §6 Discussion  --  budget ~4.5 pp
+% rubric: Project Body, results & discussion -- "insight into the significance"
+%
+% Explain and judge.  Do not restate §5.
+% =============================================================================
 
-\subsection{Trade-offs in Quantum Circuit Design}
+\subsection{Why the Trade-off Exists}
+% Bandedness and gap health bought by spending Hilbert space.
 
-\subsection{Noisy Intermediate-Scale Quantum (NISQ) Era Feasibility}
+\subsection{End-to-End Complexity: The Query Floor}
+% Deny the poly-log reading yourself, first.  alpha_H >= ||H_sys|| = Theta(N^2)
+% against Delta = Theta(1) forces Theta~(N^2) queries for ANY block encoding of
+% this H.  The descriptor construction MEETS that floor; the published collocation
+% encoding misses it by ~N^6.
 
-\subsection{Limitations and Challenges}
+\subsection{Where This Construction Applies, and Where It Does Not}
+
+\subsection{Feasibility on Near-Term and Early Fault-Tolerant Hardware}
+
+\subsection{Limitations}
+% Owned, each with its analysis attached: no hardware execution; simulation-capped
+% dimensions; compositional-only verification of the composed H; the unpackaged F_2
+% assembly and the dense UnitaryGate transform; no measurement protocol implemented;
+% the doubled-space route projects rather than prepares.
