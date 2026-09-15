@@ -89,8 +89,8 @@
       \strng{authornamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
       \strng{authorfullhash}{3a187aebb211839c5c3c5bf4e2ff58ca}
       \strng{authorfullhashraw}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -125,8 +125,8 @@
       \strng{authornamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
       \strng{authorfullhash}{fb72b03bb0004672eb40dd00cb76bdcd}
       \strng{authorfullhashraw}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{https://arxiv.org/abs/2201.08309}
@@ -151,8 +151,8 @@
       \strng{authornamehash}{84e4c1fc56182ace7d420baa57651de1}
       \strng{authorfullhash}{84e4c1fc56182ace7d420baa57651de1}
       \strng{authorfullhashraw}{84e4c1fc56182ace7d420baa57651de1}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -194,8 +194,8 @@
       \strng{authornamehash}{02d754ef58210c6b7c16c4ddff8eb8a5}
       \strng{authorfullhash}{a43dedea373002cbc4c0313225258d31}
       \strng{authorfullhashraw}{a43dedea373002cbc4c0313225258d31}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -682,8 +682,8 @@
       \strng{authornamehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
       \strng{authorfullhash}{d95dcf68c42c08a6ff116cc3b9a92dae}
       \strng{authorfullhashraw}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -1049,8 +1049,8 @@
       \strng{authornamehash}{b0668d01a9717293576ae2686f7b0b6b}
       \strng{authorfullhash}{b0668d01a9717293576ae2686f7b0b6b}
       \strng{authorfullhashraw}{b0668d01a9717293576ae2686f7b0b6b}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -1353,8 +1353,8 @@
       \strng{authornamehash}{7a2b3595e36a368ce9a04ebaa3bba1d1}
       \strng{authorfullhash}{7a2b3595e36a368ce9a04ebaa3bba1d1}
       \strng{authorfullhashraw}{7a2b3595e36a368ce9a04ebaa3bba1d1}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Primary quantum-circuit construction/simulation framework used throughout this repo; citation record added from the official Qiskit project, not transcribed from in-repo text}

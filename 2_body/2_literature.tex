@@ -1,11 +1,14 @@
 % =============================================================================
-% §2 Background and Literature Review  --  budget ~13 pp
+% §2 Background and Literature Review  --  budget ~13 pp (less whatever moves
+% to §3 -- see budget note there)
 % rubric: Introduction & Literature Review /20
 %
-% This section now carries the PIHM framework of Wu et al. as PRIOR ART, on the
-% same footing as GQSP.  §2.4.3 is where the published collocation encoding is
-% judged; that critical assessment is the pivot into §3 and is the explicit HD
-% gate in the mark sheet.
+% The physics-informed effective Hamiltonian framework of Wu et al. and its
+% published collocation encoding now have their own chapter (§3), on the same
+% footing as the general background covered here. This chapter carries only
+% the shared preliminaries every method depends on: quantum computation
+% basics, DE-solving routes, classical spectral methods, block encoding/LCU/
+% qubitisation, QSP/imaginary-time filtering, and readout.
 % =============================================================================
 
 \subsection{Quantum Computation Preliminaries}
@@ -119,24 +122,11 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 
 \subsection{Classical Spectral Methods and the Chebyshev Basis}
 % Credit Olver & Townsend (2013) ultraspherical spectral method HERE, before any
-% descriptor claim is made in §3.  Marker checklist: antecedent before contribution.
+% descriptor claim is made in §4.  Marker checklist: antecedent before contribution.
 
 \subsubsection{Chebyshev Expansion and Differentiation}
 
 \subsubsection{The Ultraspherical Spectral Method and Banded Differentiation}
-
-\subsection{The Physics-Informed Effective Hamiltonian Framework}
-% PRIOR ART -- Wu et al. (2025).  Present at the same depth as GQSP below.
-% Everything in this subsection is attributed, not claimed.
-
-\subsubsection{The Residual Construction and Its Ground State}
-
-\subsubsection{The Published collocation Encoding}
-
-\subsubsection{Critical Assessment: The Encoding Wall}
-% THE PIVOT.  Dense G => Theta(N^2) uniformly-controlled rotations, (n+3) ancilla,
-% alpha_H ~ Theta(N^8), relative gap below machine epsilon at n >~ 7.
-% Assert the structural diagnosis here; the MEASURED evidence for it is §5.2.
 
 \subsection{Block Encoding, LCU and Qubitisation}
 
@@ -148,7 +138,7 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 
 \subsection{Readout and Amplitude Amplification}
 % ~1/3 pp, prior art only.  Costs quoted from the literature; this thesis
-% implements no measurement protocol (see §3.9 and §6.5).
+% implements no measurement protocol (see §4.9 and §7.5).
 
 \subsection{Synthesis: The Gap This Thesis Addresses}
 % Rubric (Theoretical /40) names a notation table explicitly; it now lives in

@@ -1,17 +1,17 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'build/main.blg'
-[52] biber-darwin:340> INFO - === Mon Sep 14, 2026, 00:49:06
-[65] Biber.pm:420> INFO - Reading 'build/main.bcf'
-[119] Biber.pm:991> INFO - Using all citekeys in bib section 0
-[129] Biber.pm:4463> INFO - Processing section 0
-[137] Biber.pm:4654> INFO - Looking for bibtex file '3_footer/ref.bib' for section 0
-[139] bibtex.pm:1713> INFO - LaTeX decoding ...
-[162] bibtex.pm:1519> INFO - Found BibTeX data source '3_footer/ref.bib'
-[337] UCollate.pm:68> INFO - Overriding locale 'en-AU' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[337] UCollate.pm:68> INFO - Overriding locale 'en-AU' defaults 'variable = shifted' with 'variable = non-ignorable'
-[337] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-AU'
-[337] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-AU'
-[353] bbl.pm:676> INFO - Writing 'build/main.bbl' with encoding 'UTF-8'
-[364] bbl.pm:779> INFO - Output to build/main.bbl
-[365] Biber.pm:131> WARN - legacy month field 'jan 20' in entry 'Lin2022Lecture' is not an integer - this will probably not sort properly.
-[365] Biber.pm:133> INFO - WARNINGS: 1
+[75] biber-darwin:340> INFO - === Tue Sep 15, 2026, 16:51:50
+[91] Biber.pm:420> INFO - Reading 'build/main.bcf'
+[192] Biber.pm:991> INFO - Using all citekeys in bib section 0
+[208] Biber.pm:4463> INFO - Processing section 0
+[219] Biber.pm:4654> INFO - Looking for bibtex file '3_footer/ref.bib' for section 0
+[221] bibtex.pm:1713> INFO - LaTeX decoding ...
+[256] bibtex.pm:1519> INFO - Found BibTeX data source '3_footer/ref.bib'
+[484] UCollate.pm:68> INFO - Overriding locale 'en-AU' defaults 'variable = shifted' with 'variable = non-ignorable'
+[484] UCollate.pm:68> INFO - Overriding locale 'en-AU' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[484] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-AU'
+[484] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-AU'
+[505] bbl.pm:676> INFO - Writing 'build/main.bbl' with encoding 'UTF-8'
+[525] bbl.pm:779> INFO - Output to build/main.bbl
+[525] Biber.pm:131> WARN - legacy month field 'jan 20' in entry 'Lin2022Lecture' is not an integer - this will probably not sort properly.
+[525] Biber.pm:133> INFO - WARNINGS: 1

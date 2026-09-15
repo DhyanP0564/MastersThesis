@@ -1,0 +1,38 @@
+% =============================================================================
+% §3 The Physics-Informed Collocation Method  --  budget TBD (reallocate from the
+% ~13 pp Lit Review and ~11 pp Results budgets this chapter draws from)
+% rubric: Project Body, groundwork / model formulation (prior-art baseline)
+%
+% This chapter recreates Wu et al.'s (2025) physics-informed effective
+% Hamiltonian and its published collocation encoding as PRIOR ART -- on the
+% same footing as GQSP in §2 -- then reports this thesis's own numerical
+% reproduction and characterisation of that route. It closes on the
+% encoding-wall diagnosis (dense G, relative gap collapsing below machine
+% epsilon at n >~ 7) that is the pivot motivating the descriptor
+% reformulation of §4. Everything in this chapter is attributed, not claimed.
+% =============================================================================
+
+\subsection{Overview}
+This chapter recreates the physics-informed effective Hamiltonian framework of \cite{wu2025pihm} exactly as published, then subjects it to the same numerical scrutiny this thesis applies to its own contribution. The framework encodes a differential equation's solution as the ground state of a residual Hamiltonian built from a dense Chebyshev differentiation matrix, via a construction this thesis reproduces without modification. What follows establishes both the theory of that construction and the measured evidence for where it breaks down, so that the descriptor reformulation of \Cref{sec:descriptor-construction} can be motivated as a direct response to a diagnosed failure rather than an arbitrary design choice.
+
+\subsection{The Residual Construction and Its Ground State}
+
+\subsection{The Published Collocation Encoding}
+
+\subsection{Numerical Verification: Reproducing and Characterising the Published Encoding}
+% Your measured evidence for the encoding-wall diagnosis below. Framed as "we
+% implemented and characterised the published route", not as a competing
+% contribution.
+% Carries the gap-collapse figure: relative gap ~1e-15 vs eps_mach at n >~ 7.
+% Baseline cost numbers belong here (gates, ancilla, alpha, exactness, gap) for
+% the published/collocation route ALONE -- see the cross-reference note in
+% 6_results.tex \S "Encoding Cost of the Descriptor Construction", which reports
+% only the descriptor-side numbers and points back here rather than repeating
+% this table.
+
+\subsection{Critical Assessment: The Encoding Wall}
+% THE PIVOT. Dense G => Theta(N^2) uniformly-controlled rotations, (n+3) ancilla,
+% alpha_H ~ Theta(N^8), relative gap below machine epsilon at n >~ 7.
+% This is the chapter's closing section -- the diagnosis that motivates the
+% pivot into §4 (the descriptor reformulation) and is the explicit HD gate in
+% the mark sheet.
