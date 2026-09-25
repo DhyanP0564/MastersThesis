@@ -1,1 +1,2 @@
 \babel@toc {australian}{}\relax 
+\contentsline {table}{\numberline {1}{\ignorespaces \textbf {The derived entrywise error bound $\epsilon _G$, $n=2$ to $8$.} Each additional qubit shrinks the bound by roughly a further order of magnitude -- substantially faster than $N^{-1}$, confirming Wu et al.'s own qualitative claim of exponential decrease and giving it, here, a closed form and a verified value.}}{27}{table.caption.35}%

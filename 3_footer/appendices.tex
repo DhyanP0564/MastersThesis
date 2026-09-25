@@ -264,6 +264,173 @@ case after order $1$, already pays for a field register it only three-quarters
 uses. This is the qubit cost that must always accompany the gate-count
 comparison of \Cref{sec:descriptor-cost}.
 
+\section{The Published Collocation Residual and the Lifting Operator \texorpdfstring{$M_{x^p}$}{Mxp}}
+\label{app:pihm-residual}
+
+This appendix gives the $N=4$ instance of the collocation residual $A$ that
+\Cref{sec:pihm-residual} builds for Wu et al.'s constant-coefficient case, and the
+entries of the lifting operator $M_{x^p}$ that the same section uses for a
+variable coefficient.
+
+\paragraph{The collocation residual at $N=4$.} For Wu et al.'s stiff pilot
+equation \cite{wu2025pihm}, $f'' + 5f' + 400f = 0$, \Cref{eq:pihm-A} gives
+$A = G^{\top 2} + 5G^\top + 400I$. At $N=4$, using $G^\top$ (\Cref{app:cheb}),
+\begin{equation}
+    A =
+    \begin{pmatrix}
+        400 & 0 & 0 & 0 \\
+        5\sqrt{2} & 400 & 0 & 0 \\
+        4\sqrt{2} & 20 & 400 & 0 \\
+        15\sqrt{2} & 24 & 30 & 400
+    \end{pmatrix},
+    \label{eq:app-collocation-example}
+\end{equation}
+verified directly against \texttt{pihm.chebyshev\_derivative\_matrix}. $A$ is
+triangular here only because this equation has no odd-order term beyond $f'$ at
+even $N$; the off-diagonal entries sit three orders of magnitude below the
+diagonal, a large-coefficient conditioning problem stacked on top of $G$'s own
+density.
+
+\paragraph{The lifting operator $M_{x^p}$.} $M_{x^p}$ is exact and
+\emph{rectangular}: multiplying a degree-$(N{-}1)$ model by $x^p$ can raise its
+degree by as much as $p$, so the result is represented one register wider,
+$2N \times N$, with no truncation. At $n=1$ ($N=2$, so $p \in \{1,2\}$),
+\begin{equation}
+    M_{x^1} =
+    \begin{pmatrix}
+        0 & \tfrac{1}{\sqrt2} \\
+        \tfrac{1}{\sqrt2} & 0 \\
+        0 & \tfrac{1}{2} \\
+        0 & 0
+    \end{pmatrix},
+    \qquad
+    M_{x^2} =
+    \begin{pmatrix}
+        \tfrac{1}{\sqrt2} & 0 \\
+        0 & \tfrac{3}{2\sqrt2} \\
+        \tfrac{1}{2} & 0 \\
+        0 & \tfrac{1}{2\sqrt2}
+    \end{pmatrix},
+    \label{eq:app-Mxp-example}
+\end{equation}
+verified directly against \texttt{pihm.multiplication\_matrix}. The general entry
+follows the same product-to-sum identity conjugated into the normalised bases of
+$\ket{\tau(x)}_n$ and $\ket{\tau(x)}_{n+1}$ that \Cref{sec:pihm-residual} states
+in closed form.
+
+\section{The Published Encoding Circuit and Its Error Bound}
+\label{app:pihm-circuit}
+
+\Cref{sec:pihm-encoding} describes, at the level a reader needs to follow the
+argument, the circuit Wu et al.\ use to load $G^\top$'s column-linear entries as a
+rotation amplitude \cite{wu2025pihm}. This appendix gives the mechanism in full,
+together with a rigorous bound on its entrywise error that this thesis derives and
+verifies -- the source paper states only that the error is ``negligible'' and
+decreases ``exponentially'' with $n$, without a closed form.
+
+\paragraph{The mechanism.} A ladder of $n$ singly-controlled $R_y$ rotations acts on
+one flag qubit, initialised to $\ket{1}$: bit $m$ of the (register-arithmetic-shifted)
+column index controls $R_y(\theta_m)$,
+\begin{equation}
+    \theta_m = 2\arcsin\!\big({-}2^m\beta\big), \qquad m = 0, \dots, n-1,
+    \label{eq:app-ladder-primary}
+\end{equation}
+for a small real coefficient $\beta$. Because rotations on the same qubit compose by
+exact angle addition ($R_y(a)R_y(b) = R_y(a+b)$, an $SO(2)$ identity), the net
+rotation for a column index $p$ with bit set $S$ is $R_y(\Theta(p))$,
+$\Theta(p) = \sum_{m \in S} \theta_m$, giving the flag qubit's $\ket{0}$-amplitude
+\begin{equation}
+    \mathrm{raw}(p) = -\sin\!\big(\Theta(p)/2\big) = \sin\!\Big(\textstyle\sum_{m \in S} \arcsin(2^m\beta)\Big).
+    \label{eq:app-ladder-raw}
+\end{equation}
+The row-$0$ correction (entries $\sqrt{2}p$ in place of $2p$) is a second,
+independently accumulated ladder on the same flag qubit, with per-bit coefficient
+$\beta(1/\sqrt{2} - 1)$, controlled on the same ``this is row $0$'' flag the main
+construction already computes.
+
+\paragraph{Why this is only approximate.} $\mathrm{raw}(p)$ in \Cref{eq:app-ladder-raw}
+would equal the desired linear value $\beta p$ exactly only if
+$\sin\big(\sum_m \arcsin(x_m)\big) = \sum_m x_m$, which does not hold in general --
+$\sin$ of a sum is not the sum of sines. The discrepancy is a genuine, quantifiable
+small-angle error.
+
+\begin{proposition}[Entrywise error of the ladder construction]
+\label{prop:epsilon-G}
+Let $J_3(p) := \sum_{m \in S} (2^m)^3$ for column index $p$ with bit set $S$. Then
+\begin{equation}
+    \big|\mathrm{raw}(p) - \beta p\big| \;\le\; \frac{\beta^3}{6}\,p^3 \;+\; O(\beta^5 N^5).
+    \label{eq:app-ladder-bound}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Expand both non-linearities to leading order in the small parameter $\beta$:
+$\arcsin(y) = y + y^3/6 + O(y^5)$ and $\sin(x) = x - x^3/6 + O(x^5)$. Summing the
+first expansion over the fired bits and substituting into the second,
+\begin{align}
+    \sum_{m \in S} \arcsin(2^m\beta) &= \beta p + \tfrac{\beta^3}{6} J_3(p) + O(\beta^5 N^5), \\
+    \sin\!\Big(\sum_{m \in S} \arcsin(2^m\beta)\Big)
+        &= \sin(\beta p) + \cos(\beta p)\cdot\tfrac{\beta^3}{6}J_3(p) + O(\beta^5N^5) \notag\\
+        &= \beta p + \tfrac{\beta^3}{6}\big(J_3(p) - p^3\big) + O(\beta^5N^5).
+\end{align}
+Since $p = \sum_{m\in S} 2^m$ and every $2^m \le p$, the multinomial expansion of
+$p^3$ term-by-term dominates $J_3(p)$, with equality only when $S$ is a single bit
+($p$ itself a power of two): $J_3(p) \le p^3$. Taking the worst case $p = N-1$ gives
+\Cref{eq:app-ladder-bound}.
+\end{proof}
+
+This is a leading-order bound, valid once the largest single argument,
+$2^{n-1}\beta$, is small and well inside $\arcsin$'s domain -- true from $n=2$
+onward at the default $\beta = 2/\|G^\top\|_S$ (below), but not at $n=1$, where
+$\beta \cdot 2^0 = \beta = 1$ exactly and the bound is not yet meaningful.
+
+\paragraph{Verified scaling.} With $\beta = 2/\|G^\top\|_S$, the $S$-norm subnormalisation
+Wu et al.\ define for this construction \cite{wu2025pihm}, $\|G^\top\|_S$ was measured
+directly against \texttt{pihm.chebyshev\_derivative\_matrix} for $n = 1$ through $8$
+and grows empirically as $\|G^\top\|_S \approx N^4/3$. Rescaling
+\Cref{eq:app-ladder-bound} back to the units of $G^\top$'s own entries (multiplying
+by the construction's own subnormalisation, $(N/2)\cdot(2/\beta)$) gives the
+entrywise error bound reported in \Cref{tab:app-epsilon-G}, verified against the
+measured error of the reconstructed circuit at every $n$ shown.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cccc}
+\toprule
+$n$ & $N$ & $\|G^\top\|_S$ & Entrywise bound $\epsilon_G$ \\
+\midrule
+2 & 4   & $6.15\times10^{1}$ & $1.9\times10^{-2}$ \\
+3 & 8   & $1.18\times10^{3}$ & $1.3\times10^{-3}$ \\
+4 & 16  & $2.04\times10^{4}$ & $8.7\times10^{-5}$ \\
+5 & 32  & $3.38\times10^{5}$ & $5.6\times10^{-6}$ \\
+6 & 64  & $5.50\times10^{6}$ & $3.5\times10^{-7}$ \\
+7 & 128 & $8.88\times10^{7}$ & $2.2\times10^{-8}$ \\
+8 & 256 & $1.43\times10^{9}$ & $1.4\times10^{-9}$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{The derived entrywise error bound $\epsilon_G$, $n=2$ to $8$.}
+Each additional qubit shrinks the bound by roughly a further order of magnitude --
+substantially faster than $N^{-1}$, confirming Wu et al.'s own qualitative claim of
+exponential decrease and giving it, here, a closed form and a verified value.}
+\label{tab:app-epsilon-G}
+\end{table}
+
+\paragraph{Resource count.} The primary and correction ladders act on one flag
+qubit, controlled jointly on the (register-arithmetic-shifted) column-index
+register and a single ``row zero'' flag; the shift itself is computed by a
+ripple-carry adder over the $n$-qubit system register and uncomputed afterwards, so
+no ancilla are retained beyond bookkeeping. The reconstruction built for this
+thesis uses $n+4$ ancilla in total (a borrow flag, the value-load flag, an
+exclusion flag and a was-zero flag, alongside the $n$-qubit offset-selector
+register); an exact, non-approximating alternative -- a full register-arithmetic
+data load with no ladder at all, used only to generate the reference values
+\Cref{tab:app-epsilon-G} is checked against -- costs $n+5$ ancilla and depth
+$\Theta(2^n)$ in place of the ladder's $\Theta(n)$. Both are within one qubit of
+the $n+3$ ancilla Wu et al.\ report for their own circuit \cite{wu2025pihm}; the
+gap is attributable to this reconstruction keeping two flag qubits live rather than
+one combined flag, and was not pursued further, since it does not change any
+scaling claim in \Cref{sec:pihm-encoding-wall}.
+
 \section{The Descriptor Construction in Full}
 % Atom-by-atom gate-level constructions and the composition algebra.
 % Referenced from §4.4 and §4.5.

@@ -216,9 +216,9 @@ in at least one paragraph of prose (the rubric penalises displayed-but-undiscuss
 results). If you cannot write that paragraph, the figure is not carrying narrative
 weight, and it belongs in an appendix or nowhere.
 
-**The pointer rule.** Never write a bare cross-reference. Not *"see Appendix C"* but
+**The pointer rule.** Never write a bare cross-reference. Not *"see Appendix E"* but
 *"the atom-by-atom constructions, and the column-by-column residuals establishing
-each, are given in Appendix C."* A body that offloads without naming what was
+each, are given in Appendix E."* A body that offloads without naming what was
 offloaded reads as evasive; one that names it reads as disciplined, and it is the
 difference between a marker trusting the structure and suspecting it.
 
@@ -421,7 +421,7 @@ Drawn from the marking guide's four stated assessment dimensions.
 | 12 | **A one-paragraph Discussion** | The rubric weights significance-awareness heavily | Discussion must engage: why the trade-off exists, where the method fails, what a practitioner should choose, what it means for the field |
 | 13 | **Blurring prior art into contribution** | Fatal to credibility, and the fastest route to an academic-integrity conversation. The physics-informed effective Hamiltonian framework is Wu et al.'s | Attribute at the head of §2.4 and at each specific construction. Read every sentence of §2.4 asking *could this be mistaken for a claim of authorship?* Reserve first-person-plural authorial "we" for §3 onwards |
 | 14 | **Presenting the published route as a rival you also built** | Implies you invented two methods and picked one; halves the apparent focus of the thesis and invites "so what is actually new?" | §5.2 is framed as reproducing and characterising the published encoding. There is no descriptor-versus-collocation chapter, and the headline table in §5.3 has two rows |
-| 15 | **Body pages spent on derivation** | Buries the narrative the whole structure is built to protect, and burns the page budget the rubric penalises you for exceeding | Apply the equation test in §2.6. Statement and cost in the body; derivation in Appendices B–E, with a pointer that names what is there |
+| 15 | **Body pages spent on derivation** | Buries the narrative the whole structure is built to protect, and burns the page budget the rubric penalises you for exceeding | Apply the equation test in §2.6. Statement and cost in the body; derivation in Appendices B, E–G, with a pointer that names what is there |
 | 16 | **Implying readout was performed** | No measurement protocol was implemented; every reported error is a classical state-vector read. A QC-literate marker will ask | Readout appears as prior art (§2.7), a costed feasibility statement (§3.9), a limitation (§6.5) and future work (§7.2). Never a method, never a results subsection, never a circuit figure |
 
 ---

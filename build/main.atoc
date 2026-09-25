@@ -1,16 +1,24 @@
-\contentsline {section}{\numberline {A}Quantum Gate Reference}{15}{appendix.A}%
-\contentsline {section}{\numberline {B}Chebyshev and Ultraspherical Identities}{15}{appendix.B}%
-\contentsline {subsection}{\numberline {B.1}The differentiation recurrence}{15}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}The normalised basis}{15}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}The Ultraspherical Connection}{16}{subsection.B.3}%
-\contentsline {subsection}{\numberline {B.4}The $N = 4$ instance}{17}{subsection.B.4}%
-\contentsline {subsection}{\numberline {B.5}Higher order, variable coefficients, and the padded block count}{17}{subsection.B.5}%
-\contentsline {paragraph}{Padding to a power of two.}{18}{section*.22}%
-\contentsline {section}{\numberline {C}The Descriptor Construction in Full}{19}{appendix.C}%
-\contentsline {section}{\numberline {D}Proof of the Cost Proposition}{19}{appendix.D}%
-\contentsline {section}{\numberline {E}The Nonlinear Route in Full}{19}{appendix.E}%
-\contentsline {section}{\numberline {F}Verification Protocol and Residuals}{19}{appendix.F}%
-\contentsline {section}{\numberline {G}Catalogue of Differential Equation Cases}{19}{appendix.G}%
-\contentsline {section}{\numberline {H}Readout Protocols and Their Costs}{19}{appendix.H}%
-\contentsline {section}{\numberline {I}Software}{19}{appendix.I}%
-\contentsline {section}{\numberline {J}Research Proposal}{19}{appendix.J}%
+\contentsline {section}{\numberline {A}Quantum Gate Reference}{21}{appendix.A}%
+\contentsline {section}{\numberline {B}Chebyshev and Ultraspherical Identities}{21}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}The differentiation recurrence}{21}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}The normalised basis}{21}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}The Ultraspherical Connection}{22}{subsection.B.3}%
+\contentsline {subsection}{\numberline {B.4}The $N = 4$ instance}{23}{subsection.B.4}%
+\contentsline {subsection}{\numberline {B.5}Higher order, variable coefficients, and the padded block count}{23}{subsection.B.5}%
+\contentsline {paragraph}{Padding to a power of two.}{24}{section*.29}%
+\contentsline {section}{\numberline {C}The Published Collocation Residual and the Lifting Operator $M_{x^p}$}{24}{appendix.C}%
+\contentsline {paragraph}{The collocation residual at $N=4$.}{25}{section*.30}%
+\contentsline {paragraph}{The lifting operator $M_{x^p}$.}{25}{section*.31}%
+\contentsline {section}{\numberline {D}The Published Encoding Circuit and Its Error Bound}{25}{appendix.D}%
+\contentsline {paragraph}{The mechanism.}{25}{section*.32}%
+\contentsline {paragraph}{Why this is only approximate.}{26}{section*.33}%
+\contentsline {paragraph}{Verified scaling.}{26}{section*.34}%
+\contentsline {paragraph}{Resource count.}{27}{section*.36}%
+\contentsline {section}{\numberline {E}The Descriptor Construction in Full}{28}{appendix.E}%
+\contentsline {section}{\numberline {F}Proof of the Cost Proposition}{28}{appendix.F}%
+\contentsline {section}{\numberline {G}The Nonlinear Route in Full}{28}{appendix.G}%
+\contentsline {section}{\numberline {H}Verification Protocol and Residuals}{28}{appendix.H}%
+\contentsline {section}{\numberline {I}Catalogue of Differential Equation Cases}{28}{appendix.I}%
+\contentsline {section}{\numberline {J}Readout Protocols and Their Costs}{28}{appendix.J}%
+\contentsline {section}{\numberline {K}Software}{28}{appendix.K}%
+\contentsline {section}{\numberline {L}Research Proposal}{28}{appendix.L}%

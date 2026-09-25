@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  15 SEP 2026 17:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  16 SEP 2026 20:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1290,7 +1290,8 @@ Package: amsthm 2020/05/29 v2.20.6
 )
 \c@definition=\count434
 \c@theorem=\count435
-\c@corollary=\count436
+\c@proposition=\count436
+\c@corollary=\count437
  (/usr/local/texlive/2025/texmf-dist/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
 \enitkv@toks@=\toks72
@@ -1298,63 +1299,63 @@ Package: enumitem 2025/02/06 v3.11 Customized lists
 \enit@outerparindent=\dimen380
 \enit@toks=\toks73
 \enit@inbox=\box162
-\enit@count@id=\count437
-\enitdp@description=\count438
+\enit@count@id=\count438
+\enitdp@description=\count439
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2024/01/05 v1.1.7 Todonotes source and documentation.
 Package: todonotes 2024/01/05
-\c@@todonotes@numberoftodonotes=\count439
+\c@@todonotes@numberoftodonotes=\count440
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/biblatex/biblatex.sty
 Package: biblatex 2024/03/21 v3.20 programmable bibliographies (PK/MW)
  (/usr/local/texlive/2025/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count440
+\lrq@indent=\count441
  (/usr/local/texlive/2025/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-\c@tabx@nest=\count441
-\c@listtotal=\count442
-\c@listcount=\count443
-\c@liststart=\count444
-\c@liststop=\count445
-\c@citecount=\count446
-\c@citetotal=\count447
-\c@multicitecount=\count448
-\c@multicitetotal=\count449
-\c@instcount=\count450
-\c@maxnames=\count451
-\c@minnames=\count452
-\c@maxitems=\count453
-\c@minitems=\count454
-\c@citecounter=\count455
-\c@maxcitecounter=\count456
-\c@savedcitecounter=\count457
-\c@uniquelist=\count458
-\c@uniquename=\count459
-\c@refsection=\count460
-\c@refsegment=\count461
-\c@maxextratitle=\count462
-\c@maxextratitleyear=\count463
-\c@maxextraname=\count464
-\c@maxextradate=\count465
-\c@maxextraalpha=\count466
-\c@abbrvpenalty=\count467
-\c@highnamepenalty=\count468
-\c@lownamepenalty=\count469
-\c@maxparens=\count470
-\c@parenlevel=\count471
-\blx@tempcnta=\count472
-\blx@tempcntb=\count473
-\blx@tempcntc=\count474
-\c@blx@maxsection=\count475
-\blx@maxsegment@0=\count476
-\blx@notetype=\count477
-\blx@parenlevel@text=\count478
-\blx@parenlevel@foot=\count479
-\blx@sectionciteorder@0=\count480
-\blx@sectionciteorderinternal@0=\count481
-\blx@entrysetcounter=\count482
-\blx@biblioinstance=\count483
+\c@tabx@nest=\count442
+\c@listtotal=\count443
+\c@listcount=\count444
+\c@liststart=\count445
+\c@liststop=\count446
+\c@citecount=\count447
+\c@citetotal=\count448
+\c@multicitecount=\count449
+\c@multicitetotal=\count450
+\c@instcount=\count451
+\c@maxnames=\count452
+\c@minnames=\count453
+\c@maxitems=\count454
+\c@minitems=\count455
+\c@citecounter=\count456
+\c@maxcitecounter=\count457
+\c@savedcitecounter=\count458
+\c@uniquelist=\count459
+\c@uniquename=\count460
+\c@refsection=\count461
+\c@refsegment=\count462
+\c@maxextratitle=\count463
+\c@maxextratitleyear=\count464
+\c@maxextraname=\count465
+\c@maxextradate=\count466
+\c@maxextraalpha=\count467
+\c@abbrvpenalty=\count468
+\c@highnamepenalty=\count469
+\c@lownamepenalty=\count470
+\c@maxparens=\count471
+\c@parenlevel=\count472
+\blx@tempcnta=\count473
+\blx@tempcntb=\count474
+\blx@tempcntc=\count475
+\c@blx@maxsection=\count476
+\blx@maxsegment@0=\count477
+\blx@notetype=\count478
+\blx@parenlevel@text=\count479
+\blx@parenlevel@foot=\count480
+\blx@sectionciteorder@0=\count481
+\blx@sectionciteorderinternal@0=\count482
+\blx@entrysetcounter=\count483
+\blx@biblioinstance=\count484
 \labelnumberwidth=\skip191
 \labelalphawidth=\skip192
 \biblabelsep=\skip193
@@ -1366,9 +1367,9 @@ File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 \blx@bcfin=\read5
 \blx@bcfout=\write4
 \blx@langwohyphens=\language91
-\c@mincomprange=\count484
-\c@maxcomprange=\count485
-\c@mincompwidth=\count486
+\c@mincomprange=\count485
+\c@maxcomprange=\count486
+\c@mincompwidth=\count487
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/biblatex/blx-dm.def
@@ -1378,74 +1379,74 @@ Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'ieee.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count487
-\c@savedafterword=\count488
-\c@annotator=\count489
-\c@savedannotator=\count490
-\c@author=\count491
-\c@savedauthor=\count492
-\c@bookauthor=\count493
-\c@savedbookauthor=\count494
-\c@commentator=\count495
-\c@savedcommentator=\count496
-\c@editor=\count497
-\c@savededitor=\count498
-\c@editora=\count499
-\c@savededitora=\count500
-\c@editorb=\count501
-\c@savededitorb=\count502
-\c@editorc=\count503
-\c@savededitorc=\count504
-\c@foreword=\count505
-\c@savedforeword=\count506
-\c@holder=\count507
-\c@savedholder=\count508
-\c@introduction=\count509
-\c@savedintroduction=\count510
-\c@namea=\count511
-\c@savednamea=\count512
-\c@nameb=\count513
-\c@savednameb=\count514
-\c@namec=\count515
-\c@savednamec=\count516
-\c@translator=\count517
-\c@savedtranslator=\count518
-\c@shortauthor=\count519
-\c@savedshortauthor=\count520
-\c@shorteditor=\count521
-\c@savedshorteditor=\count522
-\c@labelname=\count523
-\c@savedlabelname=\count524
-\c@institution=\count525
-\c@savedinstitution=\count526
-\c@lista=\count527
-\c@savedlista=\count528
-\c@listb=\count529
-\c@savedlistb=\count530
-\c@listc=\count531
-\c@savedlistc=\count532
-\c@listd=\count533
-\c@savedlistd=\count534
-\c@liste=\count535
-\c@savedliste=\count536
-\c@listf=\count537
-\c@savedlistf=\count538
-\c@location=\count539
-\c@savedlocation=\count540
-\c@organization=\count541
-\c@savedorganization=\count542
-\c@origlocation=\count543
-\c@savedoriglocation=\count544
-\c@origpublisher=\count545
-\c@savedorigpublisher=\count546
-\c@publisher=\count547
-\c@savedpublisher=\count548
-\c@language=\count549
-\c@savedlanguage=\count550
-\c@origlanguage=\count551
-\c@savedoriglanguage=\count552
-\c@pageref=\count553
-\c@savedpageref=\count554
+\c@afterword=\count488
+\c@savedafterword=\count489
+\c@annotator=\count490
+\c@savedannotator=\count491
+\c@author=\count492
+\c@savedauthor=\count493
+\c@bookauthor=\count494
+\c@savedbookauthor=\count495
+\c@commentator=\count496
+\c@savedcommentator=\count497
+\c@editor=\count498
+\c@savededitor=\count499
+\c@editora=\count500
+\c@savededitora=\count501
+\c@editorb=\count502
+\c@savededitorb=\count503
+\c@editorc=\count504
+\c@savededitorc=\count505
+\c@foreword=\count506
+\c@savedforeword=\count507
+\c@holder=\count508
+\c@savedholder=\count509
+\c@introduction=\count510
+\c@savedintroduction=\count511
+\c@namea=\count512
+\c@savednamea=\count513
+\c@nameb=\count514
+\c@savednameb=\count515
+\c@namec=\count516
+\c@savednamec=\count517
+\c@translator=\count518
+\c@savedtranslator=\count519
+\c@shortauthor=\count520
+\c@savedshortauthor=\count521
+\c@shorteditor=\count522
+\c@savedshorteditor=\count523
+\c@labelname=\count524
+\c@savedlabelname=\count525
+\c@institution=\count526
+\c@savedinstitution=\count527
+\c@lista=\count528
+\c@savedlista=\count529
+\c@listb=\count530
+\c@savedlistb=\count531
+\c@listc=\count532
+\c@savedlistc=\count533
+\c@listd=\count534
+\c@savedlistd=\count535
+\c@liste=\count536
+\c@savedliste=\count537
+\c@listf=\count538
+\c@savedlistf=\count539
+\c@location=\count540
+\c@savedlocation=\count541
+\c@organization=\count542
+\c@savedorganization=\count543
+\c@origlocation=\count544
+\c@savedoriglocation=\count545
+\c@origpublisher=\count546
+\c@savedorigpublisher=\count547
+\c@publisher=\count548
+\c@savedpublisher=\count549
+\c@language=\count550
+\c@savedlanguage=\count551
+\c@origlanguage=\count552
+\c@savedoriglanguage=\count553
+\c@pageref=\count554
+\c@savedpageref=\count555
 \shorthandwidth=\skip199
 \shortjournalwidth=\skip256
 \shortserieswidth=\skip257
@@ -1469,19 +1470,19 @@ Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
-\c@textcitecount=\count555
-\c@textcitetotal=\count556
-\c@textcitemaxnames=\count557
-\c@biburlbigbreakpenalty=\count558
-\c@biburlbreakpenalty=\count559
-\c@biburlnumpenalty=\count560
-\c@biburlucpenalty=\count561
-\c@biburllcpenalty=\count562
+\c@textcitecount=\count556
+\c@textcitetotal=\count557
+\c@textcitemaxnames=\count558
+\c@biburlbigbreakpenalty=\count559
+\c@biburlbreakpenalty=\count560
+\c@biburlnumpenalty=\count561
+\c@biburlucpenalty=\count562
+\c@biburllcpenalty=\count563
 \biburlbigskip=\muskip19
 \biburlnumskip=\muskip20
 \biburlucskip=\muskip21
 \biburllcskip=\muskip22
-\c@smartand=\count563
+\c@smartand=\count564
 )
 Package biblatex Info: Trying to load bibliography style 'ieee'...
 Package biblatex Info: ... file 'ieee.bbx' found.
@@ -1499,8 +1500,8 @@ Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2024/03/21 v3.20 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count564
-\c@bbx:relatedtotal=\count565
+\c@bbx:relatedcount=\count565
+\c@bbx:relatedtotal=\count566
 ))))
 Package biblatex Info: Trying to load citation style 'ieee'...
 Package biblatex Info: ... file 'ieee.cbx' found.
@@ -1554,36 +1555,36 @@ Package: datatool-base 2025/03/05 v3.0.1 (NLCT)
 File: datatool-l3fp.def 2025/03/05 v3.0.1 (NLCT)
 )
 \@dtl@toks=\toks76
-\@dtl@tmpcount=\count566
+\@dtl@tmpcount=\count567
 \dtl@tmplength=\skip269
 \l__datatool_measure_box=\box163
-\dtl@sortresult=\count567
+\dtl@sortresult=\count568
  (/usr/local/texlive/2025/texmf-dist/tex/latex/datatool/datatool-utf8.ldf
 File: datatool-utf8.ldf 2025/03/05 v3.0.1 (NLCT)
 )
-\@dtl@datatype=\count568
-\l__datatool_tmpa_int=\count569
-\l__datatool_tmpb_int=\count570
-\l__datatool_tmpc_int=\count571
-\l__datatool_tmpd_int=\count572
-\l__datatool_count_int=\count573
-\l__datatool_tmp_datatype_int=\count574
+\@dtl@datatype=\count569
+\l__datatool_tmpa_int=\count570
+\l__datatool_tmpb_int=\count571
+\l__datatool_tmpc_int=\count572
+\l__datatool_tmpd_int=\count573
+\l__datatool_count_int=\count574
+\l__datatool_tmp_datatype_int=\count575
 \l__datatool_tmpa_dim=\dimen381
 \l__datatool_tmpb_dim=\dimen382
-\c_datatool_unknown_int=\count575
-\l__datatool_year_int=\count576
-\l__datatool_month_int=\count577
-\l__datatool_day_int=\count578
-\l__datatool_hour_int=\count579
-\l__datatool_minute_int=\count580
-\l__datatool_second_int=\count581
-\l__datatool_tzhour_int=\count582
-\l__datatool_tzminute_int=\count583
-\l__datatool_julian_int=\count584
-\l__datatool_local_julian_int=\count585
-\l__datatool_prefix_int=\count586
-\l__datatool_suffix_int=\count587
-\@dtl@foreach@level=\count588
+\c_datatool_unknown_int=\count576
+\l__datatool_year_int=\count577
+\l__datatool_month_int=\count578
+\l__datatool_day_int=\count579
+\l__datatool_hour_int=\count580
+\l__datatool_minute_int=\count581
+\l__datatool_second_int=\count582
+\l__datatool_tzhour_int=\count583
+\l__datatool_tzminute_int=\count584
+\l__datatool_julian_int=\count585
+\l__datatool_local_julian_int=\count586
+\l__datatool_prefix_int=\count587
+\l__datatool_suffix_int=\count588
+\@dtl@foreach@level=\count589
  (/usr/local/texlive/2025/texmf-dist/tex/latex/datatool-regions/datatool-AU.ldf
 File: datatool-AU.ldf 2025/03/01 v1.0
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/datatool-english/datatool-english.ldf
@@ -1591,10 +1592,10 @@ File: datatool-english.ldf 2025/03/01 v1.0 (NLCT)
  (/usr/local/texlive/2025/texmf-dist/tex/latex/datatool-english/datatool-english-utf8.ldf
 File: datatool-english-utf8.ldf 2025/03/01 v1.0 (NLCT)
 ))
-\dtl@codeA=\count589
-\dtl@codeB=\count590
+\dtl@codeA=\count590
+\dtl@codeB=\count591
 )
-\gls@level=\count591
+\gls@level=\count592
 \@gls@tmpb=\toks77
 \gls@tmplen=\skip270
 \glskeylisttok=\toks78
@@ -1614,17 +1615,17 @@ Package: longtable 2024-10-27 v4.22 Multi-page Table package (DPC)
 \LTright=\skip273
 \LTpre=\skip274
 \LTpost=\skip275
-\LTchunksize=\count592
+\LTchunksize=\count593
 \LTcapwidth=\dimen383
 \LT@head=\box164
 \LT@firsthead=\box165
 \LT@foot=\box166
 \LT@lastfoot=\box167
 \LT@gbox=\box168
-\LT@cols=\count593
-\LT@rows=\count594
-\c@LT@tables=\count595
-\c@LT@chunks=\count596
+\LT@cols=\count594
+\LT@rows=\count595
+\c@LT@tables=\count596
+\c@LT@chunks=\count597
 \LT@p@ftn=\toks82
 )
 \glsdescwidth=\skip276
@@ -1633,7 +1634,7 @@ Package: longtable 2024-10-27 v4.22 Multi-page Table package (DPC)
 Package: glossary-super 2025/03/03 v4.56 (NLCT)
  (/usr/local/texlive/2025/texmf-dist/tex/latex/supertabular/supertabular.sty
 Package: supertabular 2024/07/20 v4.2c the supertabular environment
-\c@tracingst=\count597
+\c@tracingst=\count598
 \ST@wd=\dimen384
 \ST@rightskip=\skip278
 \ST@leftskip=\skip279
@@ -1656,11 +1657,11 @@ Package: glossary-tree 2025/03/03 v4.56 (NLCT)
 \glo@main@file=\write6
 \openout6 = `main.glo'.
 
-Package glossaries Info: Writing glossary file main.glo on input line 119.
+Package glossaries Info: Writing glossary file main.glo on input line 135.
 \glo@acronym@file=\write7
 \openout7 = `main.acn'.
 
-Package glossaries Info: Writing glossary file main.acn on input line 119.
+Package glossaries Info: Writing glossary file main.acn on input line 135.
  (./1_header/glossary.tex))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
@@ -1689,16 +1690,16 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
  (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count598
+\scratchcounter=\count599
 \scratchdimen=\dimen394
 \scratchbox=\box170
-\nofMPsegments=\count599
-\nofMParguments=\count600
+\nofMPsegments=\count600
+\nofMParguments=\count601
 \everyMPshowfont=\toks83
-\MPscratchCnt=\count601
+\MPscratchCnt=\count602
 \MPscratchDim=\dimen395
-\MPnumerator=\count602
-\makeMPintoPDFobject=\count603
+\MPnumerator=\count603
+\makeMPintoPDFobject=\count604
 \everyMPtoPDFconversion=\toks84
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -1706,7 +1707,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-\c@lstlisting=\count604
+\c@lstlisting=\count605
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
@@ -1956,101 +1957,133 @@ LaTeX Warning: Marginpar on page 3 moved.
 
 [3]) (./2_body/3_pihm_collocation.tex
 
-[4]) (./2_body/4_descriptor.tex
+[4]
 
 [5]
-Overfull \hbox (20.24571pt too wide) in paragraph at lines 17--17
-[][][]\T1/cmr/m/n/12 Remember 
- []
-
-
-Overfull \hbox (1.15869pt too wide) in paragraph at lines 17--17
-\T1/cmr/m/n/12 ground[]  
- []
-
-
-Overfull \hbox (20.24571pt too wide) in paragraph at lines 17--17
-[][][]\T1/cmr/m/n/12 Remember 
- []
-
-
-Overfull \hbox (1.15869pt too wide) in paragraph at lines 17--17
-\T1/cmr/m/n/12 ground[]  
- []
-
-
-LaTeX Warning: Marginpar on page 6 moved.
-
-
 
 [6]
-Overfull \hbox (7.68285pt too wide) in paragraph at lines 78--80
-[]\T1/cmr/bx/n/12 Definition 10 (Descriptor form re-sid-ual op-er-ator): []\T1/cmr/m/n/12 Col-lect-ing all block rows, the descriptor
+Overfull \hbox (12.14166pt too wide) in paragraph at lines 82--83
+ []\T1/cmr/bx/n/12 Data con-straints.[] \T1/cmr/m/n/12 Bound-ary and ini-tial con-di-tions are built from one rank-one point-evaluation
+ []
+
+
+Overfull \hbox (18.44145pt too wide) in paragraph at lines 91--92
+[]\T1/cmr/bx/n/12 Definition 10 (Phys-ic-s-in-formed ef-fect-ive Hamilto-nian): []\T1/cmr/m/n/12 Col-lect-ing the differential-equation
  []
 
 
 
-[7]) (./2_body/5_nonlinear.tex) (./2_body/6_results.tex) (./2_body/7_discussion.tex) (./2_body/8_conclusions.tex)
+[7]
 
 [8]
 
 [9]
+
+[10]) (./2_body/4_descriptor.tex
+
+[11]
+Overfull \hbox (20.24571pt too wide) in paragraph at lines 17--17
+[][][]\T1/cmr/m/n/12 Remember 
+ []
+
+
+Overfull \hbox (1.15869pt too wide) in paragraph at lines 17--17
+\T1/cmr/m/n/12 ground[]  
+ []
+
+
+Overfull \hbox (20.24571pt too wide) in paragraph at lines 17--17
+[][][]\T1/cmr/m/n/12 Remember 
+ []
+
+
+Overfull \hbox (1.15869pt too wide) in paragraph at lines 17--17
+\T1/cmr/m/n/12 ground[]  
+ []
+
+
+LaTeX Warning: Marginpar on page 12 moved.
+
+
+
+[12]
+Overfull \hbox (7.68285pt too wide) in paragraph at lines 78--80
+[]\T1/cmr/bx/n/12 Definition 11 (Descriptor form re-sid-ual op-er-ator): []\T1/cmr/m/n/12 Col-lect-ing all block rows, the descriptor
+ []
+
+
+
+[13]) (./2_body/5_nonlinear.tex) (./2_body/6_results.tex) (./2_body/7_discussion.tex) (./2_body/8_conclusions.tex)
+
+[14]
+
+[15]
 Overfull \vbox (247.6191pt too high) has occurred while \output is active []
 
 
 
-[10]
-Overfull \hbox (4.40277pt too wide) in paragraph at lines 75--75
+[16]
+Overfull \hbox (4.40277pt too wide) in paragraph at lines 77--77
 \T1/cmr/m/n/12 conditioned dif-fer-en-ti-ation via a change of ul-tra-s-pher-ical basis. Ante-cedent of the descriptor
  []
 
 
-Overfull \hbox (80.81854pt too wide) in paragraph at lines 75--75
+Overfull \hbox (80.81854pt too wide) in paragraph at lines 77--77
 []\T1/cmr/m/n/12 L. Lin, \T1/cmr/m/it/12 Lec-ture notes on quantum al-gorithms for sci-entific com-pu-ta-tion\T1/cmr/m/n/12 , ht-tps://arxiv.org/abs/2201.08309,
  []
 
 
-Overfull \hbox (24.29745pt too wide) in paragraph at lines 75--75
+
+[17]
+Overfull \hbox (24.29745pt too wide) in paragraph at lines 77--77
 \T1/cmr/m/n/12 SWITCH-test readout pro-tocol spe-cial-ised in readout.py, 2025. arXiv: []$2505 . 08613$ \T1/cmtt/m/n/12 [quant-ph][]\T1/cmr/m/n/12 . 
  []
 
 
-
-[11]
-Overfull \hbox (27.54176pt too wide) in paragraph at lines 75--75
+Overfull \hbox (27.54176pt too wide) in paragraph at lines 77--77
 []\T1/cmr/m/it/12 QRTlib\T1/cmr/m/n/12 , Quantum real-transform (DCT/D-ST/Hartley) cir-cuit lib-rary ex-tend-ing Klappenecker--
  []
 
 
 
-[12]
+[18]
 
-[13] (build/main.atoc)
+[19] (build/main.atoc)
 \tf@atoc=\write12
 \openout12 = `main.atoc'.
 
 
 
-[14
+[20
 
 ] (./3_footer/appendices.tex
 
-[15
+[21
 
 ]
 
-[16]
+[22]
 
-[17]
+[23]
 Overfull \hbox (18.77927pt too wide) in paragraph at lines 246--257
  [] 
  []
 
-)
 
-[18]
 
-[19]
+[24]
+
+[25]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[26])
+
+[27]
+
+[28]
 
 Package glossaries Warning: No \printglossary or \printglossaries found. 
 (Remove \makeglossaries if you don't want any glossaries.) 
@@ -2064,19 +2097,19 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 1FC9B720A000EA159D58343CF66C5308;15103.
+(rerunfilecheck)             Checksum: D2749E2FB48E3B56485625341951FD65;15103.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 59116 strings out of 473190
- 1224177 string characters out of 5715800
- 2349209 words of memory out of 5000000
- 81126 multiletter control sequences out of 15000+600000
- 579930 words of font info for 89 fonts, out of 8000000 for 9000
+ 59263 strings out of 473190
+ 1226757 string characters out of 5715800
+ 2354350 words of memory out of 5000000
+ 81228 multiletter control sequences out of 15000+600000
+ 581816 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 103i,11n,120p,2457b,2334s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,12n,120p,2457b,2334s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 pdfTeX warning (dest): name{glo:dae} has been referenced but does not exist, replaced by a fixed one
 
@@ -2086,11 +2119,11 @@ pdfTeX warning (dest): name{glo:qite} has been referenced but does not exist, re
 
 pdfTeX warning (dest): name{glo:ode} has been referenced but does not exist, replaced by a fixed one
 
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on build/main.pdf (29 pages, 588984 bytes).
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on build/main.pdf (38 pages, 660428 bytes).
 PDF statistics:
- 838 PDF objects out of 1000 (max. 8388607)
- 734 compressed objects within 8 object streams
- 201 named destinations out of 1000 (max. 500000)
+ 1014 PDF objects out of 1200 (max. 8388607)
+ 894 compressed objects within 9 object streams
+ 244 named destinations out of 1000 (max. 500000)
  684 words of extra memory for PDF output out of 10000 (max. 10000000)
 

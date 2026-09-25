@@ -67,6 +67,21 @@
 \usepackage{tikz}
 \usepackage{quantikz}
 
+% Placeholder figure: draws a boxed, described stand-in for a figure not yet
+% produced. Usage: \placeholderfigure[height]{caption}{label}{description}
+\newcommand{\placeholderfigure}[4][6cm]{%
+  \begin{figure}[htbp]
+    \centering
+    \fbox{%
+      \begin{minipage}[c][#1][c]{0.86\linewidth}
+        \centering\itshape\color{gray!60!black} #4
+      \end{minipage}%
+    }
+    \caption{#2}
+    \label{#3}
+  \end{figure}%
+}
+
 % -----------------------------------------------------------------------------
 %maths stuff
 \usepackage{amsmath}
@@ -96,6 +111,7 @@
 % 4. Apply the default plain style to theorems and corollaries
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
 
 % -----------------------------------------------------------------------------

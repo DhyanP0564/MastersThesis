@@ -1,38 +1,133 @@
 % =============================================================================
-% §3 The Physics-Informed Collocation Method  --  budget TBD (reallocate from the
-% ~13 pp Lit Review and ~11 pp Results budgets this chapter draws from)
-% rubric: Project Body, groundwork / model formulation (prior-art baseline)
+% §3 The Physics-Informed Hamiltonian Method  --  budget ~6 pp (see
+% thesis_guides/STRUCTURE_AND_RUBRIC.md §2.1)
+% rubric: Intro & Lit Review /20, body-located -- see STRUCTURE_AND_RUBRIC.md §0
 %
 % This chapter recreates Wu et al.'s (2025) physics-informed effective
-% Hamiltonian and its published collocation encoding as PRIOR ART -- on the
-% same footing as GQSP in §2 -- then reports this thesis's own numerical
-% reproduction and characterisation of that route. It closes on the
-% encoding-wall diagnosis (dense G, relative gap collapsing below machine
-% epsilon at n >~ 7) that is the pivot motivating the descriptor
-% reformulation of §4. Everything in this chapter is attributed, not claimed.
+% Hamiltonian and its published collocation encoding as PRIOR ART -- described
+% and attributed in the same register STYLE_GUIDE.md fixes for reported
+% literature -- then reports this thesis's own numerical reproduction and
+% characterisation of that route. It closes on the encoding-wall diagnosis
+% (dense G, relative gap collapsing below machine epsilon at n >~ 7) that is
+% the pivot motivating the descriptor reformulation of §4. Everything claimed
+% as *this thesis's own* below (the gate-for-gate circuit reconstruction, its
+% verification, the derived epsilon_G bound, the measured cost table) is kept
+% grammatically distinct from what is Wu et al.'s.
+%
+% No mention of FABLE anywhere below (locked framing decision): the encoding
+% mechanism is described mechanistically -- a rotation ladder loading the
+% matrix's own column-linear entries -- and the specific circuit reproduced is
+% the one Wu et al. themselves publish, not a separate named algorithm.
+%
+% §3.2 is math only -- Wu et al.'s construction, no measured numbers and no
+% worked instances; those live in Appendix C. §3.3-3.4 carry this thesis's
+% own reconstruction, verification and measurements. §3.5 is the diagnosis.
 % =============================================================================
 
 \subsection{Overview}
-This chapter recreates the physics-informed effective Hamiltonian framework of \cite{wu2025pihm} exactly as published, then subjects it to the same numerical scrutiny this thesis applies to its own contribution. The framework encodes a differential equation's solution as the ground state of a residual Hamiltonian built from a dense Chebyshev differentiation matrix, via a construction this thesis reproduces without modification. What follows establishes both the theory of that construction and the measured evidence for where it breaks down, so that the descriptor reformulation of \Cref{sec:descriptor-construction} can be motivated as a direct response to a diagnosed failure rather than an arbitrary design choice.
+This chapter recreates the physics-informed effective Hamiltonian framework of \cite{wu2025pihm} exactly as published, then subjects it to the same numerical scrutiny this thesis applies to its own contribution. The framework encodes a differential equation's solution as the ground state of a residual Hamiltonian built from a dense Chebyshev differentiation matrix, via a construction reproduced here without modification. \Cref{sec:pihm-residual} states that construction in full; \Cref{sec:pihm-encoding,sec:pihm-verification} give the published encoding circuit and this thesis's own reconstruction, verification and measurement of it; \Cref{sec:pihm-encoding-wall} diagnoses where the construction fails and motivates the descriptor reformulation of \Cref{sec:descriptor-construction}.
 
 \subsection{The Residual Construction and Its Ground State}
+\label{sec:pihm-residual}
+Wu et al.\ recast solving a differential equation as three linked moves \cite{wu2025pihm}: represent a candidate solution as a quantum state carrying its Chebyshev coefficients; write the differential equation and every boundary or initial condition as linear operators that must annihilate that state; and assemble a Hamiltonian from those operators whose ground state is exactly the state satisfying all of them at once.
+
+\paragraph{The Chebyshev feature map.} A solution $f$ is approximated by a degree-$(N-1)$ truncated Chebyshev series, $N = 2^n$, carried by an $n$-qubit state
+\begin{equation}
+    \ket{\tau(x)}_n = \frac{1}{2^{n/2}}T_0(x)\ket{0}^{\otimes n} + \frac{1}{2^{(n-1)/2}}\sum_{k=1}^{N-1} T_k(x)\ket{k},
+    \label{eq:pihm-tau}
+\end{equation}
+so that a coefficient vector $\ket{\psi}_n \in \mathbb{C}^N$ (unit norm, $\braket{\psi|\psi}=1$) represents the model
+\begin{equation}
+    f_Q(x) = \sqrt{\eta}\,\braket{\tau(x)|\psi}_n
+    \label{eq:pihm-fq}
+\end{equation}
+for some positive scale $\eta$. Separating the \emph{direction} $\ket{\psi}$ from the \emph{scale} $\sqrt{\eta}$ this way matters because everything from here to the ground-state eigenvalue problem below depends only on $\ket{\psi}$: $\eta$ cancels out of every constraint $A\ket{\psi}=0$ and out of the Hamiltonian built from such constraints, so it plays no role until \Cref{eq:pihm-regular} fixes it, once, from a single known data point, entirely after the ground state has been found. Every equation from here on is written for $\ket{\psi}$ alone, with $\eta$ suppressed accordingly.
+
+\paragraph{The derivative operator.} Differentiating a Chebyshev series produces another Chebyshev series whose coefficients are a fixed linear function of the original ones \cite{trefethen2000spectral}: writing this map in the normalised basis of \Cref{eq:pihm-tau} gives an $N \times N$ matrix $G$ with
+\begin{equation}
+    G_{k,p} =
+    \begin{cases}
+        2p, & p > k \ge 1,\ p-k\ \text{odd}, \\
+        \sqrt{2}\,p, & k = 0,\ p\ \text{odd},\ p \ge 1, \\
+        0, & \text{otherwise},
+    \end{cases}
+    \label{eq:pihm-G-entries}
+\end{equation}
+so that $f_Q'(x) = \braket{\tau(x)|G^\top|\psi}_n$, and the $m$-th derivative follows from the power $G^{\top m}$. \Cref{eq:pihm-G-entries} is dense and upper triangular: row $k$ is non-zero at every column $p > k$ of the right parity, so the lowest-order coefficient can depend on as many as half of the others, and $G$ carries $\Theta(N^2)$ non-zero entries in total. \Cref{app:cheb} gives this fill-in explicitly at $N=4$, alongside the banded factors $\tilde{B}, \tilde{D}$ that \Cref{sec:descriptor-construction} builds from the same recurrence.
+
+\paragraph{The differential-equation row.} For a linear equation of order $k$ with constant coefficients, $\sum_{j=0}^k a_j f^{(j)} = 0$, direct substitution of $G^{\top j}$ for each derivative gives
+\begin{equation}
+    A = \sum_{j=0}^k a_j\, G^{\top j},
+    \label{eq:pihm-A}
+\end{equation}
+Wu et al.'s own construction \cite{wu2025pihm}; a second-order equation, for instance, gives $A = a_2 G^{\top 2} + a_1 G^\top + a_0 I$ directly.
+
+A coefficient $a_j(x)$ that varies with $x$ cannot be substituted this way: $a_j(x) f^{(j)}(x)$ is a product of two functions, and the Chebyshev coefficients of a product are not the product of the coefficients. Wu et al.\ resolve this with a second operator, the lifting operator $M_{x^p}$, built from the general Chebyshev product-to-sum identity
+\begin{equation}
+    x^p\, T_k(x) = 2^{-p}\sum_{i=0}^{p}\binom{p}{i}\, T_{|k+p-2i|}(x),
+    \label{eq:pihm-product-to-sum}
+\end{equation}
+the $p$-fold iterate of the pairwise rule $T_jT_k = \tfrac12(T_{j+k}+T_{|j-k|})$ that reappears below in the nonlinear extension. Conjugating \Cref{eq:pihm-product-to-sum} into the normalised bases of \Cref{eq:pihm-tau} gives an operator $M_{x^p}$ satisfying
+\begin{equation}
+    x^p\,\bra{\tau(x)}_n = \bra{\tau(x)}_{n+1}\,M_{x^p}
+    \label{eq:pihm-Mxp}
+\end{equation}
+(entries: \Cref{app:pihm-residual}). Multiplying a degree-$(N-1)$ model by $x^p$ can raise its degree by as much as $p$, so $M_{x^p}$ is exact and rectangular, $2N \times N$: no truncation is needed once the result is represented in the one-qubit-wider register \Cref{eq:pihm-Mxp} already targets. A general coefficient, expanded to a finite power series $a_j(x) = \sum_p c_{j,p}\,x^p$ (a Maclaurin truncation, for a non-polynomial coefficient), lifts by linearity to $M_{a_j} = \sum_p c_{j,p}\, M_{x^p}$, and the differential-equation row for the general, variable-coefficient case follows by composing $M_{a_j}$ and $G^{\top j}$ term-by-term,
+\begin{equation}
+    A = \sum_{j=0}^k M_{a_j}\, G^{\top j},
+    \label{eq:pihm-A-general}
+\end{equation}
+with $M_{a_j} = a_j I$ recovering \Cref{eq:pihm-A} whenever $a_j$ is constant.
+
+\paragraph{Data constraints.} Boundary and initial conditions are built from one rank-one point-evaluation generator, $B_n(x) = \sqrt{2^n}\,\ket{0}^{\otimes n}\bra{\tau(x)}_n$, non-zero only in its first row. A condition with a zero target is \emph{invariant} -- unchanged under $\ket{\psi} \to c\ket{\psi}$ -- and enters the Hamiltonian directly as one further linear constraint, $B\ket{\psi}=0$, e.g.\ a Dirichlet condition $f(x_z)=0$ giving $B_n(x_z)\ket{\psi}=0$ and a Neumann condition $f'(x_m)=0$ giving $B_n(x_m)G^\top\ket{\psi}=0$. A condition with a non-zero target, $f(x_s)=y_s$, is not scale-covariant and instead fixes the amplitude $\sqrt{\eta}$ of \Cref{eq:pihm-fq} directly, after the ground state has been found:
+\begin{equation}
+    \sqrt{\eta} = \frac{y_s}{\braket{\tau(x_s)|\psi_g}_n}.
+    \label{eq:pihm-regular}
+\end{equation}
+Only one such \emph{regular} constraint is used per solve, and \Cref{eq:pihm-regular} is the only place $\eta$ re-enters the pipeline.
+
+\begin{definition}[Physics-informed effective Hamiltonian]
+\label{def:pihm-hamiltonian}
+Collecting the differential-equation row $A$ and every invariant data constraint $B_i$,
+\begin{equation}
+    H = A^\top A + \sum_i B_i^\top B_i, \qquad \braket{\psi|H|\psi} = \|A\psi\|^2 + \sum_i \|B_i\psi\|^2.
+    \label{eq:pihm-hamiltonian}
+\end{equation}
+$H$ is Hermitian and positive semi-definite, so $\braket{\psi|H|\psi} \ge 0$ with equality exactly when every constraint holds simultaneously. The differential equation problem is thereby an eigenvalue problem, $H\ket{\psi_g} = \lambda_{\min}\ket{\psi_g}$, $\lambda_{\min}\approx0$, whose ground state $\ket{\psi_g}$ is the solution.
+\end{definition}
+
+Forming $A^\top A$ squares $A$'s own condition number, so $H$ is markedly more ill-conditioned than $A$ itself, and its ground state sits at the base of a highly compressed spectrum. \Cref{sec:pihm-encoding-wall} traces this to the measured spectral-gap collapse of \Cref{sec:pihm-verification}.
+
+\paragraph{The nonlinear extension.} Wu et al.\ extend \Cref{def:pihm-hamiltonian} to polynomial nonlinearity by doubling the Hilbert space, $\ket{\Psi} = \ket{\psi}\otimes\ket{\psi}$, and folding a product of two coefficient vectors back into one register via the same product-to-sum identity, $T_jT_k = \tfrac12(T_{j+k}+T_{|j-k|})$ \cite{wu2025pihm}. A residual quadratic in $\ket{\psi}$ of this kind annihilates a subspace of the $2N$-dimensional $\ket{\Psi}$ far larger than the single physical direction: Wu et al.\ themselves note that the resulting $H$ carries \emph{at least} $2^{2n-1}$ degenerate zero-energy states, half of the doubled Hilbert space at minimum. No imaginary-time filter can select a direction inside a degenerate zero-energy cluster, so extracting the physical solution from this construction is classical post-selection within a known kernel rather than genuine state preparation; \Cref{sec:nonlinear-extension} addresses this, for a restricted but practically important class of problems, with a different construction.
 
 \subsection{The Published Collocation Encoding}
+\label{sec:pihm-encoding}
+Realising $H$ as a circuit requires a unitary $U_H$ that block-encodes it, $\bra{0}_aU_H\ket{0}_a = H/\alpha$ for some $\alpha \ge \|H\|$, so that ground-state preparation and readout can act on $U_H$ without reference to how $H$ was built. The published route encodes $A$, and hence $H$, exactly as \Cref{sec:pihm-residual} assembles it: as a dense operator, with no attempt to expose or exploit any further structure.
+
+A block encoding of a general dense matrix costs at least as many data-loading gates as the matrix has distinct entries that must be individually addressed, realised as a rotation controlled on the matrix's row and column indices \cite{sunderhauf2024blockencoding,camps2024explicit}. $G^\top$ is not sparse in this sense: by \Cref{eq:pihm-G-entries}, column $p$ of $G^\top$ takes only the two values $\{2p, \sqrt2\,p\}$, but which of $N$ possible columns is being addressed still varies from entry to entry, so a column of $G^\top$ still requires $\Theta(N)$ distinct addressed values rather than the $O(1)$ a banded or Toeplitz structure would permit.
+
+Wu et al.'s own circuit avoids an exhaustive $\Theta(N)$-branch multiplexed rotation by loading this near-linear dependence on the column index approximately, via a ladder of $n$ singly-controlled rotations on one flag qubit \cite{wu2025pihm}. Because rotations on the same qubit compose by exact angle addition, the ladder's net rotation for column index $p$ is a sine of a sum of arcsines of $p$'s bits, which only approximates the desired value $2p$ -- $\sin$ of a sum is not the sum of sines -- with an error that shrinks rapidly as the per-bit angle shrinks.
+
+\placeholderfigure{\textbf{The reconstructed encoding circuit for $G^\top$'s column-linear entries.} A ripple-carry adder shifts the $n$-qubit column-index register into the form the ladder consumes, and is uncomputed afterwards. A ladder of $n$ singly-controlled $R_y(\theta_m)$ rotations accumulates the amplitude $\mathrm{raw}(p)$ of \Cref{eq:app-ladder-raw} on one flag qubit by exact angle addition; a second, independently controlled ladder applies the row-zero correction. Ancilla: $n+4$ total (\Cref{app:pihm-circuit}).}{fig:pihm-ladder-circuit}{Quantikz circuit: the $n$-qubit column-index register, one wire per bit controlling an $R_y(\theta_m)$ gate on the flag qubit; the row-zero flag and its correction ladder; and the ripple-carry adder/uncompute wrapping the register.}
+
+This thesis reconstructs that circuit gate-for-gate from the source paper's own description, since its precise two-ancilla wiring is not fully recoverable from the published figure at the resolution available, and verifies the reconstruction bit-exact against an independently built \emph{exact} register-arithmetic alternative -- an $O(2^n)$-depth circuit with no approximation at all, kept purely as a verification reference -- for $n$ up to $5$. Where the source paper states only that its errors are ``negligible'' and decrease ``exponentially'' with $n$, \Cref{app:pihm-circuit} derives a rigorous closed-form entrywise error bound from the same small-angle mechanism and verifies it against the measured error at every $n$ tested from $2$ to $8$: the bound falls by roughly a further order of magnitude with each additional qubit, from $1.9\times10^{-2}$ at $n=2$ to $1.4\times10^{-9}$ at $n=8$ (\Cref{tab:app-epsilon-G}), making the qualitative published claim quantitative.
+
+The reproduced circuit uses $n+4$ ancilla qubits (the exact register-arithmetic alternative needs $n+5$), within one qubit of the $n+3$ resource count reported in the source paper's own figure -- \Cref{app:pihm-circuit} attributes the discrepancy to this reconstruction keeping two flag qubits live where the published circuit appears to combine them into one. Composing this encoding of $G$ into $A$, and $A$ into $H$ via \Cref{eq:pihm-hamiltonian}, follows the standard linear-combination-of-unitaries and Gram-squaring algebra common to every block encoding built in this thesis: forming a Gram matrix from an encoded operator roughly doubles its ancilla count and squares its subnormalisation, and summing several such terms for the differential-equation row and every boundary condition adds their individual weights. \Cref{sec:pihm-verification} reports what this composition costs once carried through to the fully assembled $H$.
 
 \subsection{Numerical Verification: Reproducing and Characterising the Published Encoding}
-% Your measured evidence for the encoding-wall diagnosis below. Framed as "we
-% implemented and characterised the published route", not as a competing
-% contribution.
-% Carries the gap-collapse figure: relative gap ~1e-15 vs eps_mach at n >~ 7.
-% Baseline cost numbers belong here (gates, ancilla, alpha, exactness, gap) for
-% the published/collocation route ALONE -- see the cross-reference note in
-% 6_results.tex \S "Encoding Cost of the Descriptor Construction", which reports
-% only the descriptor-side numbers and points back here rather than repeating
-% this table.
+\label{sec:pihm-verification}
+Verification proceeds in two stages, each checked against an independent classical reference so that a construction error in $H$ cannot be mistaken for a state-preparation error downstream. First, encoding exactness: every block-encoded atom -- $G$, each $M_{x^p}$, each boundary-condition generator -- is verified column-by-column against its reference matrix to $10^{-9}$--$10^{-11}$, and the Gram-and-sum recipe that combines them into $H$ is verified to $<10^{-10}$ on small test cases. Second, state preparation: the prepared ground state is compared to the classical \texttt{eigh} ground state of the same assembled $H$ by cosine similarity, with that classical target itself cross-checked against an independent reference solver, separating a construction error in $H$ from a filter-convergence error in the preparation stage. For the nonlinear extension of \Cref{sec:pihm-residual}, the same protocol measures the degenerate kernel directly: null spaces occupy as much as $98\%$ of $\dim(H)$ on the cases tested, well past the $2^{2n-1}$ floor Wu et al.\ state.
+
+The composed $H$ is not verified end-to-end -- at the qubit counts the headline cases in \Cref{sec:results} require, a dense classical simulation would need hundreds of gigabytes and is not attempted -- so correctness beyond a handful of qubits rests on this compositional argument rather than a direct check of the assembled operator. Within that scope, three measurements characterise the published route empirically rather than merely reproduce the source paper's own qualitative claims.
+
+\placeholderfigure{\textbf{Measured subnormalisation and spectral-gap collapse of the composed $H$, $n=2$ to $8$.} (a) $\alpha_H$ against $N=2^n$ on log-log axes, empirically $\Theta(N^8)$, against $\|H\|=\Theta(N^2)$. (b) Relative spectral gap of the composed $H$ against $n$, falling to $\sim10^{-15}$ by $n\gtrsim7$, below double-precision machine epsilon (dashed line).}{fig:pihm-gap-collapse}{Two-panel plot: (a) log-log plot of $\alpha_H$ vs.\ $N$ with $\Theta(N^2)$ and $\Theta(N^8)$ reference lines overlaid; (b) semi-log plot of the composed $H$'s relative spectral gap vs.\ $n$, with a horizontal dashed line at machine epsilon ($\approx2.2\times10^{-16}$).}
+
+First, conditioning: for the stiff pilot equation of \Cref{eq:pihm-A} (worked at $N=4$ in \Cref{app:pihm-residual}), the ground eigenvalue $\lambda_{\min}$ is not yet numerically zero at $n=4$ ($\lambda_{\min}/\alpha \approx 3.9\times10^{-5}$, an under-resolved discretisation rather than a genuine kernel), but reaches $\lambda_{\min}/\alpha \approx 1.4\times10^{-14}$ by $n=5$ -- the same equation moving, within a single extra qubit, from an unreliable ground state to a numerically exact one. Second, subnormalisation: $G^\top$'s own $S$-norm subnormalisation was verified directly against \texttt{pihm.chebyshev\_derivative\_matrix} for $n=1$ through $8$ and grows empirically as $\Theta(N^4)$ (\Cref{app:pihm-circuit}); composing this into $H$ via a Gram square inflates it to $\alpha_H \approx \Theta(N^8)$ against $\|H\| = \Theta(N^2)$, a subnormalisation tax that grows polynomially in $N$ rather than staying tight, with a Haar-average post-selection probability that correspondingly falls like $N^{-3/2}$ rather than remaining constant. Third, and most consequential: the relative spectral gap of the fully assembled $H$, computed classically, falls to $\sim10^{-15}$ by $n=7$ -- below double-precision machine epsilon, so the ground state this Hamiltonian encodes is not numerically resolvable at all at that resolution, independent of how it is later block-encoded into a circuit. \Cref{sec:results} reports the full per-case measurement and cost table.
 
 \subsection{Critical Assessment: The Encoding Wall}
-% THE PIVOT. Dense G => Theta(N^2) uniformly-controlled rotations, (n+3) ancilla,
-% alpha_H ~ Theta(N^8), relative gap below machine epsilon at n >~ 7.
-% This is the chapter's closing section -- the diagnosis that motivates the
-% pivot into §4 (the descriptor reformulation) and is the explicit HD gate in
-% the mark sheet.
+\label{sec:pihm-encoding-wall}
+Three separate measurements in \Cref{sec:pihm-verification} point at the same structural cause. $G$'s $\Theta(N)$ distinct column values force any dense encoding of it to pay a data-loading cost that scales with $N$ rather than with $\log N$; squaring $A$ into $H = A^\top A$ squares that cost again in the subnormalisation; and summing the differential-equation row against every boundary-condition row compounds it further. The result is a block-encoded $H$ whose subnormalisation grows like $\Theta(N^8)$ against an operator norm of only $\Theta(N^2)$ -- a construction that, per query, is exponentially worse than it needs to be in the qubit count $n$, and polynomially worse than it needs to be in the Chebyshev resolution $N$.
+
+This is not merely a cost inefficiency. Ground-state preparation by imaginary-time filtering needs a number of block-encoding queries that scales with $\alpha_H/\Delta$, where $\Delta$ is the spectral gap \cite{gilyen2019qsvt}; for any block encoding of this particular $H$, the gap itself is $\Delta = \Theta(1)$ against $\|H\| = \Theta(N^2)$, so $\alpha_H \ge \|H\|$ already forces at least $\tilde\Theta(N^2)$ queries before a single gate of the encoding is counted -- neither route examined in this thesis is poly-logarithmic end to end (\Cref{sec:discussion} completes this argument). The published collocation route misses even this floor by a further factor of $\approx N^6$, and the deficit is not merely asymptotic: at $n \gtrsim 7$, the composed $H$'s relative spectral gap has collapsed below double-precision machine epsilon, so the ground state it encodes cannot be resolved in simulation at any cost, let alone prepared efficiently on a quantum computer.
+
+This chapter has reproduced the physics-informed effective Hamiltonian framework of Wu et al.\ exactly as published; the diagnosis above is a property of that published construction, not of any choice made in reproducing it. What makes $A$ dense is the same thing that makes it hard to encode: $G$ substitutes each derivative directly for the coefficients of the function it differentiates, in one step, and that substitution is exactly what a well-conditioned, banded alternative would decline to take. \Cref{sec:descriptor-construction} develops that alternative, carrying the intermediate derivatives $G$ eliminates as their own unknowns rather than substituting them away, so that the whole encoding-and-preparation pipeline inherits a structure the published route never had access to.
