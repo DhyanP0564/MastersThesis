@@ -1,0 +1,61 @@
+% =============================================================================
+% Appendix E  The Structured Exact Encoding of the Differentiation Matrix
+% Cited from sec:standard-factorisation and sec:standard-cost.
+% Plan: ThesisPlanning.md §6 (E); supporting contribution S2 (claims C-01, C-02).
+%
+% CONTENT  The proof of prop:G-factorisation; Lambda, U_odd (subtraction with a
+%          borrow flag) and R_0 as circuits; the resource derivation behind
+%          prop:standard-cost; alpha / ||G||_2 across n.
+% SOURCES  Planning.md §3.7 ("Standard form, structured exact"), App. A-4;
+%          pihm/src/pihm/circuits/standard.py (structured_derivative_encoding),
+%          arithmetic.py (register_subtractor); pihm/docs/PILLAR1.md.
+% =============================================================================
+
+\subsection{Proof of \texorpdfstring{\Cref{prop:G-factorisation}}{the factorisation}}
+\label{app:proof-G-factorisation}
+% LAND: entry by entry -- (R_0 (2 U_odd) Lambda)_{kp} = r_k * 2[p > k, p - k odd]
+%   * p, with r_0 = 1/sqrt2 and r_k = 1 otherwise, which is eq:pihm-G-entries.
+%   Then Lambda's Z-string form (eq:lambda-lcu) from p = sum_j 2^j (1 - Z_j)/2.
+
+\subsection{The arithmetic SELECT}
+\label{app:uodd-select-detail}
+% LAND: U_odd as the average of the N/2 truncated shifts by odd offsets;
+%   PREPARE (X on the offset register's lowest bit, H on the rest); SELECT as
+%   the in-place subtraction p <- p - d (Cuccaro ripple-carry,
+%   cuccaro2004adder) with a borrow flag post-selected on |0>, so every wrapped
+%   term vanishes exactly. Toffoli count O(n). The circuit is fig:uodd-select.
+
+\subsection{Proof of \texorpdfstring{\Cref{prop:standard-cost}}{the cost of the structured encoding}}
+\label{app:proof-standard-cost}
+% LAND: alpha multiplies under products: alpha(R_0) = 1, alpha(2 U_odd) = N,
+%   alpha(Lambda) = N - 1, so alpha_G = N(N - 1). Gate count O(n^2) and ancilla
+%   n + O(log n), with the Omega(n) floor from the N/2-term LCU. Products reuse
+%   ancilla with one failure flag per product (implementation issue I-03: until
+%   built, products allocate fresh ancilla -- say which the reported counts use).
+
+\subsection{Subnormalisation across \texorpdfstring{$n$}{n}}
+\label{app:alpha-G}
+% The ratios below are the planning probe's (Planning.md App. A-4; the
+%   factorisation's error is <= 2.3e-13 throughout); regenerate from results-v1.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Subnormalisation of the structured and published encodings of $\G$, relative to $\|\G\|_2$.}
+    \label{tab:alpha-G-full}
+    \small
+    \begin{tabular}{@{}r r l l@{}}
+        \toprule
+        $n$ & $\|\G\|_2$ & Structured & Published \\
+        \midrule
+        2 & \res[3,fixed]{derivative/n2}{norm} & \res[4]{derivative/n2}{structured_ratio} & \res[3]{derivative/n2}{published_ratio} \\
+        3 & \res[3,fixed]{derivative/n3}{norm} & \res[4]{derivative/n3}{structured_ratio} & \res[3]{derivative/n3}{published_ratio} \\
+        4 & \res[3,fixed]{derivative/n4}{norm} & \res[4]{derivative/n4}{structured_ratio} & \res[3,sci]{derivative/n4}{published_ratio} \\
+        5 & \res[3,fixed]{derivative/n5}{norm} & \res[4]{derivative/n5}{structured_ratio} & \res[3,sci]{derivative/n5}{published_ratio} \\
+        6 & \res[3,fixed]{derivative/n6}{norm} & \res[4]{derivative/n6}{structured_ratio} & \res[3,sci]{derivative/n6}{published_ratio} \\
+        7 & \res[3,fixed]{derivative/n7}{norm} & \res[4]{derivative/n7}{structured_ratio} & \res[3,sci]{derivative/n7}{published_ratio} \\
+        8 & \res[3,fixed]{derivative/n8}{norm} & \res[4]{derivative/n8}{structured_ratio} & \res[3,sci]{derivative/n8}{published_ratio} \\
+        9 & \res[3,fixed]{derivative/n9}{norm} & \res[4]{derivative/n9}{structured_ratio} & \res[3,sci]{derivative/n9}{published_ratio} \\
+        10 & \res[3,fixed]{derivative/n10}{norm} & \res[4]{derivative/n10}{structured_ratio} & \res[3,sci]{derivative/n10}{published_ratio} \\
+        \bottomrule
+    \end{tabular}
+\end{table}

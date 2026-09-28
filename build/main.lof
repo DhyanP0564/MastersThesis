@@ -1,3 +1,14 @@
 \babel@toc {australian}{}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces \textbf {The reconstructed encoding circuit for $G^\top $'s column-linear entries.} A ripple-carry adder shifts the $n$-qubit column-index register into the form the ladder consumes, and is uncomputed afterwards. A ladder of $n$ singly-controlled $R_y(\theta _m)$ rotations accumulates the amplitude $\mathrm {raw}(p)$ of \Cref {eq:app-ladder-raw} on one flag qubit by exact angle addition; a second, independently controlled ladder applies the row-zero correction. Ancilla: $n+4$ total (\Cref {app:pihm-circuit}).}}{9}{figure.caption.20}%
-\contentsline {figure}{\numberline {2}{\ignorespaces \textbf {Measured subnormalisation and spectral-gap collapse of the composed $H$, $n=2$ to $8$.} (a) $\alpha _H$ against $N=2^n$ on log-log axes, empirically $\Theta (N^8)$, against $\|H\|=\Theta (N^2)$. (b) Relative spectral gap of the composed $H$ against $n$, falling to $\sim 10^{-15}$ by $n\gtrsim 7$, below double-precision machine epsilon (dashed line).}}{10}{figure.caption.21}%
+\contentsline {figure}{\numberline {1}{\ignorespaces The published pipeline of Wu et al.: residual, block encoding, QSVT imaginary-time filter and interferometric readout.}}{9}{figure.caption.20}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Model configuration: from problem specification to decoded field.}}{10}{figure.caption.21}%
+\contentsline {figure}{\numberline {3}{\ignorespaces The GQSP imaginary-time circuit.}}{12}{figure.caption.24}%
+\contentsline {figure}{\numberline {4}{\ignorespaces SELECT for the odd-offset shifts: in-place subtraction with a borrow flag.}}{14}{figure.caption.27}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Dense against banded: the two residuals of the same equation.}}{15}{figure.caption.31}%
+\contentsline {figure}{\numberline {6}{\ignorespaces The descriptor block encoding: one PREPARE/SELECT/PREPARE$^\dagger $ over the whole residual.}}{18}{figure.caption.37}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Printed choices distort the paper's solutions at the printed resolution.}}{21}{figure.caption.42}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Every encoding is verified to its mode's tolerance at every size tested.}}{21}{figure.caption.43}%
+\contentsline {figure}{\numberline {9}{\ignorespaces The prepared state reproduces the analytic solution to within the predicted error budget.}}{22}{figure.caption.45}%
+\contentsline {figure}{\numberline {10}{\ignorespaces The encoder wall and the Hamiltonian wall are separate gaps.}}{22}{figure.caption.46}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Three representative problems, solved in both forms.}}{23}{figure.caption.47}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Carleman truncation converges geometrically once time is resolved; the doubled space only projects.}}{23}{figure.caption.48}%
+\contentsline {figure}{\numberline {13}{\ignorespaces The layers of the \texttt {pihm} package and the one direction in which they may import.}}{43}{figure.caption.66}%

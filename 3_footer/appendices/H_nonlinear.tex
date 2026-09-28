@@ -1,0 +1,57 @@
+% =============================================================================
+% Appendix H  The Nonlinear Route in Full  --  cited from Chapter 7
+% (sec:nonlinear). Plan: ThesisPlanning.md §6 (H); supporting contribution S4.
+%
+% CONTENT  The doubled-space algebra and kernel bound (proof of prop:no-penalty);
+%          the Carleman lift in its symmetric and tensor layouts, the ratio
+%          rows and the space-time forms; the nodal and Fourier folds (proof of
+%          prop:fold-optimal); the Fourier-Galerkin F_1 and F_2 for Burgers and
+%          Navier-Stokes.
+% SOURCES  Planning.md §3.6, §5.3 (R6-R10), §6.5, §7.7;
+%          pihm/src/pihm/carleman.py, operators/folds.py, problems/fluids.py.
+% =============================================================================
+
+\subsection{The doubled space}
+\label{app:doubled-space}
+% LAND: the lifted linear terms D0 (x) (.), the folds n_1 and n_x, the tripled
+%   space where a cubic term needs it; the measured kernel dimension (>= N^2 - 2N)
+%   against the paper's >= 2^{2n-1} (claim A-10).
+
+\subsection{Proof of \texorpdfstring{\Cref{prop:no-penalty}}{the projection statement}}
+\label{app:proof-no-penalty}
+% LAND: for a positive semi-definite H, e^{-beta H} phi_0 / || . || converges to
+%   Pi_ker phi_0 / || . || whenever Pi_ker phi_0 != 0; kernels are linear
+%   subspaces, the set {psi (x) psi} is not, so no added penalty makes the
+%   kernel one-dimensional while keeping the target in it.
+
+\subsection{The Carleman lift}
+\label{app:carleman-layouts}
+% LAND: the symmetric layout (moments) and the tensor layout (K^2 structured
+%   terms, independent of M; F_2 = L o fold assembled from the problem
+%   specification -- claim B-19); the truncation error O(rho^K) (claim B-18);
+%   the flattened layout verified exactly at small M, the tensor layout on the
+%   physical subspace with zero leakage.
+
+\subsection{Ratio rows and the space-time forms}
+\label{app:carleman-spacetime}
+% LAND: the ratio rows F (x) <tau(-1)| for vector initial data
+%   (tab:constraint-kinds); the time axis xi = 2t/T - 1; the two forms of
+%   eq:carleman-spacetime and the one-line proof that they share a kernel
+%   (Bt_t is invertible).
+
+\subsection{Product folds}
+\label{app:proof-fold-optimal}
+% LAND: the proof of prop:fold-optimal -- in the nodal basis a product is
+%   pointwise, Delta_p copies basis states (CNOTs, no ancilla), and
+%   ||n_1^(2)|| = 2 equals the subnormalisation; the Fourier fold (QFT, CNOT
+%   copy, QFT^dagger); the Chebyshev DCT as a cited primitive
+%   (klappenecker2001dct), with the budget it is given.
+
+\subsection{Fourier--Galerkin operators}
+\label{app:fluids}
+% LAND: Burgers -- |k| <= K_c, F_1 = diag(-nu k^2), F_2 the convolution of
+%   (u^2)_x / 2, (a, nu) chosen so the measured rho <= 0.5; references Cole-Hopf,
+%   DNS and the exact lifted linear system (expm A_K) that isolates the Carleman
+%   floor. Navier-Stokes -- |k|^2 <= K_c in a real basis, psi_hat = omega_hat /
+%   |k|^2 eliminated, the Jacobian J(psi, omega) as F_2; Taylor-Green (J = 0) and
+%   the vortex pair; K swept together with n_t, sub-windows of T.

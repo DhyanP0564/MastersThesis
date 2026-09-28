@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \input{1_header/0_packages.tex}
+\input{0_results/results.tex} % pihm's numbers, quoted by key: \res{<run>}{<metric>}
 
 \begin{document}
 
@@ -43,33 +44,50 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
+% Chapters follow ThesisPlanning.md §4.2. Their scaffold comments use the tags
+% of ThesisPlanning.md §4.3: PURPOSE, CRITERION, SOURCES, WRITE WHEN, LAND,
+% FIG, TAB, OFFLOAD, CHECKLIST, TRAPS, REVISE and CITE-NEEDED.
+
 \section{Introduction}
+\label{sec:intro}
 \input{2_body/1_introduction}
 
 \newpage \todo{remove this once the introduction is complete.}
 \section{Background and Literature Review}
+\label{sec:background}
 \input{2_body/2_literature.tex}
 
-\section{The Physics-Informed Hamiltonian Method}
-\input{2_body/3_pihm_collocation.tex}
+\section{The Physics-Informed Effective Hamiltonian Method}
+\label{sec:pihm}
+\input{2_body/3_pihm.tex}
+
+\section{A Regime-Independent Quantum Pipeline}
+\label{sec:pipeline}
+\input{2_body/4_pipeline.tex}
+
+\section{The Standard Form, Encoded Exactly}
+\label{sec:standard}
+\input{2_body/5_standard.tex}
 
 \section{The Descriptor Reformulation}
-\input{2_body/4_descriptor.tex}
+\label{sec:descriptor}
+\input{2_body/6_descriptor.tex}
 
-\section{Extension to Polynomial Nonlinearity}
-\label{sec:nonlinear-extension}
-\input{2_body/5_nonlinear.tex}
+\section{Polynomial Nonlinearity}
+\label{sec:nonlinear}
+\input{2_body/7_nonlinear.tex}
 
 \section{Numerical Study}
 \label{sec:results}
-\input{2_body/6_results.tex}
+\input{2_body/8_results.tex}
 
 \section{Discussion}
 \label{sec:discussion}
-\input{2_body/7_discussion.tex}
+\input{2_body/9_discussion.tex}
 
 \section{Conclusions and Future Work}
-\input{2_body/8_conclusions.tex}
+\label{sec:conclusions}
+\input{2_body/10_conclusions.tex}
 
 \section{References}
 \label{sec:ref}

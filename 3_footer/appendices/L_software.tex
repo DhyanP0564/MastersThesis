@@ -1,0 +1,89 @@
+% =============================================================================
+% Appendix L  Software and Reproducibility  --  cited from sec:pipeline-software.
+% Plan: ThesisPlanning.md §6 (L). The one appendix a marker may never read: it
+% exists for the Modelling rubric ("software tools used and/or created") and the
+% guidelines' "laboratory handbook" role. Factual and short (3-4 pp).
+%
+% CONTENT  The pihm architecture; records and provenance; campaigns and the
+%          Setonix resource classes; the test tiers; how to regenerate every
+%          figure from results-v1; the environment.
+% SOURCES  Planning.md §10 (architecture, data model, standards, testing), §11
+%          (HPC); pihm/README.md, pyproject.toml, configs/, slurm/.
+% =============================================================================
+
+\subsection{Architecture}
+\label{app:software-architecture}
+% LAND: one implementation per concept, modes as typed Literal parameters with
+%   dispatch tables; the import direction enforced by an architecture test.
+% FIG: fig:pihm-architecture.
+
+\placeholderfigure[5cm]{The layers of the \texttt{pihm} package and the one direction in which they may import.}{fig:pihm-architecture}{Layer diagram: \texttt{basis} $\to$ \texttt{operators} $\to$ \texttt{problems}/\texttt{carleman} $\to$ \texttt{assemble}/\texttt{ir} $\to$ \texttt{classical}/\texttt{circuits} $\to$ \texttt{verify}/\texttt{resources} $\to$ \texttt{qsp} $\to$ \texttt{pipeline} $\to$ \texttt{cli}; an architecture test fails on any import against the arrow.}
+
+\subsection{Records and provenance}
+\label{app:software-records}
+% LAND: Problem (frozen, declarative, hashed), RunSpec (problem, variant, form,
+%   n, stage, options -> config_hash), Record (meta.json with status ok |
+%   failed | infeasible | skipped and provenance; strict-JSON metrics.json;
+%   arrays.npz; log.txt); summary.csv from `pihm collect`; invalidation of runs
+%   predating a fix (Planning.md §9.2).
+
+\subsection{Campaigns and computational resources}
+\label{app:software-campaigns}
+% LAND: a campaign YAML expands to a manifest, one row per run with a
+%   config_hash and a resource class predicted by the resource estimator; one
+%   array job per class; stages self-contained; idempotent reruns. Confirm the
+%   partition names and limits on Setonix before quoting them.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Resource classes for the Setonix campaigns.}
+    \label{tab:resource-classes}
+    \small
+    \begin{tabular}{@{}l p{0.42\linewidth} p{0.4\linewidth}@{}}
+        \toprule
+        Class & Request & Typical runs \\
+        \midrule
+        S  & \prov{\texttt{work}, 1 CPU, 4 GB, 30 min} & construction, IR checks, small exact verification \\
+        M  & \prov{\texttt{work}, 16 CPUs, 64 GB, 4 h} & exact verification to 20 qubits; mid-size exact emulation \\
+        L  & \prov{\texttt{work}, 64--128 CPUs, $\sim$230 GB, 12--24 h} & circuit-simulation ceilings; large emulation; probes to 30 qubits \\
+        XL & \prov{\texttt{highmem}, 1 TB} & the largest emulation and probe runs \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Tests}
+\label{app:software-tests}
+
+\begin{table}[htbp]
+    \centering
+    \caption{The test tiers of the \texttt{pihm} package.}
+    \label{tab:test-tiers}
+    \small
+    \begin{tabular}{@{}l p{0.48\linewidth} p{0.26\linewidth}@{}}
+        \toprule
+        Tier & Content & Run \\
+        \midrule
+        Unit and property & operator identities over random $n$ and $x$; primitives; arithmetic; IR; filters; phases & every commit \\
+        Golden & fixtures from the frozen legacy code and the paper's printed $n = 2$ matrices & every commit \\
+        Reproduction & the paper's targets, both variants & every commit \\
+        Integration & every problem, both forms, smallest $n$, all stages & every commit \\
+        Documentation & Sphinx build, doctests, spelling & every commit \\
+        Claims & one test per claim; writes the claims report & at gates \\
+        Slow & larger-$n$ verification; circuit-simulation ceilings & at gates, on Setonix \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Regenerating the results}
+\label{app:software-regenerate}
+% LAND: the commands that rebuild every figure and every generated number from
+%   tag results-v1 (ThesisPlanning.md §10.2-10.3): the campaigns, `pihm collect`,
+%   the notebooks 10-50, the thesis exporter writing generated/numbers.tex and
+%   Figs/generated/.
+
+\subsection{Environment}
+\label{app:software-environment}
+% LAND: Python 3.11; numpy, scipy, qiskit 2.1.x, qiskit-aer (pinned, full
+%   closure in requirements.txt); a conda environment on the laptop and a venv
+%   on Setonix with the same packages (decision D-014). Cite qiskit2024 and
+%   Qiskit Aer (CITE-NEEDED).

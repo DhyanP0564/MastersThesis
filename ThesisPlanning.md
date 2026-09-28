@@ -2,10 +2,13 @@
 
 ## Turning the `pihm` rebuild into a submittable (and publishable) Master's thesis
 
-*Version 1, 2026-09-25. A plan for review. Nothing in the thesis has been changed to match it
-yet. On adoption it supersedes parts of `CLAUDE.md` (the Standing Facts) and of
-`thesis_guides/STRUCTURE_AND_RUBRIC.md` (the section tree, page budget and appendix map). §2 lists
-every change. `thesis_guides/STYLE_GUIDE.md` stays in force except where §2.3 notes an update.*
+*Version 1.1, 2026-09-25. **Adopted.** Version 1 was a plan for review; the same day you
+accepted every recommendation (T-05 to T-15, §1.2), and wave W0 was carried out: the working
+state was committed as snapshot `2cd640c`, §2's changes were applied to `CLAUDE.md` and
+`thesis_guides/`, and the LaTeX was scaffolded to §4.2 (conventions in §4.3). Decisions T-16 to
+T-19 arose while scaffolding. The plan supersedes parts of `CLAUDE.md` (the Standing Facts) and
+of `thesis_guides/STRUCTURE_AND_RUBRIC.md` (the section tree, page budget and appendix map);
+`thesis_guides/STYLE_GUIDE.md` stays in force except where §2.3 notes an update.*
 
 **Premise.** Everything in `Code/Planning.md` (version 2, amended through decision 20) is built and
 pans out: gates G0–G6 pass, tag `results-v1` exists, and the claims register (Planning §8) resolves
@@ -105,18 +108,18 @@ numbers frozen to `results-v1`, **R** = reviewed (Review Mode, `CLAUDE.md`), **F
 
 | chapter / item | S | D | N | R | F | notes |
 |---|---|---|---|---|---|---|
-| Front matter (title, declaration, achievement, abstract) | ☐ | ☐ | ☐ | ☐ | ☐ | §13 |
-| 1 Introduction | ☐ | ☐ | ☐ | ☐ | ☐ | |
-| 2 Background and Literature Review | ☐ | ☐ | n/a | ☐ | ☐ | partly drafted (QC preliminaries) |
-| 3 PIHM (prior art) | ☐ | ☐ | ☐ | ☐ | ☐ | existing draft needs rework (§2.4) |
-| 4 Pipeline | ☐ | ☐ | ☐ | ☐ | ☐ | new chapter |
-| 5 Standard form, exact | ☐ | ☐ | ☐ | ☐ | ☐ | new chapter |
-| 6 Descriptor | ☐ | ☐ | ☐ | ☐ | ☐ | existing draft partly reusable |
-| 7 Nonlinearity | ☐ | ☐ | ☐ | ☐ | ☐ | |
-| 8 Numerical Study | ☐ | ☐ | ☐ | ☐ | ☐ | |
-| 9 Discussion | ☐ | ☐ | ☐ | ☐ | ☐ | |
-| 10 Conclusions | ☐ | ☐ | ☐ | ☐ | ☐ | |
-| Appendices A–M | ☐ | ☐ | ☐ | ☐ | ☐ | §6 |
+| Front matter (title, declaration, achievement, abstract) | ☑ | ☐ | ☐ | ☐ | ☐ | §13; notation table and glossary built |
+| 1 Introduction | ☑ | ☐ | ☐ | ☐ | ☐ | |
+| 2 Background and Literature Review | ☑ | ☐ | n/a | ☐ | ☐ | §2.1 drafted (QC preliminaries), to compress |
+| 3 PIHM (prior art) | ☑ | ☐ | ☐ | ☐ | ☐ | prior-art paragraphs kept, with REVISE flags |
+| 4 Pipeline | ☑ | ☐ | ☐ | ☐ | ☐ | new chapter |
+| 5 Standard form, exact | ☑ | ☐ | ☐ | ☐ | ☐ | new chapter |
+| 6 Descriptor | ☑ | ☐ | ☐ | ☐ | ☐ | construction prose kept (§6.2–6.3) |
+| 7 Nonlinearity | ☑ | ☐ | ☐ | ☐ | ☐ | |
+| 8 Numerical Study | ☑ | ☐ | ☐ | ☐ | ☐ | T6, T7 filled with `\prov` values |
+| 9 Discussion | ☑ | ☐ | ☐ | ☐ | ☐ | |
+| 10 Conclusions | ☑ | ☐ | ☐ | ☐ | ☐ | |
+| Appendices A–M | ☑ | ☐ | ☐ | ☐ | ☐ | §6; B drafted, C and D partly; K tables `\prov` |
 | Verification Mode pass | | | | ☐ | | §14 |
 
 ---
@@ -132,9 +135,11 @@ numbers frozen to `results-v1`, **R** = reviewed (Review Mode, `CLAUDE.md`), **F
 | T-03 | schedule | **no dates**; order the writing by dependency only | §11 |
 | T-04 | publication | **thesis first**; mark paper-shaped material only where it falls out naturally | §3.4 is a light note, not a plan |
 
-### 1.2 Proposed (confirm or change before adoption)
+### 1.2 Decided 2026-09-25 (your acceptance of every recommendation)
 
-| # | proposal | recommendation | why |
+T-14's recommendation was "keep the working title until wave W6, then choose from §13.1".
+
+| # | question | decision | why |
 |---|---|---|---|
 | T-05 | chapter structure | **ten chapters**, with a separate *pipeline* chapter (4) and a *standard-form exact* chapter (5) ahead of the descriptor (6) | Planning makes the comparison "of Hamiltonians, not of encoders" (§0.2). The structure should show that: a shared pipeline, then two residuals plugged into it |
 | T-06 | notation style for operators | **blackboard bold**, matching the paper and `pihm`'s Sphinx macros: 𝔾, B̃ as $\tilde{\mathbb B}$, D̃ as $\tilde{\mathbb D}$, 𝕄, 𝕟₁ | readers cross-check against Wu et al. The current thesis uses italic G, B̃, D̃; changing is mechanical |
@@ -146,7 +151,16 @@ numbers frozen to `results-v1`, **R** = reviewed (Review Mode, `CLAUDE.md`), **F
 | T-12 | readout's status | **reproduction of prior art with a correction**: the paper's protocol, run on the circuit engine with shots at small n; the probabilistic-preparation identity is ours (Journal E024) | it is now built and measured, so "never implemented" would be false. It is still not hardware, and not a new protocol |
 | T-13 | Chapter 3's register | **prior art, judged**, as in the current guide. All of *our* measurements of the paper live in Chapter 8 (§8.2) and in Chapters 4–5, never in Chapter 3's descriptive sections | keeps Trap 13 (authorship blur) closed |
 | T-14 | title | keep the working title, or retitle to foreground the contribution (options in §13.1) | the current title names neither the descriptor nor the reproduction |
-| T-15 | code→thesis numbers | **generated LaTeX macros** from `results-v1` (§10.2), with provisional values marked `\prov{}` until then | one source of truth. Planning's freeze rule then covers the thesis too |
+| T-15 | code→thesis numbers | **generated LaTeX macros** from `results-v1` (§10.2), with provisional values marked `\prov{}` until then. *Amended 2026-09-27:* built early as keyed lookups, `\res{<run>}{<metric>}`, exported whenever results change; a missing number renders its reason | one source of truth. Planning's freeze rule then covers the thesis too |
+
+### 1.3 Decided while scaffolding (2026-09-25)
+
+| # | question | decision | why |
+|---|---|---|---|
+| T-16 | the convention for 𝔾 | **𝔾 is the coefficient-space map f ↦ f′** (strictly upper triangular), as in Planning, `pihm` and the draft's own entry formula; the paper prints the same matrix as 𝔾ₙᵀ, said once in §3.3. The draft's Chapter 3 applied `G^\top` to ψ while defining G by upper-triangular entries, an internal inconsistency; the transposes were dropped, and Appendix C's worked example was transposed to match (checked against `pihm`) | one convention, matching the code |
+| T-17 | how scaffold guidance appears | **LaTeX comments only** (your answer); placeholder figures, tables and equations render; provisional numbers render red via `\prov` | the PDF shows structure, not notes |
+| T-18 | appendix files | **one file per appendix** under `3_footer/appendices/`, indexed by `appendices.tex`; the research proposal PDF copied to `3_footer/research_proposal.pdf` and included with `pdfpages` | mirrors the per-chapter body files |
+| T-19 | further notation collisions found | the raw (unnormalised) Chebyshev basis takes the subscript **raw** (std now means the standard form); the block-rescaling constant is **ζ** (Planning's λ collides with eigenvalues); the published ladder's per-bit coefficient is **μ** (the draft's β collides with imaginary time); the condition number is written **cond(·)**, since κ is κ_read; the doubled-space Hamiltonian is **H_⊗**. Change any of these by editing one macro or line | each symbol means one thing |
 
 ---
 
@@ -154,7 +168,10 @@ numbers frozen to `results-v1`, **R** = reviewed (Review Mode, `CLAUDE.md`), **F
 
 The current `CLAUDE.md` and `thesis_guides/` were written against the legacy repository. Planning.md
 §2.3 found that pipeline's results uncitable (V-01 to V-12), and §8.2 marks several of its claims ❌.
-On adoption, the following changes are made in those files. None is made now.
+On adoption, the following changes are made in those files. **Applied 2026-09-25**: `CLAUDE.md`
+now carries Standing Facts v2; `STRUCTURE_AND_RUBRIC.md` carries "superseded by" banners at
+each replaced section and records the Modelling decision; `STYLE_GUIDE.md` has the §2.3 edits
+and a banner on its remaining pre-rebuild numbers.
 
 ### 2.1 `CLAUDE.md` Standing Facts: proposed version 2
 
@@ -221,6 +238,34 @@ estimated", "paper-faithful vs corrected variant". **Also add to the symbol list
 | `1_header/2_acknowledgments.tex` | "Jingbo **Want**" | n/a | → "Wang" |
 | `1_header/6_notation.tex` | small table | structure | rebuild per §8 |
 | `main.tex` | `\nocite{*}`, stray `\todo` | n/a | remove both before submission; add chapters per §4.2 |
+
+**Done in the W0 pass (2026-09-25).** Every "keep" above was kept, converted to the §8 macros
+and T-16's convention; every "remove" is preserved in snapshot `2cd640c`, not deleted from
+history. Kept prose that states a retired or wrong claim carries a `% REVISE:` comment beside it.
+Findings flagged there, for you to fix while writing:
+
+- **Appendix C, `M_{x^1}` is a factor √2 too small.** `pihm`, whose lifts reproduce the paper's
+  printed SM §A entry by entry, gives `[[0,1],[1,0],[0,1/√2],[0,0]]`; `M_{x^2}` agrees.
+- **Appendix C, worked example.** It is now upper triangular (T-16). Its sentences "triangular
+  only because…" and "three orders of magnitude" are wrong: every polynomial in 𝔾 is upper
+  triangular, and the largest off-diagonal entry (30) is about one order below 400.
+- **Chapter 3, doubled space.** Ψ = ψ ⊗ ψ lives in an N²-dimensional space, not 2N.
+- **Chapter 3, constant coefficients.** Under the lift a constant enters as a_j 𝕄₁ (2N × N), not
+  a_j I.
+- **Chapter 3, regular constraints.** `Only one such regular constraint…` should be reconciled
+  with the source row 𝔻⁽⁰⁾(x_s) (eq. `eq:pihm-A-source`).
+- **Chapter 7 (moved from the draft's §4).** Its last clause says "descriptor Hamiltonian" where
+  it means the doubled-space one.
+- **Appendix G, variable coefficients.** It describes the legacy monomial route; the rebuild uses
+  the square Galerkin form (D-005).
+- **Appendix D departs from the map above.** The ladder mechanism, the proposition and its proof
+  were **kept**, because `pihm`'s `derivative_ladder_error_bound` states the same bound for the
+  Fig. 9 build (the map's "re-derive only if one holds" condition is met). Its legacy resource
+  paragraph and ε_G column were dropped; ‖𝔾‖_S was recomputed and matches.
+- **`ref.bib` `note` fields print in the IEEE bibliography** (e.g. "SWITCH-test readout protocol
+  specialised in readout.py"): internal repo notes are visible, and four of them overflow the
+  margin. Either strip them or add `\AtEveryBibitem{\clearfield{note}}` (§14.2).
+- `pihm`'s `nlfft2025su2` entry has no authors, so the inverse-NLFT citation is still CITE-NEEDED.
 
 ---
 
@@ -447,6 +492,42 @@ case to Appendix J), then §3.4, then §4.8. Chapter 6 is cut last.
   \subsection{Conclusions}
   \subsection{Future Work}
 ```
+
+### 4.3 Scaffold conventions (as built)
+
+**Files.** `main.tex` holds each chapter's `\section` and label (`sec:intro`, `sec:background`,
+`sec:pihm`, `sec:pipeline`, `sec:standard`, `sec:descriptor`, `sec:nonlinear`, `sec:results`,
+`sec:discussion`, `sec:conclusions`) and inputs `2_body/1_introduction.tex` …
+`2_body/10_conclusions.tex`. `3_footer/appendices.tex` does the same for
+`3_footer/appendices/A_gates.tex` … `M_proposal.tex`. Every subsection has a label.
+
+**Comment tags.** Each file opens with a header and each subsection with a block, using:
+
+| tag | meaning |
+|---|---|
+| PURPOSE, CRITERION, SOURCES, WRITE WHEN | the chapter's job, the rubric wording, where the material comes from, the wave (§11) |
+| LAND | the claims to write, in order, with the page share |
+| FIG, TAB | the placeholders that belong to the section (§7) |
+| OFFLOAD | what goes to an appendix, with the pointer sentence |
+| CHECKLIST, TRAPS | the marker checklist and the failure modes |
+| REVISE | kept prose that states a retired or wrong claim: fix before the section is "D" |
+| CITE-NEEDED | a citation not yet in `ref.bib`: add a real entry, never a guessed one |
+
+**Macros** (`1_header/0_packages.tex`): `\G`, `\Bt`, `\Dt` (names shared with `pihm`'s Sphinx
+configuration), `\M`, `\nfold` (𝕟, via `bbm`), `\Brow`, `\Dzero`, `\Ucg`, `\Uodd`, `\Astd`,
+`\Adesc`, `\Hstd`, `\Hdesc`, `\fhat{j}`; `\prov{…}` for numbers `pihm` does not produce yet.
+`pihm`'s numbers are quoted with `\res` from `0_results/results.tex` (§10.2).
+
+**Placeholders.** Figures use the existing `\placeholderfigure[height]{caption}{label}{spec}`,
+with the figure's specification inside the box. Tables carry their final columns, with `\prov`
+values from `pihm`'s reports where they exist (T6, T7, and the tables of Appendices D, E, I and
+K) and `\prov{--}` elsewhere. Propositions and theorems hold their mathematical statement, with the
+prose to write in a `% STATE:` comment; proofs are appendix subsections with `LAND` comments,
+never empty `proof` environments.
+
+**Build check.** The scaffold compiles with no errors and no undefined references or citations
+(68 pages including the 10-page proposal); its 17 overfull boxes are all in the pre-existing
+draft or the bibliography notes.
 
 ---
 
@@ -726,6 +807,11 @@ experiment**", so the experiment design belongs here in the body.
    - A priori β = (α_R²/2Δ) ln(1/ε_f), and d ≈ √(2β ln(2/ε_t)), hence
      d = Θ(√(α_H/Δ) log 1/ε).
    - Minimax is reported alongside.
+   - **State what the a priori rule delivers**, as properties, not defects (Planning §3.8, D-072):
+     it holds the *suppression* of the excited spectrum to ε, so the infidelity is at most
+     ε²(1 − γ²)/γ² and the degree is higher than ε needs; and its tail ε/10 is absolute, so it
+     certifies nothing once the ground state sits about a gap above the spectrum's edge
+     (λ₀/Δ ≳ 0.8). Every run measures its own infidelity, so neither hides a miss.
    - Initial states: the geometric product state, n R_Y rotations, r = ±½ chosen by *measured*
      success probability, with γ reported.
    - Success probability and amplitude amplification (π/(4γ)).
@@ -1084,8 +1170,14 @@ or warranting publication." Every figure is interpreted in prose.
    - γ for the geometric, uniform and random initial states.
    - The Δ-underestimate sensitivity (×2, ×10).
    - **The paper's time rule against the a priori β** (A-11 verdict).
-   - **Readout:** T1 with shots for R1, R2a and R5; field error against shots, following
-     O(1/√shots); the probabilistic-preparation correction shown as a before/after number.
+   - **The filter at like error** (claim B-17; `pihm/docs/FILTERS.md`, D-072): QITE against the
+     minimax edge filter at equal suppression (1.67–1.92× fewer degrees for minimax, any gap),
+     at equal certified infidelity, and at equal measured infidelity on the ladder's own states
+     (0.77–2.99× at ε = 1e-4, where QITE can need fewer; 1.34–2.53× at 1e-8). The descriptor's
+     comparison joins it if P5 reaches it (Planning decision 29); one table and two sentences.
+   - **Readout, classically** (Planning decision 27): the decoded field and η_e from the regular
+     datum. The paper's interferometric protocol is built and verified for R1, R2a and R5a
+     (T1 = T2), which is one sentence here; the protocol itself is future work (§10.2).
    - A **figure:** decoded field against the analytic solution with the error budget terms broken
      out (§4.7).
 5. **§8.5 Scaling: where the cost lies (1.5 p). THE HEADLINE FIGURE.**
@@ -1148,7 +1240,8 @@ work", the band-4 separator.
    - The corrected complexity argument in your own voice: d = Θ(√(α_H/Δ) log 1/ε), and α_H ≥ ‖H‖
      for *any* block encoding of this H.
    - So for this *filter family* the standard form cannot go below Θ̃(N⁴) and the descriptor
-     reaches Θ̃(N).
+     reaches Θ̃(N). The minimax filter changes the constant (at most about 2× at equal
+     suppression, §8.4), not the Θ.
    - Total gates Θ̃(N poly n) against Θ̃(N⁴ poly n).
    - Neither is poly-log. Say it first, yourself.
    - Hedge the "for any filter" generalisation to what Lin & Tong's lower bounds actually support
@@ -1193,7 +1286,10 @@ drawn for the field?
    3. gap estimation on-circuit, removing the Δ-known assumption;
    4. complex-valued and non-Hermitian equations (NLS, Ginzburg–Landau), returning to the research
       proposal's aim, which GQSP already permits;
-   5. data-informed constraint rows, the proposal's second aim.
+   5. data-informed constraint rows, the proposal's second aim;
+   6. (candidate) the paper's interferometric readout at scale, with shot-count studies: built and
+      verified for R1, R2a and R5a, then scoped out (Planning decision 27). Choose four or five of
+      these six at drafting.
 
 No new results and no new citations in this chapter.
 
@@ -1303,6 +1399,12 @@ tier. Figure captions go below and table captions above.
 | P (padded dimension) | P(z) GQSP polynomial | **dim w**, or D_w |
 | bare A, H | both forms | subscripts (T-07) |
 | G, B̃, D̃ (italic, current thesis) | 𝔾 etc. in the paper and `pihm` | blackboard bold (T-06) |
+| G^⊤ applied to ψ (draft Ch. 3) | the draft's own upper-triangular G | 𝔾, no transpose (T-16) |
+| B̃_std, D̃_std (draft App. B, unnormalised basis) | std = standard form | B̃_raw, D̃_raw (T-19) |
+| λ (block rescaling, Planning §3.4) | eigenvalues λ₀, λ₁ | ζ (T-19) |
+| β (ladder coefficient, draft App. D) | β imaginary time | μ (T-19) |
+| κ (condition number) | κ_read | cond(·) (T-19) |
+| α, β (qubit amplitudes, draft §2.1) | subnormalisation; imaginary time | rename when compressing §2.1 (a REVISE comment marks it) |
 
 ---
 
@@ -1376,12 +1478,29 @@ only (described, not claimed); **X** = do not state (retired).
 
 ### 10.2 Numbers (T-15)
 
-- A small exporter, to be written at P8/P9 (for example `pihm/tools/thesis/export_numbers.py`),
-  reads `summary.csv` at `results-v1`. It writes `thesis/Latex/generated/numbers.tex`, with one
-  macro per quoted number (e.g. `\newcommand{\etaThreeB}{1.29009}`,
-  `\newcommand{\degStdEight}{1.2\times10^{10}}`). Each macro carries a comment with its record hash.
-- **Until then**, type numbers inline wrapped in `\prov{…}`, a macro that renders coloured. The
-  pre-submission check fails if any `\prov` remains (§14).
+*Amended 2026-09-27: the exporter was built early, and it quotes by key instead of one hand-named
+macro per number (LaTeX macro names cannot hold digits). How to use it: `0_results/README.md`.*
+
+- **The exporter** is `pihm/tools/thesis/export_numbers.py` (pihm decision D-062). It is run
+  whenever results change, not only at `results-v1`. It writes `0_results/generated/numbers.tex`,
+  which holds every value of every run the campaigns expect, keyed like the record directories
+  (`stateprep/R2a/corrected/standard/n3/T2`). Statistics over n and quantities computed without a
+  campaign come from `tools/thesis/derived.py`. Each value carries a comment with its record hash
+  and commit.
+- **The thesis quotes by key**: `\res{<run>}{<metric>}`, `\res[2,sci]{…}{…}` for the format, and
+  `\resflag{<run>}{<flag>}{<true>}{<false>}` (for example the untrusted dagger). The reader is
+  `0_results/results.tex`, which `main.tex` inputs. It documents the key scheme, the formats and
+  the placeholders.
+- **A missing number says why.** It renders as a box reading pending, infeasible, failed, stale,
+  no value or unknown, and it raises a log warning. The exporter prints the same list with
+  file and line. *Infeasible* is a legitimate final result ("beyond the simulation budget";
+  `\resinfeasiblemark` in the final text); the rest are draft-only.
+- **Provisional until the freeze.** Values exported before `results-v1` render tinted. `--final`
+  (at the tag, from a clean tree) writes untinted values, and it refuses while any quoted number
+  is not from the tag or not final. A final build turns every draft-only placeholder into an
+  error.
+- `\prov{…}` remains only for a number `pihm` does not produce yet. The pre-submission check fails
+  if any `\prov` remains (§14).
 - Tolerances are quoted as the acceptance thresholds (Planning §7.8) *and* the achieved value.
 
 ### 10.3 Figures
@@ -1427,7 +1546,7 @@ alongside the code phases. Current position: **G1 passed; G2 passed for R1–R2;
 
 | wave | unlocked by | write | notes |
 |---|---|---|---|
-| **W0** | adoption of this plan | update `CLAUDE.md` and the guides per §2; rename files per §4.2; notation pass (T-06 to T-09); fix "Want"; add the `\prov` macro | mechanical; one sitting |
+| **W0** ✅ | adoption of this plan | update `CLAUDE.md` and the guides per §2; rename files per §4.2; notation pass (T-06 to T-09); fix "Want"; add the `\prov` macro | **done 2026-09-25** (after snapshot `2cd640c`; the scaffold itself is uncommitted) |
 | **W1** | now | Ch. 2 (all); Ch. 3 (all); Ch. 5 §5.1–5.3; Ch. 4 §4.1–4.5 and §4.7–4.8 as formulation; App A, B, C, E, F (identities) | these rest on built, verified code (P1–P3, P4 T1–T3) |
 | **W2** | G3 (standard form R1–R6 through both pillars, readout) | §4.6; §5.4; §8.2; the standard-form half of §8.3–8.4; App D, K | the reproduction chapter's numbers freeze here |
 | **W3** | G4 (descriptor R1–R6) | Ch. 6 in full (the maths can be drafted during W1 from Planning §3.4, with numbers as `\prov`); §8.3–8.6; App G, I, J (linear part) | the core |
@@ -1469,7 +1588,8 @@ and W6 (the full draft).
 - **Option B:** *Physics-Informed Hamiltonians for Quantum Differential-Equation Solvers:
   Reproduction, Exact Encoding and a Descriptor Reformulation.*
 
-Also update the dates on the title and declaration pages (currently 9 September 2026).
+The title page and both declaration dates use `\today`: set them to the submission date before
+submitting.
 
 ### 13.2 Abstract (≈ 250–300 words; five moves, each with a number)
 
@@ -1530,7 +1650,10 @@ discussion. Figures F1, F9 and the three-row table T7 carry the talk.
 
 ### 14.2 Style and presentation (/10: "flawless")
 
-1. `\nocite{*}` removed; zero `\todo`; zero `\prov`.
+1. `\nocite{*}` removed; zero `\todo`, `\prov`, `\placeholderfigure`, and zero `REVISE` or
+   `CITE-NEEDED` comments (`grep -rn` over `1_header 2_body 3_footer`); the bibliography's
+   `note` fields stripped or suppressed (`\AtEveryBibitem{\clearfield{note}}`).
+   `export_numbers.py --final` succeeds, and the final build has no `pihm` errors (§10.2).
 2. Compile clean: no warnings, and no overfull `\hbox` in the body.
 3. Every float is referenced by `\Cref`; figure captions below and table captions above; every
    caption stands alone.

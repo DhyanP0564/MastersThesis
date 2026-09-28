@@ -1,0 +1,75 @@
+% =============================================================================
+% Appendix F  The Shared Pipeline: Identities and Formulas
+% Cited from sec:pipeline-walk, sec:pipeline-qite, sec:pipeline-readout.
+% Plan: ThesisPlanning.md §6 (F); supporting contribution S3 (claims C-03,
+% C-04, C-08).
+%
+% CONTENT  Proofs of prop:stacked-reflection and prop:filter-normalisation;
+%          qubitisation (Pi W^k Pi = T_k(H')); controlled-V from a controlled
+%          reflection; the filter coefficients; the beta and d formulas; the
+%          success probability; the readout identity for p_G < 1.
+% SOURCES  Planning.md §3.7 (composition), §3.8, §7.3, §7.6, App. A-7;
+%          Journal E023-E024; pihm/src/pihm/circuits/compose.py, gqsp.py,
+%          qsp/filters.py, qsp/readout.py.
+% =============================================================================
+
+\subsection{Proof of \texorpdfstring{\Cref{prop:stacked-reflection}}{the stacked-residual reflection}}
+\label{app:proof-stacked-reflection}
+% LAND: V is a Hermitian unitary because it is a unitary conjugation of a
+%   reflection; Pi_in V Pi_in = 2 Pi_in U_R^dagger Pi_{a=0} U_R Pi_in - Pi_in, and
+%   Pi_in U_R^dagger Pi_{a=0} U_R Pi_in = sum_j R_j^dagger R_j / alpha_R^2 =
+%   H / alpha_R^2 by eq:stacked-encoding (the row-select register is left free
+%   by Pi_{a=0}). Controlled-V: C(V) = U_R^dagger C(2 Pi - I) U_R, since
+%   U_R^dagger U_R = I when the control is off. Numerically: A-7 (1.0e-15).
+
+\subsection{Qubitisation: Chebyshev polynomials of the walk}
+\label{app:qubitisation}
+% LAND: W acts on each two-dimensional invariant subspace as a rotation by
+%   theta = arccos(lambda'), lambda' = 2 lambda / alpha_R^2 - 1; hence
+%   Pi_in W^k Pi_in = T_k(H') (eq:walk; lowchuang2019qubitization).
+%   CAUTION (lesson L-18): this is ONE matrix power followed by ONE restriction.
+%   Iterating "apply W, then project" disagrees outright: the intermediate
+%   (ancilla non-zero) branches carry information the final restriction still
+%   depends on. Numerically: A-7 (7.7e-15 for k < 12).
+
+\subsection{The controlled walk}
+\label{app:controlled-walk}
+% LAND: only the two reflections are controlled; U_R and U_R^dagger are not.
+%   Why this matters for simulation (lesson L-21): the statevector evolves one
+%   controlled walk at a time, memory 16 * 2^q bytes, never a dense operator
+%   (4^q). The T1 engine is Qiskit Aer (qiskit2024).
+
+\subsection{The imaginary-time filter}
+\label{app:proof-filter-normalisation}
+% LAND: the proof of prop:filter-normalisation from the Chebyshev expansion
+%   below (the modified-Bessel generating function; abramowitz1964handbook):
+%   evaluating at x = -1 gives e^{beta} = I_0 + 2 sum_k I_k(beta), so
+%   sum |q_k| = e^{-beta} e^{beta} = 1. Then the truncation degree d and the
+%   parameter formulas eq:qite-parameters (the known-gap assumption,
+%   lintong2020groundstate), and the success probability p_G -> gamma^2 with
+%   amplitude amplification at pi / (4 gamma).
+% L-07: scipy's ive returns NaN for large arguments; the coefficients are
+%   computed stably (a correctness condition only if the text quotes beta ~ 1e9).
+
+\begin{equation}
+    e^{-\beta x} = I_0(\beta) + 2\sum_{k=1}^{\infty} (-1)^k I_k(\beta)\,T_k(x) .
+    \label{eq:bessel-expansion}
+\end{equation}
+
+\subsection{GQSP phases}
+\label{app:gqsp-phases}
+% LAND: the circuit R_0 prod_k [C_0 W R_k] (motlagh2024gqsp); the Weiss
+%   complement (berntson2025complementary) and the inverse NLFT
+%   (laneve2025gqspnlft; CITE-NEEDED arXiv:2505.12615); the realised polynomial
+%   against the target on a 4d-point unit-circle grid (<= 1e-12).
+
+\subsection{The readout identity for probabilistic preparation}
+\label{app:readout-identity}
+% LAND: the all-zero amplitude after U_tau^dagger(x) is <u(x)|v>, with
+%   u(x) = tau(x)/sqrt2 the feature map's leading column and u_0 = 1/sqrt(2N);
+%   v = sqrt(p_G) psi for the prepared state G and (e_0 + g)/2 for the combined
+%   state C. Squaring and subtracting gives eq:readout-identity exactly for any
+%   p_G; the paper's Eq. 36 is its p_G = 1 case. Then eq:readout-field.
+%   Controlled global phase (lesson L-22): controlled, a circuit's global phase
+%   is a relative phase and must become a phase gate on the control; lost, it
+%   scales the overlap by cos(lambda).

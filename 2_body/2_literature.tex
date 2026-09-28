@@ -1,19 +1,43 @@
 % =============================================================================
-% §2 Background and Literature Review  --  budget ~13 pp (less whatever moves
-% to §3 -- see budget note there)
-% rubric: Introduction & Literature Review /20
+% Chapter 2  Background and Literature Review  --  ~7.5 pp  --  rubric:
+% Introduction & Literature Review /20.   Plan: ThesisPlanning.md §5.2.
 %
-% The physics-informed effective Hamiltonian framework of Wu et al. and its
-% published collocation encoding now have their own chapter (§3), on the same
-% footing as the general background covered here. This chapter carries only
-% the shared preliminaries every method depends on: quantum computation
-% basics, DE-solving routes, classical spectral methods, block encoding/LCU/
-% qubitisation, QSP/imaginary-time filtering, and readout.
+% PURPOSE     Command of the state of the art, JUDGED -- only the prior art that
+%             Chapters 3-7 build on.
+% CRITERION   "A critical assessment of the strengths and weaknesses of the
+%             material reviewed is required for a high distinction." Every family
+%             gets a failure-mode sentence.
+% SOURCES     ref.bib; Planning.md §3.7-3.8 for which primitives are needed later.
+% WRITE WHEN  Now (wave W1).
+%
+% CITE-NEEDED (not yet in ref.bib; add real entries before citing):
+%   Harrow, Hassidim & Lloyd 2009 (HHL); Berry et al. 2017; Childs & Liu 2020
+%   (spectral methods); An, Liu & Lin (linear combination of Hamiltonian
+%   simulation, LCHS); Jin, Liu & Yu (Schroedingerisation); Liu et al. 2021 PNAS
+%   (Carleman); Krovi 2023; Qiskit Aer; the inverse NLFT paper pihm's
+%   qsp/nlft.py follows (arXiv:2505.12615 -- pihm's references.bib holds it as
+%   nlfft2025su2 with no authors).
+% Already in ref.bib: nielsenchuang2010, Lin2022Lecture, berry2014exponential,
+%   kyriienko2020inverse, lowchuang2019qubitization, childs2012lcu,
+%   chakraborty2025qsvt, sunderhauf2024blockencoding, camps2024explicit,
+%   gilyen2019qsvt, martyn2021grand, motlagh2024gqsp, laneve2025gqspnlft,
+%   berntson2025complementary, lintong2020groundstate, trefethen2000spectral,
+%   trefethen2013approximation, olver2013, boyd2001chebyshev, canuto2006spectral,
+%   williams2024readout, brassard2000amplitude, suzuki2020amplitude,
+%   grinko2021iterative, nishi2025overlap, klappenecker2001dct, cuccaro2004adder.
 % =============================================================================
 
 \subsection{Quantum Computation Preliminaries}
-% BUDGET: <= 2 pp.  Compress the definitions below into flowing prose and keep
-% numbered environments only for objects re-invoked later.  Gate table -> Appendix A.
+\label{sec:bg-qc}
+% <= 2 pp, HARD CAP.
+% LAND: prose citing Nielsen & Chuang (nielsenchuang2010). Keep numbered
+%   definitions ONLY for objects re-invoked later: block encoding ((alpha, m,
+%   epsilon), since alpha is used throughout -- it lives in
+%   sec:bg-block-encoding) and the state space if it is referenced again.
+%   Compress the definitions below into flowing prose. Queries versus gates; the
+%   fault-tolerant frame. NISQ gets one paragraph, because the feasibility
+%   argument (sec:disc-feasibility) is fault-tolerant. The gate table is
+%   Appendix A (app:gates).
 
 In classical computing, the fundamental unit of information is the bit, which can take one of two values: 0 or 1.
 
@@ -24,13 +48,13 @@ The fundamental unit of information in quantum computing is the qubit, which can
 \begin{definition}[State Space]
     The set of all quantum states that a quantum system can occupy is a complex vector space with inner product structure known as a Hilbert space (denoted $\mathcal{H}$). A finite dimensional Hilbert space is isomorphic to $\mathbb{C}^N$ ($\mathcal{H} \cong \mathbb{C}^N$) for some $N \in \mathbb{N}$, where $N$ is the dimension of the Hilbert space. A quantum state is a unit vector in this Hilbert space, represented in dirac notation as $\ket{\psi} \in \mathcal{H}$, with $\braket{\psi|\psi} = 1$ (normalisation condition). A quantum state $\ket{\psi}$ can be expressed as a linear combination of basis states $\{\ket{i}\}_{i=0}^{N-1}$, where $\ket{i}$ is the $i^{th}$ basis state of the Hilbert space.
     \begin{equation}
-        \ket{\psi} = \sum_{i=0}^{N-1} \psi_i \ket{i} = 
+        \ket{\psi} = \sum_{i=0}^{N-1} \psi_i \ket{i} =
         \begin{pmatrix}
             \psi_0 \\
             \psi_1 \\
             \vdots \\
             \psi_{N-1}
-        \end{pmatrix}`'
+        \end{pmatrix}
     \end{equation}
     Its hermitian conjugate (or adjoint) is denoted as $\bra{\psi} = \ket{\psi}^{\dagger}$. Note that for some $e^{i \theta}$ for $\theta \in [0, 2\pi)$, the states $\ket{\psi}$ and $e^{\imath \theta}\ket{\psi}$ are physically indistinguishable, and thus correspond to the same physical quantum state. This is known as a global phase factor.
 \end{definition}
@@ -38,7 +62,7 @@ The fundamental unit of information in quantum computing is the qubit, which can
 \begin{definition}[The Qubit]
     A quantum bit (qubit) is a two-state quantum system, characterised by $\ket{\psi} \in \mathbb{C}^2$.
     \begin{equation}
-        \ket{\psi} = \alpha \ket{0} + \beta \ket{1} = 
+        \ket{\psi} = \alpha \ket{0} + \beta \ket{1} =
         \begin{pmatrix}
             \alpha \\
             \beta
@@ -47,6 +71,9 @@ The fundamental unit of information in quantum computing is the qubit, which can
 
     where $\alpha, \beta \in \mathbb{C}$, $\ket{0}$ and $\ket{1}$ are the computational basis states, and $|\alpha|^2, |\beta|^2$ are the probabilities of measuring the qubit in the $\ket{0}$ and $\ket{1}$ states, respectively. The normalisation condition requires that $|\alpha|^2 + |\beta|^2 = 1$.
 \end{definition}
+% REVISE: alpha and beta here collide with the thesis's alpha (subnormalisation)
+%   and beta (imaginary time, T-08); rename the amplitudes (e.g. a, b) when
+%   compressing this section.
 
 \begin{definition}[Composite Systems]
     The state space of a composite quantum system is the tensor product of the state spaces of its subsystems. Consider two quantum states $\ket{\psi}_A \in \mathcal{H}_A$ and $\ket{\psi}_B \in \mathcal{H}_B$, the composite state $\ket{\psi}_{AB}$ is given by:
@@ -62,7 +89,7 @@ The fundamental unit of information in quantum computing is the qubit, which can
 
 \begin{definition}[Quantum Algorithm]
     A quantum algorithm is a sequence of operations that manipulates qubits to perform a specific computation.
-    
+
     The goal of any quantum algorithm is to manipulate quantum states in a controlled manner to achieve a desired outcome. This is accomplished through the application of quantum gates, which are unitary operations that transform quantum states. Quantum gates can be combined to form quantum circuits, which represent the sequence of operations performed on qubits. Each quantum gate can be implemented using physical operations on hardware, and the design of efficient quantum algorithms is a central challenge in quantum computing research.\todo{May need to rewrite}
 \end{definition}
 
@@ -73,14 +100,18 @@ The fundamental unit of information in quantum computing is the qubit, which can
     \end{equation}
     where $U^{\dagger}$ is the hermitian conjugate of $U$ and $I$ is the identity operator. Unitary transformations preserve the inner product and thus the norm of quantum states, ensuring that states have a physical interpretation as probability amplitudes.
 
-    These unitary transformations are known as quantum gates, and each gate serves a specific purpose in manipulating quantum states. 
+    These unitary transformations are known as quantum gates, and each gate serves a specific purpose in manipulating quantum states.
 \end{definition}
 
-The quantum circuit diagram offers a succinct and intuitive representation of quantum algorithms, analogous to Feynman diagrams in quantum field theory. 
+The quantum circuit diagram offers a succinct and intuitive representation of quantum algorithms, analogous to Feynman diagrams in quantum field theory.
 
 Time flows left to right, and each wire (horizontal line) represents a qubit or a quantum register. Gates are placed sequentially on the wires indicating operations applied to qubits. An example is the Hadamard gate, which creates superposition, and the CNOT gate, which entangles qubits. A full list of quantum gates and their corresponding circuit symbols can be found in \todo{Create a table in the appendix}.
+% The gate table now exists as Appendix A (app:gates); point to it by name.
 
 \todo{Insert a figure with a diagram of an example quantum circuit}
+% Note: STYLE_GUIDE.md §2.4 advises against a Hadamard-and-CNOT toy circuit in
+% the background; the four body circuits are F1 (pipeline), F2 (GQSP-QITE), F3
+% (U_odd SELECT) and F5 (descriptor LCU).
 
 \subsubsection{Complexity of Quantum Algorithms}
 \begin{definition}[Gate Complexity]
@@ -92,54 +123,153 @@ Time flows left to right, and each wire (horizontal line) represents a qubit or 
 \end{definition}
 
 \begin{definition}[Ancillary Qubits]
-    Additional qubits introduced into a quantum circuit beyond the primary input qubits, typically initialized to a baseline state (such as $\vert 0 \rangle$) to assist with intermediate calculations, temporary storage, or entanglement generation.
+    Additional qubits introduced into a quantum circuit beyond the primary input qubits, typically initialised to a baseline state (such as $\vert 0 \rangle$) to assist with intermediate calculations, temporary storage, or entanglement generation.
 \end{definition}
 
 \begin{definition}[Big-$\mathcal{O}$ Notation]
-    Big-$\mathcal{O}$ notation is a mathematical notation used to describe the asymptotic behavior of functions.
+    Big-$\mathcal{O}$ notation is a mathematical notation used to describe the asymptotic behaviour of functions.
     \begin{equation}
         \mathcal{O}(f(n)) = \{ g(n) : \exists c > 0, n_0 \in \mathbb{N} \text{ such that } 0 \leq g(n) \leq c f(n) \text{ for all } n \geq n_0 \}
     \end{equation}
-    In the context of quantum algorithms, it is used to express the scaling of gate complexity, circuit depth, and space requirements with respect to the number of qubits $n$. 
-    
+    In the context of quantum algorithms, it is used to express the scaling of gate complexity, circuit depth, and space requirements with respect to the number of qubits $n$.
+
     For example, if a quantum algorithm has a gate complexity of $\mathcal{O}(n^2)$, it means that the number of gates required grows quadratically with the number of qubits.
-    
+
 \end{definition}
 
 A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate complexity, and the number of ancillary qubits all scale polynomially with the number of qubits $n$.
+% LAND (still to add): the tilde-O / tilde-Theta convention (logarithmic factors
+%   suppressed), since every complexity claim from Chapter 5 on uses it; and
+%   queries versus gates per query, the cost model Chapter 8 states formally.
 
 \subsubsection{Noisy Intermediate-Scale Quantum (NISQ) Era}
+% One paragraph only (ThesisPlanning.md §5.2): this thesis's feasibility
+% argument is fault-tolerant, so NISQ is context, not a target.
 
 \todo{Write this section. Use Josh's as a guide.}
 
 \subsection{Quantum Algorithms for Differential Equations}
+\label{sec:bg-de}
+% ~2 pp. For EACH family: what it assumes, what it costs, where it fails.
 
-\subsubsection{Linear-Systems and Hamiltonian-Simulation Routes}
+\subsubsection{Linear-Systems and Linear-Combination Routes}
+\label{sec:bg-de-linear}
+% LAND: HHL; Berry's ODE solvers (berry2014exponential, Berry et al. 2017);
+%   Childs-Liu spectral methods; LCHS and Schroedingerisation. Each costs through
+%   the condition number and state preparation; each fails on readout,
+%   conditioning or the need for sparse access. CITE-NEEDED: see header.
 
-\subsubsection{Variational and Carleman-Linearisation Routes}
+\subsubsection{Nonlinear Equations: Carleman and Related Linearisations}
+\label{sec:bg-de-nonlinear}
+% LAND: Carleman linearisation (Liu et al. 2021; Krovi 2023) with its
+%   dissipativity condition stated as the PRECONDITION it is (the ratio rho < 1
+%   of Chapter 7). What else linearises nonlinear dynamics, and why this thesis
+%   uses Carleman. CITE-NEEDED: see header.
+
+\subsubsection{Variational and Ground-State Routes}
+\label{sec:bg-de-ground}
+% LAND: variational solvers (barren plateaus, no guarantees); ground-state or
+%   Hamiltonian-embedding routes, among them Wu et al. (wu2025pihm), named here
+%   as the family Chapter 3 examines -- described there, not here.
 
 \subsubsection{Critical Assessment}
+\label{sec:bg-de-assessment}
+% LAND: the verdict across families, read off the table below; the "this work"
+%   row is filled last (wave W6). This subsection is part of the HD gate.
+% TAB: tab:de-approaches (ThesisPlanning.md §7, body table T1).
 
-\subsection{Classical Spectral Methods and the Chebyshev Basis}
-% Credit Olver & Townsend (2013) ultraspherical spectral method HERE, before any
-% descriptor claim is made in §4.  Marker checklist: antecedent before contribution.
+\begin{table}[htbp]
+    \centering
+    \caption{Quantum approaches to differential equations: what each assumes, what it costs, and where it fails.}
+    \label{tab:de-approaches}
+    \small
+    \begin{tabular}{@{}p{0.2\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.17\linewidth}@{}}
+        \toprule
+        Approach & Assumptions & Query cost & Output & Failure mode \\
+        \midrule
+        Linear systems (HHL family) & & & & \\
+        Linear combination of Hamiltonian simulations & & & & \\
+        Carleman linearisation & & & & \\
+        Variational & & & & \\
+        Physics-informed Hamiltonian \cite{wu2025pihm} & & & & \\
+        This work & & & & \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
-\subsubsection{Chebyshev Expansion and Differentiation}
+\subsection{Spectral Methods and Banded Differentiation}
+\label{sec:bg-spectral}
+% ~1.5 pp
 
-\subsubsection{The Ultraspherical Spectral Method and Banded Differentiation}
+\subsubsection{Chebyshev Series, Differentiation and Galerkin Truncation}
+\label{sec:bg-chebyshev}
+% LAND: Chebyshev series and spectral accuracy (trefethen2000spectral,
+%   trefethen2013approximation, boyd2001chebyshev); differentiation is dense and
+%   strictly upper triangular in coefficient space; Galerkin truncation and
+%   aliasing (canuto2006spectral) -- needed for the square multiplication form
+%   and the folds.
 
-\subsection{Block Encoding, LCU and Qubitisation}
+\subsubsection{The Ultraspherical Spectral Method}
+\label{sec:bg-ultraspherical}
+% LAND: Olver & Townsend (olver2013), credited HERE, before Chapter 6 claims
+%   anything. Then the increment, stated precisely: applying the basis change to
+%   the PHYSICS-INFORMED RESIDUAL, so that block encoding and filtering inherit
+%   the bandedness, and proving the kernel is unchanged (thm:kernel-equivalence).
+%   Appendix B (app:ultraspherical) already carries the entry-level comparison.
 
-\subsection{Quantum Signal Processing and Imaginary-Time Filtering}
+\subsubsection{Fourier--Galerkin Discretisation of Periodic Flows}
+\label{sec:bg-fourier}
+% LAND: Fourier-Galerkin truncation for periodic domains, the convolution form
+%   of quadratic terms and dealiasing -- needed for Burgers (R9) and
+%   Navier-Stokes (R10) in sec:fluids.
 
-\subsubsection{From QSP and QSVT to the Generalised Construction}
+\subsection{Block Encoding, Linear Combinations of Unitaries and Qubitisation}
+\label{sec:bg-block-encoding}
+% ~1 pp
+% LAND: the (alpha, m, epsilon) block-encoding definition (a numbered
+%   definition: re-invoked throughout); PREPARE/SELECT and alpha = sum |c_t|
+%   (childs2012lcu); the Omega(log L) ancilla lower bound for exact LCU
+%   (chakraborty2025qsvt, Thm A.1) -- what separates the regimes' ancilla counts;
+%   qubitised walks and Pi W^k Pi = T_k (lowchuang2019qubitization); dense-matrix
+%   encodings for contrast (sunderhauf2024blockencoding, camps2024explicit).
 
-\subsubsection{Ground-State Preparation by Imaginary-Time Filtering}
+\subsection{Quantum Signal Processing and Its Generalisation}
+\label{sec:bg-qsp}
+% ~0.75 pp
+% LAND: QSP -> QSVT (gilyen2019qsvt, martyn2021grand): the parity constraint;
+%   GQSP removes it (motlagh2024gqsp); phase finding as prior art -- the Weiss
+%   complement (berntson2025complementary) and the inverse NLFT
+%   (laneve2025gqspnlft; CITE-NEEDED arXiv:2505.12615).
+
+\subsection{Ground-State Preparation by Filtering}
+\label{sec:bg-filtering}
+% ~0.5 pp
+% LAND: imaginary time (kyriienko2020inverse); Lin & Tong's filters and
+%   near-optimal ground-state preparation (lintong2020groundstate); the
+%   known-gap assumption; the overlap gamma; amplitude amplification
+%   (brassard2000amplitude).
 
 \subsection{Readout and Amplitude Amplification}
-% ~1/3 pp, prior art only.  Costs quoted from the literature; this thesis
-% implements no measurement protocol (see §4.9 and §7.5).
+\label{sec:bg-readout}
+% ~0.5 pp, NO figure.
+% LAND: Hadamard test, overlap estimation, amplitude estimation
+%   (suzuki2020amplitude, grinko2021iterative, nishi2025overlap,
+%   williams2024readout) and the O(1/delta^2) shot-count scaling. Wu et al.'s
+%   interferometric protocol is described in Chapter 3 (sec:pihm-encoding), not
+%   here.
 
-\subsection{Synthesis: The Gap This Thesis Addresses}
-% Rubric (Theoretical /40) names a notation table explicitly; it now lives in
-% the frontmatter (1_header/6_notation.tex) rather than here -- see main.tex.
+\subsection{Synthesis}
+\label{sec:bg-synthesis}
+% ~0.25 pp
+% LAND: where physics-informed Hamiltonians sit among the families above; hand
+%   the reader to Chapter 3 "on the same attributed footing as the material
+%   above". The gap questions themselves are posed at the END of Chapter 3
+%   (sec:pihm-assessment), not here.
+
+% CHECKLIST (marker)
+%   1. Does every reviewed method carry an explicit weakness, not just a description?
+%   2. Is tab:de-approaches present, with a "this work" row?
+%   3. Is the ultraspherical antecedent credited here, before Chapter 6?
+%   4. Is sec:bg-qc <= 2 pp?
+%   5. Is anything here unused by a later chapter? Cut it.
+%   6. Are all citations IEEE-style via biblatex, consistently formatted?

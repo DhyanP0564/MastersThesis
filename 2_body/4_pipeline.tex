@@ -1,0 +1,372 @@
+% =============================================================================
+% Chapter 4  A Regime-Independent Quantum Pipeline  --  ~6 pp
+% rubric: Project Body (Modelling) -- Model Formulation /30.
+% Plan: ThesisPlanning.md §5.4.
+%
+% PURPOSE     Specify the model: everything that is the same whichever residual
+%             is plugged in -- inputs, classical reference, walk, filter, readout,
+%             verification, software -- so a reader could "create equivalent
+%             models". The two forms differ ONLY in the residual (Chapters 5-6),
+%             so any difference in results is a difference of Hamiltonians.
+% CRITERION   (Modelling, verbatim) "described in sufficient detail to permit
+%             readers to create equivalent models. This should include: a
+%             description of any software tools used and/or created; a
+%             description and/or diagram of the model configuration; descriptions
+%             of the model input options selected (boundary conditions ...)".
+%             Band 3 names "poor design of numerical experiment": the experiment
+%             design lives here, in the body.
+% SOURCES     Planning.md §3.5 (constraint layer), §3.7 ("Composition of H"),
+%             §3.8 (qubitisation, GQSP, filter, parameters, cost, deviations from
+%             the paper), §4 (principles D2, D4, D6, D7, D9, D10), §5.4 (what
+%             every run records), §6.2 (verification modes), §7 (Pillar 2:
+%             §7.2-7.9), §10-11 (software, HPC); claims C-03, C-04, C-08, B-13,
+%             B-16, B-24; Journal E022-E024; pihm/src/pihm/circuits/compose.py,
+%             qsp/, pipeline/.
+% WRITE WHEN  Now as formulation (wave W1); numbers at gate G3 (wave W2).
+% Bare H, A and R are correct in this chapter only: its statements are
+% regime-independent (decision T-07).
+% =============================================================================
+
+\subsection{Overview and Model Configuration}
+\label{sec:pipeline-overview}
+% ~0.75 pp
+% LAND, in order:
+%   1. The pipeline figure (F1), the most important figure in the thesis: a
+%      marker who reads only its caption should be able to state what the thesis
+%      does. Its caption must stand alone as a summary of the model.
+%   2. The design principle: the forms differ only in the residual; every later
+%      section of this chapter is one stage of the figure.
+% FIG: fig:pipeline (F1, TikZ).
+
+\placeholderfigure[8cm]{Model configuration: from problem specification to decoded field.}{fig:pipeline}{Pipeline schematic (TikZ). Problem specification (equation, constraints, variant, $n$) $\to$ residual assembly (standard form $|$ descriptor form) $\to$ stacked-residual block encoding $U_R$ $\to$ reflection $V$ $\to$ walk $W$ $\to$ GQSP imaginary-time filter $\to$ post-selection $\to$ readout. Alongside: the classical reference (SVD of $R$) and the three verification tiers (circuit simulation, exact emulation, resource estimate) attached to the stages they check.}
+
+\subsection{Problem Specification and Model Inputs}
+\label{sec:pipeline-inputs}
+% ~1 pp
+% LAND, in order:
+%   1. The three orthogonal axes: derivative representation (standard |
+%      descriptor), treatment of nonlinearity (none | doubled space | Carleman),
+%      constraint rows (shared by both forms).
+%   2. The constraint kinds (tab:constraint-kinds).
+%   3. Paper-faithful versus corrected variants (Planning.md §3.5).
+%   4. The benchmark ladder R1-R10: one new capability per problem, so a failure
+%      localises (tab:ladder; full specifications -> Appendix J, app:catalogue).
+%   5. The input options every run records: n, variant, form, encoder,
+%      epsilon = 1e-6, filter, initial state, rescaling.
+% TAB: tab:constraint-kinds (T2), tab:ladder (T3).
+
+\begin{table}[htbp]
+    \centering
+    \caption{The shared constraint layer: every constraint row, in either form, is one of four kinds.}
+    \label{tab:constraint-kinds}
+    \small
+    \begin{tabular}{@{}l p{0.42\linewidth} p{0.33\linewidth}@{}}
+        \toprule
+        Kind & Operator & Use \\
+        \midrule
+        Zero (invariant) & $\Brow(x)$ on the chosen field or derivative block & $f(x_z)=0$, $f'(x_m)=0$ \\
+        Collapse (regular) & $\Dzero(x_s)$ & constants, sources; lifting linear terms in the doubled space \\
+        Ratio (vector data) & $\mathbb{F} = y_a\bigl(I - \ket{a}\bra{a}\bigr) - w\bra{a}$, \ $w = \sum_{c\ne a} y_c\ket{c}$ & multi-component initial data (Carleman); coupled fields \\
+        Datum slice & $\bigl(\mathbb{S}_a(x^\ast) - \hat g\,\tau(x_s)^{\top}/v\bigr)\,\Pi_f$ & inhomogeneous boundary or initial functions, without doubling \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{The benchmark ladder. Each problem adds one capability to those below it; R2--R6 are the paper's Figs 3--7.}
+    \label{tab:ladder}
+    \small
+    \begin{tabular}{@{}l p{0.36\linewidth} p{0.2\linewidth} p{0.3\linewidth}@{}}
+        \toprule
+        & Problem & Reference & New capability \\
+        \midrule
+        R1 & $f' + 2f = 0$, $f(-1) = 1$ & $e^{-2(x+1)}$ & smallest end-to-end system \\
+        R2 & Fig.~3: $\{1,4,4\}$, $\{1,-2,-3\}$, $\{1,5,400\}$ & closed form & order 2; Dirichlet and Neumann invariants; stiffness \\
+        R3 & Fig.~4: Legendre, $m=0$ ($l=4,5$) and $m=1$ ($l=5,6$) & $P_l$, $P_l^1$ & variable coefficients and lifts; an exact kernel ($m=0$) \\
+        R4 & Fig.~5: four inhomogeneous equations & closed form & source injection via $\Dzero$; Maclaurin sources \\
+        R5 & Fig.~6: Laplace (2-D), heat and wave (1+1-D) & closed form & multi-axis tensors; invariants versus datum slices \\
+        R6 & Fig.~7: $4f'' + 2f'^2 + f = 0$; $f'' - 2f^2 + x = 0$ & $1 - x^2/8$; boundary-value solve & doubled space (kernel degeneracy) \\
+        R7 & $u' = v$, $v' = -\omega^2 u$, $\omega = \pi$ & $\sin$, $\cos$ & two fields; ratio rows \\
+        R8 & $y' = -y + y^2$, $y(0) = \tfrac12$ & $1/(1+e^{t})$ & Carleman lift, both forms in time \\
+        R9 & viscous Burgers, periodic, Fourier--Galerkin & Cole--Hopf; DNS & field-scale Carleman; convolution $F_2$; QFT fold \\
+        R10 & 2-D vorticity Navier--Stokes, periodic & Taylor--Green; DNS & the culmination \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{The Classical Reference}
+\label{sec:pipeline-reference}
+% ~0.4 pp
+% LAND, in order:
+%   1. The reference is the smallest right singular vector of the stacked
+%      residual R (eq:reference-svd), with a backward-error check.
+%   2. Why not eigh(R^T R): squaring the residual squares its condition number,
+%      and the standard form's reference fails from n ~ 7 -- ONE number here
+%      (1 - |cos| = 0.73 at n = 8, Planning.md A-3); the table goes to Appendix I
+%      (app:verification).
+%   3. Decoding, eta_e, and the three metric levels (operator, state, decoded
+%      field vs analytic) with explicit inner products (principle D9).
+
+\begin{equation}
+    \ket{\psi_{\mathrm{ref}}} = \operatorname*{arg\,min}_{\|\psi\| = 1}\,\|R\psi\|_2 ,
+    \qquad
+    \kappa\bigl(R^{\dagger}R\bigr) = \kappa(R)^2 .
+    \label{eq:reference-svd}
+\end{equation}
+
+\subsection{From Stacked Residual to Quantum Walk}
+\label{sec:pipeline-walk}
+% ~1 pp
+% LAND, in order:
+%   1. The stacked residual and its row-select block encoding (eq:stacked-encoding):
+%      a QUADRATURE combination of the blocks' subnormalisations, no l1 penalty.
+%   2. prop:stacked-reflection (claim C-03); proof -> Appendix F
+%      (app:proof-stacked-reflection).
+%   3. The walk and its Chebyshev powers (eq:walk). L-18's caution belongs in
+%      the proof, not here.
+%   4. Interpretation: the spectrum lands on [-1, 1] automatically; controlled-V
+%      needs only a controlled reflection.
+%   5. One sentence of resources: ancilla ceil(log2 L) + max_j a_j, about 14 at
+%      n = 2 for the descriptor, against 23 for the legacy Gram-sum composition
+%      (Planning.md A-2; \prov until results-v1).
+
+\begin{equation}
+    R = \begin{pmatrix} R_1 \\ \vdots \\ R_L \end{pmatrix},
+    \qquad
+    \bigl(\bra{j}\otimes\bra{0_a}\bigr)\,U_R\,\bigl(\ket{0}\otimes\ket{0_a}\bigr) = \frac{R_j}{\alpha_R},
+    \qquad
+    \alpha_R = \Bigl(\sum_{j=1}^{L}\alpha_j^2\Bigr)^{1/2},
+    \qquad
+    H = R^{\dagger}R .
+    \label{eq:stacked-encoding}
+\end{equation}
+
+\begin{proposition}[Stacked-residual reflection]
+\label{prop:stacked-reflection}
+% STATE: for any stacked residual whose blocks R_j have block encodings with
+%   subnormalisations alpha_j, the operator below is a Hermitian unitary whose
+%   input block encodes H' = 2H/alpha_R^2 - I, and its controlled version needs
+%   only a controlled reflection.
+\begin{equation}
+    \begin{gathered}
+        V = U_R^{\dagger}\,\bigl(2\Pi_{a=0} - I\bigr)\,U_R,
+        \qquad
+        V^{\dagger} = V, \quad V^2 = I, \\
+        \Pi_{\mathrm{in}}\,V\,\Pi_{\mathrm{in}} = \frac{2H}{\alpha_R^2} - I \equiv H',
+        \qquad
+        C(V) = U_R^{\dagger}\,C\bigl(2\Pi_{a=0} - I\bigr)\,U_R .
+    \end{gathered}
+    \label{eq:stacked-reflection}
+\end{equation}
+\end{proposition}
+
+\begin{equation}
+    W = \bigl(2\Pi_{\mathrm{in}} - I\bigr)\,V,
+    \qquad
+    \Pi_{\mathrm{in}}\,W^{k}\,\Pi_{\mathrm{in}} = T_k(H') .
+    \label{eq:walk}
+\end{equation}
+
+\subsection{GQSP Imaginary-Time Filtering with A Priori Parameters}
+\label{sec:pipeline-qite}
+% ~1 pp
+% LAND, in order:
+%   1. GQSP realises any |P| <= 1 polynomial of the walk (eq:gqsp-block); no
+%      parity constraint (B-24). GQSP itself is prior art (sec:bg-qsp).
+%   2. The filter and its coefficients (eq:qite-filter); prop:filter-normalisation
+%      (claim C-04), proof -> Appendix F.
+%   3. A priori parameters (eq:qite-parameters): beta from the gap, d from beta;
+%      hence the degree scaling (eq:degree) -- the formula every later
+%      complexity claim quotes. Minimax (Lin & Tong) reported alongside.
+%   4. Initial states (eq:geometric-state): the geometric product state, n R_Y
+%      rotations, r = +-1/2 chosen by MEASURED success probability; uniform and
+%      random as controls; warm start as a labelled variant; gamma always
+%      reported.
+%   5. Success probability, amplitude amplification, total cost (eq:qite-cost).
+%   6. Deviations from Wu et al., as a short list: GQSP instead of mixed-parity
+%      QSVT; normalisation by the construction's alpha instead of ||H||_F;
+%      parameters from the gap. The paper's time rule (eq:pihm-time-rule) is a
+%      variant run on R2 (§8.4).
+%   7. Phases: the Weiss complement plus the inverse NLFT, cited; the realised
+%      polynomial matches its target to <= 1e-12.
+% FIG (optional): fig:gqsp-circuit (F2) -- one of the four body circuits.
+
+\begin{equation}
+    \Pi_{\mathrm{in}}\,P(W)\,\Pi_{\mathrm{in}} = \sum_{k=0}^{d} q_k\,T_k(H'),
+    \qquad
+    P(z) = \sum_{k=0}^{d} q_k z^k,
+    \qquad
+    \sup_{|z|=1} |P(z)| \le 1 .
+    \label{eq:gqsp-block}
+\end{equation}
+
+\begin{equation}
+    f_\beta(x) = e^{-\beta(1+x)},
+    \qquad
+    f_\beta(H') = e^{-2\beta H/\alpha_R^2},
+    \qquad
+    q_k = \bigl(2 - \delta_{k0}\bigr)(-1)^k e^{-\beta} I_k(\beta) .
+    \label{eq:qite-filter}
+\end{equation}
+
+\begin{proposition}[Normalisation of the imaginary-time filter]
+\label{prop:filter-normalisation}
+% STATE: for every beta > 0 the Chebyshev coefficients of f_beta have unit
+%   l1 norm, so GQSP realises the filter without rescaling.
+\begin{equation}
+    \sum_{k=0}^{\infty} |q_k| = 1 .
+    \label{eq:filter-normalisation}
+\end{equation}
+\end{proposition}
+
+\begin{equation}
+    \beta = \frac{\alpha_R^2}{2\Delta}\,\ln\frac{1}{\varepsilon_f},
+    \qquad
+    d \approx \sqrt{2\beta\,\ln(2/\varepsilon_t)} ,
+    \label{eq:qite-parameters}
+\end{equation}
+\begin{equation}
+    d = \Theta\!\left(\sqrt{\frac{\alpha_H}{\Delta}}\,\log\frac{1}{\varepsilon}\right),
+    \qquad
+    \alpha_H = \alpha_R^2 .
+    \label{eq:degree}
+\end{equation}
+
+\begin{equation}
+    \ket{\varphi_0} \propto \bigotimes_{j=0}^{n-1}\Bigl(\ket{0} + r^{2^j}\ket{1}\Bigr),
+    \qquad
+    \gamma = \bigl|\braket{\psi_{\mathrm{ref}}|\varphi_0}\bigr| .
+    \label{eq:geometric-state}
+\end{equation}
+
+\begin{equation}
+    p_G = \bigl\|f_\beta(H')\,\varphi_0\bigr\|^2 \;\to\; \gamma^2,
+    \qquad
+    \text{gates} \approx \frac{\pi}{4\gamma}\Bigl[\,2d\,g(U_R) + d\,g(\text{refl})\Bigr] .
+    \label{eq:qite-cost}
+\end{equation}
+
+\placeholderfigure{The GQSP imaginary-time circuit.}{fig:gqsp-circuit}{Optional quantikz circuit: one GQSP ancilla; $R_0\prod_{k=1}^{d}\bigl[C_0W\,R_k\bigr]$ with $C_0W$ the controlled walk built from $U_R$, $U_R^\dagger$ and the two reflections, only the reflections controlled (\Cref{prop:stacked-reflection}); post-selection on the ancilla and the block-encoding register.}
+
+\subsection{Reading Out the Solution}
+\label{sec:pipeline-readout}
+% ~0.5 pp. The PROTOCOL is Wu et al.'s (reproduced); the p_G < 1 identity is
+% ours (Journal E024; decision T-12).
+% LAND, in order:
+%   1. The paper's interferometric protocol as reproduced: the all-zero
+%      probabilities P_G(x) (prepared state) and P_C(x) (LCU-combined state)
+%      after the inverse feature map.
+%   2. The finding: the paper's Eq. 36 assumes deterministic preparation; with
+%      GQSP success p_G < 1 the success-conditioned version leaves an
+%      x-dependent error (16% at R1, n = 2, p_G = 0.70). The raw-probability
+%      identity (eq:readout-identity) is exact for any p_G. Derivation ->
+%      Appendix F (app:readout-identity).
+%   3. The field and eta_e from a regular datum (eq:readout-field).
+%   4. Shot cost O(1/delta^2) per point.
+%   5. The combiner controls only the preparation's rotations, its two
+%      reflections and its global phase, never U_R, so it costs one qubit more
+%      than T1. A controlled global phase becomes a relative phase (L-22): one
+%      sentence, as a correctness condition.
+
+\begin{equation}
+    f^{\ast}(x) = 4P_C(x) - P_G(x) - \frac{1}{2N} = \sqrt{\frac{p_G}{N}}\;\tau(x)\cdot\psi ,
+    \label{eq:readout-identity}
+\end{equation}
+\begin{equation}
+    f_Q(x) = f(x_s)\,\frac{f^{\ast}(x)}{f^{\ast}(x_s)},
+    \qquad
+    \eta_e = \frac{f(x_s)^2\,p_G}{N\,f^{\ast}(x_s)^2} .
+    \label{eq:readout-field}
+\end{equation}
+
+\subsection{Verification Framework and Error Budget}
+\label{sec:pipeline-verification}
+% ~1 pp
+% LAND, in order:
+%   1. Operator verification: the four modes (tab:verification-modes). Why IR
+%      is not a tautology: it checks what the circuit WILL implement against an
+%      INDEPENDENTLY ASSEMBLED operator, and the compiler is exact-verified per
+%      term type.
+%   2. State-preparation verification: T1, T2, T3.
+%   3. The argument for T2 = T1, stated BEFORE any T2 number is used: by
+%      qubitisation and GQSP the output depends on the encoding only through
+%      Pi V Pi (eq:stacked-reflection, eq:gqsp-block), so T2 is exact, and T1
+%      checks it (<= 1e-10) where both run.
+%   4. The resource estimate preceding every T1 run: memory 16 * 2^q bytes from
+%      the circuit's structure, time from one measured step; `infeasible` is
+%      recorded rather than attempted (decision 20).
+%   5. Acceptance criteria (tab:acceptance) and the error budget
+%      (eq:error-budget), every term measured separately.
+% OFFLOAD: the protocol in full, the memory model and its calibration (measured
+%   0.85-1.05 of the model at 22 qubits) -> Appendix I (app:verification).
+% TAB: tab:verification-modes (T4), tab:acceptance. Confirm the tolerances
+%   against pihm's verify.py at results-v1.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Operator-verification modes: what each compares, up to what size, and to what tolerance.}
+    \label{tab:verification-modes}
+    \small
+    \begin{tabular}{@{}l p{0.41\linewidth} p{0.14\linewidth} p{0.2\linewidth}@{}}
+        \toprule
+        Mode & Comparison & Size & Tolerance \\
+        \midrule
+        Exact & statevector per input column; $\alpha\,\Pi_{\mathrm{out}}U\Pi_{\mathrm{in}}$ against the independently assembled operator & $\lesssim 20$ qubits & max-abs $\le 10^{-10}\|X\|$ \\
+        Probe & 16--32 Haar-random and structured inputs against $X\psi/\alpha$ by sparse matrix--vector products & $\lesssim 28$--$30$ qubits & relative $\le 10^{-9}$ \\
+        IR & compiled term IR against the residual assembly at every size; each term type exactly at small $n$ & any $n$ & $\le 10^{-12}$ \\
+        Approximation & published $\G$ only: entry error $\epsilon_{\G}(n)$ against the small-angle bound & exact sizes & reported, not gated \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Acceptance criteria for every state-preparation run.}
+    \label{tab:acceptance}
+    \small
+    \begin{tabular}{@{}l p{0.42\linewidth} p{0.34\linewidth}@{}}
+        \toprule
+        Level & Metric & Acceptance \\
+        \midrule
+        State & infidelity $1 - |\braket{\psi_{\mathrm{ref}}|\psi}|^2$ in the form's own space & $\le \varepsilon = 10^{-6}$, and $\le 10\times$ the predicted bound \\
+        Probability & measured $p_G$ against $\|P(H')\varphi_0\|^2$ & relative difference $\le 10^{-8}$ \\
+        Field & decoded $f_Q$ against the analytic solution ($L^\infty$, relative $L^2$) & $\le \varepsilon_{\mathrm{disc}} + \kappa_{\mathrm{read}}\sqrt{\varepsilon_{\mathrm{prep}}}$ \\
+        T1 against T2 & state difference & $\le 10^{-10}$ \\
+        Phases & realised against target polynomial & $\le 10^{-12}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{equation}
+    \|f_Q - f\| \le
+    \underbrace{\|f_{\mathrm{ref}} - f\|}_{\varepsilon_{\mathrm{disc}}}
+    + \kappa_{\mathrm{read}}\bigl(\varepsilon_{\mathrm{filter}} + \varepsilon_{\mathrm{trunc}} + \varepsilon_{\mathrm{phase}} + d\,\varepsilon_{\mathrm{BE}}\bigr)
+    + \varepsilon_{\mathrm{sample}} .
+    \label{eq:error-budget}
+\end{equation}
+
+\subsection{Software and Computational Configuration}
+\label{sec:pipeline-software}
+% ~0.35 pp. NO code listings in the body ("no need to include detailed codes").
+% LAND: pihm -- numpy, scipy, qiskit and qiskit-aer only; one implementation
+%   per concept; frozen, hashed problem specifications; strict-JSON records with
+%   provenance; claims tests. Setonix campaigns: manifests, resource classes,
+%   array jobs. Tag results-v1. One sentence on the size of the test suite
+%   (unit, property, golden, reproduction, claims).
+% OFFLOAD: -> Appendix L (app:software): "the package architecture, the record
+%   schema and the commands that regenerate every figure from results-v1 are
+%   given in Appendix L".
+
+% CHECKLIST (marker)
+%   1. Is there a configuration diagram (fig:pipeline)?
+%   2. Is every input option named, with its value?
+%   3. Is the software described?
+%   4. Is the numerical-experiment design justified (a ladder, identical specs
+%      across forms, answer-independent states, a priori parameters)?
+%   5. Are the deviations from the paper listed?
+%   6. Is the T2 = T1 argument stated before any T2 number is used?
+%   7. Is the readout correction attributed as ours and the protocol as the
+%      paper's?
+% TRAPS  Writing it as a software manual; "Pillar" or "tier" jargon in prose
+%        (T-10); presenting the readout as new.

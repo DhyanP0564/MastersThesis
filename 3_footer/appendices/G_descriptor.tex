@@ -1,0 +1,120 @@
+% =============================================================================
+% Appendix G  The Descriptor Construction in Full
+% Cited from sec:descriptor-residual to sec:descriptor-cost.
+% Plan: ThesisPlanning.md §6 (G); headline contribution C.
+%
+% CONTENT  The block rows (PDE and coupled-field chains included); the padded
+%          block count; the proof of thm:kernel-equivalence; the term IR and its
+%          compilation; the proof of prop:descriptor-cost; block rescaling.
+% SOURCES  Planning.md §3.4, §3.7 ("Descriptor"), §6.4, App. A-2;
+%          pihm/src/pihm/assemble.py (descriptor mode), ir.py, circuits/lcu.py.
+% =============================================================================
+
+\subsection{Block rows in full}
+\label{app:descriptor-rows}
+% LAND: every block row of A_desc, including the source row
+%   (- M_r D0 f_hat^(0)), the padding rows (c_pad f_hat^(b) = 0; the padding
+%   weight is a free parameter, measured as not binding -- M-03), one derivative
+%   chain per axis for a PDE, one chain per field for coupled fields, and the
+%   constraint rows on chosen blocks (Neumann on the f'-block).
+
+\subsection{Higher order, variable coefficients, and the padded block count}
+\label{sec:app-variable-coeff}
+% Moved here from the draft's Appendix B.
+
+For an order-$k$ equation the state is $w = (\fhat{0};\, \dots;\, \fhat{k})$ and
+$\Adesc$ stacks $k$ recurrence block-rows
+$-\Dt\,\fhat{j} + \Bt\,\fhat{j+1} = 0$ above the single differential row
+$\sum_j \M_{a_j}\,\fhat{j} = 0$: $k+1$ block-rows, each $N$ coefficients wide,
+giving the classical $(k+1)N \times (k+1)N$ square matrix of
+\Cref{def:descriptor-residual-operator}.
+
+A variable coefficient $a_j(x)$ enters through $\M_{a_j} = \sum_q c_q\,\M_{x^q}$,
+$0 \le q \le N$, where $c_q$ are the \emph{monomial} coefficients of $a_j$: supplied
+directly as an array $[c_0, c_1, \dots]$, or, when $a_j$ is given as a function,
+obtained by a least-squares fit to degree $N-1$ in the Chebyshev basis followed
+by an exact Chebyshev-to-monomial change of basis. The Chebyshev fit is what
+pins $q$ to the same resolution $N$ already fixed for the equation; its degree,
+not the subsequent change of basis, is the only place $a_j$'s representation is
+truncated. $\M_{x^q}$ is the
+resolution-$n$, square multiplication-by-$x^q$ operator built from
+$x\,T_\ell = \tfrac{1}{2}(T_{\ell+1} + T_{|\ell-1|})$ with the $T_N$ term dropped. $\M_{x^q}$
+is banded with bandwidth exactly $q$, so it folds into the same shift-and-diagonal
+form as $\Bt$ and $\Dt$. The dropped $T_N$ term is the only
+approximation in the linear construction: for a smooth product resolved below
+degree $N - q$ the resulting error is confined to the top $\sim q$ Chebyshev modes
+and measures $\sim 10^{-13}$.
+% REVISE: (1) This describes the legacy route. The rebuilt pihm builds M_a from
+%   Chebyshev (or monomial, converted) coefficients as the square form -- the
+%   Galerkin truncation of the exact product to the first N modes (decision
+%   D-005; pihm.operators.multiplication, mode="square"). (2) The ~1e-13 figure
+%   is a legacy measurement: regenerate it at results-v1, or drop it.
+
+\paragraph{Padding to a power of two.} The classical $(k+1)N \times (k+1)N$
+matrix above is exact and complete as a linear system; it is not, however,
+the object any later stage of the pipeline actually builds. A gate-level
+realisation must index which block $\fhat{j}$ a given operator acts on with a
+qubit register, and a register of $m$ qubits addresses $2^m$ blocks, not
+$k+1$ of them for an arbitrary $k$. $\Adesc$ is therefore \emph{embedded} in a
+$2^{\lceil \log_2(k+1) \rceil}N$-dimensional space: the $k+1$ block-rows and
+block-columns above are kept exactly as derived, and
+$2^{\lceil \log_2(k+1) \rceil} - (k+1)$ further diagonal blocks are appended,
+each an identity $I_N$ pinning its own dummy field to zero,
+$\fhat{j}_{\text{dummy}} = 0$. This padding is exact: the physical solution already satisfies the dummy rows
+trivially, since it has nothing in those blocks, so no error is introduced
+beyond the $\M_{x^q}$ truncation above. The qubit cost, however, is not
+uniform in $k$:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Order $k$ & Blocks $k+1$ & Field qubits $\lceil\log_2(k+1)\rceil$ & Padded blocks $2^{\lceil\log_2(k+1)\rceil}$ & Dummy blocks \\
+\midrule
+1 & 2 & 1 & 2 & 0 \\
+2 & 3 & 2 & 4 & 1 \\
+3 & 4 & 2 & 4 & 0 \\
+4 & 5 & 3 & 8 & 3 \\
+7 & 8 & 3 & 8 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+so the state $w$ the gate-level construction actually carries has
+$2^{\lceil \log_2(k+1) \rceil}N$ components, not $(k+1)N$: equal to the
+unpadded count exactly when $k+1$ is itself a power of two (orders $1, 3, 7,
+\dots$), and up to nearly double it otherwise -- order $2$, the most common
+case after order $1$, already pays for a field register it only three-quarters
+uses. This is the qubit cost that must always accompany the gate-count
+comparison of \Cref{sec:descriptor-cost}.
+% REVISE: the dummy blocks are weighted c_pad I_N (tab:descriptor-rows), not
+%   bare I_N; state the weight and that it is not binding (M-03).
+
+\subsection{Proof of \texorpdfstring{\Cref{thm:kernel-equivalence}}{kernel equivalence}}
+\label{app:proof-kernel-equivalence}
+% LAND: Bt is upper triangular with a non-zero diagonal, hence invertible; so
+%   the recurrence rows hold iff f_hat^(j+1) = G f_hat^(j) for every j; then the
+%   equation row of A_desc on (p, Gp, ..., G^k p) equals A_std p. Both
+%   inclusions. The padding blocks vanish on the kernel.
+
+\subsection{The term IR and its compilation}
+\label{app:term-ir}
+% LAND: the IR grammar (field word x shift x diagonal; diagonals as Z-strings
+%   by eq:diag-index and reflections R_m); the banded-to-shift-diagonal
+%   conversion (and its limit, implementation issue I-06); what alg:ir-to-lcu
+%   compiles; how the IR mode of tab:verification-modes checks it against the
+%   independently assembled operator at every n.
+
+\subsection{Proof of \texorpdfstring{\Cref{prop:descriptor-cost}}{the descriptor cost}}
+\label{app:proof-descriptor-cost}
+% LAND: alpha_A = sum |c_t| = 2N + O(1) (the index-linear diagonal of Dt
+%   dominates); alpha_A / ||A_desc|| -> 1 (measured 2.29 -> 1.002, n = 2-12);
+%   the selector width ceil(log2 L) with L = O(n) terms plus the fixed flags,
+%   giving ceil(log2(n+4)) + 6 for R2's family (the measured 9 for n = 2-4 and
+%   10 for n = 5-12, Planning.md A-2); O(n^2) gates. Order-optimality among
+%   exact LCU encodings from the Omega(log L) bound (chakraborty2025qsvt).
+
+\subsection{Block rescaling}
+\label{app:block-rescaling}
+% LAND: the field-register diagonal of eq:block-rescaling at Theta(n_f) gates;
+%   zeta derived from the problem (zeta = omega for R2c); its effect on Delta and
+%   on alpha_H; why general equilibration (Theta(P) gates) is excluded (V-08).

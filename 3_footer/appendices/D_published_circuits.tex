@@ -1,0 +1,129 @@
+% =============================================================================
+% Appendix D  The Published Circuits as Built  --  cited from
+% sec:standard-published and sec:results-operators.
+% Plan: ThesisPlanning.md §6 (D).
+%
+% CONTENT  The paper's Figs 2, 8 and 9 rebuilt; every deviation from the printed
+%          figure; the measured qubits, gates and eps_G(n); the published
+%          prefactor against ||G||_2.
+% SOURCES  Planning.md §3.7, §6.3, App. A-4; claims A-06 to A-08 (pihm
+%          docs/CLAIMS.md: tests/claims/test_pillar1.py);
+%          pihm/src/pihm/circuits/standard.py (published_derivative_encoding,
+%          derivative_ladder_error_bound).
+% KEPT from the draft: the ladder mechanism and its error bound (prop:epsilon-G)
+%   -- pihm's derivative_ladder_error_bound states the same bound for the
+%   Fig. 9 build. DROPPED (snapshot 2cd640c): the legacy reconstruction's
+%   resource count (n + 4 ancilla, adder, "two flags live") and its
+%   verification claims. The ladder's per-bit coefficient is written mu here
+%   (the paper's alpha; the draft's beta): beta is imaginary time (T-08) and
+%   alpha a subnormalisation.
+% =============================================================================
+
+\Cref{sec:pihm-encoding} describes, at the level a reader needs to follow the
+argument, the circuit Wu et al.\ use to load $\G$'s column-linear entries as a
+rotation amplitude \cite{wu2025pihm}. This appendix gives the mechanism in full,
+together with a rigorous bound on its entrywise error that this thesis derives and
+verifies -- the source paper states only that the error is ``negligible'' and
+decreases ``exponentially'' with $n$, without a closed form.
+% REVISE: "verifies" -- point to the approximation-mode measurement of
+%   eps_G(n) (tab:verification-modes) at results-v1.
+
+\subsection{The circuits as built}
+\label{app:published-build}
+% LAND: Figs 2 and 8 (feature map + zero-state reflection; B on n + 2 qubits,
+%   alpha_B = sqrt(2^{n+1}); D0 with alpha divided by f(x_s)); Fig. 9 built as
+%   drawn from the legible figure and the caption angles (the omega_c flag, the
+%   X ancilla, the offset register with its Hadamard sandwich, the value
+%   ancilla; U_R and U_C). EVERY deviation from the printed figure, one line
+%   each. The subtractor/validity structure is shared with the structured
+%   encoding (app:structured); only the value load differs.
+
+\subsection{The small-angle ladder and its error}
+\label{app:ladder}
+
+\paragraph{The mechanism.} A ladder of $n$ singly-controlled $R_y$ rotations acts on
+one flag qubit, initialised to $\ket{1}$: bit $m$ of the (register-arithmetic-shifted)
+column index controls $R_y(\theta_m)$,
+\begin{equation}
+    \theta_m = 2\arcsin\!\big({-}2^m\mu\big), \qquad m = 0, \dots, n-1,
+    \label{eq:app-ladder-primary}
+\end{equation}
+for a small real coefficient $\mu$. Because rotations on the same qubit compose by
+exact angle addition ($R_y(a)R_y(b) = R_y(a+b)$, an $SO(2)$ identity), the net
+rotation for a column index $p$ with bit set $S$ is $R_y(\Theta(p))$,
+$\Theta(p) = \sum_{m \in S} \theta_m$, giving the flag qubit's $\ket{0}$-amplitude
+\begin{equation}
+    \mathrm{raw}(p) = -\sin\!\big(\Theta(p)/2\big) = \sin\!\Big(\textstyle\sum_{m \in S} \arcsin(2^m\mu)\Big).
+    \label{eq:app-ladder-raw}
+\end{equation}
+The row-$0$ correction (entries $\sqrt{2}p$ in place of $2p$) is a second,
+independently accumulated ladder on the same flag qubit, with per-bit coefficient
+$\mu(1/\sqrt{2} - 1)$, controlled on the same ``this is row $0$'' flag the main
+construction already computes.
+
+\paragraph{Why this is only approximate.} $\mathrm{raw}(p)$ in \Cref{eq:app-ladder-raw}
+would equal the desired linear value $\mu p$ exactly only if
+$\sin\big(\sum_m \arcsin(x_m)\big) = \sum_m x_m$, which does not hold in general --
+$\sin$ of a sum is not the sum of sines. The discrepancy is a genuine, quantifiable
+small-angle error.
+
+\begin{proposition}[Entrywise error of the ladder construction]
+\label{prop:epsilon-G}
+Let $J_3(p) := \sum_{m \in S} (2^m)^3$ for column index $p$ with bit set $S$. Then
+\begin{equation}
+    \big|\mathrm{raw}(p) - \mu p\big| \;\le\; \frac{\mu^3}{6}\,p^3 \;+\; O(\mu^5 N^5).
+    \label{eq:app-ladder-bound}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Expand both non-linearities to leading order in the small parameter $\mu$:
+$\arcsin(y) = y + y^3/6 + O(y^5)$ and $\sin(x) = x - x^3/6 + O(x^5)$. Summing the
+first expansion over the fired bits and substituting into the second,
+\begin{align}
+    \sum_{m \in S} \arcsin(2^m\mu) &= \mu p + \tfrac{\mu^3}{6} J_3(p) + O(\mu^5 N^5), \\
+    \sin\!\Big(\sum_{m \in S} \arcsin(2^m\mu)\Big)
+        &= \sin(\mu p) + \cos(\mu p)\cdot\tfrac{\mu^3}{6}J_3(p) + O(\mu^5N^5) \notag\\
+        &= \mu p + \tfrac{\mu^3}{6}\big(J_3(p) - p^3\big) + O(\mu^5N^5).
+\end{align}
+Since $p = \sum_{m\in S} 2^m$ and every $2^m \le p$, the multinomial expansion of
+$p^3$ term-by-term dominates $J_3(p)$, with equality only when $S$ is a single bit
+($p$ itself a power of two): $J_3(p) \le p^3$. Taking the worst case $p = N-1$ gives
+\Cref{eq:app-ladder-bound}.
+\end{proof}
+
+This is a leading-order bound, valid once the largest single argument,
+$2^{n-1}\mu$, is small and well inside $\arcsin$'s domain -- true from $n=2$
+onward at the default $\mu = 2/\|\G\|_S$ (\Cref{eq:pihm-published-prefactor}), but not at $n=1$, where
+$\mu \cdot 2^0 = \mu = 1$ exactly and the bound is not yet meaningful.
+
+\subsection{Measured resources and error}
+\label{app:published-resources}
+% LAND: the paper's claims against the build, n = 2 ... 8: qubits (claimed
+%   2n + 3 for G), gates after MCX decomposition (claimed O(n^3)), the measured
+%   eps_G(n) beside the bound of prop:epsilon-G rescaled by the published
+%   prefactor (eq:pihm-published-prefactor), and alpha / ||G||_2.
+% ||G||_S below was recomputed with pihm.operators.derivative on 2026-09-25 and
+%   matches the draft's table; the draft's eps_G column used the legacy
+%   construction's own rescaling, (N/2)(2/mu), so it is left empty until the
+%   Fig. 9 build's values are generated.
+
+\begin{table}[htbp]
+    \centering
+    \caption{The published encoding of $\G$ against the paper's claims. Classical exact-mode measurement.}
+    \label{tab:app-epsilon-G}
+    \small
+    \begin{tabular}{@{}r r l l l l l@{}}
+        \toprule
+        $n$ & $N$ & $\|\G\|_S$ & Qubits (claim $2n+3$) & Gates & Bound on $\epsilon_{\G}$ & Measured $\epsilon_{\G}$ \\
+        \midrule
+        2 & 4   & $\prov{6.15\times10^{1}}$ & \prov{--} & \prov{--} & \prov{--} & \prov{--} \\
+        3 & 8   & $\prov{1.18\times10^{3}}$ & \prov{--} & \prov{--} & \prov{--} & \prov{--} \\
+        4 & 16  & $\prov{2.04\times10^{4}}$ & \prov{--} & \prov{--} & \prov{--} & \prov{--} \\
+        5 & 32  & $\prov{3.38\times10^{5}}$ & \prov{--} & \prov{--} & \prov{--} & \prov{--} \\
+        6 & 64  & $\prov{5.50\times10^{6}}$ & \prov{--} & \prov{--} & \prov{--} & \prov{--} \\
+        7 & 128 & $\prov{8.88\times10^{7}}$ & \prov{--} & \prov{--} & \prov{--} & \prov{--} \\
+        8 & 256 & $\prov{1.43\times10^{9}}$ & \prov{--} & \prov{--} & \prov{--} & \prov{--} \\
+        \bottomrule
+    \end{tabular}
+\end{table}

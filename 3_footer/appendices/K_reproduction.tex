@@ -1,0 +1,143 @@
+% =============================================================================
+% Appendix K  Reproduction Record  --  cited from sec:results-reproduction.
+% Plan: ThesisPlanning.md §6 (K); supporting contribution S1.
+%
+% CONTENT  All 16 panels, paper-faithful and corrected; the Fig. 5 triage; the
+%          unreproduced panels (R-D1 to R-D3) and the printed errors (M-02,
+%          M-07); the paper-claims register A-01 to A-13 with verdicts; the
+%          tau-truncation ablation (decision 11).
+% SOURCES  pihm/docs/REPRODUCTION.md (generated from the P2 campaign, 327 runs)
+%          and docs/issues/ISSUE-001 to ISSUE-008; Planning.md §5.2, §8.1, §9.4.
+% Every number in the tables below is quoted from the P2 records with \res
+%   (0_results/results.tex), computed as REPRODUCTION.md computes it; the claim
+%   verdicts are \prov text. dagger = ground state not trusted (a degenerate
+%   kernel, or a gap ratio below 100), set by the record's trusted flag. Errors
+%   are L-infinity on 1001 points (101 x 101 on two axes).
+% =============================================================================
+
+\subsection{All panels}
+\label{app:repro-panels}
+
+\begin{table}[htbp]
+    \centering
+    \caption{The paper's solutions at its printed resolution: $L^\infty$ error of the paper-faithful and corrected variants, and the corrected variant's best over $n$. Classical computation.}
+    \label{tab:app-repro-errors}
+    \small
+    \begin{tabular}{@{}l l r l l l@{}}
+        \toprule
+        Fig. & Problem & Printed $n$ & Faithful & Corrected & Corrected, best over $n$ \\
+        \midrule
+        3b & R2a & 3 & $\res[2,sci]{build/R2a/faithful/standard/n3}{field_err_linf}\resflag{build/R2a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R2a/corrected/standard/n3}{field_err_linf}\resflag{build/R2a/corrected/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R2a/corrected/standard/best}{field_err_linf} ($n = \res{build/R2a/corrected/standard/best}{n}$) \\
+        3c & R2b & 3 & $\res[2,sci]{build/R2b/faithful/standard/n3}{field_err_linf}\resflag{build/R2b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R2b/corrected/standard/n3}{field_err_linf}\resflag{build/R2b/corrected/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R2b/corrected/standard/best}{field_err_linf} ($n = \res{build/R2b/corrected/standard/best}{n}$) \\
+        3d & R2c & 5 & $\res[2,sci]{build/R2c/faithful/standard/n5}{field_err_linf}\resflag{build/R2c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R2c/corrected/standard/n5}{field_err_linf}\resflag{build/R2c/corrected/standard/n5}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R2c/corrected/standard/best}{field_err_linf} ($n = \res{build/R2c/corrected/standard/best}{n}$) \\
+        4a & R3a & 3 & $\res[2,sci]{build/R3a/faithful/standard/n3}{field_err_linf}\resflag{build/R3a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R3a/corrected/standard/n3}{field_err_linf}\resflag{build/R3a/corrected/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R3a/corrected/standard/best}{field_err_linf} ($n = \res{build/R3a/corrected/standard/best}{n}$) \\
+        4b & R3b & 3 & $\res[2,sci]{build/R3b/faithful/standard/n3}{field_err_linf}\resflag{build/R3b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R3b/corrected/standard/n3}{field_err_linf}\resflag{build/R3b/corrected/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R3b/corrected/standard/best}{field_err_linf} ($n = \res{build/R3b/corrected/standard/best}{n}$) \\
+        4c & R3c & 5 & $\res[2,sci]{build/R3c/faithful/standard/n5}{field_err_linf}\resflag{build/R3c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R3c/corrected/standard/n5}{field_err_linf}\resflag{build/R3c/corrected/standard/n5}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R3c/corrected/standard/best}{field_err_linf} ($n = \res{build/R3c/corrected/standard/best}{n}$) \\
+        4d & R3d & 5 & $\res[2,sci]{build/R3d/faithful/standard/n5}{field_err_linf}\resflag{build/R3d/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R3d/corrected/standard/n5}{field_err_linf}\resflag{build/R3d/corrected/standard/n5}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R3d/corrected/standard/best}{field_err_linf} ($n = \res{build/R3d/corrected/standard/best}{n}$) \\
+        5a & R4a & 3 & $\res[2,sci]{build/R4a/faithful/standard/n3}{field_err_linf}\resflag{build/R4a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R4a/corrected/standard/n3}{field_err_linf}\resflag{build/R4a/corrected/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R4a/corrected/standard/best}{field_err_linf} ($n = \res{build/R4a/corrected/standard/best}{n}$) \\
+        5b & R4b & 3 & $\res[2,sci]{build/R4b/faithful/standard/n3}{field_err_linf}\resflag{build/R4b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R4b/corrected/standard/n3}{field_err_linf}\resflag{build/R4b/corrected/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R4b/corrected/standard/best}{field_err_linf} ($n = \res{build/R4b/corrected/standard/best}{n}$) \\
+        5c & R4c & 4 & $\res[2,sci]{build/R4c/faithful/standard/n4}{field_err_linf}\resflag{build/R4c/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R4c/corrected/standard/n4}{field_err_linf}\resflag{build/R4c/corrected/standard/n4}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R4c/corrected/standard/best}{field_err_linf} ($n = \res{build/R4c/corrected/standard/best}{n}$) \\
+        5d & R4d & 4 & $\res[2,sci]{build/R4d/faithful/standard/n4}{field_err_linf}\resflag{build/R4d/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R4d/corrected/standard/n4}{field_err_linf}\resflag{build/R4d/corrected/standard/n4}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R4d/corrected/standard/best}{field_err_linf} ($n = \res{build/R4d/corrected/standard/best}{n}$) \\
+        6b & R5a & 3 & $\res[2,sci]{build/R5a/faithful/standard/n3x3}{field_err_linf}\resflag{build/R5a/faithful/standard/n3x3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R5a/corrected/standard/n3x3}{field_err_linf}\resflag{build/R5a/corrected/standard/n3x3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R5a/corrected/standard/best}{field_err_linf} ($n = \res{build/R5a/corrected/standard/best}{n}$) \\
+        6d & R5b & 4 & $\res[2,sci]{build/R5b/faithful/standard/n4x4}{field_err_linf}\resflag{build/R5b/faithful/standard/n4x4}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R5b/corrected/standard/n4x4}{field_err_linf}\resflag{build/R5b/corrected/standard/n4x4}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R5b/corrected/standard/best}{field_err_linf} ($n = \res{build/R5b/corrected/standard/best}{n}$) \\
+        6f & R5c & 5 & $\res[2,sci]{build/R5c/faithful/standard/n5x5}{field_err_linf}\resflag{build/R5c/faithful/standard/n5x5}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R5c/corrected/standard/n5x5}{field_err_linf}\resflag{build/R5c/corrected/standard/n5x5}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R5c/corrected/standard/best}{field_err_linf} ($n = \res{build/R5c/corrected/standard/best}{n}$) \\
+        7b & R6a & 2 & $\res[2,sci]{build/R6a/faithful/standard/n2}{field_err_linf}\resflag{build/R6a/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R6a/corrected/standard/n2}{field_err_linf}\resflag{build/R6a/corrected/standard/n2}{trusted}{}{^{\dagger}}$ & -- \\
+        7c & R6b & 2 & $\res[2,sci]{build/R6b/faithful/standard/n2}{field_err_linf}\resflag{build/R6b/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R6b/corrected/standard/n2}{field_err_linf}\resflag{build/R6b/corrected/standard/n2}{trusted}{}{^{\dagger}}$ & -- \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+% LAND: the corrected variants converge spectrally down to the standard form's
+%   double-precision floor; Wedin's bound eps sigma_max / (sigma_1 - sigma_0)
+%   rises about 16-fold per qubit because sigma_max grows like N^4, so the best
+%   error is reached at n ~ 4-6 and rises beyond (to 3e-7 for Fig. 3b at n = 10).
+
+\subsection{The Fig.~5 triage}
+\label{app:repro-triage}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Which printed choice causes the Fig.~5 error: the paper-faithful variant over $n = 4, \dots, 10$, each correction alone, and both together.}
+    \label{tab:app-fig5-triage}
+    \small
+    \begin{tabular}{@{}l l l l l l@{}}
+        \toprule
+        Fig. & Problem & Faithful & Exact root & Chebyshev source & Both, best \\
+        \midrule
+        5a & R4a & \res[2,sci]{build/R4a/faithful/standard/floor}{low} & -- & -- & \res[2,sci]{build/R4a/corrected/standard/best}{field_err_linf} ($n = \res{build/R4a/corrected/standard/best}{n}$) \\
+        5b & R4b & \res[2,sci]{build/R4b/faithful/standard/floor}{low} & \res[2,sci]{build/R4b/faithful/standard/floor/exact-root}{low} & \res[2,sci]{build/R4b/faithful/standard/floor/chebyshev-source}{low} & \res[2,sci]{build/R4b/corrected/standard/best}{field_err_linf} ($n = \res{build/R4b/corrected/standard/best}{n}$) \\
+        5c & R4c & \res[2,sci]{build/R4c/faithful/standard/floor}{low} & \res[2,sci]{build/R4c/faithful/standard/floor/exact-root}{low} & \res[2,sci]{build/R4c/faithful/standard/floor/chebyshev-source}{low} & \res[2,sci]{build/R4c/corrected/standard/best}{field_err_linf} ($n = \res{build/R4c/corrected/standard/best}{n}$) \\
+        5d & R4d & \res[2,sci]{build/R4d/faithful/standard/floor}{low} & \res[2,sci]{build/R4d/faithful/standard/floor/exact-root}{low} & \res[2,sci]{build/R4d/faithful/standard/floor/chebyshev-source}{low} & \res[2,sci]{build/R4d/corrected/standard/best}{field_err_linf} ($n = \res{build/R4d/corrected/standard/best}{n}$) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+% LAND: each printed choice alone sets an error floor no resolution removes;
+%   only both corrections together converge. 5a's source is a polynomial
+%   (represented exactly), so only its rounded point applies. For 5d the
+%   order-7 Maclaurin source is wrong by 130% at x = -1 (ISSUE-004, R-D3:
+%   explained). The legacy notes' "~1e-2 inhomogeneous floor" came from the
+%   printed choices, not from the rank-one construction (ISSUE-007).
+
+\subsection{Panels not reproduced, and printed errors}
+\label{app:repro-unreproduced}
+% LAND: R-D1 (Fig. 6: Laplace off by 1.8e-4 relative, heat by 0.8%, wave by 10%)
+%   and R-D2 (Fig. 7: 6.5% and 82%), each with its hypotheses and the
+%   discriminating runs; recorded as not reproduced, the authors not contacted
+%   (decision 17). M-02: the printed Laplace solution has cosh where cos is
+%   meant. M-07: beyond the printed n the paper's Fig. 6 invariant sets
+%   degenerate (Laplace from n = 5, heat and wave from n = 6), and data at t = 0
+%   make the heat equation backward on [-1, 0]; the corrected heat equation
+%   imposes its solution at t = -1 (ISSUE-008).
+
+\subsection{The paper's claims}
+\label{app:paper-claims}
+
+\begin{table}[htbp]
+    \centering
+    \caption{The claims of Wu et al.\ tested in this thesis, and their verdicts.}
+    \label{tab:paper-claims}
+    \small
+    \begin{tabular}{@{}l p{0.52\linewidth} p{0.3\linewidth}@{}}
+        \toprule
+        & Claim & Verdict \\
+        \midrule
+        A-01 & $\G$, $\M$, $\nfold_1$ and $\Brow$ as printed at $n = 2$ & \prov{reproduced} \\
+        A-02 & the printed $\eta_e$ of Figs~3--5 (11 panels) & \prov{within one unit of the last printed digit; 9/11 equal when rounded} \\
+        A-03 & the printed $\eta_e$ of Fig.~6 & \prov{not reproduced} \\
+        A-04 & the printed $\eta_e$ of Fig.~7 & \prov{not reproduced} \\
+        A-05 & the printed Laplace solution & \prov{a typographical error ($\cosh$ for $\cos$)} \\
+        A-06 & the $\Brow$ circuit (Fig.~2): $n+2$ qubits, prefactor $\sqrt{2^{n+1}}$ & \prov{confirmed} \\
+        A-07 & the $\G$ circuit (Fig.~9): $2n+3$ qubits, $O(n^3)$ gates, error decreasing exponentially & \prov{--} \\
+        A-08 & the $\Dzero$ circuit (Fig.~8): prefactor $\sqrt{2^{n+1}}/f(x_s)$ & \prov{confirmed} \\
+        A-09 & the linear $H$ is positive definite with distinct eigenvalues & \prov{--} \\
+        A-10 & the doubled-space $H$ has at least $2^{2n-1}$ zero eigenvalues & \prov{--} \\
+        A-11 & the time rule $t \ge \lambda_{\max}/(\lambda_2(n-1))$ suffices & \prov{--} \\
+        A-12 & the necessary terms scale as $O(\mathrm{poly}(n))$ and are efficient & \prov{true for gates; not for the subnormalisation} \\
+        A-13 & the examples are solved accurately at the printed $n$ & \prov{distorted where rounded points or Maclaurin sources enter} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{The tau-truncation ablation}
+\label{app:repro-tau}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Dropping the top $k$ rows of the equation block (the Chebyshev tau method) gives an exact kernel with accuracy comparable to the paper's least squares.}
+    \label{tab:app-tau-ablation}
+    \small
+    \begin{tabular}{@{}l r l l l l@{}}
+        \toprule
+        Problem & $n$ & Least-squares $L^\infty$ & $\sigma_0$ & Tau-truncated $L^\infty$ & $\sigma_0$ \\
+        \midrule
+        R2a & 5 & \res[2,sci]{build/R2a/faithful/standard/n5}{field_err_linf} & \res[2,sci]{build/R2a/faithful/standard/n5}{sigma_min} & \res[2,sci]{build/R2a/faithful/standard/n5/truncation=tau}{field_err_linf} & \res{build/R2a/faithful/standard/n5/truncation=tau}{sigma_min} \\
+        R2a & 6 & \res[2,sci]{build/R2a/faithful/standard/n6}{field_err_linf} & \res[2,sci]{build/R2a/faithful/standard/n6}{sigma_min} & \res[2,sci]{build/R2a/faithful/standard/n6/truncation=tau}{field_err_linf} & \res{build/R2a/faithful/standard/n6/truncation=tau}{sigma_min} \\
+        R2a & 7 & \res[2,sci]{build/R2a/faithful/standard/n7}{field_err_linf} & \res[2,sci]{build/R2a/faithful/standard/n7}{sigma_min} & \res[2,sci]{build/R2a/faithful/standard/n7/truncation=tau}{field_err_linf} & \res{build/R2a/faithful/standard/n7/truncation=tau}{sigma_min} \\
+        R2b & 5 & \res[2,sci]{build/R2b/faithful/standard/n5}{field_err_linf} & \res[2,sci]{build/R2b/faithful/standard/n5}{sigma_min} & \res[2,sci]{build/R2b/faithful/standard/n5/truncation=tau}{field_err_linf} & \res{build/R2b/faithful/standard/n5/truncation=tau}{sigma_min} \\
+        R2b & 6 & \res[2,sci]{build/R2b/faithful/standard/n6}{field_err_linf} & \res[2,sci]{build/R2b/faithful/standard/n6}{sigma_min} & \res[2,sci]{build/R2b/faithful/standard/n6/truncation=tau}{field_err_linf} & \res{build/R2b/faithful/standard/n6/truncation=tau}{sigma_min} \\
+        R2b & 7 & \res[2,sci]{build/R2b/faithful/standard/n7}{field_err_linf} & \res[2,sci]{build/R2b/faithful/standard/n7}{sigma_min} & \res[2,sci]{build/R2b/faithful/standard/n7/truncation=tau}{field_err_linf} & \res{build/R2b/faithful/standard/n7/truncation=tau}{sigma_min} \\
+        R2c & 5 & \res[2,sci]{build/R2c/faithful/standard/n5}{field_err_linf} & \res[2,sci]{build/R2c/faithful/standard/n5}{sigma_min} & \res[2,sci]{build/R2c/faithful/standard/n5/truncation=tau}{field_err_linf} & \res{build/R2c/faithful/standard/n5/truncation=tau}{sigma_min} \\
+        R2c & 6 & \res[2,sci]{build/R2c/faithful/standard/n6}{field_err_linf} & \res[2,sci]{build/R2c/faithful/standard/n6}{sigma_min} & \res[2,sci]{build/R2c/faithful/standard/n6/truncation=tau}{field_err_linf} & \res{build/R2c/faithful/standard/n6/truncation=tau}{sigma_min} \\
+        R2c & 7 & \res[2,sci]{build/R2c/faithful/standard/n7}{field_err_linf} & \res[2,sci]{build/R2c/faithful/standard/n7}{sigma_min} & \res[2,sci]{build/R2c/faithful/standard/n7/truncation=tau}{field_err_linf} & \res{build/R2c/faithful/standard/n7/truncation=tau}{sigma_min} \\
+        \bottomrule
+    \end{tabular}
+\end{table}

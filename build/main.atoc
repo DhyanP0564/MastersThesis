@@ -1,24 +1,69 @@
-\contentsline {section}{\numberline {A}Quantum Gate Reference}{21}{appendix.A}%
-\contentsline {section}{\numberline {B}Chebyshev and Ultraspherical Identities}{21}{appendix.B}%
-\contentsline {subsection}{\numberline {B.1}The differentiation recurrence}{21}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}The normalised basis}{21}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}The Ultraspherical Connection}{22}{subsection.B.3}%
-\contentsline {subsection}{\numberline {B.4}The $N = 4$ instance}{23}{subsection.B.4}%
-\contentsline {subsection}{\numberline {B.5}Higher order, variable coefficients, and the padded block count}{23}{subsection.B.5}%
-\contentsline {paragraph}{Padding to a power of two.}{24}{section*.29}%
-\contentsline {section}{\numberline {C}The Published Collocation Residual and the Lifting Operator $M_{x^p}$}{24}{appendix.C}%
-\contentsline {paragraph}{The collocation residual at $N=4$.}{25}{section*.30}%
-\contentsline {paragraph}{The lifting operator $M_{x^p}$.}{25}{section*.31}%
-\contentsline {section}{\numberline {D}The Published Encoding Circuit and Its Error Bound}{25}{appendix.D}%
-\contentsline {paragraph}{The mechanism.}{25}{section*.32}%
-\contentsline {paragraph}{Why this is only approximate.}{26}{section*.33}%
-\contentsline {paragraph}{Verified scaling.}{26}{section*.34}%
-\contentsline {paragraph}{Resource count.}{27}{section*.36}%
-\contentsline {section}{\numberline {E}The Descriptor Construction in Full}{28}{appendix.E}%
-\contentsline {section}{\numberline {F}Proof of the Cost Proposition}{28}{appendix.F}%
-\contentsline {section}{\numberline {G}The Nonlinear Route in Full}{28}{appendix.G}%
-\contentsline {section}{\numberline {H}Verification Protocol and Residuals}{28}{appendix.H}%
-\contentsline {section}{\numberline {I}Catalogue of Differential Equation Cases}{28}{appendix.I}%
-\contentsline {section}{\numberline {J}Readout Protocols and Their Costs}{28}{appendix.J}%
-\contentsline {section}{\numberline {K}Software}{28}{appendix.K}%
-\contentsline {section}{\numberline {L}Research Proposal}{28}{appendix.L}%
+\contentsline {section}{\numberline {A}Quantum Gate Reference}{31}{appendix.A}%
+\contentsline {section}{\numberline {B}Chebyshev and Ultraspherical Identities}{31}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}The differentiation recurrence}{31}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}The normalised basis}{31}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}The Ultraspherical Connection}{32}{subsection.B.3}%
+\contentsline {subsection}{\numberline {B.4}The $N = 4$ instance}{33}{subsection.B.4}%
+\contentsline {section}{\numberline {C}The Standard Form of Wu et al.\ in Full}{34}{appendix.C}%
+\contentsline {paragraph}{The standard-form residual at $N=4$.}{34}{section*.51}%
+\contentsline {paragraph}{The lifting operator $\mathbb {M}_{x^p}$.}{34}{section*.52}%
+\contentsline {subsection}{\numberline {C.1}The paper's printed matrices at $n = 2$}{34}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Lifts and folds}{34}{subsection.C.2}%
+\contentsline {section}{\numberline {D}The Published Circuits as Built}{34}{appendix.D}%
+\contentsline {subsection}{\numberline {D.1}The circuits as built}{35}{subsection.D.1}%
+\contentsline {subsection}{\numberline {D.2}The small-angle ladder and its error}{35}{subsection.D.2}%
+\contentsline {paragraph}{The mechanism.}{35}{section*.53}%
+\contentsline {paragraph}{Why this is only approximate.}{35}{section*.54}%
+\contentsline {subsection}{\numberline {D.3}Measured resources and error}{36}{subsection.D.3}%
+\contentsline {section}{\numberline {E}The Structured Exact Encoding of the Differentiation Matrix}{36}{appendix.E}%
+\contentsline {subsection}{\numberline {E.1}Proof of \Cref {prop:G-factorisation}}{36}{subsection.E.1}%
+\contentsline {subsection}{\numberline {E.2}The arithmetic SELECT}{36}{subsection.E.2}%
+\contentsline {subsection}{\numberline {E.3}Proof of \Cref {prop:standard-cost}}{36}{subsection.E.3}%
+\contentsline {subsection}{\numberline {E.4}Subnormalisation across $n$}{36}{subsection.E.4}%
+\contentsline {section}{\numberline {F}The Shared Pipeline: Identities and Formulas}{37}{appendix.F}%
+\contentsline {subsection}{\numberline {F.1}Proof of \Cref {prop:stacked-reflection}}{37}{subsection.F.1}%
+\contentsline {subsection}{\numberline {F.2}Qubitisation: Chebyshev polynomials of the walk}{37}{subsection.F.2}%
+\contentsline {subsection}{\numberline {F.3}The controlled walk}{37}{subsection.F.3}%
+\contentsline {subsection}{\numberline {F.4}The imaginary-time filter}{37}{subsection.F.4}%
+\contentsline {subsection}{\numberline {F.5}GQSP phases}{37}{subsection.F.5}%
+\contentsline {subsection}{\numberline {F.6}The readout identity for probabilistic preparation}{37}{subsection.F.6}%
+\contentsline {section}{\numberline {G}The Descriptor Construction in Full}{37}{appendix.G}%
+\contentsline {subsection}{\numberline {G.1}Block rows in full}{37}{subsection.G.1}%
+\contentsline {subsection}{\numberline {G.2}Higher order, variable coefficients, and the padded block count}{37}{subsection.G.2}%
+\contentsline {paragraph}{Padding to a power of two.}{37}{section*.57}%
+\contentsline {subsection}{\numberline {G.3}Proof of \Cref {thm:kernel-equivalence}}{39}{subsection.G.3}%
+\contentsline {subsection}{\numberline {G.4}The term IR and its compilation}{39}{subsection.G.4}%
+\contentsline {subsection}{\numberline {G.5}Proof of \Cref {prop:descriptor-cost}}{39}{subsection.G.5}%
+\contentsline {subsection}{\numberline {G.6}Block rescaling}{39}{subsection.G.6}%
+\contentsline {section}{\numberline {H}The Nonlinear Route in Full}{39}{appendix.H}%
+\contentsline {subsection}{\numberline {H.1}The doubled space}{39}{subsection.H.1}%
+\contentsline {subsection}{\numberline {H.2}Proof of \Cref {prop:no-penalty}}{39}{subsection.H.2}%
+\contentsline {subsection}{\numberline {H.3}The Carleman lift}{39}{subsection.H.3}%
+\contentsline {subsection}{\numberline {H.4}Ratio rows and the space-time forms}{39}{subsection.H.4}%
+\contentsline {subsection}{\numberline {H.5}Product folds}{39}{subsection.H.5}%
+\contentsline {subsection}{\numberline {H.6}Fourier--Galerkin operators}{39}{subsection.H.6}%
+\contentsline {section}{\numberline {I}Verification Protocol}{39}{appendix.I}%
+\contentsline {subsection}{\numberline {I.1}Modes, sizes and tolerances}{39}{subsection.I.1}%
+\contentsline {subsection}{\numberline {I.2}Structured probes}{39}{subsection.I.2}%
+\contentsline {subsection}{\numberline {I.3}Per-atom residuals}{39}{subsection.I.3}%
+\contentsline {subsection}{\numberline {I.4}The classical reference: eigh against SVD}{39}{subsection.I.4}%
+\contentsline {subsection}{\numberline {I.5}The circuit-simulation memory and time model}{40}{subsection.I.5}%
+\contentsline {subsection}{\numberline {I.6}Acceptance and the error budget}{40}{subsection.I.6}%
+\contentsline {section}{\numberline {J}Benchmark Catalogue}{40}{appendix.J}%
+\contentsline {subsection}{\numberline {J.1}Linear problems}{40}{subsection.J.1}%
+\contentsline {subsection}{\numberline {J.2}Nonlinear and coupled problems}{43}{subsection.J.2}%
+\contentsline {subsection}{\numberline {J.3}Results by problem}{43}{subsection.J.3}%
+\contentsline {section}{\numberline {K}Reproduction Record}{43}{appendix.K}%
+\contentsline {subsection}{\numberline {K.1}All panels}{43}{subsection.K.1}%
+\contentsline {subsection}{\numberline {K.2}The Fig.~5 triage}{43}{subsection.K.2}%
+\contentsline {subsection}{\numberline {K.3}Panels not reproduced, and printed errors}{43}{subsection.K.3}%
+\contentsline {subsection}{\numberline {K.4}The paper's claims}{43}{subsection.K.4}%
+\contentsline {subsection}{\numberline {K.5}The tau-truncation ablation}{43}{subsection.K.5}%
+\contentsline {section}{\numberline {L}Software and Reproducibility}{43}{appendix.L}%
+\contentsline {subsection}{\numberline {L.1}Architecture}{43}{subsection.L.1}%
+\contentsline {subsection}{\numberline {L.2}Records and provenance}{44}{subsection.L.2}%
+\contentsline {subsection}{\numberline {L.3}Campaigns and computational resources}{44}{subsection.L.3}%
+\contentsline {subsection}{\numberline {L.4}Tests}{44}{subsection.L.4}%
+\contentsline {subsection}{\numberline {L.5}Regenerating the results}{44}{subsection.L.5}%
+\contentsline {subsection}{\numberline {L.6}Environment}{44}{subsection.L.6}%
+\contentsline {section}{\numberline {M}Research Proposal}{44}{appendix.M}%

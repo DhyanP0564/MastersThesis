@@ -1,0 +1,200 @@
+% =============================================================================
+% Appendix B  Chebyshev and Ultraspherical Identities
+% Cited from sec:bg-ultraspherical, sec:pihm-residual, sec:descriptor-construction.
+% Plan: ThesisPlanning.md §6 (B).
+%
+% CONTENT  The normalised basis and S; the entries of G, Bt and Dt; the
+%          ultraspherical connection; the N = 4 instance. Kept from the draft
+%          (matrices re-checked against pihm.operators.derivative, 2026-09-25).
+% The raw (unnormalised) basis carries the subscript "raw": "std" is reserved
+%   for the standard form (T-07). The local symbols a_l, p_l (a function's and
+%   its derivative's coefficients) are this appendix's own.
+% The draft's "Higher order, variable coefficients, and the padded block
+%   count" subsection now lives in Appendix G (label sec:app-variable-coeff).
+% =============================================================================
+
+This appendix records the entries of the banded factors $\Bt$ and
+$\Dt$ introduced in \Cref{sec:descriptor-construction}, the exact factorisation
+$\G = \Bt^{-1}\Dt$, and the fully populated $N = 4$ instance of the
+first-order descriptor operator.
+
+\subsection{The differentiation recurrence}
+
+For $f = \sum_{\ell\ge 0} a_\ell T_\ell$ with derivative $f' = \sum_{\ell\ge 0} p_\ell T_\ell$ on
+$[-1,1]$, the Chebyshev coefficients satisfy
+\begin{equation}
+    c_{\ell-1}\,p_{\ell-1} - p_{\ell+1} = 2\ell\,a_\ell , \qquad \ell \ge 1 ,
+    \label{eq:app-cheb-recurrence}
+\end{equation}
+with $c_0 = 2$ and $c_\ell = 1$ for $\ell \ge 1$; the $\ell = 1$ row therefore carries the
+factor $c_0 = 2$ on $p_0$. Truncating to $N = 2^n$ coefficients and dropping the
+$p_N$ term, \Cref{eq:app-cheb-recurrence} is the matrix identity
+$\Bt_{\mathrm{raw}}\,p = \Dt_{\mathrm{raw}}\,a$ with
+$\Dt_{\mathrm{raw}}$ a single superdiagonal, $(\Dt_{\mathrm{raw}})_{\ell,\ell+1} = 2(\ell+1)$,
+and $\Bt_{\mathrm{raw}}$ two diagonals,
+$(\Bt_{\mathrm{raw}})_{\ell,\ell} = c_\ell$, $(\Bt_{\mathrm{raw}})_{\ell,\ell+2} = -1$.
+
+\subsection{The normalised basis}
+
+The construction of \Cref{sec:descriptor-construction} works in the normalised basis
+$\varphi_0 = T_0 / 2^{n/2}$, $\varphi_\ell = T_\ell / 2^{(n-1)/2}$ ($\ell \ge 1$), orthonormal
+under the discrete $N$-point Chebyshev inner product $\langle T_k, T_\ell \rangle_N =
+\tfrac{N}{2}\,c_\ell\,\delta_{k\ell}$ \cite{trefethen2000spectral}: since $N = 2^n$, this gives
+$\|\varphi_0\|_N = \|\varphi_\ell\|_N = 1$ exactly, so the coefficient vector of a unit-norm
+function is a unit vector. Writing
+$S = \operatorname{diag}(\sqrt{c_\ell})$, the normalised factors are
+$\Bt = S\,\Bt_{\mathrm{raw}}\,S^{-1}$ and
+$\Dt = S\,\Dt_{\mathrm{raw}}\,S^{-1}$, that is
+\begin{equation}
+    \Dt_{\ell,\ell+1} = 2(\ell+1)\sqrt{c_\ell / c_{\ell+1}} , \qquad
+    \Bt_{\ell,\ell} = c_\ell , \qquad
+    \Bt_{\ell,\ell+2} = -\sqrt{c_\ell / c_{\ell+2}} ,
+    \label{eq:app-normalised-entries}
+\end{equation}
+so $\Dt$ has the single non-zero diagonal $(2\sqrt{2},\, 4,\, 6,\, 8,\, \dots)$
+and $\Bt$ has main diagonal $(2,\, 1,\, 1,\, \dots)$ and second superdiagonal
+$(-\sqrt{2},\, -1,\, -1,\, \dots)$. Both hold $\mathcal{O}(N)$ non-zero entries at
+any $N$. The dense Chebyshev derivative matrix is their exact quotient,
+\begin{equation}
+    \G = \Bt^{-1}\Dt ,
+\end{equation}
+an algebraic identity rather than a numerical approximation: $\Bt$ and $\Dt$
+are read directly off the same recurrence that defines $\G$
+(\Cref{eq:app-cheb-recurrence}), so the equality holds exactly at every $N$,
+independent of whichever values a test suite happens to check.
+\Cref{app:verification} reports this identity's
+residual against the reference implementation, alongside the rest of the
+composition-algebra checks.
+
+\subsection{The Ultraspherical Connection}
+\label{app:ultraspherical}
+
+The banded factorisation above is the first-derivative case of the
+ultraspherical spectral method of Olver and Townsend \cite{olver2013}. Stating
+the correspondence precisely is what fixes what this thesis adds to it.
+
+Olver and Townsend represent a function's derivative not in the Chebyshev
+basis $T_k$ but in the ultraspherical (Gegenbauer) basis $C_k^{(\lambda)}$,
+the family of polynomials orthogonal with respect to the weight
+$(1-x^2)^{\lambda - 1/2}$; at $\lambda = 1$ these are the Chebyshev
+polynomials of the second kind, $C_k^{(1)} = U_k$. Differentiation of a
+Chebyshev series obeys
+\begin{equation}
+    \frac{\mathrm{d}T_k}{\mathrm{d}x} = k\,C^{(1)}_{k-1} , \qquad k \ge 1
+    \label{eq:app-ot-diff}
+\end{equation}
+\cite[Eq.~2.5]{olver2013}, so for $u = \sum_k u_k T_k$ the coefficients of
+$u'$ in the $C^{(1)}$ basis are read off directly: $(\mathcal{D}_0 u)_k =
+(k+1)u_{k+1}$, a single superdiagonal, sparse at every truncation. Because
+$u'$'s coefficients now live in a different basis to $u$'s own, a second,
+purely algebraic operator is needed to convert a function's own Chebyshev
+coefficients into the $C^{(1)}$ basis without differentiating it:
+$\mathcal{S}_0$, with $(\mathcal{S}_0)_{k,k} = 1$ ($k=0$), $\tfrac12$ ($k \ge
+1$), and $(\mathcal{S}_0)_{k,k+2} = -\tfrac12$ \cite[Eq.~2.8]{olver2013}.
+Comparing entries, $\Dt_\mathrm{raw} = 2\mathcal{D}_0$ and
+$\Bt_\mathrm{raw} = 2\mathcal{S}_0$ exactly: the recurrence
+$\Bt_\mathrm{raw}\,p = \Dt_\mathrm{raw}\,a$ of
+\Cref{eq:app-cheb-recurrence} is literally $\mathcal{S}_0\,p = \mathcal{D}_0\,a$,
+doubled by the convention that folds the weight of $T_0$ into $c_0 = 2$
+rather than into the polynomial itself. This is the discrete shadow the
+framing of \Cref{sec:descriptor-construction} claims: the descriptor
+recurrence does not compute a new identity, it asserts an existing one --
+that $p$'s own Chebyshev coefficients, converted into the $C^{(1)}$ basis by
+$\mathcal{S}_0$, must equal the derivative computed directly by
+$\mathcal{D}_0$ -- as one row of a linear system, rather than solving it for
+$p$ via $\mathcal{S}_0^{-1}$.
+
+The generalisation to order $k \ge 1$ in \cite{olver2013} raises the basis
+one level per derivative: a $\lambda$-th derivative needs coefficients in
+$C^{(\lambda)}$, obtained from the analogous pair
+$\mathrm{d}C_k^{(\lambda)}/\mathrm{d}x = 2\lambda\,C_{k-1}^{(\lambda+1)}$
+($k\ge1$, giving $\mathcal{D}_\lambda$, still a single superdiagonal) and a
+conversion operator $\mathcal{S}_\lambda : C^{(\lambda)} \to C^{(\lambda+1)}$,
+still two diagonals \cite[Eqs.~3.2--3.3]{olver2013}. To assemble one equation
+of order $k$, every term is raised to the common top basis $C^{(k)}$ by a
+chain $\mathcal{S}_{k-1}\cdots\mathcal{S}_{\lambda+1}$ applied after each
+term's own $\mathcal{M}_\lambda[a^\lambda]\mathcal{D}_\lambda$, giving one
+almost-banded operator $\mathrm{L} = \mathcal{M}_k[a^k]\mathcal{D}_k +
+\sum_{\lambda=0}^{k-1}\mathcal{S}_{k-1}\cdots\mathcal{S}_\lambda
+\mathcal{M}_\lambda[a^\lambda]\mathcal{D}_\lambda$ that is solved once for
+the coefficients of $u^{(k)}$ \cite[\S3.2]{olver2013} -- so a $k$-th order
+equation needs $k$ distinct conversion operators $\mathcal{S}_0, \dots,
+\mathcal{S}_{k-1}$ chained together and the lower-order unknowns eliminated.
+
+The descriptor construction of \Cref{sec:descriptor-residual} takes a
+different route to the same sparsity. Rather than raising the basis and
+eliminating, it keeps every derivative's coefficients in the \emph{same}
+normalised Chebyshev basis, as its own block $\fhat{j}$ of $w$, and reuses the
+single $\lambda = 0$ pair $(\Bt, \Dt)$ between every consecutive
+pair of blocks (\Cref{eq:descriptor-recurrence-rows}). No elimination is
+performed, and no operator beyond $\Bt$, $\Dt$ and the
+multiplication operators of \Cref{sec:app-variable-coeff} is required at any
+order $k$ -- the price is the larger state $w$ that carries every
+intermediate derivative explicitly instead of eliminating it
+(\Cref{sec:app-variable-coeff}). What this thesis adds to \cite{olver2013}
+is not a new sparsification of differentiation -- that is their result -- but
+applying the \emph{same} $\lambda = 0$ identity block-wise to build an
+unreduced, differential-algebraic residual for the physics-informed
+Hamiltonian of \cite{wu2025pihm}, whose block structure is exactly what
+\Cref{sec:descriptor-block-encoding} block-encodes.
+
+\subsection{The \texorpdfstring{$N = 4$}{N = 4} instance}
+
+At $n = 2$ ($N = 4$), \Cref{eq:app-normalised-entries} gives
+\begin{equation}
+    \Bt =
+    \begin{pmatrix}
+        2 & 0 & -\sqrt{2} & 0 \\
+        0 & 1 & 0 & -1 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix},
+    \qquad
+    \Dt =
+    \begin{pmatrix}
+        0 & 2\sqrt{2} & 0 & 0 \\
+        0 & 0 & 4 & 0 \\
+        0 & 0 & 0 & 6 \\
+        0 & 0 & 0 & 0
+    \end{pmatrix},
+    \qquad
+    \G =
+    \begin{pmatrix}
+        0 & \sqrt{2} & 0 & 3\sqrt{2} \\
+        0 & 0 & 4 & 0 \\
+        0 & 0 & 0 & 6 \\
+        0 & 0 & 0 & 0
+    \end{pmatrix}.
+\end{equation}
+The top-right entry $3\sqrt{2}$ of $\G$ is the fill-in: coefficient $0$ of the
+derivative depends on coefficient $3$ of the input. Row $\ell$ of $\G$ is
+non-zero at columns $\ell+1, \ell+3, \dots$, so this is the extreme case --
+the lowest-order coefficient can depend on up to half the others, while the
+highest-order one (row $3$ above) depends on none. The factorisation removes
+the fill-in entirely: no row of $\Bt$ or $\Dt$ touches more than
+two coefficients.
+
+For the first-order equation $f' + 2f = 0$ of \Cref{sec:descriptor-residual},
+$w = (\fhat{0};\, \fhat{1})$ and
+$\Adesc = \left(\begin{smallmatrix} -\Dt & \Bt \\ 2 I_4 & I_4 \end{smallmatrix}\right)$
+is the $8 \times 8$ matrix
+\begin{equation}
+    \Adesc =
+    \left[
+    \begin{array}{cccc|cccc}
+        0 & -2\sqrt{2} & 0 & 0 & 2 & 0 & -\sqrt{2} & 0 \\
+        0 & 0 & -4 & 0 & 0 & 1 & 0 & -1 \\
+        0 & 0 & 0 & -6 & 0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\ \hline
+        2 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+        0 & 2 & 0 & 0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 2 & 0 & 0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 2 & 0 & 0 & 0 & 1
+    \end{array}
+    \right] .
+    \label{eq:app-descriptor-8x8}
+\end{equation}
+The top four rows are the recurrence block $-\Dt\,\fhat{0} + \Bt\,\fhat{1} = 0$; the
+bottom four are the differential row $2\fhat{0} + \fhat{1} = 0$. Every non-zero entry lies on a
+diagonal or a near-diagonal, in place of the dense $\G + 2I$ of the eliminated
+form.

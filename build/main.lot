@@ -1,2 +1,26 @@
 \babel@toc {australian}{}\relax 
-\contentsline {table}{\numberline {1}{\ignorespaces \textbf {The derived entrywise error bound $\epsilon _G$, $n=2$ to $8$.} Each additional qubit shrinks the bound by roughly a further order of magnitude -- substantially faster than $N^{-1}$, confirming Wu et al.'s own qualitative claim of exponential decrease and giving it, here, a closed form and a verified value.}}{27}{table.caption.35}%
+\contentsline {table}{\numberline {1}{\ignorespaces Quantum approaches to differential equations: what each assumes, what it costs, and where it fails.}}{5}{table.caption.15}%
+\contentsline {table}{\numberline {2}{\ignorespaces The shared constraint layer: every constraint row, in either form, is one of four kinds.}}{10}{table.caption.22}%
+\contentsline {table}{\numberline {3}{\ignorespaces The benchmark ladder. Each problem adds one capability to those below it; R2--R6 are the paper's Figs 3--7.}}{11}{table.caption.23}%
+\contentsline {table}{\numberline {4}{\ignorespaces Operator-verification modes: what each compares, up to what size, and to what tolerance.}}{13}{table.caption.25}%
+\contentsline {table}{\numberline {5}{\ignorespaces Acceptance criteria for every state-preparation run.}}{13}{table.caption.26}%
+\contentsline {table}{\numberline {6}{\ignorespaces Subnormalisation of the differentiation-matrix encodings, relative to $\|\mathbb {G}\|_2$.}}{14}{table.caption.28}%
+\contentsline {table}{\numberline {7}{\ignorespaces The block rows of the descriptor residual $A_{\mathrm {desc}}$ for an order-$k$ equation.}}{17}{table.caption.35}%
+\contentsline {table}{\numberline {8}{\ignorespaces The atoms of the descriptor block encoding.}}{19}{table.caption.39}%
+\contentsline {table}{\numberline {9}{\ignorespaces Which nonlinear route prepares the solution, and which only projects onto a kernel that contains it.}}{20}{table.caption.40}%
+\contentsline {table}{\numberline {10}{\ignorespaces The paper's printed scale factors against the exact solution's $\|b\|^2$ (\Cref {eq:eta-e}) and the paper-faithful ground state at the printed $n$. $^\dagger $: the ground state is not trusted (a degenerate kernel, or a gap ratio below 100). Classical computation.}}{21}{table.caption.41}%
+\contentsline {table}{\numberline {11}{\ignorespaces Where the cost lies: the paper's regime under its published encoding and under the structured exact encoding, against the descriptor form, for Fig.~3b ($\{1,4,4\}$, $f(-1)=0$). Tier: T2 where measured, T3 beyond.}}{22}{table.caption.44}%
+\contentsline {table}{\numberline {12}{\ignorespaces The gates used in this thesis.}}{31}{table.caption.50}%
+\contentsline {table}{\numberline {13}{\ignorespaces The published encoding of $\mathbb {G}$ against the paper's claims. Classical exact-mode measurement.}}{36}{table.caption.55}%
+\contentsline {table}{\numberline {14}{\ignorespaces Subnormalisation of the structured and published encodings of $\mathbb {G}$, relative to $\|\mathbb {G}\|_2$.}}{36}{table.caption.56}%
+\contentsline {table}{\numberline {15}{\ignorespaces Accuracy of the classical reference, $1 - |\cos |$ against the exact coefficients, for the standard form by \texttt {eigh}$(R^{\top }R)$ and by SVD of $R$, and for the descriptor form.}}{39}{table.caption.58}%
+\contentsline {table}{\numberline {16}{\ignorespaces The linear benchmark problems, R1--R5, with the paper's printed invariant constraints.}}{40}{table.caption.59}%
+\contentsline {table}{\numberline {17}{\ignorespaces The nonlinear and coupled benchmark problems, R6--R10.}}{41}{table.caption.60}%
+\contentsline {table}{\numberline {18}{\ignorespaces State preparation by problem and form. Tier as marked.}}{41}{table.caption.61}%
+\contentsline {table}{\numberline {19}{\ignorespaces The paper's solutions at its printed resolution: $L^\infty $ error of the paper-faithful and corrected variants, and the corrected variant's best over $n$. Classical computation.}}{41}{table.caption.62}%
+\contentsline {table}{\numberline {20}{\ignorespaces Which printed choice causes the Fig.~5 error: the paper-faithful variant over $n = 4, \dots , 10$, each correction alone, and both together.}}{42}{table.caption.63}%
+\contentsline {table}{\numberline {21}{\ignorespaces The claims of Wu et al.\ tested in this thesis, and their verdicts.}}{42}{table.caption.64}%
+\contentsline {table}{\numberline {22}{\ignorespaces Dropping the top $k$ rows of the equation block (the Chebyshev tau method) gives an exact kernel with accuracy comparable to the paper's least squares.}}{43}{table.caption.65}%
+\contentsline {table}{\numberline {23}{\ignorespaces Resource classes for the Setonix campaigns.}}{44}{table.caption.67}%
+\contentsline {table}{\numberline {24}{\ignorespaces The test tiers of the \texttt {pihm} package.}}{44}{table.caption.68}%
+\contentsline {table}{\numberline {25}{\ignorespaces Deviations from the research proposal of May 2025.}}{55}{table.caption.69}%

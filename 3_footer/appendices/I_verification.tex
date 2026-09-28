@@ -1,0 +1,75 @@
+% =============================================================================
+% Appendix I  Verification Protocol  --  cited from sec:pipeline-reference and
+% sec:pipeline-verification.   Plan: ThesisPlanning.md §6 (I).
+%
+% CONTENT  The verification modes, sizes and tolerances; the structured probes;
+%          per-atom residuals; the circuit-simulation memory and time model and
+%          its calibration; the acceptance criteria and the error-budget
+%          measurement; the eigh-against-SVD comparison.
+% SOURCES  Planning.md §6.2, §7.3, §7.8-7.9, App. A-3; Journal E023-E024;
+%          pihm/src/pihm/verify.py, classical.py, qsp/prepare.py.
+% =============================================================================
+
+\subsection{Modes, sizes and tolerances}
+\label{app:verification-modes}
+% LAND: tab:verification-modes in full -- how exact mode extracts
+%   Pi_out U Pi_in column by column, how probe mode estimates ||E||_F from Haar
+%   and structured inputs, what IR mode compares at every n, and why it is not
+%   a tautology (the operator it checks against is assembled independently).
+
+\subsection{Structured probes}
+\label{app:structured-probes}
+% LAND: the probes that target where past bugs lived -- cyclic wrap-around,
+%   T_0 weights, block edges, axis order, borrow flags (lessons L-01 to L-03,
+%   L-20) -- stated as coverage, not as history.
+
+\subsection{Per-atom residuals}
+\label{app:atom-residuals}
+% LAND: a table of verified residuals per atom and n. Include the banded-
+%   factorisation residual ||Bt^{-1} Dt - G|| over n = 1..10 from pihm's R0
+%   property tests (the draft's TODO named the legacy test
+%   test_descriptor_encoding.py::test_banded_factorisation_is_exact; cite the
+%   rebuilt package's test instead).
+
+\subsection{The classical reference: eigh against SVD}
+\label{app:eigh-vs-svd}
+% The values below are the planning probe's (Planning.md App. A-3: {1,4,4} with
+%   f(-1/2) = 0, reference (1/2 + x) e^{-2x}); regenerate at results-v1.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Accuracy of the classical reference, $1 - |\cos|$ against the exact coefficients, for the standard form by \texttt{eigh}$(R^{\top}R)$ and by SVD of $R$, and for the descriptor form.}
+    \label{tab:eigh-vs-svd}
+    \small
+    \begin{tabular}{@{}r l l l@{}}
+        \toprule
+        $n$ & Standard, \texttt{eigh} & Standard, SVD & Descriptor \\
+        \midrule
+        2 & $\prov{1.7\times10^{-1}}$  & $\prov{1.7\times10^{-1}}$ & $\prov{1.6\times10^{-2}}$ \\
+        3 & $\prov{8.6\times10^{-8}}$  & $\prov{8.6\times10^{-8}}$ & $\prov{5.8\times10^{-9}}$ \\
+        4 & $\prov{0}$                  & $\prov{\le 2\times10^{-16}}$ & $\prov{\le 2\times10^{-16}}$ \\
+        5 & $\prov{3.7\times10^{-15}}$ & $\prov{\le 2\times10^{-16}}$ & $\prov{\le 2\times10^{-16}}$ \\
+        6 & $\prov{1.7\times10^{-10}}$ & $\prov{\le 2\times10^{-16}}$ & $\prov{\le 2\times10^{-16}}$ \\
+        7 & $\prov{1.2\times10^{-4}}$  & $\prov{\le 2\times10^{-16}}$ & $\prov{\le 2\times10^{-16}}$ \\
+        8 & $\prov{0.73}$               & $\prov{\le 2\times10^{-16}}$ & $\prov{\le 2\times10^{-16}}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{The circuit-simulation memory and time model}
+\label{app:t1-model}
+% LAND: peak memory = the statevector, 16 * 2^q bytes for q qubits, plus one
+%   walk's own gates, estimated from the circuit's structure; time = d x (one
+%   measured step) x (initial-state candidates); `infeasible` recorded with the
+%   estimate and T3's numbers when either exceeds the run's budget (decision
+%   20). Calibration: measured peak / model = 0.85-1.05 at 22 qubits (Journal
+%   E024). The laptop benchmarks: R1 at n = 2 (11 qubits, d = 89) in 0.3 s;
+%   R2a at n = 2 (20 qubits, d = 544) at 4.2 s per step (\prov).
+
+\subsection{Acceptance and the error budget}
+\label{app:error-budget}
+% LAND: tab:acceptance applied run by run; each term of eq:error-budget measured
+%   separately, and how (eps_disc from the classical reference against the
+%   analytic solution; eps_filter from the ideal filter; eps_trunc and
+%   eps_phase from the realised polynomial; d eps_BE for the approximate
+%   published G only; eps_sample from the shot count).

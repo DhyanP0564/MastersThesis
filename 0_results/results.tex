@@ -1,0 +1,325 @@
+% =============================================================================
+% 0_results/results.tex -- pihm's results, quoted by key.
+% ThesisPlanning.md §10.2 (decision T-15).
+%
+% pihm/tools/thesis/export_numbers.py writes 0_results/generated/numbers.tex
+% from pihm's records, and this file reads it. Never type a pihm number by
+% hand; quote it:
+%
+%   \res{<run>}{<metric>}               \res{build/R2a/faithful/standard/n3}{eta}
+%   \res[2]{<run>}{<metric>}            two significant figures (default 3)
+%   \res[2,sci]{<run>}{<metric>}        ... in scientific notation (or fixed)
+%   \res[digits=4, notation=fixed]{<run>}{<metric>}   the same, spelt out
+%   \res[places=5]{<run>}{<metric>}     five decimal places, in fixed notation
+%   \resflag{<run>}{<flag>}{<if true>}{<if false>}
+%                                       \resflag{<run>}{trusted}{}{^{\dagger}}
+%
+% RUNS. A run's key reads like its record directory without the hash:
+%   <stage>/<problem>/<variant>/<regime>/n<size>[/<tier>][/<option>=<value>][/<label>]
+% for example
+%   build/R2a/faithful/standard/n3          stateprep/R2a/corrected/standard/n3/T2
+%   build/R4b/faithful/standard/n5/exact-root
+%   build/R2a/faithful/standard/n5/truncation=tau
+% A statistic over n replaces n<size> by its name, as in
+% build/R2a/corrected/standard/best (metrics field_err_linf and n); other
+% derived numbers have keys of their own, as derivative/n5. A metric is the
+% record's own name for it (the columns of pihm's summary.csv). The generated
+% file lists every key with its metrics.
+%
+% NUMBERS. A float keeps `digits' significant figures (3 by default), in
+% fixed notation from 10^-3 to 10^5 -- where an integer digit is never rounded
+% away -- and in scientific notation outside; `sci' or `fixed' forces one. An
+% integer prints exactly, unless `sci'. \ressiunitx holds siunitx options for
+% every quoted number (digit grouping, the exponent's product sign).
+%
+% PLACEHOLDERS. A number that does not exist renders as a box naming why:
+%   pending     the run is in a campaign but has not been run
+%   infeasible  the run was refused on its resource estimate; this is a
+%               legitimate result, and the final text prints \resinfeasiblemark
+%   failed      the run failed
+%   stale       only a record of an earlier configuration exists; its value is
+%               shown, framed, until the campaign is rerun
+%   no value    the run records no such metric
+%   unknown     no campaign has the run: a typo, or a campaign not yet written
+% Each is also a warning in the log, and the log ends with a count. Values
+% exported before tag results-v1 print tinted. In a final build (an export
+% with --final, or \resfinaltrue to try one) every placeholder but infeasible
+% is an error.
+%
+% The exporter also lists every number the thesis quotes that is not current,
+% with the reason:  python tools/thesis/export_numbers.py  (in pihm/).
+% The full guide -- finding a key, the metrics, what each placeholder asks of
+% you, extending the export -- is 0_results/README.md.
+% =============================================================================
+
+\usepackage{siunitx}
+
+% --- Appearance: edit freely -------------------------------------------------
+\colorlet{restint}{NavyBlue}          % a value exported before results-v1
+\colorlet{resstale}{Purple}           % a value from an earlier configuration
+\colorlet{respending}{Orange}
+\colorlet{resinfeasible}{Gray}
+\colorlet{resfailed}{BrickRed}
+\colorlet{resnovalue}{Gray}
+\colorlet{resunknown}{Red}
+\newcommand{\resinfeasiblemark}{--}   % an infeasible result in the final text
+\newcommand{\ressiunitx}{group-digits = integer} % siunitx options, e.g. group-separator = {,}
+\newif\ifrestint \restinttrue         % tint values until the final export
+\newif\ifresfinal                     % set by a final export
+
+\ExplSyntaxOn
+
+% --- The exported data (0_results/generated/numbers.tex) ---------------------
+\tl_new:N \g__pihm_commit_tl
+\NewDocumentCommand \pihmexport { m m }
+  {
+    \tl_gset:Nn \g__pihm_commit_tl {#1}
+    \str_if_eq:nnT {#2} { final }
+      {
+        \legacy_if_gset_true:n { resfinal }
+        \legacy_if_gset_false:n { restint }
+      }
+  }
+\NewDocumentCommand \pihmrun { m m m }
+  {
+    \tl_gset:cn { g__pihm_status_ #1 _tl } {#2}
+    \tl_gset:ce { g__pihm_reason_ #1 _tl } { \tl_to_str:n {#3} }
+  }
+\NewDocumentCommand \pihmvalue { m m m m }
+  {
+    \tl_gset:cn { g__pihm_type_ #1 | #2 _tl } {#3}
+    \tl_gset:cn { g__pihm_value_ #1 | #2 _tl } {#4}
+  }
+\NewDocumentCommand \pihmflag { m m m }
+  { \tl_gset:cn { g__pihm_flag_ #1 | #2 _tl } {#3} }
+
+% --- Messages and counts -----------------------------------------------------
+\msg_new:nnn { pihm } { missing } { #1~ #2:~ #3 ~ (#4) }
+\msg_new:nnn { pihm } { summary }
+  { Quoted~ numbers~ not~ current:~ #2.~ Run~ pihm/tools/thesis/export_numbers.py~ for~ the~ list. }
+\msg_new:nnn { pihm } { no-numbers }
+  { No~ 0_results/generated/numbers.tex:~ run~ pihm/tools/thesis/export_numbers.py. }
+
+\clist_const:Nn \c__pihm_states_clist { pending, failed, stale, novalue, unknown, infeasible }
+\clist_map_inline:Nn \c__pihm_states_clist { \int_new:c { g__pihm_ #1 _int } }
+
+\cs_new:Npn \__pihm_label:n #1
+  { \str_case:nnF {#1} { { novalue } { no~ value } } {#1} }
+
+\tl_new:N \l__pihm_state_tl
+\tl_new:N \l__pihm_reason_tl
+
+% Count one quoted number that is not current, and warn (or, in a final build,
+% stop) with its reason. #1 key, #2 metric, #3 state.
+\cs_new_protected:Npn \__pihm_note:nnn #1#2#3
+  {
+    \int_gincr:c { g__pihm_ #3 _int }
+    \tl_if_exist:cTF { g__pihm_reason_ #1 _tl }
+      { \tl_set:Nv \l__pihm_reason_tl { g__pihm_reason_ #1 _tl } }
+      { \tl_set:Nn \l__pihm_reason_tl { no~ campaign~ has~ this~ run } }
+    \tl_if_empty:NT \l__pihm_reason_tl
+      { \tl_set:Nn \l__pihm_reason_tl { the~ run~ records~ no~ such~ metric } }
+    \bool_lazy_and:nnTF
+      { \legacy_if_p:n { resfinal } }
+      { ! \str_if_eq_p:nn {#3} { infeasible } }
+      {
+        \use:e
+          {
+            \msg_error:nnnnnn { pihm } { missing } { \exp_not:n {#1} } { \exp_not:n {#2} }
+              { \__pihm_label:n {#3} } { \exp_not:V \l__pihm_reason_tl }
+          }
+      }
+      {
+        \use:e
+          {
+            \msg_warning:nnnnnn { pihm } { missing } { \exp_not:n {#1} } { \exp_not:n {#2} }
+              { \__pihm_label:n {#3} } { \exp_not:V \l__pihm_reason_tl }
+          }
+      }
+  }
+
+% Set \l__pihm_state_tl to why run #1 has no value to show.
+\cs_new_protected:Npn \__pihm_missing_state:n #1
+  {
+    \tl_if_exist:cTF { g__pihm_status_ #1 _tl }
+      {
+        \tl_set:Nv \l__pihm_state_tl { g__pihm_status_ #1 _tl }
+        \bool_lazy_or:nnT
+          { \str_if_eq_p:Vn \l__pihm_state_tl { ok } }
+          { \str_if_eq_p:Vn \l__pihm_state_tl { stale } }
+          { \tl_set:Nn \l__pihm_state_tl { novalue } }
+      }
+      { \tl_set:Nn \l__pihm_state_tl { unknown } }
+  }
+
+\AtEndDocument
+  {
+    \seq_clear:N \l_tmpa_seq
+    \int_zero:N \l_tmpa_int
+    \clist_map_inline:Nn \c__pihm_states_clist
+      {
+        \int_compare:nNnT { \int_use:c { g__pihm_ #1 _int } } > { 0 }
+          {
+            \str_if_eq:nnF {#1} { infeasible }
+              { \int_add:Nn \l_tmpa_int { \int_use:c { g__pihm_ #1 _int } } }
+            \seq_put_right:Ne \l_tmpa_seq
+              { \int_use:c { g__pihm_ #1 _int } ~ \__pihm_label:n {#1} }
+          }
+      }
+    \int_compare:nNnT { \l_tmpa_int } > { 0 }
+      {
+        \msg_warning:nnee { pihm } { summary }
+          { \int_use:N \l_tmpa_int } { \seq_use:Nn \l_tmpa_seq { ,~ } }
+      }
+  }
+
+% --- Rendering ---------------------------------------------------------------
+\cs_new_protected:Npn \__pihm_box:nn #1#2
+  {
+    \mbox
+      {
+        \normalfont \scriptsize
+        \setlength \fboxsep { 1pt }
+        \fcolorbox {#1} { #1 !10 } { \textcolor {#1} {#2} }
+      }
+  }
+\cs_new_protected:Npn \__pihm_placeholder:n #1
+  {
+    \bool_lazy_and:nnTF
+      { \legacy_if_p:n { resfinal } }
+      { \str_if_eq_p:nn {#1} { infeasible } }
+      { \mbox { \resinfeasiblemark } }
+      { \__pihm_box:nn { res #1 } { \__pihm_label:n {#1} } }
+  }
+\cs_new_protected:Npn \__pihm_show:nn #1#2
+  {
+    \str_if_eq:nnTF {#1} { stale }
+      {
+        \mbox
+          {
+            \setlength \fboxsep { 0.5pt }
+            \fcolorbox { resstale } { resstale !6 } { \textcolor { resstale } {#2} }
+          }
+      }
+      { \mbox { \legacy_if:nTF { restint } { \textcolor { restint } {#2} } {#2} } }
+  }
+
+% --- Number formatting (siunitx) ---------------------------------------------
+\int_new:N \l__pihm_digits_int
+\int_new:N \l__pihm_precision_int
+\tl_new:N \l__pihm_notation_tl
+\tl_new:N \l__pihm_round_tl
+\tl_set:Nn \l__pihm_round_tl { figures }
+\fp_new:N \l__pihm_size_fp
+\keys_define:nn { pihm }
+  {
+    digits   .int_set:N  = \l__pihm_digits_int ,
+    digits   .initial:n  = 3 ,
+    notation .choices:nn = { auto , fixed , scientific }
+      { \tl_set_eq:NN \l__pihm_notation_tl \l_keys_choice_tl } ,
+    notation .initial:n  = auto ,
+    sci      .meta:n     = { notation = scientific } ,
+    fixed    .meta:n     = { notation = fixed } ,
+    places   .code:n     =
+      {
+        \tl_set:Nn \l__pihm_round_tl { places }
+        \tl_set:Nn \l__pihm_notation_tl { fixed }
+        \int_set:Nn \l__pihm_digits_int {#1}
+      } ,
+  }
+\regex_const:Nn \c__pihm_integer_regex { \A \d+ \Z }
+
+\cs_new_protected:Npn \__pihm_num:nnn #1#2#3
+  {
+    \use:e
+      {
+        \exp_not:N \num
+          [ round-mode = \l__pihm_round_tl , round-precision = #2 , exponent-mode = #1 ]
+          { \exp_not:n {#3} }
+      }
+  }
+\cs_generate_variant:Nn \__pihm_num:nnn { V }
+
+% Set a float's notation (auto resolved) and its precision: `digits' figures,
+% and in fixed notation never fewer than its integer digits.
+\cs_new_protected:Npn \__pihm_float:n #1
+  {
+    \str_if_eq:VnT \l__pihm_notation_tl { auto }
+      {
+        \fp_compare:nTF { \l__pihm_size_fp < 1e-3 || \l__pihm_size_fp >= 1e5 }
+          { \tl_set:Nn \l__pihm_notation_tl { scientific } }
+          { \tl_set:Nn \l__pihm_notation_tl { fixed } }
+      }
+    \int_set_eq:NN \l__pihm_precision_int \l__pihm_digits_int
+    \bool_lazy_and:nnT
+      { \str_if_eq_p:Vn \l__pihm_notation_tl { fixed } }
+      { \str_if_eq_p:Vn \l__pihm_round_tl { figures } }
+      {
+        \int_set:Nn \l__pihm_precision_int
+          {
+            \int_max:nn { \l__pihm_digits_int }
+              { \str_count:e { \fp_eval:n { trunc(\l__pihm_size_fp) } } }
+          }
+      }
+    \__pihm_num:Vnn \l__pihm_notation_tl { \int_use:N \l__pihm_precision_int } {#1}
+  }
+
+% #1 options, #2 type (i or f), #3 value.
+\cs_new_protected:Npn \__pihm_number:nnn #1#2#3
+  {
+    \group_begin:
+      \clist_map_inline:nn {#1}
+        {
+          \regex_match:NnTF \c__pihm_integer_regex {##1}
+            { \keys_set:nn { pihm } { digits = ##1 } }
+            { \keys_set:nn { pihm } {##1} }
+        }
+      \exp_args:No \sisetup { \ressiunitx }
+      \fp_set:Nn \l__pihm_size_fp { abs(#3) }
+      \bool_lazy_or:nnTF
+        { \fp_compare_p:nNn { \l__pihm_size_fp } = { 0 } }
+        {
+          \bool_lazy_and_p:nn
+            { \str_if_eq_p:nn {#2} { i } }
+            { ! \str_if_eq_p:Vn \l__pihm_notation_tl { scientific } }
+        }
+        { \num [ round-mode = none ] { \fp_eval:n {#3} } }
+        { \__pihm_float:n {#3} }
+    \group_end:
+  }
+\cs_generate_variant:Nn \__pihm_number:nnn { nvv }
+
+% --- The user commands -------------------------------------------------------
+\NewDocumentCommand \res { O{} m m }
+  {
+    \tl_if_exist:cTF { g__pihm_value_ #2 | #3 _tl }
+      {
+        \tl_set:Nv \l__pihm_state_tl { g__pihm_status_ #2 _tl }
+        \str_if_eq:VnT \l__pihm_state_tl { stale }
+          { \__pihm_note:nnn {#2} {#3} { stale } }
+        \__pihm_show:Vn \l__pihm_state_tl
+          { \__pihm_number:nvv {#1} { g__pihm_type_ #2 | #3 _tl } { g__pihm_value_ #2 | #3 _tl } }
+      }
+      {
+        \__pihm_missing_state:n {#2}
+        \__pihm_note:nnV {#2} {#3} \l__pihm_state_tl
+        \__pihm_placeholder:V \l__pihm_state_tl
+      }
+  }
+\NewDocumentCommand \resflag { m m +m +m }
+  {
+    \tl_if_exist:cTF { g__pihm_flag_ #1 | #2 _tl }
+      { \str_if_eq:vnTF { g__pihm_flag_ #1 | #2 _tl } { true } {#3} {#4} }
+      {
+        \__pihm_missing_state:n {#1}
+        \__pihm_note:nnV {#1} {#2} \l__pihm_state_tl
+      }
+  }
+\cs_generate_variant:Nn \__pihm_note:nnn { nnV }
+\cs_generate_variant:Nn \__pihm_placeholder:n { V }
+\cs_generate_variant:Nn \__pihm_show:nn { V }
+\NewDocumentCommand \pihmnonumbers { } { \msg_warning:nn { pihm } { no-numbers } }
+
+\ExplSyntaxOff
+
+\InputIfFileExists{0_results/generated/numbers.tex}{}{\pihmnonumbers}

@@ -1,43 +1,228 @@
 % =============================================================================
-% §6 Numerical Study  --  budget ~11 pp (less whatever moved to §3's numerical
-% verification section)
-% rubric: Project Body, results & discussion (/20--30)
+% Chapter 8  Numerical Study  --  ~12 pp
+% rubric: Project Body (Modelling) -- Results & Discussion /30.
+% Plan: ThesisPlanning.md §5.8.
 %
-% This chapter now reads purely as the descriptor method's own numerical study;
-% the published collocation route's reproduction and characterisation has its
-% own numerical verification section in §3.
-%
-% Self-containment rule: every number quoted here must be derivable from what is
-% printed in the thesis or its appendices.  Catalogue of all cases -> Appendix I.
+% PURPOSE     Evidence every claim in the Abstract and in sec:contributions,
+%             "without reference to any other documents".
+% CRITERION   "Complete, clearly presented results, with detailed discussion
+%             showing insight into the significance of the work or warranting
+%             publication in an international peer reviewed journal." Every figure
+%             is interpreted in prose.
+% SOURCES     pihm/docs/REPRODUCTION.md, PILLAR1.md, PILLAR2.md, CLAIMS.md;
+%             notebooks 10_paper_reproduction, 20_pillar1_operators,
+%             30_pillar2_stateprep, 40_scaling_and_claims, 50_navier_stokes; the
+%             P8 campaigns at tag results-v1; Planning.md §5.2, §5.4, §6.6-6.7,
+%             §7.3-7.9, App. A.
+% WRITE WHEN  Section by section as the gates pass: §8.2 at G1/G3 (W2);
+%             §8.3-8.6 at G4 (W3); §8.7 at G5 (W4); §8.8-8.9 at G6 (W5).
+% EVERY NUMBER is a \res from 0_results/ (\prov{...} only while pihm does not
+% produce it yet), and
+% EVERY number carries its tier (T1, T2 or T3) in the table or caption.
 % =============================================================================
 
 \subsection{Experimental Design and Cost Conventions}
-% State BEFORE the first comparison: what counts as a gate, the assumed
-% decomposition, how ancilla are counted, and which direction the convention
-% biases the comparison.  Also the two scope statements:
-%   (i) all results are classical simulations, dim <~ 2000 capped by simulation
-%       cost, never by the algorithm;
-%   (ii) all solution errors are classical state-vector reads, no measurement
-%       protocol is executed.
-% Software (DESolverLib / desolver_hpc / Setonix) named here, detail -> Appendix K.
+\label{sec:results-design}
+% ~0.75 pp -- BEFORE the first comparison.
+% LAND, in order:
+%   1. What counts as a gate: transpiled to {cx, u} at optimization_level=1,
+%      logical counts alongside, optional Clifford+T.
+%   2. How ancilla are counted: the composed V, not per atom.
+%   3. WHICH WAY THE CONVENTION BIASES THE COMPARISON, declared: the structured
+%      standard-form encoding is the BEST we could build, so any descriptor
+%      advantage is measured against the strongest baseline -- a conservative
+%      comparison.
+%   4. The tier of every number is marked in every table: T1, T2 or T3.
+%   5. All numbers come from results-v1.
 
-\subsection{Encoding Cost of the Descriptor Construction}
-% Headline table: gates, ancilla, alpha, exactness, gap -- DESCRIPTOR SIDE ONLY.
-% The published/collocation baseline for the same quantities is characterised in
-% §3's numerical verification section; cross-reference it here rather than
-% repeating that table -- present only the descriptor numbers plus the delta
-% against the §3 baseline.
+\subsection{Reproducing Wu et al.}
+\label{sec:results-reproduction}
+% ~2 pp. Framed as REPRODUCTION, never as rivalry (Style Trap 14).
+% LAND, in order:
+%   1. The closed form eq:eta-e and what it validates: our conventions are the
+%      paper's (claim A-02, restated by ISSUE-001).
+%   2. tab:eta-reproduction: all 16 panels. If over budget, keep the 11 ODE rows
+%      plus a summary line and move the rest to tab:app-repro-errors.
+%   3. fig:faithful-vs-corrected: the distortion from rounded constraint points
+%      and Maclaurin sources (claim A-13; ISSUE-004, ISSUE-005, ISSUE-007).
+%   4. Figs 6 and 7 not reproduced: hypotheses tested and outcomes (R-D1, R-D2),
+%      the printed Laplace typo (a footnote), the backward-heat observation
+%      (ISSUE-008). The authors were not contacted (decision 17).
+%   5. The paper-claims verdicts A-01 to A-13: one paragraph here; the table is
+%      tab:paper-claims in Appendix K (app:reproduction).
+%   6. The tau-truncation ablation (decision 11): one sentence and a pointer to
+%      tab:app-tau-ablation.
+% TAB: tab:eta-reproduction (T6). FIG: fig:faithful-vs-corrected (F6).
 
-\subsection{Spectral Gap and Success Probability}
+\begin{equation}
+    \eta_e = \|b\|^2 = \frac{N}{\pi}\int_{-1}^{1}\frac{f(x)^2}{\sqrt{1-x^2}}\,dx .
+    \label{eq:eta-e}
+\end{equation}
 
-\subsection{Solution Accuracy on Representative Problems}
-% THREE cases carried in depth, no more.  Everything else -> Appendix I table.
+\begin{table}[htbp]
+    \centering
+    \caption{The paper's printed scale factors against the exact solution's $\|b\|^2$ (\Cref{eq:eta-e}) and the paper-faithful ground state at the printed $n$. $^\dagger$: the ground state is not trusted (a degenerate kernel, or a gap ratio below 100). Classical computation.}
+    \label{tab:eta-reproduction}
+    \small
+    \begin{tabular}{@{}l l r l l l l@{}}
+        \toprule
+        Fig. & Problem & $n$ & Printed $\eta_e$ & Ideal $\|b\|^2$ & Ground state & Agreement \\
+        \midrule
+        3b & R2a & 3 & 1.29 & \res[places=5]{build/R2a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R2a/faithful/standard/n3}{eta}\resflag{build/R2a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        3c & R2b & 3 & 32.47 & \res[places=5]{build/R2b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R2b/faithful/standard/n3}{eta}\resflag{build/R2b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark (one unit low) \\
+        3d & R2c & 5 & 451.71 & \res[places=5]{build/R2c/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R2c/faithful/standard/n5}{eta}\resflag{build/R2c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4a & R3a & 3 & 1.75 & \res[places=5]{build/R3a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R3a/faithful/standard/n3}{eta}\resflag{build/R3a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4b & R3b & 3 & 1.49 & \res[places=5]{build/R3b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R3b/faithful/standard/n3}{eta}\resflag{build/R3b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4c & R3c & 5 & 108.51 & \res[places=5]{build/R3c/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R3c/faithful/standard/n5}{eta}\resflag{build/R3c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4d & R3d & 5 & 135.38 & \res[places=5]{build/R3d/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R3d/faithful/standard/n5}{eta}\resflag{build/R3d/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        5a & R4a & 3 & 1.35 & \res[places=5]{build/R4a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R4a/faithful/standard/n3}{eta}\resflag{build/R4a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        5b & R4b & 3 & 14.74 & \res[places=5]{build/R4b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R4b/faithful/standard/n3}{eta}\resflag{build/R4b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark (one unit low) \\
+        5c & R4c & 4 & 0.82 & \res[places=5]{build/R4c/faithful/standard/n4}{eta_ideal} & $\res[places=5]{build/R4c/faithful/standard/n4}{eta}\resflag{build/R4c/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        5d & R4d & 4 & 77.51 & \res[places=5]{build/R4d/faithful/standard/n4}{eta_ideal} & $\res[places=5]{build/R4d/faithful/standard/n4}{eta}\resflag{build/R4d/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        \midrule
+        6b & R5a & 3 & 5.21559 & \res[places=5]{build/R5a/faithful/standard/n3x3}{eta_ideal} & $\res[places=5]{build/R5a/faithful/standard/n3x3}{eta}\resflag{build/R5a/faithful/standard/n3x3}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        6d & R5b & 4 & 603.863 & \res[places=5]{build/R5b/faithful/standard/n4x4}{eta_ideal} & $\res[places=5]{build/R5b/faithful/standard/n4x4}{eta}\resflag{build/R5b/faithful/standard/n4x4}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        6f & R5c & 5 & 216.469 & \res[places=5]{build/R5c/faithful/standard/n5x5}{eta_ideal} & $\res[places=5]{build/R5c/faithful/standard/n5x5}{eta}\resflag{build/R5c/faithful/standard/n5x5}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        7b & R6a & 2 & 3.75367 & \res[places=5]{build/R6a/faithful/standard/n2}{eta_ideal} & $\res[places=5]{build/R6a/faithful/standard/n2}{eta}\resflag{build/R6a/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        7c & R6b & 2 & 0.07984 & \res[places=5]{build/R6b/faithful/standard/n2}{eta_ideal} & $\res[places=5]{build/R6b/faithful/standard/n2}{eta}\resflag{build/R6b/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\placeholderfigure{Printed choices distort the paper's solutions at the printed resolution.}{fig:faithful-vs-corrected}{Four panels, the paper's Figs 5a--5d (R4a--R4d): the analytic solution, the paper-faithful ground state (rounded constraint points, Maclaurin sources) and the corrected ground state (exact roots, Chebyshev sources) at the printed $n$; inset or second row: $L^\infty$ error against $n$ for both variants. Source: notebook \texttt{10\_paper\_reproduction}. Classical computation.}
+
+\subsection{Operator Verification and Encoding Cost}
+\label{sec:results-operators}
+% ~1.5 pp
+% LAND, in order:
+%   1. Verification accuracy against n for each encoder and mode
+%      (fig:verification-accuracy).
+%   2. THE HEADLINE TABLE (tab:headline): published standard form | structured
+%      standard form | descriptor, over the quantities of Planning.md §3.9 at
+%      results-v1. The Abstract references it. Laid out with the three
+%      encodings as columns (it fits the page); FABLE does not appear.
+%   3. Resource fits against n with fitted exponents (checking claims B-03,
+%      B-04, B-05, C-01, C-02 and A-07).
+%   4. The published build against the paper's claims (A-06 to A-08): one
+%      verdict each.
+% FIG: fig:verification-accuracy (F7). TAB: tab:headline (T7).
+% CHECK at results-v1: Planning.md §3.9 labels the degree row "QITE degree",
+%   but its source (App. A-6) quotes the MINIMAX edge filter; state which
+%   filter the final numbers use.
+
+\placeholderfigure{Every encoding is verified to its mode's tolerance at every size tested.}{fig:verification-accuracy}{Verification error against $n$ for the published, structured and descriptor encodings: exact mode (filled markers), probe mode (open markers), IR mode (crosses), with each mode's tolerance as a dashed line; a second panel gives transpiled CNOT count per query against $n$ with fitted exponents. Source: notebook \texttt{20\_pillar1\_operators}.}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Where the cost lies: the paper's regime under its published encoding and under the structured exact encoding, against the descriptor form, for Fig.~3b ($\{1,4,4\}$, $f(-1)=0$). Tier: T2 where measured, T3 beyond.}
+    \label{tab:headline}
+    \small
+    \begin{tabular}{@{}l l l l@{}}
+        \toprule
+        Quantity & Standard, published & Standard, structured & Descriptor \\
+        \midrule
+        $\|H\|$ & \prov{$\Theta(N^8)$} & \prov{$\Theta(N^8)$} & \prov{$\Theta(N^2)$} \\
+        Gap $\Delta$ & \prov{7.04 (flat)} & \prov{7.04 (flat)} & \prov{0.454 (flat)} \\
+        $\alpha_{\G}/\|\G\|_2$ & \prov{$\sim N^3/2$} & \prov{$\le 2.12$} & no $\G$ \\
+        $\alpha_H/\|H\|$ & \prov{$\sim N^{12}$} & \prov{22 $\to$ 60} & \prov{5.3 $\to$ 1.05} \\
+        Gates per query & \prov{$O(n^3)$, approximate} & \prov{$O(n^2)$, exact} & \prov{$O(n^2)$, exact} \\
+        Ancilla & \prov{$2n+3$ ($\G$ alone)} & \prov{$n + O(\log n)$ per $\G$} & \prov{$\lceil\log_2(n+4)\rceil + 6$} \\
+        Degree at $n = 8$ ($\varepsilon = 10^{-6}$) & \prov{$8.2\times10^{23}$} & \prov{$1.2\times10^{10}$} & \prov{$5.6\times10^{3}$} \\
+        Degree scaling & \prov{$\sim N^{10}$} & \prov{$\tilde\Theta(N^4)$} & \prov{$\tilde\Theta(N)$} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{State Preparation and Readout}
+\label{sec:results-stateprep}
+% ~2 pp
+% LAND, in order:
+%   1. T1 = T2 agreement (<= 1e-10) where both run (claim C-08).
+%   2. Infidelity against the target epsilon and against the predicted bound
+%      (<= 10x predicted); measured against predicted p_G (relative <= 1e-8).
+%   3. gamma for the geometric, uniform and random initial states.
+%   4. Sensitivity to an underestimated Delta (x2, x10).
+%   5. The paper's time rule (eq:pihm-time-rule) against the a priori beta:
+%      the verdict on claim A-11.
+%   6. Readout: T1 with shots for R1, R2a and R5; field error against shots,
+%      following O(1/sqrt(shots)); the probabilistic-preparation correction
+%      (eq:readout-identity) as a before/after number (16% -> 1.4e-14 at R1,
+%      n = 2; \prov).
+%   7. The decoded field against the analytic solution with the error-budget
+%      terms of eq:error-budget broken out (F8).
+%   8. R2c: the paper's untruncated construction is degenerate at every n tested
+%      (reference not trusted); the tau-truncated variant (decision 11) resolves
+%      it (pihm/docs/PILLAR2.md; D-036) -- say which variant each number uses.
+% FIG: fig:decoded-field (F8).
+
+\placeholderfigure{The prepared state reproduces the analytic solution to within the predicted error budget.}{fig:decoded-field}{Decoded field $f_Q(x)$ against the analytic solution for R1 and R2a (both forms): circuit simulation (T1, with shot-sampled readout) and exact emulation (T2) overlaid; second panel: the error budget of \Cref{eq:error-budget} broken into $\varepsilon_{\mathrm{disc}}$, $\varepsilon_{\mathrm{filter}}$, $\varepsilon_{\mathrm{trunc}}$, $\varepsilon_{\mathrm{phase}}$ and $\varepsilon_{\mathrm{sample}}$ against $n$. Source: notebook \texttt{30\_pillar2\_stateprep}.}
+
+\subsection{Scaling: Where the Cost Lies}
+\label{sec:results-scaling}
+% ~1.5 pp -- THE HEADLINE FIGURE (F9); this single figure carries C and S2.
+% LAND, in order:
+%   1. The three panels, with fitted exponents: (a) ||H|| and alpha_H for the
+%      three encodings; (b) Delta; (c) degree d.
+%   2. T2 points where measured and T3 beyond, VISIBLY distinguished.
+%   3. Interpretation: the ENCODER wall (published against structured) and the
+%      HAMILTONIAN wall (structured against descriptor) as two separate gaps on
+%      one plot (claim C-05).
+%   4. "Could not simulate" is never "cannot reach".
+
+\placeholderfigure[7cm]{The encoder wall and the Hamiltonian wall are separate gaps.}{fig:scaling-headline}{Three log--log panels against $N = 2^n$ for Fig.~3b: (a) $\|H\|$ and $\alpha_H$ for the published, structured and descriptor encodings; (b) the gap $\Delta$; (c) the filter degree $d$, with fitted exponents ($\approx N^{10}$, $\tilde\Theta(N^4)$, $\tilde\Theta(N)$). Exact emulation (T2) as filled markers, resource estimates (T3) as open markers. Source: notebook \texttt{40\_scaling\_and\_claims}.}
+
+\subsection{Representative Problems}
+\label{sec:results-cases}
+% ~1.75 pp. THREE problems in depth, no more; each with a solution figure and a
+% both-forms comparison. Everything else -> Appendix J (app:catalogue), with a
+% pointer naming what is there.
+%   R2c {1,5,400}: stiffness and block rescaling -- where the descriptor's
+%       weakness sits and how rescaling fixes it (sec:descriptor-rescaling);
+%   R3 Legendre (m = 0): the exact-kernel machine-precision benchmark;
+%   R5 heat or wave: multi-axis; datum slices against the paper's invariants.
+% FIG: fig:representative (F10).
+
+\placeholderfigure[7cm]{Three representative problems, solved in both forms.}{fig:representative}{Three columns (R2c, R3a, R5b or R5c): top row, the decoded solution against the analytic one; bottom row, error against $n$ for the standard and descriptor forms (and, for R2c, with and without block rescaling). Exact emulation (T2). Source: notebook \texttt{40\_scaling\_and\_claims}.}
 
 \subsection{Nonlinear Benchmarks}
+\label{sec:results-nonlinear}
+% ~1 pp
+% LAND, in order:
+%   1. R6: kernel dimension; projection fidelity ~ 1 against physical fidelity
+%      (low) -- the projection evidence (prop:no-penalty).
+%   2. R8: a K x n_t error surface showing geometric decay in K once n_t
+%      resolves time, both forms, with the degree comparison (claim C-09).
+%   3. R9 Burgers against Cole-Hopf and the exact-lift floor.
+% FIG: fig:carleman-ns (F11, shared with sec:results-ns).
 
-\subsection{An Application Case Study}
-% ONE of Black--Scholes or Navier--Stokes.  Not both.
+\placeholderfigure[7cm]{Carleman truncation converges geometrically once time is resolved; the doubled space only projects.}{fig:carleman-ns}{(a) R8: error against Carleman order $K$ for several time resolutions $n_t$, both forms; (b) R6: projection fidelity against physical fidelity; (c) R10: Taylor--Green and vortex-pair vorticity snapshots against DNS, with the tier marked (T2 small, T3 beyond). Source: notebook \texttt{50\_navier\_stokes}.}
+
+\subsection{Case Study: Two-Dimensional Navier--Stokes}
+\label{sec:results-ns}
+% ~1 pp
+% LAND, in order:
+%   1. (10a) Taylor-Green validates F_1, the lift, the data rows and the time
+%      axis (J = 0: exact viscous decay).
+%   2. (10b) An active nonlinearity against DNS.
+%   3. Descriptor-in-time against standard-in-time at fixed K (claim C-10).
+%   4. T2 at small size and T3 beyond, stated plainly. If gate G6 is "honestly
+%      bounded by T3", this subsection reports that bound (ThesisPlanning.md §12,
+%      risk TR-1).
 
 \subsection{Summary of Findings}
-% 4--6 numbered findings, at least one a limitation of the descriptor construction
-% itself (Hilbert-space growth; the doubled-space route projecting, not preparing).
+\label{sec:results-summary}
+% ~0.5 pp
+% LAND: five or six NUMBERED findings, at least TWO negative or limiting, e.g.
+%   the descriptor's Hilbert-space cost and its need for rescaling on stiff
+%   problems; the doubled space projects; NS reaches only T3 at physically
+%   interesting K. Then the spine sentence (ThesisPlanning.md §3.2).
+
+% CHECKLIST (marker)
+%   1. Is the cost convention, and its bias, stated before the first comparison?
+%   2. Is the tier marked on every number?
+%   3. Is "could not simulate" kept distinct from "cannot reach"?
+%   4. Are there at most three in-depth problems?
+%   5. Does every caption stand alone?
+%   6. Is at least one finding negative?
+%   7. Is every Abstract number backed here?
+%   8. Is sec:results-reproduction framed as reproduction, not rivalry?

@@ -1,11 +1,78 @@
 % =============================================================================
-% §1 Introduction  --  budget ~4 pp  --  rubric: Introduction & Literature Review /20
+% Chapter 1  Introduction  --  ~3.5 pp  --  rubric: Introduction & Literature
+% Review /20.   Plan: ThesisPlanning.md §5.1.
+%
+% PURPOSE     Establish that quantum DE solvers matter and that the physics-
+%             informed Hamiltonian route has a specific, *located* cost problem;
+%             then state what this thesis contributes, and what it does not.
+% CRITERION   "Comprehensive, superior understanding of the historical background
+%             and state of the art, with excellent connection of the current field
+%             to the project" (>= 18/20). The introduction converges; it does not
+%             survey.
+% SOURCES     Planning.md §0; ThesisPlanning.md §3.1 (contributions), §3.2 (spine
+%             sentence), §3.3 (vocabulary).
+% WRITE WHEN  Last (wave W6), so it promises only what was delivered.
 % =============================================================================
 
 \subsection{Differential Equations as a Target for Quantum Computation}
+\label{sec:intro-target}
+% ~1 pp
+% LAND, in order:
+%   1. Applications (fluids, finance, fields), with citations to the domains.
+%   2. Why quantum algorithms are proposed for them.
+%   3. The resource that matters: queries x gates per query, and qubits.
+%   4. The algorithm families in one or two sentences each; the detail and the
+%      judgement are Chapter 2's job (sec:background).
 
-\subsection{The Encoding Wall in Physics-Informed Quantum Solvers}
+\subsection{Physics-Informed Hamiltonians and Where Their Cost Lies}
+\label{sec:intro-cost}
+% ~1 pp
+% LAND, in order:
+%   1. Wu et al.'s idea in three sentences, attributed at FIRST mention
+%      (\cite{wu2025pihm}), not at first critique.
+%   2. The question this thesis asks: is the method's cost in its ENCODER or in
+%      its HAMILTONIAN?
+%   3. One quantitative sentence before the end of page 2. At n = 8 (the paper's
+%      Fig. 3b) the filter degree is 8.2e23 as published, 1.2e10 with the best
+%      exact encoding, and 5.6e3 in descriptor form (Planning.md App. A-6).
+%      Quote with \res once pihm produces them (\prov{...} until then); check
+%      which filter the final numbers use (A-6 quotes the minimax edge filter).
 
 \subsection{Contributions and Scope}
+\label{sec:contributions}
+% ~1 pp
+% LAND, in order:
+%   1. The numbered contributions (ThesisPlanning.md §3.1): the headline C, then
+%      S1-S4. Each is one sentence of WHAT and one clause of EVIDENCE (a chapter
+%      pointer). C always carries its cost (the block register); S2 is phrased
+%      as serving the comparison ("isolates ..."), never as a rival solver.
+%        C   the descriptor reformulation                      -> Ch. 6, §8.3-8.6
+%        S1  a verified reproduction and audit of Wu et al.     -> §8.2, App. K
+%        S2  an exact structured encoding of the standard form  -> Ch. 5, §8.3
+%        S3  a regime-independent verified pipeline             -> Ch. 4, §8.4
+%        S4  nonlinearity: preparation versus projection        -> Ch. 7, §8.7-8.8
+%   2. The spine sentence (ThesisPlanning.md §3.2).
+%   3. The scope statement, once, plainly: every result is a classical
+%      computation -- circuit simulation (T1) at small n, exact emulation (T2)
+%      beyond it, resource estimates (T3) beyond that. Nothing ran on hardware.
+%      Readout is the paper's protocol, reproduced in simulation.
+%   4. What is NOT claimed: a poly-log end-to-end cost; preparation for
+%      degenerate formulations; a new readout protocol.
 
 \subsection{Outline}
+\label{sec:outline}
+% ~0.5 pp
+% LAND: one item per chapter naming its job, headings quoted verbatim. Mark
+%   Chapter 3 as reviewed prior art and Chapters 4-7 as this thesis's model.
+
+% CHECKLIST (marker)
+%   1. Can a non-specialist physicist state the problem after two pages?
+%   2. Is there a number on or before page 2?
+%   3. Is every contribution numbered and falsifiable, with its evidence named?
+%   4. Is the scope statement explicit, including the tier vocabulary and
+%      "no hardware"?
+%   5. Is Wu et al. attributed at first mention, not at first critique?
+%   6. Does the outline match the headings verbatim?
+% TRAPS  Leading with the descriptor's advantage before the reader knows the
+%        baseline; claiming a speed-up (Style Trap 9); listing S2 as a competing
+%        method.

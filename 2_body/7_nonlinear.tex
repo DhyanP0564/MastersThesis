@@ -1,20 +1,184 @@
 % =============================================================================
-% §5 Extension to Polynomial Nonlinearity  --  budget ~4 pp
-% rubric: Project Body, groundwork / model formulation
+% Chapter 7  Polynomial Nonlinearity  --  ~4 pp
+% rubric: Project Body (Modelling) -- Model Formulation /30.
+% Plan: ThesisPlanning.md §5.7 (supporting contribution S4).
 %
-% Purpose: show the structural move of §4 generalises, and draw the
-% preparation-versus-projection line so plainly a marker cannot miss it.
-% Derivations -> Appendix G.
+% PURPOSE     Answer question (iii) of sec:pihm-assessment: separate what the
+%             doubled space can claim (an exact encoding; a PROJECTION) from what
+%             Carleman can (a PREPARATION), in BOTH forms; then set up the fluid
+%             problems.
+% SOURCES     Planning.md §3.6 (doubled or tripled space; the Carleman lift and
+%             its space-time forms; the product fold on a circuit), §5.3 R6-R10,
+%             §6.5, §7.7; claims A-10, B-12, B-18, B-19, B-22, C-09, C-10;
+%             pihm/src/pihm/carleman.py, problems/fluids.py (P6-P7).
+% WRITE WHEN  Gate G5 (wave W4); §7.5 at gate G6 (wave W5).
 % =============================================================================
 
-\subsection{The Carleman Lift onto the Descriptor Path}
-% Dissipativity precondition Re lambda(F_1) < 0 stated AS a precondition.
+\subsection{Two Regime-Independent Treatments}
+\label{sec:nonlinear-overview}
+% ~0.25 pp
+% LAND: nonlinearity is the second axis of sec:pipeline-inputs; both treatments
+%   work in both forms. One sentence tying back to sec:descriptor-idea's
+%   structural principle (the same idea applied again, not new machinery).
 
-\subsection{The Nodal Product-to-Sum Fold}
-% alpha = 2 = ||n_1|| exactly for the quadratic case: optimal, not merely tight.
+\subsection{The Doubled Space: Exact Encoding, Degenerate Kernel}
+\label{sec:doubled-space}
+% ~0.75 pp
+% LAND, in order:
+%   1. Wu et al.'s construction (sec:pihm-doubled) applied in either form: an
+%      EXACT encoding (claim B-12 for the fold).
+%   2. The kernel dimension: >= N^2 - 2N measured (the paper states
+%      >= 2^{2n-1}; claim A-10).
+%   3. prop:no-penalty: QITE returns the projection of phi_0 onto the kernel;
+%      no penalty makes the kernel one-dimensional, because kernels are linear
+%      subspaces and product states are not. Proof -> Appendix H
+%      (app:proof-no-penalty).
+%   4. The claim allowed: "the encoding is exact" and "QITE projects onto the
+%      kernel". NOT: "prepares the solution".
 
-\subsection{The Doubled-Space Route: Coverage and Its Limits}
-% What it reaches that nothing else does; what is not gate-level as shipped.
+The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't select the physical solution from amongst a set of degenerate ground states, so although it is possible to encode the solution to the original problem in the ground state of the Hamiltonian, it is not possible to extract it from the ground state of the descriptor Hamiltonian.
+% REVISE: moved here from the draft's descriptor chapter. The last clause
+%   should read "doubled-space Hamiltonian", not "descriptor Hamiltonian"; and
+%   "can't" breaks the register (Style Trap 5).
+
+\begin{proposition}[Imaginary time projects onto a degenerate kernel]
+\label{prop:no-penalty}
+% STATE: for the positive semi-definite doubled-space Hamiltonian H_(x) and any
+%   initial state with Pi_ker phi_0 != 0, the normalised imaginary-time state
+%   converges to the normalised projection of phi_0 onto the kernel; since
+%   the kernel is a linear subspace and the product states psi (x) psi are
+%   not, no penalty makes the kernel one-dimensional while keeping the target
+%   in it.
+\begin{equation}
+    \lim_{\beta\to\infty}\frac{e^{-\beta H_{\otimes}}\,\varphi_0}{\bigl\|e^{-\beta H_{\otimes}}\,\varphi_0\bigr\|}
+    = \frac{\Pi_{\ker H_{\otimes}}\,\varphi_0}{\bigl\|\Pi_{\ker H_{\otimes}}\,\varphi_0\bigr\|},
+    \qquad
+    \Psi = \psi \otimes \psi .
+    \label{eq:doubled-projection}
+\end{equation}
+\end{proposition}
+
+\subsection{The Carleman Lift in Space--Time}
+\label{sec:carleman}
+% ~1.25 pp
+% LAND, in order:
+%   1. The lift (eq:carleman-lift) and its truncation error O(rho^K), with
+%      rho < 1 STATED AS A PRECONDITION (eq:carleman-ratio).
+%   2. A linear IVP has a unique solution, so the space-time residual has a
+%      ONE-DIMENSIONAL near-kernel -- a real preparation claim (claim C-09).
+%   3. The two time discretisations (eq:carleman-spacetime): the same kernel,
+%      differing only by a banded invertible left factor -- why R8-R10 compare
+%      like for like. The descriptor's time axis lowers the degree.
+%   4. Initial data enter through ratio rows, F (x) <tau(-1)| (tab:constraint-kinds).
+%   5. Uniqueness is Carleman's, not the descriptor's (claim B-22 retired).
+% OFFLOAD: the symmetric and tensor layouts, the ratio rows and the space-time
+%   forms -> Appendix H (app:nonlinear).
+
+\begin{equation}
+    \frac{du}{dt} = \sum_{p=1}^{P} F_p\,u^{\otimes p}
+    \quad\longrightarrow\quad
+    \frac{dz}{dt} = \mathbb{A}_K\,z,
+    \qquad
+    z = \bigl(u,\ u^{\otimes 2},\ \dots,\ u^{\otimes K}\bigr),
+    \label{eq:carleman-lift}
+\end{equation}
+\begin{equation}
+    \rho = \frac{\|u_0\|\,\|F_2\|}{\bigl|\operatorname{Re}\lambda_1(F_1)\bigr|} < 1,
+    \qquad
+    \text{truncation error} = O\bigl(\rho^{K}\bigr),
+    \label{eq:carleman-ratio}
+\end{equation}
+\begin{equation}
+    \begin{aligned}
+        A_{\mathrm{st}}^{\mathrm{std}} &= \G_t \otimes I - \tfrac{T}{2}\, I \otimes \mathbb{A}_K, \\
+        A_{\mathrm{st}}^{\mathrm{desc}} &= \Dt_t \otimes I - \tfrac{T}{2}\, \Bt_t \otimes \mathbb{A}_K
+        = \bigl(\Bt_t \otimes I\bigr)\, A_{\mathrm{st}}^{\mathrm{std}},
+    \end{aligned}
+    \qquad
+    \xi = \frac{2t}{T} - 1 .
+    \label{eq:carleman-spacetime}
+\end{equation}
+
+\subsection{Product Folds on a Circuit}
+\label{sec:folds}
+% ~0.75 pp
+% LAND, in order:
+%   1. prop:fold-optimal: in the nodal basis a product is pointwise; 0 ancilla,
+%      (p - 1)(n + l) CNOTs, and alpha = 2 = ||n_1|| for p = 2 -- OPTIMAL, not
+%      merely tight (operator-verified to ~1e-15). Define l (the output
+%      register's growth) where the fold is introduced.
+%   2. The Fourier fold: QFT, CNOT copy, QFT^dagger -- native and exact.
+%   3. The Chebyshev DCT is budgeted as a cited primitive (klappenecker2001dct;
+%      decision 6). Say plainly that it is not built gate-level.
+% OFFLOAD: proof -> Appendix H (app:proof-fold-optimal).
+
+\begin{proposition}[The nodal fold is optimal]
+\label{prop:fold-optimal}
+% STATE: the degree-p product fold factorises through the Chebyshev--Gauss
+%   transform as below, needs no ancilla, and for p = 2 its subnormalisation
+%   equals its operator norm.
+\begin{equation}
+    \nfold_1^{(p)} = 2^{p\ell/2}\,\Ucg^{\dagger}\,\Delta_p\,\Ucg^{\otimes p},
+    \qquad
+    \alpha\bigl(\nfold_1^{(2)}\bigr) = 2 = \bigl\|\nfold_1^{(2)}\bigr\| .
+    \label{eq:nodal-fold}
+\end{equation}
+\end{proposition}
+
+\subsection{Fourier--Galerkin Fluids: Burgers and Navier--Stokes}
+\label{sec:fluids}
+% ~0.75 pp
+% LAND, in order:
+%   1. Burgers (R9, eq:burgers): Fourier-Galerkin with |k| <= K_c,
+%      F_1 = diag(-nu k^2), F_2 the (u^2)_x / 2 convolution; (a, nu) chosen so
+%      the measured rho <= 0.5.
+%   2. 2-D vorticity Navier-Stokes (R10, eq:navier-stokes), psi_hat =
+%      omega_hat / |k|^2 eliminated; truncation |k|^2 <= K_c (real basis).
+%   3. The tensor-layout Carleman: K^2 structured terms, F_2 = L o fold
+%      assembled automatically from the problem specification (claim B-19).
+%   4. Taylor-Green (J = 0) as the validation case.
+% OFFLOAD: F_1 and F_2 for Burgers and NS in full -> Appendix H.
+
+\begin{equation}
+    u_t + u\,u_x = \nu\,u_{xx},
+    \qquad
+    F_1 = \operatorname{diag}\bigl(-\nu k^2\bigr),
+    \label{eq:burgers}
+\end{equation}
+\begin{equation}
+    \omega_t + J(\psi, \omega) = \nu\,\nabla^2\omega,
+    \qquad
+    \nabla^2\psi = -\omega \ \ \text{on } [0, 2\pi)^2,
+    \qquad
+    \omega_0^{\mathrm{TG}} = 2\sin x\,\sin y .
+    \label{eq:navier-stokes}
+\end{equation}
 
 \subsection{Preparation Versus Projection}
-% Name which route sits on which side. Never write "prepared" for "projected".
+\label{sec:prep-vs-proj}
+% ~0.25 pp
+% LAND: the table below; one sentence tying back to sec:descriptor-idea.
+% TAB: tab:prep-vs-proj (T8).
+
+\begin{table}[htbp]
+    \centering
+    \caption{Which nonlinear route prepares the solution, and which only projects onto a kernel that contains it.}
+    \label{tab:prep-vs-proj}
+    \small
+    \begin{tabular}{@{}p{0.24\linewidth} p{0.22\linewidth} p{0.26\linewidth} p{0.18\linewidth}@{}}
+        \toprule
+        Route & Kernel & What imaginary time returns & Precondition \\
+        \midrule
+        Doubled space (Wu et al.; R6) & degenerate, dimension $\ge 2^{2n-1}$ & the projection of $\varphi_0$ onto the kernel & none \\
+        Carleman lift (R8--R10), either form & one-dimensional near-kernel & the truncated solution & $\rho < 1$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% CHECKLIST (marker)
+%   1. Is "prepared" never used for the doubled space?
+%   2. Is rho < 1 a stated precondition?
+%   3. Is fold optimality distinguished from tightness?
+%   4. Are the unbuilt components (the DCT) named, with the reason?
+%   5. Is Carleman's uniqueness attributed to Carleman, not to the descriptor
+%      form?

@@ -6,9 +6,23 @@ structural patterns of two high-scoring exemplars (Green 2024; Snow 2026).
 
 Document class: `article`, `\section` at top level, matching `main.tex`.
 
+> **Governing plan (2026-09-25).** `../ThesisPlanning.md` was adopted on
+> 2026-09-25 and supersedes this document's framing (§0), project-type hedge (§2),
+> page budget (§2.1), section tree (§3), appendix map (§3.2), per-section
+> deliverables and checklists (§4) and traceability matrix (§5), as marked at each
+> section. The mark-sheet analysis (§1) and the Style & Presentation checklist
+> (end of §4) still stand. Where the two documents conflict, `ThesisPlanning.md`
+> wins; section numbers below refer to the pre-plan eight-chapter tree.
+
 ---
 
 ## 0. Framing Decision (locked)
+
+> **Superseded (2026-09-25)** by ThesisPlanning.md §3.1: the descriptor
+> reformulation is the headline contribution, with four numbered supporting
+> contributions (S1–S4); the paper's regime is the *standard form*, not
+> "collocation"; our structured exact encoding of it (S2) is claimed, as a fairness
+> device. Kept below for the record.
 
 **The thesis has one contribution: the descriptor reformulation.** Everything else
 is either prior art or evidence.
@@ -152,8 +166,11 @@ The project straddles both: a theoretical construction (descriptor reformulation
 block-encoding cost analysis, Carleman lift) validated by numerical modelling
 (classical circuit simulation, HPC benchmarks, `DESolverLib` / `desolver_hpc`).
 
-**Action: ask your supervisor which category will be ticked.** Until you know, write
-to satisfy both — the requirements are compatible:
+**Resolved (2026-09-25): Modelling** (ThesisPlanning.md decision T-02) —
+Model Formulation /30 + Results & Discussion /30. The Modelling criteria, and where
+each is met, are ThesisPlanning.md §5.4 and §14.3. The Theoretical wording is kept
+below as the fallback if the marker ticks it after all (ThesisPlanning.md §12,
+TR-9):
 
 - **Theoretical/4** demands: *"Outstanding description and detail in the background and
   setup of the calculations which follow, as would appear in a well written journal
@@ -165,10 +182,11 @@ to satisfy both — the requirements are compatible:
   input options selected."* It also says *"There is no need to include detailed codes,
   which could be included in appendix if desired."*
 
-**The union, in practice:** a notation-and-conventions table (§2.9), a construction a
-referee could re-derive (§4 + Appendices B, E–F), a named description of `DESolverLib` /
-`desolver_hpc` and the Setonix configuration (§6.1 + Appendix K), and every numerical
-experiment's parameters stated (§6.1 + Appendix I).
+**In practice (ThesisPlanning.md):** the notation table in the front matter
+(T-11); a model a reader could rebuild (Chapters 4–7 + Appendices B–I); the `pihm`
+package and the Setonix configuration (§4.8 + Appendix L); a configuration diagram
+(Fig. `fig:pipeline`); and every input option and experiment parameter stated (§4.2,
+§8.1 + Appendix J).
 
 > **Note on reproducibility under the appendix-heavy structure.** The Theoretical/4
 > band asks that a reader be able to *reproduce the results*. It does not ask that
@@ -177,6 +195,9 @@ experiment's parameters stated (§6.1 + Appendix I).
 > the construction and points to the *repository* does not.
 
 ### 2.1 Page budget
+
+> **Superseded (2026-09-25)** by ThesisPlanning.md §4.1: ten chapters, 57 pages,
+> weighted for the Modelling scale.
 
 The guidelines set 40–60 pages (body, excluding contents, proposal, appendices) with
 an explicit marks penalty for overrun. **Target 55–57 pages.**
@@ -219,7 +240,11 @@ construction. If any section is over budget, it is not this one that gets cut.
 
 ## 3. LaTeX Section Tree
 
-Matches the live `2_body/*.tex` files.
+> **Superseded (2026-09-25)** by ThesisPlanning.md §4.2, which the live
+> `2_body/*.tex` files now follow (files `1_introduction.tex` to
+> `10_conclusions.tex`). The tree below is the pre-plan one.
+
+Matched the live `2_body/*.tex` files before 2026-09-25.
 
 ```latex
 % ---------- 2_body/1_introduction.tex  (~4 pp) ----------
@@ -331,6 +356,9 @@ Matches the live `2_body/*.tex` files.
 
 ### 3.2 Appendices — the load-bearing half of this structure
 
+> **Superseded (2026-09-25)** by ThesisPlanning.md §6 (Appendices A–M, one file
+> each under `3_footer/appendices/`). The pointer rule below still stands.
+
 Appendices are **not counted in the page limit**, and both rubric variants explicitly
 invite them (*"If there is insufficient room, appendices should be included"*; *"no
 need to include detailed codes, which could be included in appendix"*). Under the
@@ -378,6 +406,10 @@ truncated $M_{x^q}$ (Appendix E's "Higher order, variable coefficients" subsecti
 ---
 
 ## 4. Section Purpose, Deliverables, and Marker Checklists
+
+> **Superseded (2026-09-25)** by ThesisPlanning.md §5 (one entry per chapter) and by
+> the scaffold comments in each `.tex` file. The closing *Style & Presentation*
+> subsection still stands, and is carried into ThesisPlanning.md §14.2.
 
 ---
 
@@ -806,6 +838,9 @@ available for proofreading alone — the cheapest marks in the rubric.
 ---
 
 ## 5. Pre-Submission Traceability Matrix
+
+> **Superseded (2026-09-25)** by ThesisPlanning.md §9 (claims → thesis) and §14.3
+> (rubric traceability, Modelling scale).
 
 | Criterion | Marks | Where it is earned | Done |
 | :-- | --: | :-- | :-- |

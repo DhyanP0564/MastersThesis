@@ -1,9 +1,10 @@
 % =============================================================================
-% Notation and Conventions -- frontmatter, ungrouped by section, referenced
-% throughout the body and appendices. A symbol used with a different LOCAL
-% meaning inside one short, self-contained derivation (e.g. Appendix B's own
-% $a_\ell, p_\ell$ for a function and its derivative, before the construction
-% is restated in the $c^{(j)}$ notation below) is resolved back to this table
+% Notation and Conventions -- frontmatter, grouped by topic, referenced
+% throughout the body and appendices. Built from ThesisPlanning.md §8 (decisions
+% T-06 to T-09, T-16, T-19); the macros are defined in 1_header/0_packages.tex.
+% A symbol used with a different LOCAL meaning inside one short, self-contained
+% derivation (e.g. Appendix B's own $a_\ell, p_\ell$ for a function and its
+% derivative, or the ultraspherical $\lambda$) is resolved back to this table
 % before it recurs elsewhere, and is not itself listed here.
 % =============================================================================
 
@@ -13,57 +14,104 @@ introduced at its first use in the text below.
 \bigskip
 \noindent\textbf{Discretisation}
 \begin{center}
-\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
 \toprule
-Symbol & Meaning \\
+Symbol & Meaning & Introduced \\
 \midrule
-$n$ & Number of qubits in the Chebyshev coefficient register (the resolution). \\
-$N = 2^n$ & Chebyshev truncation degree; dimension of the single-field Hilbert space. \\
+$n$ & Qubits per Chebyshev axis (the resolution). & \Cref{sec:pihm-model} \\
+$N = 2^n$ & Truncation dimension of one Chebyshev axis. & \Cref{sec:pihm-model} \\
+$k$ & Order of an ordinary differential equation. & \Cref{sec:pihm-residual} \\
+$p$ & Degree of a polynomial nonlinearity. & \Cref{sec:carleman} \\
+$n_f$ & Qubits in the field (block) register of the descriptor form. & \Cref{sec:descriptor-residual} \\
+$\dim w$ & Padded descriptor state dimension, $2^{\lceil\log_2(k+1)\rceil}N$. & \Cref{sec:app-variable-coeff} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \bigskip
-\noindent\textbf{Differential-equation structure}
+\noindent\textbf{The Chebyshev model}
 \begin{center}
-\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
 \toprule
-Symbol & Meaning \\
+Symbol & Meaning & Introduced \\
 \midrule
-$k$ & Order of an \gls{ode}. \\
-$p$ & Polynomial (nonlinear) degree of the \gls{ode} (\S4). \\
+$T_\ell$ & Chebyshev polynomial of the first kind, degree $\ell$. & \Cref{sec:pihm-model} \\
+$\ket{\tau(x)}$ & The raw Chebyshev feature state. & \Cref{sec:pihm-model} \\
+$\psi$, $\eta$, $\eta_e$ & Normalised coefficient state; its scale; $\eta_e = \|b\|^2$. & \Cref{sec:pihm-model} \\
+$\fhat{j}$ & Coefficients of $f^{(j)}$: one block of the descriptor state. & \Cref{sec:descriptor-residual} \\
+$w$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$. & \Cref{sec:descriptor-residual} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \bigskip
-\noindent\textbf{Chebyshev and descriptor operators}
+\noindent\textbf{Operators and constraints}
 \begin{center}
-\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
 \toprule
-Symbol & Meaning \\
+Symbol & Meaning & Introduced \\
 \midrule
-$T_\ell$ & Chebyshev polynomial of the first kind, degree $\ell$. \\
-$G$ & Dense $N \times N$ Chebyshev differentiation matrix (the collocation route's operator; Wu et al.\ \cite{wu2025pihm}). \\
-$\tilde{B}, \tilde{D}$ & Banded factors of $G$ (\Cref{app:cheb}). \\
-$M$ & Coefficient-multiplication operator in Chebyshev coefficient space (\Cref{app:cheb}). \\
-$w$ & The stacked descriptor state, $w = (c^{(0)}; \dots; c^{(k)})$. \\
-$A$ & The residual operator of a linear-system reformulation of the \gls{ode} (dense in the collocation route, banded in the descriptor route). \\
+$\G$ & Differentiation matrix, $f \mapsto f'$, in coefficient space: dense, strictly upper triangular, $\|\G\|_2 = \Theta(N^2)$ (Wu et al.\ print it as $\G_n^{\top}$). & \Cref{sec:pihm-residual} \\
+$\Bt$, $\Dt$ & Banded factors of the differentiation matrix, $\G = \Bt^{-1}\Dt$. & \Cref{sec:descriptor-construction} \\
+$\M_{x^p}$, $\M_a$ & Multiplication by $x^p$ (the exact lift, $2N \times N$) and by a smooth $a(x)$. & \Cref{sec:pihm-residual} \\
+$\nfold_1$, $\nfold_x$ & Product-to-sum folds. & \Cref{sec:pihm-doubled} \\
+$\Brow(x)$, $\Dzero(x_s)$ & Rank-one zero (invariant) and collapse (regular) constraint rows. & \Cref{sec:pihm-residual} \\
+$x_z$, $x_m$, $x_s$ & Constraint points: a zero, an extremum, a source datum. & \Cref{sec:pihm-residual} \\
+$R_0$, $\Uodd$, $\Lambda$ & Factors of the structured exact encoding of $\G$. & \Cref{sec:standard-factorisation} \\
+$\Ucg$ & The Chebyshev--Gauss transform used by the nodal fold. & \Cref{sec:folds} \\
+$\|\G\|_S$ & The paper's norm $\max\bigl(\|\G\G^{\top}\|_1, \|\G^{\top}\G\|_1\bigr)$. & \Cref{sec:pihm-encoding} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \bigskip
-\noindent\textbf{Physical and complexity quantities}
+\noindent\textbf{Residuals and Hamiltonians}
 \begin{center}
-\begin{tabular}{@{}l p{0.82\textwidth}@{}}
+\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
 \toprule
-Symbol & Meaning \\
+Symbol & Meaning & Introduced \\
 \midrule
-$H$ & The physics-informed effective Hamiltonian (Wu et al.\ \cite{wu2025pihm}). \\
-$\alpha$ & Block-encoding subnormalisation factor. \\
-$\Delta$ & Spectral gap of $H$ between its ground state and first excited state. \\
-$\epsilon_G$ & Block-encoding / truncation error associated with representing $G$. \\
+$\Astd$, $\Adesc$ & Residual of the standard form; of the descriptor form. & \Cref{sec:pihm-residual} \\
+$\Hstd$, $\Hdesc$ & Effective Hamiltonian of each form; bare $H$ only in regime-independent statements. & \Cref{sec:pihm-residual} \\
+$R = [R_1; \dots; R_L]$ & Stacked residual, with $H = R^{\dagger}R$. & \Cref{sec:pipeline-walk} \\
+$H_{\otimes}$ & The doubled-space Hamiltonian. & \Cref{sec:doubled-space} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\noindent\textbf{Block encoding, filtering and state preparation}
+\begin{center}
+\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\toprule
+Symbol & Meaning & Introduced \\
+\midrule
+$\alpha$, $\alpha_R$, $\alpha_H = \alpha_R^2$ & Subnormalisation: generic, of $R$, of $H$. & \Cref{sec:bg-block-encoding} \\
+$V$, $W$ & Stacked-residual reflection; qubitised walk. & \Cref{sec:pipeline-walk} \\
+$H' = 2H/\alpha_R^2 - I$ & The normalised Hamiltonian that $V$ block-encodes. & \Cref{sec:pipeline-walk} \\
+$\Delta$ & Spectral gap $\lambda_1 - \lambda_0$. & \Cref{sec:pipeline-qite} \\
+$\beta$ & Imaginary time. & \Cref{sec:pipeline-qite} \\
+$d$, $q_k$ & GQSP degree; filter coefficients. & \Cref{sec:pipeline-qite} \\
+$\varepsilon$ & Target infidelity ($10^{-6}$). & \Cref{sec:pipeline-qite} \\
+$\varphi_0$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\mathrm{ref}}|\varphi_0}|$ with the reference. & \Cref{sec:pipeline-qite} \\
+$p_G$ & GQSP success probability. & \Cref{sec:pipeline-qite} \\
+$\zeta$ & Block-rescaling constant. & \Cref{sec:descriptor-rescaling} \\
+$\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of the published encoding of $\G$. & \Cref{app:ladder} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\noindent\textbf{Nonlinearity}
+\begin{center}
+\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\toprule
+Symbol & Meaning & Introduced \\
+\midrule
+$K$ & Carleman truncation order. & \Cref{sec:carleman} \\
+$M$ & Dimension of the base state $u$. & \Cref{sec:carleman} \\
+$\rho$ & Nonlinearity-to-dissipation ratio; the Carleman precondition is $\rho < 1$. & \Cref{sec:carleman} \\
+$F_1$, $F_2$, $\mathbb{A}_K$ & Linear and quadratic terms; the lifted Carleman generator. & \Cref{sec:carleman} \\
 \bottomrule
 \end{tabular}
 \end{center}

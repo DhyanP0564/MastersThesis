@@ -1,0 +1,91 @@
+% =============================================================================
+% Appendix C  The Standard Form of Wu et al. in Full  --  cited from
+% sec:pihm-residual.   Plan: ThesisPlanning.md §6 (C).
+%
+% CONTENT  The worked N = 4 residual; the lifts M_{x^p}, M_a and the folds
+%          n_1, n_x; the paper's printed SM §A matrices at n = 2, reproduced
+%          entry by entry (claim A-01; Journal E001).
+% SOURCES  Planning.md §3.2-3.3; pihm/src/pihm/operators/ (derivative.py,
+%          multiplication.py, folds.py).
+% =============================================================================
+
+This appendix gives the $N=4$ instance of the standard-form residual $\Astd$ that
+\Cref{sec:pihm-residual} builds for Wu et al.'s constant-coefficient case, and the
+entries of the lifting operator $\M_{x^p}$ that the same section uses for a
+variable coefficient.
+
+\paragraph{The standard-form residual at $N=4$.} For Wu et al.'s stiff pilot
+equation \cite{wu2025pihm}, $f'' + 5f' + 400f = 0$, \Cref{eq:pihm-A} gives
+$\Astd = \G^{2} + 5\G + 400I$. At $N=4$, using $\G$ (\Cref{app:cheb}),
+\begin{equation}
+    \Astd =
+    \begin{pmatrix}
+        400 & 5\sqrt{2} & 4\sqrt{2} & 15\sqrt{2} \\
+        0 & 400 & 20 & 24 \\
+        0 & 0 & 400 & 30 \\
+        0 & 0 & 0 & 400
+    \end{pmatrix},
+    \label{eq:app-standard-example}
+\end{equation}
+verified directly against \texttt{pihm.chebyshev\_derivative\_matrix}. $\Astd$ is
+triangular here only because this equation has no odd-order term beyond $f'$ at
+even $N$; the off-diagonal entries sit three orders of magnitude below the
+diagonal, a large-coefficient conditioning problem stacked on top of $\G$'s own
+density.
+% REVISE: (1) The matrix is the TRANSPOSE of the draft's (the draft multiplied
+%   G^T); under the thesis convention (T-16) A_std = G^2 + 5G + 400I is upper
+%   triangular. Re-checked against pihm.operators.derivative.derivative_matrix,
+%   2026-09-25. (2) "Triangular only because ..." is not right: every polynomial
+%   in the strictly upper-triangular G is upper triangular. (3) The largest
+%   off-diagonal entry is 30 against 400 -- about one order of magnitude, not
+%   three. (4) pihm.chebyshev_derivative_matrix names the legacy library; cite
+%   the rebuilt package's test instead, or drop the sentence.
+
+\paragraph{The lifting operator $\M_{x^p}$.} $\M_{x^p}$ is exact and
+\emph{rectangular}: multiplying a degree-$(N{-}1)$ model by $x^p$ can raise its
+degree by as much as $p$, so the result is represented one register wider,
+$2N \times N$, with no truncation. At $n=1$ ($N=2$, so $p \in \{1,2\}$),
+\begin{equation}
+    \M_{x^1} =
+    \begin{pmatrix}
+        0 & \tfrac{1}{\sqrt2} \\
+        \tfrac{1}{\sqrt2} & 0 \\
+        0 & \tfrac{1}{2} \\
+        0 & 0
+    \end{pmatrix},
+    \qquad
+    \M_{x^2} =
+    \begin{pmatrix}
+        \tfrac{1}{\sqrt2} & 0 \\
+        0 & \tfrac{3}{2\sqrt2} \\
+        \tfrac{1}{2} & 0 \\
+        0 & \tfrac{1}{2\sqrt2}
+    \end{pmatrix},
+    \label{eq:app-Mxp-example}
+\end{equation}
+verified directly against \texttt{pihm.multiplication\_matrix}. The general entry
+follows the same product-to-sum identity conjugated into the normalised bases of
+$\ket{\tau(x)}_n$ and $\ket{\tau(x)}_{n+1}$ that \Cref{sec:pihm-residual} states
+in closed form.
+% REVISE: M_{x^1} above is a factor sqrt(2) too small. The rebuilt pihm (whose
+%   lifts reproduce the paper's printed SM §A matrices entry by entry) gives
+%   M_{x^1} = [[0, 1], [1, 0], [0, 1/sqrt2], [0, 0]]: x phi_0^(1) = x/sqrt2 =
+%   phi_1^(2), so the (1, 0) entry is 1. M_{x^2} above agrees with pihm.
+%   pihm.multiplication_matrix names the legacy library (see above).
+
+\subsection{The paper's printed matrices at \texorpdfstring{$n = 2$}{n = 2}}
+\label{app:sm-matrices}
+% LAND: the paper's SM §A matrices reproduced entry by entry (claim A-01):
+%   G_n^T (the paper's name for \G), M_1, M_x, M_{x^2}, M_{x^3}, M_{x^4},
+%   n_1 (8 x 16), n_x (8 x 16), B_n(x), B_{n+1}(x), P_a (16 x 32) and
+%   Q_a = n_1 P_a. Transcribed from the rendered page (Journal E001; lesson
+%   L-16: never from text extraction). Include only those the body uses.
+
+\subsection{Lifts and folds}
+\label{app:lifts-folds}
+% LAND: M_{x^p} (lift, 2N x N, exact), M_a (smooth a(x) = sum_k a_hat_k T_k,
+%   bandwidth = degree of a's Chebyshev fit), the square form M_a^sq (the
+%   Galerkin truncation of the exact product to the first N modes; decision
+%   D-005), and the folds n_1, n_x from T_j T_k = (T_{j+k} + T_{|j-k|})/2
+%   (eq:pihm-fold). Raw tau in every rank-one row (the paper's convention;
+%   M-04).

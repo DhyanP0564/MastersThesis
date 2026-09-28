@@ -115,6 +115,29 @@
 \newtheorem{corollary}{Corollary}
 
 % -----------------------------------------------------------------------------
+% Thesis notation (ThesisPlanning.md §8, decisions T-06 to T-09 and T-16).
+% The Chebyshev operators are blackboard bold, as in Wu et al., under the macro
+% names pihm's Sphinx configuration uses (\G, \Bt, \Dt), so an equation copies
+% between the code documentation and the thesis unchanged. \G is the
+% coefficient-space differentiation matrix, f -> f' (strictly upper
+% triangular); Wu et al. print the same matrix as G_n^T.
+\usepackage{bbm} % lowercase blackboard bold, for the product-to-sum fold
+\newcommand{\G}{\mathbb{G}}               % differentiation matrix
+\newcommand{\Bt}{\tilde{\mathbb{B}}}      % banded factor: \G = \Bt^{-1}\Dt
+\newcommand{\Dt}{\tilde{\mathbb{D}}}      % banded factor
+\newcommand{\M}{\mathbb{M}}               % multiplication: \M_{x^p} (lift), \M_a
+\newcommand{\nfold}{\mathbbm{n}}          % product-to-sum fold: \nfold_1, \nfold_x
+\newcommand{\Brow}{\mathbb{B}}            % rank-one zero (invariant) constraint row
+\newcommand{\Dzero}{\mathbb{D}^{(0)}}     % rank-one collapse (regular) constraint row
+\newcommand{\Ucg}{\mathbb{U}}             % Chebyshev--Gauss transform (nodal fold)
+\newcommand{\Uodd}{U_{\mathrm{odd}}}      % average of the odd-offset truncated shifts
+\newcommand{\Astd}{A_{\mathrm{std}}}      % standard-form residual
+\newcommand{\Adesc}{A_{\mathrm{desc}}}    % descriptor-form residual
+\newcommand{\Hstd}{H_{\mathrm{std}}}      % standard-form Hamiltonian
+\newcommand{\Hdesc}{H_{\mathrm{desc}}}    % descriptor-form Hamiltonian
+\newcommand{\fhat}[1]{\hat{f}^{(#1)}}     % coefficients of the #1-th derivative (a descriptor block)
+
+% -----------------------------------------------------------------------------
 
 \setcounter{secnumdepth}{3}
 
@@ -123,6 +146,12 @@
 
 %working collaboratively
 \usepackage[backgroundcolor=yellow]{todonotes}
+
+% Provisional numbers (decision T-15): pihm's numbers are quoted with \res
+% (0_results/results.tex, input by main.tex). \prov{...} wraps a number pihm
+% does not produce yet, and renders coloured until a \res replaces it. The
+% pre-submission check (ThesisPlanning.md §14) fails on any remaining \prov.
+\newcommand{\prov}[1]{\textcolor{BrickRed}{#1}}
 
 %reference list 
 \usepackage[backend=biber,style=ieee]{biblatex} %Sbliography with IEEE style.

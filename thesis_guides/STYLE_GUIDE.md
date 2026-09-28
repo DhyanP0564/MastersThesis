@@ -10,6 +10,13 @@ minimal surgery scores well. A thesis that reads like a lab report, a tutorial, 
 a catalogue of everything the student tried does not. Every rule below descends
 from that standard.
 
+> **Governing plan (2026-09-25).** `../ThesisPlanning.md` was adopted on
+> 2026-09-25. §1.1, §3.5, §4.1, §4.4 and Traps 14 and 16 below were updated to
+> match it. Elsewhere, where this guide quotes a *fact* (ancilla counts, query
+> floors, gaps, readout, verification scope, section numbers), `../CLAUDE.md`'s
+> Standing Facts v2 and ThesisPlanning.md win: the examples in §2–§7 keep their
+> pre-rebuild numbers as illustrations of register only.
+
 ---
 
 ## 1. Tone & Voice
@@ -34,15 +41,15 @@ For your work the boundary is sharp and you should police it:
 
 | Claim | Register |
 | :-- | :-- |
-| $O(n^2)$ gates, $O(1)$ ancilla for the descriptor $E_{A}$ | **Assert** — gate-level, verified |
-| $\alpha_H \to \|H_{\mathrm{sys}}\|$, tight | **Assert** — measured |
-| Spectral gap $\sim 10^{-6}$ (descriptor) vs $\sim 10^{-15}$ (collocation) at $n=7$ | **Assert**, and state the machine-epsilon consequence |
-| Composed $H$ correctness at 22+ qubits | **Hedge explicitly** — verified *by parts*, not end-to-end; say so and say why (dense simulation allocates hundreds of GB) |
-| "A ground state has been prepared" | **Never assert.** Every GQSP figure is a classical simulation of the minimax filter, capped at $\dim \lesssim 2000$ by simulation cost, not by the algorithm |
-| End-to-end poly-log speed-up | **Deny it yourself, first.** Neither route is poly-log; $\alpha_H \ge \|H_{\mathrm{sys}}\| = \Theta(N^2)$ against $\Delta = \Theta(1)$ forces $\tilde\Theta(N^2)$ queries for *any* encoding of this $H$. The claim is that the descriptor construction **meets** that floor |
-| The physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in §2.4 in the register of reported prior art, cite at the head of the subsection and at each specific construction, and reserve the verdict for §2.4.3 |
-| The collocation encoding's failure | **Assert** — you implemented and measured it (§5.2). But frame it as *characterising the published route*, never as a rival method you also invented |
-| "The solution was read out" | **Never assert.** No measurement protocol is implemented in this thesis. Every reported solution error is a classical state-vector read; readout appears only as prior art (§2.7), a costed feasibility statement (§3.9), a limitation (§6.5) and future work (§7.2) |
+| $O(n^2)$ gates, $\lceil\log_2(n+4)\rceil + 6$ ancilla ($O(\log n)$) for the descriptor encoding | **Assert** — gate-level, verified |
+| $\alpha_H \to \|H_{\mathrm{desc}}\|$, tight | **Assert** — measured |
+| Relative gap $7.0\times10^{-6}$ (descriptor) vs $3.0\times10^{-15}$ (standard form) at $n=7$, $\{1,4,4\}$ | **Assert**, with the `eigh`/SVD distinction: the standard form's ground state is resolvable by SVD; the consequence is the filter degree, not unresolvability |
+| Correctness of the composed $H$ | **Assert what is verified**: $V$ exact at small $n$, probe to $\sim 30$ qubits, IR at any $n$; T1 = T2 to $\le 10^{-10}$ where both run |
+| "A ground state has been prepared" | **Assert only for a one-dimensional (near-)kernel, and only with its tier**: circuit simulation (T1), exact emulation (T2, provably equal to T1) or resource estimate (T3). Never "on hardware"; never for the doubled space (it projects) |
+| End-to-end poly-log speed-up | **Deny it yourself, first.** $d = \Theta(\sqrt{\alpha_H/\Delta}\log 1/\varepsilon)$ with $\alpha_H \ge \|H\|$: $\tilde\Theta(N)$ for the descriptor against $\tilde\Theta(N^4)$ for the standard form under its best exact encoding. Hedge any "for every filter" floor to what Lin & Tong support |
+| The physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in Chapter 3 in the register of reported prior art, cite at the head of each section and at each specific construction, and reserve the verdict for §3.6 |
+| The published encoding's cost | **Assert** — rebuilt and measured (§5.1, §8.3). Frame it as *testing the paper's claims*. The structured exact encoding (S2) is claimed as ours, as a fairness device, never as a rival solver |
+| "The solution was read out" | **Assert only as reproduced in simulation**: the paper's interferometric protocol, run by circuit simulation with shots at small $n$ (§4.6, §8.4), with our correction for probabilistic preparation. Never on hardware; never a new protocol |
 
 Pre-empting the examiner's objection in your own voice is worth more than any
 amount of enthusiasm. Snow devotes a whole subsection to it:
@@ -310,9 +317,11 @@ Complexity). Each has a "This Work" row.
 
 You need two. **(i)** In §2, quantum DE-solving approaches (HHL-family / Carleman /
 variational / physics-informed) with a "this work" row — this table is where the
-literature review's critical assessment becomes legible at a glance. **(ii)** In §5.3,
-encoding cost: the published collocation encoding versus the descriptor construction,
-across gates, ancilla, $\alpha$, exactness and gap. **Two rows, not three** — FABLE is
+literature review's critical assessment becomes legible at a glance. **(ii)** In §8.3
+(`tab:headline`), where the cost lies: the standard form under its published encoding,
+the standard form under the structured exact encoding, and the descriptor form, across
+$\|H\|$, gap, $\alpha$, gates, ancilla, exactness and degree. **Three encodings** —
+the middle one is what separates the encoder wall from the Hamiltonian wall. FABLE is
 not part of this thesis's story and does not appear. The second table is your headline
 result and should be referenced from the Abstract.
 
@@ -343,16 +352,17 @@ Snow's closing move is worth copying almost structurally:
 > disentangling use?* Chapter 4 argues that… *(ii) How expressive should each layer
 > be?* … Chapter 6 treats per-layer bond dimension as a design variable…"
 
-Your analogue, and note that under the current framing both questions are raised *by
-the critical assessment of Wu et al.'s encoding in §2.4.3*, not by a gap you assert
-into existence: *(i) Can the physics-informed residual be block-encoded without the
-$\Theta(N^2)$ uniformly-controlled-rotation cost, and with a spectral gap that survives
-double precision?* → §3, the descriptor reformulation. *(ii) Does the same structural
-move extend to polynomial nonlinearity?* → §4, the Carleman lift and nodal fold.
+Your analogue (ThesisPlanning.md §5.3): three questions, raised *by the critical
+assessment of Wu et al.'s method in §3.6*, not by a gap you assert into existence:
+*(i) Is the cost the encoder's or the Hamiltonian's?* → Chapter 5, the standard form
+encoded exactly. *(ii) Can the residual be reformulated so that its Hamiltonian is
+banded and well-conditioned, without changing its solution?* → Chapter 6, the
+descriptor reformulation. *(iii) Can nonlinear equations be prepared rather than
+projected?* → Chapter 7, the Carleman lift.
 
 This is the strongest available version of the gap statement, because the reader has
 just watched you diagnose the published method rather than being told a gap exists.
-§2.8 should pose the two questions in italics and name the section that answers each,
+§3.6 should pose the three questions in italics and name the chapter that answers each,
 by `\Cref`, exactly as Snow does.
 
 ### 4.2 Chapter-opening roadmaps, one to three sentences
@@ -386,11 +396,12 @@ with slightly different emphasis each time. Snow's is the *"expressivity of each
 disentangling layer should be matched to the entanglement actually remaining"*
 principle, which recurs in the Abstract, §1.2, §7.5 and §8.1.
 
-Draft your spine sentence before you write, and place it at the end of the
-Introduction, the end of the descriptor methods section, the end of Results, and in
-the Conclusion. Candidate shape: *carrying the intermediate derivatives instead of
-eliminating them converts a dense residual into a banded one, and the whole
-encoding-plus-preparation pipeline inherits the structure.*
+Draft your spine sentence before you write, and place it where ThesisPlanning.md §3.2
+lists (Abstract, §1.3, §3.6, §6.1, §6.9, §8.9, §10.1). The adopted form: *carrying the
+intermediate derivatives instead of eliminating them turns the physics-informed
+residual from dense to banded, so the Hamiltonian's norm falls from $\Theta(N^8)$ to
+$\Theta(N^2)$ with its kernel unchanged, and every stage from block encoding to state
+preparation inherits the saving.*
 
 ### 4.5 Section-closing summaries for long sections
 
@@ -420,9 +431,9 @@ Drawn from the marking guide's four stated assessment dimensions.
 | 11 | **Boilerplate transitions** | Wastes the page budget the rubric is scoring you against | "This section will discuss…" → state the finding |
 | 12 | **A one-paragraph Discussion** | The rubric weights significance-awareness heavily | Discussion must engage: why the trade-off exists, where the method fails, what a practitioner should choose, what it means for the field |
 | 13 | **Blurring prior art into contribution** | Fatal to credibility, and the fastest route to an academic-integrity conversation. The physics-informed effective Hamiltonian framework is Wu et al.'s | Attribute at the head of §2.4 and at each specific construction. Read every sentence of §2.4 asking *could this be mistaken for a claim of authorship?* Reserve first-person-plural authorial "we" for §3 onwards |
-| 14 | **Presenting the published route as a rival you also built** | Implies you invented two methods and picked one; halves the apparent focus of the thesis and invites "so what is actually new?" | §5.2 is framed as reproducing and characterising the published encoding. There is no descriptor-versus-collocation chapter, and the headline table in §5.3 has two rows |
+| 14 | **Presenting the published route as a rival you also built** | Implies you invented two methods and picked one; halves the apparent focus of the thesis and invites "so what is actually new?" | The published encoding is *rebuilt to test the paper's claims* (§5.1, §8.2–§8.3). The structured exact encoding (S2) **is** yours and is claimed, but framed as serving the comparison — it isolates the Hamiltonian's cost — never as a rival solver |
 | 15 | **Body pages spent on derivation** | Buries the narrative the whole structure is built to protect, and burns the page budget the rubric penalises you for exceeding | Apply the equation test in §2.6. Statement and cost in the body; derivation in Appendices B, E–G, with a pointer that names what is there |
-| 16 | **Implying readout was performed** | No measurement protocol was implemented; every reported error is a classical state-vector read. A QC-literate marker will ask | Readout appears as prior art (§2.7), a costed feasibility statement (§3.9), a limitation (§6.5) and future work (§7.2). Never a method, never a results subsection, never a circuit figure |
+| 16 | **Implying readout was performed on hardware, or that it is a new protocol** | The readout is the paper's interferometric protocol, reproduced by circuit simulation with shots at small $n$; only the correction for probabilistic preparation is yours. A QC-literate marker will ask | Say "reproduced in simulation" and name the tier (§4.6, §8.4); attribute the protocol to Wu et al. at every use; list "no hardware" among the limitations (§9.6) |
 
 ---
 
