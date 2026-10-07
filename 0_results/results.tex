@@ -15,13 +15,13 @@
 %                                       \resflag{<run>}{trusted}{}{^{\dagger}}
 %
 % RUNS. A run's key reads like its record directory without the hash:
-%   <stage>/<problem>/<variant>/<regime>/n<size>[/<tier>][/<option>=<value>][/<label>]
+%   <stage>/<problem>[/faithful]/<regime>/n<size>[/<tier>][/<option>=<value>][/<label>]
 % for example
-%   build/R2a/faithful/standard/n3          stateprep/R2a/corrected/standard/n3/T2
+%   build/R2a/faithful/standard/n3          stateprep/R2a/standard/n3/T2
 %   build/R4b/faithful/standard/n5/exact-root
 %   build/R2a/faithful/standard/n5/truncation=tau
 % A statistic over n replaces n<size> by its name, as in
-% build/R2a/corrected/standard/best (metrics field_err_linf and n); other
+% build/R2a/standard/best (metrics field_err_linf and n); other
 % derived numbers have keys of their own, as derivative/n5. A metric is the
 % record's own name for it (the columns of pihm's summary.csv). The generated
 % file lists every key with its metrics.
@@ -80,18 +80,54 @@
         \legacy_if_gset_false:n { restint }
       }
   }
+% One global seq per run (key), not one global tl per key x metric: a
+% control-sequence name is minted once per run (~3300), not once per run x
+% metric (~85000), which is what exhausted pdfTeX's string pool (the fixed
+% table of distinct control-sequence names) once the export grew past ~25000
+% values. A run's entries ({status}{..}, {reason}{..}, {type/<metric>}{..},
+% {value/<metric>}{..}, {flag/<flag>}{..}) are seq items, appended in O(1)
+% (no pool cost, no rebuild): a prop was tried first and rejected, since its
+% gput does a full-expansion rebuild of the *whole* prop on every insertion,
+% which in turn exhausted pdfTeX's main memory well before the end of the
+% file. A seq lookup (\__pihm_run_get:nnNN below) linear-scans one run's
+% entries (at most a few hundred) only for the handful of keys the thesis
+% actually \res-quotes, so it stays cheap at this file's full size.
 \NewDocumentCommand \pihmrun { m m m }
   {
-    \tl_gset:cn { g__pihm_status_ #1 _tl } {#2}
-    \tl_gset:ce { g__pihm_reason_ #1 _tl } { \tl_to_str:n {#3} }
+    \seq_gclear_new:c { g__pihm_run_ #1 _seq }
+    \seq_gput_right:cn { g__pihm_run_ #1 _seq } { {status} {#2} }
+    \seq_gput_right:ce { g__pihm_run_ #1 _seq } { {reason} { \tl_to_str:n {#3} } }
   }
 \NewDocumentCommand \pihmvalue { m m m m }
   {
-    \tl_gset:cn { g__pihm_type_ #1 | #2 _tl } {#3}
-    \tl_gset:cn { g__pihm_value_ #1 | #2 _tl } {#4}
+    \seq_gput_right:cn { g__pihm_run_ #1 _seq } { {type/ #2} {#3} }
+    \seq_gput_right:cn { g__pihm_run_ #1 _seq } { {value/ #2} {#4} }
   }
 \NewDocumentCommand \pihmflag { m m m }
-  { \tl_gset:cn { g__pihm_flag_ #1 | #2 _tl } {#3} }
+  { \seq_gput_right:cn { g__pihm_run_ #1 _seq } { {flag/ #2} {#3} } }
+
+% Find item #2 (a key, e.g. "status" or "value/eta") in run #1's seq; set
+% bool #3 and, if found, tl #4 to its value. The single lookup primitive
+% behind \res, \resflag and the two internal state checks below.
+\cs_new_protected:Npn \__pihm_item_check:nnnNN #1#2#3#4#5
+  {
+    \str_if_eq:nnTF {#1} {#3}
+      {
+        \tl_set:Nn #5 {#2}
+        \bool_set_true:N #4
+        \seq_map_break:
+      }
+      { }
+  }
+\cs_new_protected:Npn \__pihm_run_get:nnNN #1#2#3#4
+  {
+    \bool_set_false:N #3
+    \seq_if_exist:cT { g__pihm_run_ #1 _seq }
+      {
+        \seq_map_inline:cn { g__pihm_run_ #1 _seq }
+          { \__pihm_item_check:nnnNN ##1 {#2} #3 #4 }
+      }
+  }
 
 % --- Messages and counts -----------------------------------------------------
 \msg_new:nnn { pihm } { missing } { #1~ #2:~ #3 ~ (#4) }
@@ -108,14 +144,18 @@
 
 \tl_new:N \l__pihm_state_tl
 \tl_new:N \l__pihm_reason_tl
+\tl_new:N \l__pihm_type_tl
+\tl_new:N \l__pihm_value_tl
+\tl_new:N \l__pihm_flag_tl
+\bool_new:N \l__pihm_found_bool
 
 % Count one quoted number that is not current, and warn (or, in a final build,
 % stop) with its reason. #1 key, #2 metric, #3 state.
 \cs_new_protected:Npn \__pihm_note:nnn #1#2#3
   {
     \int_gincr:c { g__pihm_ #3 _int }
-    \tl_if_exist:cTF { g__pihm_reason_ #1 _tl }
-      { \tl_set:Nv \l__pihm_reason_tl { g__pihm_reason_ #1 _tl } }
+    \__pihm_run_get:nnNN {#1} { reason } \l__pihm_found_bool \l__pihm_reason_tl
+    \bool_if:NF \l__pihm_found_bool
       { \tl_set:Nn \l__pihm_reason_tl { no~ campaign~ has~ this~ run } }
     \tl_if_empty:NT \l__pihm_reason_tl
       { \tl_set:Nn \l__pihm_reason_tl { the~ run~ records~ no~ such~ metric } }
@@ -141,9 +181,9 @@
 % Set \l__pihm_state_tl to why run #1 has no value to show.
 \cs_new_protected:Npn \__pihm_missing_state:n #1
   {
-    \tl_if_exist:cTF { g__pihm_status_ #1 _tl }
+    \__pihm_run_get:nnNN {#1} { status } \l__pihm_found_bool \l__pihm_state_tl
+    \bool_if:NTF \l__pihm_found_bool
       {
-        \tl_set:Nv \l__pihm_state_tl { g__pihm_status_ #1 _tl }
         \bool_lazy_or:nnT
           { \str_if_eq_p:Vn \l__pihm_state_tl { ok } }
           { \str_if_eq_p:Vn \l__pihm_state_tl { stale } }
@@ -287,18 +327,20 @@
         { \__pihm_float:n {#3} }
     \group_end:
   }
-\cs_generate_variant:Nn \__pihm_number:nnn { nvv }
+\cs_generate_variant:Nn \__pihm_number:nnn { nVV }
 
 % --- The user commands -------------------------------------------------------
 \NewDocumentCommand \res { O{} m m }
   {
-    \tl_if_exist:cTF { g__pihm_value_ #2 | #3 _tl }
+    \__pihm_run_get:nnNN {#2} { value/ #3 } \l__pihm_found_bool \l__pihm_value_tl
+    \bool_if:NTF \l__pihm_found_bool
       {
-        \tl_set:Nv \l__pihm_state_tl { g__pihm_status_ #2 _tl }
+        \__pihm_run_get:nnNN {#2} { status } \l__pihm_found_bool \l__pihm_state_tl
         \str_if_eq:VnT \l__pihm_state_tl { stale }
           { \__pihm_note:nnn {#2} {#3} { stale } }
+        \__pihm_run_get:nnNN {#2} { type/ #3 } \l__pihm_found_bool \l__pihm_type_tl
         \__pihm_show:Vn \l__pihm_state_tl
-          { \__pihm_number:nvv {#1} { g__pihm_type_ #2 | #3 _tl } { g__pihm_value_ #2 | #3 _tl } }
+          { \__pihm_number:nVV {#1} \l__pihm_type_tl \l__pihm_value_tl }
       }
       {
         \__pihm_missing_state:n {#2}
@@ -308,8 +350,9 @@
   }
 \NewDocumentCommand \resflag { m m +m +m }
   {
-    \tl_if_exist:cTF { g__pihm_flag_ #1 | #2 _tl }
-      { \str_if_eq:vnTF { g__pihm_flag_ #1 | #2 _tl } { true } {#3} {#4} }
+    \__pihm_run_get:nnNN {#1} { flag/ #2 } \l__pihm_found_bool \l__pihm_flag_tl
+    \bool_if:NTF \l__pihm_found_bool
+      { \str_if_eq:VnTF \l__pihm_flag_tl { true } {#3} {#4} }
       {
         \__pihm_missing_state:n {#1}
         \__pihm_note:nnV {#1} {#2} \l__pihm_state_tl

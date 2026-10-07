@@ -1,0 +1,249 @@
+% =============================================================================
+% Chapter 4  The Standard Form: Encoder Cost and Hamiltonian Cost  --  ~4 pp
+% rubric: Project Body (Modelling) -- Model Formulation /30.
+% Plan: ThesisPlanning.md §5.4 (supporting contribution S2).
+%
+% PURPOSE     Answer Q(i) (sec:pihm-assessment). Build the paper's encoding as
+%             published, then the best exact encoding of its regime, and show
+%             that even the best encoder leaves the degree Theta-tilde(N^{2k}),
+%             because the cost is the Hamiltonian's.
+% CRITERION   Formulation, band 4: "a significant advance in the state of the
+%             art". S2 is a verified construction. Frame it as serving the
+%             comparison (a fairness device), never as a rival solver.
+% SOURCES     ThesisPlanning.md §3.7, §6.3; claims A-06-A-08, A-12, C-01, C-02;
+%             pihm/src/pihm/circuits/standard.py, arithmetic.py;
+%             pihm/docs/PILLAR1.md; derived keys derivative/n<n> (structured
+%             and published alpha).
+% WRITE WHEN  Now (wave W1); §8.3's numbers at gate G3 (wave W2).
+%
+% DRAFT 2026-10-06 (first pass for the author to rewrite). Sources used beyond
+%   the scaffold: pihm/docs/companion/{11,22,23,31,32,33,45,57}. Departures from
+%   the plan's wording, each deliberate: (a) the ancilla count is stated as the
+%   exact n + 4 (checked against the circuit, n = 2-7), which is within the
+%   plan's n + O(log n); (b) the 2.12 bound is stated as the proved limit
+%   2 j_{-3/4,1} = 2.117 beside the measured values; (c) the wall is stated for
+%   constant coefficients with a_k != 0, the class for which ||G^k|| is proved,
+%   and R3 is the volunteered exception. OPEN, for the exporter and appendices:
+%   the alpha_R/||R|| ratio has no derived key (quoted as alpha_R and ||R||
+%   side by side); App. E's proof stub must absorb the Bessel-kernel limit, the
+%   ||G^k|| = Theta(N^{2k}) theorem and the published ratio ~ j N^3.
+% =============================================================================
+
+This chapter answers the first of the three questions of \Cref{sec:pihm-assessment}: is the cost of the physics-informed effective Hamiltonian the cost of the circuit that block-encodes it, or the cost of the Hamiltonian itself? We first rebuild the published encoding of the differentiation matrix and test the paper's claims for it (\Cref{sec:standard-published}). We then construct an exact encoding of the same matrix whose subnormalisation is within a constant of its norm (\Cref{sec:standard-factorisation,sec:standard-cost}), so that for constant coefficients the cost that survives it is not the encoder's (\Cref{sec:standard-hamiltonian}). This structured encoding is a fairness device: it gives the comparison of \Cref{sec:results-scaling} the strongest baseline we can build for the paper's regime, and it is not offered as a solver for that regime.
+
+\subsection{The Published Encoding, Rebuilt}
+\label{sec:standard-published}
+% ~0.75 pp
+% LAND, in order:
+%   1. Figs 2, 8 and 9 of the paper built as drawn, from the legible figure and
+%      the caption angles (sec:pihm-encoding describes them).
+%   2. What is measured, claim by claim: qubits against the claimed 2n + 3;
+%      gates after multi-controlled-X decomposition against the claimed O(n^3);
+%      the entry error eps_G(n) against "exponentially decreasing" and against
+%      the small-angle bound (prop:epsilon-G, Appendix D); the prefactor
+%      (eq:pihm-published-prefactor).
+%   3. The results in one sentence, pointing to sec:results-scaling. THE key
+%      number: alpha / ||G||_2 = 2.2e6 at n = 7, growing like N^3 (\prov).
+% OFFLOAD: -> Appendix D (app:pihm-circuit): "every deviation from the printed
+%   figure, and the measured qubits, gates and eps_G(n), are given in
+%   Appendix D".
+
+Wu et al.\ report that each term of the Hamiltonian block-encodes with a number of gates polynomial in $n$ (\Cref{sec:pihm-encoding}). We rebuild their three circuits, Figs~2, 8 and 9 of \cite{wu2025pihm}, and test each claim against the build; the registers, angles and every deviation from the printed figures are in \Cref{app:published-build}. The zero row $\Brow(x)$ and the collapse row $\Dzero(x_s)$ (Figs~2 and 8) rebuild as printed, with $n+2$ qubits and subnormalisation $\sqrt{2^{n+1}}$ (divided by $|f(x_s)|$ for $\Dzero$, the sign carried as a phase). They succeed with probability $\|\tau(x)\|^2/2$, one half on average over the Chebyshev measure, so the paper's ``high probability'' is a constant, not certainty.
+
+The derivative circuit (Fig.~9) cannot be rebuilt wire for wire, because its multi-controlled wiring is not legible in the figure. We rebuild its mechanism with registers of our own: a uniform superposition over the $N/2$ odd offsets $p-k$, a register subtraction that selects the entry $(k,p)$, and ladders of small controlled rotations that load the column value $2p$ as an amplitude and correct row~0. The ladder composes angles exactly, but $\sin\bigl(\sum_m\arcsin(2^m\mu)\bigr)\neq\mu p$, so the loaded entries are approximate. The block differs from $\G$ entrywise by at most $\tfrac13\mu^2p^3$ to leading order (\Cref{prop:epsilon-G}), which at the printed $\mu = 2/\|\G\|_S$ is $O(N^{-5})$ and falls by a factor approaching $32$ per qubit.
+
+\Cref{tab:published-verdicts} gives the verdict on each claim. Four hold, the qubit count is two higher, and the prefactor is valid but loose; the last decides the cost. A circuit with polynomially many gates is cheap to apply, but the number of times the filter must apply it is set by the subnormalisation (\Cref{eq:degree}), and the printed prefactor \Cref{eq:pihm-published-prefactor} exceeds $\|\G\|_2$ by a factor of $\res[2]{derivative/n7}{published_ratio}$ at $n=7$. That factor tends to $jN^3$, where $j\approx1.06$ is the first positive zero of the Bessel function $J_{-3/4}$ (\Cref{app:alpha-G}). It is the first of the two walls this chapter separates, the encoder's: the paper's claim that the terms are implementable efficiently is true of the gates and false of the subnormalisation. Our build's own $\alpha$ is a third of the printed prefactor ($N\|\G\|_S/2$ against $3N\|\G\|_S/2$), so every published-encoding cost in this thesis is the kinder side of the paper's. The encoding is approximate, so no state is prepared with it; it enters only the resource estimates, composed into the same stacked residual as the structured encoding, so that its filter degree is counted like the others (\Cref{sec:standard-hamiltonian,sec:results-scaling}).
+
+\begin{table}[htbp]
+    \centering
+    \caption{The paper's claims for its block encodings, tested against the rebuilt circuits. Figs~2 and 8 hold as printed. In Fig.~9, the gate count and the error hold, the qubit count is two higher, and the prefactor is valid but loose against $\|\G\|_2$ by a factor that grows as $N^3$ (\Cref{tab:alpha-G-short}); the polynomial gate count does not make the encoding efficient. Classical exact-mode build; circuit counts as built, error to leading order.}
+    \label{tab:published-verdicts}
+    \small
+    \begin{tabular}{@{}l l l l@{}}
+        \toprule
+        Circuit and claim & Printed & As rebuilt & Verdict \\
+        \midrule
+        Fig.~2, $\Brow(x)$ & $n+2$ qubits, $\sqrt{2^{n+1}}$ & the same, exact & holds \\
+        Fig.~8, $\Dzero(x_s)$ & $\sqrt{2^{n+1}}/f(x_s)$ & the same, exact & holds \\
+        Fig.~9, qubits & $2n+3$ & $2n+5$ & two more \\
+        Fig.~9, gates & $O(n^3)$ & $O(n^2)$ & holds (as a bound) \\
+        Fig.~9, error & decreases exponentially & $O(N^{-5})$, bound derived & holds \\
+        Fig.~9, prefactor & $(2^{n-1}+2^n)\|\G\|_S$ & valid, $\sim jN^3\|\G\|_2$ & loose \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+% REVISE: the "2n + 5" count and the O(n^2) gate claim are the rebuilt circuit's
+%   (companion 31); the measured qubits, gates and eps_G(n) are NOT yet exported
+%   as keys -- Appendix D's table (tab:app-epsilon-G) is still \prov. When it
+%   fills, quote one measured eps_G here beside the bound.
+
+\subsection{An Exact Factorisation of the Differentiation Matrix}
+\label{sec:standard-factorisation}
+% ~1 pp
+% LAND, in order:
+%   1. The idea in words FIRST: every entry of G is (a row-0 weight) x (a
+%      parity-selected shift) x (the column index).
+%   2. prop:G-factorisation (claim C-01). The proposition is exact; quote the
+%      measured 2.3e-13 (n <= 10) as VERIFICATION, not as evidence.
+% OFFLOAD: proof -> Appendix E (app:proof-G-factorisation).
+
+The published circuit loads the column value as a rotation amplitude, which is where it is approximate and where its prefactor comes from. The structure of $\G$ allows a different route. Every non-zero entry is a product of three factors, each depending on one index alone: a weight depending only on the row, smaller by $1/\sqrt2$ in row~0 because of the normalisation of $T_0$; a selector depending only on the offset $p-k$, non-zero when $p>k$ and $p-k$ is odd; and a value depending only on the column, $2p$, the factor by which differentiation weights the lower terms of $T_p$. Each factor has an exact block encoding.
+
+\begin{proposition}[Exact factorisation of the differentiation matrix]
+\label{prop:G-factorisation}
+% STATE: for every n >= 1 the normalised-basis differentiation matrix
+%   factorises exactly as below, with R_0 a row-0 reweighting, U_odd the
+%   average of the N/2 truncated shifts by odd offsets (times N/2) and Lambda
+%   the column index.
+For every $n \ge 1$ the differentiation matrix on the normalised Chebyshev coefficients factorises as
+\begin{equation}
+    \begin{gathered}
+        \G = R_0\,\bigl(2\Uodd\bigr)\,\Lambda, \\
+        R_0 = I - \Bigl(1 - \tfrac{1}{\sqrt2}\Bigr)\ket{0}\bra{0},
+        \qquad
+        \bigl(\Uodd\bigr)_{kp} = \bigl[\,p > k,\ p - k\ \text{odd}\,\bigr],
+        \qquad
+        \Lambda = \operatorname{diag}(p) .
+    \end{gathered}
+    \label{eq:G-structured}
+\end{equation}
+Here $\Uodd$ is the sum of the $N/2$ truncated shifts by odd offsets.
+\end{proposition}
+
+The proof is entry by entry against \Cref{eq:pihm-G-entries} and is given in \Cref{app:proof-G-factorisation}. The identity is exact. As a check on our implementation and not on the proposition, the composed circuit's block matches the independently constructed $\G$ entrywise to $\prov{3.4\times10^{-13}}$ (absolute) for $n\le7$. The factorisation also sets the size of $\G$. The subnormalisation $N(N-1)$ of \Cref{prop:standard-cost} bounds $\|\G\|_2$ above by $O(N^2)$, and the matching lower bound, with $\|\G\|_2\to N^2/(2j)$ for the $j$ above, is proved in \Cref{app:proof-standard-cost}.
+% REVISE: 3.4e-13 is a one-off measurement (circuit block vs derivative_matrix,
+%   max absolute entry error, n = 2-7: 1.9e-15 ... 3.4e-13), not a pihm key. Add a
+%   derived key to tools/thesis/derived.py and replace the \prov. App. E's proof must
+%   also carry the lower bound ||G||_2 -> N^2/(2j) (C-01 tests the ratio only to n = 7).
+
+\subsection{Circuits and Cost}
+\label{sec:standard-cost}
+% ~1 pp
+% LAND, in order:
+%   1. Lambda as a Z-string LCU (eq:lambda-lcu): alpha = N - 1,
+%      ceil(log2(n+1)) selector qubits, O(n) gates.
+%   2. U_odd: a uniform PREPARE over odd offsets (X on the offset register's
+%      lowest bit, H on the others); SELECT as the in-place subtraction
+%      p <- p - d with a post-selected borrow flag, so wrapped terms vanish
+%      EXACTLY (alpha = N/2, O(n) Toffolis). This is the one representative
+%      circuit (F3).
+%   3. R_0: a two-term LCU of I and I - 2|0><0|, alpha = 1.
+%   4. prop:standard-cost. The Omega(n) ancilla floor comes from the N/2-term
+%      LCU -- a genuine regime difference from the descriptor's O(log n).
+%   5. Lifts M_{x^p} (banded shift x diagonal LCUs, shared with the descriptor);
+%      rank-one rows via the feature map; products with ancilla reuse.
+% OFFLOAD: the arithmetic SELECT and the resource derivation -> Appendix E
+%   (app:structured).
+% FIG: fig:uodd-select (F3). TAB (optional): tab:alpha-G-short; the full A-4
+%   table is tab:alpha-G-full in Appendix E.
+
+Each factor is encoded as a linear combination of unitaries (LCU) \cite{childs2012lcu}, with no value loaded by rotation, so none of the encoding is approximate. The column index $\Lambda$ is a sum of Pauli strings,
+\begin{equation}
+    \Lambda = \frac{N-1}{2}\,I - \sum_{j=0}^{n-1} 2^{j-1} Z_j ,
+    \label{eq:lambda-lcu}
+\end{equation}
+which follows from $p=\sum_j2^j(1-z_j)/2$ for the eigenvalue $z_j$ of $Z_j$. It has $n+1$ terms, so $\lceil\log_2(n+1)\rceil$ selector qubits and $O(n)$ gates, and its subnormalisation $\alpha_\Lambda=N-1$ equals $\|\Lambda\|_2$. The row weight is $R_0=aI+b\,(I-2\ket{0}\!\bra{0})$ with $a=\tfrac12(1+1/\sqrt2)$ and $b=\tfrac12(1-1/\sqrt2)$, a two-term LCU with $\alpha_{R_0}=1=\|R_0\|_2$.
+
+The sum of shifts is the one non-trivial factor (\Cref{fig:uodd-select}). Its PREPARE places the offset register in a uniform superposition over the $N/2$ odd offsets, by an $X$ on the lowest qubit and Hadamards on the rest. Its SELECT is the in-place subtraction $p\leftarrow p-d$ of a ripple-carry circuit \cite{cuccaro2004adder}, which also sets a borrow flag when $p<d$. The terms that would wrap around carry a borrow of one, and post-selecting the flag on zero removes them exactly. The block is therefore $\tfrac{2}{N}\bigl[p>k,\ p-k\ \text{odd}\bigr]$, an exact encoding of $\Uodd$ at $\alpha=N/2$ with $O(n)$ Toffolis, and a single PREPARE serves all $N/2$ terms because SELECT is a permutation (\Cref{app:uodd-select-detail}).
+
+\placeholderfigure[5cm]{\textbf{The odd-offset shifts are one subtraction.} PREPARE (left) puts the offset register $d$ in a uniform superposition over the $N/2$ odd offsets, by an $X$ on its lowest qubit and Hadamards on the rest. SELECT is a ripple-carry subtractor \cite{cuccaro2004adder} that replaces the system register $p$ by $p-d$ and sets the borrow flag when $p<d$. PREPARE$^\dagger$ (right) with post-selection of $d$ and the borrow flag on $\ket{0}$ keeps $\tfrac{2}{N}\ket{k}\!\bra{p}$ for every odd $d=p-k\ge1$, and the wrapped terms vanish exactly. The block is $\Uodd/(N/2)$, so $\alpha=N/2$, on $n$ system and $n+2$ ancilla qubits.}{fig:uodd-select}{Quantikz circuit: offset register $d$ ($X$ on the lowest qubit, $H^{\otimes(n-1)}$ on the rest), system register $p$, carry and borrow ancilla; a ripple-carry subtractor $p \leftarrow p - d$ spanning all five wires; PREPARE$^\dagger$; post-selection of $d$ and the borrow flag on $\bra{0}$.}
+
+The three encodings multiply, and their subnormalisations multiply with them. The composition is an exact block encoding of $\G$ with $\alpha_{\G}=1\cdot N\cdot(N-1)$, and the cost is the following.
+
+\begin{proposition}[Cost of the structured encoding]
+\label{prop:standard-cost}
+% STATE: the factorisation of prop:G-factorisation compiles to an exact block
+%   encoding of G with the subnormalisation, gate count and ancilla count below.
+The factorisation of \Cref{prop:G-factorisation} compiles to an exact block encoding of $\G$ on $n$ system qubits with
+\begin{equation}
+    \alpha_{\G} = N(N-1),
+    \qquad
+    \frac{\alpha_{\G}}{\|\G\|_2} \longrightarrow 2j_{-3/4,1} \approx 2.117,
+    \qquad
+    O(n^2)\ \text{gates},
+    \qquad
+    n + 4\ \text{ancilla} .
+    \label{eq:standard-cost}
+\end{equation}
+Of the ancilla, $n-1$ are the selector of $\Uodd$'s $N/2$-term LCU.
+\end{proposition}
+The limit is the Bessel-kernel limit of $\|\G\|_2/N^2$ already used above, the gate count is for an ancilla-free synthesis of multi-controlled gates and is $O(n\log n)$ with a linear-cost synthesis that borrows idle qubits \cite{barenco1995elementary}, and the proof is given in \Cref{app:proof-standard-cost}. The ancilla count is exact in the build for $n=2$ to $8$, and the gate counts are the transpiled two-qubit counts at small $n$ only (\prov{109} at $n=2$ and \prov{471} at $n=5$), which are consistent with the bound but too few to fit it. The limit is a statement about large $N$, and the sizes we reach are measured: the ratio is $\res[3]{derivative/n2}{structured_ratio}$ at $n=2$, rises with $n$, and is $\res[3]{derivative/n10}{structured_ratio}$ at $n=10$ (\Cref{tab:alpha-G-short}), against a published ratio that grows as $N^3$. The looseness is small because $\alpha_{R_0}$ and $\alpha_\Lambda$ equal their norms; it comes from $\Uodd$, whose $\alpha$ exceeds its norm by at most a factor of $\pi/2$, and from the product, whose large factors meet each other's small ones.
+
+The $n-1$ selector ancilla are not an artefact of this circuit. An LCU of $L$ terms needs $\lceil\log_2L\rceil$ selector qubits, and lower bounds of this kind hold for exact block encodings built from $L$-term decompositions \cite{chakraborty2025qsvt}, so the count is the price of encoding the $N/2$ shifts of $\Uodd$ as one LCU. It is a difference between the two regimes: the descriptor form of \Cref{sec:descriptor-block-encoding} never forms the sum of shifts, and its ancilla grow as $\log n$.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Subnormalisation of the differentiation-matrix encodings, relative to $\|\G\|_2$. The structured encoding of \Cref{prop:standard-cost} stays within a factor $2.12$ of the norm, and the published prefactor of \Cref{eq:pihm-published-prefactor} grows as $N^3$. The full table to $n=10$ is \Cref{tab:alpha-G-full}. Classical exact-mode computation.}
+    \label{tab:alpha-G-short}
+    \small
+    \begin{tabular}{@{}rrrr@{}}
+        \toprule
+        $n$ & $\|\G\|_2$ & Structured (\Cref{prop:standard-cost}) & Published (\Cref{eq:pihm-published-prefactor}) \\
+        \midrule
+        2 & \res[3,fixed]{derivative/n2}{norm} & \res[4]{derivative/n2}{structured_ratio} & \res[3]{derivative/n2}{published_ratio} \\
+        4 & \res[3,fixed]{derivative/n4}{norm} & \res[4]{derivative/n4}{structured_ratio} & \res[3,sci]{derivative/n4}{published_ratio} \\
+        7 & \res[3,fixed]{derivative/n7}{norm} & \res[4]{derivative/n7}{structured_ratio} & \res[3,sci]{derivative/n7}{published_ratio} \\
+        10 & \res[3,fixed]{derivative/n10}{norm} & \res[4]{derivative/n10}{structured_ratio} & \res[3,sci]{derivative/n10}{published_ratio} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+% REVISED: the plan's "<= 2.12 (n <= 10)" was a measured bound, not part of the
+%   proposition; the proposition now states the proved limit and the measured
+%   values are quoted beside it.
+
+The remaining terms of the residual use the same pieces. A coefficient $a(x)$ multiplies a series by the exact lift $\M_a$ to $n+1$ qubits, which holds the product with no truncation whenever $\deg a\le N$ (\Cref{app:lifts-folds}); it is encoded as a sum of powers of one single-$x$ block, itself built from truncated shifts by the same post-selected subtraction, so its subnormalisation is the sum of the absolute monomial coefficients weighted by powers of that block's. The rank-one rows $\Brow(x)$ and $\Dzero(x_s)$ are the exact circuits of \Cref{sec:standard-published}, and a source given by its Chebyshev coefficients is loaded by one rotation tree. A power $\G^k$ is a product of encodings that share one ancilla register with a failure flag per product, so $\G^2$ costs one qubit more than $\G$; the subnormalisation of a product is the product of the subnormalisations, so a power compounds the constant above while $\|\G^k\|_2<\|\G\|_2^k$. The stacked residual is then assembled as a reflection (\Cref{sec:pipeline-walk}), and its composed circuit is verified against the independently assembled Hamiltonian (\Cref{sec:pipeline-verification}).
+
+\subsection{What Remains: The Standard-Form Hamiltonian}
+\label{sec:standard-hamiltonian}
+% ~0.75 pp
+% LAND, in order:
+%   1. alpha_H / ||H|| stays bounded (22 -> 60 over n = 2-8, Fig. 3b; \prov):
+%      the encoder has done its job (claim C-02).
+%   2. But ||H_std|| = Theta(N^8) against a flat gap (7.04), so by eq:degree the
+%      degree is Theta~(N^4): 1.2e10 at n = 8 (\prov) -- eq:standard-wall.
+%   3. THE HAMILTONIAN WALL, interpreted: ||G|| = Theta(N^2), squared by the Gram
+%      product and again by second derivatives; no encoder can undo a norm.
+%   4. The classical reading (sec:bg-chebyshev/FOSLS subsubsection): H_std is the
+%      least-squares functional of an order-k operator, and squares its
+%      conditioning.
+%   5. THE SCOPE, VOLUNTEERED: for a lifted variable coefficient (R3's 1 - x^2),
+%      the structured LCU pays ||M_a|| ||G^2|| >> ||M_a G^2||, so the encoder
+%      wall reappears there; sec:results-scaling therefore quotes the
+%      ideal-encoding bound beside every as-built cost (T-25).
+%   6. Close by naming Chapter 5 (sec:descriptor) and what it changes: the
+%      Hamiltonian itself.
+
+For constant coefficients the encoder has done its job. On R2a at $n=8$ the structured encoding of the whole stacked residual has $\alpha_R=\res[3,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_R}$ against $\|R\|_2=\res[3,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{norm_R}$ (a resource estimate, not a simulation), a ratio $\alpha_R/\|R\|_2$ of $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_ratio}$. The ratio rises from $\res[3]{looseness/stateprep/R2a/standard/n2/T3/filter=minimax}{alpha_ratio}$ at $n=2$, with increments that shrink by about half at each added qubit, so it is levelling off over $n=2$ to $8$; we have not proved a limit for the whole residual (\Cref{sec:results-scaling}). The Hamiltonian is encoded at $\alpha_H=\alpha_R^2$, so $\alpha_H/\|\Hstd\|$ is that ratio squared, from $\res[3]{looseness/stateprep/R2a/standard/n2/T3/filter=minimax}{hamiltonian_ratio}$ to $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{hamiltonian_ratio}$. The published encoding's ratio grows without such a limit, as $N^3$ for $\G$ alone.
+
+What the encoder cannot change is the norm it encodes. For an equation of order $k$ with constant coefficients, a non-zero leading coefficient and constraints of lower order, $\|\G^k\|_2/N^{2k}$ tends to a positive constant, so $\|R_{\mathrm{std}}\|_2=\Theta(N^{2k})$ and $\|\Hstd\|=\|R_{\mathrm{std}}\|_2^2=\Theta(N^{4k})$, the proof being given in \Cref{app:proof-standard-cost}. The factor $N^2$ per derivative is $\G$'s own norm (\Cref{sec:standard-factorisation}), and the exponent doubles once more because the Hamiltonian is the Gram product $R^\dagger R$. The gap, in contrast, is not proved flat. We have measured it on R2a and R2b, the one-axis panels with a non-vanishing leading coefficient checked so far: on R2a it is $\Delta=\res[3]{build/R2a/standard/n7}{gap}$ at $n=7$ and $\res[3]{build/R2a/standard/n8}{gap}$ at $n=8$, while $\|\Hstd\|$ grows from $\res[2,sci]{build/R2a/standard/n7}{hamiltonian_norm}$ to $\res[2,sci]{build/R2a/standard/n8}{hamiltonian_norm}$. Since $\alpha_H\ge\|\Hstd\|$ for any block encoding, \Cref{eq:degree} gives
+\begin{equation}
+    \|\Hstd\| = \Theta\bigl(N^{4k}\bigr),
+    \qquad
+    \Delta = \Theta(1)\ \text{(measured)}
+    \quad\Longrightarrow\quad
+    d = \tilde\Theta\bigl(N^{2k}\bigr),
+    \label{eq:standard-wall}
+\end{equation}
+which is $\|\Hstd\|=\Theta(N^8)$ and $d=\tilde\Theta(N^4)$ at second order, the order of the paper's panels, whatever the block encoding. We call this the Hamiltonian wall. The floor is stated for the minimax filter that prepares every state in this thesis; for polynomial filters in general it is what the optimality of Lin and Tong's construction supports \cite{lintong2020groundstate}, and we claim no more. At $n=8$ the estimated degree for R2a is $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{degree}$ as built and $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{ideal_degree}$ at the ideal-encoding bound $\alpha=\|R\|_2$. The degree is linear in $\alpha_R$, so the difference is the encoder's looseness and the common part is the Hamiltonian's. Both are resource estimates, not simulations, since the degrees are far beyond exact emulation.
+
+The two walls show in the growth of the degree with $N$ between $n=7$ and $n=8$, again as resource estimates. The published encoding's degree grows as $N^{\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax/encoder=published}{degree}}$ and the structured encoding's as $N^{\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax}{degree}}$, so the encoder wall is the difference between them. At the ideal bound the degree grows as $N^{\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax}{ideal_degree}}$ however the matrix is encoded, and that exponent is the Hamiltonian wall. It belongs to the least-squares functional, not to the circuits. The physics-informed Hamiltonian $\Hstd=R^\dagger R$ is the normal-equations form of the least-squares problem for an order-$k$ operator, and such a problem squares the conditioning of the operator it minimises. The classical remedies are to recast the equation as a first-order system \cite{cai1994fosls} or to use a basis in which differentiation is banded (\Cref{sec:bg-fosls,sec:bg-ultraspherical}).
+
+The scope of this conclusion has a limit. The structured encoding bounds $\alpha_H/\|\Hstd\|$ for constant coefficients only, and it is loose for a variable coefficient that is lifted. On R3, whose leading coefficient is $1-x^2$, the circuit pays for the product $\M_a\G^2$ as $\|\M_a\|\,\|\G^2\|\gg\|\M_a\G^2\|$, because the coefficient vanishes at the ends of the interval where $\G^2$ is largest. The measured norm of R3's residual then grows as $N^2$ and not as $N^{2k}=N^4$, and the encoder wall reappears: the as-built degree grows as $N^{\res[3]{stateprep/R3a/standard/growth/T3/filter=minimax}{degree}}$ while the degree at the ideal bound grows as $N^{\res[3]{stateprep/R3a/standard/growth/T3/filter=minimax}{ideal_degree}}$, the exponent that the descriptor's degree also has there ($N^{\res[3]{stateprep/R3a/descriptor/growth/T3/filter=minimax}{ideal_degree}}$ at the ideal bound). On R3a at $n=8$ the as-built degree is $\res[2,sci]{stateprep/R3a/standard/n8/T3/filter=minimax}{degree}$ against $\res[2,sci]{stateprep/R3a/standard/n8/T3/filter=minimax}{ideal_degree}$ at the ideal bound, both resource estimates. For this reason \Cref{sec:results-scaling} quotes the ideal-encoding bound beside every as-built cost, and where the comparison between the forms reverses at the bound, as it does on R3, the reversal is reported as a finding.
+
+This answers the first question. For the constant-coefficient problems of the paper's regime, the cost of the published method has two parts. One is the encoder's, a factor that grows as $N^3$ in the subnormalisation and is removed by the structured encoding. The other is the Hamiltonian's, $\tilde\Theta(N^{2k})$ in the filter degree, which no encoder removes. \Cref{sec:results-scaling} tests this on the benchmark problems. What can still change is the Hamiltonian itself, by changing what its residual carries. \Cref{sec:descriptor} does so by carrying the derivatives as unknowns instead of eliminating them into the dense $\G$.
+
+% REVISE (OPEN, recorded in ThesisPlanning.md §2.1): the flatness of the standard
+%   form's gap, Delta = Theta(1), is MEASURED, not proved, and eq:standard-wall's
+%   Theta~(N^{2k}) rests on it. Checked so far only on the one-axis panels R2a
+%   (n = 6-8, 7.04 to six figures) and R2b. Extend to the other constant-coefficient
+%   one-axis panels (R1, R2c, R4*) and to a second-order equation with other
+%   coefficients before this is asserted beyond "measured on R2a and R2b".
+
+% CHECKLIST (marker)
+%   1. Is the published build reported as a TEST of the paper's claims, with a
+%      verdict for each?
+%   2. Is the factorisation a proposition, with its proof pointed to by content?
+%   3. Does §5.4 make the encoder-versus-Hamiltonian distinction unmissable?
+%   4. Is S2 framed as serving the comparison?
+% TRAPS  Calling S2 "our standard-form solver"; quoting eps_G bounds that belong
+%        to the legacy reconstruction rather than to the Fig. 9 build.

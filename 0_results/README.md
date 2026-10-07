@@ -3,24 +3,27 @@
 Every number the thesis takes from `pihm` is looked up by key, never typed:
 
 ```latex
-The filter degree is \res{stateprep/R2a/corrected/standard/n3/T2}{degree}.
+The filter degree is \res{stateprep/R2a/standard/n3/T2}{degree}.
 ```
 
-`generated/numbers.tex` holds every value of every run the campaigns expect. It is written by
-`pihm/tools/thesis/export_numbers.py`, never by hand. `results.tex` reads it and defines the
-commands below; `main.tex` inputs it. When a campaign is rerun, the exporter rewrites the file, and
-the next compile shows the new numbers. A number that does not exist yet renders as a box naming
-why. The design is ThesisPlanning.md §10.2 (decision T-15, amended 2026-09-27) and pihm's D-062.
+`generated/numbers.tex` holds the value of every run the thesis's own `\res`/`\resflag` calls
+cite -- not every run the campaigns expect: at full size (thousands of runs) the file is too large
+for pdfTeX to load (the string pool, then main memory), so only the committed, used-only export
+actually compiles. It is written by `pihm/tools/thesis/export_numbers.py --used-only`, never by
+hand. `results.tex` reads it and defines the commands below; `main.tex` inputs it. When a campaign
+is rerun, the exporter rewrites the file, and the next compile shows the new numbers. A number that
+does not exist yet renders as a box naming why. The design is ThesisPlanning.md §10.2 (decision
+T-15, amended 2026-09-27) and pihm's D-062.
 
 ## The routine
 
 | when | do |
 |---|---|
-| results changed (a campaign run or collected) | in `Code/pihm/`, with `conda activate pihm`: `python tools/thesis/export_numbers.py`, then recompile |
+| results changed (a campaign run or collected) | in `Code/pihm/`, with `conda activate pihm`: `python tools/thesis/export_numbers.py --used-only`, then recompile |
 | you need a number | find its key (below), write `\res{<key>}{<metric>}` |
 | you want to know what is missing | `python tools/thesis/export_numbers.py --check`: every quoted number not current, with file, line and fix (`--verbose` lists all) |
 | the log says `Package pihm Warning` | the same list, one warning per placeholder, and a count at the end |
-| submission | at tag `results-v1`: `export_numbers.py --final` (below) |
+| submission | after P8: `export_numbers.py --final` (below) |
 
 Commit `generated/numbers.tex` with the thesis: its diff shows exactly which numbers moved.
 
@@ -35,7 +38,7 @@ A run's key is its record directory without the hash:
 | segment | values |
 |---|---|
 | stage | `build` (classical solve, P2), `encode` (circuit verification, Pillar 1), `stateprep` (state preparation, Pillar 2), `readout` (the paper's interferometric readout) |
-| problem, variant | `R1`, `R2a` … `R6b`; `faithful` or `corrected` |
+| problem | `R1`, `R2a` … `R10c-M316`, then `faithful` for a paper panel as printed (the reproduction's only; the corrected problem names no variant) |
 | regime | `standard` or `descriptor` |
 | size | qubits per axis: `n3`, or `n3x3` on two axes (R5) |
 | tier | `stateprep` and `readout` only: `T1` (circuit simulated) or `T2` (exact emulation) |
@@ -43,17 +46,26 @@ A run's key is its record directory without the hash:
 | label | the campaign group's label, as its token in `pihm/configs/thesis.yaml` (`exact-root`, `chebyshev-source`, `maclaurin-7`, `xs=0.5`, …); most labels have an empty token and add nothing |
 
 Examples: `build/R2a/faithful/standard/n3`, `build/R4b/faithful/standard/n5/exact-root`,
-`build/R2a/faithful/standard/n5/truncation=tau`, `encode/R3c/corrected/standard/n4/verify=none`,
-`readout/R1/corrected/standard/n2/T1/shots=100000`.
+`build/R2a/faithful/standard/n5/truncation=tau`, `encode/R3c/standard/n4/verify=none`,
+`readout/R1/standard/n2/T1/shots=100000`.
 
 The two geometric initial states a T1 campaign runs separately share one key, and the key quotes the
 one with the larger success probability, as the reports do.
 
-**To look one up**, search the generated file. Each key has a comment line with its status and
-source record, then one line per value:
+**To look one up** once it is already cited, search the committed file. Each key has a comment line
+with its status and source record, then one line per value:
 
 ```bash
-grep -A40 '^% stateprep/R2a/corrected/standard/n3/T2 ' 0_results/generated/numbers.tex
+grep -A40 '^% stateprep/R2a/standard/n3/T2 ' 0_results/generated/numbers.tex
+```
+
+**To browse before citing** (the committed file only holds cited keys), write the full export
+somewhere scratch -- never commit it, and never point the thesis at it; at full size it does not
+compile:
+
+```bash
+python tools/thesis/export_numbers.py --thesis /tmp/pihm-browse
+grep -A40 '^% stateprep/R2a/standard/n3/T2 ' /tmp/pihm-browse/0_results/generated/numbers.tex
 ```
 
 ### Derived numbers
@@ -133,9 +145,9 @@ change that leaves the configuration alone does not make a record stale; the fre
 
 ## The final export
 
-At tag `results-v1`, from a clean tree: `python tools/thesis/export_numbers.py --final`. It
-refuses, listing why, unless every number the thesis quotes was produced at the tag from a clean
-tree and none is a draft-only placeholder. Once written, values print untinted, and any remaining
+With the package's source committed: `python tools/thesis/export_numbers.py --final`. It refuses,
+listing why, unless every number the thesis quotes was made by the source the tree holds (each
+record's source digest, the code that ran) and none is a draft-only placeholder. Once written, values print untinted, and any remaining
 placeholder except `infeasible` is a compile error. To try a final build early, put `\resfinaltrue`
 after `\input{0_results/results.tex}`.
 

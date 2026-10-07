@@ -1,27 +1,24 @@
 % =============================================================================
-% Chapter 4  A Regime-Independent Quantum Pipeline  --  ~6 pp
+% Chapter 7  Preparing and Verifying the Ground State  --  ~6 pp
 % rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.4.
+% Plan: ThesisPlanning.md §5.7.
 %
-% PURPOSE     Specify the model: everything that is the same whichever residual
-%             is plugged in -- inputs, classical reference, walk, filter, readout,
-%             verification, software -- so a reader could "create equivalent
-%             models". The two forms differ ONLY in the residual (Chapters 5-6),
-%             so any difference in results is a difference of Hamiltonians.
+% PURPOSE     Specify everything shared by both forms after the residual is
+%             built, and design the numerical experiment, so a reader could
+%             "create equivalent models". The forms differ only in the
+%             residual, so every difference in Ch. 8 is a difference of
+%             Hamiltonians.
 % CRITERION   (Modelling, verbatim) "described in sufficient detail to permit
 %             readers to create equivalent models. This should include: a
 %             description of any software tools used and/or created; a
 %             description and/or diagram of the model configuration; descriptions
 %             of the model input options selected (boundary conditions ...)".
 %             Band 3 names "poor design of numerical experiment": the experiment
-%             design lives here, in the body.
-% SOURCES     Planning.md §3.5 (constraint layer), §3.7 ("Composition of H"),
-%             §3.8 (qubitisation, GQSP, filter, parameters, cost, deviations from
-%             the paper), §4 (principles D2, D4, D6, D7, D9, D10), §5.4 (what
-%             every run records), §6.2 (verification modes), §7 (Pillar 2:
-%             §7.2-7.9), §10-11 (software, HPC); claims C-03, C-04, C-08, B-13,
-%             B-16, B-24; Journal E022-E024; pihm/src/pihm/circuits/compose.py,
-%             qsp/, pipeline/.
+%             design lives here, in the body (§7.8, moved from Ch. 8).
+% SOURCES     pihm/docs/02_methods.md (all sections; it is this chapter's source
+%             of truth); ThesisPlanning.md §3.5, §3.7-3.8, §5.4, §6.2, §7;
+%             claims C-03, C-04, C-08, B-13, B-16, B-17, B-24;
+%             pihm/docs/FILTERS.md.
 % WRITE WHEN  Now as formulation (wave W1); numbers at gate G3 (wave W2).
 % Bare H, A and R are correct in this chapter only: its statements are
 % regime-independent (decision T-07).
@@ -40,20 +37,26 @@
 
 \placeholderfigure[8cm]{Model configuration: from problem specification to decoded field.}{fig:pipeline}{Pipeline schematic (TikZ). Problem specification (equation, constraints, variant, $n$) $\to$ residual assembly (standard form $|$ descriptor form) $\to$ stacked-residual block encoding $U_R$ $\to$ reflection $V$ $\to$ walk $W$ $\to$ GQSP imaginary-time filter $\to$ post-selection $\to$ readout. Alongside: the classical reference (SVD of $R$) and the three verification tiers (circuit simulation, exact emulation, resource estimate) attached to the stages they check.}
 
-\subsection{Problem Specification and Model Inputs}
+\subsection{Problems and Model Inputs}
 \label{sec:pipeline-inputs}
 % ~1 pp
 % LAND, in order:
-%   1. The three orthogonal axes: derivative representation (standard |
-%      descriptor), treatment of nonlinearity (none | doubled space | Carleman),
-%      constraint rows (shared by both forms).
-%   2. The constraint kinds (tab:constraint-kinds).
-%   3. Paper-faithful versus corrected variants (Planning.md §3.5).
-%   4. The benchmark ladder R1-R10: one new capability per problem, so a failure
-%      localises (tab:ladder; full specifications -> Appendix J, app:catalogue).
-%   5. The input options every run records: n, variant, form, encoder,
-%      epsilon = 1e-6, filter, initial state, rescaling.
+%   1. THE BENCHMARK LADDER R1-R10 (tab:ladder): one new capability each, so a
+%      failure localises, with its physics (full specifications -> Appendix J,
+%      app:catalogue).
+%   2. THE CONSTRAINT KINDS (tab:constraint-kinds): the rubric's "boundary
+%      conditions". A problem is DATA: equation terms, constraints, regular
+%      datum, reference.
+%   3. The paper's panels as printed appear ONLY IN THE REPRODUCTION (T-27);
+%      elsewhere the problem is unnamed ("R2a"), never "corrected R2a".
+%   4. The inputs every run records: n per axis, form, encoder, filter,
+%      epsilon = 1e-6, initial state, rescaling, Carleman order K.
 % TAB: tab:constraint-kinds (T2), tab:ladder (T3).
+% REVISE (T-27): LAND point 3 used to read "Paper-faithful versus corrected
+%   variants" -- ThesisPlanning.md's controlled vocabulary (§3.4) retires
+%   "corrected"/"paper-faithful" as the general framing: only the reproduction
+%   chapter distinguishes "R2a" from "R2a as printed"; everywhere else the
+%   problem has one name.
 
 \begin{table}[htbp]
     \centering
@@ -168,29 +171,54 @@
     \label{eq:walk}
 \end{equation}
 
-\subsection{GQSP Imaginary-Time Filtering with A Priori Parameters}
-\label{sec:pipeline-qite}
+\subsection{The Filter and Its Parameters}
+\label{sec:pipeline-filter}
 % ~1 pp
-% LAND, in order:
-%   1. GQSP realises any |P| <= 1 polynomial of the walk (eq:gqsp-block); no
-%      parity constraint (B-24). GQSP itself is prior art (sec:bg-qsp).
-%   2. The filter and its coefficients (eq:qite-filter); prop:filter-normalisation
-%      (claim C-04), proof -> Appendix F.
-%   3. A priori parameters (eq:qite-parameters): beta from the gap, d from beta;
-%      hence the degree scaling (eq:degree) -- the formula every later
-%      complexity claim quotes. Minimax (Lin & Tong) reported alongside.
-%   4. Initial states (eq:geometric-state): the geometric product state, n R_Y
-%      rotations, r = +-1/2 chosen by MEASURED success probability; uniform and
-%      random as controls; warm start as a labelled variant; gamma always
-%      reported.
-%   5. Success probability, amplitude amplification, total cost (eq:qite-cost).
-%   6. Deviations from Wu et al., as a short list: GQSP instead of mixed-parity
-%      QSVT; normalisation by the construction's alpha instead of ||H||_F;
-%      parameters from the gap. The paper's time rule (eq:pihm-time-rule) is a
-%      variant run on R2 (§8.4).
-%   7. Phases: the Weiss complement plus the inverse NLFT, cited; the realised
-%      polynomial matches its target to <= 1e-12.
+% LAND, in order (ThesisPlanning.md §5.7 point 5; T-23: MINIMAX IS PRIMARY):
+%   1. GQSP realises any |P| <= 1 polynomial of the walk (eq:gqsp-block),
+%      without parity (prior art, sec:bg-qsp).
+%   2. THE MINIMAX EDGE FILTER (PRIMARY): P = T_d(w(x))/T_d(w(-1)), w mapping
+%      the excited spectrum [x_1, 1] onto [-1, 1], at the least degree that
+%      suppresses it to epsilon relative to the ground value:
+%      d = ceil(arccosh(1/epsilon)/theta_0), theta_0 = arccosh(-w(x_0)),
+%      computed from heights above the edge so the ground state's is resolved.
+%      TODO: the minimax degree formula and the w(x) construction are not yet
+%      drafted below -- this is new body content (T-23), not a rename.
+%   3. THE PARAMETERS ARE A PRIORI: the edge (sigma_0, sigma_1 of the
+%      reference) and alpha_R, never the solution. The edge is assumed known,
+%      the standard known-gap assumption; say so here and in sec:discussion-limitations.
+%   4. WHY MINIMAX: at equal suppression it needs 1.67-1.92x fewer degrees than
+%      imaginary time with the ground state at the edge, in both forms (B-17);
+%      at equal MEASURED infidelity the gain is smaller and reverses at loose
+%      epsilon. Imaginary time (eq:qite-filter, prop:filter-normalisation,
+%      claim C-04) is THE PAPER'S filter: it runs in the reproduction
+%      (sec:results-reproduction) and the filter study (sec:results-faithful).
+%   5. Phases from Weiss's complement and the inverse NLFT (cited); the
+%      realised polynomial matches its target to <= 1e-12.
+%   6. INITIAL STATES (eq:geometric-state): the geometric product state on the
+%      field block (n R_Y rotations, r = +-1/2, the candidate with the larger
+%      MEASURED success probability kept); for a system, each field's block
+%      weighted by the problem's stated initial data; uniform and random as
+%      controls; gamma always reported.
+%   7. Success probability p -> gamma^2, amplitude amplification
+%      floor(pi/(4 arcsin gamma)) rounds, total cost (eq:qite-cost).
+%   8. DEVIATIONS FROM WU ET AL., a short list: GQSP for mixed-parity QSVT;
+%      normalisation by the construction's alpha for ||H||_F; THE MINIMAX
+%      FILTER FOR IMAGINARY TIME; parameters from the edge. The paper's time
+%      rule (eq:pihm-time-rule) is a variant run on R2 (sec:results-reproduction)
+%      that falls short of epsilon (claim A-11).
 % FIG (optional): fig:gqsp-circuit (F2) -- one of the four body circuits.
+% REVISE (T-23): this LAND and the equations below were QITE-primary (the
+%   section was titled "GQSP Imaginary-Time Filtering with A Priori
+%   Parameters"). CLAUDE.md Standing Facts (Filter) make the MINIMAX EDGE
+%   FILTER primary for every comparison and extension; imaginary time (QITE)
+%   is the paper's filter, run only in the reproduction and the filter study.
+%   The minimax construction and degree formula are new body content to draft,
+%   not present below yet.
+% REVISE: the old LAND's "warm start as a labelled variant" names a variant
+%   that was never built (ThesisPlanning.md §2.1, "New in v2.0" list); dropped
+%   above. Initial states are answer-independent (CLAUDE.md Standing Facts,
+%   Parameters): no warm start.
 
 \begin{equation}
     \Pi_{\mathrm{in}}\,P(W)\,\Pi_{\mathrm{in}} = \sum_{k=0}^{d} q_k\,T_k(H'),
@@ -200,6 +228,12 @@
     \sup_{|z|=1} |P(z)| \le 1 .
     \label{eq:gqsp-block}
 \end{equation}
+
+% REVISE (T-23): the minimax edge filter's own equations (P = T_d(w(x))/
+%   T_d(w(-1)), theta_0, the degree formula) are not yet drafted here; they are
+%   the primary filter and belong before eq:qite-filter below, which is now
+%   THE PAPER'S variant (run in the reproduction and the filter study), not
+%   the pipeline's default.
 
 \begin{equation}
     f_\beta(x) = e^{-\beta(1+x)},
@@ -226,12 +260,10 @@
     d \approx \sqrt{2\beta\,\ln(2/\varepsilon_t)} ,
     \label{eq:qite-parameters}
 \end{equation}
-\begin{equation}
-    d = \Theta\!\left(\sqrt{\frac{\alpha_H}{\Delta}}\,\log\frac{1}{\varepsilon}\right),
-    \qquad
-    \alpha_H = \alpha_R^2 .
-    \label{eq:degree}
-\end{equation}
+% eq:degree (the filter-general Chebyshev degree formula, d = Theta(sqrt(alpha_H/Delta)
+%   log 1/eps)) moved to 2_body/2_literature.tex's sec:bg-filtering (ThesisPlanning.md
+%   §4.3 step 2): it is stated once, in the background, so Chs 4-6 can argue costs from
+%   it without forward-referencing this chapter. \Cref{eq:degree} still resolves there.
 
 \begin{equation}
     \ket{\varphi_0} \propto \bigotimes_{j=0}^{n-1}\Bigl(\ket{0} + r^{2^j}\ket{1}\Bigr),
@@ -247,42 +279,11 @@
     \label{eq:qite-cost}
 \end{equation}
 
-\placeholderfigure{The GQSP imaginary-time circuit.}{fig:gqsp-circuit}{Optional quantikz circuit: one GQSP ancilla; $R_0\prod_{k=1}^{d}\bigl[C_0W\,R_k\bigr]$ with $C_0W$ the controlled walk built from $U_R$, $U_R^\dagger$ and the two reflections, only the reflections controlled (\Cref{prop:stacked-reflection}); post-selection on the ancilla and the block-encoding register.}
+\placeholderfigure{The GQSP filter circuit.}{fig:gqsp-circuit}{Optional quantikz circuit: one GQSP ancilla; $R_0\prod_{k=1}^{d}\bigl[C_0W\,R_k\bigr]$ with $C_0W$ the controlled walk built from $U_R$, $U_R^\dagger$ and the two reflections, only the reflections controlled (\Cref{prop:stacked-reflection}); post-selection on the ancilla and the block-encoding register. The $R_k$ phases realise whichever filter is in force (minimax, primary; imaginary time, the paper's).}
 
-\subsection{Reading Out the Solution}
-\label{sec:pipeline-readout}
-% ~0.5 pp. The PROTOCOL is Wu et al.'s (reproduced); the p_G < 1 identity is
-% ours (Journal E024; decision T-12).
-% LAND, in order:
-%   1. The paper's interferometric protocol as reproduced: the all-zero
-%      probabilities P_G(x) (prepared state) and P_C(x) (LCU-combined state)
-%      after the inverse feature map.
-%   2. The finding: the paper's Eq. 36 assumes deterministic preparation; with
-%      GQSP success p_G < 1 the success-conditioned version leaves an
-%      x-dependent error (16% at R1, n = 2, p_G = 0.70). The raw-probability
-%      identity (eq:readout-identity) is exact for any p_G. Derivation ->
-%      Appendix F (app:readout-identity).
-%   3. The field and eta_e from a regular datum (eq:readout-field).
-%   4. Shot cost O(1/delta^2) per point.
-%   5. The combiner controls only the preparation's rotations, its two
-%      reflections and its global phase, never U_R, so it costs one qubit more
-%      than T1. A controlled global phase becomes a relative phase (L-22): one
-%      sentence, as a correctness condition.
-
-\begin{equation}
-    f^{\ast}(x) = 4P_C(x) - P_G(x) - \frac{1}{2N} = \sqrt{\frac{p_G}{N}}\;\tau(x)\cdot\psi ,
-    \label{eq:readout-identity}
-\end{equation}
-\begin{equation}
-    f_Q(x) = f(x_s)\,\frac{f^{\ast}(x)}{f^{\ast}(x_s)},
-    \qquad
-    \eta_e = \frac{f(x_s)^2\,p_G}{N\,f^{\ast}(x_s)^2} .
-    \label{eq:readout-field}
-\end{equation}
-
-\subsection{Verification Framework and Error Budget}
+\subsection{Verification and the Error Budget}
 \label{sec:pipeline-verification}
-% ~1 pp
+% ~1 pp (ThesisPlanning.md §5.7 point 6; moved before Readout, §4.2's order).
 % LAND, in order:
 %   1. Operator verification: the four modes (tab:verification-modes). Why IR
 %      is not a tautology: it checks what the circuit WILL implement against an
@@ -346,14 +347,64 @@
     \label{eq:error-budget}
 \end{equation}
 
-\subsection{Software and Computational Configuration}
+\subsection{Reading Out the Solution}
+\label{sec:pipeline-readout}
+% ~0.25 pp (ThesisPlanning.md §5.7 point 7: ONE PARAGRAPH). The classical
+% decoding is the thesis's own readout; the interferometric PROTOCOL is Wu et
+% al.'s (reproduced, with our p_G < 1 correction: Journal E024; decision T-12).
+% LAND, in order:
+%   1. THE READOUT, STATED FIRST: the field is decoded CLASSICALLY from the
+%      prepared state's field blocks, scaled by the regular datum
+%      (eq:readout-field).
+%   2. ONE PARAGRAPH on the paper's protocol: the interferometric readout
+%      (all-zero probabilities P_G(x), P_C(x) after the inverse feature map) is
+%      built and verified only at small n (R1, R2a, R5a), with our correction
+%      for p_G < 1 (eq:readout-identity; the paper's Eq. 36 assumes
+%      deterministic preparation, derivation -> Appendix F
+%      app:readout-identity); its study AT SCALE is future work, never the
+%      method's readout.
+% REVISE (T-24): this subsection used to run to 0.5 pp, treating the
+%   interferometric protocol's shot cost (point 4) and combiner-qubit cost
+%   (point 5) as part of the pipeline's own readout cost accounting.
+%   CLAUDE.md Standing Facts (Readout) make classical decoding the thesis's
+%   readout and the interferometric protocol a reproduced, small-n-only
+%   construction; compress to the one paragraph above and move the shot-cost
+%   and combiner-cost detail to Appendix F if kept at all.
+
+\begin{equation}
+    f^{\ast}(x) = 4P_C(x) - P_G(x) - \frac{1}{2N} = \sqrt{\frac{p_G}{N}}\;\tau(x)\cdot\psi ,
+    \label{eq:readout-identity}
+\end{equation}
+\begin{equation}
+    f_Q(x) = f(x_s)\,\frac{f^{\ast}(x)}{f^{\ast}(x_s)},
+    \qquad
+    \eta_e = \frac{f(x_s)^2\,p_G}{N\,f^{\ast}(x_s)^2} .
+    \label{eq:readout-field}
+\end{equation}
+
+\subsection{Design of the Numerical Experiment}
+\label{sec:pipeline-design}
+% ~0.5 pp -- NEW in v2.0 (ThesisPlanning.md §5.7 point 8; §4.3 step 2: moved
+%   here from 8_results.tex's "Experimental Design and Cost Conventions").
+% LAND, in order:
+%   1. What the study varies (n, form, encoder, filter, initial state) and
+%      holds fixed (constraints, epsilon).
+%   2. What counts as a gate: transpiled to {cx, u}, dense cited primitives
+%      counted apart; ancilla counted on the composed V.
+%   3. FAIRNESS, DECLARED: the structured encoding is the strongest
+%      standard-form baseline built, and every comparison is quoted as built
+%      AND at alpha = ||R|| (T-25), so a reported advantage is not an encoder
+%      artefact.
+%   4. The tier is marked on every number.
+% TODO: this subsection is new in v2.0 and not yet drafted (wave W1).
+
+\subsection{Software and Computation}
 \label{sec:pipeline-software}
-% ~0.35 pp. NO code listings in the body ("no need to include detailed codes").
-% LAND: pihm -- numpy, scipy, qiskit and qiskit-aer only; one implementation
-%   per concept; frozen, hashed problem specifications; strict-JSON records with
-%   provenance; claims tests. Setonix campaigns: manifests, resource classes,
-%   array jobs. Tag results-v1. One sentence on the size of the test suite
-%   (unit, property, golden, reproduction, claims).
+% ~0.25 pp. NO code listings in the body ("no need to include detailed codes").
+% LAND: pihm (numpy, scipy, qiskit, qiskit-aer): one implementation per
+%   concept, problems as hashed data, tests of each claim; production on
+%   Setonix; every number regenerated from archived records by one command
+%   (Appendix L). No code listings.
 % OFFLOAD: -> Appendix L (app:software): "the package architecture, the record
 %   schema and the commands that regenerate every figure from results-v1 are
 %   given in Appendix L".
@@ -362,11 +413,10 @@
 %   1. Is there a configuration diagram (fig:pipeline)?
 %   2. Is every input option named, with its value?
 %   3. Is the software described?
-%   4. Is the numerical-experiment design justified (a ladder, identical specs
-%      across forms, answer-independent states, a priori parameters)?
+%   4. Is the experiment's design and fairness justified (sec:pipeline-design)?
 %   5. Are the deviations from the paper listed?
 %   6. Is the T2 = T1 argument stated before any T2 number is used?
-%   7. Is the readout correction attributed as ours and the protocol as the
-%      paper's?
-% TRAPS  Writing it as a software manual; "Pillar" or "tier" jargon in prose
-%        (T-10); presenting the readout as new.
+%   7. Is the readout classical, the protocol attributed to the paper?
+% TRAPS  A software manual; "Pillar" and "tier" jargon; QITE presented as the
+%        comparison's filter; the readout presented as new or as the method's
+%        readout.

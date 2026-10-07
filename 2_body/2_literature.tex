@@ -10,21 +10,27 @@
 % SOURCES     ref.bib; Planning.md §3.7-3.8 for which primitives are needed later.
 % WRITE WHEN  Now (wave W1).
 %
-% CITE-NEEDED (not yet in ref.bib; add real entries before citing):
-%   Harrow, Hassidim & Lloyd 2009 (HHL); Berry et al. 2017; Childs & Liu 2020
-%   (spectral methods); An, Liu & Lin (linear combination of Hamiltonian
-%   simulation, LCHS); Jin, Liu & Yu (Schroedingerisation); Liu et al. 2021 PNAS
-%   (Carleman); Krovi 2023; Qiskit Aer; the inverse NLFT paper pihm's
-%   qsp/nlft.py follows (arXiv:2505.12615 -- pihm's references.bib holds it as
-%   nlfft2025su2 with no authors).
+% CITE-NEEDED: none open (T-29 audit closed 2026-10-01; every key below
+%   checked against its publisher/arXiv -- see ref.bib for the entry, grouped
+%   under "Differential-equation solvers and the physics-informed lineage",
+%   "Classical spectral-methods...", "Fluids: classical references...").
+%   Qiskit Aer has no citation of its own: cite qiskit2024 (Qiskit's own
+%   CITATION.bib covers Aer as part of the project).
 % Already in ref.bib: nielsenchuang2010, Lin2022Lecture, berry2014exponential,
 %   kyriienko2020inverse, lowchuang2019qubitization, childs2012lcu,
 %   chakraborty2025qsvt, sunderhauf2024blockencoding, camps2024explicit,
 %   gilyen2019qsvt, martyn2021grand, motlagh2024gqsp, laneve2025gqspnlft,
-%   berntson2025complementary, lintong2020groundstate, trefethen2000spectral,
-%   trefethen2013approximation, olver2013, boyd2001chebyshev, canuto2006spectral,
-%   williams2024readout, brassard2000amplitude, suzuki2020amplitude,
-%   grinko2021iterative, nishi2025overlap, klappenecker2001dct, cuccaro2004adder.
+%   nlfft2025su2, berntson2025complementary, lintong2020groundstate,
+%   lintong2020filtering, trefethen2000spectral, trefethen2013approximation,
+%   olver2013, boyd2001chebyshev, canuto2006spectral, williams2024readout,
+%   brassard2000amplitude, suzuki2020amplitude, grinko2021iterative,
+%   nishi2025overlap, klappenecker2001dct, cuccaro2004adder, harrow2009hhl,
+%   berry2017linearode, childsliu2020spectral, costa2022optimal,
+%   anliulin2023lchs, jinliuyu2023schrodingerisation, jennings2023cost,
+%   liu2021carleman, krovi2023improved, lubasch2020variational,
+%   kyriienko2021differentiable, paine2023physicsinformed, paine2026concurrent,
+%   subasi2019adiabatic, anlin2022timeoptimal, cai1994fosls, bochev2009lsfem,
+%   taylorgreen1937, hopf1950burgers, cole1951burgers.
 % =============================================================================
 
 \subsection{Quantum Computation Preliminaries}
@@ -154,23 +160,49 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 
 \subsubsection{Linear-Systems and Linear-Combination Routes}
 \label{sec:bg-de-linear}
-% LAND: HHL; Berry's ODE solvers (berry2014exponential, Berry et al. 2017);
-%   Childs-Liu spectral methods; LCHS and Schroedingerisation. Each costs through
-%   the condition number and state preparation; each fails on readout,
-%   conditioning or the need for sparse access. CITE-NEEDED: see header.
+% LAND: HHL (harrow2009hhl) -> Berry's ODE solvers (berry2014exponential,
+%   berry2017linearode) -> Childs-Liu spectral methods (childsliu2020spectral:
+%   Chebyshev collocation, whose matrices are dense and ill conditioned) ->
+%   optimal-kappa linear-system solvers (costa2022optimal) -> linear
+%   combination of Hamiltonian simulation (anliulin2023lchs) and
+%   Schroedingerisation (jinliuyu2023schrodingerisation). Their cost runs
+%   through kappa, state preparation and readout; explicit resource counts
+%   (jennings2023cost) show the constants matter.
 
 \subsubsection{Nonlinear Equations: Carleman and Related Linearisations}
 \label{sec:bg-de-nonlinear}
-% LAND: Carleman linearisation (Liu et al. 2021; Krovi 2023) with its
-%   dissipativity condition stated as the PRECONDITION it is (the ratio rho < 1
-%   of Chapter 7). What else linearises nonlinear dynamics, and why this thesis
-%   uses Carleman. CITE-NEEDED: see header.
+% LAND: Carleman linearisation (liu2021carleman; krovi2023improved) with its
+%   ratio condition R < 1 stated as THE SUFFICIENT CONDITION IT IS (the rho of
+%   Chapter 6, sec:carleman). What else linearises nonlinear dynamics, and why
+%   this thesis uses Carleman.
 
-\subsubsection{Variational and Ground-State Routes}
+\subsubsection{Variational Routes}
+\label{sec:bg-de-variational}
+% LAND: lubasch2020variational; differentiable quantum circuits
+%   (kyriienko2021differentiable): flexible, but without guarantees, and with
+%   barren plateaus.
+
+\subsubsection{Ground-State Routes and the Physics-Informed Lineage}
 \label{sec:bg-de-ground}
-% LAND: variational solvers (barren plateaus, no guarantees); ground-state or
-%   Hamiltonian-embedding routes, among them Wu et al. (wu2025pihm), named here
-%   as the family Chapter 3 examines -- described there, not here.
+% LAND: the solution as a null vector of a positive semi-definite Hamiltonian
+%   is OLD IN LINEAR SYSTEMS (subasi2019adiabatic; anlin2022timeoptimal;
+%   lintong2020filtering, Lin & Tong's eigenstate filtering). THE
+%   PHYSICS-INFORMED LINE: differentiable quantum circuits
+%   (kyriienko2021differentiable) -> the Chebyshev latent space
+%   (paine2023physicsinformed) -> the effective Hamiltonian (Wu et al.
+%   2025, wu2025pihm) -> alternative constructions, the CONCURRENT
+%   paine2026concurrent (read in full 2026-10-04): alternative Hamiltonian
+%   constructions (A0, Ab) and function encodings (Chebyshev, amplitude); on a
+%   few small instances the normalised gap depends on both, and it says these
+%   "do not establish a general ordering"; no scaling in resolution, no
+%   block-encoding circuits; notes its lift is polynomial-only and needs more
+%   registers with the degree. This family is examined in Chapter 3 (sec:pihm),
+%   not here.
+% REVISE: this subsubsection used to combine variational and ground-state
+%   routes under one heading; ThesisPlanning.md §4.2/§5.2 split them, since the
+%   physics-informed lineage (Wu et al., the concurrent Paine 2026) needs its
+%   own antecedent trail distinct from variational solvers' barren-plateau
+%   failure mode.
 
 \subsubsection{Critical Assessment}
 \label{sec:bg-de-assessment}
@@ -197,11 +229,12 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
     \end{tabular}
 \end{table}
 
-\subsection{Spectral Methods and Banded Differentiation}
+\subsection{Spectral Methods and Their Conditioning}
 \label{sec:bg-spectral}
-% ~1.5 pp
+% ~1.5 pp -- the antecedents of the headline, credited BEFORE Ch. 5 claims
+%   anything (ThesisPlanning.md §5.2 point 3).
 
-\subsubsection{Chebyshev Series, Differentiation and Galerkin Truncation}
+\subsubsection{Chebyshev Series, Galerkin Truncation and Differentiation}
 \label{sec:bg-chebyshev}
 % LAND: Chebyshev series and spectral accuracy (trefethen2000spectral,
 %   trefethen2013approximation, boyd2001chebyshev); differentiation is dense and
@@ -209,13 +242,29 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 %   aliasing (canuto2006spectral) -- needed for the square multiplication form
 %   and the folds.
 
-\subsubsection{The Ultraspherical Spectral Method}
+\subsubsection{Banded Differentiation: the Ultraspherical Method}
 \label{sec:bg-ultraspherical}
-% LAND: Olver & Townsend (olver2013), credited HERE, before Chapter 6 claims
-%   anything. Then the increment, stated precisely: applying the basis change to
-%   the PHYSICS-INFORMED RESIDUAL, so that block encoding and filtering inherit
-%   the bandedness, and proving the kernel is unchanged (thm:kernel-equivalence).
+% LAND: THE ULTRASPHERICAL METHOD (Olver & Townsend 2013), credited HERE,
+%   before Chapter 5 claims anything: differentiation maps Chebyshev into
+%   ultraspherical bases, so it is banded; with a diagonal preconditioner the
+%   systems are well conditioned. The descriptor's Bt and Dt are its first
+%   step, and its block rescaling plays the preconditioner's part.
 %   Appendix B (app:ultraspherical) already carries the entry-level comparison.
+
+\subsubsection{First-Order Reformulation and Least Squares}
+\label{sec:bg-fosls}
+% ~NEW in v2.0 (ThesisPlanning.md §4.2, §5.2 point 3).
+% LAND: FIRST-ORDER REFORMULATION AND LEAST SQUARES (cai1994fosls;
+%   bochev2009lsfem): least squares of an order-k operator squares its
+%   conditioning, and recasting it as a first-order system avoids that. The
+%   physics-informed Hamiltonian IS a least-squares functional, H = R^dagger R,
+%   so this is the classical reading of the Hamiltonian wall
+%   (sec:standard-hamiltonian).
+% STATE THE INCREMENT PRECISELY HERE: applying both ideas (this and
+%   sec:bg-ultraspherical) to a block-encoded physics-informed Hamiltonian,
+%   proving its kernel unchanged, encoding it as one flat LCU, rescaling it a
+%   priori, and measuring what it does to ground-state preparation.
+% TODO: this subsubsection is new in v2.0 and not yet drafted (wave W1).
 
 \subsubsection{Fourier--Galerkin Discretisation of Periodic Flows}
 \label{sec:bg-fourier}
@@ -239,15 +288,44 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 % LAND: QSP -> QSVT (gilyen2019qsvt, martyn2021grand): the parity constraint;
 %   GQSP removes it (motlagh2024gqsp); phase finding as prior art -- the Weiss
 %   complement (berntson2025complementary) and the inverse NLFT
-%   (laneve2025gqspnlft; CITE-NEEDED arXiv:2505.12615).
+%   (laneve2025gqspnlft; nlfft2025su2).
+% CHAPTER 3 ASSUMES THIS SUBSECTION (2026-10-04): it states, in one line each,
+%   that QSVT applies a polynomial of definite parity; that e^{-beta x} has
+%   indefinite parity, so the paper (Wu et al.) finds even and odd phase sets
+%   and sums two QSVT circuits by an LCU (the mixed-parity construction); and
+%   that GQSP gives an arbitrary polynomial with one extra ancilla and no
+%   parity split. Chapter 3 therefore only names the paper's use of QSVT and
+%   points here; the paper's phase sets and parameters are in Appendix K.
 
 \subsection{Ground-State Preparation by Filtering}
 \label{sec:bg-filtering}
-% ~0.5 pp
-% LAND: imaginary time (kyriienko2020inverse); Lin & Tong's filters and
-%   near-optimal ground-state preparation (lintong2020groundstate); the
-%   known-gap assumption; the overlap gamma; amplitude amplification
+% ~0.75 pp
+% LAND: imaginary time (kyriienko2020inverse); LIN & TONG'S MINIMAX CHEBYSHEV
+%   FILTERS AND THEIR OPTIMALITY (lintong2020groundstate); the known-gap
+%   assumption; the overlap gamma; amplitude amplification
 %   (brassard2000amplitude).
+% CHAPTER 3 ASSUMES THIS SUBSECTION (2026-10-04): what quantum imaginary-time
+%   evolution is as a filter (e^{-beta H} applied to a state, suppressing the
+%   excited spectrum relative to the ground value, beta ~ 1/Delta), why the
+%   gap enters the cost, and that the paper's expectation is
+%   O(1/Delta) polylog(1/eps), against O(1/sqrt(Delta)) for a minimax Chebyshev
+%   filter and for algorithmic thermalisation. Chapter 3 cites it for both.
+% THE DEGREE FORMULA (eq:degree), stated here so Chs 4-6 can argue costs: for
+%   the ground state at the edge of H = R^dagger R block-encoded at
+%   alpha_H = alpha_R^2, a Chebyshev filter needs
+%   d = Theta(sqrt(alpha_H/Delta) log 1/eps), which is
+%   Theta(alpha_R/sigma_1 . log 1/eps) when the kernel is exact: the
+%   residual's effective condition number.
+% MOVED HERE (ThesisPlanning.md §4.3 step 2, v2.0): eq:degree and its text
+%   used to sit in 7_pipeline.tex's filter subsection; stating it once, in the
+%   background, lets Chs 4-6 quote it without a forward reference.
+
+\begin{equation}
+    d = \Theta\!\left(\sqrt{\frac{\alpha_H}{\Delta}}\,\log\frac{1}{\varepsilon}\right),
+    \qquad
+    \alpha_H = \alpha_R^2 .
+    \label{eq:degree}
+\end{equation}
 
 \subsection{Readout and Amplitude Amplification}
 \label{sec:bg-readout}
@@ -268,8 +346,10 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 
 % CHECKLIST (marker)
 %   1. Does every reviewed method carry an explicit weakness, not just a description?
-%   2. Is tab:de-approaches present, with a "this work" row?
-%   3. Is the ultraspherical antecedent credited here, before Chapter 6?
-%   4. Is sec:bg-qc <= 2 pp?
-%   5. Is anything here unused by a later chapter? Cut it.
-%   6. Are all citations IEEE-style via biblatex, consistently formatted?
+%   2. Is T1 (tab:de-approaches) present, with a "this work" row?
+%   3. Are ultraspherical and first-order least squares credited here, before
+%      Chapter 5 claims anything?
+%   4. Is the concurrent work (Paine 2026) cited?
+%   5. Is sec:bg-qc <= 1.5 pp?
+%   6. Is anything here unused by a later chapter? Cut it.
+%   7. Are all citations IEEE-style via biblatex, consistently formatted?

@@ -22,7 +22,7 @@ $n$ & Qubits per Chebyshev axis (the resolution). & \Cref{sec:pihm-model} \\
 $N = 2^n$ & Truncation dimension of one Chebyshev axis. & \Cref{sec:pihm-model} \\
 $k$ & Order of an ordinary differential equation. & \Cref{sec:pihm-residual} \\
 $p$ & Degree of a polynomial nonlinearity. & \Cref{sec:carleman} \\
-$n_f$ & Qubits in the field (block) register of the descriptor form. & \Cref{sec:descriptor-residual} \\
+$n_f$ & Qubits in the field (block) register of the descriptor form. & \Cref{sec:descriptor-layouts} \\
 $\dim w$ & Padded descriptor state dimension, $2^{\lceil\log_2(k+1)\rceil}N$. & \Cref{sec:app-variable-coeff} \\
 \bottomrule
 \end{tabular}
@@ -38,8 +38,8 @@ Symbol & Meaning & Introduced \\
 $T_\ell$ & Chebyshev polynomial of the first kind, degree $\ell$. & \Cref{sec:pihm-model} \\
 $\ket{\tau(x)}$ & The raw Chebyshev feature state. & \Cref{sec:pihm-model} \\
 $\psi$, $\eta$, $\eta_e$ & Normalised coefficient state; its scale; $\eta_e = \|b\|^2$. & \Cref{sec:pihm-model} \\
-$\fhat{j}$ & Coefficients of $f^{(j)}$: one block of the descriptor state. & \Cref{sec:descriptor-residual} \\
-$w$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$. & \Cref{sec:descriptor-residual} \\
+$\fhat{j}$ & Coefficients of $f^{(j)}$: one block of the descriptor state. & \Cref{sec:descriptor-layouts} \\
+$w$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$. & \Cref{sec:descriptor-layouts} \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -89,12 +89,12 @@ Symbol & Meaning & Introduced \\
 $\alpha$, $\alpha_R$, $\alpha_H = \alpha_R^2$ & Subnormalisation: generic, of $R$, of $H$. & \Cref{sec:bg-block-encoding} \\
 $V$, $W$ & Stacked-residual reflection; qubitised walk. & \Cref{sec:pipeline-walk} \\
 $H' = 2H/\alpha_R^2 - I$ & The normalised Hamiltonian that $V$ block-encodes. & \Cref{sec:pipeline-walk} \\
-$\Delta$ & Spectral gap $\lambda_1 - \lambda_0$. & \Cref{sec:pipeline-qite} \\
-$\beta$ & Imaginary time. & \Cref{sec:pipeline-qite} \\
-$d$, $q_k$ & GQSP degree; filter coefficients. & \Cref{sec:pipeline-qite} \\
-$\varepsilon$ & Target infidelity ($10^{-6}$). & \Cref{sec:pipeline-qite} \\
-$\varphi_0$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\mathrm{ref}}|\varphi_0}|$ with the reference. & \Cref{sec:pipeline-qite} \\
-$p_G$ & GQSP success probability. & \Cref{sec:pipeline-qite} \\
+$\Delta$ & Spectral gap $\lambda_1 - \lambda_0$. & \Cref{sec:pipeline-filter} \\
+$\beta$ & Imaginary time. & \Cref{sec:pipeline-filter} \\
+$d$, $q_k$ & GQSP degree; filter coefficients. & \Cref{sec:pipeline-filter} \\
+$\varepsilon$ & Target infidelity ($10^{-6}$). & \Cref{sec:pipeline-filter} \\
+$\varphi_0$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\mathrm{ref}}|\varphi_0}|$ with the reference. & \Cref{sec:pipeline-filter} \\
+$p_G$ & GQSP success probability. & \Cref{sec:pipeline-filter} \\
 $\zeta$ & Block-rescaling constant. & \Cref{sec:descriptor-rescaling} \\
 $\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of the published encoding of $\G$. & \Cref{app:ladder} \\
 \bottomrule

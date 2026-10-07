@@ -21,25 +21,25 @@
   \datalist[entry]{none/global//global/global/global}
     \entry{wu2025pihm}{misc}{}{}
       \name{author}{5}{}{%
-        {{hash=f19c4fff5adda4e55f61a3f77d7386a4}{%
+        {{hash=f7e19a7339fd944951c75ae27c59effb}{%
            family={Wu},
            familyi={W\bibinitperiod},
-           given={Yuan},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=eeb9ef9a98cb201cc3580acffb9969f2}{%
+           given={Hsin-Yu},
+           giveni={H\bibinithyphendelim Y\bibinitperiod}}}%
+        {{hash=496f37a6b2a57dfd45f4ae984ad3d160}{%
            family={Paine},
            familyi={P\bibinitperiod},
-           given={Alex\bibnamedelima J.},
-           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=7c6de3029cc40eb423a23347ac561d70}{%
+           given={Annie\bibnamedelima E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=7fb0a4a2b6e74d3b5ce521bf9b30a2d8}{%
            family={Philip},
            familyi={P\bibinitperiod},
-           given={Deep},
-           giveni={D\bibinitperiod}}}%
-        {{hash=5a10df37fa9778c55f556b0f9dcbd6de}{%
+           given={Evan},
+           giveni={E\bibinitperiod}}}%
+        {{hash=a4a32a46c87236e904ebb05bb8afb1cd}{%
            family={Gentile},
            familyi={G\bibinitperiod},
-           given={Antonio\bibnamedelima Anna},
+           given={Antonio\bibnamedelima A.},
            giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
         {{hash=84e4c1fc56182ace7d420baa57651de1}{%
            family={Kyriienko},
@@ -47,25 +47,104 @@
            given={Oleksandr},
            giveni={O\bibinitperiod}}}%
       }
-      \strng{namehash}{2bafa6628e55ec5bd44f150cdb0bb54d}
-      \strng{fullhash}{13b27b7c497361d4b703ed4a769f2d37}
-      \strng{fullhashraw}{13b27b7c497361d4b703ed4a769f2d37}
-      \strng{bibnamehash}{13b27b7c497361d4b703ed4a769f2d37}
-      \strng{authorbibnamehash}{13b27b7c497361d4b703ed4a769f2d37}
-      \strng{authornamehash}{2bafa6628e55ec5bd44f150cdb0bb54d}
-      \strng{authorfullhash}{13b27b7c497361d4b703ed4a769f2d37}
-      \strng{authorfullhashraw}{13b27b7c497361d4b703ed4a769f2d37}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \strng{namehash}{f568cff63b52d94bf927417543c6dd87}
+      \strng{fullhash}{32a0474b0d5f47f3526b1bfc44f2bb71}
+      \strng{fullhashraw}{32a0474b0d5f47f3526b1bfc44f2bb71}
+      \strng{bibnamehash}{32a0474b0d5f47f3526b1bfc44f2bb71}
+      \strng{authorbibnamehash}{32a0474b0d5f47f3526b1bfc44f2bb71}
+      \strng{authornamehash}{f568cff63b52d94bf927417543c6dd87}
+      \strng{authorfullhash}{32a0474b0d5f47f3526b1bfc44f2bb71}
+      \strng{authorfullhashraw}{32a0474b0d5f47f3526b1bfc44f2bb71}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
       \field{eprinttype}{arXiv}
-      \field{note}{Source paper for this repo's PIHM + qubitization + GQSP-QITE pipeline}
       \field{title}{{Quantum algorithm for solving nonlinear differential equations based on physics-informed effective Hamiltonians}}
       \field{year}{2025}
       \verb{eprint}
       \verb 2504.13174
+      \endverb
+    \endentry
+    \entry{kyriienko2021differentiable}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=84e4c1fc56182ace7d420baa57651de1}{%
+           family={Kyriienko},
+           familyi={K\bibinitperiod},
+           given={Oleksandr},
+           giveni={O\bibinitperiod}}}%
+        {{hash=496f37a6b2a57dfd45f4ae984ad3d160}{%
+           family={Paine},
+           familyi={P\bibinitperiod},
+           given={Annie\bibnamedelima E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=141a67c9b9371d479b73cd4c5b73928d}{%
+           family={Elfving},
+           familyi={E\bibinitperiod},
+           given={Vincent\bibnamedelima E.},
+           giveni={V\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{85268cad7514ced99f093925488fbe2a}
+      \strng{fullhash}{ff2dfd69e1ecaf86a71102a148f07f44}
+      \strng{fullhashraw}{ff2dfd69e1ecaf86a71102a148f07f44}
+      \strng{bibnamehash}{ff2dfd69e1ecaf86a71102a148f07f44}
+      \strng{authorbibnamehash}{ff2dfd69e1ecaf86a71102a148f07f44}
+      \strng{authornamehash}{85268cad7514ced99f093925488fbe2a}
+      \strng{authorfullhash}{ff2dfd69e1ecaf86a71102a148f07f44}
+      \strng{authorfullhashraw}{ff2dfd69e1ecaf86a71102a148f07f44}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Physical Review A}
+      \field{title}{{Solving nonlinear differential equations with differentiable quantum circuits}}
+      \field{volume}{103}
+      \field{year}{2021}
+      \field{pages}{052416}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 2011.10395
+      \endverb
+    \endentry
+    \entry{paine2023physicsinformed}{misc}{}{}
+      \name{author}{3}{}{%
+        {{hash=496f37a6b2a57dfd45f4ae984ad3d160}{%
+           family={Paine},
+           familyi={P\bibinitperiod},
+           given={Annie\bibnamedelima E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=141a67c9b9371d479b73cd4c5b73928d}{%
+           family={Elfving},
+           familyi={E\bibinitperiod},
+           given={Vincent\bibnamedelima E.},
+           giveni={V\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=84e4c1fc56182ace7d420baa57651de1}{%
+           family={Kyriienko},
+           familyi={K\bibinitperiod},
+           given={Oleksandr},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{5c0c4d9080ef074d7dd785d285e37677}
+      \strng{fullhash}{9e2b7527502c7fb4a38b225c45e76837}
+      \strng{fullhashraw}{9e2b7527502c7fb4a38b225c45e76837}
+      \strng{bibnamehash}{9e2b7527502c7fb4a38b225c45e76837}
+      \strng{authorbibnamehash}{9e2b7527502c7fb4a38b225c45e76837}
+      \strng{authornamehash}{5c0c4d9080ef074d7dd785d285e37677}
+      \strng{authorfullhash}{9e2b7527502c7fb4a38b225c45e76837}
+      \strng{authorfullhashraw}{9e2b7527502c7fb4a38b225c45e76837}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Physics-Informed Quantum Machine Learning: Solving nonlinear differential equations in latent spaces without costly grid evaluations}}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2308.01827
       \endverb
     \endentry
     \entry{trefethen2000spectral}{book}{}{}
@@ -88,122 +167,96 @@
       \strng{authorfullhash}{e3376455eaec77b00950a1dc9ce095f5}
       \strng{authorfullhashraw}{e3376455eaec77b00950a1dc9ce095f5}
       \field{extraname}{1}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Spectral Methods in MATLAB}}
       \field{year}{2000}
     \endentry
-    \entry{cuccaro2004adder}{misc}{}{}
-      \name{author}{4}{}{%
-        {{hash=735ab3626f7173c34a2618248295d3bf}{%
-           family={Cuccaro},
+    \entry{childs2012lcu}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=7ad26b6bf363d32ab22f27f7f6d95b7a}{%
+           family={Childs},
            familyi={C\bibinitperiod},
-           given={Steven\bibnamedelima A.},
-           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=37432dff0ea47deedb0470ff28cdf6f6}{%
-           family={Draper},
-           familyi={D\bibinitperiod},
-           given={Thomas\bibnamedelima G.},
-           giveni={T\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
-        {{hash=a463bf947ff045a12933a0410ce2c50e}{%
-           family={Kutin},
-           familyi={K\bibinitperiod},
-           given={Samuel\bibnamedelima A.},
-           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=33a7aa5e831d8452458b5a9fd6197798}{%
-           family={Moulton},
-           familyi={M\bibinitperiod},
-           given={David\bibnamedelima Petrie},
-           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+           given={Andrew\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
+           family={Wiebe},
+           familyi={W\bibinitperiod},
+           given={Nathan},
+           giveni={N\bibinitperiod}}}%
       }
-      \strng{namehash}{efbe53eae1921168a442b58cce06bb15}
-      \strng{fullhash}{61c9f1acd712c6a6f8b30888eda36bf7}
-      \strng{fullhashraw}{61c9f1acd712c6a6f8b30888eda36bf7}
-      \strng{bibnamehash}{61c9f1acd712c6a6f8b30888eda36bf7}
-      \strng{authorbibnamehash}{61c9f1acd712c6a6f8b30888eda36bf7}
-      \strng{authornamehash}{efbe53eae1921168a442b58cce06bb15}
-      \strng{authorfullhash}{61c9f1acd712c6a6f8b30888eda36bf7}
-      \strng{authorfullhashraw}{61c9f1acd712c6a6f8b30888eda36bf7}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \strng{namehash}{abef63c71005d7c3aa2000842098b887}
+      \strng{fullhash}{abef63c71005d7c3aa2000842098b887}
+      \strng{fullhashraw}{abef63c71005d7c3aa2000842098b887}
+      \strng{bibnamehash}{abef63c71005d7c3aa2000842098b887}
+      \strng{authorbibnamehash}{abef63c71005d7c3aa2000842098b887}
+      \strng{authornamehash}{abef63c71005d7c3aa2000842098b887}
+      \strng{authorfullhash}{abef63c71005d7c3aa2000842098b887}
+      \strng{authorfullhashraw}{abef63c71005d7c3aa2000842098b887}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
       \field{eprinttype}{arXiv}
-      \field{title}{{A new quantum ripple-carry addition circuit}}
-      \field{year}{2004}
+      \field{journaltitle}{Quantum Information and Computation}
+      \field{title}{{Hamiltonian simulation using linear combinations of unitary operations}}
+      \field{volume}{12}
+      \field{year}{2012}
+      \field{pages}{901\bibrangedash 924}
+      \range{pages}{24}
       \verb{eprint}
-      \verb quant-ph/0410184
+      \verb 1202.5822
       \endverb
     \endentry
-    \entry{olver2013}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=d7e72f3ba5e2ab5ec1db539485dc0d7c}{%
-           family={Olver},
-           familyi={O\bibinitperiod},
-           given={Sheehan},
-           giveni={S\bibinitperiod}}}%
-        {{hash=1e1c35e12ba2721c4b022a82d9f2d8dc}{%
-           family={Townsend},
-           familyi={T\bibinitperiod},
-           given={Alex},
+    \entry{gilyen2019qsvt}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=e79510f17f3a4f8641d9edfc32894def}{%
+           family={Gilyén},
+           familyi={G\bibinitperiod},
+           given={András},
            giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \strng{fullhash}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \strng{fullhashraw}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \strng{bibnamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \strng{authorbibnamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \strng{authornamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \strng{authorfullhash}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \strng{authorfullhashraw}{3a187aebb211839c5c3c5bf4e2ff58ca}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{SIAM Review}
-      \field{note}{Ultraspherical spectral method; banded, well-conditioned differentiation via a change of ultraspherical basis. Antecedent of the descriptor basis change $\tilde{B}$ (see arXiv:1202.1347 in References.md)}
-      \field{number}{3}
-      \field{title}{{A Fast and Well-Conditioned Spectral Method}}
-      \field{volume}{55}
-      \field{year}{2013}
-      \field{pages}{462\bibrangedash 489}
-      \range{pages}{28}
-      \verb{doi}
-      \verb 10.1137/120865458
-      \endverb
-      \verb{eprint}
-      \verb 1202.1347
-      \endverb
-    \endentry
-    \entry{Lin2022Lecture}{misc}{}{}
-      \name{author}{1}{}{%
-        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
-           family={Lin},
+        {{hash=8067b002984ccb4128440e25a166509c}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Yuan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=9392ec6c19f799fdccb939e713e413f0}{%
+           family={Low},
            familyi={L\bibinitperiod},
-           given={Lin},
-           giveni={L\bibinitperiod}}}%
+           given={Guang\bibnamedelima Hao},
+           giveni={G\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
+           family={Wiebe},
+           familyi={W\bibinitperiod},
+           given={Nathan},
+           giveni={N\bibinitperiod}}}%
       }
-      \strng{namehash}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \strng{fullhash}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \strng{fullhashraw}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \strng{bibnamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \strng{authorbibnamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \strng{authornamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \strng{authorfullhash}{fb72b03bb0004672eb40dd00cb76bdcd}
-      \strng{authorfullhashraw}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{namehash}{243f89680d184a044d5ff99cb4b62c13}
+      \strng{fullhash}{2318e6c69d33e8d0424ac51d525f90a5}
+      \strng{fullhashraw}{2318e6c69d33e8d0424ac51d525f90a5}
+      \strng{bibnamehash}{2318e6c69d33e8d0424ac51d525f90a5}
+      \strng{authorbibnamehash}{2318e6c69d33e8d0424ac51d525f90a5}
+      \strng{authornamehash}{243f89680d184a044d5ff99cb4b62c13}
+      \strng{authorfullhash}{2318e6c69d33e8d0424ac51d525f90a5}
+      \strng{authorfullhashraw}{2318e6c69d33e8d0424ac51d525f90a5}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{howpublished}{https://arxiv.org/abs/2201.08309}
-      \field{month}{1}
-      \field{title}{Lecture notes on quantum algorithms for scientific computation}
-      \field{year}{2022}
-      \true{nocite}
+      \field{booktitle}{Proceedings of the 51st Annual ACM SIGACT Symposium on Theory of Computing (STOC 2019)}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{note}{Cited in-repo only as ``Gilyén et al. (2019)'' with no arXiv ID; identity/eprint inferred, not stated in the citing text}
+      \field{title}{{Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics}}
+      \field{year}{2019}
+      \field{pages}{193\bibrangedash 204}
+      \range{pages}{12}
+      \verb{eprint}
+      \verb 1806.01838
+      \endverb
     \endentry
     \entry{kyriienko2020inverse}{article}{}{}
       \name{author}{1}{}{%
@@ -231,7 +284,6 @@
       \field{title}{{Quantum inverse iteration algorithm for programmable quantum simulators}}
       \field{volume}{6}
       \field{year}{2020}
-      \true{nocite}
       \field{pages}{7}
       \range{pages}{1}
       \verb{eprint}
@@ -272,636 +324,79 @@
       \field{eprinttype}{arXiv}
       \field{title}{{Quantum topological data analysis via the estimation of the density of states}}
       \field{year}{2023}
-      \true{nocite}
       \verb{eprint}
       \verb 2312.07115
       \endverb
     \endentry
-    \entry{williams2024readout}{misc}{}{}
-      \name{author}{5}{}{%
-        {{hash=744b82ed7a039c03bf2a17fac1a44479}{%
-           family={Williams},
-           familyi={W\bibinitperiod},
-           given={Chelsea\bibnamedelima A.},
-           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=e9840b0a147f185d2180955712734d35}{%
-           family={Scali},
-           familyi={S\bibinitperiod},
-           given={Stefano},
-           giveni={S\bibinitperiod}}}%
-        {{hash=5a10df37fa9778c55f556b0f9dcbd6de}{%
-           family={Gentile},
-           familyi={G\bibinitperiod},
-           given={Antonio\bibnamedelima Anna},
-           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=883f87c306ce2de190a2cb0194fdf78c}{%
-           family={Berger},
-           familyi={B\bibinitperiod},
-           given={Dorian},
-           giveni={D\bibinitperiod}}}%
-        {{hash=84e4c1fc56182ace7d420baa57651de1}{%
-           family={Kyriienko},
-           familyi={K\bibinitperiod},
-           given={Oleksandr},
-           giveni={O\bibinitperiod}}}%
+    \entry{paine2026concurrent}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=496f37a6b2a57dfd45f4ae984ad3d160}{%
+           family={Paine},
+           familyi={P\bibinitperiod},
+           given={Annie\bibnamedelima E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
       }
-      \strng{namehash}{69dbbd525c896fc3ff6514fefb96728c}
-      \strng{fullhash}{4262fd64795eb0e73d7b5bdf04a981f0}
-      \strng{fullhashraw}{4262fd64795eb0e73d7b5bdf04a981f0}
-      \strng{bibnamehash}{4262fd64795eb0e73d7b5bdf04a981f0}
-      \strng{authorbibnamehash}{4262fd64795eb0e73d7b5bdf04a981f0}
-      \strng{authornamehash}{69dbbd525c896fc3ff6514fefb96728c}
-      \strng{authorfullhash}{4262fd64795eb0e73d7b5bdf04a981f0}
-      \strng{authorfullhashraw}{4262fd64795eb0e73d7b5bdf04a981f0}
+      \strng{namehash}{496f37a6b2a57dfd45f4ae984ad3d160}
+      \strng{fullhash}{496f37a6b2a57dfd45f4ae984ad3d160}
+      \strng{fullhashraw}{496f37a6b2a57dfd45f4ae984ad3d160}
+      \strng{bibnamehash}{496f37a6b2a57dfd45f4ae984ad3d160}
+      \strng{authorbibnamehash}{496f37a6b2a57dfd45f4ae984ad3d160}
+      \strng{authornamehash}{496f37a6b2a57dfd45f4ae984ad3d160}
+      \strng{authorfullhash}{496f37a6b2a57dfd45f4ae984ad3d160}
+      \strng{authorfullhashraw}{496f37a6b2a57dfd45f4ae984ad3d160}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
       \field{eprinttype}{arXiv}
-      \field{note}{Related work distinguished from this repo's readout approach; not a competing technique}
-      \field{title}{{Addressing the Readout Problem in Quantum Differential Equation Algorithms with Quantum Scientific Machine Learning}}
-      \field{year}{2024}
-      \true{nocite}
-      \verb{eprint}
-      \verb 2411.14259
-      \endverb
-    \endentry
-    \entry{brassard2000amplitude}{misc}{}{}
-      \name{author}{4}{}{%
-        {{hash=504bb784f2241f359d5030d2ca7f2bdd}{%
-           family={Brassard},
-           familyi={B\bibinitperiod},
-           given={Gilles},
-           giveni={G\bibinitperiod}}}%
-        {{hash=a63f61d51d4a7a277cce46722c380f1a}{%
-           family={H{ø}yer},
-           familyi={H\bibinitperiod},
-           given={Peter},
-           giveni={P\bibinitperiod}}}%
-        {{hash=cac498e264a2fdb0a8c4dd3e95c92055}{%
-           family={Mosca},
-           familyi={M\bibinitperiod},
-           given={Michele},
-           giveni={M\bibinitperiod}}}%
-        {{hash=ffbcbc5eda6edf64a21ce3b8529b1ce0}{%
-           family={Tapp},
-           familyi={T\bibinitperiod},
-           given={Alain},
-           giveni={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{07de7c08a8e5a865459ac3b08f723626}
-      \strng{fullhash}{260a71d5255a0117d78d042829019aa3}
-      \strng{fullhashraw}{260a71d5255a0117d78d042829019aa3}
-      \strng{bibnamehash}{260a71d5255a0117d78d042829019aa3}
-      \strng{authorbibnamehash}{260a71d5255a0117d78d042829019aa3}
-      \strng{authornamehash}{07de7c08a8e5a865459ac3b08f723626}
-      \strng{authorfullhash}{260a71d5255a0117d78d042829019aa3}
-      \strng{authorfullhashraw}{260a71d5255a0117d78d042829019aa3}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprinttype}{arXiv}
-      \field{title}{{Quantum Amplitude Amplification and Estimation}}
-      \field{year}{2000}
-      \true{nocite}
-      \verb{eprint}
-      \verb quant-ph/0005055
-      \endverb
-    \endentry
-    \entry{berry2014exponential}{inproceedings}{}{}
-      \name{author}{5}{}{%
-        {{hash=e0053050bdc2ad78d707462c41ad32d3}{%
-           family={Berry},
-           familyi={B\bibinitperiod},
-           given={Dominic\bibnamedelima W.},
-           giveni={D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
-        {{hash=7ad26b6bf363d32ab22f27f7f6d95b7a}{%
-           family={Childs},
-           familyi={C\bibinitperiod},
-           given={Andrew\bibnamedelima M.},
-           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=bcc1d99f54046308388d253fdacfe211}{%
-           family={Cleve},
-           familyi={C\bibinitperiod},
-           given={Richard},
-           giveni={R\bibinitperiod}}}%
-        {{hash=2df8e1d047c0eadaf2cb05c8a1435675}{%
-           family={Kothari},
-           familyi={K\bibinitperiod},
-           given={Robin},
-           giveni={R\bibinitperiod}}}%
-        {{hash=43cf28fe9b24fb17255cbd85122ef4f8}{%
-           family={Somma},
-           familyi={S\bibinitperiod},
-           given={Rolando\bibnamedelima D.},
-           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
-      }
-      \strng{namehash}{37b963e792296dcb2fc6e781683c3731}
-      \strng{fullhash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
-      \strng{fullhashraw}{1a2b5799f04e6f7eef0dfc6df73e18bd}
-      \strng{bibnamehash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
-      \strng{authorbibnamehash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
-      \strng{authornamehash}{37b963e792296dcb2fc6e781683c3731}
-      \strng{authorfullhash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
-      \strng{authorfullhashraw}{1a2b5799f04e6f7eef0dfc6df73e18bd}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 46th Annual ACM Symposium on Theory of Computing (STOC 2014)}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{note}{Introduces the oblivious amplitude-amplification variant used in readout.py}
-      \field{title}{{Exponential improvement in precision for simulating sparse Hamiltonians}}
-      \field{year}{2014}
-      \true{nocite}
-      \field{pages}{283\bibrangedash 292}
-      \range{pages}{10}
-      \verb{eprint}
-      \verb 1312.1414
-      \endverb
-    \endentry
-    \entry{suzuki2020amplitude}{article}{}{}
-      \name{author}{6}{}{%
-        {{hash=251e4a9dfaf79db53f5197fc3c6b7cc7}{%
-           family={Suzuki},
-           familyi={S\bibinitperiod},
-           given={Yohichi},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=eed536c5050c5ae0c51f80ddc16333bc}{%
-           family={Uno},
-           familyi={U\bibinitperiod},
-           given={Shumpei},
-           giveni={S\bibinitperiod}}}%
-        {{hash=2dce7027c685c41a8627abb3b74dc36d}{%
-           family={Raymond},
-           familyi={R\bibinitperiod},
-           given={Rudy},
-           giveni={R\bibinitperiod}}}%
-        {{hash=15a6a94b286187fb72ac648e11a07e63}{%
-           family={Tanaka},
-           familyi={T\bibinitperiod},
-           given={Tomoki},
-           giveni={T\bibinitperiod}}}%
-        {{hash=ae811da19427c8832d2cb7667fdc3523}{%
-           family={Onodera},
-           familyi={O\bibinitperiod},
-           given={Tamiya},
-           giveni={T\bibinitperiod}}}%
-        {{hash=86080cfaaa144ce7fd01d76eb924339a}{%
-           family={Yamamoto},
-           familyi={Y\bibinitperiod},
-           given={Naoki},
-           giveni={N\bibinitperiod}}}%
-      }
-      \strng{namehash}{39ee71a5749ec2c0e7a76207dc05f45a}
-      \strng{fullhash}{c268e53982bf637b5edd1ff1b3bf5a55}
-      \strng{fullhashraw}{c268e53982bf637b5edd1ff1b3bf5a55}
-      \strng{bibnamehash}{c268e53982bf637b5edd1ff1b3bf5a55}
-      \strng{authorbibnamehash}{c268e53982bf637b5edd1ff1b3bf5a55}
-      \strng{authornamehash}{39ee71a5749ec2c0e7a76207dc05f45a}
-      \strng{authorfullhash}{c268e53982bf637b5edd1ff1b3bf5a55}
-      \strng{authorfullhashraw}{c268e53982bf637b5edd1ff1b3bf5a55}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{Quantum Information Processing}
-      \field{title}{{Amplitude estimation without phase estimation}}
-      \field{volume}{19}
-      \field{year}{2020}
-      \true{nocite}
-      \field{pages}{75}
-      \range{pages}{1}
-      \verb{eprint}
-      \verb 1904.10246
-      \endverb
-    \endentry
-    \entry{grinko2021iterative}{article}{}{}
-      \name{author}{4}{}{%
-        {{hash=d49194a77443b9ef6415ad72ec49e160}{%
-           family={Grinko},
-           familyi={G\bibinitperiod},
-           given={Dmitry},
-           giveni={D\bibinitperiod}}}%
-        {{hash=6c340749f3f6b3ae36a090c17db53a05}{%
-           family={Gacon},
-           familyi={G\bibinitperiod},
-           given={Julien},
-           giveni={J\bibinitperiod}}}%
-        {{hash=4725580e4d58363473dfd98243388664}{%
-           family={Zoufal},
-           familyi={Z\bibinitperiod},
-           given={Christa},
-           giveni={C\bibinitperiod}}}%
-        {{hash=43697d55280b4841e685e5008d047e19}{%
-           family={Woerner},
-           familyi={W\bibinitperiod},
-           given={Stefan},
-           giveni={S\bibinitperiod}}}%
-      }
-      \strng{namehash}{1c99b17140157ef15b4e56eb440400e6}
-      \strng{fullhash}{614f1464e0efcc80821b3830763d6617}
-      \strng{fullhashraw}{614f1464e0efcc80821b3830763d6617}
-      \strng{bibnamehash}{614f1464e0efcc80821b3830763d6617}
-      \strng{authorbibnamehash}{614f1464e0efcc80821b3830763d6617}
-      \strng{authornamehash}{1c99b17140157ef15b4e56eb440400e6}
-      \strng{authorfullhash}{614f1464e0efcc80821b3830763d6617}
-      \strng{authorfullhashraw}{614f1464e0efcc80821b3830763d6617}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{npj Quantum Information}
-      \field{title}{{Iterative Quantum Amplitude Estimation}}
-      \field{volume}{7}
-      \field{year}{2021}
-      \true{nocite}
-      \field{pages}{52}
-      \range{pages}{1}
-      \verb{eprint}
-      \verb 1912.05559
-      \endverb
-    \endentry
-    \entry{nishi2025overlap}{misc}{}{}
-      \name{author}{6}{}{%
-        {{hash=da8337168c088266b7aa63d1d59f860a}{%
-           family={Nishi},
-           familyi={N\bibinitperiod},
-           given={Hirofumi},
-           giveni={H\bibinitperiod}}}%
-        {{hash=39cbe7a7662e1b0dac19d00db5229ca5}{%
-           family={Kosugi},
-           familyi={K\bibinitperiod},
-           given={Taichi},
-           giveni={T\bibinitperiod}}}%
-        {{hash=6469adc820488662b00b1a451d1af9de}{%
-           family={Huang},
-           familyi={H\bibinitperiod},
-           given={Yifan},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=138badb577cb9879ade000f19a7f7f03}{%
-           family={Hirose},
-           familyi={H\bibinitperiod},
-           given={Kenta},
-           giveni={K\bibinitperiod}}}%
-        {{hash=e5830ec6aec82568ff7de849da6b74aa}{%
-           family={Okayama},
-           familyi={O\bibinitperiod},
-           given={Yuta},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=36b5acb4a3ae7924dc20a270fb0c36b7}{%
-           family={Matsushita},
-           familyi={M\bibinitperiod},
-           given={Yu-ichiro},
-           giveni={Y\bibinithyphendelim i\bibinitperiod}}}%
-      }
-      \strng{namehash}{aa9ca5fc9d72b8a04d853e28aa5c5bb3}
-      \strng{fullhash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
-      \strng{fullhashraw}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
-      \strng{bibnamehash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
-      \strng{authorbibnamehash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
-      \strng{authornamehash}{aa9ca5fc9d72b8a04d853e28aa5c5bb3}
-      \strng{authorfullhash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
-      \strng{authorfullhashraw}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{note}{Source of the per-basis-function SWITCH-test readout protocol specialised in readout.py}
-      \field{title}{{Quantum State Readout via Overlap-Based Feature Extraction}}
-      \field{year}{2025}
-      \true{nocite}
-      \verb{eprint}
-      \verb 2505.08613
-      \endverb
-    \endentry
-    \entry{camps2024explicit}{article}{}{}
-      \name{author}{4}{}{%
-        {{hash=87a1bea593f7a466bbd807cf23e10494}{%
-           family={Camps},
-           familyi={C\bibinitperiod},
-           given={Daan},
-           giveni={D\bibinitperiod}}}%
-        {{hash=7b11d17559a5889a10b17e05cd5d5f23}{%
-           family={Van\bibnamedelima Beeumen},
-           familyi={V\bibinitperiod\bibinitdelim B\bibinitperiod},
-           given={Roel},
-           giveni={R\bibinitperiod}}}%
-        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
-           family={Lin},
-           familyi={L\bibinitperiod},
-           given={Lin},
-           giveni={L\bibinitperiod}}}%
-        {{hash=454ea16c1c785e565fba3d4d6241e59b}{%
-           family={Yang},
-           familyi={Y\bibinitperiod},
-           given={Chao},
-           giveni={C\bibinitperiod}}}%
-      }
-      \strng{namehash}{429d7e891338d9d7f9e7c220595f84f5}
-      \strng{fullhash}{d94544510dd864d376c0b63d0d920a5e}
-      \strng{fullhashraw}{d94544510dd864d376c0b63d0d920a5e}
-      \strng{bibnamehash}{d94544510dd864d376c0b63d0d920a5e}
-      \strng{authorbibnamehash}{d94544510dd864d376c0b63d0d920a5e}
-      \strng{authornamehash}{429d7e891338d9d7f9e7c220595f84f5}
-      \strng{authorfullhash}{d94544510dd864d376c0b63d0d920a5e}
-      \strng{authorfullhashraw}{d94544510dd864d376c0b63d0d920a5e}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{SIAM Journal on Matrix Analysis and Applications}
-      \field{number}{1}
-      \field{title}{{Explicit Quantum Circuits for Block Encodings of Certain Sparse Matrices}}
-      \field{volume}{45}
-      \field{year}{2024}
-      \true{nocite}
-      \field{pages}{801\bibrangedash 827}
-      \range{pages}{27}
-      \verb{eprint}
-      \verb 2203.10236
-      \endverb
-    \endentry
-    \entry{sunderhauf2024blockencoding}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=8927f859bbb15f8d71e9b34f73cc14e9}{%
-           family={Sünderhauf},
-           familyi={S\bibinitperiod},
-           given={Christoph},
-           giveni={C\bibinitperiod}}}%
-        {{hash=36e37cc9a213735536fb5b817681bd19}{%
-           family={Campbell},
-           familyi={C\bibinitperiod},
-           given={Earl},
-           giveni={E\bibinitperiod}}}%
-        {{hash=87a1bea593f7a466bbd807cf23e10494}{%
-           family={Camps},
-           familyi={C\bibinitperiod},
-           given={Daan},
-           giveni={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{d580bad40ed07b0ee3f33676403d278d}
-      \strng{fullhash}{271e97322d2a60ebe96d1cd7edd4f2b9}
-      \strng{fullhashraw}{271e97322d2a60ebe96d1cd7edd4f2b9}
-      \strng{bibnamehash}{271e97322d2a60ebe96d1cd7edd4f2b9}
-      \strng{authorbibnamehash}{271e97322d2a60ebe96d1cd7edd4f2b9}
-      \strng{authornamehash}{d580bad40ed07b0ee3f33676403d278d}
-      \strng{authorfullhash}{271e97322d2a60ebe96d1cd7edd4f2b9}
-      \strng{authorfullhashraw}{271e97322d2a60ebe96d1cd7edd4f2b9}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{Quantum}
-      \field{title}{{Block-encoding structured matrices for data input in quantum computing}}
-      \field{volume}{8}
-      \field{year}{2024}
-      \true{nocite}
-      \field{pages}{1226}
-      \range{pages}{1}
-      \verb{eprint}
-      \verb 2302.10949
-      \endverb
-    \endentry
-    \entry{chakraborty2025qsvt}{misc}{}{}
-      \name{author}{6}{}{%
-        {{hash=51056129e5b6fb7c2e311cd93e88fbbc}{%
-           family={Chakraborty},
-           familyi={C\bibinitperiod},
-           given={Shantanav},
-           giveni={S\bibinitperiod}}}%
-        {{hash=004053931ba8b6141b66807a05752816}{%
-           family={Hazra},
-           familyi={H\bibinitperiod},
-           given={Rishav},
-           giveni={R\bibinitperiod}}}%
-        {{hash=86d8cd66cb62928ca1ec636d8cd2e11c}{%
-           family={Li},
-           familyi={L\bibinitperiod},
-           given={Xin},
-           giveni={X\bibinitperiod}}}%
-        {{hash=3a752709a15eca199f752490fc98432e}{%
-           family={Shao},
-           familyi={S\bibinitperiod},
-           given={Changpeng},
-           giveni={C\bibinitperiod}}}%
-        {{hash=41dace6ae7b5131f0609d10605ff5c32}{%
-           family={Wang},
-           familyi={W\bibinitperiod},
-           given={Qisheng},
-           giveni={Q\bibinitperiod}}}%
-        {{hash=6cf50999f532d837cb9f373111e94378}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Zhicheng},
-           giveni={Z\bibinitperiod}}}%
-      }
-      \strng{namehash}{40916a4003abdd0ba94e75cb9645fe46}
-      \strng{fullhash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
-      \strng{fullhashraw}{119ad3e0626d3350bf5a0a5ba63bbd6d}
-      \strng{bibnamehash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
-      \strng{authorbibnamehash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
-      \strng{authornamehash}{40916a4003abdd0ba94e75cb9645fe46}
-      \strng{authorfullhash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
-      \strng{authorfullhashraw}{119ad3e0626d3350bf5a0a5ba63bbd6d}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{note}{Theorem A.1 gives the ancilla lower bound cited for exact block encodings of L-term decompositions}
-      \field{title}{{Quantum singular value transformation without block encodings: near-optimal complexity with minimal ancilla}}
-      \field{year}{2025}
-      \true{nocite}
-      \verb{eprint}
-      \verb 2504.02385
-      \endverb
-    \endentry
-    \entry{zhang2026lowancilla}{misc}{}{}
-      \name{author}{2}{}{%
-        {{hash=6cf50999f532d837cb9f373111e94378}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Zhicheng},
-           giveni={Z\bibinitperiod}}}%
-        {{hash=3a752709a15eca199f752490fc98432e}{%
-           family={Shao},
-           familyi={S\bibinitperiod},
-           given={Changpeng},
-           giveni={C\bibinitperiod}}}%
-      }
-      \strng{namehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \strng{fullhash}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \strng{fullhashraw}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \strng{bibnamehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \strng{authorbibnamehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \strng{authornamehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \strng{authorfullhash}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \strng{authorfullhashraw}{d95dcf68c42c08a6ff116cc3b9a92dae}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{note}{Not yet implemented in this repo; flagged as the theoretically correct way to beat the current ancilla count}
-      \field{title}{{Low-ancilla block encodings via Hamiltonian simulation}}
+      \field{title}{{Effective-Hamiltonian Quantum Solvers for Differential Equations: Alternative Constructions and Function Encodings}}
       \field{year}{2026}
-      \true{nocite}
       \verb{eprint}
-      \verb 2607.01843
+      \verb 2609.26330
       \endverb
     \endentry
-    \entry{motlagh2024gqsp}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=1e0ce6fb77996ab39c06d3e89e4a8abd}{%
-           family={Motlagh},
-           familyi={M\bibinitperiod},
-           given={Danial},
-           giveni={D\bibinitperiod}}}%
-        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
-           family={Wiebe},
-           familyi={W\bibinitperiod},
-           given={Nathan},
-           giveni={N\bibinitperiod}}}%
-      }
-      \strng{namehash}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \strng{fullhash}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \strng{fullhashraw}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \strng{bibnamehash}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \strng{authorbibnamehash}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \strng{authornamehash}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \strng{authorfullhash}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \strng{authorfullhashraw}{6694ba5e6ae2f394ce06e57be20e43e5}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{PRX Quantum}
-      \field{note}{The GQSP construction lib/GQSP/gqsp.py implements (Theorem 3)}
-      \field{title}{{Generalized Quantum Signal Processing}}
-      \field{volume}{5}
-      \field{year}{2024}
-      \true{nocite}
-      \field{pages}{020368}
-      \range{pages}{1}
-      \verb{eprint}
-      \verb 2308.01501
-      \endverb
-    \endentry
-    \entry{klappenecker2001dct}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=59c4823d313d133595a21f29592836df}{%
-           family={Klappenecker},
-           familyi={K\bibinitperiod},
-           given={Andreas},
-           giveni={A\bibinitperiod}}}%
-        {{hash=f9f0f4dd48b3739dbda0873f238a6ba4}{%
-           family={Rötteler},
-           familyi={R\bibinitperiod},
-           given={Martin},
-           giveni={M\bibinitperiod}}}%
-      }
-      \strng{namehash}{3faa0157fc13296047845e2b24c7659c}
-      \strng{fullhash}{3faa0157fc13296047845e2b24c7659c}
-      \strng{fullhashraw}{3faa0157fc13296047845e2b24c7659c}
-      \strng{bibnamehash}{3faa0157fc13296047845e2b24c7659c}
-      \strng{authorbibnamehash}{3faa0157fc13296047845e2b24c7659c}
-      \strng{authornamehash}{3faa0157fc13296047845e2b24c7659c}
-      \strng{authorfullhash}{3faa0157fc13296047845e2b24c7659c}
-      \strng{authorfullhashraw}{3faa0157fc13296047845e2b24c7659c}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{Proc. SPIE 4740, Image and Signal Processing and Analysis (ISPA 2001)}
-      \field{title}{{Discrete cosine transforms on quantum computers}}
-      \field{year}{2001}
-      \true{nocite}
-      \verb{eprint}
-      \verb quant-ph/0111038
-      \endverb
-    \endentry
-    \entry{qrtlib2025}{misc}{}{}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{note}{Quantum real-transform (DCT/DST/Hartley) circuit library extending Klappenecker--Rötteler}
-      \field{title}{{QRTlib}}
-      \field{year}{2025}
-      \true{nocite}
-      \verb{eprint}
-      \verb 2510.16625
-      \endverb
-    \endentry
-    \entry{dyadic2026fractional}{misc}{}{}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{title}{{Dyadic-Order Quantum Fractional Transforms}}
-      \field{year}{2026}
-      \true{nocite}
-      \verb{eprint}
-      \verb 2604.09295
-      \endverb
-    \endentry
-    \entry{childs2012lcu}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=7ad26b6bf363d32ab22f27f7f6d95b7a}{%
-           family={Childs},
+    \entry{cuccaro2004adder}{misc}{}{}
+      \name{author}{4}{}{%
+        {{hash=735ab3626f7173c34a2618248295d3bf}{%
+           family={Cuccaro},
            familyi={C\bibinitperiod},
-           given={Andrew\bibnamedelima M.},
-           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
-           family={Wiebe},
-           familyi={W\bibinitperiod},
-           given={Nathan},
-           giveni={N\bibinitperiod}}}%
+           given={Steven\bibnamedelima A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=37432dff0ea47deedb0470ff28cdf6f6}{%
+           family={Draper},
+           familyi={D\bibinitperiod},
+           given={Thomas\bibnamedelima G.},
+           giveni={T\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=a463bf947ff045a12933a0410ce2c50e}{%
+           family={Kutin},
+           familyi={K\bibinitperiod},
+           given={Samuel\bibnamedelima A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=33a7aa5e831d8452458b5a9fd6197798}{%
+           family={Moulton},
+           familyi={M\bibinitperiod},
+           given={David\bibnamedelima Petrie},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
       }
-      \strng{namehash}{abef63c71005d7c3aa2000842098b887}
-      \strng{fullhash}{abef63c71005d7c3aa2000842098b887}
-      \strng{fullhashraw}{abef63c71005d7c3aa2000842098b887}
-      \strng{bibnamehash}{abef63c71005d7c3aa2000842098b887}
-      \strng{authorbibnamehash}{abef63c71005d7c3aa2000842098b887}
-      \strng{authornamehash}{abef63c71005d7c3aa2000842098b887}
-      \strng{authorfullhash}{abef63c71005d7c3aa2000842098b887}
-      \strng{authorfullhashraw}{abef63c71005d7c3aa2000842098b887}
+      \strng{namehash}{efbe53eae1921168a442b58cce06bb15}
+      \strng{fullhash}{61c9f1acd712c6a6f8b30888eda36bf7}
+      \strng{fullhashraw}{61c9f1acd712c6a6f8b30888eda36bf7}
+      \strng{bibnamehash}{61c9f1acd712c6a6f8b30888eda36bf7}
+      \strng{authorbibnamehash}{61c9f1acd712c6a6f8b30888eda36bf7}
+      \strng{authornamehash}{efbe53eae1921168a442b58cce06bb15}
+      \strng{authorfullhash}{61c9f1acd712c6a6f8b30888eda36bf7}
+      \strng{authorfullhashraw}{61c9f1acd712c6a6f8b30888eda36bf7}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
       \field{eprinttype}{arXiv}
-      \field{journaltitle}{Quantum Information and Computation}
-      \field{title}{{Hamiltonian simulation using linear combinations of unitary operations}}
-      \field{volume}{12}
-      \field{year}{2012}
-      \true{nocite}
-      \field{pages}{901\bibrangedash 924}
-      \range{pages}{24}
+      \field{title}{{A new quantum ripple-carry addition circuit}}
+      \field{year}{2004}
       \verb{eprint}
-      \verb 1202.5822
+      \verb quant-ph/0410184
       \endverb
     \endentry
     \entry{barenco1995elementary}{article}{}{}
@@ -968,9 +463,1321 @@
       \field{title}{{Elementary gates for quantum computation}}
       \field{volume}{52}
       \field{year}{1995}
-      \true{nocite}
       \field{pages}{3457}
       \range{pages}{1}
+    \endentry
+    \entry{chakraborty2025qsvt}{misc}{}{}
+      \name{author}{6}{}{%
+        {{hash=51056129e5b6fb7c2e311cd93e88fbbc}{%
+           family={Chakraborty},
+           familyi={C\bibinitperiod},
+           given={Shantanav},
+           giveni={S\bibinitperiod}}}%
+        {{hash=004053931ba8b6141b66807a05752816}{%
+           family={Hazra},
+           familyi={H\bibinitperiod},
+           given={Rishav},
+           giveni={R\bibinitperiod}}}%
+        {{hash=86d8cd66cb62928ca1ec636d8cd2e11c}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod}}}%
+        {{hash=3a752709a15eca199f752490fc98432e}{%
+           family={Shao},
+           familyi={S\bibinitperiod},
+           given={Changpeng},
+           giveni={C\bibinitperiod}}}%
+        {{hash=41dace6ae7b5131f0609d10605ff5c32}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Qisheng},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=6cf50999f532d837cb9f373111e94378}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Zhicheng},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{40916a4003abdd0ba94e75cb9645fe46}
+      \strng{fullhash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
+      \strng{fullhashraw}{119ad3e0626d3350bf5a0a5ba63bbd6d}
+      \strng{bibnamehash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
+      \strng{authorbibnamehash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
+      \strng{authornamehash}{40916a4003abdd0ba94e75cb9645fe46}
+      \strng{authorfullhash}{119ad3e0626d3350bf5a0a5ba63bbd6d}
+      \strng{authorfullhashraw}{119ad3e0626d3350bf5a0a5ba63bbd6d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{note}{Theorem A.1 gives the ancilla lower bound cited for exact block encodings of L-term decompositions}
+      \field{title}{{Quantum singular value transformation without block encodings: near-optimal complexity with minimal ancilla}}
+      \field{year}{2025}
+      \verb{eprint}
+      \verb 2504.02385
+      \endverb
+    \endentry
+    \entry{lintong2020groundstate}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
+        {{hash=5e97a8444cb391538f8973403ca67440}{%
+           family={Tong},
+           familyi={T\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{fullhash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{fullhashraw}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{bibnamehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authorbibnamehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authornamehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authorfullhash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authorfullhashraw}{5e5794cb74eaf39da901fb21df4e6847}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Quantum}
+      \field{title}{{Near-optimal ground state preparation}}
+      \field{volume}{4}
+      \field{year}{2020}
+      \field{pages}{372}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 2002.12508
+      \endverb
+    \endentry
+    \entry{cai1994fosls}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=9b87709bc55b8d4afb3601028e3e7a05}{%
+           family={Cai},
+           familyi={C\bibinitperiod},
+           given={Zhiqiang},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=f68d3f008933f90c6f16ed42dd15cc5a}{%
+           family={Lazarov},
+           familyi={L\bibinitperiod},
+           given={Raytcho},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e3306568ccdbfb71f64e5bc25ba86b21}{%
+           family={Manteuffel},
+           familyi={M\bibinitperiod},
+           given={Thomas\bibnamedelima A.},
+           giveni={T\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=d5d99d25a2a2430e5d5325e4d8f76651}{%
+           family={McCormick},
+           familyi={M\bibinitperiod},
+           given={Stephen\bibnamedelima F.},
+           giveni={S\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \strng{namehash}{f5f56753dc157ec0e8e57822811d80f7}
+      \strng{fullhash}{cf70429d211996985ab6a903ad3604d3}
+      \strng{fullhashraw}{cf70429d211996985ab6a903ad3604d3}
+      \strng{bibnamehash}{cf70429d211996985ab6a903ad3604d3}
+      \strng{authorbibnamehash}{cf70429d211996985ab6a903ad3604d3}
+      \strng{authornamehash}{f5f56753dc157ec0e8e57822811d80f7}
+      \strng{authorfullhash}{cf70429d211996985ab6a903ad3604d3}
+      \strng{authorfullhashraw}{cf70429d211996985ab6a903ad3604d3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Journal on Numerical Analysis}
+      \field{number}{6}
+      \field{title}{{First-Order System Least Squares for Second-Order Partial Differential Equations: Part I}}
+      \field{volume}{31}
+      \field{year}{1994}
+      \field{pages}{1785\bibrangedash 1799}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.1137/0731091
+      \endverb
+    \endentry
+    \entry{olver2013}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=d7e72f3ba5e2ab5ec1db539485dc0d7c}{%
+           family={Olver},
+           familyi={O\bibinitperiod},
+           given={Sheehan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1e1c35e12ba2721c4b022a82d9f2d8dc}{%
+           family={Townsend},
+           familyi={T\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{fullhash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{fullhashraw}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{bibnamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authorbibnamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authornamehash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authorfullhash}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \strng{authorfullhashraw}{3a187aebb211839c5c3c5bf4e2ff58ca}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{SIAM Review}
+      \field{note}{Ultraspherical spectral method; banded, well-conditioned differentiation via a change of ultraspherical basis. Antecedent of the descriptor basis change $\tilde{B}$ (see arXiv:1202.1347 in References.md)}
+      \field{number}{3}
+      \field{title}{{A Fast and Well-Conditioned Spectral Method}}
+      \field{volume}{55}
+      \field{year}{2013}
+      \field{pages}{462\bibrangedash 489}
+      \range{pages}{28}
+      \verb{doi}
+      \verb 10.1137/120865458
+      \endverb
+      \verb{eprint}
+      \verb 1202.1347
+      \endverb
+    \endentry
+    \entry{harrow2009hhl}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=6bc7275eb8de2a3404fd3f07e6c21a2a}{%
+           family={Harrow},
+           familyi={H\bibinitperiod},
+           given={Aram\bibnamedelima W.},
+           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=3765d849007f662dc14f33a696aa6a7b}{%
+           family={Hassidim},
+           familyi={H\bibinitperiod},
+           given={Avinatan},
+           giveni={A\bibinitperiod}}}%
+        {{hash=501c0933970931f080455b29b43e560d}{%
+           family={Lloyd},
+           familyi={L\bibinitperiod},
+           given={Seth},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{7731a14f777efe63e5cd5c423257bbd5}
+      \strng{fullhash}{3b3176c8c71f2d0502e9279289094069}
+      \strng{fullhashraw}{3b3176c8c71f2d0502e9279289094069}
+      \strng{bibnamehash}{3b3176c8c71f2d0502e9279289094069}
+      \strng{authorbibnamehash}{3b3176c8c71f2d0502e9279289094069}
+      \strng{authornamehash}{7731a14f777efe63e5cd5c423257bbd5}
+      \strng{authorfullhash}{3b3176c8c71f2d0502e9279289094069}
+      \strng{authorfullhashraw}{3b3176c8c71f2d0502e9279289094069}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{title}{{Quantum Algorithm for Linear Systems of Equations}}
+      \field{volume}{103}
+      \field{year}{2009}
+      \true{nocite}
+      \field{pages}{150502}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevLett.103.150502
+      \endverb
+    \endentry
+    \entry{berry2017linearode}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=e0053050bdc2ad78d707462c41ad32d3}{%
+           family={Berry},
+           familyi={B\bibinitperiod},
+           given={Dominic\bibnamedelima W.},
+           giveni={D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=7ad26b6bf363d32ab22f27f7f6d95b7a}{%
+           family={Childs},
+           familyi={C\bibinitperiod},
+           given={Andrew\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=211b3e3aabce100eddc077c14fee1734}{%
+           family={Ostrander},
+           familyi={O\bibinitperiod},
+           given={Aaron},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e25207d229434e968f23278ee863aed6}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Guoming},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{37b963e792296dcb2fc6e781683c3731}
+      \strng{fullhash}{268dd0fedc3bafad7a20f330488c5982}
+      \strng{fullhashraw}{268dd0fedc3bafad7a20f330488c5982}
+      \strng{bibnamehash}{268dd0fedc3bafad7a20f330488c5982}
+      \strng{authorbibnamehash}{268dd0fedc3bafad7a20f330488c5982}
+      \strng{authornamehash}{37b963e792296dcb2fc6e781683c3731}
+      \strng{authorfullhash}{268dd0fedc3bafad7a20f330488c5982}
+      \strng{authorfullhashraw}{268dd0fedc3bafad7a20f330488c5982}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Communications in Mathematical Physics}
+      \field{title}{{Quantum Algorithm for Linear Differential Equations with Exponentially Improved Dependence on Precision}}
+      \field{volume}{356}
+      \field{year}{2017}
+      \true{nocite}
+      \field{pages}{1057\bibrangedash 1081}
+      \range{pages}{25}
+      \verb{eprint}
+      \verb 1701.03684
+      \endverb
+    \endentry
+    \entry{childsliu2020spectral}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=7ad26b6bf363d32ab22f27f7f6d95b7a}{%
+           family={Childs},
+           familyi={C\bibinitperiod},
+           given={Andrew\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=fa28693ffc6c206d878e9839fdb9605d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jin-Peng},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{67968b8c8a953c69a0b146c7da2c5419}
+      \strng{fullhash}{67968b8c8a953c69a0b146c7da2c5419}
+      \strng{fullhashraw}{67968b8c8a953c69a0b146c7da2c5419}
+      \strng{bibnamehash}{67968b8c8a953c69a0b146c7da2c5419}
+      \strng{authorbibnamehash}{67968b8c8a953c69a0b146c7da2c5419}
+      \strng{authornamehash}{67968b8c8a953c69a0b146c7da2c5419}
+      \strng{authorfullhash}{67968b8c8a953c69a0b146c7da2c5419}
+      \strng{authorfullhashraw}{67968b8c8a953c69a0b146c7da2c5419}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications in Mathematical Physics}
+      \field{title}{{Quantum Spectral Methods for Differential Equations}}
+      \field{volume}{375}
+      \field{year}{2020}
+      \true{nocite}
+      \field{pages}{1427\bibrangedash 1457}
+      \range{pages}{31}
+      \verb{doi}
+      \verb 10.1007/s00220-020-03699-z
+      \endverb
+    \endentry
+    \entry{costa2022optimal}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=0a1d912aba7f6272b5ab2666e04ce510}{%
+           family={Costa},
+           familyi={C\bibinitperiod},
+           given={Pedro\bibnamedelimb C.\bibnamedelimi S.},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=f7c7b2f1ff77d86cd6974bf3964beff6}{%
+           family={An},
+           familyi={A\bibinitperiod},
+           given={Dong},
+           giveni={D\bibinitperiod}}}%
+        {{hash=0a4d1d0492488ec0401dcc04d19c55f0}{%
+           family={Sanders},
+           familyi={S\bibinitperiod},
+           given={Yuval\bibnamedelima R.},
+           giveni={Y\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=8067b002984ccb4128440e25a166509c}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Yuan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=7bb1dcf8a93d1ecc6f9531ece93ef1fa}{%
+           family={Babbush},
+           familyi={B\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e0053050bdc2ad78d707462c41ad32d3}{%
+           family={Berry},
+           familyi={B\bibinitperiod},
+           given={Dominic\bibnamedelima W.},
+           giveni={D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{4d03a9e80c3813450b1e133d056bb3b7}
+      \strng{fullhash}{bf391ba51042bc175000808f2d775f87}
+      \strng{fullhashraw}{bf391ba51042bc175000808f2d775f87}
+      \strng{bibnamehash}{bf391ba51042bc175000808f2d775f87}
+      \strng{authorbibnamehash}{bf391ba51042bc175000808f2d775f87}
+      \strng{authornamehash}{4d03a9e80c3813450b1e133d056bb3b7}
+      \strng{authorfullhash}{bf391ba51042bc175000808f2d775f87}
+      \strng{authorfullhashraw}{bf391ba51042bc175000808f2d775f87}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PRX Quantum}
+      \field{title}{{Optimal Scaling Quantum Linear-Systems Solver via Discrete Adiabatic Theorem}}
+      \field{volume}{3}
+      \field{year}{2022}
+      \true{nocite}
+      \field{pages}{040303}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PRXQuantum.3.040303
+      \endverb
+    \endentry
+    \entry{anliulin2023lchs}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=f7c7b2f1ff77d86cd6974bf3964beff6}{%
+           family={An},
+           familyi={A\bibinitperiod},
+           given={Dong},
+           giveni={D\bibinitperiod}}}%
+        {{hash=fa28693ffc6c206d878e9839fdb9605d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jin-Peng},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{fa6d272c9e48cea886291d34e8ee3e79}
+      \strng{fullhash}{cfb4dbf93a9c923cd83e0cf5fd3ddda1}
+      \strng{fullhashraw}{cfb4dbf93a9c923cd83e0cf5fd3ddda1}
+      \strng{bibnamehash}{cfb4dbf93a9c923cd83e0cf5fd3ddda1}
+      \strng{authorbibnamehash}{cfb4dbf93a9c923cd83e0cf5fd3ddda1}
+      \strng{authornamehash}{fa6d272c9e48cea886291d34e8ee3e79}
+      \strng{authorfullhash}{cfb4dbf93a9c923cd83e0cf5fd3ddda1}
+      \strng{authorfullhashraw}{cfb4dbf93a9c923cd83e0cf5fd3ddda1}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{title}{{Linear Combination of Hamiltonian Simulation for Nonunitary Dynamics with Optimal State Preparation Cost}}
+      \field{volume}{131}
+      \field{year}{2023}
+      \true{nocite}
+      \field{pages}{150603}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevLett.131.150603
+      \endverb
+    \endentry
+    \entry{jinliuyu2023schrodingerisation}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=c59d8dd54aa89c2a33d932d96e6f4bbd}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Shi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2fa3168625e968c7364ef34c75e9aad2}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Nana},
+           giveni={N\bibinitperiod}}}%
+        {{hash=512fbf6290ad46e1e3408d0e31b6f54f}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{3a5b161c77f31438b3c35dec76fffa9d}
+      \strng{fullhash}{d3a817e23efa7a6086bfe87225bd9a82}
+      \strng{fullhashraw}{d3a817e23efa7a6086bfe87225bd9a82}
+      \strng{bibnamehash}{d3a817e23efa7a6086bfe87225bd9a82}
+      \strng{authorbibnamehash}{d3a817e23efa7a6086bfe87225bd9a82}
+      \strng{authornamehash}{3a5b161c77f31438b3c35dec76fffa9d}
+      \strng{authorfullhash}{d3a817e23efa7a6086bfe87225bd9a82}
+      \strng{authorfullhashraw}{d3a817e23efa7a6086bfe87225bd9a82}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Physical Review A}
+      \field{title}{{Quantum simulation of partial differential equations: Applications and detailed analysis}}
+      \field{volume}{108}
+      \field{year}{2023}
+      \true{nocite}
+      \field{pages}{032603}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 2212.14703
+      \endverb
+    \endentry
+    \entry{jennings2023cost}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=902333c7c6ef95187367dddc4e3b20c4}{%
+           family={Jennings},
+           familyi={J\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=aebd3f7628465a0f35760672a9581c21}{%
+           family={Lostaglio},
+           familyi={L\bibinitperiod},
+           given={Matteo},
+           giveni={M\bibinitperiod}}}%
+        {{hash=994ae9143e9ce09390c4dd02183759fb}{%
+           family={Lowrie},
+           familyi={L\bibinitperiod},
+           given={Robert\bibnamedelima B.},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=51bbb27e09a734d6e22c23c93badd3aa}{%
+           family={Pallister},
+           familyi={P\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+        {{hash=69d1e0f7ffd1b12d4c78087c5180eae7}{%
+           family={Sornborger},
+           familyi={S\bibinitperiod},
+           given={Andrew\bibnamedelima T.},
+           giveni={A\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \strng{namehash}{89d1c6f3497f273d8e13890e1d9efec0}
+      \strng{fullhash}{a56a8df1fabc236cf16df39d0b32135b}
+      \strng{fullhashraw}{a56a8df1fabc236cf16df39d0b32135b}
+      \strng{bibnamehash}{a56a8df1fabc236cf16df39d0b32135b}
+      \strng{authorbibnamehash}{a56a8df1fabc236cf16df39d0b32135b}
+      \strng{authornamehash}{89d1c6f3497f273d8e13890e1d9efec0}
+      \strng{authorfullhash}{a56a8df1fabc236cf16df39d0b32135b}
+      \strng{authorfullhashraw}{a56a8df1fabc236cf16df39d0b32135b}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{{The cost of solving linear differential equations on a quantum computer: fast-forwarding to explicit resource counts}}
+      \field{year}{2023}
+      \true{nocite}
+      \verb{eprint}
+      \verb 2309.07881
+      \endverb
+    \endentry
+    \entry{liu2021carleman}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=fa28693ffc6c206d878e9839fdb9605d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Jin-Peng},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=ab032899dca93bd9a43107b3e32190dc}{%
+           family={Kolden},
+           familyi={K\bibinitperiod},
+           given={Herman\bibnamedelima {Ø}ie},
+           giveni={H\bibinitperiod\bibinitdelim Ø\bibinitperiod}}}%
+        {{hash=7cdad32f7008e55c2ca3ec07af3f3ce8}{%
+           family={Krovi},
+           familyi={K\bibinitperiod},
+           given={Hari\bibnamedelima K.},
+           giveni={H\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=34f39aaf0b121bf150010a47e37ebb14}{%
+           family={Loureiro},
+           familyi={L\bibinitperiod},
+           given={Nuno\bibnamedelima F.},
+           giveni={N\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=3b7a047848a7a6b2bc85d4752c07f99a}{%
+           family={Trivisa},
+           familyi={T\bibinitperiod},
+           given={Konstantina},
+           giveni={K\bibinitperiod}}}%
+        {{hash=7ad26b6bf363d32ab22f27f7f6d95b7a}{%
+           family={Childs},
+           familyi={C\bibinitperiod},
+           given={Andrew\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{4dd7c84717c446b88977f853510ca779}
+      \strng{fullhash}{d9991472ba912f6e8012d3a125777ddd}
+      \strng{fullhashraw}{d9991472ba912f6e8012d3a125777ddd}
+      \strng{bibnamehash}{d9991472ba912f6e8012d3a125777ddd}
+      \strng{authorbibnamehash}{d9991472ba912f6e8012d3a125777ddd}
+      \strng{authornamehash}{4dd7c84717c446b88977f853510ca779}
+      \strng{authorfullhash}{d9991472ba912f6e8012d3a125777ddd}
+      \strng{authorfullhashraw}{d9991472ba912f6e8012d3a125777ddd}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Proceedings of the National Academy of Sciences}
+      \field{number}{35}
+      \field{title}{{Efficient quantum algorithm for dissipative nonlinear differential equations}}
+      \field{volume}{118}
+      \field{year}{2021}
+      \true{nocite}
+      \field{pages}{e2026805118}
+      \range{pages}{-1}
+      \verb{eprint}
+      \verb 2011.03185
+      \endverb
+    \endentry
+    \entry{krovi2023improved}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=7b04b971db22a78e171deca44ee7de7c}{%
+           family={Krovi},
+           familyi={K\bibinitperiod},
+           given={Hari},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{7b04b971db22a78e171deca44ee7de7c}
+      \strng{fullhash}{7b04b971db22a78e171deca44ee7de7c}
+      \strng{fullhashraw}{7b04b971db22a78e171deca44ee7de7c}
+      \strng{bibnamehash}{7b04b971db22a78e171deca44ee7de7c}
+      \strng{authorbibnamehash}{7b04b971db22a78e171deca44ee7de7c}
+      \strng{authornamehash}{7b04b971db22a78e171deca44ee7de7c}
+      \strng{authorfullhash}{7b04b971db22a78e171deca44ee7de7c}
+      \strng{authorfullhashraw}{7b04b971db22a78e171deca44ee7de7c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Quantum}
+      \field{title}{{Improved quantum algorithms for linear and nonlinear differential equations}}
+      \field{volume}{7}
+      \field{year}{2023}
+      \true{nocite}
+      \field{pages}{913}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 2202.01054
+      \endverb
+    \endentry
+    \entry{lubasch2020variational}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=e434dcfc1d1dfb3c88940e5ee516a63a}{%
+           family={Lubasch},
+           familyi={L\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=bd8d16f08d6cc8c478e9fad726f11702}{%
+           family={Joo},
+           familyi={J\bibinitperiod},
+           given={Jaewoo},
+           giveni={J\bibinitperiod}}}%
+        {{hash=4a6009364db94d83bdb097f6120f5c0c}{%
+           family={Moinier},
+           familyi={M\bibinitperiod},
+           given={Pierre},
+           giveni={P\bibinitperiod}}}%
+        {{hash=d494ea7ed32497676be380426b5cb294}{%
+           family={Kiffner},
+           familyi={K\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3ec448edbb352dc4613e4f52f64c7a4d}{%
+           family={Jaksch},
+           familyi={J\bibinitperiod},
+           given={Dieter},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{c6185aa4ad5d9ecb2363c508b0d12205}
+      \strng{fullhash}{7450cce62776b5d5e9e7f69d307f47e6}
+      \strng{fullhashraw}{7450cce62776b5d5e9e7f69d307f47e6}
+      \strng{bibnamehash}{7450cce62776b5d5e9e7f69d307f47e6}
+      \strng{authorbibnamehash}{7450cce62776b5d5e9e7f69d307f47e6}
+      \strng{authornamehash}{c6185aa4ad5d9ecb2363c508b0d12205}
+      \strng{authorfullhash}{7450cce62776b5d5e9e7f69d307f47e6}
+      \strng{authorfullhashraw}{7450cce62776b5d5e9e7f69d307f47e6}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review A}
+      \field{title}{{Variational quantum algorithms for nonlinear problems}}
+      \field{volume}{101}
+      \field{year}{2020}
+      \true{nocite}
+      \field{pages}{010301}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevA.101.010301
+      \endverb
+    \endentry
+    \entry{subasi2019adiabatic}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=43cf28fe9b24fb17255cbd85122ef4f8}{%
+           family={Somma},
+           familyi={S\bibinitperiod},
+           given={Rolando\bibnamedelima D.},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=abb4dbaebba516c71c7cc9aa4a27d39d}{%
+           family={Subasi},
+           familyi={S\bibinitperiod},
+           given={Yigit},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=da65ec25f0ab7e7a104debeca03adf0d}{%
+           family={Orsucci},
+           familyi={O\bibinitperiod},
+           given={Davide},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{4e4fb0d1319822207852622ccea75ce1}
+      \strng{fullhash}{52e146fd55c4c68934a545c1f4eb9006}
+      \strng{fullhashraw}{52e146fd55c4c68934a545c1f4eb9006}
+      \strng{bibnamehash}{52e146fd55c4c68934a545c1f4eb9006}
+      \strng{authorbibnamehash}{52e146fd55c4c68934a545c1f4eb9006}
+      \strng{authornamehash}{4e4fb0d1319822207852622ccea75ce1}
+      \strng{authorfullhash}{52e146fd55c4c68934a545c1f4eb9006}
+      \strng{authorfullhashraw}{52e146fd55c4c68934a545c1f4eb9006}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{title}{{Quantum algorithms for systems of linear equations inspired by adiabatic quantum computing}}
+      \field{volume}{122}
+      \field{year}{2019}
+      \true{nocite}
+      \field{pages}{060504}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevLett.122.060504
+      \endverb
+    \endentry
+    \entry{anlin2022timeoptimal}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=f7c7b2f1ff77d86cd6974bf3964beff6}{%
+           family={An},
+           familyi={A\bibinitperiod},
+           given={Dong},
+           giveni={D\bibinitperiod}}}%
+        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \strng{fullhash}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \strng{fullhashraw}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \strng{bibnamehash}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \strng{authorbibnamehash}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \strng{authornamehash}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \strng{authorfullhash}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \strng{authorfullhashraw}{94db70e178472e1b7d71eb7f7aa06f8f}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Transactions on Quantum Computing}
+      \field{number}{2}
+      \field{title}{{Quantum Linear System Solver Based on Time-Optimal Adiabatic Quantum Computing and Quantum Approximate Optimization Algorithm}}
+      \field{volume}{3}
+      \field{year}{2022}
+      \true{nocite}
+      \field{pages}{5}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1145/3498331
+      \endverb
+    \endentry
+    \entry{lintong2020filtering}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
+        {{hash=5e97a8444cb391538f8973403ca67440}{%
+           family={Tong},
+           familyi={T\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{fullhash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{fullhashraw}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{bibnamehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authorbibnamehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authornamehash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authorfullhash}{5e5794cb74eaf39da901fb21df4e6847}
+      \strng{authorfullhashraw}{5e5794cb74eaf39da901fb21df4e6847}
+      \field{extraname}{2}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Quantum}
+      \field{title}{{Optimal Polynomial Based Quantum Eigenstate Filtering with Application to Solving Quantum Linear Systems}}
+      \field{volume}{4}
+      \field{year}{2020}
+      \true{nocite}
+      \field{pages}{361}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.22331/q-2020-11-11-361
+      \endverb
+    \endentry
+    \entry{Lin2022Lecture}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{fullhash}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{fullhashraw}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{bibnamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{authorbibnamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{authornamehash}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{authorfullhash}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \strng{authorfullhashraw}{fb72b03bb0004672eb40dd00cb76bdcd}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{https://arxiv.org/abs/2201.08309}
+      \field{month}{1}
+      \field{title}{Lecture notes on quantum algorithms for scientific computation}
+      \field{year}{2022}
+      \true{nocite}
+    \endentry
+    \entry{williams2024readout}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=744b82ed7a039c03bf2a17fac1a44479}{%
+           family={Williams},
+           familyi={W\bibinitperiod},
+           given={Chelsea\bibnamedelima A.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=e9840b0a147f185d2180955712734d35}{%
+           family={Scali},
+           familyi={S\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod}}}%
+        {{hash=5a10df37fa9778c55f556b0f9dcbd6de}{%
+           family={Gentile},
+           familyi={G\bibinitperiod},
+           given={Antonio\bibnamedelima Anna},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=883f87c306ce2de190a2cb0194fdf78c}{%
+           family={Berger},
+           familyi={B\bibinitperiod},
+           given={Dorian},
+           giveni={D\bibinitperiod}}}%
+        {{hash=84e4c1fc56182ace7d420baa57651de1}{%
+           family={Kyriienko},
+           familyi={K\bibinitperiod},
+           given={Oleksandr},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{69dbbd525c896fc3ff6514fefb96728c}
+      \strng{fullhash}{4262fd64795eb0e73d7b5bdf04a981f0}
+      \strng{fullhashraw}{4262fd64795eb0e73d7b5bdf04a981f0}
+      \strng{bibnamehash}{4262fd64795eb0e73d7b5bdf04a981f0}
+      \strng{authorbibnamehash}{4262fd64795eb0e73d7b5bdf04a981f0}
+      \strng{authornamehash}{69dbbd525c896fc3ff6514fefb96728c}
+      \strng{authorfullhash}{4262fd64795eb0e73d7b5bdf04a981f0}
+      \strng{authorfullhashraw}{4262fd64795eb0e73d7b5bdf04a981f0}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{note}{Related work distinguished from this repo's readout approach; not a competing technique}
+      \field{title}{{Addressing the Readout Problem in Quantum Differential Equation Algorithms with Quantum Scientific Machine Learning}}
+      \field{year}{2024}
+      \true{nocite}
+      \verb{eprint}
+      \verb 2411.14259
+      \endverb
+    \endentry
+    \entry{brassard2000amplitude}{misc}{}{}
+      \name{author}{4}{}{%
+        {{hash=504bb784f2241f359d5030d2ca7f2bdd}{%
+           family={Brassard},
+           familyi={B\bibinitperiod},
+           given={Gilles},
+           giveni={G\bibinitperiod}}}%
+        {{hash=a63f61d51d4a7a277cce46722c380f1a}{%
+           family={H{ø}yer},
+           familyi={H\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=cac498e264a2fdb0a8c4dd3e95c92055}{%
+           family={Mosca},
+           familyi={M\bibinitperiod},
+           given={Michele},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ffbcbc5eda6edf64a21ce3b8529b1ce0}{%
+           family={Tapp},
+           familyi={T\bibinitperiod},
+           given={Alain},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{07de7c08a8e5a865459ac3b08f723626}
+      \strng{fullhash}{260a71d5255a0117d78d042829019aa3}
+      \strng{fullhashraw}{260a71d5255a0117d78d042829019aa3}
+      \strng{bibnamehash}{260a71d5255a0117d78d042829019aa3}
+      \strng{authorbibnamehash}{260a71d5255a0117d78d042829019aa3}
+      \strng{authornamehash}{07de7c08a8e5a865459ac3b08f723626}
+      \strng{authorfullhash}{260a71d5255a0117d78d042829019aa3}
+      \strng{authorfullhashraw}{260a71d5255a0117d78d042829019aa3}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Quantum Amplitude Amplification and Estimation}}
+      \field{year}{2000}
+      \true{nocite}
+      \verb{eprint}
+      \verb quant-ph/0005055
+      \endverb
+    \endentry
+    \entry{berry2014exponential}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=e0053050bdc2ad78d707462c41ad32d3}{%
+           family={Berry},
+           familyi={B\bibinitperiod},
+           given={Dominic\bibnamedelima W.},
+           giveni={D\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=7ad26b6bf363d32ab22f27f7f6d95b7a}{%
+           family={Childs},
+           familyi={C\bibinitperiod},
+           given={Andrew\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=bcc1d99f54046308388d253fdacfe211}{%
+           family={Cleve},
+           familyi={C\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2df8e1d047c0eadaf2cb05c8a1435675}{%
+           family={Kothari},
+           familyi={K\bibinitperiod},
+           given={Robin},
+           giveni={R\bibinitperiod}}}%
+        {{hash=43cf28fe9b24fb17255cbd85122ef4f8}{%
+           family={Somma},
+           familyi={S\bibinitperiod},
+           given={Rolando\bibnamedelima D.},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{37b963e792296dcb2fc6e781683c3731}
+      \strng{fullhash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
+      \strng{fullhashraw}{1a2b5799f04e6f7eef0dfc6df73e18bd}
+      \strng{bibnamehash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
+      \strng{authorbibnamehash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
+      \strng{authornamehash}{37b963e792296dcb2fc6e781683c3731}
+      \strng{authorfullhash}{1a2b5799f04e6f7eef0dfc6df73e18bd}
+      \strng{authorfullhashraw}{1a2b5799f04e6f7eef0dfc6df73e18bd}
+      \field{extraname}{2}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 46th Annual ACM Symposium on Theory of Computing (STOC 2014)}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{note}{Introduces the oblivious amplitude-amplification variant used in readout.py}
+      \field{title}{{Exponential improvement in precision for simulating sparse Hamiltonians}}
+      \field{year}{2014}
+      \true{nocite}
+      \field{pages}{283\bibrangedash 292}
+      \range{pages}{10}
+      \verb{eprint}
+      \verb 1312.1414
+      \endverb
+    \endentry
+    \entry{suzuki2020amplitude}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=251e4a9dfaf79db53f5197fc3c6b7cc7}{%
+           family={Suzuki},
+           familyi={S\bibinitperiod},
+           given={Yohichi},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=eed536c5050c5ae0c51f80ddc16333bc}{%
+           family={Uno},
+           familyi={U\bibinitperiod},
+           given={Shumpei},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2dce7027c685c41a8627abb3b74dc36d}{%
+           family={Raymond},
+           familyi={R\bibinitperiod},
+           given={Rudy},
+           giveni={R\bibinitperiod}}}%
+        {{hash=15a6a94b286187fb72ac648e11a07e63}{%
+           family={Tanaka},
+           familyi={T\bibinitperiod},
+           given={Tomoki},
+           giveni={T\bibinitperiod}}}%
+        {{hash=ae811da19427c8832d2cb7667fdc3523}{%
+           family={Onodera},
+           familyi={O\bibinitperiod},
+           given={Tamiya},
+           giveni={T\bibinitperiod}}}%
+        {{hash=86080cfaaa144ce7fd01d76eb924339a}{%
+           family={Yamamoto},
+           familyi={Y\bibinitperiod},
+           given={Naoki},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{39ee71a5749ec2c0e7a76207dc05f45a}
+      \strng{fullhash}{c268e53982bf637b5edd1ff1b3bf5a55}
+      \strng{fullhashraw}{c268e53982bf637b5edd1ff1b3bf5a55}
+      \strng{bibnamehash}{c268e53982bf637b5edd1ff1b3bf5a55}
+      \strng{authorbibnamehash}{c268e53982bf637b5edd1ff1b3bf5a55}
+      \strng{authornamehash}{39ee71a5749ec2c0e7a76207dc05f45a}
+      \strng{authorfullhash}{c268e53982bf637b5edd1ff1b3bf5a55}
+      \strng{authorfullhashraw}{c268e53982bf637b5edd1ff1b3bf5a55}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Quantum Information Processing}
+      \field{title}{{Amplitude estimation without phase estimation}}
+      \field{volume}{19}
+      \field{year}{2020}
+      \true{nocite}
+      \field{pages}{75}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 1904.10246
+      \endverb
+    \endentry
+    \entry{grinko2021iterative}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=d49194a77443b9ef6415ad72ec49e160}{%
+           family={Grinko},
+           familyi={G\bibinitperiod},
+           given={Dmitry},
+           giveni={D\bibinitperiod}}}%
+        {{hash=6c340749f3f6b3ae36a090c17db53a05}{%
+           family={Gacon},
+           familyi={G\bibinitperiod},
+           given={Julien},
+           giveni={J\bibinitperiod}}}%
+        {{hash=4725580e4d58363473dfd98243388664}{%
+           family={Zoufal},
+           familyi={Z\bibinitperiod},
+           given={Christa},
+           giveni={C\bibinitperiod}}}%
+        {{hash=43697d55280b4841e685e5008d047e19}{%
+           family={Woerner},
+           familyi={W\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{1c99b17140157ef15b4e56eb440400e6}
+      \strng{fullhash}{614f1464e0efcc80821b3830763d6617}
+      \strng{fullhashraw}{614f1464e0efcc80821b3830763d6617}
+      \strng{bibnamehash}{614f1464e0efcc80821b3830763d6617}
+      \strng{authorbibnamehash}{614f1464e0efcc80821b3830763d6617}
+      \strng{authornamehash}{1c99b17140157ef15b4e56eb440400e6}
+      \strng{authorfullhash}{614f1464e0efcc80821b3830763d6617}
+      \strng{authorfullhashraw}{614f1464e0efcc80821b3830763d6617}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{npj Quantum Information}
+      \field{title}{{Iterative Quantum Amplitude Estimation}}
+      \field{volume}{7}
+      \field{year}{2021}
+      \true{nocite}
+      \field{pages}{52}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 1912.05559
+      \endverb
+    \endentry
+    \entry{nishi2025overlap}{misc}{}{}
+      \name{author}{6}{}{%
+        {{hash=da8337168c088266b7aa63d1d59f860a}{%
+           family={Nishi},
+           familyi={N\bibinitperiod},
+           given={Hirofumi},
+           giveni={H\bibinitperiod}}}%
+        {{hash=39cbe7a7662e1b0dac19d00db5229ca5}{%
+           family={Kosugi},
+           familyi={K\bibinitperiod},
+           given={Taichi},
+           giveni={T\bibinitperiod}}}%
+        {{hash=6469adc820488662b00b1a451d1af9de}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yifan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=138badb577cb9879ade000f19a7f7f03}{%
+           family={Hirose},
+           familyi={H\bibinitperiod},
+           given={Kenta},
+           giveni={K\bibinitperiod}}}%
+        {{hash=e5830ec6aec82568ff7de849da6b74aa}{%
+           family={Okayama},
+           familyi={O\bibinitperiod},
+           given={Yuta},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=36b5acb4a3ae7924dc20a270fb0c36b7}{%
+           family={Matsushita},
+           familyi={M\bibinitperiod},
+           given={Yu-ichiro},
+           giveni={Y\bibinithyphendelim i\bibinitperiod}}}%
+      }
+      \strng{namehash}{aa9ca5fc9d72b8a04d853e28aa5c5bb3}
+      \strng{fullhash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
+      \strng{fullhashraw}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
+      \strng{bibnamehash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
+      \strng{authorbibnamehash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
+      \strng{authornamehash}{aa9ca5fc9d72b8a04d853e28aa5c5bb3}
+      \strng{authorfullhash}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
+      \strng{authorfullhashraw}{8b1eb1f1a7097f0e8c45ccbc1c389f82}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{note}{Source of the per-basis-function SWITCH-test readout protocol specialised in readout.py}
+      \field{title}{{Quantum State Readout via Overlap-Based Feature Extraction}}
+      \field{year}{2025}
+      \true{nocite}
+      \verb{eprint}
+      \verb 2505.08613
+      \endverb
+    \endentry
+    \entry{camps2024explicit}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=87a1bea593f7a466bbd807cf23e10494}{%
+           family={Camps},
+           familyi={C\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=7b11d17559a5889a10b17e05cd5d5f23}{%
+           family={Van\bibnamedelima Beeumen},
+           familyi={V\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Roel},
+           giveni={R\bibinitperiod}}}%
+        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
+        {{hash=454ea16c1c785e565fba3d4d6241e59b}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Chao},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{429d7e891338d9d7f9e7c220595f84f5}
+      \strng{fullhash}{d94544510dd864d376c0b63d0d920a5e}
+      \strng{fullhashraw}{d94544510dd864d376c0b63d0d920a5e}
+      \strng{bibnamehash}{d94544510dd864d376c0b63d0d920a5e}
+      \strng{authorbibnamehash}{d94544510dd864d376c0b63d0d920a5e}
+      \strng{authornamehash}{429d7e891338d9d7f9e7c220595f84f5}
+      \strng{authorfullhash}{d94544510dd864d376c0b63d0d920a5e}
+      \strng{authorfullhashraw}{d94544510dd864d376c0b63d0d920a5e}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{SIAM Journal on Matrix Analysis and Applications}
+      \field{number}{1}
+      \field{title}{{Explicit Quantum Circuits for Block Encodings of Certain Sparse Matrices}}
+      \field{volume}{45}
+      \field{year}{2024}
+      \true{nocite}
+      \field{pages}{801\bibrangedash 827}
+      \range{pages}{27}
+      \verb{eprint}
+      \verb 2203.10236
+      \endverb
+    \endentry
+    \entry{sunderhauf2024blockencoding}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=8927f859bbb15f8d71e9b34f73cc14e9}{%
+           family={Sünderhauf},
+           familyi={S\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+        {{hash=36e37cc9a213735536fb5b817681bd19}{%
+           family={Campbell},
+           familyi={C\bibinitperiod},
+           given={Earl},
+           giveni={E\bibinitperiod}}}%
+        {{hash=87a1bea593f7a466bbd807cf23e10494}{%
+           family={Camps},
+           familyi={C\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{d580bad40ed07b0ee3f33676403d278d}
+      \strng{fullhash}{271e97322d2a60ebe96d1cd7edd4f2b9}
+      \strng{fullhashraw}{271e97322d2a60ebe96d1cd7edd4f2b9}
+      \strng{bibnamehash}{271e97322d2a60ebe96d1cd7edd4f2b9}
+      \strng{authorbibnamehash}{271e97322d2a60ebe96d1cd7edd4f2b9}
+      \strng{authornamehash}{d580bad40ed07b0ee3f33676403d278d}
+      \strng{authorfullhash}{271e97322d2a60ebe96d1cd7edd4f2b9}
+      \strng{authorfullhashraw}{271e97322d2a60ebe96d1cd7edd4f2b9}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Quantum}
+      \field{title}{{Block-encoding structured matrices for data input in quantum computing}}
+      \field{volume}{8}
+      \field{year}{2024}
+      \true{nocite}
+      \field{pages}{1226}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 2302.10949
+      \endverb
+    \endentry
+    \entry{zhang2026lowancilla}{misc}{}{}
+      \name{author}{2}{}{%
+        {{hash=6cf50999f532d837cb9f373111e94378}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Zhicheng},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=3a752709a15eca199f752490fc98432e}{%
+           family={Shao},
+           familyi={S\bibinitperiod},
+           given={Changpeng},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \strng{fullhash}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \strng{fullhashraw}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \strng{bibnamehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \strng{authorbibnamehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \strng{authornamehash}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \strng{authorfullhash}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \strng{authorfullhashraw}{d95dcf68c42c08a6ff116cc3b9a92dae}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{note}{Not yet implemented in this repo; flagged as the theoretically correct way to beat the current ancilla count}
+      \field{title}{{Low-ancilla block encodings via Hamiltonian simulation}}
+      \field{year}{2026}
+      \true{nocite}
+      \verb{eprint}
+      \verb 2607.01843
+      \endverb
+    \endentry
+    \entry{motlagh2024gqsp}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=1e0ce6fb77996ab39c06d3e89e4a8abd}{%
+           family={Motlagh},
+           familyi={M\bibinitperiod},
+           given={Danial},
+           giveni={D\bibinitperiod}}}%
+        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
+           family={Wiebe},
+           familyi={W\bibinitperiod},
+           given={Nathan},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \strng{fullhash}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \strng{fullhashraw}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \strng{bibnamehash}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \strng{authorbibnamehash}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \strng{authornamehash}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \strng{authorfullhash}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \strng{authorfullhashraw}{6694ba5e6ae2f394ce06e57be20e43e5}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{PRX Quantum}
+      \field{note}{The GQSP construction lib/GQSP/gqsp.py implements (Theorem 3)}
+      \field{title}{{Generalized Quantum Signal Processing}}
+      \field{volume}{5}
+      \field{year}{2024}
+      \true{nocite}
+      \field{pages}{020368}
+      \range{pages}{1}
+      \verb{eprint}
+      \verb 2308.01501
+      \endverb
+    \endentry
+    \entry{klappenecker2001dct}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=59c4823d313d133595a21f29592836df}{%
+           family={Klappenecker},
+           familyi={K\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=f9f0f4dd48b3739dbda0873f238a6ba4}{%
+           family={Rötteler},
+           familyi={R\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{3faa0157fc13296047845e2b24c7659c}
+      \strng{fullhash}{3faa0157fc13296047845e2b24c7659c}
+      \strng{fullhashraw}{3faa0157fc13296047845e2b24c7659c}
+      \strng{bibnamehash}{3faa0157fc13296047845e2b24c7659c}
+      \strng{authorbibnamehash}{3faa0157fc13296047845e2b24c7659c}
+      \strng{authornamehash}{3faa0157fc13296047845e2b24c7659c}
+      \strng{authorfullhash}{3faa0157fc13296047845e2b24c7659c}
+      \strng{authorfullhashraw}{3faa0157fc13296047845e2b24c7659c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{Proc. SPIE 4740, Image and Signal Processing and Analysis (ISPA 2001)}
+      \field{title}{{Discrete cosine transforms on quantum computers}}
+      \field{year}{2001}
+      \true{nocite}
+      \verb{eprint}
+      \verb quant-ph/0111038
+      \endverb
+    \endentry
+    \entry{qrtlib2025}{misc}{}{}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{note}{Quantum real-transform (DCT/DST/Hartley) circuit library extending Klappenecker--Rötteler}
+      \field{title}{{QRTlib}}
+      \field{year}{2025}
+      \true{nocite}
+      \verb{eprint}
+      \verb 2510.16625
+      \endverb
+    \endentry
+    \entry{dyadic2026fractional}{misc}{}{}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{{Dyadic-Order Quantum Fractional Transforms}}
+      \field{year}{2026}
+      \true{nocite}
+      \verb{eprint}
+      \verb 2604.09295
+      \endverb
     \endentry
     \entry{maslov2016relativephase}{article}{}{}
       \name{author}{1}{}{%
@@ -988,8 +1795,8 @@
       \strng{authornamehash}{380b627ac1e8f2a89ca5107a06c531ca}
       \strng{authorfullhash}{380b627ac1e8f2a89ca5107a06c531ca}
       \strng{authorfullhashraw}{380b627ac1e8f2a89ca5107a06c531ca}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -1029,8 +1836,8 @@
       \strng{authornamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
       \strng{authorfullhash}{456599bb4a61c2e997e2a7e1a21b25b4}
       \strng{authorfullhashraw}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{10th Anniversary}
@@ -1038,44 +1845,6 @@
       \field{title}{{Quantum Computation and Quantum Information}}
       \field{year}{2010}
       \true{nocite}
-    \endentry
-    \entry{lintong2020groundstate}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
-           family={Lin},
-           familyi={L\bibinitperiod},
-           given={Lin},
-           giveni={L\bibinitperiod}}}%
-        {{hash=5e97a8444cb391538f8973403ca67440}{%
-           family={Tong},
-           familyi={T\bibinitperiod},
-           given={Yu},
-           giveni={Y\bibinitperiod}}}%
-      }
-      \strng{namehash}{5e5794cb74eaf39da901fb21df4e6847}
-      \strng{fullhash}{5e5794cb74eaf39da901fb21df4e6847}
-      \strng{fullhashraw}{5e5794cb74eaf39da901fb21df4e6847}
-      \strng{bibnamehash}{5e5794cb74eaf39da901fb21df4e6847}
-      \strng{authorbibnamehash}{5e5794cb74eaf39da901fb21df4e6847}
-      \strng{authornamehash}{5e5794cb74eaf39da901fb21df4e6847}
-      \strng{authorfullhash}{5e5794cb74eaf39da901fb21df4e6847}
-      \strng{authorfullhashraw}{5e5794cb74eaf39da901fb21df4e6847}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{quant-ph}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{Quantum}
-      \field{title}{{Near-optimal ground state preparation}}
-      \field{volume}{4}
-      \field{year}{2020}
-      \true{nocite}
-      \field{pages}{372}
-      \range{pages}{1}
-      \verb{eprint}
-      \verb 2002.12508
-      \endverb
     \endentry
     \entry{berntson2025complementary}{article}{}{}
       \name{author}{2}{}{%
@@ -1098,8 +1867,8 @@
       \strng{authornamehash}{320df8d04fd8ab291da615de78094480}
       \strng{authorfullhash}{320df8d04fd8ab291da615de78094480}
       \strng{authorfullhashraw}{320df8d04fd8ab291da615de78094480}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -1130,8 +1899,8 @@
       \strng{authornamehash}{900ca419c9d2bcc4f88b67a00773a7eb}
       \strng{authorfullhash}{900ca419c9d2bcc4f88b67a00773a7eb}
       \strng{authorfullhashraw}{900ca419c9d2bcc4f88b67a00773a7eb}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -1143,52 +1912,48 @@
       \verb 2503.03026
       \endverb
     \endentry
-    \entry{gilyen2019qsvt}{inproceedings}{}{}
+    \entry{nlfft2025su2}{misc}{}{}
       \name{author}{4}{}{%
-        {{hash=e79510f17f3a4f8641d9edfc32894def}{%
-           family={Gilyén},
-           familyi={G\bibinitperiod},
-           given={András},
-           giveni={A\bibinitperiod}}}%
-        {{hash=8067b002984ccb4128440e25a166509c}{%
-           family={Su},
+        {{hash=5eb7b13052484fae855887547d2e25f9}{%
+           family={Ni},
+           familyi={N\bibinitperiod},
+           given={Hongkang},
+           giveni={H\bibinitperiod}}}%
+        {{hash=9140fdb192e11e98374aa6f8aa6b8266}{%
+           family={Sarkar},
            familyi={S\bibinitperiod},
-           given={Yuan},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=9392ec6c19f799fdccb939e713e413f0}{%
-           family={Low},
+           given={Rahul},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4b377c0e82ab14e6b76f940ed0ca5e51}{%
+           family={Ying},
+           familyi={Y\bibinitperiod},
+           given={Lexing},
+           giveni={L\bibinitperiod}}}%
+        {{hash=fb72b03bb0004672eb40dd00cb76bdcd}{%
+           family={Lin},
            familyi={L\bibinitperiod},
-           given={Guang\bibnamedelima Hao},
-           giveni={G\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
-        {{hash=9906b78ec80183f9ac5008ae54ce7088}{%
-           family={Wiebe},
-           familyi={W\bibinitperiod},
-           given={Nathan},
-           giveni={N\bibinitperiod}}}%
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
       }
-      \strng{namehash}{243f89680d184a044d5ff99cb4b62c13}
-      \strng{fullhash}{2318e6c69d33e8d0424ac51d525f90a5}
-      \strng{fullhashraw}{2318e6c69d33e8d0424ac51d525f90a5}
-      \strng{bibnamehash}{2318e6c69d33e8d0424ac51d525f90a5}
-      \strng{authorbibnamehash}{2318e6c69d33e8d0424ac51d525f90a5}
-      \strng{authornamehash}{243f89680d184a044d5ff99cb4b62c13}
-      \strng{authorfullhash}{2318e6c69d33e8d0424ac51d525f90a5}
-      \strng{authorfullhashraw}{2318e6c69d33e8d0424ac51d525f90a5}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \strng{namehash}{3c9d460a7386d105cfebb0ae88e950b4}
+      \strng{fullhash}{16466fba3b4e40882b58968203d94807}
+      \strng{fullhashraw}{16466fba3b4e40882b58968203d94807}
+      \strng{bibnamehash}{16466fba3b4e40882b58968203d94807}
+      \strng{authorbibnamehash}{16466fba3b4e40882b58968203d94807}
+      \strng{authornamehash}{3c9d460a7386d105cfebb0ae88e950b4}
+      \strng{authorfullhash}{16466fba3b4e40882b58968203d94807}
+      \strng{authorfullhashraw}{16466fba3b4e40882b58968203d94807}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 51st Annual ACM SIGACT Symposium on Theory of Computing (STOC 2019)}
       \field{eprintclass}{quant-ph}
       \field{eprinttype}{arXiv}
-      \field{note}{Cited in-repo only as ``Gilyén et al. (2019)'' with no arXiv ID; identity/eprint inferred, not stated in the citing text}
-      \field{title}{{Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics}}
-      \field{year}{2019}
+      \field{title}{{Inverse nonlinear fast Fourier transform on SU(2) with applications to quantum signal processing}}
+      \field{year}{2025}
       \true{nocite}
-      \field{pages}{193\bibrangedash 204}
-      \range{pages}{12}
       \verb{eprint}
-      \verb 1806.01838
+      \verb 2505.12615
       \endverb
     \endentry
     \entry{martyn2021grand}{article}{}{}
@@ -1222,8 +1987,8 @@
       \strng{authornamehash}{a263d3399ad8a27536ab23f16a2e5cf8}
       \strng{authorfullhash}{18e5ccc3bf875ba8213f535a004dc611}
       \strng{authorfullhashraw}{18e5ccc3bf875ba8213f535a004dc611}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -1261,8 +2026,8 @@
       \strng{authornamehash}{b0668d01a9717293576ae2686f7b0b6b}
       \strng{authorfullhash}{b0668d01a9717293576ae2686f7b0b6b}
       \strng{authorfullhashraw}{b0668d01a9717293576ae2686f7b0b6b}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{quant-ph}
@@ -1300,8 +2065,8 @@
       \strng{authornamehash}{38ee591f8385dad688e75b659d696ed6}
       \strng{authorfullhash}{38ee591f8385dad688e75b659d696ed6}
       \strng{authorfullhashraw}{38ee591f8385dad688e75b659d696ed6}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -1344,8 +2109,8 @@
       \strng{authornamehash}{9475fff3207ef0315a9212a2d886f0ec}
       \strng{authorfullhash}{4359ed509075061d0bc17a08dc16b6b0}
       \strng{authorfullhashraw}{4359ed509075061d0bc17a08dc16b6b0}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}
@@ -1377,8 +2142,8 @@
       \strng{authorfullhash}{e3376455eaec77b00950a1dc9ce095f5}
       \strng{authorfullhashraw}{e3376455eaec77b00950a1dc9ce095f5}
       \field{extraname}{2}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Approximation Theory and Approximation Practice}}
@@ -1404,8 +2169,8 @@
       \strng{authornamehash}{c5fc096f540a44e56f892cc83176f0fb}
       \strng{authorfullhash}{c5fc096f540a44e56f892cc83176f0fb}
       \strng{authorfullhashraw}{c5fc096f540a44e56f892cc83176f0fb}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Finite Difference Methods for Ordinary and Partial Differential Equations: Steady-State and Time-Dependent Problems}}
@@ -1431,8 +2196,8 @@
       \strng{authornamehash}{486ac7c1aa499d38fdee312b1bd201fb}
       \strng{authorfullhash}{486ac7c1aa499d38fdee312b1bd201fb}
       \strng{authorfullhashraw}{486ac7c1aa499d38fdee312b1bd201fb}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{2nd}
@@ -1474,8 +2239,8 @@
       \strng{authornamehash}{a4ccbcb57e145dff108225d09a092c48}
       \strng{authorfullhash}{3c54d8dd33ad38818e28ec378f740798}
       \strng{authorfullhashraw}{3c54d8dd33ad38818e28ec378f740798}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Used in this repo as the (independently consulted) stand-in for the source paper's own ``Voigt/Gottlieb/Hussaini'' citation -- see \texttt{voigtgottlieb1984spectral} and References.md item G31}
@@ -1512,8 +2277,8 @@
       \strng{authornamehash}{bf5dc97136e852be9e71280e20665169}
       \strng{authorfullhash}{0e807b5366b80867988142e04f8f473a}
       \strng{authorfullhashraw}{0e807b5366b80867988142e04f8f473a}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Title/year as named by the source paper's (Wu et al. 2025, arXiv:2504.13174) own bibliography; not independently verified or consulted by this repo -- see References.md item G31}
@@ -1545,8 +2310,8 @@
       \strng{authornamehash}{63984f02de086b7d6004b5486dbf6cab}
       \strng{authorfullhash}{63984f02de086b7d6004b5486dbf6cab}
       \strng{authorfullhashraw}{63984f02de086b7d6004b5486dbf6cab}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{number}{55}
@@ -1554,6 +2319,141 @@
       \field{title}{{Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables}}
       \field{year}{1964}
       \true{nocite}
+    \endentry
+    \entry{bochev2009lsfem}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=86dc4ed1efeeb65168e6bdf7a12bb548}{%
+           family={Bochev},
+           familyi={B\bibinitperiod},
+           given={Pavel\bibnamedelima B.},
+           giveni={P\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=4c7bbbe94084f3a0091c7e50da78e7e2}{%
+           family={Gunzburger},
+           familyi={G\bibinitperiod},
+           given={Max\bibnamedelima D.},
+           giveni={M\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \strng{fullhash}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \strng{fullhashraw}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \strng{bibnamehash}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \strng{authorbibnamehash}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \strng{authornamehash}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \strng{authorfullhash}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \strng{authorfullhashraw}{e9a26dda24b7a74917476aa4dfd63b2f}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{series}{Applied Mathematical Sciences}
+      \field{title}{{Least-Squares Finite Element Methods}}
+      \field{volume}{166}
+      \field{year}{2009}
+      \true{nocite}
+    \endentry
+    \entry{taylorgreen1937}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=e1add561442a8ce4fa2539bcbb9a74cf}{%
+           family={Taylor},
+           familyi={T\bibinitperiod},
+           given={G.\bibnamedelimi I.},
+           giveni={G\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=c3ae035c745e06d4d3d9e9a27e4b63d3}{%
+           family={Green},
+           familyi={G\bibinitperiod},
+           given={A.\bibnamedelimi E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{817d0806209b48f5004fec4f89a0d4e1}
+      \strng{fullhash}{817d0806209b48f5004fec4f89a0d4e1}
+      \strng{fullhashraw}{817d0806209b48f5004fec4f89a0d4e1}
+      \strng{bibnamehash}{817d0806209b48f5004fec4f89a0d4e1}
+      \strng{authorbibnamehash}{817d0806209b48f5004fec4f89a0d4e1}
+      \strng{authornamehash}{817d0806209b48f5004fec4f89a0d4e1}
+      \strng{authorfullhash}{817d0806209b48f5004fec4f89a0d4e1}
+      \strng{authorfullhashraw}{817d0806209b48f5004fec4f89a0d4e1}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences}
+      \field{number}{895}
+      \field{title}{{Mechanism of the Production of Small Eddies from Large Ones}}
+      \field{volume}{158}
+      \field{year}{1937}
+      \true{nocite}
+      \field{pages}{499\bibrangedash 521}
+      \range{pages}{23}
+      \verb{doi}
+      \verb 10.1098/rspa.1937.0036
+      \endverb
+    \endentry
+    \entry{hopf1950burgers}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=cfa53cf888d7bebca9763a0bf23afe8e}{%
+           family={Hopf},
+           familyi={H\bibinitperiod},
+           given={Eberhard},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \strng{fullhash}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \strng{fullhashraw}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \strng{bibnamehash}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \strng{authorbibnamehash}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \strng{authornamehash}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \strng{authorfullhash}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \strng{authorfullhashraw}{cfa53cf888d7bebca9763a0bf23afe8e}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications on Pure and Applied Mathematics}
+      \field{number}{3}
+      \field{title}{{The partial differential equation $u_t + u u_x = \mu u_{xx}$}}
+      \field{volume}{3}
+      \field{year}{1950}
+      \true{nocite}
+      \field{pages}{201\bibrangedash 230}
+      \range{pages}{30}
+      \verb{doi}
+      \verb 10.1002/cpa.3160030302
+      \endverb
+    \endentry
+    \entry{cole1951burgers}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=81c744ba34aeb485715e514bb4713258}{%
+           family={Cole},
+           familyi={C\bibinitperiod},
+           given={Julian\bibnamedelima D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{81c744ba34aeb485715e514bb4713258}
+      \strng{fullhash}{81c744ba34aeb485715e514bb4713258}
+      \strng{fullhashraw}{81c744ba34aeb485715e514bb4713258}
+      \strng{bibnamehash}{81c744ba34aeb485715e514bb4713258}
+      \strng{authorbibnamehash}{81c744ba34aeb485715e514bb4713258}
+      \strng{authornamehash}{81c744ba34aeb485715e514bb4713258}
+      \strng{authorfullhash}{81c744ba34aeb485715e514bb4713258}
+      \strng{authorfullhashraw}{81c744ba34aeb485715e514bb4713258}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Quarterly of Applied Mathematics}
+      \field{number}{3}
+      \field{title}{{On a quasi-linear parabolic equation occurring in aerodynamics}}
+      \field{volume}{9}
+      \field{year}{1951}
+      \true{nocite}
+      \field{pages}{225\bibrangedash 236}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1090/qam/42889
+      \endverb
     \endentry
     \entry{qiskit2024}{misc}{}{}
       \name{author}{1}{}{%
@@ -1572,8 +2472,8 @@
       \strng{authornamehash}{7a2b3595e36a368ce9a04ebaa3bba1d1}
       \strng{authorfullhash}{7a2b3595e36a368ce9a04ebaa3bba1d1}
       \strng{authorfullhashraw}{7a2b3595e36a368ce9a04ebaa3bba1d1}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{note}{Primary quantum-circuit construction/simulation framework used throughout this repo; citation record added from the official Qiskit project, not transcribed from in-repo text}
@@ -1602,8 +2502,8 @@
       \strng{authornamehash}{e0e311fbe2fd6503a2c44372823bb0fb}
       \strng{authorfullhash}{e0e311fbe2fd6503a2c44372823bb0fb}
       \strng{authorfullhashraw}{e0e311fbe2fd6503a2c44372823bb0fb}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprinttype}{arXiv}

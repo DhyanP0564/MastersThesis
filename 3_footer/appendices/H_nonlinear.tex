@@ -1,5 +1,5 @@
 % =============================================================================
-% Appendix H  The Nonlinear Route in Full  --  cited from Chapter 7
+% Appendix H  The Nonlinear Route in Full  --  cited from Chapter 6
 % (sec:nonlinear). Plan: ThesisPlanning.md §6 (H); supporting contribution S4.
 %
 % CONTENT  The doubled-space algebra and kernel bound (proof of prop:no-penalty);
@@ -17,20 +17,28 @@
 %   space where a cubic term needs it; the measured kernel dimension (>= N^2 - 2N)
 %   against the paper's >= 2^{2n-1} (claim A-10).
 
+\Cref{sec:pihm-doubled} states the published construction as quadratic only. A term of degree $p$ in the unknown needs $p$ copies, $\ket{\Psi} = \ket{\psi}^{\otimes p}$, of dimension $N^p$, with its $p$ factors folded back into one Chebyshev series by $p-1$ applications of the product rule (a cubic term by a tripled space and two folds, a quartic by a quadrupled space and three). The register therefore grows with the degree, a limitation noted in the concurrent work of Paine \cite{paine2026concurrent}, and the argument of \Cref{prop:no-penalty} should carry over, since the kernel of the corresponding Hamiltonian is again a subspace and the $p$-fold product states are not; this thesis does not use it beyond $p=2$. The alternative it builds for higher degrees is the Carleman lift of \Cref{sec:carleman}.
+
 \subsection{Proof of \texorpdfstring{\Cref{prop:no-penalty}}{the projection statement}}
 \label{app:proof-no-penalty}
 % LAND: for a positive semi-definite H, e^{-beta H} phi_0 / || . || converges to
 %   Pi_ker phi_0 / || . || whenever Pi_ker phi_0 != 0; kernels are linear
-%   subspaces, the set {psi (x) psi} is not, so no added penalty makes the
-%   kernel one-dimensional while keeping the target in it.
+%   subspaces, so a kernel containing psi (x) psi and phi (x) phi contains
+%   psi (x) psi + phi (x) phi, which is not a product state: no Hamiltonian
+%   enforces the product structure. A kernel is one-dimensional only if the
+%   construction singles out one solution in advance, which an answer-independent
+%   penalty cannot do (one that knows the solution can, and is answer-dependent).
+%   State this scope in the proof; the unscoped "no penalty" is not claimed.
 
 \subsection{The Carleman lift}
 \label{app:carleman-layouts}
-% LAND: the symmetric layout (moments) and the tensor layout (K^2 structured
-%   terms, independent of M; F_2 = L o fold assembled from the problem
-%   specification -- claim B-19); the truncation error O(rho^K) (claim B-18);
-%   the flattened layout verified exactly at small M, the tensor layout on the
-%   physical subspace with zero leakage.
+% LAND: the symmetric layout (moments) and the tensor layout (2K - 1
+%   structured terms, not K^2, each F_p on adjacent slots; F_2 = L o fold
+%   assembled from the problem specification -- claim B-19); the truncation
+%   error O(rho^K) as a SUFFICIENT condition, a worst case over all states
+%   (claim B-18), measured per order against the exact lift; the flattened
+%   layout verified exactly at small M, the tensor layout on the physical
+%   subspace with zero leakage.
 
 \subsection{Ratio rows and the space-time forms}
 \label{app:carleman-spacetime}

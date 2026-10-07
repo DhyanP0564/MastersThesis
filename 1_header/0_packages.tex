@@ -153,14 +153,18 @@
 % pre-submission check (ThesisPlanning.md §14) fails on any remaining \prov.
 \newcommand{\prov}[1]{\textcolor{BrickRed}{#1}}
 
-%reference list 
+%reference list
 \usepackage[backend=biber,style=ieee]{biblatex} %Sbliography with IEEE style.
 \addbibresource{3_footer/ref.bib} %Imports bibliography file
+% ref.bib's note fields are internal provenance for this repo's own audit (T-29):
+% where an entry's details were inferred rather than stated by the citing text, not
+% a reader-facing annotation. Suppress them from every rendered reference.
+\AtEveryBibitem{\clearfield{note}}
 \usepackage{url} %for URL fonts
 \urlstyle{same}
 
 %glossary for acronyms
-\usepackage[acronym,nonumberlist,toc,section=subsection,numberedsection=nolabel]{glossaries} 
+\usepackage[acronym,nomain,nonumberlist]{glossaries}
 \makeglossaries
 \input{1_header/glossary}
 

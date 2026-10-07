@@ -1,73 +1,59 @@
 §.§ Overview
 
- §.§ Design Rationale
+This chapter reports the physics-informed effective Hamiltonian method of Wu, Paine, Philip, Gentile and Kyriienko <cit.> as published, and then judges it; this thesis's own reproduction of the method is reported in <Ref>. The method casts the solution of a differential equation as the ground state of an effective Hamiltonian. It rests on three ingredients. The unknown function is represented by a vector of Chebyshev coefficients, which becomes a quantum state. The differential equation and every boundary or initial condition become linear operators on that vector, each annihilating the coefficients of a true solution. The operators are combined by least squares into a positive semi-definite Hamiltonian, whose ground state is the coefficient vector of the solution. To solve the equation is then to block-encode the Hamiltonian and prepare its ground state, and the field is recovered from the coefficients through the Chebyshev feature map. The lineage runs from differentiable quantum circuits <cit.> through the Chebyshev latent space <cit.> to the effective Hamiltonian. <Ref> judges the method and poses the three questions that <Ref> answer.
 
-The differentiation operator  is dense. Generally, dense operators are expensive to block-encode and sparse matrices are cheapAdd a reference for this.
+ §.§ The Chebyshev Latent Space Model
 
-Remember to define dense vs sparse as part of background
+The Chebyshev polynomials of the first kind  are orthogonal on  under the weight , and a sufficiently smooth function  on this interval has the convergent expansion  <cit.>. The model  is a truncation of this series whose coefficients are the amplitudes of an -qubit state.
 
-The doubled Hilbert space method can create degenerate kernels. qite can't select the physical solution from amongst a set of degenerate ground states, so although it is possible to encode the solution to the original problem in the ground state of the Hamiltonian, it is not possible to extract it from the ground state of the descriptor Hamiltonian.
+The Chebyshev feature map. A degree- truncated Chebyshev series, , is carried by a coefficient vector in the normalised basis, with the feature vector
 
- §.§ Descriptor Form Construction
+A coefficient vector  (unit norm ) represents the model
 
-Differentiation of a Chebyshev series is a sparse operation written densely. Let  have derivative ; the coefficient vectors  and  are tied by the recurrence
+for some positive real scale factor . The feature vector  is not of unit norm (its norm is below , since ), so  is an overlap and not a probability amplitude. The unit norm constraint requires the separation of the direction  from the scale . Everything from here to the ground-state eigenvalue problem below depends only on :  cancels out of every constraint  and out of the Hamiltonian built from such constraints, so it plays no role until <Ref> fixes it from a single known data point, after the ground state has been found. Accordingly, every equation from here on is written for  alone, with  suppressed.
 
-which relates the coefficient  to just two coefficients of the derivative. In the normalised Chebyshev basis this is a matrix identity
+ §.§ The Residual, the Hamiltonian and Its Constraints
 
-with  banded (its main diagonal and its second superdiagonal), and  carrying a single superdiagonal, such that both hold  non-zero entries. The dense Chebyshev derivative matrix  is the operator that sends a function's coefficients directly to those of its derivative, . A simple rearranging of <Ref> recovers it as the inverse
+The derivative operator. Differentiating a Chebyshev series produces another Chebyshev series whose coefficients are a fixed linear function of the original ones <cit.>: writing this map in the orthonormal basis of <Ref> gives an  matrix  with
 
-an identity that holds exactly. The density of  is due to inverting a banded matrix, and <Ref> is the same linear map before that inverse is done. This is the discrete form of the ultraspherical spectral method <cit.>, in which differentiation becomes sparse once the derivative is allowed to sit in a polynomial basis one order above the function.
+so that , and the -th derivative follows from the power . Here  acts on coefficient vectors; Wu et al. print the same matrix as . <Ref> is dense and upper triangular: row  is non-zero at every column  of the right parity, so the lowest-order coefficient can depend on as many as half of the others, and  carries  non-zero entries in total. <Ref> gives this fill-in explicitly at , alongside the banded factors  that <Ref> builds from the same recurrence.
 
-Consider the homogeneous order- linear ode
+The differential-equation row. For a homogeneous linear differential equation of order  with constant coefficients, , direct substitution of  for each derivative allows us to create the operator form of the differential equation
 
-where  are the (possibly -dependent) coefficients of each  derivative .
+A second-order equation, for instance, gives . This is the row before the lift described next. The model places every term of one row in the same -qubit output register, so a constant  enters as , where  embeds the  block and rescales it. The embedding fixes the weight of the equation row against the data rows below, and leaves the kernel of an exactly solvable problem unchanged.
 
-We discretise by representing every function appearing in the equation
-by its first  coefficients in the normalised Chebyshev basis. Concretely,
-let  denote the coefficient vector of , for  and stack these into a single vector,
+A variable coefficient  cannot be substituted this way:  is a product of two functions, and the Chebyshev coefficients of a product are not the product of the coefficients. The lifting operator  resolves this. It is built from the Chebyshev product-to-sum identity
 
-Two kinds of linear relations couple the blocks :
+the -fold iterate of the pairwise rule  that reappears below in the nonlinear extension. Conjugating <Ref> into the normalised bases of <Ref> gives an operator  satisfying
 
-Recurrence rows. The coefficients of consecutive derivatives are related by
+(entries: <Ref>). Multiplying a degree- model by  can raise its degree by as much as , so  is exact and rectangular, : no truncation is needed once the result is represented in the one-qubit-wider register <Ref> already targets. A general coefficient, expanded to a finite power series  (a Maclaurin truncation, for a non-polynomial coefficient), lifts by linearity to , and the differential-equation row for the general, variable-coefficient case follows by composing  and  term-by-term,
 
-This gives  rows of the system, each enforcing the derivative relationship between  and . These rows are algebraic since they carry no derivative and only fix each  as the derivative of , being <Ref> applied block-wise and hence equivalent to  on .
+with  recovering <Ref>, up to the embedding, whenever  is constant.
 
-Differential row. The differential equation itself becomes one
-further row, obtained by multiplying each coefficient vector  by
-the (possibly -dependent) coefficient  and summing:
+Sources. The right-hand side  of an inhomogeneous equation  does not scale with , so it cannot be an operator on  alone. It is tied to the amplitude by the rank-one collapse row  (defined with the data constraints below), which maps  to the constant function , equal to  on the true solution once  is fixed. A non-polynomial source is expanded as a Maclaurin series truncated at order  ( in the paper's inhomogeneous panels), lifted like a coefficient, and enters the row as
 
-where  is the matrix representing multiplication by  in
-coefficient space (reducing to  when  is constant). This single row is the equation itself: we carry the intermediate derivatives as their own unknown coefficient vectors within , rather than representing them via , so that <Ref> (the only dense step) never appears.
+Here  is the lift of the truncated series. The truncation is a source of error in its own right, measured in <Ref>.
 
-Together these  block rows ( recurrence rows and one
-differential row) define a linear system for  and transform the original ode problem into a dae.
+Data constraints. Boundary and initial conditions are built from a rank-one point-evaluation generator, , non-zero only in its first row. A condition with a zero target is invariant (unchanged under ) and enters the Hamiltonian directly as one further linear constraint, , e.g. a Dirichlet condition  giving  and a Neumann condition  giving . A condition with a non-zero target, , is not scale-covariant and instead fixes the amplitude  of <Ref> directly, after the ground state has been found:
 
-Collecting all block rows, the descriptor form chebyshev spectral operator
- is the  block matrix
+Only one such regular constraint is used per solve, and <Ref> is the only place  is determined. The same point also supplies the collapse row  of <Ref>. A regular datum therefore enters the residual itself only where the equation needs an amplitude to tie a source to (and, in <Ref>, to lift the linear terms of a nonlinear equation); for a homogeneous linear equation it acts after the ground state has been found.
 
-where the first  rows are the recurrence rows and the -th row is
-the differential row, so that the whole system is compactly written as
+For equations in two variables the state lives on  qubits, the feature vector is a product of the two one-dimensional ones, and the derivatives act as  and . The paper's partial-differential panels take their invariant constraints from the known solution:  for the heat equation and  for the wave equation. The initial condition itself is not imposed.
 
-A first-order example.
-For  the state is , and the two facts relating its blocks are the recurrence  and the equation , giving
+Collecting the differential-equation row  and every invariant data constraint ,
 
-Every block is ,  or a multiple of the identity, so  is banded, against the dense  that substituting  would produce. The fully populated  instance of <Ref>, the entries of  and , and the numerical check of <Ref>, are given in <Ref>.
+ is Hermitian and positive semi-definite, so  with equality exactly when every constraint holds simultaneously. The differential equation problem is thereby an eigenvalue problem, , , whose ground state  is the solution.
 
-Cost, and what it buys.
-The reformulation is not free:  has  components against the  of the eliminated form, a factor of  more Hilbert space (<Ref> accounts for the further, block-encoding-driven cost of rounding this up to a power-of-two qubit register). What that buys is structural. Each block of  is , , or a banded multiplication operator (bandwidth  for a degree- polynomial coefficient; <Ref>), so  carries  occupied diagonals per block, whereas the eliminated residual  is dense with  non-zero entries. A banded matrix is a short linear combination of shift and diagonal operators, each with an -gate circuit; this is what lets the whole of  be block-encoded as a single flat linear combination of unitaries (<Ref>) at an ancilla count flat in , and it is the precondition for the cost result of <Ref>. The encoding is exact for constant coefficients and for polynomial coefficients resolved below degree ; the sole approximation is the truncation of the top  Chebyshev modes in the resolution- multiplication operator, at the  level.
+Since  for the stacked residual , the ground state  is the smallest right singular vector of  and  is the square of its smallest singular value. The construction is a least-squares one and not an exact-kernel one. A solution that is a polynomial of degree below , with every coefficient and source represented exactly, annihilates every row and gives ; the paper's Legendre panels are of this kind. For any other solution the truncation leaves a residual,  is small, and the ground state is the best fit within the truncated space. A homogeneous equation of order  has a -dimensional solution space, so  invariant constraints, together with the regular datum that fixes the scale, leave a one-dimensional (near-)kernel. The worked  residual for the paper's pilot equation, and the entries of the lifts, are given in <Ref>.
 
-Appending a boundary or initial condition selects the physical solution from , a rank-one construction deferred to <Ref>. The reformulation does not otherwise change the answer: the -block of the recovered null vector is the Chebyshev coefficient vector the eliminated form solves for, agreeing with it to within numerical precision, quantified in <Ref>. Carrying the intermediate derivatives instead of eliminating them converts the dense physics-informed residual into a banded one, and every later stage of the pipeline — block encoding, subnormalisation, and imaginary-time filtering — inherits that structure.
+ §.§ The Published Circuits, Filter and Readout
 
- §.§ Gate-Level Encoding of the Derivative Atoms
+Block encodings. The rank-one rows  and  are block-encoded from the inverse Chebyshev feature map and a reflection  about the all-zero state, combined by a two-term LCU <cit.>. The encoding of  uses  qubits with subnormalisation , and that of  divides it by . The dense  is block-encoded as an LCU whose entries, which grow linearly with the column index, are loaded as rotation amplitudes by two conditioned subroutines, with a small error in each entry <cit.>.  is recovered from the top-left block of the circuit's unitary through the prefactor
 
- §.§ The Block Encoding
+The claims are that the circuit needs  qubits, that its gate count is linear in  for each of  and  and  overall once the multi-controlled gates are decomposed, and that the entry error decreases exponentially in ; no bound on that error is given. The registers, subroutines and angles are given in <Ref>, and the claims are tested in <Ref>.
 
- §.§ Descriptor Encoding Complexity Analysis
+The imaginary-time filter. The ground state is prepared by quantum imaginary-time evolution (QITE), the application of  to an initial state, realised by qsvt on the block-encoded  with  the Frobenius norm (<Ref>). The evolution time is bounded below by
 
- §.§ Boundary Conditions and Data Injection
+where  and  are the largest and the second smallest eigenvalues (the paper writes  for  and calls the bound approximate). The preparation time is expected to scale as  in the gap . The phase sets, the dilation of  and the parameters of the paper's examples are in <Ref>.
 
- §.§ Ground-State Preparation on the Descriptor Hamiltonian
-
- §.§ Extracting the Solution
-
- §.§ Verification: What Is Established, and How
+Readout. The field is read out by an interferometric overlap measurement <cit.>. The probability of the all-zero outcome after the inverse feature map is measured for the prepared state, and again for that state superposed with a reference state. The two probabilities give the signed overlap f_Q(x)η|Ψ⟩ = |ψ⟩⊗|ψ⟩T_jT_k = 12(T_j+k+T_|j-k|)f^(i)f^(j)_1(^i⊗^j)|Ψ⟩(x_s)η√(η)2n|ψ⟩^⊗3ppN^p|Ψ⟩N^2 = 2^2n2^2n-1|ψ⟩⊗|ψ⟩|ϕ⟩⊗|ϕ⟩x∈[-1,1]n

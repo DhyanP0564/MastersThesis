@@ -10,13 +10,186 @@
 % ---------------------------------------------------------------------------
 
 @misc{wu2025pihm,
-  author        = {Wu, Yuan and Paine, Alex J. and Philip, Deep and Gentile, Antonio Anna and Kyriienko, Oleksandr},
+  author        = {Wu, Hsin-Yu and Paine, Annie E. and Philip, Evan and Gentile, Antonio A. and Kyriienko, Oleksandr},
   title         = {{Quantum algorithm for solving nonlinear differential equations based on physics-informed effective Hamiltonians}},
   year          = {2025},
   eprint        = {2504.13174},
   archiveprefix = {arXiv},
-  primaryclass  = {quant-ph},
-  note          = {Source paper for this repo's PIHM + qubitization + GQSP-QITE pipeline}
+  primaryclass  = {quant-ph}
+}
+
+% ---------------------------------------------------------------------------
+% Differential-equation solvers and the physics-informed lineage (T-29,
+% ThesisPlanning.md §5.2; Ch. 2's literature review)
+% ---------------------------------------------------------------------------
+
+@article{harrow2009hhl,
+  author        = {Harrow, Aram W. and Hassidim, Avinatan and Lloyd, Seth},
+  title         = {{Quantum Algorithm for Linear Systems of Equations}},
+  journal       = {Physical Review Letters},
+  volume        = {103},
+  pages         = {150502},
+  year          = {2009},
+  doi           = {10.1103/PhysRevLett.103.150502}
+}
+
+@article{berry2017linearode,
+  author        = {Berry, Dominic W. and Childs, Andrew M. and Ostrander, Aaron and Wang, Guoming},
+  title         = {{Quantum Algorithm for Linear Differential Equations with Exponentially Improved Dependence on Precision}},
+  journal       = {Communications in Mathematical Physics},
+  volume        = {356},
+  pages         = {1057--1081},
+  year          = {2017},
+  eprint        = {1701.03684},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{childsliu2020spectral,
+  author        = {Childs, Andrew M. and Liu, Jin-Peng},
+  title         = {{Quantum Spectral Methods for Differential Equations}},
+  journal       = {Communications in Mathematical Physics},
+  volume        = {375},
+  pages         = {1427--1457},
+  year          = {2020},
+  doi           = {10.1007/s00220-020-03699-z}
+}
+
+@article{costa2022optimal,
+  author        = {Costa, Pedro C. S. and An, Dong and Sanders, Yuval R. and Su, Yuan and Babbush, Ryan and Berry, Dominic W.},
+  title         = {{Optimal Scaling Quantum Linear-Systems Solver via Discrete Adiabatic Theorem}},
+  journal       = {PRX Quantum},
+  volume        = {3},
+  pages         = {040303},
+  year          = {2022},
+  doi           = {10.1103/PRXQuantum.3.040303}
+}
+
+@article{anliulin2023lchs,
+  author        = {An, Dong and Liu, Jin-Peng and Lin, Lin},
+  title         = {{Linear Combination of Hamiltonian Simulation for Nonunitary Dynamics with Optimal State Preparation Cost}},
+  journal       = {Physical Review Letters},
+  volume        = {131},
+  pages         = {150603},
+  year          = {2023},
+  doi           = {10.1103/PhysRevLett.131.150603}
+}
+
+@article{jinliuyu2023schrodingerisation,
+  author        = {Jin, Shi and Liu, Nana and Yu, Yue},
+  title         = {{Quantum simulation of partial differential equations: Applications and detailed analysis}},
+  journal       = {Physical Review A},
+  volume        = {108},
+  pages         = {032603},
+  year          = {2023},
+  eprint        = {2212.14703},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@misc{jennings2023cost,
+  author        = {Jennings, David and Lostaglio, Matteo and Lowrie, Robert B. and Pallister, Sam and Sornborger, Andrew T.},
+  title         = {{The cost of solving linear differential equations on a quantum computer: fast-forwarding to explicit resource counts}},
+  year          = {2023},
+  eprint        = {2309.07881},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{liu2021carleman,
+  author        = {Liu, Jin-Peng and Kolden, Herman {\O}ie and Krovi, Hari K. and Loureiro, Nuno F. and Trivisa, Konstantina and Childs, Andrew M.},
+  title         = {{Efficient quantum algorithm for dissipative nonlinear differential equations}},
+  journal       = {Proceedings of the National Academy of Sciences},
+  volume        = {118},
+  number        = {35},
+  pages         = {e2026805118},
+  year          = {2021},
+  eprint        = {2011.03185},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{krovi2023improved,
+  author        = {Krovi, Hari},
+  title         = {{Improved quantum algorithms for linear and nonlinear differential equations}},
+  journal       = {Quantum},
+  volume        = {7},
+  pages         = {913},
+  year          = {2023},
+  eprint        = {2202.01054},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{lubasch2020variational,
+  author        = {Lubasch, Michael and Joo, Jaewoo and Moinier, Pierre and Kiffner, Martin and Jaksch, Dieter},
+  title         = {{Variational quantum algorithms for nonlinear problems}},
+  journal       = {Physical Review A},
+  volume        = {101},
+  pages         = {010301},
+  year          = {2020},
+  doi           = {10.1103/PhysRevA.101.010301}
+}
+
+@article{kyriienko2021differentiable,
+  author        = {Kyriienko, Oleksandr and Paine, Annie E. and Elfving, Vincent E.},
+  title         = {{Solving nonlinear differential equations with differentiable quantum circuits}},
+  journal       = {Physical Review A},
+  volume        = {103},
+  pages         = {052416},
+  year          = {2021},
+  eprint        = {2011.10395},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@misc{paine2023physicsinformed,
+  author        = {Paine, Annie E. and Elfving, Vincent E. and Kyriienko, Oleksandr},
+  title         = {{Physics-Informed Quantum Machine Learning: Solving nonlinear differential equations in latent spaces without costly grid evaluations}},
+  year          = {2023},
+  eprint        = {2308.01827},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@misc{paine2026concurrent,
+  author        = {Paine, Annie E.},
+  title         = {{Effective-Hamiltonian Quantum Solvers for Differential Equations: Alternative Constructions and Function Encodings}},
+  year          = {2026},
+  eprint        = {2609.26330},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{subasi2019adiabatic,
+  author        = {Somma, Rolando D. and Subasi, Yigit and Orsucci, Davide},
+  title         = {{Quantum algorithms for systems of linear equations inspired by adiabatic quantum computing}},
+  journal       = {Physical Review Letters},
+  volume        = {122},
+  pages         = {060504},
+  year          = {2019},
+  doi           = {10.1103/PhysRevLett.122.060504}
+}
+
+@article{anlin2022timeoptimal,
+  author        = {An, Dong and Lin, Lin},
+  title         = {{Quantum Linear System Solver Based on Time-Optimal Adiabatic Quantum Computing and Quantum Approximate Optimization Algorithm}},
+  journal       = {ACM Transactions on Quantum Computing},
+  volume        = {3},
+  number        = {2},
+  pages         = {5},
+  year          = {2022},
+  doi           = {10.1145/3498331}
+}
+
+@article{lintong2020filtering,
+  author        = {Lin, Lin and Tong, Yu},
+  title         = {{Optimal Polynomial Based Quantum Eigenstate Filtering with Application to Solving Quantum Linear Systems}},
+  journal       = {Quantum},
+  volume        = {4},
+  pages         = {361},
+  year          = {2020},
+  doi           = {10.22331/q-2020-11-11-361}
 }
 
 % ---------------------------------------------------------------------------
@@ -299,6 +472,15 @@
   primaryclass  = {quant-ph}
 }
 
+@misc{nlfft2025su2,
+  author        = {Ni, Hongkang and Sarkar, Rahul and Ying, Lexing and Lin, Lin},
+  title         = {{Inverse nonlinear fast Fourier transform on SU(2) with applications to quantum signal processing}},
+  year          = {2025},
+  eprint        = {2505.12615},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
 @inproceedings{gilyen2019qsvt,
   author        = {Gily\'en, Andr\'as and Su, Yuan and Low, Guang Hao and Wiebe, Nathan},
   title         = {{Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics}},
@@ -429,6 +611,64 @@
   number    = {55},
   publisher = {National Bureau of Standards},
   year      = {1964}
+}
+
+@article{cai1994fosls,
+  author  = {Cai, Zhiqiang and Lazarov, Raytcho and Manteuffel, Thomas A. and McCormick, Stephen F.},
+  title   = {{First-Order System Least Squares for Second-Order Partial Differential Equations: Part I}},
+  journal = {SIAM Journal on Numerical Analysis},
+  volume  = {31},
+  number  = {6},
+  pages   = {1785--1799},
+  year    = {1994},
+  doi     = {10.1137/0731091}
+}
+
+@book{bochev2009lsfem,
+  author    = {Bochev, Pavel B. and Gunzburger, Max D.},
+  title     = {{Least-Squares Finite Element Methods}},
+  series    = {Applied Mathematical Sciences},
+  volume    = {166},
+  publisher = {Springer},
+  year      = {2009}
+}
+
+% ---------------------------------------------------------------------------
+% Fluids: classical references for Burgers and Navier--Stokes (T-29,
+% ThesisPlanning.md §5.2, §5.6)
+% ---------------------------------------------------------------------------
+
+@article{taylorgreen1937,
+  author  = {Taylor, G. I. and Green, A. E.},
+  title   = {{Mechanism of the Production of Small Eddies from Large Ones}},
+  journal = {Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences},
+  volume  = {158},
+  number  = {895},
+  pages   = {499--521},
+  year    = {1937},
+  doi     = {10.1098/rspa.1937.0036}
+}
+
+@article{hopf1950burgers,
+  author  = {Hopf, Eberhard},
+  title   = {{The partial differential equation $u_t + u u_x = \mu u_{xx}$}},
+  journal = {Communications on Pure and Applied Mathematics},
+  volume  = {3},
+  number  = {3},
+  pages   = {201--230},
+  year    = {1950},
+  doi     = {10.1002/cpa.3160030302}
+}
+
+@article{cole1951burgers,
+  author  = {Cole, Julian D.},
+  title   = {{On a quasi-linear parabolic equation occurring in aerodynamics}},
+  journal = {Quarterly of Applied Mathematics},
+  volume  = {9},
+  number  = {3},
+  pages   = {225--236},
+  year    = {1951},
+  doi     = {10.1090/qam/42889}
 }
 
 % ---------------------------------------------------------------------------

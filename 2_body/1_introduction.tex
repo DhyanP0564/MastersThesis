@@ -46,16 +46,22 @@
 %      S1-S4. Each is one sentence of WHAT and one clause of EVIDENCE (a chapter
 %      pointer). C always carries its cost (the block register); S2 is phrased
 %      as serving the comparison ("isolates ..."), never as a rival solver.
-%        C   the descriptor reformulation                      -> Ch. 6, §8.3-8.6
-%        S1  a verified reproduction and audit of Wu et al.     -> §8.2, App. K
-%        S2  an exact structured encoding of the standard form  -> Ch. 5, §8.3
-%        S3  a regime-independent verified pipeline             -> Ch. 4, §8.4
-%        S4  nonlinearity: preparation versus projection        -> Ch. 7, §8.7-8.8
+%        C   the descriptor reformulation                      -> Ch. 5, §8.3-8.4
+%        S1  a verified reproduction and audit of Wu et al.     -> §4.1, §8.1, App. K
+%        S2  an exact structured encoding of the standard form  -> Ch. 4, §8.3
+%        S3  a regime-independent verified pipeline             -> Ch. 7, §8.2
+%        S4  nonlinearity: preparation versus projection        -> Ch. 6, §8.5-8.6
 %   2. The spine sentence (ThesisPlanning.md §3.2).
 %   3. The scope statement, once, plainly: every result is a classical
 %      computation -- circuit simulation (T1) at small n, exact emulation (T2)
 %      beyond it, resource estimates (T3) beyond that. Nothing ran on hardware.
-%      Readout is the paper's protocol, reproduced in simulation.
+%      Readout is classical, decoded from the prepared state's field blocks; the
+%      paper's interferometric protocol is built and verified only at small n
+%      (R1, R2a, R5a), with our correction for p_G < 1, and is further work.
+% REVISE (T-24): the line above replaces "Readout is the paper's protocol,
+%   reproduced in simulation", which overstates what is reproduced and
+%   understates that the thesis's own readout is classical decoding, not the
+%   paper's interferometric protocol (CLAUDE.md Standing Facts, Readout).
 %   4. What is NOT claimed: a poly-log end-to-end cost; preparation for
 %      degenerate formulations; a new readout protocol.
 

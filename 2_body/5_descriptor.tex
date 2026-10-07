@@ -1,0 +1,351 @@
+% =============================================================================
+% Chapter 5  The Descriptor Reformulation  --  ~9.5 pp  --  THE CORE
+% rubric: Project Body (Modelling) -- Model Formulation /30.
+% Plan: ThesisPlanning.md §5.5 (headline contribution C).
+%
+% PURPOSE     Answer Q(ii): the headline, written as the methods section of a
+%             journal article, including the reformulation's own challenge and
+%             its cure.
+% CRITERION   Formulation, band 4, "warranting publication". The body carries
+%             the idea, the object (stated once), the cost (a formal result),
+%             the challenge and the interpretation; entries, constructions and
+%             proofs go to Appendices B and G.
+% SOURCES     ThesisPlanning.md §3.4, §3.7 ("Descriptor: the flat LCU compiled
+%             from the term IR"), §6.4; pihm/docs/02_methods.md §3.2;
+%             pihm/docs/13_descriptor.md; pihm/docs/14_descriptor_gap.md (the
+%             challenge); claims B-01-B-07, B-14, B-20, B-21, C-05, C-06;
+%             pihm/docs/companion/{12,13,50-57}.
+% WRITE WHEN  The mathematics now, from ThesisPlanning.md §3.4, with numbers as
+%             \prov; in full at gate G4 (wave W3).
+% EQUATION TEST (STYLE_GUIDE.md §2.6): does the argument break if a reader skips
+%             it? If not, the equation belongs in an appendix.
+%
+% DRAFT 2026-10-06 (first pass for the author to rewrite). The prose of the
+%   previous draft is kept where it was right (the factorisation, the chain's
+%   rows, the first-order example, the cost paragraph); what changed, each
+%   deliberately: (a) a duplicate label, eq:G-structured (also Chapter 4's), is
+%   now eq:G-banded; (b) the chain's recurrence is stated in the raw coefficients
+%   it is true for, and the normalised factors' entries and norms are quoted;
+%   (c) the kernel theorem covers both layouts and is stated for the stacked
+%   residual, with the proof in the body; (d) the equation row carries the
+%   source; (e) the cost proposition no longer states alpha/||A|| -> 1
+%   unscoped, and its ancilla count is + 8. The atom table (tab:descriptor-atoms)
+%   is dropped: its gate and ancilla columns were empty and no record isolates
+%   them; reinstate it only from a measured source. The per-section LAND lists
+%   are removed (they live in ThesisPlanning.md §5.5). Keys not yet in the
+%   committed numbers.tex render as placeholders until the exporter is rerun.
+%
+% REVIEW PASS 2026-10-06: cuts (roadmap, Table descriptor-rows, the k = 1 chain example, the
+%   walkthrough's "Inputs and outputs", the degree-growth paragraph) are marked CUT or MOVED where they
+%   stood. Gap flatness stays "measured" throughout (the lower bound is still the \todo in the gap
+%   section); the cost proposition's proof and the rescaling rule's checks wait for Appendix G.
+% =============================================================================
+
+This chapter answers the second question of \Cref{sec:pihm-assessment}: can the residual be reformulated so that its Hamiltonian is banded and well conditioned without changing its solution, and what does that cost? We build the reformulated residual and prove that its kernel is the standard form's (\Cref{sec:descriptor-idea,sec:descriptor-construction,sec:descriptor-layouts,sec:descriptor-constraints}), then state its own challenge, an eroded spectral gap, and the cure with its limits (\Cref{sec:descriptor-gap,sec:descriptor-rescaling}), and finally its block encoding, cost and consequence for the filter's degree (\Cref{sec:descriptor-block-encoding,sec:descriptor-cost,sec:descriptor-spectrum}).
+
+\subsection{The Idea}
+\label{sec:descriptor-idea}
+
+\Cref{sec:standard} located the cost of the standard form in its Hamiltonian: $\|\G^k\|_2=\Theta(N^{2k})$, so $\|\Hstd\|=\Theta(N^{4k})$ whatever the encoder. That norm is the density of $\G$ made visible: a dense upper-triangular operator is a sum of $N/2$ shifted diagonals (\Cref{sec:standard-cost}), a banded one a fixed number of them. The density is not intrinsic to differentiation. It comes from insisting that the derivative's coefficients be expressed in the same basis as the function's. If the derivative may live in a neighbouring basis, differentiation is banded, and the factors of $\G$ can be kept instead of multiplied out.
+
+The descriptor form does this. Where the standard form substitutes $\G^j$ for each derivative, the descriptor form carries $f',\dots,f^{(k)}$ as unknowns beside $f$, ties them to one another by banded recurrences, and writes the equation over the unknowns. A first-order equation or system needs no extra unknowns, because the equation already gives the derivative: multiplying the standard rows through by a banded factor is enough. The first layout we call the chain and the second the mass form (\Cref{sec:descriptor-layouts}).
+
+Neither ingredient is new to numerical analysis, and we credit both. Banded differentiation is the ultraspherical spectral method of Olver and Townsend \cite{olver2013}, of which the factors of \Cref{sec:descriptor-construction} are the discrete shadow (\Cref{sec:bg-ultraspherical}). Carrying derivatives as unknowns to avoid squaring the condition number of a least-squares functional is the idea of first-order-system least squares \cite{cai1994fosls} (\Cref{sec:bg-fosls}). The physics-informed Hamiltonian is a least-squares functional, so both apply to it. The increment of this thesis is their transfer to a block-encoded physics-informed Hamiltonian: a proof that its kernel is unchanged, an encoding as one flat linear combination of unitaries, an a priori rescaling that restores the gap the new unknowns erode, and a measurement of what all of it does to ground-state preparation.
+
+\Cref{fig:sparsity} shows the effect on the second-order equation $f''+4f'+4f=0$ (R2a). At $n=7$ the standard form's stacked residual holds \res{build/R2a/standard/n7}{nonzeros} non-zero entries on \res{build/R2a/standard/n7}{dimension} unknowns; the descriptor's holds \res{build/R2a/descriptor/n7}{nonzeros} on \res{build/R2a/descriptor/n7}{dimension} unknowns, four times as many, because of the block register that \Cref{sec:descriptor-layouts} counts. The residual is sparser although its state is larger, and that trade is the subject of the chapter. The idea in one sentence: carrying the intermediate derivatives instead of eliminating them turns the physics-informed residual from dense to banded with its kernel unchanged, so that the Hamiltonian's norm falls from $\Theta(N^{4k})$, which is $\Theta(N^8)$ at second order, to $\Theta(N^2)$ at fixed block weights; the price is a block register and a gap that the derivative blocks erode, which an a priori rescaling restores on one axis at no gate cost.
+
+\placeholderfigure{Dense against banded: the two residuals of the same equation.}{fig:sparsity}{Two sparsity (spy) plots side by side for $f''+4f'+4f=0$ (R2a) at $n = 4$: left, $\Astd = \G^2 + 4\G + 4I$ with its dense upper triangle; right, $\Adesc$ with its block-banded pattern (recurrence blocks, equation row, padding). The descriptor's matrix is four times the size and holds fewer non-zero entries at $n=7$ (\Cref{sec:descriptor-idea}).}
+
+\subsection{The Banded Factorisation}
+\label{sec:descriptor-construction}
+
+Differentiation of a Chebyshev series is a sparse operation written densely. Let $f=\sum_\ell a_\ell T_\ell$ have derivative $f'=\sum_\ell p_\ell T_\ell$. The two coefficient sequences are tied by the recurrence
+\begin{equation}
+    c_{\ell-1}\,p_{\ell-1} - p_{\ell+1} = 2\ell\,a_\ell ,
+    \qquad \ell \ge 1,
+    \label{eq:cheb-recurrence}
+\end{equation}
+with $c_0=2$ and $c_\ell=1$ for $\ell\ge1$ (the factor on $p_0$ is a normalisation artefact of $T_0$, derived with the rest in \Cref{app:cheb}). Each row relates one coefficient of the function to just two of the derivative. Truncated to $N$ coefficients and written in the normalised basis of \Cref{sec:pihm-model}, where $\fhat{0}$ and $\fhat{1}$ hold the coefficients of $f$ and $f'$, this is the matrix identity
+\begin{equation}
+    \Bt\,\fhat{1} = \Dt\,\fhat{0} .
+    \label{eq:banded-factorisation}
+\end{equation}
+$\Dt$ has a single non-zero diagonal, the first superdiagonal, with entries $(2\sqrt2,4,6,\dots,2(N-1))$; $\Bt$ has the diagonal $(2,1,1,\dots)$ and the second superdiagonal $(-\sqrt2,-1,-1,\dots)$. Both hold $\mathcal{O}(N)$ non-zero entries, against the $\Theta(N^2)$ of $\G$. Two facts about them are used throughout. $\Bt$ is upper triangular with a non-zero diagonal, so it is invertible; and, since the singular values of a single-diagonal matrix are its entries, $\|\Dt\|_2=2(N-1)$ while $\|\Bt\|_2\le 2+\sqrt2$.
+
+The dense differentiation matrix is the quotient
+\begin{equation}
+    \G = \Bt^{-1}\Dt ,
+    \label{eq:G-banded}
+\end{equation}
+an identity that holds exactly at every $N$. The inverse $\Bt^{-1}$ is a triangle of ones on each parity class, and the density of $\G$ is that inverse; \Cref{eq:banded-factorisation} is the same linear map before the inverse is taken. This is the discrete form of the ultraspherical spectral method \cite{olver2013}: up to the basis normalisation, $\Bt$ and $\Dt$ are twice its operators for conversion from Chebyshev to second-kind polynomials and for differentiation into them, so that differentiation becomes sparse once the derivative is allowed to sit in a polynomial basis one order above the function (\Cref{app:cheb}). The method applies these operators to the equation to obtain a banded system in $f$ alone. We instead keep \Cref{eq:banded-factorisation} as a row of the system and the derivative as an unknown, which is what lets the same construction serve every order, every axis and every coupled field.
+
+\subsection{Two Layouts and Kernel Equivalence}
+\label{sec:descriptor-layouts}
+
+Consider the linear \gls{ode} of order $k$
+\begin{equation}
+  \sum_{j=0}^{k} a_j(x)\, f^{(j)}(x) = r(x), \qquad x \in [-1,1],
+\end{equation}
+with the data constraints of \Cref{sec:pihm-residual}. We represent every function in it by its first $N$ coefficients in the normalised Chebyshev basis. Two layouts carry the equation, according to its order.
+
+\paragraph{The chain ($k\ge2$).} Let $\fhat{j}\in\mathbb{C}^N$ be the coefficient vector of $f^{(j)}$ for $j=0,\dots,k$, and stack them into the state
+\begin{equation}
+  w = (\fhat{0};\, \fhat{1};\, \dots;\, \fhat{k}).
+\end{equation}
+Two kinds of row couple the blocks. The \emph{recurrence rows}
+\begin{equation}
+  -\Dt\, \fhat{j} + \Bt\, \fhat{j+1} = 0, \qquad j = 0, \dots, k-1,
+  \label{eq:descriptor-recurrence-rows}
+\end{equation}
+are \Cref{eq:banded-factorisation} applied block-wise. They are algebraic, carry no derivative, and are equivalent to $\fhat{j+1}=\G\fhat{j}$ on the kernel. The \emph{equation row}
+\begin{equation}
+  \sum_{j=0}^{k} \M_{a_j}\, \fhat{j} - \M_r\,\Dzero(x_s)\,\fhat{0} = 0,
+  \label{eq:descriptor-ode-row}
+\end{equation}
+is the equation itself, with $\M_{a_j}$ the multiplication operator of \Cref{sec:pihm-residual} (it reduces to $a_jI$ for a constant coefficient, and lifts the row to $n+1$ qubits where the standard form lifts it) and the source entering as there. The intermediate derivatives are unknowns of $w$ and are never substituted by $\G^j\fhat{0}$, so the dense step \Cref{eq:G-banded} never appears. The name is borrowed by analogy with descriptor systems, which likewise keep the intermediate quantities as unknowns beside the state; here the $k+1$ block rows are algebraic in the coefficients of $w$.
+
+\begin{definition}[Descriptor residual operator]
+\label{def:descriptor-residual-operator}
+Collecting the recurrence rows and the equation row, the descriptor residual operator $\Adesc$ is the block matrix
+\begin{equation}
+\Adesc =
+\begin{pmatrix}
+-\Dt & \Bt &        &        &          \\
+          & -\Dt & \Bt &      &          \\
+          &          & \ddots & \ddots &          \\
+          &          &        & -\Dt & \Bt \\
+\M_{a_0} - \M_r\Dzero & \M_{a_1}  & \cdots & \cdots & \M_{a_k}
+\end{pmatrix}
+\end{equation}
+with $(k+1)N$ columns, and $\Adesc\,w=0$ is the equation. Its first $k$ block rows are the recurrences and its last is the equation row.
+\end{definition}
+
+\paragraph{The padded block register.} A gate-level state indexes its block by a register of $n_f=\lceil\log_2(k+1)\rceil$ qubits, which addresses $2^{n_f}$ blocks and not $k+1$. The state is therefore padded to $2^{n_f}N$ amplitudes by blocks $b>k$ whose rows are $c_{\mathrm{pad}}\fhat{b}=0$ with $c_{\mathrm{pad}}=1$. No other row reads a padding block, so the padding decouples: the Hamiltonian is block diagonal, and the physical blocks' spectrum is unaffected. The constraint rows of \Cref{sec:descriptor-constraints} are added to these block rows.
+
+% CUT 2026-10-06: tab:descriptor-rows (the block rows again, a third time after
+%   eq:descriptor-recurrence-rows/eq:descriptor-ode-row and the Definition's matrix);
+%   its padding row now sits in the paragraph above.
+% CUT 2026-10-06: "The chain at its smallest order" (f'+2f=0 as a chain, eq:descriptor-first-order).
+%   The N = 4 instance of the chain is in app:cheb; the mass form below gives the k = 1 case.
+
+\paragraph{The mass form ($k=1$).} A first-order equation or system $z'=\mathbb{A}z$ with $C$ components has in the standard form the rows $I_C\otimes\G-\mathbb{A}\otimes I_N$, one block per component. The equation already gives each derivative, so a derivative block would carry what is determined. The mass form uses the equation to eliminate it: multiply the rows on the left by $I_C\otimes\Bt$ and use $\Bt\G=\Dt$,
+\begin{equation}
+    (I_C\otimes\Bt)\bigl(I_C\otimes\G-\mathbb{A}\otimes I_N\bigr)
+    = I_C\otimes\Dt-\mathbb{A}\otimes\Bt .
+    \label{eq:mass-form}
+\end{equation}
+Both factors are banded and none holds $\G$. The name is the ODE literature's, $\Bt$ playing the mass matrix of $\Bt\dot z=\dots$. For $f'+2f=0$ it gives $\Dt+2\Bt$, on $N$ unknowns, where a chain would have $2N$ unknowns and eliminating the derivative through $\G$ would give the dense $\G+2I$; for a scalar equation with a constant coefficient it is the ultraspherical method's own operator in the basis of second-kind polynomials. The mass form has the standard form's state (one block per component), initial state and readout, and differs from it by a banded invertible factor on the equation rows alone. It has no derivative block and so nothing to rescale (\Cref{sec:descriptor-rescaling}). First-order systems carry the Carleman lifts of \Cref{sec:nonlinear} and the coupled fields of \Cref{sec:descriptor-constraints}, so the mass form is the layout that the nonlinear problems use.
+
+Both layouts rest on one fact, proved next.
+
+\begin{theorem}[Kernel equivalence]
+\label{thm:kernel-equivalence}
+Let $R_{\mathrm{std}}$ stack $\Astd$ with the constraint rows of \Cref{sec:pihm-residual}. Let $R_{\mathrm{desc}}$ stack the descriptor's recurrence, equation and padding rows with the same constraints, each reading the block of the derivative it constrains (\Cref{sec:descriptor-constraints}), and let $R_{\mathrm{mass}}$ be the mass form's stacked residual. Then
+\begin{equation}
+    \ker R_{\mathrm{desc}} = \bigl\{\, (p,\ \G p,\ \dots,\ \G^{k} p,\ 0) \;:\; p \in \ker R_{\mathrm{std}} \,\bigr\},
+    \qquad
+    \ker R_{\mathrm{mass}} = \ker R_{\mathrm{std}} .
+    \label{eq:kernel-equivalence}
+\end{equation}
+\end{theorem}
+\begin{proof}
+Write $Ep=(p;\G p;\dots;\G^kp;0)$. Chain: the padding rows force the padding blocks of a kernel vector $w$ to zero, and since $\Bt$ is invertible each recurrence row gives $w_{j+1}=\Bt^{-1}\Dt\,w_j=\G w_j$, so $w=Ew_0$. The recurrence rows vanish on $Ep$ for any $p$, because $(\Dt-\Bt\G)\G^jp=0$; every other row of $R_{\mathrm{desc}}$ acts on $Ep$ as the standard form's row of the same name acts on $p$, since the equation row substitutes $\G^jp$ for $\fhat{j}$ and a constraint row reads the block that holds $\G^jp$. Hence $R_{\mathrm{desc}}Ep$ vanishes exactly when $R_{\mathrm{std}}p$ does, and $E$ is injective because its first block is the identity. Mass form: $R_{\mathrm{mass}}$ is $R_{\mathrm{std}}$ with its equation rows multiplied on the left by the invertible $I_C\otimes\Bt$ (\Cref{eq:mass-form}), and the constraint rows unchanged.
+\end{proof}
+
+The theorem is about kernels, and it is exact. An exact kernel exists only where the solution lies in the span of the basis; elsewhere both residuals are full rank, and the ground states are the smallest right singular vectors of different matrices. They differ, the descriptor's measuring a state's residual against a norm that carries its derivatives (\Cref{sec:descriptor-gap}) and the mass form's weighting the rows by $\Bt$, and they converge to the same function as $n$ grows, at rates that we measure and do not prove. On R2a the decoded field's error against the analytic solution is $\res[2,sci]{build/R2a/descriptor/n7}{field_err_linf}$ in the descriptor and $\res[2,sci]{build/R2a/standard/n7}{field_err_linf}$ in the standard form at $n=7$ (\Cref{sec:results-gap}). We therefore claim equal kernels and observe a common limit, not equal ground states.
+
+\paragraph{Cost, in the same breath.} The chain is not free. Its state has $2^{\lceil\log_2(k+1)\rceil}N$ amplitudes against the standard form's $N$: $n_f$ more qubits, and up to twice the unpadded $(k+1)N$ when $k+1$ is not a power of two (a second-order equation carries $f$, $f'$ and $f''$ in four blocks). The padding is inert but counted. The mass form grows nothing.
+
+\subsection{Constraints, Partial Differential Equations and Coupled Fields}
+\label{sec:descriptor-constraints}
+
+Data constraints sit on the block that holds the quantity they constrain. A Dirichlet condition $f(x_z)=0$ reads block $0$ with the rank-one row $\Brow(x_z)$, as in the standard form. A Neumann condition $f'(x_m)=0$ reads block $1$ with the same row, $\Brow(x_m)\fhat{1}=0$, where the standard form must write $\Brow(x_m)\G\ket{\psi}$. The descriptor reads a derivative where it is stored. The regular datum of \Cref{sec:pihm-residual} reads block $0$, so the field is decoded and scaled exactly as in the standard form.
+
+On several axes the field is block $0$, and each axis $a$ owns a chain $\partial_af,\dots,\partial_a^{k_a}f$ up to the highest order that the equation or a constraint takes along it. The recurrences use that axis's factors $\Bt_a,\Dt_a$, tensored with the identity on the other axes. The heat equation ($k_t=1$, $k_x=2$) carries four blocks, and Laplace's and the wave equation ($2+2$) five, padded to eight. A mixed derivative would need a block of its own and is not built, a limitation of the construction. A system of coupled first-order fields takes the mass form, one block per component. Initial and boundary \emph{functions} enter both forms as datum slices, rows that pin a slice of the state to a known function. They are available to the standard form too, and neither form doubles the state of a linear \gls{pde}, so the descriptor's advantage there is not one of state size.
+
+\subsection{The Gap of a Carried Derivative}
+\label{sec:descriptor-gap}
+
+Carrying the derivatives costs the descriptor something the standard form does not pay. Let $E$ be the map of \Cref{thm:kernel-equivalence}. On the states that satisfy the recurrences, the descriptor's Rayleigh quotient is
+\begin{equation}
+    \frac{\|R_{\mathrm{desc}}Ep\|^2}{\|Ep\|^2}
+    = \frac{\|R_{\mathrm{std}}\,p\|^2}{\sum_{m=0}^{k}\|\G^{m}p\|^2},
+    \label{eq:descriptor-quotient}
+\end{equation}
+because the recurrence rows vanish on $Ep$ and the numerator is the standard form's. By the min--max principle, the descriptor's singular values are bounded above by the generalised ones of this pair. The norm in the denominator carries every derivative, so the gap is flat only where the equation controls each carried derivative: where no state $p$ orthogonal to the solution has a small residual against a large derivative. The bound is an upper bound; flatness is not proved, and we measure it.
+\todo{Try to prove that the gap is flat for a regular one-axis equation (the lower bound on the quotient of \Cref{eq:descriptor-quotient}, uniformly in $N$). If proved, put the proof in Appendix G (\Cref{app:descriptor}) and reword this paragraph, \Cref{eq:descriptor-degree} and the summary from ``measured'' to ``proved''.} The standard form measures the same states by $\|p\|$, against which their residuals are large, and its gap stays flat; its difficulty is the other side of the quotient, the norm of \Cref{eq:standard-wall}.
+
+\paragraph{Where it holds and where it fails.} For a one-axis equation whose leading coefficient has no zero on $[-1,1]$ the continuum a priori estimate, $\|f^{(k)}\|\le(\|Lf\|+\|\text{lower order}\|)/\min|a_k|$, suggests that the quotient stays away from zero on the complement of the kernel, and we measure the gap flat: on R2a the descriptor's is $\res[3]{build/R2a/descriptor/n7}{gap}$ at $n=7$ and $\res[3]{build/R2a/descriptor/n8}{gap}$ at $n=8$. It fails in three ways.
+\begin{enumerate}
+    \item \emph{A leading coefficient that vanishes.} A polynomial of degree $N$ can concentrate within $\mathcal{O}(N^{-2})$ of an endpoint, where the Chebyshev points cluster, and each derivative of it grows by a factor $\mathcal{O}(N^{2})$ there. Against such a state the leading term $a_kp^{(k)}$ is small where the lower orders are small too, so the quotient is small against the top block. Unscaled, the gap falls as $N^{-4}$ at a simple endpoint zero and as $N^{-2}$ at an interior one; on R3a, whose leading coefficient is $1-x^2$, it is $\res[2,sci]{build/R3a/descriptor/n8/unscaled}{gap}$ at $n=8$.
+    \item \emph{Two axes.} The equation constrains only a sum of top derivatives, $f_{xx}+f_{yy}$ or $f_t-\kappa f_{xx}$. A high-frequency state with $\G_x^2p\approx-\G_y^2p$, or with its weight in the block the equation weights least, has a small residual against large blocks, and only the datum rows penalise it. On R5b the unscaled gap is $\res[2,sci]{build/R5b/descriptor/n5x5/unscaled}{gap}$ at $n=5$ per axis.
+    \item \emph{The field block crowded out.} The ground state's weight on the field block is about $\|b\|/(\sum_m\|\G^mb\|^2)^{1/2}$, with $b$ the solution's coefficients, which the derivatives' growth makes small. An initial state prepared on the field block then has an overlap bounded by that weight, and amplification costs the reciprocal of the overlap. On R2c, $f''+5f'+400f=0$, the unscaled gap is $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{gap}$ and the field block's weight is $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{field_weight}$ at $n=7$.
+\end{enumerate}
+The gap's collapse is not an artefact of the lift, the padding, the arithmetic precision, the constraints, the basis or the reference method: each was tested and ruled out, and a descriptor built in the ultraspherical basis collapses at the same rates where the leading coefficient vanishes. The tests and the mechanism in full are given in \Cref{app:descriptor}.
+
+\subsection{Block Rescaling}
+\label{sec:descriptor-rescaling}
+
+The cure is to rescale the carried derivatives so that no block outweighs the equation's own scale. Carry the block of order $m$ divided by $\zeta^m$,
+\begin{equation}
+    \fhat{m} \;\longmapsto\; \zeta^{-m}\,\fhat{m},
+    \qquad m = 0, \dots, k ,
+    \label{eq:block-rescaling}
+\end{equation}
+that is, replace $R_{\mathrm{desc}}$ by $R_{\mathrm{desc}}S$ with $S=\mathrm{diag}(1,\zeta,\dots,\zeta^k)\otimes I_N$. Because $S$ is diagonal and invertible, the kernel becomes $S^{-1}\ker R_{\mathrm{desc}}$ and \Cref{thm:kernel-equivalence} survives. The field block has weight one, so the readout is unchanged, and the padding keeps its weight and still decouples. What changes is the Hamiltonian, $SR^\dagger RS$, a congruence and not a similarity: the spectrum moves, and by \Cref{eq:descriptor-quotient} the denominator becomes $\sum_m\zeta^{-2m}\|\G^mp\|^2$, so $\zeta$ sets how much each carried derivative weighs against the residual.
+
+In the circuit the rescaling is free. Scaling the columns of block $m$ by $\zeta^m$ multiplies the coefficient of every term of the block encoding of \Cref{sec:descriptor-block-encoding} by $\zeta$ to the order of its column block. It adds no gate and no ancilla, and changes only the subnormalisation. A general diagonal equilibration, a different weight for each amplitude, would need a diagonal block encoding of its own at $\Theta(\dim w)$ gates; it is the reason we restrict to weights constant on a block, and it is excluded from every circuit in this thesis.
+
+\paragraph{The a priori rule.} $\zeta$ is computed from the equation's coefficients and the resolution, never from a solution or a spectrum. For a one-axis equation whose leading coefficient $a_k$ has no zero on $[-1,1]$, $\zeta=2\rho$ with $\rho=(\bar a_j/\bar a_k)^{1/(k-j)}$, $j$ the lowest order present and $\bar a$ the mean of $|a|$. For constant coefficients $\rho$ is the geometric mean of the characteristic roots' magnitudes, the scale at which a solution $e^{\lambda x}$ has $\|f^{(m)}\|\approx|\lambda|^m\|f\|$, so dividing block $m$ by $\rho^m$ balances the blocks at the equation's own scale. The constants of the rule, the $2$ here and the $\tfrac12$ below, were fixed once by sweeping $\zeta$ over the regular and the singular benchmark problems, and are never refitted to a problem: the rule is then checked against the sweep's best $\zeta$ on every problem. The filter's cost stays within twice its least over a window of $\zeta$ \prov{two to eight times wide}, so $\zeta$ need only be right to a factor of about two. Where $a_k$ has a zero on the interval, $\zeta=N/2$, which makes the quotient of the concentrated states of \Cref{sec:descriptor-gap} of order one.\todo{Appendix G: the rule's check against the grid's best $\zeta$ (within about $1.2\times$ on 27 of 30 panel-sizes, per \texttt{14\_descriptor\_gap.md} \S5.2), the window table, and the sweep that set the constants. The window's \texttt{\textbackslash prov} needs a \texttt{\textbackslash res} key or the appendix table.} On several axes, $\zeta_a=N_a$ per axis, balanced across axes by the top-order coefficients (the wave equation $f_{tt}=c^2f_{xx}$ takes $(cN,N)$).
+
+\paragraph{What it restores.} On every one-axis problem that the descriptor runs the gap no longer falls with $N$, and the field block regains its weight. It is the physical subspace's gap, the one the filter meets, since the padding alone would cap the whole spectrum's at one. On R2c the gap rises from $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{gap}$ to $\res[3]{build/R2c/descriptor/n7}{gap}$ and the field block's weight from $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{field_weight}$ to $\res[3]{build/R2c/descriptor/n7}{field_weight}$ at $n=7$. On R3a the gap is $\res[3]{build/R3a/descriptor/n5}{gap}$ at $n=5$ and $\res[3]{build/R3a/descriptor/n8}{gap}$ at $n=8$, against $\res[2,sci]{build/R3a/descriptor/n8/unscaled}{gap}$ unscaled: it rises slowly with $n$ and does not fall.
+
+\paragraph{What it does not remove.} Three limits, each a finding.
+\begin{enumerate}
+    \item \emph{The norm grows with $\zeta$.} Block $m$ carries $\zeta^m$, so $\|R\|\gtrsim\zeta^k\bar a_k$ and $\|H\|\gtrsim\zeta^{2k}$. With $\zeta$ constant this is nothing. With $\zeta\propto N$, which is what a simple zero requires, $\|H\|=\Theta(N^{2k})$ and, at a flat gap, the degree is about $\tilde\Theta(N^{2})$ at second order, against the standard form's $\tilde\Theta(N^4)$ (\Cref{sec:descriptor-spectrum}).
+    \item \emph{Two axes.} The rescaled gap still falls with $N$, far more slowly than unscaled: on R5b it is $\res[3]{build/R5b/descriptor/n3x3}{gap}$ at $n=3$ per axis and $\res[3]{build/R5b/descriptor/n5x5}{gap}$ at $n=5$.
+    \item \emph{A double zero is beyond any block rescaling.} If $a_k$ vanishes to second order at an endpoint, the concentrated states have quotient $\mathcal{O}(N^{-8}\zeta^{2k})$, which is the unscaled gap's $N^{-8}$ at $\zeta=1$, so balancing needs $\zeta\propto N^{4/k}$, which is $N^2$ at $k=2$, by when $\|H\|=\Theta(N^8)$, the standard form's. The paper's own Legendre panels R3c and R3d multiply the associated Legendre operator by $1-x^2$ and so have exactly this. The descriptor runs the equivalent problem for $v=f/\sqrt{1-x^2}$, whose leading coefficient has simple zeros, and we make no claim for the double zero.
+\end{enumerate}
+This is the descriptor's version of the diagonal preconditioner of the ultraspherical method \cite{olver2013}, which bounds the condition number of its banded system. Here the diagonal scales the state's columns and is constant on each block, which is why it costs nothing in the circuit.
+
+\subsection{The Block Encoding: One Flat Linear Combination}
+\label{sec:descriptor-block-encoding}
+
+Every block of $\Adesc$ is a short sum of \emph{bands}, each a diagonal followed by a truncated shift. The diagonal of $\Dt$ is $2c$ on column $c$, affine in the index, apart from column~1 where the normalisation of $T_0$ intervenes; $\Bt$ and a constant multiplication are constant apart from their ends; a variable coefficient's multiplication and the Galerkin truncation contribute a few more such exceptions. An affine diagonal is a sum of $n+1$ Pauli-$Z$ terms, and each exception is one reflection,
+\begin{equation}
+    \operatorname{diag}(c)_{c=0}^{N-1} = \sum_{j=0}^{n-1} 2^{j}\,\frac{I - Z_j}{2},
+    \qquad
+    R_m = I - 2\ket{m}\bra{m} .
+    \label{eq:diag-index}
+\end{equation}
+So $\Adesc$ is one flat \gls{lcu} of $\mathcal{O}(n)$ terms,
+\begin{equation}
+    \Adesc = \sum_{t=1}^{L} c_t\,U_t,
+    \qquad
+    U_t = (\text{field word}) \otimes \mathrm{SHIFT}^{s_t}\,P_t,
+    \qquad
+    \alpha_A = \sum_{t=1}^{L} |c_t|,
+    \label{eq:descriptor-lcu}
+\end{equation}
+where the field word acts on the block register, $\mathrm{SHIFT}^{s_t}$ is the truncated shift by $s_t$, and $P_t$ is a $Z$-string or a reflection. Where the diagonal is exactly affine, the sum is tight, $\alpha=\max_c|a+bc|$ when the end values share a sign, so the dominant term $\Dt$ is encoded at its own norm $2(N-1)$ and its defects cost $\mathcal{O}(1)$. A shift of the $N$-dimensional register is not unitary; it is applied on a register widened by one overflow qubit, so that rows falling outside the interval land in the half that the final projection discards. That qubit is the shift's only ancilla.
+
+\Cref{alg:ir-to-lcu} compiles the terms into the circuit of \Cref{fig:descriptor-lcu}, and the walkthrough that follows it is by line.
+
+\placeholderfigure{The descriptor block encoding: one PREPARE/SELECT/PREPARE$^\dagger$ over the whole residual.}{fig:descriptor-lcu}{Quantikz circuit: selector registers (PREPARE loads $\sqrt{|c_t|/\alpha_A}$ over their joint index), field register ($n_f$ qubits), system register ($n$ qubits) widened by one overflow qubit; SELECT applies each term's field word, diagonal ($Z$-string or reflection) and truncated shift (a ladder of multi-controlled-$X$ gates); PREPARE$^\dagger$; post-selection on the selectors, the overflow and the flag.}
+
+\begin{algorithm}[htbp]
+    \caption{Compiling the rows of $\Adesc$ into PREPARE and SELECT.}
+    \label{alg:ir-to-lcu}
+    \KwIn{the blocks of $\Adesc$ as bands, the block weights $\zeta$}
+    \KwOut{PREPARE and SELECT circuits; the subnormalisation $\alpha_A$}
+    Write every block as a sum of bands: a diagonal and a truncated shift\;
+    Fit each diagonal as affine in the column index plus a few defects, \Cref{eq:diag-index}\;
+    Merge terms with equal axis factors across blocks; expand the resulting field-register pattern in Pauli words\;
+    Multiply the coefficient of each term by $\zeta^{m}$ for its column block $m$\;
+    $\alpha_A \leftarrow \sum_{t} |c_t|$; PREPARE loads $\operatorname{sgn}(c_t)\sqrt{|c_t|/\alpha_A}$ on the joint selector index of term $t$\;
+    SELECT: controlled on each selector register, apply the field word, then on each axis the diagonal and the shift\;
+    \Return{PREPARE, SELECT, $\alpha_A$}\;
+\end{algorithm}
+
+% CUT 2026-10-06: "Inputs and outputs" (restated the algorithm's KwIn/KwOut).
+% MOVED 2026-10-06 to 6_nonlinear.tex (the Carleman coupling's matchings, where the lift is built):
+%   a large irregular coupling is split into matchings, each with at most one entry in every row and
+%   column, and a greedy colouring uses at most 2*Delta - 1 of them, Delta the largest row degree.
+
+\paragraph{The terms (lines 1--4).} Lines 1 and 2 are the decomposition above. Line 3 gathers terms that share their axis factors across the rows and columns they join, so that the block register carries their pattern once, as a small matrix expanded in Pauli words; the recurrences' common $\Dt$ is paid for once and not $k$ times. Line 4 is the whole of block rescaling.
+
+\paragraph{PREPARE and SELECT (lines 5--6).} The selectors are factored, one register for the field operation and, on each axis, one for the diagonal and one for the shift, each as wide as the number of distinct values its terms use. SELECT then applies each distinct operation once, controlled on its own register, and not once per term; this is what keeps the ancilla at $\mathcal{O}(\log n)$ (\Cref{sec:descriptor-cost}). Rank-one rows, the sources and the data constraints, are encoded through the feature map with a rotation tree that loads the source's coefficients: no dense state preparation appears anywhere. The constructions and the term-by-term accounting are given in \Cref{app:term-ir}.
+
+\subsection{Cost of the Descriptor Encoding}
+\label{sec:descriptor-cost}
+
+\begin{proposition}[Cost of the descriptor encoding]
+\label{prop:descriptor-cost}
+For a descriptor residual of a fixed problem, the flat \gls{lcu} of \Cref{eq:descriptor-lcu} is an exact block encoding of the system rows at $\alpha_A=\sum_t|c_t|$, with $\mathcal{O}(\log n)$ ancilla and $\mathcal{O}(n^2)$ gates. For the second-order family R2,
+\begin{equation}
+    \lceil \log_2(n+4) \rceil + 8\ \text{ancilla},
+    \qquad
+    \mathcal{O}(n^2)\ \text{gates} .
+    \label{eq:descriptor-cost}
+\end{equation}
+On a regular one-axis equation at fixed $\zeta$, the subnormalisation of the system rows is $\alpha_A/\|\Adesc\|_2=1+\mathcal{O}(1/N)$.
+\end{proposition}
+
+The ancilla are the selector registers (the diagonal's width is $\lceil\log_2(n+4)\rceil$, for the $n$ gates $Z_j$, the identity and three reflections), the field and shift selectors, the overflow qubit, and the flags that project the field terms; every width other than the diagonal's is fixed by the problem. The gate count follows because each distinct operation is applied once and the shift's multi-controlled ladder is $\mathcal{O}(n^2)$. The proof is given in \Cref{app:proof-descriptor-cost}. The count is verified for R2's system rows at $n=2$ to $12$.\todo{Appendix G (\texttt{app:proof-descriptor-cost}) is still a scaffold: write the ancilla and gate count and the $1+\mathcal{O}(1/N)$ ratio (the dominant term $\zeta^j\Dt$ is encoded at its norm), then check this proposition against it. The ratio is tested, not proved, until then.}
+
+\paragraph{Optimality, hedged.} An \gls{lcu} whose SELECT indexes $L$ distinct operations needs $\lceil\log_2L\rceil$ selector qubits \cite{chakraborty2025qsvt}, and an affine diagonal has exactly $n+1$ non-zero Walsh coefficients, so an \gls{lcu} that expands diagonals in Pauli strings needs $\Omega(\log n)$ of them. The descriptor's ancilla count is therefore of the least order among exact \gls{lcu} encodings of that kind. It is not claimed against every encoding.
+
+\paragraph{What it measures.} The ratio $\alpha/\|\cdot\|$ is the factor by which the encoding exceeds the least possible subnormalisation, and the filter's degree is linear in it. The proposition is about the system rows; we measure the ratio for the whole stacked residual, constraints included. It tends to one on regular one-axis problems: $\alpha_R/\|R\|_2=\res[3]{looseness/stateprep/R2a/descriptor/n8/T3/filter=minimax}{alpha_ratio}$ on R2a at $n=8$ (a resource estimate). It stays near two where the leading coefficient vanishes, because $\zeta\Dt$, $\zeta^2\Bt$ and $\zeta^2a_2$ are then comparable and comparable terms add in $\ell^1$ though each is tight: $\res[3]{looseness/stateprep/R3a/descriptor/n7/T3/filter=minimax}{alpha_ratio}$ on R3a at $n=7$. On two axes it is $\res[3]{looseness/stateprep/R5b/descriptor/n4x4/T3/filter=minimax}{alpha_ratio}$ on R5b at $n=4$ per axis. We state the limit one is with its scope: regular one-axis problems only. Beside it, the structured encoding of the standard form is at $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_ratio}$ on R2a and $\res[2,sci]{looseness/stateprep/R3a/standard/n7/T3/filter=minimax}{alpha_ratio}$ on R3a, the latter being the lifted multiplier's looseness of \Cref{sec:standard-hamiltonian}.
+
+\paragraph{Interpretation.} The standard form's structured encoding needs $n-1$ selector ancilla for $\G$ alone, because $\Uodd$ is a sum of $N/2$ shifts (\Cref{sec:standard-factorisation}), so its ancilla grow as $\Omega(n)$; the descriptor's grow as $\log n$. That is the difference between a dense operator and a banded one. The better scaling is real but not yet visible at the sizes that circuits can reach: for the whole reflection on R2a the descriptor needs $\res{encode/R2a/descriptor/n2}{n_anc_qubits}$ ancilla at $n=2$ and $\res{encode/R2a/descriptor/n5/verify=probe}{n_anc_qubits}$ at $n=5$, against $\res{encode/R2a/standard/n2}{n_anc_qubits}$ and $\res{encode/R2a/standard/n5/verify=probe}{n_anc_qubits}$ for the standard form.
+
+The gates per query go the other way, and we state it plainly. At the sizes reached the descriptor's query costs more than the structured standard form's, having more terms and a block register: for the reflection on R2a the transpiled two-qubit count is $\res{encode/R2a/descriptor/n2}{cx_count}$ against $\res{encode/R2a/standard/n2}{cx_count}$ at $n=2$ and $\res{encode/R2a/descriptor/n5/verify=probe}{cx_count}$ against $\res{encode/R2a/standard/n5/verify=probe}{cx_count}$ at $n=5$. The ratio falls with $n$, but both counts are $\mathcal{O}(n^2)$, so the data do not show that it crosses one. The descriptor's advantage is therefore the number of queries, the filter's degree, and not the gates per query; its state is larger too, by the chain's block register. The next section is where the advantage lies.
+
+\subsection{Consequences for the Spectrum and the Filter}
+\label{sec:descriptor-spectrum}
+
+Every block of the descriptor is $\mathcal{O}(N)$ at fixed $\zeta$, the recurrences' $\zeta^j\Dt$ the largest, so $\|R_{\mathrm{desc}}S\|=\Theta(N)$ and $\|\Hdesc\|=\Theta(N^2)$ whatever the order $k$: the derivative is banded and its norm is that of $\Dt$ and no longer that of $\G^k$. With the encoding at the norm, $\alpha_H/\|\Hdesc\|\to1$ on regular one-axis problems, from $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{hamiltonian_ratio}$ for the standard form's on R2a at $n=8$ to $\res[3]{looseness/stateprep/R2a/descriptor/n8/T3/filter=minimax}{hamiltonian_ratio}$ for the descriptor's. Since \Cref{eq:degree} gives the degree as $d=\Theta(\sqrt{\alpha_H/\Delta}\log1/\varepsilon)$, the descriptor's rescaled gap, flat on a regular one-axis problem, gives
+\begin{equation}
+    \|\Hdesc\| = \Theta(N^2),
+    \quad
+    \Delta = \Theta(1)\ \text{(measured)}
+    \quad\Longrightarrow\quad
+    d = \tilde\Theta(N)
+    \qquad
+    \text{(a one-axis \gls{ode} whose leading coefficient does not vanish)},
+    \label{eq:descriptor-degree}
+\end{equation}
+against $\tilde\Theta(N^{2k})$ for the standard form with the best exact encoding (\Cref{eq:standard-wall}). The scope is part of the claim. Where the leading coefficient vanishes, or on two axes, the rescaling's weights raise the norm and the degree is about $\tilde\Theta(N^2)$ or faster, and for a double zero the standard form's or worse (\Cref{tab:descriptor-regimes}). Neither form is poly-logarithmic in $N$: $\tilde\Theta(N)$ is polynomial in $N$ and exponential in $n$, and the claim is a lower exponent, not an exponential speed-up. The filter's degree is the minimax edge filter's, which prepares every comparison in this thesis, and the floor for polynomial filters in general is no stronger than what Lin and Tong's optimality supports \cite{lintong2020groundstate}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Where the descriptor's degree changes. Norms follow from the block weights, gaps are measured. The block weight $\zeta$ is the a priori rule of \Cref{sec:descriptor-rescaling}.}
+    \label{tab:descriptor-regimes}
+    \small
+    \begin{tabular}{@{}l l l l l@{}}
+        \toprule
+        Case & $\zeta$ & $\|H\|$ & Gap & Degree \\
+        \midrule
+        Standard form, order $k$, constant coefficients & -- & $\Theta(N^{4k})$ & flat & $\tilde\Theta(N^{2k})$ \\
+        Descriptor, one axis, $a_k$ without a zero & fixed & $\Theta(N^2)$ & flat & $\tilde\Theta(N)$ \\
+        Descriptor, one axis, $a_k$ with a simple zero, $k=2$ & $N/2$ & $\Theta(N^4)$ & flat & $\tilde\Theta(N^2)$ \\
+        Descriptor, two axes & $N_a$ per axis & $\Theta(N^4)$ & falls & faster than $\tilde\Theta(N^2)$ \\
+        Descriptor, a double zero & $\propto N^2$ & $\Theta(N^8)$ & -- & the standard form's or worse \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% MOVED 2026-10-06 to 8_results.tex, sec:results-scaling (the measured degree exponents between n = 7 and
+%   n = 8: R2a descriptor stateprep/R2a/descriptor/growth/T3/filter=minimax vs standard .../standard/growth/...;
+%   R3a descriptor .../R3a/descriptor/growth/...; R5b descriptor and standard .../R5b/*/growth/...). They are
+%   two-point slopes of a degree with logarithmic factors, so say "consistent with", not "bears out".
+At $n=8$ on R2a the estimated degree (a resource estimate) is $\res[2,sci]{stateprep/R2a/descriptor/n8/T3/filter=minimax}{degree}$ for the descriptor, and $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{degree}$ as built and $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{ideal_degree}$ at the ideal-encoding bound for the standard form; the measured growth of the degree with $N$ is in \Cref{sec:results-scaling}. We quote every comparison both ways, as built and at $\alpha=\|R\|_2$, which contains neither form's encoding; where the order reverses, as it does on R3 at the ideal bound and on the heat equation at small $n$, the reversal is a finding and is reported as one (\Cref{sec:results-scaling,sec:results-gap}).
+
+Two further statements fix what the comparison does and does not say. First, the relative gap: the standard form's is $\Delta/\|\Hstd\|=\res[2,sci]{build/R2a/standard/n7}{relative_gap}$ at $n=7$ on R2a, the descriptor's $\res[2,sci]{build/R2a/descriptor/n7}{relative_gap}$. An eigensolver applied to $\Hstd$ resolves its ground state only to about machine precision divided by that ratio, so at these sizes it cannot, while the singular value decomposition of $R$, whose relative scale is $\Theta(N^{-2k})$ and not $\Theta(N^{-4k})$, does, and every reference in this thesis is that decomposition. The consequence is the degree, not that the ground state is unresolvable. Second, one post-selected application of a block encoding of $R$ succeeds on a Haar-random state of dimension $D$ with mean probability $\|R\|_F^2/(D\alpha_R^2)$, which is $\Theta(1)$ in the descriptor against $N^{-1}$ per axis in the structured standard form, whose dense $\G^k$ dominates the Frobenius norm. This compares the encodings and is not a cost of the preparation, which post-selects no single query.
+
+\subsection{Summary}
+\label{sec:descriptor-summary}
+
+The chapter answers the second question. The residual can be reformulated so that its Hamiltonian is banded, without changing its solution, and the reformulation has a price.
+\begin{enumerate}
+    \item Keeping the banded factors $\Bt$ and $\Dt$ of $\G$ and carrying the derivatives as unknowns, as a chain for order two and above or as a mass form for first-order equations and systems, makes the residual banded with its kernel exactly the standard form's (\Cref{thm:kernel-equivalence}).
+    \item Its block encoding is one flat \gls{lcu} with $\lceil\log_2(n+4)\rceil+8$ ancilla for R2's system rows, order-optimal among exact \gls{lcu} encodings, and its subnormalisation tends to the norm on regular one-axis problems (\Cref{prop:descriptor-cost}). Its price is a larger state, by the chain's block register, and more gates per query at reachable $n$.
+    \item The Hamiltonian's norm is $\Theta(N^2)$, and for a one-axis equation whose leading coefficient does not vanish the filter degree is $\tilde\Theta(N)$ against the standard form's $\tilde\Theta(N^{2k})$ (\Cref{eq:descriptor-degree}). Neither is poly-logarithmic.
+    \item \emph{Limit.} The carried derivatives erode the gap where the leading coefficient vanishes and on two axes. An a priori block rescaling restores it on one axis at no gate cost, at the price of a larger norm where the leading coefficient vanishes; on two axes the gap still falls, and a double zero is beyond any block rescaling.
+\end{enumerate}
+\Cref{sec:results-scaling,sec:results-gap} test the cost and the gap on the benchmark problems. Carrying the intermediate derivatives instead of eliminating them turns the physics-informed residual from dense to banded with its kernel unchanged, so that the Hamiltonian's norm falls from $\Theta(N^{4k})$ to $\Theta(N^2)$; the price is a block register and a gap that the derivative blocks erode, which an a priori rescaling restores on one axis at no gate cost.
+
+% CHECKLIST (marker)
+%   1. Could a referee re-derive A_desc from the body plus Appendices B and G?
+%   2. Is the Hilbert-space and per-query cost volunteered alongside the gains?
+%   3. Are ultraspherical and first-order least squares credited at sec:bg-spectral
+%      and sec:descriptor-idea/sec:descriptor-construction?
+%   4. Is the cost result a proposition AND interpreted?
+%   5. Is the ancilla claim O(log n), with optimality hedged to exact LCU?
+%   6. Is the gap's failure owned with its mechanism (sec:descriptor-gap)?
+%   7. Is the rescaling's limits stated (two axes; a double zero)?
+%   8. Does every body equation pass the equation test?
+% TRAPS  "O(1) ancilla"; "+ 6 ancilla" (now + 8); "bit-identical a-block"; "the
+%        gap is Theta(1)" unscoped; "rescaling costs Theta(n_f) gates" (it is a
+%        priori, no gates, no ancilla); "zeta fitted"; "only the descriptor can
+%        prepare nonlinear solutions".

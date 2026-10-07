@@ -1,13 +1,13 @@
 % =============================================================================
 % Appendix D  The Published Circuits as Built  --  cited from
-% sec:standard-published and sec:results-operators.
+% sec:standard-published and sec:results-faithful.
 % Plan: ThesisPlanning.md §6 (D).
 %
 % CONTENT  The paper's Figs 2, 8 and 9 rebuilt; every deviation from the printed
 %          figure; the measured qubits, gates and eps_G(n); the published
 %          prefactor against ||G||_2.
 % SOURCES  Planning.md §3.7, §6.3, App. A-4; claims A-06 to A-08 (pihm
-%          docs/CLAIMS.md: tests/claims/test_pillar1.py);
+%          docs/18_claims.md: tests/claims/test_pillar1.py);
 %          pihm/src/pihm/circuits/standard.py (published_derivative_encoding,
 %          derivative_ladder_error_bound).
 % KEPT from the draft: the ladder mechanism and its error bound (prop:epsilon-G)
@@ -37,6 +37,10 @@ decreases ``exponentially'' with $n$, without a closed form.
 %   ancilla; U_R and U_C). EVERY deviation from the printed figure, one line
 %   each. The subtractor/validity structure is shared with the structured
 %   encoding (app:structured); only the value load differs.
+
+\paragraph{The constraint rows (Figs 2 and 8).} $\Brow(x)$ and $\Dzero(x_s)$ are block-encoded by the inverse feature map $U_\tau^\dagger(x)$ followed by $\hat S_{n+1} = 2\ket{0}\!\bra{0}-I$ controlled inside a Hadamard sandwich on one ancilla, a two-term LCU on $n+2$ qubits. The encoded block is $\Brow(x)/\sqrt{2^{n+1}}$, and $\Dzero(x_s)/\bigl(\sqrt{2^{n+1}}/f(x_s)\bigr)$ for the collapse row. The global phase of $-1$ in $\hat S_{n+1}$ is a relative phase once the circuit is controlled, and cannot be dropped.
+
+\paragraph{The derivative circuit (Fig.\ 9).} The registers are, in order, a flag qubit acted on by $R_Y(\omega_c)$ with $\omega_c = 2\arccos\sqrt{1/3}$, an $X$ ancilla, an offset register of $m = n$ qubits sandwiched between Hadamards, a value ancilla, and the $n$-qubit system. Two conditioned subroutines assign the entries on different bases. In $\hat U_R$ the offset $\ket{i}$ selects the $(2i+1)$th superdiagonal and the system $\ket{j}$ the $j$th column; it consists of $n$ singly-controlled $R_Y(\theta_k)$ gates on the value ancilla, controlled by the bits of $\ket{j}$, followed by $n$ cyclic shifts $\hat R_n$. In $\hat U_C$ the offset selects the $(i+1)$th row; it consists of $n$ multi-controlled $R_Y(\varphi_k)$ gates, one shift $\hat L_n$ and $2n$ swaps. With $\mu = 2/\|\G\|_S$ the angles are $\theta_k = 2\arcsin(-2^{k-1}\mu)$ and $\varphi_k = 2\arcsin[-2^{k-1}\mu(1/\sqrt2-1)]$. The circuit uses $m+n+3 = 2n+3$ qubits, its gate count is linear in $n$ before the multi-controlled gates are decomposed and $O(n^3)$ after an $O(n^2)$ decomposition of each, and $\G$ is the top-left $2^n\times2^n$ block of the unitary multiplied by $(2^{n-1}+2^n)\|\G\|_S$. These are the paper's statements; their tests follow.
 
 \subsection{The small-angle ladder and its error}
 \label{app:ladder}

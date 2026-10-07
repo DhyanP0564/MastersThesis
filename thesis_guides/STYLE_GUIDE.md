@@ -1,98 +1,96 @@
 # STYLE_GUIDE.md — Stylistic DNA for the Thesis
 
-Distilled from two high-scoring UWA physics theses (Green 2024, Honours, *Efficient
-Quantum State Preparation*; Snow 2026, Masters, *Highly Optimised Quantum Circuit
-Synthesis for Classical Data Encoding*) read against the School's marking guide.
+Distilled from two high-scoring UWA physics theses (Green 2024, Honours, *Efficient Quantum State
+Preparation*; Snow 2026, Masters, *Highly Optimised Quantum Circuit Synthesis for Classical Data
+Encoding*) read against the School's marking guide.
 
-The governing standard, stated plainly: **the markers are professors reading for
-publishable work.** A thesis that could be cut down into a PRA submission with
-minimal surgery scores well. A thesis that reads like a lab report, a tutorial, or
-a catalogue of everything the student tried does not. Every rule below descends
-from that standard.
+The governing standard, stated plainly: **the markers are professors reading for publishable
+work.** A thesis that could be cut down into a PRA submission with minimal surgery scores well. A
+thesis that reads like a lab report, a tutorial, a software manual, or a catalogue of everything
+the student tried does not. Every rule below descends from that standard.
 
-> **Governing plan (2026-09-25).** `../ThesisPlanning.md` was adopted on
-> 2026-09-25. §1.1, §3.5, §4.1, §4.4 and Traps 14 and 16 below were updated to
-> match it. Elsewhere, where this guide quotes a *fact* (ancilla counts, query
-> floors, gaps, readout, verification scope, section numbers), `../CLAUDE.md`'s
-> Standing Facts v2 and ThesisPlanning.md win: the examples in §2–§7 keep their
-> pre-rebuild numbers as illustrations of register only.
+> **Version 2.0 (2026-10-01).** Updated with `../ThesisPlanning.md` v2.0: the examples now state
+> the current facts (`../CLAUDE.md`'s Standing Facts v3), section references follow the v2.0
+> chapter order, and Traps 17–20 are new. Where an example and a Standing Fact disagree, the
+> Standing Fact wins.
 
 ---
 
 ## 1. Tone & Voice
 
-### 1.1 Assert what you measured; hedge what you inferred
+### 1.1 Assert what you measured; hedge what you inferred; scope everything
 
-Both exemplars are notably **unhedged about their own results** and **carefully
-hedged about extrapolations**. The distinction is the single most important tonal
-habit to copy.
+Both exemplars are notably **unhedged about their own results** and **carefully hedged about
+extrapolations**. The distinction is the single most important tonal habit to copy.
 
-Assert (measured, verified, in-repo):
+Assert (measured, verified):
 
-> "SSO improves prepared-state infidelity by roughly an order of magnitude over the
-> Matrix Product Disentangler baseline at fixed depth" — Snow, Abstract
+> "SSO improves prepared-state infidelity by roughly an order of magnitude over the Matrix Product
+> Disentangler baseline at fixed depth" — Snow, Abstract
 
 Hedge (inferred, asymptotic, unproven):
 
-> "It should be noted that there are no rigorous guarantees in the root-exponential
-> decay of $\|P\|_\infty$, which may not hold in some extreme cases." — Green, §5.2.2
+> "It should be noted that there are no rigorous guarantees in the root-exponential decay of
+> $\|P\|_\infty$, which may not hold in some extreme cases." — Green, §5.2.2
 
-For your work the boundary is sharp and you should police it:
+For this thesis a third habit matters as much: **scope**. Almost every descriptor claim holds for a
+class of problems, and stating it without the class is an over-claim a referee will find.
 
-| Claim | Register |
+| claim | register |
 | :-- | :-- |
-| $O(n^2)$ gates, $\lceil\log_2(n+4)\rceil + 6$ ancilla ($O(\log n)$) for the descriptor encoding | **Assert** — gate-level, verified |
-| $\alpha_H \to \|H_{\mathrm{desc}}\|$, tight | **Assert** — measured |
-| Relative gap $7.0\times10^{-6}$ (descriptor) vs $3.0\times10^{-15}$ (standard form) at $n=7$, $\{1,4,4\}$ | **Assert**, with the `eigh`/SVD distinction: the standard form's ground state is resolvable by SVD; the consequence is the filter degree, not unresolvability |
-| Correctness of the composed $H$ | **Assert what is verified**: $V$ exact at small $n$, probe to $\sim 30$ qubits, IR at any $n$; T1 = T2 to $\le 10^{-10}$ where both run |
-| "A ground state has been prepared" | **Assert only for a one-dimensional (near-)kernel, and only with its tier**: circuit simulation (T1), exact emulation (T2, provably equal to T1) or resource estimate (T3). Never "on hardware"; never for the doubled space (it projects) |
-| End-to-end poly-log speed-up | **Deny it yourself, first.** $d = \Theta(\sqrt{\alpha_H/\Delta}\log 1/\varepsilon)$ with $\alpha_H \ge \|H\|$: $\tilde\Theta(N)$ for the descriptor against $\tilde\Theta(N^4)$ for the standard form under its best exact encoding. Hedge any "for every filter" floor to what Lin & Tong support |
-| The physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in Chapter 3 in the register of reported prior art, cite at the head of each section and at each specific construction, and reserve the verdict for §3.6 |
-| The published encoding's cost | **Assert** — rebuilt and measured (§5.1, §8.3). Frame it as *testing the paper's claims*. The structured exact encoding (S2) is claimed as ours, as a fairness device, never as a rival solver |
-| "The solution was read out" | **Assert only as reproduced in simulation**: the paper's interferometric protocol, run by circuit simulation with shots at small $n$ (§4.6, §8.4), with our correction for probabilistic preparation. Never on hardware; never a new protocol |
+| ⌈log₂(n+4)⌉ + 8 ancilla for R2's system rows, O(log n) | **Assert**, gate-level and verified; optimal only among exact LCU encodings |
+| α/‖A_desc‖ → 1 | **Assert, scoped**: regular one-axis problems; about 2 on singular ones, 2.3–4.1 on PDEs |
+| d = Θ̃(N) for the descriptor | **Assert, scoped**: a one-axis ODE whose leading coefficient does not vanish; about Θ̃(N²) or faster where it vanishes or on two axes |
+| d = Θ̃(N^{2k}) for the standard form | **Assert**, even with the best exact encoding, since α_H ≥ ‖H‖ for any block encoding |
+| the relative gap at n = 7 | **Assert, with the distinction**: the standard form's ground state is below double-precision resolution by `eigh`, not by SVD; the consequence is the degree, not unresolvability |
+| correctness of the composed H | **Assert what is verified**: V exact to 25 qubits, probe on every construction-only circuit ≤ 24 qubits, IR at any size; T1 = T2 to ≤ 1e-10 where both run |
+| "a ground state has been prepared" | **Assert only for a one-dimensional (near-)kernel, with its tier**: circuit simulation (T1), exact emulation (T2, provably equal to T1) or resource estimate (T3). Never "on hardware"; never for the doubled space (it projects) |
+| a Carleman lift's solution | **Assert the kernel's uniqueness; measure the convergence separately.** A trusted kernel is not a converged lift |
+| end-to-end poly-log speed-up | **Deny it yourself, first.** d = Θ(√(α_H/Δ) log 1/ε) with α_H ≥ ‖H‖; hedge any "for every filter" floor to what Lin & Tong support |
+| the physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in Chapter 3 as reported prior art; reserve the verdict for §3.6 |
+| the descriptor's novelty | **Credit, then claim the increment.** The ultraspherical method and first-order-system least squares came first; the increment is the transfer to a block-encoded physics-informed Hamiltonian and its measured consequences |
+| the published encoding's cost | **Assert**, rebuilt and measured (§4.1, §8.3), framed as testing the paper's claims. The structured exact encoding (S2) is ours, as a fairness device, never as a rival solver |
+| "the solution was read out" | **Assert as classical**: the field is decoded from the prepared state. The paper's interferometric protocol is built at small n and is further work; never "on hardware", never the method's readout |
 
-Pre-empting the examiner's objection in your own voice is worth more than any
-amount of enthusiasm. Snow devotes a whole subsection to it:
+Pre-empting the examiner's objection in your own voice is worth more than any amount of
+enthusiasm. Snow devotes a paragraph to it:
 
-> "**Limitations.** Honest accounting requires noting what the results do not
-> establish." — Snow, §8.1
+> "**Limitations.** Honest accounting requires noting what the results do not establish." — Snow,
+> §8.1
 
-Write that paragraph. Markers reward it under *"awareness of the significance of
-the work and its place in the wider field."*
+Write that paragraph (§9.6). Markers reward it under "awareness of the significance of the work and
+its place in the wider field".
 
 ### 1.2 First person plural for method, impersonal for fact
 
-Both exemplars use **"we"** for authorial choices and **impersonal constructions**
-for established results. Do not lapse into pure passive — it reads as evasive and
-inflates word count.
+Both exemplars use **"we"** for authorial choices and **impersonal constructions** for established
+results. Do not lapse into pure passive; it reads as evasive and inflates word count.
 
-- Good: "We generalise both the analytic MPD construction and the SSO framework to
-  this family…" (Snow); "We consider target states of the form…" (Green)
+- Good: "We generalise both the analytic MPD construction and the SSO framework to this family…"
+  (Snow); "We consider target states of the form…" (Green)
 - Good: "The infidelity is precisely the discarded Schmidt weight…" (Snow)
-- Avoid: "It was decided that the descriptor form would be used." → *"We carry the
-  intermediate derivatives rather than eliminating them."*
+- Avoid: "It was decided that the descriptor form would be used." → *"We keep the banded factors of
+  𝔾 rather than forming it."*
 
-Use "this thesis" sparingly and only for scope statements ("This thesis addresses…",
-"the contribution of this work is…"). Use "I" only in the Summary of Student
-Achievement, which the guidelines require in first person.
+Use "this thesis" sparingly and only for scope statements. Use "I" only in the Summary of Student
+Achievement, which the guidelines require in the first person.
 
 ### 1.3 Prose density
 
-Target ~4–8 sentence paragraphs, each carrying one claim plus its warrant. Neither
-exemplar has one-sentence paragraphs in the body, and neither has half-page blocks.
+Target 4–8 sentence paragraphs, each carrying one claim plus its warrant. Neither exemplar has
+one-sentence paragraphs in the body, and neither has half-page blocks.
 
-Kill these on sight — they are pure page-budget waste:
+Kill these on sight; they are pure page-budget waste:
 - "It is important to note that…" → delete, state the thing
 - "In this section, we will discuss…" → replace with the actual roadmap sentence
 - "As mentioned previously…" → use `\Cref{}` instead
 - "very", "quite", "extremely", "obviously", "clearly" → delete or quantify
-- "This is a very significant improvement" → "This is a factor of $N^6$ improvement"
+- "This is a very significant improvement" → "This is a factor of N³ in the degree"
 
 ### 1.4 Australian/UK spelling, consistently
 
-Your preamble already loads `[australian]{babel}`. Both exemplars use *normalise,
-parameterise, discretise, behaviour, generalise*. Pick it and never mix. Note the
-exception: cite package/function names verbatim (`normalize` if that is the API).
+The preamble loads `[australian]{babel}`. Both exemplars use *normalise, parameterise, discretise,
+behaviour, generalise*. Never mix. Cite package and function names verbatim (`optimization_level`).
 
 ---
 
@@ -100,239 +98,182 @@ exception: cite package/function names verbatim (`normalize` if that is the API)
 
 ### 2.1 Definition–theorem discipline, but earn each one
 
-Green uses numbered `\begin{definition}` blocks (State Space, Qubit, Composite
-Systems, Evolution Operator, Entanglement Entropy…) — you have already mirrored this
-in `2_literature.tex`. Snow uses fewer definitions but adds formal `Theorem`/`Proposition`
-with proofs for the results that carry the thesis.
+Green uses numbered `definition` blocks; Snow uses fewer definitions but formal theorems and
+propositions with proofs for the results that carry the thesis.
 
-The rule: **a numbered environment is for objects you will refer back to.** If a
-definition is never re-invoked, it is background prose and belongs in a sentence or
-an appendix. Your current lit review has ~9 definition blocks for standard QC
-material — that is the right *style* but far too many for a subsection now capped at
-two pages (see STRUCTURE_AND_RUBRIC.md §2.1 and §4/§2). Compress the elementary ones into flowing prose with
-inline definitions, and reserve numbered blocks for:
+**A numbered environment is for an object you refer back to.** Background used once is prose.
+Reserve numbered blocks for:
 
-- Block-encoding, $(\alpha, m, \epsilon)$ — you use $\alpha$ throughout
-- The PIHM effective Hamiltonian $H = A^\top A + \sum_i B_i^\top B_i$
-- The descriptor factorisation $G = \tilde{B}^{-1}\tilde{D}$
-- The Carleman lift
+- the (α, m, ε) block encoding (α is used throughout);
+- the physics-informed Hamiltonian H = R†R of a stacked residual;
+- the banded factorisation 𝔾 = B̃⁻¹D̃;
+- the Carleman lift.
 
-Reserve **theorems with proofs** for your own claims. Snow's Theorem 4.1 (fidelity
-guarantee) is the structural model: a formal statement, a proof that fits on half a
-page, then two paragraphs of interpretation explaining what the bound *means*
-operationally. Candidates in your work: the bandedness of $A_{\mathrm{sys}}$; the
-ancilla count of the descriptor encoding; the optimality of the nodal fold
-($\alpha = 2 = \|n_1\|$, so optimal not merely tight).
+Reserve **theorems and propositions with proofs** for your own claims. Snow's Theorem 4.1
+(fidelity guarantee) is the model: a formal statement, a proof that fits on half a page, then two
+paragraphs of what the bound *means*. Candidates here: kernel equivalence (both layouts); the
+factorisation of 𝔾; the stacked reflection; the descriptor's cost; the nodal fold's optimality
+(α = 2 = ‖𝕟₁‖, so optimal, not merely tight); the doubled space's kernel is a subspace and
+product states are not, so no answer-independent penalty makes it one-dimensional.
 
 ### 2.2 Intuition first, formalism second, consequence third
 
-This is the strongest shared pattern in both exemplars and the highest-leverage
-habit to adopt. Every non-trivial construction is introduced in three moves:
+The strongest shared pattern in both exemplars. Every non-trivial construction is introduced in
+three moves:
 
 1. **The idea in one sentence, in words.**
-   > "The idea in one line is to peel a qubit off the left, compress the link it
-   > exposes, and carry the remainder forward, repeating until the whole chain has
-   > been built." — Snow, §2.3.4
-2. **The formal object.** Equations, algorithm listing, or circuit.
-3. **What it costs / what it buys.** Immediately, not three pages later.
+   > "The idea in one line is to peel a qubit off the left, compress the link it exposes, and carry
+   > the remainder forward, repeating until the whole chain has been built." — Snow, §2.3.4
+2. **The formal object.** Equations, an algorithm listing, or a circuit.
+3. **What it costs and what it buys.** Immediately, not three pages later.
 
-Your descriptor reformulation should open exactly this way. Something with the shape
-of: *differentiation of a Chebyshev series is banded if the derivative is allowed to
-live in a slightly different basis; carrying $f', f''$ as their own unknown blocks
-buys that bandedness for the whole PIHM residual, at the cost of a
-$\lceil\log_2(k{+}1)\rceil$-qubit block index.* Then the algebra. Then the gate count.
+The descriptor chapter opens exactly this way: *differentiation of a Chebyshev series is banded if
+the derivative may live in a neighbouring basis; keeping the banded factors, and carrying the
+derivatives as unknowns where the equation needs them, buys a banded residual whose Hamiltonian's
+norm grows as N² rather than N^{4k}, at the cost of a block register and a gap the derivative
+blocks erode.* Then the algebra. Then the cost.
 
 ### 2.3 Annotated algorithm listings
 
-Green's Algorithms 1–4 (`algorithm2e`, which you already load) are terse
-Require/Ensure/numbered-line blocks. Snow goes further and follows each listing with
-a **line-referenced walkthrough** under sub-headings ("Inputs and outputs", "The
-first factorisation (lines 1–5)", "The sweep (lines 6–10)", "Termination (line 11)").
+Green's algorithms are terse Require/Ensure blocks. Snow follows each listing with a
+**line-referenced walkthrough** under sub-headings ("Inputs and outputs", "The first factorisation
+(lines 1–5)", "The sweep (lines 6–10)"). Use Snow's model for the descriptor's term IR → circuit
+compilation (§5.7).
 
-For a construction as intricate as the descriptor block encoding, use Snow's model.
-It lets a non-specialist marker follow the mechanism without you inflating the
-listing itself with comments.
+### 2.4 Figures and circuit diagrams
 
-### 2.4 Circuit diagrams
+`quantikz` is loaded. Both exemplars use circuit figures sparingly, each with a caption that
+explains the *structure*:
 
-You already load `quantikz`. Both exemplars use circuit figures sparingly and always
-with a caption that explains the *structure*, not just names the parts:
+> "Each gate is shaded and labelled by its arity $1 + \log_2 b_m$… the arity ramps up from the
+> boundary, plateaus at $1 + \log_2\chi$ in the bulk, and tapers to a single-qubit gate at site
+> $n$." — Snow, Fig. 6.1
 
-> "Each gate is shaded and labelled by its arity $1 + \log_2 b_m$… the arity ramps
-> up from the boundary, plateaus at $1 + \log_2\chi$ in the bulk, and tapers to a
-> single-qubit gate at site $n$. Increasing $\chi$ does not add gates — the layer
-> always holds $n$ of them, one per site — but widens those in the bulk." — Snow, Fig. 6.1
-
-Draw, in the body: the end-to-end pipeline schematic that opens §3.1, the descriptor
-`PREPARE/SELECT/PREPARE†` LCU, one representative derivative atom, and the GQSP-QITE
-filter. That is four body circuits and it is enough. Do **not** draw a
-Hadamard-and-CNOT toy circuit in the background section, and do not draw a readout
-primitive — no measurement protocol is implemented, so a circuit for one would imply
-work that was not done. Put the gate table in Appendix A as your `\todo` already plans.
-
-The §3.1 pipeline schematic is the most valuable figure in the thesis. It is what a
-marker skimming `\listoffigures` will use to decide what the work *is*. Caption it so
-it stands alone as a summary of the contribution.
+Body circuits (ThesisPlanning.md §7): U_odd's SELECT (F3), the descriptor's flat LCU (F5), and
+optionally the GQSP circuit (F2). The model-configuration diagram (F1, TikZ) and the headline
+scaling figure (F9) are what a marker skimming the list of figures will use to decide what the work
+*is*; caption both so each stands alone as a summary. Do **not** draw a Hadamard-and-CNOT toy in the
+background, and do not draw the interferometric readout in the body: it is not the method's
+readout.
 
 ### 2.5 Notation discipline
 
-Fix every symbol once, early, and never overload. Snow includes an explicit
-convention paragraph and a methods-comparison table (his Table 5.1) that doubles as
-a notation key: *"$T$ denotes training iterations, $n$ qubits, $L$ layers, and
-$\chi_{\max}$ the maximum intermediate MPS bond dimension."*
+Fix every symbol once, early, and never overload. Snow's methods table doubles as a notation key:
+*"$T$ denotes training iterations, $n$ qubits, $L$ layers, and $\chi_{\max}$ the maximum
+intermediate MPS bond dimension."*
 
-Your manuscript needs the same for: $n$ (qubits) vs $N = 2^n$ (dimension), $k$ (DE
-order), $p$ (nonlinear degree), $\alpha$ (subnormalisation), $\Delta$ (spectral
-gap), $G$, $\tilde{B}$, $\tilde{D}$, $A_{\mathrm{sys}}$, $H_{\mathrm{sys}}$,
-$\epsilon_G$, $M$. Put it in a table at the end of the background section or in the
-glossary you already load. Then **verify consistency at every review** — see
-`CLAUDE.md` Verification Mode.
-
-Footnote the one genuine trap: if you quote entropies or logs in different bases in
-different sections, say so where it changes. Snow does exactly this in a footnote to
-§2.3.2 rather than letting the reader trip over it.
+The master table is ThesisPlanning.md §8.1 (front matter, `1_header/6_notation.tex`), with its
+collisions resolved in §8.2: β only for the QITE filter's imaginary time, ρ for the Carleman ratio,
+ζ for the rescaling, tiers T1–T3 never as maths. Verify at every review (`../CLAUDE.md`,
+Verification Mode). Snow footnotes his change of logarithm base where it happens; do the same for
+any convention that changes mid-thesis.
 
 ### 2.6 Narrative primacy — what stays in the body, what goes to an appendix
 
-The governing structural decision of this thesis is that **the body carries the
-story and the appendices carry the apparatus.** The appendices do not count against
-the 40–60 page limit, and both rubric variants explicitly invite their use. This is
-not a licence to hide work; it is a licence to keep the argument legible.
+**The body carries the story and the appendices carry the apparatus.** Appendices do not count
+against the 40–60 pages, and the rubric invites them. This is a licence to keep the argument
+legible, not to hide work.
 
 A body passage earns its space if it does one of four things:
 
-1. **States the idea** — the move, in words, before any algebra.
-2. **States the object** — the construction written down once, not derived.
-3. **States the cost** — a formal proposition, or a measured number.
-4. **Interprets** — what the object or the number means operationally.
+1. **States the idea**: the move, in words, before any algebra.
+2. **States the object**: the construction written down once, not derived.
+3. **States the cost**: a formal proposition, or a measured number.
+4. **Interprets**: what the object or the number means operationally.
 
-Everything else is apparatus: entry-level formulae, atom-by-atom constructions,
-proofs, per-case parameter tables, software architecture, protocol detail. Send it to
-an appendix and point at it.
+Everything else is apparatus: entry-level formulae, term-by-term constructions, proofs, per-case
+parameter tables, software architecture, protocol detail. Send it to an appendix and point at it.
 
-**The equation test.** Before an equation stays in the body, ask: *does the argument
-break if a reader skips it?* If the surrounding prose still carries the reader to the
-next claim, the equation is illustrating rather than arguing, and it belongs in an
-appendix. Applied honestly this removes most of a construction's algebra and none of
-its persuasive force — a referee reading §3 wants to see $G = \tilde{B}^{-1}\tilde{D}$
-and the block structure it induces, not the recurrence that generates $\tilde{B}$'s
-entries.
+**The equation test.** Before an equation stays in the body, ask: *does the argument break if a
+reader skips it?* If the prose still carries the reader to the next claim, the equation belongs in
+an appendix. A referee reading Chapter 5 wants 𝔾 = B̃⁻¹D̃ and the block structure it induces, not
+the recurrence that generates B̃'s entries.
 
-**The figure test.** The same question, harder. Every body figure must be interpreted
-in at least one paragraph of prose (the rubric penalises displayed-but-undiscussed
-results). If you cannot write that paragraph, the figure is not carrying narrative
-weight, and it belongs in an appendix or nowhere.
+**The figure test.** Every body figure is interpreted in at least one paragraph. If you cannot
+write that paragraph, the figure belongs in an appendix or nowhere.
 
-**The pointer rule.** Never write a bare cross-reference. Not *"see Appendix E"* but
-*"the atom-by-atom constructions, and the column-by-column residuals establishing
-each, are given in Appendix E."* A body that offloads without naming what was
-offloaded reads as evasive; one that names it reads as disciplined, and it is the
-difference between a marker trusting the structure and suspecting it.
+**The pointer rule.** Never "see Appendix G"; write *"the kernel-equivalence proof and the
+mass-form rows are given in Appendix G."*
 
-**What this does not license.** Self-containment is required twice in the marking
-guide: results must be understandable *"without reference to any other documents."*
-Appendices are part of the document; the repository is not. Every number in the body
-must be derivable from the body or from an appendix — never from `DESolverLib`, the
-notebooks, or a README.
+**What this does not license.** Results must be understandable "without reference to any other
+documents". Every number in the body is derivable from the body or an appendix, never from the
+repository, a notebook or a README.
+
+### 2.7 A scientific argument, not a code map
+
+The project was built as software; the thesis is not about the software. ThesisPlanning.md §3.5's
+rules, in brief: every chapter opens with its question and closes with its answer; constructions
+are stated as mathematics, never as function names; findings are stated as findings, never as the
+history of the issue that found them; records, campaigns, hashes and Slurm live in Appendix L; each
+benchmark problem is introduced by the physics it carries.
 
 ---
 
 ## 3. Empirical Presentation
 
-### 3.1 Quantify relentlessly
+### 3.1 Quantify relentlessly, through `\res`
 
-Neither exemplar makes a comparative claim without a number attached. Snow:
+Neither exemplar makes a comparative claim without a number:
 
-> "on the disordered Heisenberg target it attained $F \approx 0.999$ at
-> $\sim 3\times10^3$ CNOTs; an order of magnitude below the 43,170 CNOTs of the exact
-> full-bond mapping."
+> "on the disordered Heisenberg target it attained $F \approx 0.999$ at $\sim 3\times10^3$ CNOTs;
+> an order of magnitude below the 43,170 CNOTs of the exact full-bond mapping." — Snow, §7.2
 
-Green: *"achieving a fidelity of 99.61%. The circuit depth was 3665 gates after
-Qiskit decomposition."*
+Here every such number comes from the records by key (`0_results/README.md`): the three encodings'
+degrees at n = 8, the degree exponents, α/‖·‖, ancilla and cx per query, the gap and γ² before and
+after rescaling, T1 against T2, the field error against its bound, the lift's error per order, the
+Navier–Stokes degree ratios. A number typed by hand is a defect even when it is right today.
 
-Your equivalents are already measured and should appear in this register: the
-$O(n^2)$-vs-$\Theta(N^2)$ gate count, 9–10 ancilla flat in $n$ vs $n+3$, $\alpha_H$
-$\Theta(N^2)$ vs $\approx\Theta(N^8)$, $p_{\mathrm{succ}} \to \Theta(1)$ vs
-$N^{-3/2}$, the gap $10^{-6}$ vs $10^{-15}$, verification residuals $10^{-9}$–$10^{-11}$
-and composition $< 10^{-10}$, $\cos\mathrm{sim} = 1.000000$ for the certified solution.
+### 3.2 State the cost model before the first cost claim, with its bias
 
-### 3.2 State the cost model before the first cost claim
+Snow's most disciplined move:
 
-Snow's most disciplined move: he fixes the accounting convention explicitly, and
-declares its bias.
+> "Each $\chi$-staircase is costed at the worst-case decomposition bound of its constituent gates…
+> We stress that this costing is deliberately conservative for the higher-$\chi$ layers… Any
+> intermediate-$\chi$ advantage reported below is thus a *lower bound* on the advantage available
+> under improved compilation."
 
-> "Each $\chi$-staircase is costed at the worst-case decomposition bound of its
-> constituent gates given by the QSD recurrence… We stress that this costing is
-> deliberately conservative for the higher-$\chi$ layers… Any intermediate-$\chi$
-> advantage reported below is thus a *lower bound* on the advantage available under
-> improved compilation."
+Do the same (§7.8) before any standard-versus-descriptor number: what counts as a gate, how ancilla
+are counted, and **which way the convention biases the comparison**. Ours: the structured encoding
+is the strongest standard-form baseline built, and every comparison is also quoted at the
+ideal-encoding bound α = ‖R‖, which contains neither form's encoding. A conservative convention that
+still favours your method persuades; one that hides a reversal is found.
 
-Do the same before any descriptor-vs-collocation number: say what counts as a gate,
-which decomposition you assume, whether ancilla are counted per-atom or composed,
-and — critically — **which direction your convention biases the comparison.** A
-conservative convention that still favours your method is far more persuasive than a
-favourable one, and it disarms the obvious objection.
+### 3.3 Numbered findings, some negative
 
-### 3.3 Numbered findings
-
-Green closes his main numerical study with four bolded, numbered findings:
-
-> "**1.** The analytic MPD scheme introduced by Ran generates exceptionally efficient,
-> low-depth, and accurate circuits… **2.** The MPD algorithm generalises poorly beyond…
-> **3.** The Ran+Opt scheme significantly improves… **4.** The Ran+Opt scheme suffers
-> from trainability problems as the number of qubits increases."
-
-Note that two of four findings are **negative**. Copy both the format and the
-honesty. Your Results section should close on 4–6 numbered findings, and at least
-one should be a limitation of your own method (e.g. the Hilbert-space growth,
-$2^{\lceil\log_2(k+1)\rceil} \cdot N$ vs $N$, or the doubled-space route projecting
-rather than preparing).
+Green closes his numerical study with four numbered findings, two of them negative. Copy the format
+and the honesty. Chapter 8 closes on six or seven (§8.7), at least two negative: the reversals at the
+ideal bound and on the heat panel; the gap falling on two axes; a trusted kernel hiding a diverging
+lift; Navier–Stokes reached by emulation and estimate only.
 
 ### 3.4 Self-contained figure and table captions
 
-Both exemplars write captions that a marker can read in isolation. The template:
+The template:
 
-> **Figure N: [Bolded claim, not a label].** [What is plotted, on what axes, for what
-> system with what parameters.] [What panel (a) shows; what panel (b) shows.] [The
-> one thing the reader should take away.]
+> **Figure N: [Bold claim, not a label].** [What is plotted, on what axes, for what problem, with
+> what parameters.] [What panel (a) shows; what panel (b) shows.] [The one takeaway.] [The tier.]
 
-Compare a weak caption — *"Figure 5: Gate counts."* — with Snow's:
+Compare *"Figure 5: Gate counts."* with Snow's:
 
-> "**Analytic $\chi$-staircase performance on the 2D Heisenberg ground state**
-> ($4\times4$ lattice, $n = 16$; ground state of $H = \sum_{\langle ij\rangle}
-> S_i\cdot S_j$ represented as an MPS of bond dimension $\chi_{\max}\le 64$).
-> **(a)** Fidelity to target versus total CNOT count… **(b)** The corresponding
-> infidelity… Analytically, the most CNOT-efficient bond dimension migrates from
-> $\chi = 2$ to $\chi = 4$ to $\chi = 8$ as the depth budget grows."
-
-Since you load `\listoffigures`, a marker may well skim captions first. Make them
-load-bearing.
+> "**Analytic $\chi$-staircase performance on the 2D Heisenberg ground state** ($4\times4$ lattice,
+> $n = 16$…). **(a)** Fidelity to target versus total CNOT count… **(b)** The corresponding
+> infidelity… Analytically, the most CNOT-efficient bond dimension migrates from $\chi = 2$ to
+> $\chi = 4$ to $\chi = 8$ as the depth budget grows."
 
 ### 3.5 Comparison tables against the literature
 
-Both exemplars anchor their contribution with a table whose rows are *methods* and
-whose columns are *resources*. Green's Table 5.4 (Depth | Ancillas | Avoids
-Arithmetic | Scope); Snow's Table 5.1 (Loss function | Layerwise | Joint | Init |
-Complexity). Each has a "This Work" row.
-
-You need two. **(i)** In §2, quantum DE-solving approaches (HHL-family / Carleman /
-variational / physics-informed) with a "this work" row — this table is where the
-literature review's critical assessment becomes legible at a glance. **(ii)** In §8.3
-(`tab:headline`), where the cost lies: the standard form under its published encoding,
-the standard form under the structured exact encoding, and the descriptor form, across
-$\|H\|$, gap, $\alpha$, gates, ancilla, exactness and degree. **Three encodings** —
-the middle one is what separates the encoder wall from the Hamiltonian wall. FABLE is
-not part of this thesis's story and does not appear. The second table is your headline
-result and should be referenced from the Abstract.
+Both exemplars anchor their contribution with a table whose rows are methods and whose columns are
+resources, with a "This Work" row. Two here: **T1** (§2.2), quantum DE approaches by assumptions,
+cost driver, output and failure mode; and **T7** (§8.3), the published, structured and descriptor
+encodings across ‖H‖, gap, α/‖·‖, cx per query, ancilla, exactness, and the degree as built and at
+α = ‖R‖. **Three encodings**: the middle one separates the encoder wall from the Hamiltonian wall.
+FABLE does not appear. T7 is referenced from the Abstract.
 
 ### 3.6 Report the negative and the dimension-capped honestly
 
-Your repo distinguishes *"we could not simulate the filter"* from *"the algorithm
-cannot reach it."* Preserve that distinction in the prose every time it arises — it
-is exactly the kind of precision that separates a High Distinction from a Distinction.
-The marking guide explicitly asks for *"the positive (and negative) results and their
-significance"* and notes *"a thesis can be an excellent one, even though the project
-did not achieve its aims."*
+Keep *"we could not simulate it"* apart from *"the algorithm cannot reach it"* every time it
+arises; quote the estimate that refused a run. The guidelines ask for "the positive (and negative)
+results and their significance" and note that "a thesis can be an excellent one, even though the
+project did not achieve its aims."
 
 ---
 
@@ -340,100 +281,81 @@ did not achieve its aims."*
 
 ### 4.1 The gap statement is a named section
 
-Both exemplars close the literature review by naming the gap explicitly:
+Green §1.1 "Gaps in the Literature and Contribution"; Snow §3.6 "Synthesis: the gap this thesis
+addresses", which poses italic questions and names the chapter that answers each:
 
-- Green §1.1: "Gaps in the Literature and Contribution"
-- Snow §3.6: "Synthesis: the gap this thesis addresses", which ends by posing the
-  open questions as italicised questions, then answering which chapter resolves each.
+> "Two questions therefore remained open. *(i) What per-layer objective should learned disentangling
+> use?* Chapter 4 argues that… *(ii) How expressive should each layer be?* … Chapter 6 treats
+> per-layer bond dimension as a design variable…"
 
-Snow's closing move is worth copying almost structurally:
-
-> "Two questions therefore remained open. *(i) What per-layer objective should learned
-> disentangling use?* Chapter 4 argues that… *(ii) How expressive should each layer
-> be?* … Chapter 6 treats per-layer bond dimension as a design variable…"
-
-Your analogue (ThesisPlanning.md §5.3): three questions, raised *by the critical
-assessment of Wu et al.'s method in §3.6*, not by a gap you assert into existence:
-*(i) Is the cost the encoder's or the Hamiltonian's?* → Chapter 5, the standard form
-encoded exactly. *(ii) Can the residual be reformulated so that its Hamiltonian is
-banded and well-conditioned, without changing its solution?* → Chapter 6, the
-descriptor reformulation. *(iii) Can nonlinear equations be prepared rather than
-projected?* → Chapter 7, the Carleman lift.
-
-This is the strongest available version of the gap statement, because the reader has
-just watched you diagnose the published method rather than being told a gap exists.
-§3.6 should pose the three questions in italics and name the chapter that answers each,
-by `\Cref`, exactly as Snow does.
+Ours is stronger, because it starts from the source paper's own Discussion ("studying the spectral
+gap dependence is an important question for the future work"; "the cost of differentiation") and
+is raised by a critical assessment the reader has just watched. §3.6 poses Q(i)–(iii) in italics,
+each answered by `\Cref`: (i) *is the cost the encoder's or the Hamiltonian's?* → Chapter 4; (ii)
+*can the residual be reformulated so that its Hamiltonian is banded and well conditioned, without
+changing its solution, and what does that cost?* → Chapter 5; (iii) *can nonlinear equations be
+prepared rather than projected?* → Chapter 6.
 
 ### 4.2 Chapter-opening roadmaps, one to three sentences
 
-Every exemplar chapter opens by declaring its job and its boundary:
+> "This chapter assembles the technical machinery used throughout the thesis. The treatment is
+> self-contained at the level needed to follow the algorithms and proofs of later chapters; for a
+> fuller account… we refer the reader to…" — Snow, Ch. 2
 
-> "This chapter assembles the technical machinery used throughout the thesis. The
-> treatment is self-contained at the level needed to follow the algorithms and proofs
-> of later chapters; for a fuller account… we refer the reader to…" — Snow, Ch. 2
-
-That second clause is doing real work: it licenses brevity, which the marking guide
-rewards. Use it to justify compressing standard quantum-computing background.
+The second clause licenses brevity, which the marking guide rewards. Chapters 4–6 open with their
+question instead of a roadmap.
 
 ### 4.3 Forward and backward references carry a reason
 
 Never a bare "see Section 5". Always the reason:
 
-- "…the property that lets the nominal $O(Tn^2L\chi^3_{\max})$ complexity of (4.13)
-  be realised in practice on hard targets."
-- "This accumulated bound is what later converts a sum of per-bond truncation errors
-  into a guarantee on the prepared-state fidelity, the basis of the analysis in
-  Chapter 4."
+- "…the property that lets the nominal $O(Tn^2L\chi^3_{\max})$ complexity of (4.13) be realised in
+  practice on hard targets." (Snow)
 
-You already load `cleveref`; use `\Cref{sec:...}` throughout and never hardcode a
-number.
+Use `\Cref{sec:...}` throughout; never hard-code a number.
 
 ### 4.4 The recurring spine sentence
 
-Both exemplars restate their thesis in one line at the end of each major section,
-with slightly different emphasis each time. Snow's is the *"expressivity of each
-disentangling layer should be matched to the entanglement actually remaining"*
-principle, which recurs in the Abstract, §1.2, §7.5 and §8.1.
+Both exemplars restate their thesis in one line at the end of each major section. Ours
+(ThesisPlanning.md §3.3), placed in the Abstract, §1.3, §3.6, §5.1, §5.10, §8.7 and §10.1, reworded
+each time:
 
-Draft your spine sentence before you write, and place it where ThesisPlanning.md §3.2
-lists (Abstract, §1.3, §3.6, §6.1, §6.9, §8.9, §10.1). The adopted form: *carrying the
-intermediate derivatives instead of eliminating them turns the physics-informed
-residual from dense to banded, so the Hamiltonian's norm falls from $\Theta(N^8)$ to
-$\Theta(N^2)$ with its kernel unchanged, and every stage from block encoding to state
-preparation inherits the saving.*
+> *Carrying the intermediate derivatives instead of eliminating them turns the physics-informed
+> residual from dense to banded with its kernel unchanged, so the Hamiltonian's norm falls from
+> Θ(N⁸) to Θ(N²) for a second-order equation; the price is a block register and a gap the
+> derivative blocks erode, which an a priori rescaling restores on one axis at no gate cost.*
 
 ### 4.5 Section-closing summaries for long sections
 
-Green closes §4 with a "Summary" subsection; Snow closes §5 and §7 with "Summary."
-Each is 3–5 sentences of numbered or enumerated takeaways. Use these after Results
-and after the descriptor methods section — they are cheap, and they rescue a marker
-who is skimming.
+Green closes his MPS chapter with "Summary"; Snow closes each results chapter with one. Use them
+after Chapter 5 (§5.10) and Chapter 8 (§8.7): 3–7 numbered takeaways.
 
 ---
 
 ## 5. Common Traps (rubric-penalised)
 
-Drawn from the marking guide's four stated assessment dimensions.
-
-| # | Trap | Why it is penalised | Fix |
+| # | trap | why it is penalised | fix |
 | :-- | :-- | :-- | :-- |
-| 1 | **Textbook background** — deriving the Bloch sphere, tabulating Pauli matrices in the body | "The bulk of the report should be aimed at the professional physicist, not the narrow specialist"; and Part B §7 requires *"only a brief description of… background with the bulk of the report dealing with results and discussion"* | Compress to prose + cite Nielsen & Chuang; move gate tables to an appendix (as your `\todo` already plans) |
-| 2 | **Catalogue results** — a subsection per DE case, each a paragraph and a plot | Penalised under "clear focus… capacity to avoid the intrusion of less relevant detail" | 3–4 representative cases in depth; the rest in one summary table + appendix (Snow's Appendix G is the model) |
-| 3 | **Page over-run** | Explicit marks penalty in the guidelines: *"Overly exceed 60 pages"* | Budget per section up front; see STRUCTURE_AND_RUBRIC.md §4 |
-| 4 | **Unreferenced claims** | "Usual conventions should be followed particularly as to references" | Every non-obvious assertion cites or points to your own verified result. Especially: credit the ultraspherical spectral method (Olver & Townsend 2013) as the antecedent of the descriptor basis change, and state precisely what *your* increment is |
-| 5 | **Colloquial register** | Explicitly named: *"avoiding colloquial language"* | No "a bit", "pretty good", "huge", "we tried", rhetorical questions in the body, or exclamation marks |
-| 6 | **Method narrated chronologically** | Reads as a lab diary, not a paper | Present the final construction and its justification. Failed routes go in Discussion as *characterised trade-offs*, not in Methods as a diary |
-| 7 | **Undefined notation on first use** | "Clarity… understandability for the reader, even one without specialized knowledge" | Notation table; Verification Mode pass |
-| 8 | **Orphaned `\todo` notes / `\nocite{*}`** | Presentation failure; visibly unfinished | Strip all `todonotes` and remove `\nocite{*}` from `main.tex` before submission — it currently pulls every entry in `ref.bib` into the bibliography |
-| 9 | **Over-claiming a speed-up** | Fatal to credibility with a QC-literate marker | State the $\tilde\Theta(N^2)$ query floor yourself and claim only that descriptor *meets* it |
-| 10 | **Figures without discussion** | "results & analysis" must be analysed, not displayed | Every figure gets at least one paragraph of interpretation; if it does not deserve one, it belongs in an appendix |
-| 11 | **Boilerplate transitions** | Wastes the page budget the rubric is scoring you against | "This section will discuss…" → state the finding |
-| 12 | **A one-paragraph Discussion** | The rubric weights significance-awareness heavily | Discussion must engage: why the trade-off exists, where the method fails, what a practitioner should choose, what it means for the field |
-| 13 | **Blurring prior art into contribution** | Fatal to credibility, and the fastest route to an academic-integrity conversation. The physics-informed effective Hamiltonian framework is Wu et al.'s | Attribute at the head of §2.4 and at each specific construction. Read every sentence of §2.4 asking *could this be mistaken for a claim of authorship?* Reserve first-person-plural authorial "we" for §3 onwards |
-| 14 | **Presenting the published route as a rival you also built** | Implies you invented two methods and picked one; halves the apparent focus of the thesis and invites "so what is actually new?" | The published encoding is *rebuilt to test the paper's claims* (§5.1, §8.2–§8.3). The structured exact encoding (S2) **is** yours and is claimed, but framed as serving the comparison — it isolates the Hamiltonian's cost — never as a rival solver |
-| 15 | **Body pages spent on derivation** | Buries the narrative the whole structure is built to protect, and burns the page budget the rubric penalises you for exceeding | Apply the equation test in §2.6. Statement and cost in the body; derivation in Appendices B, E–G, with a pointer that names what is there |
-| 16 | **Implying readout was performed on hardware, or that it is a new protocol** | The readout is the paper's interferometric protocol, reproduced by circuit simulation with shots at small $n$; only the correction for probabilistic preparation is yours. A QC-literate marker will ask | Say "reproduced in simulation" and name the tier (§4.6, §8.4); attribute the protocol to Wu et al. at every use; list "no hardware" among the limitations (§9.6) |
+| 1 | **Textbook background** | "the bulk of the report should be aimed at the professional physicist"; background brief, "the bulk… dealing with results and discussion" | prose citing Nielsen & Chuang; gate table to Appendix A; §2.1 ≤ 1.5 pp |
+| 2 | **Catalogue results** | "clear focus… capacity to avoid the intrusion of less relevant detail" | one section per question; three representative problems in depth; the rest in Appendix J |
+| 3 | **Page overrun** | an explicit penalty beyond 60 pages | the budget and trim order of ThesisPlanning.md §4.1 |
+| 4 | **Uncredited antecedents** | "usual conventions… particularly as to references" | credit the ultraspherical method and first-order-system least squares where the headline is claimed; cite the concurrent Paine 2026 |
+| 5 | **Colloquial register** | "avoiding colloquial language" | no "a bit", "huge", "we tried", rhetorical questions or exclamation marks |
+| 6 | **Method narrated chronologically** | reads as a lab diary | present the final construction and its reason; findings, not history |
+| 7 | **Undefined notation on first use** | "understandability for the reader, even one without specialized knowledge" | the notation table; Verification Mode |
+| 8 | **Orphaned `\todo` notes, `\nocite{*}`** | visibly unfinished | strip before submission |
+| 9 | **Over-claiming a speed-up** | fatal to credibility with a QC-literate marker | say first that neither form is poly-log; claim the degree's scaling, scoped |
+| 10 | **Figures without discussion** | results must be analysed, not displayed | a paragraph per figure, or the figure goes |
+| 11 | **Boilerplate transitions** | wastes the scored page budget | state the finding |
+| 12 | **A thin Discussion** | significance is weighted heavily | why the trade-off exists, where it fails, what a practitioner should choose, what it means for the field |
+| 13 | **Blurring prior art into contribution** | the fastest route to an academic-integrity conversation | attribute Wu et al. at the head of Chapter 3 and at each construction; "we" for our work from Chapter 4 on |
+| 14 | **The published route as a rival you also built** | halves the apparent focus; invites "so what is new?" | the published encoding is rebuilt *to test the paper's claims*; the structured encoding (S2) is ours, framed as isolating the Hamiltonian's cost |
+| 15 | **Body pages spent on derivation** | buries the narrative | the equation test (§2.6); derivations in Appendices B, E–H |
+| 16 | **Implying the readout was performed on hardware, or is the method's** | a QC-literate marker will ask | "decoded classically from the prepared state"; the interferometric protocol is the paper's, built at small n, further work |
+| 17 | **An unscoped descriptor claim** | the claim is false for part of the ladder, and a referee will find the part | every degree, gap and α claim carries its class (regular one-axis, singular, two-axis) |
+| 18 | **Code-map drift** | the rubric scores a model, not a tour of the software | function names, records and campaigns out of the body (ThesisPlanning.md §3.5) |
+| 19 | **Trust read as convergence** | a trusted kernel certifies the lifted linear problem, not the lift | quote the lift's measured error beside every Carleman preparation |
+| 20 | **Hiding a reversal** | the fairness device exists to show it | report the ideal-bound comparison everywhere, and number the reversals among the findings |
 
 ---
 
@@ -441,38 +363,38 @@ Drawn from the marking guide's four stated assessment dimensions.
 
 Before submitting any section, check it against these. Both exemplars pass all six.
 
-1. **Could a referee reproduce it?** Every construction has parameters, a cost model,
-   and a verification residual.
-2. **Is the contribution separable from the background?** A reader must be able to
-   say in one sentence what is new, and must be able to say in one sentence what was
-   already there. Yours: *the physics-informed effective Hamiltonian framework is Wu
-   et al.'s; the descriptor reformulation is this thesis's, and it makes their
-   residual banded — replacing a $\Theta(N^2)$-gate, $(n{+}3)$-ancilla encoding with an
-   $O(n^2)$-gate, $O(1)$-ancilla one, and keeping the spectral gap resolvable.*
+1. **Could a referee reproduce it?** Every construction has its parameters, a cost model and a
+   verification residual.
+2. **Is the contribution separable from the background?** In one sentence each: *the
+   physics-informed effective Hamiltonian framework is Wu et al.'s; banded differentiation and
+   first-order least squares are classical; the descriptor reformulation transfers them to the
+   block-encoded Hamiltonian, keeps its kernel, and lowers its norm from Θ(N^{4k}) to Θ(N²), at the
+   cost of a block register and a gap that needs rescaling.*
 3. **Are the limitations stated by the author, not discovered by the referee?**
 4. **Does every figure earn its half-page?**
-5. **Is the comparison fair by construction?** Cost conventions stated and biased
-   against your own method where there is doubt.
-6. **Does the Abstract contain numbers?** Both exemplars' abstracts do. Yours should
-   carry the gate/ancilla/$\alpha$/gap figures.
+5. **Is the comparison fair by construction?** Cost conventions stated; the ideal-encoding bound
+   beside every as-built number.
+6. **Does the Abstract contain numbers?** Both exemplars' do.
 
 ---
 
 ## 7. Quick Reference — Register Examples
 
-Rewrites illustrating the target register. Use the pattern, not the text.
+Rewrites illustrating the target register. Use the pattern, not the text; quote numbers by `\res`.
 
-| Weak | Target register |
+| weak | target register |
 | :-- | :-- |
-| "We tried a few different ways to encode $H$ and the descriptor one worked best." | "Under a common cost model, the descriptor construction attains a subnormalisation that remains tight in $N$, which the published collocation encoding does not." |
-| "We developed a physics-informed Hamiltonian method for differential equations." | "Wu et al. cast the differential equation as the ground state of a physics-informed effective Hamiltonian \\cite{wu2025pihm}. This thesis reformulates the residual that Hamiltonian is built from, so that its block encoding becomes banded." |
-| "Our collocation implementation performs worse than our descriptor one." | "The published collocation encoding, reimplemented here and characterised in \\Cref{sec:baseline}, exhibits the failure diagnosed in \\Cref{sec:critical}: at $n = 7$ its composed $H$ has relative gap $\\sim 10^{-15}$." |
-| "The prepared solution can then be read out." | "Extracting an observable from the prepared state requires a measurement protocol; the cost of the interferometric route is $\\mathcal{O}(\\cdot)$ per \\cite{williams2024readout}. No such protocol is implemented here — every error reported in \\Cref{sec:results} is computed from the classically simulated state vector." |
-| "The gap is really small in the collocation case." | "At $n = 7$ the collocation composed $H$ has relative gap $\sim 10^{-15}$ — below double-precision machine epsilon, so the ground state is not resolvable at all — against $\sim 10^{-6}$ for $H_{\mathrm{sys}}$." |
-| "This gives an exponential speed-up." | "The per-query encoding cost falls from $\Theta(N^2)$ to $O(n^2)$ gates. The end-to-end complexity does not become poly-logarithmic: $\alpha_H \ge \|H_{\mathrm{sys}}\| = \Theta(N^2)$ against $\Delta = \Theta(1)$ imposes an $\tilde\Theta(N^2)$ query floor on any block encoding of this $H$, which the descriptor construction meets." |
-| "The results were verified." | "Atoms are state-vector-verified against reference matrices to $10^{-9}$–$10^{-11}$ column-by-column; the composition recipe is verified to $<10^{-10}$. The composed $H$ is not verified end-to-end — at 22+ qubits a dense simulation is infeasible — so correctness is established compositionally." |
+| "We tried a few ways to encode $H$ and the descriptor one worked best." | "Under one cost model, and again at the ideal-encoding bound, the descriptor's filter degree grows as $N$ on a regular one-axis second-order problem, where the standard form's grows as $N^{4}$." |
+| "We developed a physics-informed Hamiltonian method for differential equations." | "Wu et al. cast a differential equation as the ground state of a physics-informed effective Hamiltonian \cite{wu2025pihm}. This thesis reformulates the residual that Hamiltonian is built from, so that it is banded." |
+| "Our descriptor is a new idea." | "Banded differentiation is the ultraspherical method's \cite{olver2013}, and avoiding the squared condition number of a high-order least-squares problem is first-order-system least squares' \cite{…}. The increment here is their transfer to a block-encoded Hamiltonian: the kernel is unchanged, the residual is one flat LCU, and the filter's degree falls accordingly." |
+| "The descriptor has a flat gap." | "On a one-axis equation whose leading coefficient does not vanish, the rescaled descriptor's gap is flat in $N$; where the coefficient vanishes, and on two axes, it is not (\Cref{sec:descriptor-gap})." |
+| "The prepared solution can then be read out." | "The field is decoded classically from the prepared state's field blocks and scaled by the regular datum. The paper's interferometric protocol, built and verified at small $n$, is left to future work." |
+| "The gap is really small in the standard form." | "At $n = 7$ the standard form's relative gap lies below double-precision resolution by `eigh` but not by SVD; what it costs is the filter's degree, which grows as $N^{4}$ for this second-order problem." |
+| "This gives an exponential speed-up." | "Neither form is poly-logarithmic. The degree is $\Theta(\sqrt{\alpha_H/\Delta}\log 1/\varepsilon)$ with $\alpha_H \ge \|H\|$ for any block encoding; the reformulation lowers $\|H\|$ from $\Theta(N^{8})$ to $\Theta(N^{2})$ for a second-order equation, and with it the degree from $\tilde\Theta(N^4)$ to $\tilde\Theta(N)$ on a regular one-axis problem." |
+| "The results were verified." | "Each circuit equals its independently assembled operator: exactly to 25 qubits, by probe on every construction-only circuit of at most 24, and by IR at any size. Where both run, the simulated circuit equals the exact emulation to within $10^{-10}$ before normalising." |
+| "Burgers was solved with Carleman." | "The lift's kernel is one-dimensional at every order, so imaginary time prepares it; whether the lift converges is a separate question, answered by its error per order, which follows $a/\nu$ and not $\rho$." |
 
 ---
 
-*Companion documents: `STRUCTURE_AND_RUBRIC.md` (section tree, deliverables, marker
-checklists), `../CLAUDE.md` (interactive review protocol).*
+*Companion documents: `STRUCTURE_AND_RUBRIC.md` (rubric and exemplars), `../ThesisPlanning.md`
+(structure), `../CLAUDE.md` (working agreement and Standing Facts).*

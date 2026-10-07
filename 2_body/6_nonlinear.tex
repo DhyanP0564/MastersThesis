@@ -1,38 +1,45 @@
 % =============================================================================
-% Chapter 7  Polynomial Nonlinearity  --  ~4 pp
+% Chapter 6  Polynomial Nonlinearity  --  ~4 pp
 % rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.7 (supporting contribution S4).
+% Plan: ThesisPlanning.md §5.6 (supporting contribution S4).
 %
-% PURPOSE     Answer question (iii) of sec:pihm-assessment: separate what the
-%             doubled space can claim (an exact encoding; a PROJECTION) from what
-%             Carleman can (a PREPARATION), in BOTH forms; then set up the fluid
-%             problems.
-% SOURCES     Planning.md §3.6 (doubled or tripled space; the Carleman lift and
-%             its space-time forms; the product fold on a circuit), §5.3 R6-R10,
-%             §6.5, §7.7; claims A-10, B-12, B-18, B-19, B-22, C-09, C-10;
-%             pihm/src/pihm/carleman.py, problems/fluids.py (P6-P7).
-% WRITE WHEN  Gate G5 (wave W4); §7.5 at gate G6 (wave W5).
+% PURPOSE     Answer Q(iii): separate what the doubled space can claim (an
+%             exact encoding, a projection) from what the Carleman lift can (a
+%             preparation, in both forms), and set up the fluids.
+% SOURCES     ThesisPlanning.md §3.6, §5.3 (R6-R10), §6.5, §7.7;
+%             pihm/docs/02_methods.md §3.4-3.5; claims A-10, B-12, B-18, B-19,
+%             B-22, C-09, C-10; pihm/src/pihm/carleman.py, problems/fluids.py,
+%             circuits/tensor.py, circuits/folds.py.
+% WRITE WHEN  Gate G5 (wave W4); §6.3 at gate G6 (wave W5).
 % =============================================================================
 
-\subsection{Two Regime-Independent Treatments}
+\subsection{Two Treatments}
 \label{sec:nonlinear-overview}
 % ~0.25 pp
-% LAND: nonlinearity is the second axis of sec:pipeline-inputs; both treatments
-%   work in both forms. One sentence tying back to sec:descriptor-idea's
-%   structural principle (the same idea applied again, not new machinery).
+% LAND: nonlinearity is the second axis of sec:pipeline-inputs; the doubled
+%   space (the paper's; run here in the standard form only, since it projects
+%   in either) and the Carleman lift (both forms). One sentence tying back to
+%   sec:descriptor-idea's structural principle (the same idea applied again,
+%   not new machinery).
+% REVISE: the LAND used to say "both treatments work in both forms" -- the
+%   doubled space is run in the standard form only (CLAUDE.md Standing Facts,
+%   Nonlinearity): it projects in either form, so the thesis never builds it in
+%   the descriptor form. Only the Carleman lift runs in both.
 
 \subsection{The Doubled Space: Exact Encoding, Degenerate Kernel}
 \label{sec:doubled-space}
-% ~0.75 pp
+% ~0.6 pp
 % LAND, in order:
-%   1. Wu et al.'s construction (sec:pihm-doubled) applied in either form: an
-%      EXACT encoding (claim B-12 for the fold).
+%   1. Wu et al.'s construction (sec:pihm-doubled), run in the standard form
+%      ONLY: an EXACT encoding (claim B-12 for the fold).
 %   2. The kernel dimension: >= N^2 - 2N measured (the paper states
 %      >= 2^{2n-1}; claim A-10).
 %   3. prop:no-penalty: QITE returns the projection of phi_0 onto the kernel;
-%      no penalty makes the kernel one-dimensional, because kernels are linear
-%      subspaces and product states are not. Proof -> Appendix H
-%      (app:proof-no-penalty).
+%      no Hamiltonian enforces the product structure (a kernel containing
+%      psi (x) psi and phi (x) phi contains their sum, which is not a product
+%      state), so the kernel is one-dimensional only if the construction singles
+%      out one solution in advance, which an answer-independent penalty cannot
+%      do. Proof -> Appendix H (app:proof-no-penalty).
 %   4. The claim allowed: "the encoding is exact" and "QITE projects onto the
 %      kernel". NOT: "prepares the solution".
 
@@ -45,10 +52,12 @@ The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't
 \label{prop:no-penalty}
 % STATE: for the positive semi-definite doubled-space Hamiltonian H_(x) and any
 %   initial state with Pi_ker phi_0 != 0, the normalised imaginary-time state
-%   converges to the normalised projection of phi_0 onto the kernel; since
-%   the kernel is a linear subspace and the product states psi (x) psi are
-%   not, no penalty makes the kernel one-dimensional while keeping the target
-%   in it.
+%   converges to the normalised projection of phi_0 onto the kernel. SCOPE of the
+%   corollary: the kernel is a linear subspace, so one containing psi (x) psi and
+%   phi (x) phi contains their sum, which is not a product state; no Hamiltonian
+%   therefore enforces the product structure, and an answer-independent penalty
+%   cannot make the kernel one-dimensional. (A penalty that already knows the
+%   solution can, and is excluded: it is answer-dependent.)
 \begin{equation}
     \lim_{\beta\to\infty}\frac{e^{-\beta H_{\otimes}}\,\varphi_0}{\bigl\|e^{-\beta H_{\otimes}}\,\varphi_0\bigr\|}
     = \frac{\Pi_{\ker H_{\otimes}}\,\varphi_0}{\bigl\|\Pi_{\ker H_{\otimes}}\,\varphi_0\bigr\|},
@@ -63,7 +72,10 @@ The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't
 % ~1.25 pp
 % LAND, in order:
 %   1. The lift (eq:carleman-lift) and its truncation error O(rho^K), with
-%      rho < 1 STATED AS A PRECONDITION (eq:carleman-ratio).
+%      rho < 1 STATED AS A SUFFICIENT CONDITION, A WORST CASE OVER ALL STATES
+%      (eq:carleman-ratio) -- NOT necessary; the convergence is measured per
+%      order against the exact lift (sec:results-nonlinear; on Burgers it
+%      follows a/nu, not rho).
 %   2. A linear IVP has a unique solution, so the space-time residual has a
 %      ONE-DIMENSIONAL near-kernel -- a real preparation claim (claim C-09).
 %   3. The two time discretisations (eq:carleman-spacetime): the same kernel,
@@ -99,7 +111,7 @@ The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't
     \label{eq:carleman-spacetime}
 \end{equation}
 
-\subsection{Product Folds on a Circuit}
+\subsection{Products and Couplings on a Circuit}
 \label{sec:folds}
 % ~0.75 pp
 % LAND, in order:
@@ -109,8 +121,15 @@ The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't
 %      register's growth) where the fold is introduced.
 %   2. The Fourier fold: QFT, CNOT copy, QFT^dagger -- native and exact.
 %   3. The Chebyshev DCT is budgeted as a cited primitive (klappenecker2001dct;
-%      decision 6). Say plainly that it is not built gate-level.
-% OFFLOAD: proof -> Appendix H (app:proof-fold-optimal).
+%      decision 6); NOT built gate-level, said plainly.
+%   4. The lift's coupling A_K: as matchings in the symmetric layout, or in the
+%      TENSOR LAYOUT WITH 2K - 1 TERMS (not K^2), each F_p on adjacent slots,
+%      which reaches field scale.
+%      MOVED here from 5_descriptor.tex (2026-10-06): a large irregular coupling is not expanded in Pauli
+%      words but split into matchings, each with at most one entry in every row and column; a greedy
+%      colouring uses at most 2*Delta - 1 of them, Delta the largest row degree.
+% OFFLOAD: proof -> Appendix H (app:proof-fold-optimal); the symmetric and
+%   tensor layouts in full -> Appendix H (app:nonlinear).
 
 \begin{proposition}[The nodal fold is optimal]
 \label{prop:fold-optimal}
@@ -133,11 +152,16 @@ The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't
 %      F_1 = diag(-nu k^2), F_2 the (u^2)_x / 2 convolution; (a, nu) chosen so
 %      the measured rho <= 0.5.
 %   2. 2-D vorticity Navier-Stokes (R10, eq:navier-stokes), psi_hat =
-%      omega_hat / |k|^2 eliminated; truncation |k|^2 <= K_c (real basis).
-%   3. The tensor-layout Carleman: K^2 structured terms, F_2 = L o fold
-%      assembled automatically from the problem specification (claim B-19).
-%   4. Taylor-Green (J = 0) as the validation case.
+%      omega_hat / |k|^2 eliminated; exact rational couplings.
+%   3. Taylor-Green (its modes share |k|, so the lift is exact: a validation)
+%      and a counter-rotating vortex pair (active triads).
+%   4. References: the Galerkin system's IVP, Cole-Hopf for Burgers, a
+%      pseudo-spectral simulation for the truncation's own error.
 % OFFLOAD: F_1 and F_2 for Burgers and NS in full -> Appendix H.
+% REVISE: this LAND used to put the tensor-layout coupling here as "K^2
+%   structured terms"; it is 2K - 1 terms (not K^2), and the construction
+%   itself has moved to sec:folds point 4, since it is a circuit-level coupling
+%   the fold section now covers, not a fluids-specific fact.
 
 \begin{equation}
     u_t + u\,u_x = \nu\,u_{xx},
@@ -156,8 +180,12 @@ The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't
 
 \subsection{Preparation Versus Projection}
 \label{sec:prep-vs-proj}
-% ~0.25 pp
-% LAND: the table below; one sentence tying back to sec:descriptor-idea.
+% ~0.4 pp
+% LAND: TABLE T8: which route sits on which side, and why. THE CAVEAT THAT
+%   MATTERS: a unique, trusted kernel certifies the lifted LINEAR problem, not
+%   the lift's convergence, which is measured separately
+%   (sec:results-nonlinear). One sentence tying back to sec:descriptor-idea:
+%   the mass form is the same banded left factor, applied in time.
 % TAB: tab:prep-vs-proj (T8).
 
 \begin{table}[htbp]
@@ -174,11 +202,19 @@ The doubled Hilbert space method can create degenerate kernels. \Gls{qite} can't
         \bottomrule
     \end{tabular}
 \end{table}
+% REVISE: the "Precondition" column's $\rho < 1$ reads as a necessary
+%   condition. CLAUDE.md Standing Facts (Nonlinearity) and ThesisPlanning.md
+%   §5.6 state rho < 1 is SUFFICIENT, not necessary, and a worst case over all
+%   states; the lift's actual convergence is measured per order against the
+%   exact lift (on Burgers it follows a/nu, not rho). Either retitle the
+%   column ("Sufficient for the O(rho^K) bound") or add a footnote.
 
 % CHECKLIST (marker)
 %   1. Is "prepared" never used for the doubled space?
-%   2. Is rho < 1 a stated precondition?
+%   2. Is rho < 1 stated as SUFFICIENT, not necessary?
 %   3. Is fold optimality distinguished from tightness?
-%   4. Are the unbuilt components (the DCT) named, with the reason?
-%   5. Is Carleman's uniqueness attributed to Carleman, not to the descriptor
-%      form?
+%   4. Is the DCT named as unbuilt, with the reason?
+%   5. Is uniqueness attributed to Carleman?
+%   6. Is trust distinguished from convergence (sec:prep-vs-proj)?
+% TRAPS  "K^2 terms" (it is 2K - 1); "both forms" for the doubled space (it is
+%        standard-form only); rho < 1 as necessary.

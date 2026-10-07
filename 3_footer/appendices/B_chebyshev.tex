@@ -121,7 +121,7 @@ the coefficients of $u^{(k)}$ \cite[\S3.2]{olver2013} -- so a $k$-th order
 equation needs $k$ distinct conversion operators $\mathcal{S}_0, \dots,
 \mathcal{S}_{k-1}$ chained together and the lower-order unknowns eliminated.
 
-The descriptor construction of \Cref{sec:descriptor-residual} takes a
+The descriptor construction of \Cref{sec:descriptor-layouts} takes a
 different route to the same sparsity. Rather than raising the basis and
 eliminating, it keeps every derivative's coefficients in the \emph{same}
 normalised Chebyshev basis, as its own block $\fhat{j}$ of $w$, and reuses the
@@ -174,7 +174,7 @@ highest-order one (row $3$ above) depends on none. The factorisation removes
 the fill-in entirely: no row of $\Bt$ or $\Dt$ touches more than
 two coefficients.
 
-For the first-order equation $f' + 2f = 0$ of \Cref{sec:descriptor-residual},
+For the first-order equation $f' + 2f = 0$ of \Cref{sec:descriptor-layouts},
 $w = (\fhat{0};\, \fhat{1})$ and
 $\Adesc = \left(\begin{smallmatrix} -\Dt & \Bt \\ 2 I_4 & I_4 \end{smallmatrix}\right)$
 is the $8 \times 8$ matrix
