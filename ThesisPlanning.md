@@ -349,7 +349,7 @@ answers one.
 
 | question | answered (formulation) | evidenced (results) |
 |---|---|---|
-| (i) *Is the method's cost its encoder's or its Hamiltonian's?* | Ch. 4 (§4.5–4.6) | §9.2 |
+| (i) *Does the method's total number of queries originate in the particular encoder circuits, or in the Hamiltonian itself?* | Ch. 4 (§4.5–4.6) | §9.2 |
 | (ii) *Can the residual be reformulated so that its Hamiltonian is banded and well conditioned, without changing its solution, and what does that cost?* | Ch. 5 | §9.2–9.3 |
 | (prerequisite to (iii), and the paper's scope: several fields, complex-valued fields) | Ch. 6 | §9.4 |
 | (iii) *Can nonlinear equations be prepared rather than projected?* | Ch. 7 | §9.4–9.5 |
@@ -633,7 +633,7 @@ field to the project**". The introduction converges; it does not survey.
    - Wu et al.'s idea in three sentences, attributed at first mention, with its lineage in one
      clause (physics-informed quantum machine learning in a Chebyshev latent space).
    - Their two open questions, quoted: the gap's dependence, and the cost of differentiation.
-   - The question this thesis asks: *is the method's cost its encoder's or its Hamiltonian's?*
+   - The question this thesis asks: *does the method's total number of queries originate in the particular encoder circuits, or in the Hamiltonian itself?*
    - **One quantitative sentence before the end of page 2**: the filter degree for the paper's
      Fig. 3b problem at n = 8 with the paper's encoding, with the best exact encoding, and in
      descriptor form:
