@@ -1,15 +1,51 @@
 % =============================================================================
-% Appendix H  The Nonlinear Route in Full  --  cited from Chapter 6
-% (sec:nonlinear). Plan: ThesisPlanning.md §6 (H); supporting contribution S4.
+% Appendix H  Systems and the Nonlinear Route in Full  --  cited from Chapter 6
+% (sec:systems) and Chapter 7 (sec:nonlinear). Plan: ThesisPlanning.md §6 (H);
+% supporting contribution S4.
 %
-% CONTENT  The doubled-space algebra and kernel bound (proof of prop:no-penalty);
-%          the Carleman lift in its symmetric and tensor layouts, the ratio
-%          rows and the space-time forms; the nodal and Fourier folds (proof of
-%          prop:fold-optimal); the Fourier-Galerkin F_1 and F_2 for Burgers and
-%          Navier-Stokes.
+% CONTENT  (v2.1) First, systems (app:systems): the system rows in both forms and
+%          the padding; the ratio rows and their three-term circuit; the coupling
+%          as matchings by edge colouring; realification and its kernel
+%          equivalence; the real embedding of the Fourier variables.
+%          Then the nonlinear route: the doubled-space algebra and kernel bound
+%          (proof of prop:no-penalty); the Carleman lift in its symmetric and
+%          tensor layouts, the ratio rows and the space-time forms; the nodal and
+%          Fourier folds (proof of prop:fold-optimal; alpha = 2 within 1.21 of
+%          ||n_1||_2: tight, not optimal); the Fourier-Galerkin F_1 and F_2 for
+%          Burgers and Navier-Stokes; R9 and R10's panels.
 % SOURCES  Planning.md §3.6, §5.3 (R6-R10), §6.5, §7.7;
-%          pihm/src/pihm/carleman.py, operators/folds.py, problems/fluids.py.
+%          pihm/src/pihm/assemble/systems.py, circuits/systems.py, ir.py
+%          (matching_terms), operators/constraints.py (ratio_rows),
+%          pihm/src/pihm/carleman.py, operators/folds.py, problems/fluids.py
+%          (real_embedding), circuits/tensor.py.
 % =============================================================================
+
+\subsection{Systems in Full}
+\label{app:systems}
+% LAND (opening section; cited from Chapter 6, sec:systems-fields to sec:systems-complex):
+%   1. System rows and padding. A first-order system u_i' = sum_j A_ij u_j on C components: one block
+%      per component on a field register of ceil(log2 C) qubits; the standard rows I (x) G - A (x) I
+%      and the descriptor's mass form (the same rows times I (x) B~), written entry by entry for
+%      R7 (C = 2); the padding rows of weight 1 that decouple exactly, and why they do not move the
+%      kernel; the time-axis form (xi = 2t/T - 1, the factor T/2).
+%   2. Ratio rows and their three-term circuit. F = y_a (I - |a><a|) - w<a| on the field register,
+%      times B(x*): direction fixed, scale free; scale-free division by y_a; a zero datum holds its
+%      component to zero exactly. The circuit as three LCU terms (identity, projector, a loaded
+%      rank-one term), with its alpha and ancilla count.
+%   3. Matchings by edge colouring. A split into as many matchings as the largest row or column
+%      degree of A; each a permutation of the field register's basis states, its entries a
+%      multiplexed rotation on one flag; alpha = the largest entry; the same cost in both forms.
+%      The comparison against Pauli words, with its numbers (key to add).
+%   4. Realification and its kernel equivalence. z = u + iv; z' = cz gives
+%      [u; v]' = [[Re c, -Im c], [Im c, Re c]][u; v] (c, a complex coefficient); the real-linear
+%      isomorphism C -> R^2 carries the complex residual's kernel onto the real one (state the map
+%      and the one-line proof); R7 as z' = -i pi z with z = pi u + iv.
+%   5. The real embedding of the Fourier variables (R9, R10): the cos/sin basis and the isometric
+%      real embedding that carries the complex Fourier-Galerkin operators on real data; sine modes
+%      for Burgers.
+% TRAPS: redefining the mass form (sec:descriptor-layouts owns it); "complex-valued" unscoped
+%   (realification is the route run; native complex preparation is not built); higher-order
+%   systems claimed as run.
 
 \subsection{The doubled space}
 \label{app:doubled-space}
@@ -50,9 +86,10 @@
 \subsection{Product folds}
 \label{app:proof-fold-optimal}
 % LAND: the proof of prop:fold-optimal -- in the nodal basis a product is
-%   pointwise, Delta_p copies basis states (CNOTs, no ancilla), and
-%   ||n_1^(2)|| = 2 equals the subnormalisation; the Fourier fold (QFT, CNOT
-%   copy, QFT^dagger); the Chebyshev DCT as a cited primitive
+%   pointwise, Delta_p copies basis states (CNOTs, no ancilla), and the
+%   fold's subnormalisation is alpha = 2, within 1.21 of ||n_1||_2 (tight, not
+%   optimal); the Fourier fold (QFT, CNOT copy, QFT^dagger); the Chebyshev DCT
+%   as a cited primitive
 %   (klappenecker2001dct), with the budget it is given.
 
 \subsection{Fourier--Galerkin operators}

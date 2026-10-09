@@ -1,0 +1,173 @@
+% =============================================================================
+% Chapter 6  Coupled Systems and Complex-Valued Fields  --  ~2.75 pp
+% rubric: Project Body (Modelling) -- Model Formulation /30.
+% Plan: ThesisPlanning.md §5.6 (T-31, T-32; new in v2.1).
+%
+% PURPOSE     Take the construction from one real scalar field, the paper's scope,
+%             to several coupled fields, and with them to complex-valued linear
+%             equations; then hand a coupled linear system to Chapter 7, since a
+%             Carleman lift is one. It answers no numbered question (T-31).
+% CRITERION   Formulation, "sufficient detail to permit readers to create
+%             equivalent models": the rows, the data and the circuits of a system
+%             must be rebuildable from the body plus Appendix H. Opens with the
+%             scope the paper leaves (one real field; its Discussion: with a
+%             Fourier basis "the resulting total energy function is of a
+%             complicated form, rendering it difficult to find the ground state")
+%             and closes on Q(iii)'s prerequisite.
+% SOURCES     ThesisPlanning.md §5.6, §3.4, §8; pihm/docs/02_methods.md §3.2 (the
+%             mass form), §3.3 (ratio rows), §3.4, §6.2 (a system's initial state);
+%             pihm/docs/companion/{21,51,61}; pihm/docs/16_extensions.md §1.1 (R7,
+%             the mass form against the chain), §2-4; pihm/docs/03_problems/07_r7.md;
+%             decisions 39, 42, 45 (reasons only); src/pihm/assemble/systems.py,
+%             circuits/systems.py, ir.py (matching_terms), operators/constraints.py
+%             (ratio_rows), problems/fluids.py (real_embedding), circuits/tensor.py
+%             (complex weights); notebook 60; the paper's Discussion (p. 11) for
+%             the complex-valued remark.
+% WRITE WHEN  After W0c step 3 has moved the systems material here (the coupled-fields
+%             clause of sec:descriptor-constraints, the matchings paragraph of
+%             sec:descriptor-block-encoding, the space-time discretisations and
+%             ratio-row item of sec:carleman); the mathematics with numbers as \res,
+%             in full with Chapter 5 at gate G4 (wave W3).
+% =============================================================================
+
+% LAND (opening, no heading; 0.2 p)
+%   The paper's scope (one real scalar field), its remark on complex-valued states, quoted
+%   ("the resulting total energy function is of a complicated form, rendering it difficult to
+%   find the ground state"), and what this chapter adds; the roadmap.
+% REVISE (v2.1): the opening carries no claim beyond scope; it answers no numbered question (T-31).
+
+\subsection{Several Fields on One State}
+\label{sec:systems-fields}
+% ~0.6 pp
+% LAND, in order:
+%   1. A first-order system u_i' = sum_j A_ij u_j (constant coefficients; one equation per field,
+%      each holding its own first derivative) on one Chebyshev axis; on a time axis xi = 2t/T - 1,
+%      with the factor T/2 (moved here from Ch. 7's space-time paragraph).
+%   2. The state: one block per component, on a field register of ceil(log2 C) qubits, padded to a
+%      power of two with padding rows of weight 1 that decouple exactly.
+%   3. The rows: standard I (x) G - A (x) I (the paper's elimination, applied per field); the
+%      descriptor's mass form (sec:descriptor-layouts) multiplies them by I (x) B~. Same kernel; an
+%      IVP with data has a one-dimensional near-kernel.
+%   4. Higher-order systems: by reduction to first order (one sentence; none run beyond R7's
+%      order-two equation written as two fields).
+%   MOVED VERBATIM (W0c step 3):
+%     (a) from 5_descriptor.tex, sec:descriptor-constraints (the coupled-fields clause):
+%       A system of coupled first-order fields takes the mass form, one block per component.
+%     (c) from 7_nonlinear.tex, sec:carleman, LAND item 3 (the two space-time discretisations):
+%       3. The two time discretisations (eq:carleman-spacetime): the same kernel,
+%          differing only by a banded invertible left factor -- why R8-R10 compare
+%          like for like. The descriptor's time axis lowers the degree.
+%       (eq:carleman-spacetime itself stays in Ch. 7; its factor T/2 and axis map are stated here.)
+% OFFLOAD: the system rows in full and the padding -> Appendix H (app:systems).
+% TRAPS: redefining the mass form (sec:descriptor-layouts owns it); claiming higher-order systems
+%   were run; "vector-valued solver".
+
+\subsection{Data for Several Fields: Ratio Rows}
+\label{sec:systems-data}
+% ~0.4 pp
+% LAND, in order:
+%   1. The ratio row F = y_a (I - |a><a|) - w <a| on the field register, times B(x*): it imposes the
+%      direction of the vector datum and leaves its scale free, as a zero constraint does; divided
+%      by y_a it is scale-free; a zero datum holds its component to zero exactly.
+%   2. The scale from the regular datum, as for one field. The initial state's weighting by
+%      w0/||w0|| is stated in sec:pipeline (plan §8.5); one pointer, with the reason (equal weights
+%      cancel on Taylor-Green).
+%   MOVED VERBATIM (W0c step 3), from 7_nonlinear.tex, sec:carleman, LAND item 4 (ratio-row data):
+%       4. Initial data enter through ratio rows, F (x) <tau(-1)| (tab:constraint-kinds).
+% OFFLOAD: the ratio rows and their three-term circuit -> Appendix H (app:systems).
+% TRAPS: a ratio row as a fixed-scale constraint; restating the weighting rule.
+
+\subsection{The Mass Form for Systems}
+\label{sec:systems-mass}
+% ~0.4 pp
+% LAND, in order:
+%   1. Why the mass form and not a chain per field: the equation already gives each derivative, so a
+%      derivative block carries nothing new, costs register and needs rescaling. Measured on R7
+%      (u' = v, v' = -pi^2 u), the mass form's gap is about 2.1 times the block-rescaled chain's,
+%      flat in n (key to add, plan §2.1); the chain stays as a labelled ablation.
+%   2. The standard and descriptor forms of a system share their state, initial state and readout,
+%      and differ only by I (x) B~: the like-for-like comparison R7-R10 rely on.
+% OFFLOAD: none.
+% TRAPS: redefining the mass form or restating its kernel theorem (sec:descriptor-layouts owns both:
+%   one theorem covers both layouts); "about 2.1x" without the R7 and block-rescaled-chain scope.
+
+\subsection{The Coupling on a Circuit}
+\label{sec:systems-coupling}
+% ~0.4 pp
+% LAND, in order:
+%   1. A split by edge colouring into as many matchings as its largest row or column degree; each a
+%      permutation of the field register's basis states, its entries a multiplexed rotation on one
+%      flag; alpha = the largest entry. Both forms pay the same for A.
+%   2. The ratio rows as three LCU terms (identity, projector, a loaded rank-one term).
+%   3. The matchings against Pauli words, one sentence with numbers (key to add); construction ->
+%      Appendix H.
+%   MOVED VERBATIM (W0c step 3):
+%     (b) from 5_descriptor.tex, sec:descriptor-block-encoding (the matchings note):
+%       % MOVED 2026-10-06 to 6_nonlinear.tex (the Carleman coupling's matchings, where the lift is built):
+%       %   a large irregular coupling is split into matchings, each with at most one entry in every row and
+%       %   column, and a greedy colouring uses at most 2*Delta - 1 of them, Delta the largest row degree.
+%     (d) from 7_nonlinear.tex, sec:folds, LAND item 4 (the symmetric layout's matchings):
+%       "as matchings in the symmetric layout"
+%       MOVED here from 5_descriptor.tex (2026-10-06): a large irregular coupling is not expanded in Pauli
+%       words but split into matchings, each with at most one entry in every row and column; a greedy
+%       colouring uses at most 2*Delta - 1 of them, Delta the largest row degree.
+%     (The tensor layout's 2K - 1 terms stay in Ch. 7, sec:folds.)
+% REVISE (v2.1): (b) and (d) are the same sentence moved twice; keep one in the drafted prose. The
+%   colouring bound (2*Delta - 1, greedy) and the plan's "as many matchings as the largest row or
+%   column degree" (edge colouring, Delta) differ; check against circuits/systems.py and ir.py
+%   (matching_terms) before drafting.
+% OFFLOAD: the matchings by edge colouring -> Appendix H (app:systems).
+% TRAPS: calling the matchings a Pauli expansion; claiming a gate count the key does not give.
+
+\subsection{Complex-Valued Fields}
+\label{sec:systems-complex}
+% ~0.75 pp. Scope fixed by T-32 (do not widen).
+% LAND, in order:
+%   1. The formulation does not need a non-Hermitian filter. For complex coefficients, data or
+%      sources R is complex, and H = R^dagger R is still Hermitian and positive semi-definite; the
+%      ground state is still the smallest right singular vector of R; the stacked reflection and
+%      GQSP act on H' unchanged. The non-Hermitian operator is R, which the filter never sees.
+%      (Narrative and mathematical; no complex-R preparation was run.)
+%   2. Realification, the route run (T-32): z = u + iv as two real fields; z' = cz gives
+%      [u; v]' = [[Re c, -Im c], [Im c, Re c]] [u; v] (c, a complex coefficient, never a or alpha,
+%      which are taken); one more field-register qubit; the same kernel under the real-linear
+%      isomorphism. R7 is exactly this: with z = pi u + iv, u' = v and v' = -pi^2 u are
+%      z' = -i pi z, a single-mode Schroedinger-type equation (R7 = z' = -i pi z realified). The
+%      Fourier-Galerkin fluids of Ch. 7 are carried on real bases for the same reason (sine modes
+%      for Burgers; cos/sin with an isometric real embedding for Navier-Stokes). R9 and R10 use
+%      real Fourier bases.
+%   3. Native complex encoding, built once (T-32): the tensor layout's coupling (Ch. 7) is built on
+%      complex Fourier variables, with complex phases i^{sum a} in its LCU weights, and verified
+%      (exact and IR); it is never used to prepare a state, because the classical pipeline carries
+%      real data only. It is the one native complex encoding: verified, never prepared.
+%   4. Not built: complex sources, data and coefficients in the circuits' loaders (a phase on the
+%      collapse row; a complex state loader), and so native complex preparation. `pihm` refuses
+%      complex sources, data and coefficients. Future work (§11.2).
+%   5. The research proposal's "complex-valued, non-Hermitian equations" is answered here at the
+%      level of the formulation, and recorded as a deviation (Appendix M, plan §13.4).
+% OFFLOAD: the realification map and its kernel equivalence, the real embedding of the Fourier
+%   variables -> Appendix H (app:systems).
+% TRAPS: "handles complex equations" or "complex solver" unscoped; "a complex-valued field was
+%   prepared or solved"; calling the tensor encoding "prepared"; the legacy DESolverLib's complex
+%   code is NEVER cited (any complex-valued result resting on it is out); a non-Hermitian filter
+%   (none is needed, and none is run).
+
+\subsection{From Systems to Lifts}
+\label{sec:systems-lifts}
+% ~0.2 pp. Hand-off to Ch. 7.
+% LAND, in order:
+%   1. A Carleman lift of a polynomial system is a linear system on its monomials, so every
+%      construction of this chapter carries over: the components become monomials, the ratio rows
+%      carry the data's moments, and A becomes A_K. Ch. 7 adds only the lift and its products.
+% OFFLOAD: none.
+% TRAPS: re-deriving the lift (Ch. 7 owns it); stating the lift prepares without the convergence
+%   caveat (rho < 1 is sufficient, convergence is measured).
+
+% CHECKLIST (marker): the scope gap stated from the paper's own words; systems rebuildable from body
+%   and Appendix H; the mass form applied, not redefined (sec:descriptor-layouts owns it);
+%   realification stated as the route run, with R7 as its instance; every complex-valued claim
+%   scoped (formulation; one encoding verified; preparation not built); the hand-off to Ch. 7.
+% TRAPS (chapter): "handles complex equations" unscoped; any complex-valued result resting on the
+%   legacy DESolverLib (never cited); redefining the mass form or restating its kernel theorem;
+%   calling the tensor encoding "prepared"; claiming higher-order systems were run;
+%   "vector-valued solver".

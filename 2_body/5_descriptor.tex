@@ -1,5 +1,5 @@
 % =============================================================================
-% Chapter 5  The Descriptor Reformulation  --  ~9.5 pp  --  THE CORE
+% Chapter 5  The Descriptor Reformulation  (5_descriptor.tex)  --  9 pp  --  THE CORE
 % rubric: Project Body (Modelling) -- Model Formulation /30.
 % Plan: ThesisPlanning.md §5.5 (headline contribution C).
 %
@@ -13,7 +13,8 @@
 % SOURCES     ThesisPlanning.md §3.4, §3.7, §6.4; pihm/docs/02_methods.md §3.2;
 %             pihm/docs/13_descriptor.md; pihm/docs/14_descriptor_gap.md (the
 %             challenge); claims B-01-B-07, B-14, B-20, B-21, C-05, C-06;
-%             pihm/docs/companion/{12,50-57}.
+%             pihm/src/pihm/assemble/descriptor.py, systems.py, ir.py,
+%             circuits/lcu.py, problems/scales.py.
 % WRITE WHEN  The mathematics now, with numbers as \res; in full at gate G4 (wave W3).
 % EQUATION TEST (STYLE_GUIDE.md §2.6): does the argument break if a reader skips
 %             it? If not, the equation belongs in an appendix.
@@ -42,7 +43,11 @@ This chapter answers the second question of \Cref{sec:pihm-assessment}: can the 
 \subsection{The Idea}
 \label{sec:descriptor-idea}
 
-\Cref{sec:standard} located the cost of the standard form in its Hamiltonian: $\|\G^k\|_2=\Theta(N^{2k})$, so $\|\Hstd\|=\Theta(N^{4k})$ whatever the encoder. That norm is the density of $\G$ made visible. The density is not intrinsic to differentiation; it comes from requiring the derivative's coefficients to be expressed in the same basis as the function's. If the derivative may instead live in a neighbouring polynomial basis, differentiation is banded, and $\G$ factors into two banded matrices whose product is dense only because one of them is inverted.
+\Cref{sec:standard} located the cost of the standard form in its Hamiltonian: $\|\G^k\|_2=\Theta(N^{2k})$, so $\|\Hstd\|=\Theta(N^{4k})$ whatever the encoder. This density comes from requiring the derivative's coefficients be expressed in the same basis and the function's. If the derivative may instead live in a neighbouring polynomial basis, differentiation is banded, and $\G$ factors into two banded matrices whose product is dense only because one of them is inverted.
+
+% ALTERNATIVE (for comparison with the paragraph above; delete one).
+% CITE-NEEDED: add the page or section of Boyd that discusses sparse integration against dense differentiation matrices (not checked); and, if wanted, Greengard 1991 (spectral integration for two-point boundary value problems), after checking the publisher record.
+The density of the standard form belongs to its representation, not to differentiation. Differentiation is a dense, upper-triangular matrix on Chebyshev coefficients only because the derivative is required to be expanded in the same basis as the function. Classical spectral methods avoid this by working in the \emph{integral form} of the Galerkin (or tau) method \cite{boyd2001Chebyshev}: the highest derivative is taken as the unknown, lower derivatives and the function are recovered from it by integration, and the equation is written over these quantities. Integration maps each Chebyshev polynomial to a combination of its two neighbours, so the integration operator is banded where the differentiation operator is dense, and the discretised equation inherits the sparsity. Equivalently, and in the form we use, each derivative is expanded in the neighbouring ultraspherical basis, in which differentiation is banded \cite{olver2013}. In either description $\G$ factors into banded matrices, and its product is dense only because one of the factors is inverted. We therefore change the form in which the equation is written and leave the equation, its boundary data and its solution as they were.
 
 The descriptor form keeps the factors instead of the product. Where the standard form substitutes $\G^j$ for each derivative, the descriptor form carries $f',\dots,f^{(k)}$ as unknowns beside $f$, ties consecutive derivatives by banded recurrences, and writes the equation over all of them. A first-order equation or system needs no extra unknowns, because the equation itself gives the derivative: multiplying the standard rows through by one banded factor is enough. We call the first layout the \emph{chain} and the second the \emph{mass form} (\Cref{sec:descriptor-layouts}).
 
@@ -126,6 +131,7 @@ with $(k+1)N$ columns, so that $\Adesc\,w=0$ is the equation. Its first $k$ bloc
 % CUT 2026-10-06: "The chain at its smallest order" (f'+2f=0 as a chain, eq:descriptor-first-order).
 %   The N = 4 instance of the chain is in app:cheb; the mass form below gives the k = 1 case.
 
+% REVISE (v2.1): systems' data (ratio rows), coupling (matchings) and circuits now live in Ch. 6 (sec:systems-*); this paragraph keeps the mass form's definition (plan §5.3). Repoint "the coupled fields of \Cref{sec:descriptor-constraints}" below to \Cref{sec:systems-fields}, and say Ch. 6 applies the form to systems.
 \paragraph{The mass form ($k=1$).} A first-order equation or system $z'=\mathbb{A}z$ with $C$ components has in the standard form the rows $I_C\otimes\G-\mathbb{A}\otimes I_N$, one block per component. The equation already determines each derivative, so a derivative block would carry nothing new; the mass form instead multiplies the rows on the left by $I_C\otimes\Bt$ and uses $\Bt\G=\Dt$,
 \begin{equation}
     (I_C\otimes\Bt)\bigl(I_C\otimes\G-\mathbb{A}\otimes I_N\bigr)
@@ -152,12 +158,13 @@ Write $Ep=(p;\G p;\dots;\G^kp;0)$. Chain: the padding rows force the padding blo
 
 The theorem concerns kernels, and it is exact. An exact kernel exists only where the solution lies in the span of the basis; otherwise both residuals have full rank, and their ground states are the smallest right singular vectors of different matrices. The descriptor measures a state's residual against a norm that carries its derivatives (\Cref{sec:descriptor-gap}), and the mass form weights the equation rows by $\Bt$. The two ground states converge to the same function as $n$ grows, at rates we measure but do not prove: on R2a at $n=7$ the decoded field's error against the analytic solution is $\res[2,sci]{build/R2a/descriptor/n7}{field_err_linf}$ in the descriptor and $\res[2,sci]{build/R2a/standard/n7}{field_err_linf}$ in the standard form (\Cref{sec:results-gap}). We therefore claim equal kernels and observe a common limit, not equal ground states.
 
-\subsection{Constraints, Partial Differential Equations and Coupled Fields}
+\subsection{Constraints and Partial Differential Equations}
 \label{sec:descriptor-constraints}
 
 A data constraint sits on the block that holds the quantity it constrains. A Dirichlet condition $f(x_z)=0$ reads block~$0$ with the point-evaluation row $\Brow(x_z)$, as in the standard form. A Neumann condition $f'(x_m)=0$ reads block~$1$ with the same row, $\Brow(x_m)\fhat{1}=0$, where the standard form must write $\Brow(x_m)\G\ket{\psi}$. The regular datum of \Cref{sec:pihm-residual} reads block~$0$, so the field is decoded and scaled exactly as in the standard form.
 
-On several axes the field is block~$0$, and each axis $a$ owns a chain $\partial_af,\dots,\partial_a^{k_a}f$ up to the highest order that the equation or a constraint takes along it. The recurrences use that axis's factors $\Bt_a,\Dt_a$, tensored with the identity on the other axes. The heat equation ($k_t=1$, $k_x=2$) carries four blocks, and Laplace's and the wave equation ($k=2$ on each axis) five, padded to eight. A mixed derivative would need a block of its own; the construction does not build one, which limits it to equations without mixed derivatives. A system of coupled first-order fields takes the mass form, one block per component. Initial and boundary \emph{functions}, as opposed to point values, enter both forms as datum slices, rows that pin a slice of the state to a known function. Datum slices are available to the standard form too, and neither form doubles the state of a linear \gls{pde}, so the descriptor's advantage on these problems is not one of state size.
+% MOVED (W0c step 3) to 6_systems.tex, sec:systems-fields LAND: the sentence "A system of coupled first-order fields takes the mass form, one block per component." Placeholder pointer sentence below.
+On several axes the field is block~$0$, and each axis $a$ owns a chain $\partial_af,\dots,\partial_a^{k_a}f$ up to the highest order that the equation or a constraint takes along it. The recurrences use that axis's factors $\Bt_a,\Dt_a$, tensored with the identity on the other axes. The heat equation ($k_t=1$, $k_x=2$) carries four blocks, and Laplace's and the wave equation ($k=2$ on each axis) five, padded to eight. A mixed derivative would need a block of its own; the construction does not build one, which limits it to equations without mixed derivatives. \Cref{sec:systems-fields} treats coupled fields. Initial and boundary \emph{functions}, as opposed to point values, enter both forms as datum slices, rows that pin a slice of the state to a known function. Datum slices are available to the standard form too, and neither form doubles the state of a linear \gls{pde}, so the descriptor's advantage on these problems is not one of state size.
 
 \subsection{The Gap of a Carried Derivative}
 \label{sec:descriptor-gap}
@@ -249,9 +256,7 @@ where the field word acts on the block register, $\mathrm{SHIFT}^{s_t}$ is the t
 \end{algorithm}
 
 % CUT 2026-10-06: "Inputs and outputs" (restated the algorithm's KwIn/KwOut).
-% MOVED 2026-10-06 to 6_nonlinear.tex (the Carleman coupling's matchings, where the lift is built):
-%   a large irregular coupling is split into matchings, each with at most one entry in every row and
-%   column, and a greedy colouring uses at most 2*Delta - 1 of them, Delta the largest row degree.
+% MOVED (W0c step 3) to 6_systems.tex, sec:systems-coupling LAND (the matchings text, verbatim there); see \Cref{sec:systems-coupling}.
 
 \paragraph{The terms (lines 1--4).} Lines 1 and 2 are the decomposition above. Line 3 gathers terms whose axis factors agree across the rows and columns they join, so that the block register carries their pattern once, as a small matrix expanded in Pauli words; the recurrences' common $\Dt$ is paid for once and not $k$ times. Line 4 is the whole of the block rescaling.
 

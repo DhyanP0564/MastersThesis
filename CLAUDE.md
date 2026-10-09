@@ -5,8 +5,8 @@ physics-informed effective Hamiltonians for quantum differential-equation solver
 supervisor Jingbo Wang; working title in `1_header/1_title.tex`, final choice in
 ThesisPlanning.md §13.1).
 
-**Governing plan: `ThesisPlanning.md`** (version 2.0, 2026-10-01). It fixes the chapter
-structure and order, the contributions, the three questions the thesis answers, the page
+**Governing plan: `ThesisPlanning.md`** (version 2.1, 2026-10-08; eleven chapters). It fixes the
+chapter structure and order, the contributions, the three questions the thesis answers, the page
 budget, the notation and the claims each chapter may make. Where it conflicts with
 `thesis_guides/`, the plan wins; where anything conflicts with the Standing Facts below on a
 fact, the Standing Facts win.
@@ -92,28 +92,36 @@ at stake.
 Check across the whole manuscript, reporting only actual inconsistencies:
 - Symbol usage (ThesisPlanning.md §8): `n` vs `N = 2^n`, `k`, `p`, `n_f`, `α`, `α_R`, `α_H`,
   `Δ`, `γ`, `d`, `ε`, `θ₀`, `β` (QITE only), `q_k`, `p_G`, `H′`, `η_e`, `ρ`, `s`, `ζ`, `μ`, `K`,
-  `M`, `𝔾`, `B̃`, `D̃`, `A_std`/`A_desc`, `H_std`/`H_desc`, `σ₀`/`σ₁`. Bare `A`, `H`, `R` only in
-  regime-independent statements (Chapter 7).
+  `M`, `𝔾`, `B̃`, `D̃`, `A_std`/`A_desc`, `H_std`/`H_desc`, `σ₀`/`σ₁`, `C`, `z`, `𝔸`, `𝔽`, `y_⊥`,
+  `w₀`, `c` (a complex coefficient, never `a` or `α`). Bare `A`, `H`, `R` only in
+  regime-independent statements (Chapter 8).
 - Complexity bounds quoted identically, with the same scope, wherever they recur (Abstract,
-  §1, §4, §5, §8, §9, §10).
+  §1, §3.6, §4, §5, §9, §10, §11).
 - Algorithm and operator names matching the method as built (`pihm/docs/02_methods.md`).
 - Terminology (ThesisPlanning.md §3.4): standard form vs descriptor form (never
   "collocation" for the paper's regime); chain vs mass form; prepared vs projected; trusted kernel vs converged lift;
   verified (exact / probe / IR) vs emulated vs estimated; minimax edge filter vs imaginary-time
-  filter; benchmark problem R1–R10 (never "rung"); "as printed" only in the reproduction (never
-  "corrected" elsewhere).
+  filter; benchmark problem R1–R10 (never "rung"); "as printed" only in §4.1–4.3, §9.1 and
+  Appendix K (never "corrected"); realification vs native complex encoding; ratio rows; the
+  coupling as a sum of matchings.
+- The audit stated once per layer: Ch. 3 names a weakness, Ch. 4 derives it, §9.1 shows its
+  numbers. The mass form defined once (§5.3), applied in Ch. 6.
+- Chapter numbers after v2.1's renumbering (systems Ch. 6, nonlinearity Ch. 7, pipeline Ch. 8,
+  Numerical Study Ch. 9, Discussion Ch. 10, Conclusions Ch. 11) in prose and header comments.
 - Acronyms defined at first use; `glossaries` entries present.
 - Australian spelling (`-ise`), except verbatim API names.
 
 ## Standing Facts (do not let drafts contradict these)
 
-Version 3 (2026-10-01), from ThesisPlanning.md §0.2 and `pihm/docs/02_methods.md`.
+Version 4 (2026-10-08), from ThesisPlanning.md §0.2, §1.5 and `pihm/docs/02_methods.md`.
 
 - **Framing.** The headline contribution is the **descriptor reformulation**. Four numbered
-  supporting contributions: S1 a verified reproduction and audit of Wu et al.; S2 an exact
-  structured encoding of the standard form, which isolates its cost in the Hamiltonian; S3 a
-  regime-independent verified preparation pipeline; S4 Carleman preparation versus
-  doubled-space projection, culminating in 2-D Navier–Stokes. The physics-informed effective
+  supporting contributions: S1 a verified reproduction and audit of Wu et al., and the passage
+  from the faithful rebuild to the standard form (Ch. 4, Table T10); S2 an exact structured
+  encoding of the standard form, which isolates its cost in the Hamiltonian; S3 a
+  regime-independent verified preparation pipeline; S4 beyond a single real field: coupled
+  systems, complex-valued fields by realification, and Carleman preparation versus doubled-space
+  projection, culminating in 2-D Navier–Stokes. The physics-informed effective
   Hamiltonian framework is **prior art** (Wu, Paine, Philip, Gentile & Kyriienko 2025,
   `wu2025pihm`), presented and judged in Chapter 3. The paper's regime is the **standard
   form**. S2 serves the comparison; it is never a rival solver. FABLE appears nowhere.
@@ -127,6 +135,24 @@ Version 3 (2026-10-01), from ThesisPlanning.md §0.2 and `pihm/docs/02_methods.m
   tied by banded recurrences (the chain); a first-order equation or system is the standard
   rows times I⊗B̃ (the mass form), with no derivative blocks and nothing to rescale. The kernel
   is the standard form's in both.
+- **The standard form.** The paper's regime (derivatives eliminated through the dense 𝔾, the
+  paper's lifts, least squares), with the printed defects removed: exact constraint points (problem
+  data inherited from the paper's statement, not read off the solution at run time),
+  Chebyshev-accurate sources, datum slices for initial and boundary functions (the heat data at
+  t = −1), the R3c/R3d substitution f = √(1 − x²)v, any number of axes, and the stacked residual R
+  with H = R†R never formed. The structured 𝔾 encoding takes n + 4 ancilla for 𝔾 alone.
+- **Systems.** Several fields of a first-order system share one state, a block each, in both
+  forms (standard I⊗𝔾 − 𝔸⊗I; descriptor mass form). Vector data enter as ratio rows (direction
+  fixed, scale free); 𝔸 is a sum of matchings on a circuit, the same in both forms. On R7 the
+  mass form's gap is about 2.1× a block-rescaled chain's. Only first-order systems were run.
+- **Complex-valued fields.** `pihm` carries real data only and refuses complex sources, data and
+  coefficients. A complex R would still give a Hermitian H = R†R (no non-Hermitian filter is
+  needed: a formulation statement, not a run). Complex-valued linear equations are carried by
+  **realification** as coupled real systems: R7 is exactly z′ = −iπz realified; R9 and R10 use real
+  Fourier bases. The tensor layout's coupling is the one native complex encoding, verified but
+  never used for preparation. Native complex preparation is not built: never write that a
+  complex-valued field was prepared or solved. The legacy `DESolverLib`'s complex code is never
+  cited.
 - **Readout.** The field is read out **classically**: decoded from the prepared state's field
   blocks, scaled by the regular datum. The paper's interferometric protocol is built and
   verified only at small n (R1, R2a, R5a), with our correction for p_G < 1; it is further work,
@@ -138,7 +164,9 @@ Version 3 (2026-10-01), from ThesisPlanning.md §0.2 and `pihm/docs/02_methods.m
   quoted. Always name the tier. "Could not simulate" is never "cannot reach".
 - **Verification.** The stacked-residual reflection V (encoding 2H/α_R² − I) is verified
   **exactly** to 25 qubits; every construction-only circuit of ≤ 24 qubits by probe; lifts and
-  couplings by IR at any size. T1 = T2 to ≤ 1e-10 before normalising wherever both run.
+  couplings by IR at any size. T1 = T2 to ≤ 1e-10 before normalising on every minimax record; the
+  reproduction's QITE T1 records that miss the bar (43 of 46 keys pass before P8) are reported
+  with their degree, never re-judged (re-check this fact after P8).
 - **Filter.** The **minimax edge filter** prepares every comparison and extension, at the least
   degree that suppresses the excited spectrum to ε relative to the ground value. The
   imaginary-time (QITE) filter is the paper's: it runs in the reproduction and in the filter
@@ -177,10 +205,13 @@ Version 3 (2026-10-01), from ThesisPlanning.md §0.2 and `pihm/docs/02_methods.m
 - **Nonlinearity.** The doubled space (run in the standard form only) encodes exactly and
   **projects**: its kernel has dimension at least 2^{2n−1}. The Carleman lift **prepares, in
   both forms**; ρ < 1 is sufficient, not necessary, and the lift's convergence is measured (on
-  Burgers it follows a/ν, not ρ). A trusted kernel does not certify a converged lift. The
-  descriptor's mass form in time lowers the degree. The tensor layout has **2K − 1** terms.
+  Burgers it follows a/ν, not ρ: converging at a/ν = 3, diverging at 10; "a/ν ≈ 5" is an
+  extrapolation). A trusted kernel does not certify a converged lift. The descriptor's mass form
+  in time lowers the degree. The tensor layout has **2K − 1** terms. The nodal fold is exact at
+  α = 2, within 1.21 of ‖𝕟₁‖₂: tight, not optimal.
 - **Variants.** The problem is unnamed ("R2a"); the paper's panel as printed is "R2a as
-  printed" and appears only in the reproduction.
+  printed" and appears only in Ch. 4's audit and passage (§4.1–4.3), the reproduction (§9.1) and
+  Appendix K. Never "corrected".
 - Legacy results (`Setonix/`, legacy notebooks, old `docs/`) are never cited; every number
   comes from `pihm`'s P8 records (`results-v1`).
 

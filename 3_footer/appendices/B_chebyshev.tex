@@ -66,6 +66,18 @@ independent of whichever values a test suite happens to check.
 residual against the reference implementation, alongside the rest of the
 composition-algebra checks.
 
+\subsection{The norm of the derivative matrix}
+\label{app:cheb-G-norm}
+% TODO (proof): show \|\G\|_2 = \Theta(N^2) in the normalised basis, so that \Cref{sec:pihm-residual} can point here.
+%   Status: upper bound is elementary (\|\G\|_F^2 = \sum_p 4p^2 \cdot \#\{k<p, p-k odd\} ~ N^4/2, so \|\G\|_2 <~ N^2/\sqrt2);
+%   the lower bound is only MEASURED (\|\G\|_2 / N^2 -> 0.472 for N = 4..1024; own script, not a pihm result).
+%   Route for the lower bound: \G is orthogonally similar to the Gauss-node differentiation matrix (\Phi\G\Phi^T, main text), so it is the weighted-L2
+%   (Chebyshev weight) inverse/Markov inequality \|p'\|_w <= C N^2 \|p\|_w with sharpness; or exhibit a test vector (e.g. a sequence of
+%   polynomials attaining the N^2 rate) directly.
+%   NO SOURCE FOUND: searched for a citation stating the bound and its sharpness (Canuto-Quarteroni 1982; Canuto-Hussaini-Quarteroni-Zang;
+%   Boyd; Trefethen 2000). None could be confirmed to state it, and Trefethen's matrix is on Gauss-Lobatto points, not these nodes.
+%   Do not cite until the statement is read in the source.
+
 \subsection{The Ultraspherical Connection}
 \label{app:ultraspherical}
 

@@ -62,6 +62,13 @@
 %cross referencing
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
+% Section references print as the section symbol (§ 3.1, §§ 3.1, 3.2) to save space
+\crefname{section}{\S}{\S\S}
+\Crefname{section}{\S}{\S\S}
+\crefname{subsection}{\S}{\S\S}
+\Crefname{subsection}{\S}{\S\S}
+\crefname{subsubsection}{\S}{\S\S}
+\Crefname{subsubsection}{\S}{\S\S}
 
 % Quantum computing packages
 \usepackage{tikz}
@@ -129,6 +136,9 @@
 \newcommand{\nfold}{\mathbbm{n}}          % product-to-sum fold: \nfold_1, \nfold_x
 \newcommand{\Brow}{\mathbb{B}}            % rank-one zero (invariant) constraint row
 \newcommand{\Dzero}{\mathbb{D}^{(0)}}     % rank-one collapse (regular) constraint row
+\newcommand{\Acoup}{\mathbb{A}}          % a system's coupling matrix; \Acoup_K the Carleman generator
+\newcommand{\Frat}{\mathbb{F}}            % ratio row (direction fixed, scale free)
+\newcommand{\Slice}{\mathbb{S}}           % datum-slice row, \Slice_a(x^*)
 \newcommand{\Ucg}{\mathbb{U}}             % Chebyshev--Gauss transform (nodal fold)
 \newcommand{\Uodd}{U_{\mathrm{odd}}}      % average of the odd-offset truncated shifts
 \newcommand{\Astd}{A_{\mathrm{std}}}      % standard-form residual

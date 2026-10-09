@@ -1,7 +1,7 @@
 % =============================================================================
-% Chapter 8  Numerical Study  --  ~10.5 pp
+% Chapter 9  Numerical Study  (9_results.tex)  --  10 pp
 % rubric: Project Body (Modelling) -- Results & Discussion /30.
-% Plan: ThesisPlanning.md §5.8.
+% Plan: ThesisPlanning.md §5.9.
 %
 % PURPOSE     Evidence every claim of the Abstract and of §1.3, "without
 %             reference to any other documents", one section per question or
@@ -11,10 +11,12 @@
 %             interpreted in prose; each section ends with what it established.
 % SOURCES     P8's records (results-v1) through \res; the reports
 %             pihm/docs/10_reproduction.md, 11_pillar1.md, 12_pillar2.md,
-%             13_descriptor.md, FILTERS.md, EXTENSIONS.md, NAVIER_STOKES.md,
-%             18_claims.md; the notebooks of Planning.md §10.8, one per figure.
-% WRITE WHEN  Section by section as the gates pass: §8.2 at G1/G3 (W2);
-%             §8.3-8.6 at G4 (W3); §8.7 at G5 (W4).
+%             13_descriptor.md, 15_filters.md, 16_extensions.md,
+%             17_navier_stokes.md, 18_claims.md; the results guide
+%             pihm/docs/06_results_guide/ 81-87, ordered as this chapter; the
+%             notebooks of Planning.md §10.8, one per figure.
+% WRITE WHEN  Section by section as the gates pass: §9.2 at G1/G3 (W2);
+%             §9.3-9.6 at G4 (W3); §9.7 at G5 (W4).
 % EVERY NUMBER is a \res from 0_results/ (\prov{...} only while pihm does not
 % produce it yet), and EVERY number carries its tier (T1, T2 or T3) in the
 % table or caption.
@@ -32,6 +34,8 @@
 % (§8.4). "Nonlinear Benchmarks" and "Case Study: Navier--Stokes" keep their
 % labels; the single figure they used to share (fig:carleman-ns) splits into
 % one per section (F13, F14), per §5.8 points 5-6.
+% (Chapter, file and § numbers in this migration note are v2.0's; v2.1 moved this
+% chapter from Ch. 8 to Ch. 9, so read §5.8 as §5.9 and 7_pipeline.tex as 8_pipeline.tex.)
 % =============================================================================
 
 % Opening: no heading; follows the section heading directly (no stacked headings).
@@ -46,8 +50,10 @@
 % LAND, in order:
 %   1. tab:eta-reproduction: eta_e for the 11 ODE panels (printed, ideal
 %      ||b||^2, ours at the printed n) and a summary line for the five others
-%      (Appendix K has all 16). The closed form eq:eta-e and what it
-%      validates: our conventions are the paper's.
+%      (Appendix K has all 16). The closed form eq:eta-e (derived in §4.1) is
+%      CITED, not restated: what it validates is that our conventions are the
+%      paper's. This section holds the numbers for the claims §4.2 derives; it
+%      does not re-argue them.
 %   2. fig:faithful-vs-corrected (nb 11): the panels as printed against the
 %      problem for Fig. 5, the distortion from rounded points and Maclaurin
 %      sources.
@@ -60,10 +66,7 @@
 %      here).
 % TAB: tab:eta-reproduction (T6). FIG: fig:faithful-vs-corrected (F6).
 
-\begin{equation}
-    \eta_e = \|b\|^2 = \frac{N}{\pi}\int_{-1}^{1}\frac{f(x)^2}{\sqrt{1-x^2}}\,dx .
-    \label{eq:eta-e}
-\end{equation}
+The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{sec:standard-rebuilt}.
 
 \begin{table}[htbp]
     \centering
@@ -107,13 +110,15 @@
 % ~1.5 pp (S3). NEW in v2.0: merges the old "Operator Verification and
 %   Encoding Cost" (verification half) and "State Preparation and Readout"
 %   sections (ThesisPlanning.md §4.3 step 4). The encoding-COST half of the
-%   old operators section has moved to sec:results-scaling (§8.3), since cost
+%   old operators section has moved to sec:results-scaling (§9.3), since cost
 %   is Q(i)/Q(ii) evidence, not a faithfulness check.
 % LAND, in order:
 %   1. Operators equal the assembled residuals in every mode
 %      (fig:verification-accuracy, nb 20).
 %   2. The circuit equals the emulation before normalising, <= 1e-10, on
-%      every T1 record (nb 31).
+%      every minimax T1 record (nb 31); the reproduction's QITE T1 records that
+%      miss the bar are reported with their degree (plan §2.1, open item:
+%      43 of 46 keys pass before P8).
 %   3. Every trusted preparation within epsilon and its a priori bound
 %      (nb 30); the decoded field within its budget (fig:decoded-field,
 %      nb 32).
@@ -145,6 +150,9 @@
 %      T2 points where measured and T3 beyond, VISIBLY distinguished.
 %   3. Interpretation: the ENCODER WALL (published to structured) and the
 %      HAMILTONIAN WALL (structured to descriptor) as two gaps on one plot.
+%   3a. F10 (nb 41, optional): case by case, the descriptor's cost over the
+%      standard form's, as built and at the ideal bound alpha = ||R||, with the
+%      reversals marked.
 %   3b. MOVED here from 5_descriptor.tex (2026-10-06): the measured growth of the degree between n = 7 and
 %      n = 8, all T3 resource estimates. R2a: the descriptor's N^{res stateprep/R2a/descriptor/growth/T3/
 %      filter=minimax degree} against the standard form's N^{res .../R2a/standard/growth/...}; R3a (leading
@@ -217,18 +225,24 @@
 
 \placeholderfigure[7cm]{Three representative problems, solved in both forms.}{fig:gap-cases}{Three columns (R2c, R3a, R5b or R5c): top row, the decoded solution against the analytic one; bottom row, error against $n$ for the standard and descriptor forms (and, for R2c, with and without block rescaling). Exact emulation (T2). Source: notebook \texttt{40\_scaling\_and\_claims}.}
 
-\subsection{Nonlinear Problems}
+\subsection{Systems and Nonlinear Problems}
 \label{sec:results-nonlinear}
-% ~1.5 pp (Q(iii), S4).
-% LAND, in order:
+% ~1.5 pp (Ch. 6, Q(iii), S4; label kept).
+% LAND, in order (ThesisPlanning.md §5.9 item 5; R7 FIRST):
+%   0. R7 first, one paragraph (nb 60): the coupled oscillator, the realification
+%      of z' = -i pi z, in both forms and the chain ablation: field error, the
+%      mass form's gap against the chain's (about 2.1x), degree, gamma^2 under
+%      the data-weighted initial state, and T1 = T2.
 %   1. R6's kernel beside R8's (the projection evidence: kernel dimensions
 %      against one) (nb 61).
 %   2. R8: the K x n_t error surface and the degree comparison, both forms
 %      (claim C-09).
-%   3. Burgers (fig:nonlinear-burgers, nb 62): the lift's error per order
-%      follows a/nu (about a/5nu) and NOT rho, which grows with the modes;
-%      past a/nu ~ 5 the lift diverges while its kernel stays unique and
-%      trusted: a NEGATIVE FINDING with its analysis.
+%   3. Burgers (R9, fig:nonlinear-burgers, nb 62): the lift's error per order
+%      follows a/nu (about a/5nu) and NOT rho, which grows with the modes; the
+%      lift CONVERGES at a/nu = 3 and DIVERGES at a/nu = 10 while its kernel
+%      stays unique and trusted. a/nu ~ 5 (where a/5nu reaches one) is an
+%      EXTRAPOLATION, never written as measured (Journal correction): a
+%      NEGATIVE FINDING with its analysis.
 % FIG: fig:nonlinear-burgers (F13, split from the old shared fig:carleman-ns).
 
 \placeholderfigure[7cm]{Carleman truncation converges geometrically once time is resolved; the doubled space only projects; on Burgers the error tracks $a/\nu$, not $\rho$.}{fig:nonlinear-burgers}{(a) R8: error against Carleman order $K$ for several time resolutions $n_t$, both forms; (b) R6: projection fidelity against physical fidelity; (c) R9 Burgers: error per order against $a/\nu$, diverging past $a/\nu \approx 5$ while the kernel stays unique and trusted. Source: notebook \texttt{50\_navier\_stokes}.}
@@ -248,7 +262,8 @@
 %      convergence and the truncation against a direct simulation; every
 %      exact emulation within epsilon; the descriptor's time axis lowers the
 %      degree in every pair, the ratio narrowing as the modes grow (C-10).
-%   3. The TENSOR LAYOUT to 316 modes in 2K - 1 terms, with its gates per
+%   3. The TENSOR LAYOUT to 316 modes in 2K - 1 terms, a native complex
+%      encoding verified but not prepared (Ch. 6, §6.5), with its gates per
 %      query against the matchings (B-19).
 %   4. T1 is BEYOND THE SIMULATION BUDGET here, with its estimate quoted:
 %      said plainly.
@@ -258,7 +273,7 @@
 
 \subsection{Summary of Findings}
 \label{sec:results-summary}
-% ~0.5 pp. LAND: the seven numbered findings below (ThesisPlanning.md §5.8
+% ~0.5 pp. LAND: the seven numbered findings below (ThesisPlanning.md §5.9
 %   point 7), AT LEAST TWO NEGATIVE (items 1, 3, 4 and 6 qualify). Then the
 %   spine sentence (ThesisPlanning.md §3.3).
 %   1. The paper's ODE results reproduce, its PDE and nonlinear ones do not.
@@ -268,8 +283,9 @@
 %   4. The descriptor's gap erodes where derivatives are uncontrolled;
 %      rescaling restores it on one axis only.
 %   5. The pipeline is verified end to end at every size it reaches.
-%   6. Carleman prepares in both forms, but a trusted kernel can hide a
-%      diverging lift.
+%   6. Coupled systems run in both forms on one state, and the mass form
+%      beats a chain per field; Carleman prepares in both forms, but a trusted
+%      kernel can hide a diverging lift.
 %   7. Navier--Stokes is reached by exact emulation and estimate, not by
 %      circuit simulation.
 

@@ -58,6 +58,7 @@ $\nfold_1$, $\nfold_x$ & Product-to-sum folds. & \Cref{sec:pihm-doubled} \\
 $\Brow(x)$, $\Dzero(x_s)$ & Rank-one zero (invariant) and collapse (regular) constraint rows. & \Cref{sec:pihm-residual} \\
 $x_z$, $x_m$, $x_s$ & Constraint points: a zero, an extremum, a source datum. & \Cref{sec:pihm-residual} \\
 $R_0$, $\Uodd$, $\Lambda$ & Factors of the structured exact encoding of $\G$. & \Cref{sec:standard-factorisation} \\
+$\Slice_a(x^*)$, $\hat g$ & Datum-slice row on axis $a$ at $x^*$; the coefficients of the datum function. & \Cref{sec:standard-passage} \\
 $\Ucg$ & The Chebyshev--Gauss transform used by the nodal fold. & \Cref{sec:folds} \\
 $\|\G\|_S$ & The paper's norm $\max\bigl(\|\G\G^{\top}\|_1, \|\G^{\top}\G\|_1\bigr)$. & \Cref{sec:pihm-encoding} \\
 \bottomrule
@@ -111,7 +112,25 @@ Symbol & Meaning & Introduced \\
 $K$ & Carleman truncation order. & \Cref{sec:carleman} \\
 $M$ & Dimension of the base state $u$. & \Cref{sec:carleman} \\
 $\rho$ & Nonlinearity-to-dissipation ratio; the Carleman precondition is $\rho < 1$. & \Cref{sec:carleman} \\
-$F_1$, $F_2$, $\mathbb{A}_K$ & Linear and quadratic terms; the lifted Carleman generator. & \Cref{sec:carleman} \\
+$F_1$, $F_2$, $\Acoup_K$ & Linear and quadratic terms; the lifted Carleman generator. & \Cref{sec:carleman} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\bigskip
+\noindent\textbf{Systems and complex coefficients}
+\begin{center}
+\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\toprule
+Symbol & Meaning & Introduced \\
+\midrule
+$C$ & Number of components (fields) of a system. & \Cref{sec:systems-fields} \\
+$z$ & A system's state: one block per component. & \Cref{sec:systems-fields} \\
+$\Acoup$ & A system's coupling matrix, $u_i' = \sum_j \Acoup_{ij}u_j$. & \Cref{sec:systems-fields} \\
+$\Frat$ & Ratio row: fixes the direction of a vector datum and leaves its scale free. & \Cref{sec:systems-data} \\
+$y$, $y_a$, $y_\perp$ & The vector datum; its anchor component; its off-anchor part. & \Cref{sec:systems-data} \\
+$w_0$ & A system's stated initial data; it weights the initial state. & \Cref{sec:systems-data} \\
+$c = \operatorname{Re}c + i\operatorname{Im}c$ & A complex coefficient, in the realification example. & \Cref{sec:systems-complex} \\
 \bottomrule
 \end{tabular}
 \end{center}

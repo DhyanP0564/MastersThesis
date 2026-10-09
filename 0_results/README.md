@@ -93,7 +93,7 @@ The ones most often quoted:
 | | `infidelity` | 1 − \|⟨b̂\|ψ⟩\|² against the reference coefficients |
 | | `gap`, `relative_gap`, `hamiltonian_norm` | Δ = λ₁ − λ₀, Δ/‖H‖₂, ‖H‖₂ = σ²_max |
 | | `sigma_min`, `gap_ratio`, `kernel_dimension` | σ₀; the ratio at the kernel boundary; the kernel's size |
-| | flag `trusted` | one-dimensional kernel with `gap_ratio` ≥ 100 (the † in the tables) |
+| | flag `trusted` | one-dimensional kernel with `gap_ratio` ≥ 20 (the † in the tables) |
 | `encode` | `alpha_R` | α_R of the stacked-residual reflection |
 | | `verify_max_error`, `verify_tolerance`, flag `verify_passed` | the circuit against the classical Hamiltonian |
 | | `cx_count`, `depth`, `one_qubit_count`, `n_qubits_total`, `n_anc_qubits` | resources |

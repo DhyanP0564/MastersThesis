@@ -1,49 +1,349 @@
 % =============================================================================
-% Chapter 4  The Standard Form: Encoder Cost and Hamiltonian Cost  --  ~4 pp
+% Chapter 4  The Standard Form: From the Published Method to an Exact Baseline  --  6 pp
 % rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.4 (supporting contribution S2).
+% Plan: ThesisPlanning.md §5.4 (supporting contributions S1, formulation half, and S2).
 %
-% PURPOSE     Answer Q(i) (sec:pihm-assessment). Build the paper's encoding as
-%             published, then the best exact encoding of its regime, and show
-%             that even the best encoder leaves the degree Theta-tilde(N^{2k}),
-%             because the cost is the Hamiltonian's.
-% CRITERION   Formulation, band 4: "a significant advance in the state of the
-%             art". S2 is a verified construction. Frame it as serving the
-%             comparison (a fairness device), never as a rival solver.
-% SOURCES     ThesisPlanning.md §3.7, §6.3; claims A-06-A-08, A-12, C-01, C-02;
-%             pihm/src/pihm/circuits/standard.py, arithmetic.py;
-%             pihm/docs/11_pillar1.md; companion/{22,23,31,32,33,57}; derived keys
-%             derivative/n<n> (structured and published alpha).
-% WRITE WHEN  Now (wave W1); §8.3's numbers at gate G3 (wave W2).
+% PURPOSE     Three passes (T-30). Rebuild the paper's method exactly and check its
+%             claims mathematically (§4.1-4.2); pass, defect by defect, from that
+%             faithful rebuild to the standard form every later chapter uses, closed by
+%             the definition of the standard form and Table T10 (§4.3); then answer Q(i)
+%             (sec:pihm-assessment): build the best exact encoding of the standard form
+%             and show that the degree stays Theta-tilde(N^{2k}), because the cost is the
+%             Hamiltonian's (§4.4-4.5).
+% CRITERION   Formulation, band 4: "a significant advance in the state of the art", and
+%             "described in sufficient detail to permit readers to create equivalent
+%             models": the standard form's definition and Table T10 are that
+%             specification for the paper's regime. Frame S2 as serving the comparison (a
+%             fairness device), never as a rival solver.
+% SOURCES     docs/companion/ 10-14 (basis, differentiation), 20-24 (multiplication,
+%             constraints, the standard residual, its spectrum, worked R2a), 31-33
+%             (published and structured encodings), 47 (the readout identity), 57 (degree
+%             scaling); docs/10_reproduction.md §§1-4 and
+%             docs/06_results_guide/81_reproduction.md (what §9.1 will show, so §4.1-4.3
+%             point to it and do not repeat it); docs/22_claims_register.md (the verdict
+%             of every claim A-01..A-13; docs/18_claims.md lists only the tested ones);
+%             claims A-01-A-13, C-01, C-02, C-07; docs/03_problems/*.md (each benchmark
+%             problem's equation, data and reference, for the "introduce by its equation"
+%             rule); src/pihm/assemble/standard.py, operators/constraints.py,
+%             problems/ladder.py (the printed variants), circuits/standard.py,
+%             arithmetic.py; derived keys derivative/n<n>. State the reasons for §4.3,
+%             never cite the decisions or ISSUE-nnn (ThesisPlanning.md §3.5 rule 3).
+% WRITE WHEN  Now (wave W1). Every subsection has a LAND block below; draft one
+%             subsection per prompt, in file order, against the CHAPTER CONTRACT. §4.2.2,
+%             §4.4 and §4.5 already carry the 2026-10-07 prose (a first pass for the
+%             author to rewrite); §4.1, §4.2.1 and §4.3 are LAND-only. §4.1-4.3 quote at
+%             most one number per claim, by \res, as a pointer to §9.1 (the audit's
+%             division of labour, T-30: Ch. 3 names, Ch. 4 derives, §9.1 shows the
+%             numbers).
 %
-% 2026-10-07 PROSE REWRITE (first pass for the author to rewrite; the previous
-%   version is at commit e181c21). Changes: "encoder wall"/"Hamiltonian wall" are
-%   now "the encoder's cost" and "the Hamiltonian's cost", defined once in the
-%   opening (author's choice); each benchmark problem is introduced by its equation
-%   at first use, its tag after; the Fig. 9 qubit verdict is corrected -- our
-%   rebuild uses registers of its own because the figure's wiring is illegible, so
-%   2n + 5 against the printed 2n + 3 does not test the claim (companion 31); the
-%   odd-offset restriction the rebuilt PREPARE needs is now stated, since it is a
-%   deviation from the printed figure. Departures from the plan's wording kept from
-%   the previous draft: (a) the ancilla count is the exact n + 4 (checked n = 2-8),
-%   within the plan's n + O(log n); (b) the 2.12 bound is the proved limit
-%   2 j_{-3/4,1} = 2.117 beside the measured values; (c) the Hamiltonian's cost is
-%   stated for constant coefficients with a_k != 0, the class for which ||G^k|| is
-%   proved, and R3 is the volunteered exception. OPEN: the alpha_R/||R|| ratio key
-%   is the looseness/... derived key; App. E's proof stub must absorb the
-%   Bessel-kernel limit, the ||G^k|| = Theta(N^{2k}) theorem and the published
-%   ratio ~ j N^3.
+% CHAPTER CONTRACT (what makes five subsections read as one section; every prompt obeys it)
+%   ARC       Opening (Q(i), the two costs, the roadmap) -> §4.1 the rebuild's inputs ->
+%             §4.2 the paper's claims, tested (§4.2.1 the Hamiltonian, filter and readout,
+%             by algebra; §4.2.2 the published circuits) -> §4.3 the passage to the
+%             standard form (defect -> replacement -> property) -> §4.4 the exact
+%             structured encoding (removes the encoder's cost) -> §4.5 what no encoding
+%             removes (the Hamiltonian's cost), and the hand-off to Ch. 5.
+%             Each subsection ends on the sentence the next one starts from: §4.1 hands
+%             §4.2 the faithful rebuild; §4.2.1 hands §4.2.2 the efficiency claim, a claim
+%             about circuits; §4.2 hands §4.3 "efficient in gates, inefficient in
+%             subnormalisation"; §4.3 hands §4.4 the standard form (def:standard-form) and
+%             the pipeline rows of T10; §4.4 hands §4.5 an encoder at alpha within a
+%             constant of the norm; §4.5 hands Ch. 5 the Hamiltonian.
+%   TERMS     The encoder's cost (alpha minus the norm) and the Hamiltonian's cost (the
+%             norm) are DEFINED ONCE, in the opening, and used unchanged thereafter; the
+%             retired phrases "encoder wall" and "Hamiltonian wall" (plan §5.4 item 6 still
+%             says "wall") do not appear. Otherwise ThesisPlanning.md §3.4: published
+%             encoding (never FABLE, "naive"); structured (exact) encoding; standard form
+%             (never "collocation"); ideal-encoding bound alpha = ||R||; minimax edge
+%             filter; trusted kernel; "as printed" is allowed throughout §4.1-4.3 and
+%             nowhere else but §9.1 and Appendix K; never "corrected", "fixed", "bug".
+%   VOICE     "Wu et al." / "the paper" for the source; "the printed X" for one of its
+%             choices; "we" for our own construction or measurement. No sentence may read
+%             as authorship of the framework (Style Trap 13): wu2025pihm at each
+%             construction in §4.1 and §4.2.2.
+%   FIRST USE Each benchmark problem is introduced by its equation at its FIRST use in the
+%             chapter, then its tag (T-10; never "rung"); later uses are the tag alone.
+%             The first-use order, which fixes where each introduction goes:
+%               §4.1  R2a   f'' + 4f' + 4f = 0, f(-1) = 0, f(0) = 1/2 (Fig. 3b), the
+%                           running example. The introduction now sitting in §4.5's prose
+%                           ("which we label R2a in the benchmark set of tab:ladder") moves
+%                           to §4.1 when it is drafted; §4.5 then uses the tag alone.
+%               §4.2  R3a   Legendre (1 - x^2)f'' - 2xf' + 20f = 0 (Fig. 4a), the exact
+%                           discrete solution from n = 3; R5a Laplace (Fig. 6b), the
+%                           near-degenerate bottom; R5b heat (Fig. 6d), the backward problem.
+%               §4.3  R4a-R4d (Fig. 5: rounded points -0.2, -0.73, 0.91, -0.75; Maclaurin
+%                           sources p = 3, 5, 7), R3c/R3d (Fig. 4c, d), R5a-R5c (Fig. 6),
+%                           R6b (Fig. 7c, point 0.02615).
+%               §4.5  R2b (f'' - 2f' - 3f = 0, Fig. 3c) and R3a, already introduced in
+%                           §4.2, are tags only.
+%             The map above is from docs/03_problems/; re-read it before introducing one.
+%   SYMBOLS   plan §8.1: n and N = 2^n; k the order; alpha_R, alpha_H, alpha_G; Delta the
+%             gap; d the filter's degree; eta_e (Chapter 4's closed form) against eta (the
+%             paper's printed scale); the macros \G \Brow \Dzero \Uodd \Hstd \M. Bare A, H, R only
+%             in regime-independent statements: here H_std and R_std, or H and R where the
+%             chapter says "the standard form's" once.
+%   TIERS     Every quantity from a circuit is labelled: exact classical computation (the
+%             subnormalisation tables), resource estimate (T3: degrees at n = 8), circuit
+%             verified against the assembled Hamiltonian (exact / probe). Nothing here ran
+%             on hardware; none of §4's degrees is a simulation.
+%   NUMBERS   By \res or \prov only (0_results/README.md). The derived keys this chapter
+%             uses: derivative/n<n> {norm, structured_alpha, structured_ratio,
+%             published_alpha, published_ratio}; looseness/stateprep/R2a/standard/n<n>/T3/
+%             filter=minimax {alpha_ratio, hamiltonian_ratio}; stateprep/<p>/<form>/growth/...
+%             {degree, ideal_degree}; build/R2a/standard/n<n> {gap, hamiltonian_norm}. A
+%             number without a key stays \prov with a REVISE (see those in §4.2.2 and §4.4).
+%   BUDGET    6 pp: opening 0.25, §4.1 0.6, §4.2 1.75 (§4.2.1 1.0, §4.2.2 0.75), §4.3 1.5
+%             (T10 about 0.5 of it), §4.4 1.0, §4.5 1.0 = 6.1. The 2026-10-07 prose in
+%             §4.2.2, §4.4 and §4.5 is already longer than its share (an estimate of about
+%             2 pp over the chapter before §4.1, §4.2.1 and §4.3 exist). Drafting does not trim it (CLAUDE.md);
+%             Review Mode ranks the cuts, and Appendices D and E take the apparatus first.
+%
+% Departures from the plan's wording, kept from the 2026-10-07 draft: (a) the ancilla count
+%   is the exact n + 4 (checked n = 2-8), within the plan's n + O(log n); (b) the 2.12 bound
+%   is the proved limit 2 j_{-3/4,1} = 2.117 beside the measured values; (c) the
+%   Hamiltonian's cost is stated for constant coefficients with a_k != 0, the class for
+%   which ||G^k|| is proved, and R3 is the volunteered exception; (d) the Fig. 9 qubit
+%   verdict is "not testable" (our rebuild uses registers of its own, companion 31), so
+%   2n + 5 against the printed 2n + 3 does not test the claim; (e) the rebuilt PREPARE
+%   runs over odd offsets only, a deviation from the printed figure that is stated.
+% OPEN (App. E's proof stub must absorb): the Bessel-kernel limit, the ||G^k|| =
+%   Theta(N^{2k}) theorem and the published ratio ~ j N^3; the alpha_R/||R|| ratio key is
+%   the looseness/... derived key.
 % =============================================================================
 
-This chapter answers the first question of \Cref{sec:pihm-assessment}: is the cost of the physics-informed effective Hamiltonian incurred by the circuit that block-encodes it, or set by the Hamiltonian itself? The two are separable because a filter's degree depends on the encoding only through its subnormalisation $\alpha$, and every encoding of a matrix has $\alpha$ at least the matrix's norm. We call the excess of $\alpha$ over the norm the \emph{encoder's cost} and the norm itself the \emph{Hamiltonian's cost}. We first rebuild the published encoding of the differentiation matrix and test the paper's claims for it (\Cref{sec:standard-published}). We then construct an exact encoding of the same matrix whose subnormalisation is within a constant of its norm (\Cref{sec:standard-factorisation,sec:standard-cost}), which removes the encoder's cost for constant coefficients and leaves the Hamiltonian's exposed (\Cref{sec:standard-hamiltonian}). The structured encoding is a fairness device: it gives the comparison of \Cref{sec:results-scaling} the strongest standard-form baseline we can build, and it is not offered as a solver.
+% OPENING (no heading; ~0.25 pp; plan §5.4 item 0). The prose below is the 2026-10-07 opening,
+%   kept; it says what is built and why. LAND, in order:
+%   1. Q(i) restated in one sentence (sec:pihm-assessment): is the cost of the method the
+%      circuit's or the Hamiltonian's?
+%   2. Why the two separate: the degree depends on the encoding only through alpha, and
+%      alpha >= the matrix's norm for every block encoding. The encoder's cost (alpha
+%      minus the norm) and the Hamiltonian's cost (the norm) DEFINED HERE, ONCE.
+%   3. The roadmap of the three passes in one or two sentences: the rebuild and its audit
+%      (§4.1-4.2), the passage to the standard form (§4.3), the exact encoding and what it
+%      leaves (§4.4-4.5). S2 named as a fairness device.
+% CHECKLIST  Q(i) in the first sentence; the two costs defined here and nowhere else; no
+%   "this chapter describes".
+% TRAPS  Introducing a result before its subsection; "wall" (retired); "our solver".
+This chapter answers the first question of \Cref{sec:pihm-assessment}: is the cost of the physics-informed effective Hamiltonian paid by the circuit that block-encodes it, or set by the Hamiltonian itself? The two are separable because a filter's degree depends on the encoding only through its subnormalisation, $d=\Theta\bigl(\sqrt{\alpha_H/\Delta}\,\log(1/\varepsilon)\bigr)$ (\Cref{eq:degree}), and every block encoding of $H$ has $\alpha_H\ge\|H\|$. We call the excess of $\alpha_H/\|H\|$ the \emph{encoder's cost} and $\|H\|$ itself the \emph{Hamiltonian's cost}: the first belongs to the circuit, the second to the operator. We first reconstruct the method of Wu et al.\ \cite{wu2025pihm} as printed and test its claims mathematically (\Cref{sec:standard-rebuilt,sec:standard-claims}), and circuit by circuit (\Cref{sec:standard-published}). Then, we codify our own ``Standard Form'' by rectifying the algorithmic weaknesses of the faithful reconstruction. Then we provide an exact unitary encoding of this standard form and show the remaining costs (\Cref{sec:standard-factorisation,sec:standard-hamiltonian}).
 
-\subsection{The Published Encoding, Rebuilt}
+\subsection{Algorithm Reconstruction}
+\label{sec:standard-rebuilt}
+% ~0.6 pp
+% QUESTION  What exactly was rebuilt, so that §4.2-4.3 test and depart from a fixed object?
+%   Pass 1 of 3 (the faithful rebuild). A specification paragraph, not a tour of the code:
+%   an equation-level statement of what the rebuild keeps, with wu2025pihm cited at each
+%   construction (Style Trap 13).
+% SOURCES  companion 10-14 (basis, differentiation), 20-22 (multiplication, constraints,
+%   the standard residual), 24 (worked R2a), 71-73 (dense and iterative references);
+%   claims A-01 (SM §A entry by entry), A-02 (eta_e); docs/10_reproduction.md §1 (the
+%   scale factors; do not quote its table).
+% NUMBERS  One \res for the eigh failure (the B-07/B-23 key: relative gap 5.9e-15 at n = 7
+%   and 2.3e-17 at n = 8 on R2a, i.e. below 2^-52 from n = 8, not n = 7; plan §2.1's last
+%   bullet). No other number: the eta_e comparison is T6 in §9.1.
+% LABELS IN  sec:pihm-model, sec:pihm-residual (what Ch. 3 states), eq:pihm-G-entries.
+% LABELS OUT  eq:eta-e (cited by 3_pihm.tex and tab:eta-reproduction), app:sm-matrices,
+%   app:eigh-vs-svd, sec:pipeline-reference (the reference in full), sec:standard-passage.
+% INTRODUCES  R2a by its equation (FIRST USE ledger in the header).
+% HANDS OFF  to §4.2: "the rebuild reproduces the printed matrices and scales; whether the
+%   paper's claims about it hold is a separate question."
+% LAND, in order:
+%   1. What "faithful" keeps: the normalised basis and the raw tau in the rank-one
+%      rows; G on coefficients (the paper prints G_n^T, T-16); variable coefficients
+%      and sources lifted from n to n + 1 qubits; Neumann data as B(x_m)G; the printed
+%      constraint points, Maclaurin sources and PDE invariant sets; the doubled space
+%      for the quadratic panels (handed to Ch. 7). The printed SM §A matrices are
+%      reproduced entry by entry (A-01; the worked instance in Appendix C).
+%   2. The scale, ours: eta_e = ||b||^2 = (N/pi) int f^2/sqrt(1 - x^2) dx (eq:eta-e,
+%      moved here from §9.1, its label kept): the ideal value of the paper's eta,
+%      growing like N, so a built-in check on the resolution. Its comparison with the
+%      printed values is T6 (§9.1). The statement, ready to uncomment (see REVISE):
+%        \begin{equation}
+%            \eta_e = \|b\|^2 = \frac{N}{\pi}\int_{-1}^{1}\frac{f(x)^2}{\sqrt{1-x^2}}\,dx .
+%            \label{eq:eta-e}
+%        \end{equation}
+%   3. The classical solve: the ground state as the smallest right singular vector of
+%      the stacked residual (formalised in §4.3); never eigh of H, because H's relative
+%      gap falls below double precision (one \res, the B-07/B-23 key; the eigh/SVD table
+%      -> Appendix I). Accuracy by Wedin's bound; the reference in full is §8.3, and a
+%      result is judged only where its kernel is trusted.
+% OFFLOAD: -> Appendix C (app:sm-matrices and the worked N = 4 residual, the lifts,
+%   the multi-axis residual); -> Appendix I (app:eigh-vs-svd): eigh against SVD.
+% CHECKLIST (marker, plan §5.4)  6 ("as printed" only in §4.1-4.3), 7 (nothing repeats
+%   Ch. 3's prose or §9.1's numbers).
+% TRAPS  Quoting §9.1's tables here (one \res per claim, as a pointer); repeating
+%   Ch. 3's prose (restate nothing Ch. 3 already derived: 𝔾's entries, the lifts, the
+%   constraint kinds; list what the rebuild KEEPS and point); "corrected" ("as printed" is
+%   allowed in §4.1-4.3, T-33); "we implemented" (a code map, §3.5 rule 2).
+% DRAFT 2026-10-08 (first pass for the author to rewrite). The R2a introduction is merged into
+%   the first paragraph; Wedin's bound and the reproduction protocol (the fourth paragraph) are
+%   new. About 0.8 pp against the 0.6 budget.
+% REVISE: (a) the fourth paragraph's "within one unit in its last printed digit" is A-02's
+%   verdict stated in words, with no \res; if the exporter gains a count key for it (or for the
+%   nine of eleven that equal it when rounded), quote it there. (b) Done 2026-10-08: the eigensolver's
+%   bound is stated with daviskahan1970rotation (checked against Crossref). Add a textbook reference for
+%   the SVD's backward error ||dR|| <~ eps sigma_max if wanted (not added: unchecked).
+
+We reproduce the construction of \Cref{sec:pihm-model,sec:pihm-residual} faithfully, keeping the choices of Wu et al.\ \cite{wu2025pihm} wherever the paper specifies them: its basis and feature vector, lifts, constraint points, Maclaurin truncations of the sources, the invariant sets of its partial differential equations, and the doubled space of its nonlinear panels (\Cref{sec:pihm-doubled}). Two things differ from the print and are stated: $\G$ acts on coefficient vectors where the paper prints $\G_n^{\top}$ (\Cref{sec:pihm-residual}), and the filter is applied by \gls{gqsp} in place of the paper's \gls{qsvt} (below). One panel runs through the chapter to make the choices concrete: the paper's Fig.~3b, a critically damped oscillator $f''+4f'+4f=0$ with $f(-1)=0$ and $f(0)=\tfrac12$, whose solution is $f=\tfrac12(1+x)e^{-2x}$ and which the paper prints at $n=3$. We label it R2a in the benchmark set of \Cref{tab:ladder}; its data involve no rounded point and no truncated source, so the printed and exact variants of this panel coincide.
+
+The scale of the model is the paper's $\eta$ (\Cref{sec:pihm-model}), and its ideal value, the squared norm $\|b\|^2$ of the solution's normalised coefficient vector, has a closed form. With $x=\cos\theta$ the Chebyshev weight turns $\int T_jT_k(1-x^2)^{-1/2}\,dx$ into $\int_0^\pi\cos j\theta\cos k\theta\,d\theta$, so the normalised basis is orthogonal with the common squared norm $\pi/N$, and Parseval's identity gives
+\begin{equation}
+    \eta_e = \|b\|^2 = \frac{N}{\pi}\int_{-1}^{1}\frac{f_N(x)^2}{\sqrt{1-x^2}}\,dx ,
+    \label{eq:eta-e}
+\end{equation}
+where $f_N=\braket{\tau(x)|b}$ is the solution's truncated Chebyshev series. It is the physical field $f_Q$ when $\eta=\eta_e$ and $\ket{\psi}=\ket{b}/\|b\|$. For a smooth solution $f_N\to f$, so $\eta_e/N\to\pi^{-1}\int f^2(1-x^2)^{-1/2}\,dx$, and for a polynomial of degree below $N$ the two agree exactly. The ideal value is thus fixed by the solution and the resolution alone. The paper's printed $\eta$ equals it only to the extent that its ground state approximates $b/\|b\|$, so agreement tests the basis convention, the resolution and the accuracy of the model together.
+
+The classical reference is the smallest right singular vector of the stacked residual $R$ with $H=R^\dagger R$ (\Cref{sec:standard-passage}), not an eigenvector of $H$, since forming $H$ squares the condition number of $R$. Throughout \Cref{sec:standard-rebuilt,sec:standard-audit}, $H$ and $R$ are the paper's operators; the standard form's are $\Hstd$ and $R_{\mathrm{std}}$. The distinction matters at $n=8$, where the relative gap $\Delta/\|H\|$ of R2a is $\res[2,sci]{build/R2a/standard/n8}{relative_gap}$, below machine epsilon $\epsilon_{\mathrm{mach}}=2^{-52}$ (\Cref{app:eigh-vs-svd}). The error of an eigenvector computed by a symmetric eigensolver is bounded only by $\epsilon_{\mathrm{mach}}\|H\|/\Delta$ \cite{daviskahan1970rotation}, which here exceeds one. A backward-stable SVD returns the exact singular vectors of some $R+\delta R$ with $\|\delta R\|_2\lesssim\epsilon_{\mathrm{mach}}\,\sigma_{\max}$, up to a modest dimension-dependent constant, so by Wedin's $\sin\Theta$ theorem \cite{wedin1972perturbation} the computed vector makes with the exact one an angle
+\begin{equation}
+    \sin\vartheta \lesssim \frac{\epsilon_{\mathrm{mach}}\,\sigma_{\max}}{\sigma_1-\sigma_0},
+    \label{eq:wedin}
+\end{equation}
+again up to a constant of order one. Here $\sigma_0<\sigma_1$ are the two smallest singular values of $R$ and $\sigma_{\max}$ its largest, and the bound requires $\sigma_0$ to be isolated, which is the trusted-kernel condition (\Cref{sec:pipeline-reference}). When $\sigma_0\ll\sigma_1$ the denominator is $\sigma_1\approx\sqrt{\Delta}$, so the bound is about $\epsilon_{\mathrm{mach}}\sqrt{\|H\|/\Delta}$: the square root of the eigensolver's. The SVD therefore resolves a gap that the eigensolver cannot. The reference is as accurate as the residual's own spectrum allows, and no more. An iterative reference takes over beyond the dense SVD's reach, and a result is judged only where its kernel is trusted.
+
+The reproduction is tested on every example of the paper's Figs~3--7: eleven \glspl{ode} (Figs~3--5), three \glspl{pde} (Fig.~6) and two nonlinear \glspl{ode} in doubled space (Fig.~7), at the resolutions the paper uses. Each example's scale is compared against the printed $\eta$ and $\eta_e$, its decoded field against the analytic solution, and the state that the paper's imaginary-time filter prepares against the classical reference. The paper's imaginary-time filter is applied by a \gls{gqsp} circuit in place of the paper's \gls{qsvt}, which removes the parity split and the LCU that recombines it (\Cref{sec:bg-qsp,tab:deviations}); the polynomial is unchanged. It is run by exact emulation and by circuit simulation (\Cref{sec:pipeline-filter}).
+
+The matrices that the paper prints in its supplementary material at $n=2$ are reproduced entry by entry (the worked instance is in \Cref{app:sm-matrices}), and the printed scale of each of the eleven \glspl{ode} to within one unit in its last printed digit. The printed scales of the five \gls{pde} and nonlinear \gls{ode} panels are not reproduced, neither by $\eta_e$ of the exact solution nor by any ground state we computed, and the cause is not settled: \Cref{sec:results-reproduction} gives the numbers and the hypotheses we tested.
+
+\subsection{Testing the Paper's Claims}
+\label{sec:standard-audit}
+% ~1.75 pp (§4.2.1 1.0, §4.2.2 0.75). Merged 2026-10-08 (T-35) from the former §4.2 ("Validating
+%   the Paper's Claims") and §4.3 ("Block-Encoding Circuit Analysis"): one audit of the paper's
+%   claims, split by kind. Pass 1 of 3 (the audit).
+% QUESTION  Which of the paper's claims survive a test: by algebra on its Hamiltonian, filter and
+%   readout (§4.2.1), and on its rebuilt block encodings (§4.2.2)?
+% FORM  One opening paragraph naming the claims of both halves, then the two subsubsections. The
+%   labels sec:standard-claims and sec:standard-published sit on the subsubsections, so every
+%   existing \Cref keeps its target; cite sec:standard-audit for the audit as a whole.
+% HANDS OFF  §4.2.1 to §4.2.2: claim 5 is a claim about circuits; §4.2.2 to §4.3: "efficient in
+%   gates, inefficient in subnormalisation".
+
+The rebuilt algorithm reproduces the paper's matrices and the printed scales of its \glspl{ode} (\Cref{sec:standard-rebuilt}), and its construction of $H$, its ground-state kernel and its imaginary-time filter work as the paper describes them in the cases it prints. Four statements about them do not carry beyond those cases. That $H$ is positive-definite with distinct eigenvalues is stronger than the construction supports; that the printed constraints select a unique solution holds for ordinary equations that meet a rank condition, and for the printed \glspl{pde} only near their printed resolutions; the time rule is an approximate lower bound that cannot certify a target accuracy; and the readout identity holds only for deterministic preparation. A fifth claim, that the necessary terms are efficient to implement, concerns circuits and is tested on the paper's own block encodings (\Cref{sec:standard-published}). Each of the first four is tested here by algebra or by an exact classical computation on the assembled residual, with numerics in \Cref{sec:results-reproduction}, and all claims are tabulated in \Cref{app:paper-claims}.
+
+\subsubsection{The Hamiltonian, Its Filter and Its Readout}
+\label{sec:standard-claims}
+% ~1.0 pp
+% QUESTION  Which of the paper's claims about its OWN Hamiltonian and filter survive a
+%   mathematical test? Pass 1 of 3 (the audit, mathematics half). Ch. 3 named each weakness
+%   in one sentence with a pointer here; this subsection DERIVES it; §9.1 shows the numbers.
+% FORM  (Revised 2026-10-08: the claims that do not carry beyond the printed cases; the rest
+%   are taken as correct. No verdict labels, in headings or elsewhere; each paragraph ends on
+%   what remains of the claim. No opening pointer to Ch. 3.) Short self-contained paragraphs, one per
+%   claim: the claim as printed (quoted or close), the evidence, and what remains of it in the
+%   paragraph's last sentence. At most one \res per claim,
+%   as a pointer. A small verdict table is optional (tab:published-verdicts in §4.2.2 is the
+%   model); if added, it is not a new numbered table in the plan.
+% SOURCES  docs/22_claims_register.md: A-09 (semi-definite), A-11 (time rule), A-12
+%   (poly(n) terms), A-10 (doubled space; only a pointer, it is Ch. 7's), A-13; companion
+%   22-23 (residual and spectrum), 47 (readout identity); docs/12_pillar2.md §12 and §14
+%   for the time rule (read, do not cite). The uniqueness lemma and the sign of eta are
+%   OURS: state each with its scope.
+% NUMBERS  Per claim at most one \res: the time rule's shortfall (A-11), the Laplace
+%   invariant set's second singular value or the rank loss (A-09 / uniqueness). The heat
+%   panel's ill-posedness is an argument, not a number.
+% LABELS IN  sec:pihm-residual (def:pihm-hamiltonian, the claim of positive definiteness),
+%   sec:pihm-model (eta), sec:pihm-encoding (the filter and time rule), sec:pihm-assessment.
+% LABELS OUT  sec:results-reproduction (§9.1), app:paper-claims (App. K), app:readout-identity
+%   (App. F), sec:standard-published (the bridge, claim 5), sec:pipeline-readout (§8.7).
+% INTRODUCES  R3a (the Legendre polynomial), R5a (Laplace), R5b (heat), by equation.
+% NOTE (2026-10-08): claim 5's rebuttal paragraph ("polynomially many gates") was MOVED out of this subsection to §4.5 (sec:standard-hamiltonian), where eq:standard-wall exists: it is not a refuted claim, and its argument needs the N^{4k} result. Only the hand-off sentence remains here; LAND item 5 below is now carried by §4.2.2 (tab:published-verdicts) and §4.5.
+% HANDS OFF  to §4.2.2: claim 5 ("poly(n) terms, implemented efficiently") is true of gates
+%   and false of the subnormalisation: "the circuits are tested next".
+% LAND, in order. Each claim as printed, the mathematics that tests it, and what
+%   remains of it (no verdict labels are required):
+%   1. "Positive-definite with distinct eigenvalues" (A-09): H = R^dagger R is
+%      positive SEMI-definite; an exact discrete solution (a polynomial of degree
+%      below N, as R3's Legendre polynomials from n = 3) is an exact zero eigenvalue;
+%      and an under-determined constraint set leaves the bottom near-degenerate (the
+%      printed Laplace invariant set). Distinctness is tested by that set, not by the
+%      doubled space (A-10 is Ch. 7's).
+%   2. eta > 0: sqrt(eta) = y_s / <tau(x_s)|psi_g> is negative whenever the ground
+%      state's sign opposes the datum's; the ground state is defined up to a global
+%      phase, so eta > 0 is a sign convention, and the decoded field carries the sign.
+%      (Not drafted: a convention, not a limit of the method.)
+%   3. Uniqueness: a homogeneous order-k ODE with a nowhere-vanishing leading
+%      coefficient needs constraints of rank k - 1 on its solution space S, and one
+%      regular datum (lemma, ours; it concerns the continuous problem, and the truncated
+%      kernel is judged by its dimension and gap ratio). The PDE invariant sets omit
+%      the initial or boundary function, the heat and wave sets also carry constraints
+%      read off the known solution, and all lose rank beyond the printed n (measured:
+%      §9.1).
+%   4. The time rule beta >= lambda_max / (lambda_2 (n - 1)) contains no epsilon, so it
+%      cannot certify a target accuracy: the imaginary-time filter needs
+%      beta >~ ln(1/epsilon)/Delta on H's own scale; set the two side by side. The paper
+%      calls the rule an approximate lower bound and says t = 15 and t = 8 "are enough"
+%      for two examples: it does not claim epsilon (A-11; the measured shortfall in §9.1).
+%   5. "poly(n) terms, implemented efficiently" (A-12): true for gate counts, false for
+%      the subnormalisation, which sets the number of queries: the bridge to §4.2.2.
+%   6. The readout identity assumes the prepared state is the ground state with
+%      certainty; a filter with post-selection succeeds with p_G < 1, and the identity
+%      acquires a correction (stated here, derived in Appendix F, the protocol itself
+%      further work, §8.7).
+%   7. The units of the paper's O(1/Delta) cost are argued in §3.6 and are not
+%      repeated here.
+% OFFLOAD: the readout identity's derivation -> Appendix F (app:readout-identity);
+%   the uniqueness count -> Appendix C (app:uniqueness-count);
+%   every claim's numbers -> Appendix K (app:paper-claims) and §9.1.
+% CHECKLIST (marker, plan §5.4)  1 (every claim tested is stated as the paper states it,
+%   tested, and points to its numbers), 6, 7.
+% TRAPS  A claim without a pointer to its numbers; quoting §9.1's tables here; repeating
+%   Ch. 3's prose; "corrected"; conclusions must match the register (A-09 refined, A-11
+%   falls short, A-12 refined; eta > 0 and the uniqueness lemma are ours, not register
+%   rows); the lemma is stated for homogeneous equations with a nowhere-vanishing leading
+%   coefficient only (R3a is a singular case, judged by its kernel); refuting what the
+%   paper does not claim (the time rule is its "approximate lower bound"); the PDE
+%   invariant sets are scoped, not refuted: they work at the printed n and degenerate
+%   beyond it (the paper's panels do run at the printed n).
+% DRAFT 2026-10-08, revised after review (first pass for the author to rewrite).
+% REVISE: (e) The keys relative_gap on build/R5a/faithful/standard/n4x4, kernel_dimension
+%   on build/R5a/faithful/standard/n5x5 and paper_infidelity on protocol/R2a/standard/n3
+%   need the exporter rerun to leave their placeholders (the protocol stage is not yet in
+%   numbers.tex). Resolved on review: the plan's and Ch. 3's backward-heat wording (the
+%   paper never imposes the initial function; the backward half arises only when it is
+%   supplied at t = 0, which is sec:standard-passage's datum slice); the Laplace set's
+%   missing top-side function is stated in the text; app:uniqueness-count now proves the
+%   continuous count for homogeneous equations only (the inhomogeneous clause was dropped).
+% CITE-NEEDED: none beyond wu2025pihm. The sin-Theta bound is §4.1's.
+
+\paragraph{``Positive-definite with distinct eigenvalues''.} The paper describes $H$ as a real symmetric positive-definite matrix with distinct eigenvalues, and elsewhere as a positive semi-definite form whose ground state has zero energy \cite{wu2025pihm}. Only the second holds. As a sum of Gram matrices, $H=R^\dagger R$ is positive semi-definite, and it is definite exactly when no nonzero vector satisfies every row of $R$. The method relies on the opposite case: when the truncated basis represents the solution exactly, as a polynomial solution of degree below $N$ does, $H$ has an exact zero eigenvalue. Distinctness fails when the constraints under-determine the solution. The paper's Laplace invariant set leaves the bottom of the spectrum near-degenerate at $n=(4,4)$, where the gap of $H$ relative to its norm is $\res[2,sci]{build/R5a/faithful/standard/n4x4}{relative_gap}$, and degenerate beyond it (below). The statement is therefore loose wording for a semi-definite $H$ whose ground state is isolated at the printed resolutions. The thesis relies on that isolation, measured as the gap ratio of a trusted kernel (\Cref{sec:pipeline-reference}), and never on definiteness.
+
+\paragraph{A unique solution from the printed constraints.} The paper selects the solution by invariant constraints, each setting a derivative at a point to zero, and fixes its scale by one regular datum \cite{wu2025pihm}. Take a homogeneous ordinary equation of order $k$ whose leading coefficient has no zero on $[-1,1]$. Its solutions form a $k$-dimensional space $S$, and those that satisfy the constraints form a subspace of dimension $k-\rho$, where $\rho$ is the rank of the constraints restricted to $S$. The solution is unique up to scale exactly when $\rho=k-1$: fewer leave a degenerate bottom of the spectrum, and $\rho=k$ leaves only $f=0$, which no nonzero datum can match. The rank is that of the constraints restricted to $S$, not of the functionals, so $k-1$ constraints chosen without regard to the equation can fail, and the selected solution must not vanish at the regular point. R2a meets the condition (the count is proved in \Cref{app:uniqueness-count}). R3a, whose leading coefficient vanishes at the endpoints, is outside the lemma and is judged by its computed kernel, which is trusted at the printed $n$ (\Cref{sec:results-reproduction}). The count concerns the continuous problem. Whether the truncated $H$ has a one-dimensional kernel and a usable gap at a given $n$ is a separate question, answered by computing it, and three of the paper's \gls{ode} panels (R2b, R3c and R3d) have no trusted ground state at the printed $n$ (\Cref{sec:results-reproduction}). With a source the equation is inhomogeneous, and uniqueness is likewise judged by the computed kernel.
+
+For a \gls{pde} the count has no analogue: the solutions form an infinite-dimensional space, and the invariant sets the paper prints omit the initial or boundary function that fixes the solution. The panels run regardless, because the truncation decides what the set leaves open. At the printed $n$ the kernel of $R$ is one-dimensional and trusted on all three, and the Laplace, heat and wave panels reach field errors of \res[2,sci]{build/R5a/faithful/standard/n3x3}{field_err_linf}, \res[2,sci]{build/R5b/faithful/standard/n4x4}{field_err_linf} and \res[2,sci]{build/R5c/faithful/standard/n5x5}{field_err_linf}. The Laplace set shows what is left open. The modes $\sin\tfrac{\ell\pi(x+1)}{2}\,\sinh\tfrac{\ell\pi(y+1)}{2}$, $\ell\ge1$, all satisfy the equation and its three homogeneous sides, and only $\ell=1$ matches the top-side function, which reaches the model through the regular point alone. As $n$ grows the other modes become representable and the kernel grows, to dimension $\res{build/R5a/faithful/standard/n5x5}{kernel_dimension}$ at $n=(5,5)$; the heat and wave sets degenerate in the same way, at a larger $n$ than the printed one (\Cref{sec:results-reproduction}). The heat and wave sets also carry constraints read off the known solution (the zeros of $\partial_xf$ at $x=\pm\tfrac34$ and the zeros at $t=\tfrac18,\tfrac78$), which a new problem does not supply. The paper presents each panel at one $n$, so this is a limit of the printed sets and not an error in its panels: they select a unique solution at the printed $n$ and lose that property as the truncation grows. \Cref{sec:standard-passage} replaces the invariant sets with the data themselves, imposed on a slice.
+
+\paragraph{The time rule.} The paper evolves $e^{-\beta H}$ on the block-encoded $\tilde H=H/\|H\|_F$ for a time bounded below by $\beta_{\mathrm{pub}}$ (\Cref{eq:pihm-time-rule}); it calls the bound approximate and reports that the times $t=15$ and $t=8$ ``are enough'' for two of its examples \cite{wu2025pihm}, but gives no argument that connects the rule to an accuracy: $\varepsilon$ appears nowhere in it. We supply that argument here. Write $\tilde\lambda$ for the eigenvalues of $\tilde H$, so that $0\le\tilde\lambda\le\|\tilde H\|_F=1$, and take $n\ge2$. After the evolution the first excited state keeps the fraction $e^{-\beta(\tilde\lambda_2-\tilde\lambda_{\min})}$ of the ground state's amplitude. At $\beta_{\mathrm{pub}}$ the exponent is $(\tilde\lambda_2-\tilde\lambda_{\min})\,\tilde\lambda_{\max}/\bigl(\tilde\lambda_2(n-1)\bigr)$, which is at most $1/(n-1)$ because $\tilde\lambda_2-\tilde\lambda_{\min}\le\tilde\lambda_2$ and $\tilde\lambda_{\max}\le1$. The excited state therefore keeps at least $e^{-1/(n-1)}$ of the ground state's amplitude, a bound that tends to one as $n$ grows. Suppression to a fraction $\varepsilon$ needs $\beta_\varepsilon=\ln(1/\varepsilon)/(\tilde\lambda_2-\tilde\lambda_{\min})$, and
+\begin{equation}
+    \frac{\beta_\varepsilon}{\beta_{\mathrm{pub}}}=\frac{(n-1)\ln(1/\varepsilon)\,\tilde\lambda_2}{(\tilde\lambda_2-\tilde\lambda_{\min})\,\tilde\lambda_{\max}}\ \ge\ (n-1)\ln\frac1\varepsilon ,
+    \label{eq:time-rule-shortfall}
+\end{equation}
+so the shortest time the rule permits is shorter than the one that suppresses the excited spectrum to $\varepsilon$ by at least that factor. The rule is a lower bound, so a longer time is not excluded, but it does not say how much longer. At the rule's own time, what the state keeps of the excited spectrum is set by its initial overlap with the lowest excited states and not by $\varepsilon$. In exact emulation (tier T2), from the geometric product state, the filter-prepared state at the paper's time has infidelity $\res[2]{protocol/R2a/standard/n3}{paper_infidelity}$ on R2a at $n=3$, and \Cref{sec:results-reproduction} gives the other examples. The rule is therefore an estimate of the scale of the evolution time and not a guarantee of accuracy, which the paper does not claim for it.
+
+\paragraph{The readout identity.} The paper's interferometric readout recovers the signed overlap $\braket{\tau(x)|\psi_g}$ from two all-zero probabilities, $P_G(x)$ for the prepared state and $P_C(x)$ for it superposed with a reference, and its Eq.~36 takes the preparation to deliver the ground state with certainty \cite{wu2025pihm}. A filter followed by post-selection delivers it with probability $p_G<1$: on the all-zero ancilla the system holds $\sqrt{p_G}\,\psi_g$, and the rest of the state, supported on other ancilla values, contributes nothing to the all-zero outcome. Carrying $p_G$ through the same algebra gives, on one axis, $4P_C-P_G-1/(2N)=\sqrt{p_G/N}\,\tau(x)\cdot\psi_g$ (\Cref{eq:readout-identity}), of which the paper's identity is the case $p_G=1$; the derivation is in \Cref{app:readout-identity}. The field is unchanged, because $p_G$ cancels in the ratio against the regular datum. The scale is not: applied as printed, the identity returns an overlap smaller by $\sqrt{p_G}$ and so an $\eta_e$ larger by $1/p_G$ (\Cref{eq:readout-field}). It is correct for the deterministic preparation the paper assumes and needs the correction otherwise. The protocol is built and checked by circuit simulation (tier T1) against exact emulation (T2) on R1, R2a and R5a at small $n$ only, and the rest of the thesis does not use it: the field is decoded classically from the prepared state (\Cref{sec:pipeline-readout}).
+
+The claims above are tested by algebra and the assembled residual alone. The remaining claim, that the operators are efficient to implement, concerns circuits and is tested next, on the paper's own block encodings (\Cref{sec:standard-published}).
+
+
+\subsubsection{The Paper's Block Encodings}
 \label{sec:standard-published}
 % ~0.75 pp
+% QUESTION  Do the published block encodings deliver the efficiency the paper claims? Pass
+%   1 of 3 (the audit, circuit half); the encoder's cost made concrete. The prose below is
+%   the 2026-10-07 draft, unchanged in substance.
+% SOURCES  companion 31 (the circuits as built), 30 (block-encoding algebra); claims
+%   A-06 to A-08, A-12; tests/claims/test_pillar1.py; derived keys derivative/n<n>.
+% NUMBERS  published_ratio at n = 7 (the key number); structured_ratio is §4.4's.
+% LABELS IN  sec:pihm-encoding (what the paper claims), eq:pihm-published-prefactor,
+%   eq:degree (alpha sets the number of queries), sec:standard-claims (claim 5 is the bridge).
+% LABELS OUT  app:published-build, prop:epsilon-G, app:alpha-G, tab:alpha-G-short,
+%   tab:published-verdicts, sec:standard-hamiltonian, sec:results-scaling.
+% HANDS OFF  to §4.3: the faithful rebuild is audited; "what it inherits from the paper's
+%   printed choices comes next" (§4.3's framing sentence).
+% CHECKLIST (marker, plan §5.4)  1, 7; the verdict column of tab:published-verdicts is
+%   the verdict column need not be one word.
 % LAND, in order:
-%   1. Figs 2, 8 and 9 of the paper built as drawn, from the legible figure and
-%      the caption angles (sec:pihm-encoding describes them).
-%   2. What is measured, claim by claim: qubits (Fig. 9: not testable, our own
+%   1. Figs 2 and 8 of the paper rebuilt exactly (own wiring); Fig. 9's mechanism
+%      rebuilt with our own registers, not its wiring (one n = 3 instance, control
+%      pattern left to the caption), with the caption angles (sec:pihm-encoding
+%      describes them).
+%   2. What is measured, claim by claim: qubits (Fig. 9: untested, our own
 %      registers); gates after multi-controlled-X decomposition against the claimed
 %      O(n^3); the entry error eps_G(n) against "exponentially decreasing" and against
 %      the small-angle bound (prop:epsilon-G, Appendix D); the prefactor
@@ -52,15 +352,15 @@ This chapter answers the first question of \Cref{sec:pihm-assessment}: is the co
 % OFFLOAD: -> Appendix D (app:published-build): every deviation from the printed
 %   figure, and the measured qubits, gates and eps_G(n).
 
-Wu et al.\ report that each term of their Hamiltonian block-encodes with polynomially many gates (\Cref{sec:pihm-encoding}). We rebuild the three circuits of their Figs~2, 8 and 9 \cite{wu2025pihm} and test each claim against the rebuilt circuit; the registers, the angles and every deviation from the printed figures are given in \Cref{app:published-build}. The point-evaluation row $\Brow(x)$ and the collapse row $\Dzero(x_s)$ (Figs~2 and 8) rebuild as printed: $n+2$ qubits at subnormalisation $\sqrt{2^{n+1}}$, divided by $|f(x_s)|$ for $\Dzero$, whose sign the circuit carries as a phase. Their post-selection succeeds with probability $\|\tau(x)\|^2/2$, which averages one half over the Chebyshev measure, so the paper's ``high probability'' is a constant, not near-certainty.
+Wu et al.\ report that each term of their Hamiltonian block-encodes with polynomially many gates (\Cref{sec:pihm-encoding}). We rebuild the three circuits of their Figs~2, 8 and 9 \cite{wu2025pihm} and test each claim against the rebuilt circuit. The registers, the angles and every deviation from the printed figures are given in \Cref{app:published-build}. The point-evaluation row $\Brow(x)$ and the collapse row $\Dzero(x_s)$ (Figs~2 and 8) rebuild exactly, realising the printed operator with our own wiring: $n+2$ qubits at subnormalisation $\sqrt{2^{n+1}}$, divided by $|f(x_s)|$ for $\Dzero$, whose sign the circuit carries as a phase. Their post-selection succeeds with probability $\|\tau(x)\|^2/2$, which averages one half over the Chebyshev measure, so the paper's ``high probability'' is a constant, not near-certainty.
 
-The derivative circuit (Fig.~9) cannot be rebuilt wire for wire, because its multi-controlled wiring is not legible in the figure, so we rebuild its mechanism with registers of our own. A uniform superposition over offsets $d$ and a register subtraction select the entry $(k,p)$ with $p-k=d$, and ladders of small controlled rotations load the column value $2p$ as an amplitude and correct row~0 by its factor $1/\sqrt2$. The superposition must run over odd offsets only: the figure's superposition over every offset would also load values onto the diagonal and onto the other entries of $\G$ that vanish. The rotation ladder composes angles exactly, but $\sin\bigl(\sum_m\arcsin(2^m\mu)\bigr)\neq\mu p$, so the loaded entries are approximate. To leading order the block differs from $\G$ entrywise by at most $\tfrac13\mu^2p^3$ (\Cref{prop:epsilon-G}), which at the printed $\mu = 2/\|\G\|_S$ is $O(N^{-5})$ and falls by a factor approaching $32$ per added qubit, as the paper claims.
+We do not rebuild the derivative circuit (Fig.~9) wire for wire. The figure draws one instance, $n=3$, and leaves the control pattern of its rotations to the caption's bit string, so the general-$n$ wiring would be our inference rather than the paper's specification. We rebuild its mechanism with registers of our own instead. A uniform superposition over offsets $d$ and a register subtraction select the entry $(k,p)$ with $p-k=d$, and ladders of small controlled rotations load the column value $2p$ as an amplitude and correct row~0 by its factor $1/\sqrt2$. The superposition runs over odd offsets only, since a superposition over every offset would also load values onto the diagonal and onto the other entries of $\G$ that vanish. The rotation ladder composes angles exactly, but $\sin\bigl(\sum_m\arcsin(2^m\mu)\bigr)\neq\mu p$, so the loaded entries are approximate. To leading order the block differs from $\G$ entrywise by at most $\tfrac13\mu^2p^3$ (\Cref{prop:epsilon-G}), which at the printed $\mu = 2/\|\G\|_S$ is $O(N^{-5})$ and falls by a factor approaching $32$ per added qubit, consistent with the paper's exponential decrease.
 
-\Cref{tab:published-verdicts} gives the verdict on each claim. The gate count and the error hold, the rows of Figs~2 and 8 hold exactly, and the qubit count of Fig.~9 cannot be tested from the figure. The claim that decides the cost is the prefactor, which is valid but loose. A circuit with polynomially many gates is cheap to apply, but the number of times the filter must apply it is set by its subnormalisation (\Cref{eq:degree}), and the printed prefactor \Cref{eq:pihm-published-prefactor} exceeds $\|\G\|_2$ by a factor of $\res[2]{derivative/n7}{published_ratio}$ at $n=7$. The factor tends to $jN^3$, where $j\approx1.06$ is the first positive zero of the Bessel function $J_{-3/4}$ (\Cref{app:alpha-G}). This is the encoder's cost of the published circuit: its terms are efficient in gates and inefficient in subnormalisation. Our rebuild's own $\alpha$ is a third of the printed prefactor ($N\|\G\|_S/2$ against $3N\|\G\|_S/2$), so every published-encoding cost in this thesis is the kinder reading of the paper's. Because the encoding is approximate, no state is prepared with it; it enters only the resource estimates, composed into the same stacked residual as the structured encoding so that its filter degree is counted in the same way (\Cref{sec:standard-hamiltonian,sec:results-scaling}).
+\Cref{tab:published-verdicts} gives the verdict on each claim. The gate count holds as a bound, the error holds to leading order in $\mu$, the rows of Figs~2 and 8 hold exactly, and the qubit count of Fig.~9 is untested: our rebuild takes $2n+5$ qubits against the printed $2n+3$, a difference that neither confirms nor refutes the paper's count. The claim that decides the cost is the prefactor, which is valid but loose. A circuit with polynomially many gates is cheap to apply, but the number of times the filter must apply it is set by its subnormalisation (\Cref{eq:degree}), and the printed prefactor \Cref{eq:pihm-published-prefactor} exceeds $\|\G\|_2$ by a factor of $\res[2]{derivative/n7}{published_ratio}$ at $n=7$. The factor tends to $jN^3$, where $j\approx1.06$ is the first positive zero of the Bessel function $J_{-3/4}$ (\Cref{app:alpha-G}). This is the encoder's cost of the published circuit: its terms are efficient in gates and inefficient in subnormalisation. Our rebuild's own $\alpha$ is a third of the printed prefactor ($N\|\G\|_S/2$ against $3N\|\G\|_S/2$), so every published-encoding cost in this thesis is the kinder reading of the paper's. Because the encoding is approximate, no state is prepared with it; it enters only the resource estimates, composed into the same stacked residual as the structured encoding so that its filter degree is counted in the same way (\Cref{sec:standard-hamiltonian,sec:results-scaling}).
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The published encodings hold their gate and error claims but not their efficiency.} The paper's claims for its block encodings \cite{wu2025pihm}, tested against our rebuilt circuits. The rows of Figs~2 and 8 hold as printed. In Fig.~9 the gate count and the error hold; the qubit count cannot be tested, because the figure's wiring is illegible and our rebuild uses registers of its own; and the prefactor is valid but exceeds $\|\G\|_2$ by a factor growing as $N^3$ (\Cref{tab:alpha-G-short}). Counts are for the rebuilt circuits; the error is to leading order in $\mu$.}
+    \caption{\textbf{The published encodings hold their gate and error claims but not their efficiency.} The paper's claims for its block encodings \cite{wu2025pihm}, tested against our rebuilt circuits. The rows of Figs~2 and 8 hold exactly. In Fig.~9 the gate count and the error hold; the qubit count is untested, because our rebuild uses registers of its own; and the prefactor is valid but exceeds $\|\G\|_2$ by a factor growing as $N^3$ (\Cref{tab:alpha-G-short}). Counts are for the rebuilt circuits; the error is to leading order in $\mu$.}
     \label{tab:published-verdicts}
     \small
     \begin{tabular}{@{}l l l l@{}}
@@ -69,9 +369,9 @@ The derivative circuit (Fig.~9) cannot be rebuilt wire for wire, because its mul
         \midrule
         Fig.~2, $\Brow(x)$ & $n+2$ qubits, $\sqrt{2^{n+1}}$ & the same, exact & holds \\
         Fig.~8, $\Dzero(x_s)$ & $\sqrt{2^{n+1}}/f(x_s)$ & the same, exact & holds \\
-        Fig.~9, qubits & $2n+3$ & $2n+5$ (own registers) & not testable \\
+        Fig.~9, qubits & $2n+3$ & $2n+5$ (own registers) & untested \\
         Fig.~9, gates & $O(n^3)$ & $O(n^2)$ & holds (as a bound) \\
-        Fig.~9, error & decreases exponentially & $O(N^{-5})$, bound derived & holds \\
+        Fig.~9, error & decreases exponentially & $O(N^{-5})$, bound derived & holds (leading order) \\
         Fig.~9, prefactor & $(2^{n-1}+2^n)\|\G\|_S$ & valid, $\sim jN^3\|\G\|_2$ & loose \\
         \bottomrule
     \end{tabular}
@@ -81,8 +381,167 @@ The derivative circuit (Fig.~9) cannot be rebuilt wire for wire, because its mul
 %   as keys -- Appendix D's table (tab:app-epsilon-G) is still \prov. When it
 %   fills, quote one measured eps_G here beside the bound.
 
-\subsection{An Exact Factorisation of the Differentiation Matrix}
+\subsection{From the Faithful Rebuild to the Standard Form}
+\label{sec:standard-passage}
+% ~1.5 pp
+% QUESTION  Which printed choices does the faithful rebuild inherit that are DEFECTS, and
+%   what does the standard form replace each with? Pass 2 of 3. This is the section's
+%   specification role: def:standard-form and Table T10 are what lets a reader rebuild the
+%   paper's regime (rubric Formulation, "sufficient detail to permit readers to create
+%   equivalent models").
+% FORM  A framing sentence, then items 1-9 as short paragraphs or a run-in list, each
+%   defect -> replacement -> property gained -> evidence pointer; then def:standard-form;
+%   then tab:deviations (T10). The passage can be drafted in two prompts: (i) items 0-9
+%   and the close; (ii) the definition and T10 (T10 last: its cells restate the items).
+% SOURCES  docs/10_reproduction.md §§1-4 (read for the facts; its "corrected" is the repo's
+%   word, never the thesis's), docs/03_problems/04_r4.md-06_r6.md (the "as printed"
+%   variants), companion 21-22, docs/22_claims_register.md (A-05, A-13), claims B-20.
+% NUMBERS  At most one \res per item, as a pointer to §9.1: the order-7 source's 130 % is a
+%   verified fact (docs/10_reproduction.md §3: R4d, at x = -1); type it only through a key
+%   or \prov, never silently. The errors faithful-against-problem, the triage and F6 are
+%   §9.1's.
+% LABELS IN  sec:standard-published (the bridge), sec:pihm-residual (the printed choices as
+%   Ch. 3 states them).
+% LABELS OUT  def:standard-form (used by §4.4, Ch. 5-8), tab:deviations (cited by
+%   8_pipeline.tex), app:pihm-multi-axis, app:lifts-folds, sec:systems (ratio rows; the
+%   Ch. 6 subsection label is added when 6_systems.tex is drafted), sec:results-reproduction,
+%   app:repro-triage, app:repro-tau, sec:descriptor (double-zero limit), sec:carleman.
+% HANDS OFF  to §4.4: the standard form is defined; the 𝔾 encoder row of T10 points to
+%   sec:standard-factorisation.
+% CHECKLIST (marker, plan §5.4)  2 (T10 lists every deviation; defect plus property; no
+%   date or decision), 3 (defined once, formally, before §4.4 uses it), 6, 7.
+% LAND, in order:
+%   0. Framing sentence: the faithful rebuild reproduces the paper and inherits its
+%      printed choices; each is a defect of a stated mathematical kind, and the
+%      standard form removes it without leaving the paper's regime (derivatives
+%      eliminated through the dense G, the paper's lifts, least squares).
+%      ThesisPlanning.md §3.5 rule 7 applies to every item: an argument, not a
+%      changelog; each item is defect -> replacement -> property gained -> evidence.
+%   1. Rounded constraint points (-0.2, -0.73, 0.91, -0.75, 0.02615): a zero imposed
+%      where the solution does not vanish contradicts the equation, so least squares
+%      trades the two and the error floors at a level no resolution removes -> the
+%      point the problem defines, taken exactly -> convergence. The point is problem
+%      data inherited from the paper's statement, not an input read off the solution
+%      at run time (TRAPS).
+%   2. Maclaurin sources (pbar = 3, 5, 7): a truncated source poses a different
+%      equation (the order-7 series is wrong by 130 % at x = -1 for 5d) -> the
+%      source's Chebyshev coefficients on the lifted register, through the same
+%      collapse row M_r D^(0)(x_s) -> spectral accuracy. Each printed choice alone
+%      floors the error, and only both removed converge (the triage, §9.1).
+%   3. PDE data by hand-picked invariants -> DATUM SLICES: the initial or boundary
+%      function imposed on its slice as one row family,
+%      (S_a(x*) - g-hat tau(x_s)^T / v) Pi_f, in both forms -> answer-independent and
+%      well posed at every n; the heat panel's data are imposed at t = -1, so the
+%      problem runs forward.
+%   4. A leading coefficient with a double zero (R3c, R3d: the associated Legendre
+%      operator multiplied by 1 - x^2): the substitution f = sqrt(1 - x^2) v leaves
+%      simple zeros and removes the branch point that limits convergence to algebraic
+%      -> spectral convergence; it is also the form the descriptor can run (§5.6's
+%      double-zero limit).
+%   5. The Laplace solution's typo (cos, not cosh): the reference corrected, one clause.
+%   6. Two axes -> any number: the residual on d Chebyshev axes by tensor products,
+%      constraints on slices (app:pihm-multi-axis). Two are run; say so.
+%   7. The Gram sum -> THE STACKED RESIDUAL R = [A; B_1; ...; D-slices; ratio rows],
+%      with H = R^dagger R equal to the paper's sum: the object solved (SVD, §8.3) and
+%      encoded (the stacked reflection, §8.4) is R, and H is never formed.
+%   8. Kept on purpose: least squares rather than the tau method (the tau ablation
+%      gives an exact kernel at comparable accuracy, Appendix K, but would leave the
+%      paper's construction); the paper's lift for variable coefficients (the
+%      descriptor's square Galerkin form is Ch. 5's). Not a row of T10.
+%   9. Vector data -> ratio rows, defined with systems in §6.2 (forward pointer; only
+%      first-order systems were run). The definition below already names ratio rows as
+%      one of its four kinds, so the pointer is all this item needs.
+%  10. The definition (def:standard-form) and Table T10 (tab:deviations): see below.
+%  11. Close: the faithful-against-problem errors and the triage are §9.1's (F6).
+% OFFLOAD: -> Appendix K (app:repro-triage, app:repro-tau); -> Appendix C
+%   (app:pihm-multi-axis).
+% TRAPS  A changelog ("we then fixed...", "after finding a bug..."); "corrected";
+%   calling the exact constraint points ANSWER-INDEPENDENT (they are problem data
+%   inherited from the paper; the answer-independent things are the initial state and
+%   the filter's parameters); quoting §9.1's tables here; no row of T10 may name a
+%   date, an issue or a decision.
+
+\begin{definition}[The standard form]
+\label{def:standard-form}
+% STATE: the stacked residual R with equation block
+%   sum_j M_{a_j} G^j - M_r D^(0)(x_s) and constraint rows of four kinds (zero,
+%   collapse, ratio, datum slice; Table T2 in §8.2, sec:pipeline-inputs, lists them as model inputs);
+%   H_std = R^dagger R. The problem is unnamed ("R2a"); the paper's panel is
+%   "R2a as printed" (T-33).
+\end{definition}
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{Every deviation from the printed method is a stated defect and the property its replacement gains.} % REVISE: caption
+    }
+    \label{tab:deviations}
+    % ~0.5 pp. Residual rows from the items above; pipeline rows stated with their
+    %   pointer to Ch. 8 (T-34). Every row names a mathematical defect and the property
+    %   its replacement gains; none a date or a decision (§3.5 rule 7).
+    \small
+    \begin{tabular}{@{}p{0.15\textwidth} p{0.15\textwidth} p{0.15\textwidth} p{0.28\textwidth} p{0.17\textwidth}@{}}
+        \toprule
+        Aspect & Wu et al., as printed & This thesis & Defect removed or property gained & Argued in \\
+        \midrule
+        Constraint points & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:standard-passage} \\
+        Sources & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:standard-passage} \\
+        PDE data & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:standard-passage} \\
+        Leading coefficient with a double zero & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:standard-passage,sec:descriptor} \\
+        Laplace reference solution & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:standard-passage} \\
+        Number of axes & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{app:pihm-multi-axis} \\
+        The Gram sum & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:standard-passage,sec:pipeline-reference,sec:pipeline-walk} \\
+        Vector data & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \todo[inline]{Ch.~6 label (\S6.2)} \\
+        The $\G$ encoder & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:standard-factorisation} \\
+        Normalisation by $\|H\|_F$ & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:pipeline-walk} \\
+        Mixed-parity QSVT & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:pipeline-filter} \\
+        QITE with the time rule & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:pipeline-filter,sec:results-reproduction} \\
+        Phases by fitting & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:pipeline-filter} \\
+        Interferometric readout & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:pipeline-readout} \\
+        $\mathrm{eigh}(H)$ & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:pipeline-reference} \\
+        Initial states & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:pipeline-filter} \\
+        Doubled space & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \Cref{sec:carleman} \\
+        One real field & \todo[inline]{} & \todo[inline]{} & \todo[inline]{} & \todo[inline]{Ch.~6 label} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+\subsection{An Exact Structured Encoding}
 \label{sec:standard-factorisation}
+% ~1.0 pp. The 2026-10-07 draft's old §4.2 and §4.3, merged (tighten when the author
+%   rewrites): the idea in words first (row weight x parity-selected shift x column
+%   index); prop:G-factorisation (C-01), the measured error as verification, not
+%   evidence; Lambda as a Z-string LCU, U_odd by subtraction with a post-selected borrow
+%   flag (F3), R_0; prop:standard-cost; lifts, rank-one rows and products sharing one
+%   ancilla register. The arithmetic and the proofs -> Appendix E.
+% QUESTION  Can the encoder's cost be removed entirely? Pass 3 of 3, first half. Serves
+%   S2, and says so in one clause: the structured encoding gives the comparison of
+%   sec:results-scaling its strongest standard-form baseline; it is not a solver and the
+%   chapter never calls it "our standard-form method".
+% SOURCES  companion 32 (the factorisation), 33 (cost); claim C-01 (alpha_G = N(N-1) <=
+%   2.12 ||G||_2, O(n^2) gates, ancilla O(n)); src/pihm/circuits/standard.py, arithmetic.py;
+%   operators.derivative_factorisation. Ancilla n + 4 for G alone (exact, n = 2-8; the
+%   stacked rows add flags and selectors, so R1's reflection takes n + 5: do not quote n + 4
+%   for the residual).
+% NUMBERS  structured_ratio at n = 2 and 10 (derivative/n<n>), via tab:alpha-G-short; the
+%   factorisation check (REVISE below); two-qubit gate counts at n = 2, 5 are \prov.
+% LABELS IN  sec:standard-published (the published prefactor this removes), eq:pihm-G-entries,
+%   def:standard-form (the object the encoding serves), app:cheb-G-norm (||G|| = Theta(N^2)).
+% LABELS OUT  app:proof-G-factorisation, app:proof-standard-cost, app:alpha-G,
+%   app:uodd-select-detail, app:lifts-folds, app:structured (Appendix E), sec:pipeline-walk,
+%   sec:pipeline-verification, sec:descriptor-block-encoding (the ancilla contrast).
+% HANDS OFF  to §4.5: "the encoder now sits within a constant of the norm; what remains is
+%   the norm."
+% CHECKLIST (marker, plan §5.4)  3, 5 (S2 serves the comparison), 8 (the factorisation is
+%   a proposition and its proof pointed to by content).
+% TRAPS  "improved Wu", "our standard-form method" (S2 is a fairness device, §3.4); the
+%   measured error as evidence for the proposition (it is verification); the arithmetic
+%   SELECT in the body beyond the one representative circuit F3; calling n + 4 the whole
+%   residual's ancilla; implying the structured encoding is tight on every problem (§4.5
+%   states the scope).
+
+\subsubsection{The Factorisation}
+
 % ~1 pp
 % LAND, in order:
 %   1. The idea in words FIRST: every entry of G is (a row-0 weight) x (a
@@ -118,8 +577,12 @@ The proof compares the two sides entry by entry with \Cref{eq:pihm-G-entries} an
 %   max absolute entry error, n = 2-7: 1.9e-15 ... 3.4e-13), not a pihm key. Add a
 %   derived key to tools/thesis/derived.py and replace the \prov. App. E's proof must
 %   also carry the lower bound ||G||_2 -> N^2/(2j) (C-01 tests the ratio only to n = 7).
+%   The value does not match the plan: ThesisPlanning.md §2.1 gives 2.3e-13 and n <= 10;
+%   this text gives 3.4e-13 and n <= 7; neither is in pihm's docs or tests (the only
+%   3.4e-13 and 2.3e-13 there are unrelated table cells). Re-measure with
+%   derivative_factorisation before keeping either; then derive the key, or delete.
 
-\subsection{Circuits and Cost}
+\subsubsection{Circuits and Cost}
 \label{sec:standard-cost}
 % ~1 pp
 % LAND, in order:
@@ -193,7 +656,31 @@ The remaining terms of the residual are built from the same pieces. A coefficien
 
 \subsection{What Remains: The Standard-Form Hamiltonian}
 \label{sec:standard-hamiltonian}
-% ~0.75 pp
+% ~1.0 pp (plan §5.4; the 2026-10-07 prose runs longer, see BUDGET)
+% QUESTION  What does the best exact encoding leave? Pass 3 of 3, second half: the answer
+%   to Q(i). The cost of the published method has two parts; the encoder's is removed
+%   (§4.4), the Hamiltonian's is not, because alpha_H >= ||H_std|| for any block encoding.
+%   The section's one sentence is eq:standard-wall plus its scope.
+% SOURCES  companion 23 (spectrum), 57 (degree scaling), 33; claims C-02 (alpha/||H||
+%   bounded for constant coefficients, not for R3), C-05; docs/14_descriptor_gap.md for the
+%   gap; Lin & Tong (the floor, hedged); Cai et al. (FOSLS, the classical reading).
+% NUMBERS  By \res throughout, all T3 resource estimates and so labelled: alpha_R and
+%   norm_R, alpha_ratio and hamiltonian_ratio on R2a (n = 2, 8), the gap and the
+%   Hamiltonian's norm (n = 7, 8), degree and ideal_degree at n = 8, the growth exponents
+%   with the published, structured and ideal encodings, and R3a's as-built and ideal
+%   exponents (descriptor's beside it as a pointer). The gap's flatness is MEASURED.
+% LABELS IN  eq:degree, prop:standard-cost, sec:standard-factorisation, tab:ladder,
+%   sec:bg-fosls, sec:bg-ultraspherical.
+% LABELS OUT  sec:results-scaling (tests both costs; the ideal-bound reversal on R3),
+%   sec:descriptor (the hand-off), eq:standard-wall (cited by 5_descriptor.tex and
+%   10_discussion.tex), app:proof-standard-cost.
+% HANDS OFF  to Ch. 5: the Hamiltonian is what changes: carry the derivatives as
+%   unknowns instead of eliminating them into the dense G.
+% CHECKLIST (marker, plan §5.4)  4 (the distinction unmissable; the R3 caveat stated), 5.
+% TRAPS  "wall" (retired); an unscoped Theta-tilde(N^{2k}) (constant coefficients, a_k != 0,
+%   one axis, gap measured on R2a and R2b); a floor "for any filter" (hedge to Lin & Tong);
+%   resource estimates called simulations; "no encoder can ..." without saying alpha_H >=
+%   ||H||; the doubled-space or nonlinear case (Ch. 7).
 % LAND, in order:
 %   1. alpha_H / ||H|| stays bounded over n = 2-8: the encoder has done its job (C-02).
 %   2. But ||H_std|| = Theta(N^8) against a flat gap, so by eq:degree the
@@ -208,6 +695,11 @@ The remaining terms of the residual are built from the same pieces. A coefficien
 %      ideal-encoding bound beside every as-built cost (T-25).
 %   6. Close by naming Chapter 5 (sec:descriptor) and what it changes: the
 %      Hamiltonian itself.
+% REVISE: the paragraph opening this subsection introduces R2a ("which we label R2a in the
+%   benchmark set of tab:ladder"). R2a is first used in §4.1 (header FIRST USE); when §4.1
+%   is drafted, delete that introduction here and use the tag alone. R2b and R3a are
+%   introduced by equation at their first use (R3a in §4.2); here they are tags, with
+%   their Fig. numbers kept if the author wants the pointer.
 
 For constant coefficients the structured encoding removes the encoder's cost from the whole residual, not only from $\G$. We take as the running example the paper's second-order equation $f''+4f'+4f=0$, with the invariant constraint $f(-1)=0$ and the regular datum $f(0)=\tfrac12$ (its Fig.~3b, which we label R2a in the benchmark set of \Cref{tab:ladder}). At $n=8$ the structured encoding of its stacked residual has $\alpha_R=\res[3,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_R}$ against $\|R\|_2=\res[3,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{norm_R}$, a ratio of $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_ratio}$ (a resource estimate; the circuit at this size is not simulated). The ratio rises from $\res[3]{looseness/stateprep/R2a/standard/n2/T3/filter=minimax}{alpha_ratio}$ at $n=2$ with increments that roughly halve at each added qubit, so it is levelling off over $n=2$ to $8$, although we have not proved a limit for the whole residual (\Cref{sec:results-scaling}). The Hamiltonian is encoded at $\alpha_H=\alpha_R^2$, so $\alpha_H/\|\Hstd\|$ is the square of that ratio, from $\res[3]{looseness/stateprep/R2a/standard/n2/T3/filter=minimax}{hamiltonian_ratio}$ to $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{hamiltonian_ratio}$, whereas the published encoding's ratio for $\G$ alone grows as $N^3$.
 
@@ -222,6 +714,9 @@ No encoder can change the norm it encodes. For an equation of order $k$ with con
 \end{equation}
 which at second order, the order of the paper's panels, is $\|\Hstd\|=\Theta(N^8)$ and $d=\tilde\Theta(N^4)$ whatever the block encoding. This is the Hamiltonian's cost. The floor is stated for the minimax filter that prepares every state in this thesis; for polynomial filters in general it is what the optimality of Lin and Tong's construction supports \cite{lintong2020groundstate}, and we claim no more. At $n=8$ the estimated degree for R2a is $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{degree}$ as built and $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{ideal_degree}$ at the ideal-encoding bound $\alpha=\|R\|_2$, both resource estimates far beyond what exact emulation reaches. The degree is linear in $\alpha_R$, so the ratio of the two is the encoder's looseness and the second is the Hamiltonian's share.
 
+% NOTE: moved from §4.2 (2026-10-08); may need rewording to fit the prose around it. It restates the paper's gate-count claim (introduced in \Cref{sec:standard-published}) and says why it does not bound the method's cost. Check it against the 'This answers the first question' paragraph below, which also states the encoder/Hamiltonian split, and trim whichever repeats.
+The polynomial gate count that Wu et al.\ report for their operators, $\G$, $\Brow$ and $\Dzero$ \cite{wu2025pihm}, and that our rebuild confirms (\Cref{sec:standard-published}), is the cost of one query to the block encoding. The cost of the method is that cost times the number of queries, and \Cref{eq:standard-wall} fixes the number of queries by the subnormalisation, however few gates a query takes. The paper does not claim otherwise: it leaves the gap, and so the preparation time, to future work \cite{wu2025pihm}. The claim is therefore true of the circuit and silent on the method, and polynomial gates per query do not make the standard form efficient, since its filter makes $\tilde\Theta(N^{2k})$ queries or more, which is exponential in $n$.
+
 The growth of the degree between $n=7$ and $n=8$, again from resource estimates, shows the two costs apart. With the published encoding the degree grows as $N^{\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax/encoder=published}{degree}}$, with the structured encoding as $N^{\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax}{degree}}$, and at the ideal bound, which contains no encoding at all, as $N^{\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax}{ideal_degree}}$. The first difference is the encoder's cost, which the structured encoding removes; the common exponent is the Hamiltonian's. It belongs to the least-squares functional, not to the circuits: $\Hstd=R^\dagger R$ is the normal-equations form of the least-squares problem for an operator of order $k$, and such a problem squares the conditioning of the operator it minimises. The classical remedies are to recast the equation as a first-order system \cite{cai1994fosls} or to use a basis in which differentiation is banded (\Cref{sec:bg-fosls,sec:bg-ultraspherical}).
 
 The conclusion has a limited scope. The structured encoding bounds $\alpha_H/\|\Hstd\|$ for constant coefficients only, and is loose for a variable coefficient that is lifted. On the Legendre equation $(1-x^2)f''-2xf'+20f=0$ (R3a, the paper's Fig.~4a), the circuit pays for the product $\M_a\G^2$ as $\|\M_a\|\,\|\G^2\|\gg\|\M_a\G^2\|$, because the coefficient $1-x^2$ vanishes at the ends of the interval, where the derivatives of Chebyshev polynomials are largest. The measured norm of this residual grows as $N^2$, not as $N^{2k}=N^4$, and the encoder's cost reappears: the as-built degree grows as $N^{\res[3]{stateprep/R3a/standard/growth/T3/filter=minimax}{degree}}$, while at the ideal bound it grows as $N^{\res[3]{stateprep/R3a/standard/growth/T3/filter=minimax}{ideal_degree}}$, the exponent the descriptor's degree also has there ($N^{\res[3]{stateprep/R3a/descriptor/growth/T3/filter=minimax}{ideal_degree}}$ at the ideal bound). At $n=8$ the as-built degree is $\res[2,sci]{stateprep/R3a/standard/n8/T3/filter=minimax}{degree}$ against $\res[2,sci]{stateprep/R3a/standard/n8/T3/filter=minimax}{ideal_degree}$ at the ideal bound, both resource estimates. For this reason \Cref{sec:results-scaling} quotes the ideal-encoding bound beside every as-built cost, and where the comparison between the forms reverses at that bound, as it does on R3, reports the reversal as a finding.
@@ -235,11 +730,22 @@ This answers the first question. For the constant-coefficient problems of the pa
 %   one-axis panels (R1, R2c, R4*) and to a second-order equation with other
 %   coefficients before this is asserted beyond "measured on R2a and R2b".
 
-% CHECKLIST (marker)
-%   1. Is the published build reported as a TEST of the paper's claims, with a
-%      verdict for each?
-%   2. Is the factorisation a proposition, with its proof pointed to by content?
-%   3. Does §4.4 make the encoder-versus-Hamiltonian distinction unmissable?
-%   4. Is S2 framed as serving the comparison?
-% TRAPS  Calling S2 "our standard-form solver"; quoting eps_G bounds that belong
-%        to the legacy reconstruction rather than to the Fig. 9 build.
+% CHECKLIST (marker) -- ThesisPlanning.md §5.4
+%   1. Does every paper claim tested in §4.2 appear as the paper states it, with its test and a pointer
+%      to its numbers?
+%   2. Does T10 list every deviation, each row a defect and a property, none a date or
+%      a decision?
+%   3. Is the standard form defined once, formally (def:standard-form), before §4.4
+%      uses it?
+%   4. Is the encoder/Hamiltonian distinction unmissable (§4.5), and the R3 caveat
+%      stated?
+%   5. Is S2 framed as serving the comparison?
+%   6. Does "as printed" appear only in §4.1-4.3?
+%   7. Does anything in §4.1-4.3 repeat Ch. 3's prose or §9.1's numbers?
+%   8. Is the factorisation a proposition, with its proof pointed to by content?
+% TRAPS  A changelog ("we then fixed...", "after finding a bug..."); "corrected";
+%        calling the exact constraint points answer-independent (they are problem data
+%        inherited from the paper); quoting §9.1's tables here; "our standard-form
+%        solver"; legacy eps_G bounds (quoting bounds that belong to the legacy
+%        reconstruction rather than to the Fig. 9 build); implying the structured
+%        encoding is tight on every problem.

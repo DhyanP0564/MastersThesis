@@ -1,0 +1,98 @@
+% =============================================================================
+% Chapter 10  Discussion  (10_discussion.tex)  --  4.5 pp
+% rubric: Project Body (Modelling) -- Results & Discussion /30: "insight into
+% the significance of the work", the band-4 separator.
+% Plan: ThesisPlanning.md §5.10.
+%
+% PURPOSE     Explain and judge; never restate Chapter 9.
+% SOURCES     ThesisPlanning.md §5.10, §3.6 (complexity picture), §12 (risks);
+%             Chapters 4, 5 and 9.
+% WRITE WHEN  Gate G6 (wave W5).
+% =============================================================================
+
+\subsection{Why the Descriptor Form Wins, and What It Costs}
+\label{sec:disc-tradeoff}
+% ~1 pp
+% LAND: norm, not encoding -- eliminating the derivatives multiplies norms
+%   (||G|| = Theta(N^2), squared by the Gram product and again per derivative),
+%   while carrying them keeps each block O(N) in norm. The same mechanism that
+%   buys the norm weighs the gap (the norm carries every derivative): one idea,
+%   two consequences. The price: the block register, the per-query constant,
+%   rescaling, and no remedy on two axes or at a double zero. The classical
+%   mirror: first-order least squares and the ultraspherical method found the
+%   same trade.
+
+\subsection{End-to-End Complexity}
+\label{sec:disc-complexity}
+% ~1 pp
+% LAND, in order:
+%   1. The corrected complexity argument IN YOUR OWN VOICE: d = Theta(sqrt(
+%      alpha_H / Delta) log 1/eps) (eq:degree) is the residual's effective
+%      condition number, and alpha_H >= ||H|| for ANY block encoding of this H;
+%      so Theta~(N^{2k}) against Theta~(N) is the conditioning of an order-k
+%      least-squares discretisation against a first-order one.
+%   2. So, for THIS FILTER FAMILY, the standard form cannot go below
+%      Theta~(N^{2k}) (Theta~(N^4) at second order; eq:standard-wall) and the
+%      descriptor reaches Theta~(N) (eq:descriptor-degree) FOR A ONE-AXIS ODE
+%      WHOSE LEADING COEFFICIENT DOES NOT VANISH. Total gates Theta~(N poly n)
+%      against Theta~(N^{2k} poly n) on a regular one-axis problem. The minimax
+%      filter changes the constant, not the Theta.
+%   3. Neither is poly-log. Say it first, yourself.
+%   4. Hedge the "for any filter" generalisation to what Lin & Tong's lower
+%      bounds actually support (lintong2020groundstate; ThesisPlanning.md §12,
+%      risk TR-3). Consistent with sec:pihm-assessment, sec:standard-hamiltonian
+%      and sec:descriptor-spectrum.
+
+\subsection{What the Reproduction Says About the Published Method}
+\label{sec:disc-reproduction}
+% ~0.75 pp. Collegial and evidential register.
+% LAND: a fair verdict -- the conventions are sound and the eta values right;
+%   the printed choices distort at the printed n; the PDE and NDE panels do not
+%   reproduce; the normalisation is loose; the readout identity needs a
+%   correction for probabilistic preparation; the time rule falls short of
+%   epsilon. Then what that means for readers of the paper: INTERPRET, do not
+%   restate, Ch. 4's T10 -- which of the paper's choices were defects of the
+%   method and which of its presentation.
+
+\subsection{Where the Construction Applies}
+\label{sec:disc-applicability}
+% ~0.5 pp
+% LAND: TABLE T9, an applicability map (Green's Fig. 4.18 is the model): problem
+%   class x the descriptor's gain x what to do. Rows: regular one-axis ODE;
+%   leading coefficient with a simple zero; double zero; two-axis PDE;
+%   [NEW v2.1] coupled first-order systems; [NEW v2.1] complex-valued linear
+%   equations, by realification (formulation only: what doubles, what is not
+%   built); nonlinear with a converging lift; past the lift's boundary.
+%   Guidance a practitioner could act on: which equations benefit; when block
+%   rescaling is needed; the nonlinear scope (sufficient rho < 1; measured a/nu).
+% TAB: tab:applicability (T9).
+
+\subsection{Feasibility on Fault-Tolerant Hardware}
+\label{sec:disc-feasibility}
+% ~0.5 pp
+% LAND: logical qubits, CNOT or T counts and depth at meaningful n, from the
+%   resource estimates (T3); set beside explicit resource counts for
+%   linear-system ODE solvers (Jennings et al.), hedged; why NISQ is out of
+%   scope.
+
+\subsection{Limitations}
+\label{sec:limitations}
+% ~0.75 pp. Each limitation owned, WITH ITS ANALYSIS (the rubric's condition for
+% no penalty):
+%   no hardware; circuit simulation (T1) only at small n; the spectral edge
+%   assumed known; the DCT as a cited primitive; the doubled space projects; NS
+%   bounded by exact emulation (T2) and estimate (T3); the descriptor's
+%   Hilbert-space and per-query cost; the double zero excluded; the iterative
+%   reference's bound an estimate; trust is not convergence;
+%   [NEW v2.1] complex-valued fields carried by REALIFICATION only, with no
+%   native complex preparation (the tensor layout's complex coupling is
+%   verified, never used for preparation); Figs 6-7 unreproduced (authors not
+%   contacted).
+
+% CHECKLIST (marker)
+%   1. Does it explain rather than restate Chapter 9?
+%   2. Is the complexity argument complete, and consistent with
+%      sec:pihm-assessment, sec:standard-hamiltonian and sec:descriptor-spectrum?
+%   3. Is every limitation owned, with its analysis?
+%   4. Are consequences drawn for the field, not just for this project?
+%   5. Is there actionable guidance a practitioner could follow?
