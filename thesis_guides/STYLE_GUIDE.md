@@ -9,10 +9,9 @@ work.** A thesis that could be cut down into a PRA submission with minimal surge
 thesis that reads like a lab report, a tutorial, a software manual, or a catalogue of everything
 the student tried does not. Every rule below descends from that standard.
 
-> **Version 2.0 (2026-10-01).** Updated with `../ThesisPlanning.md` v2.0: the examples now state
-> the current facts (`../CLAUDE.md`'s Standing Facts v3), section references follow the v2.0
-> chapter order, and Traps 17–20 are new. Where an example and a Standing Fact disagree, the
-> Standing Fact wins.
+> The examples state the current facts (`../CLAUDE.md`'s Standing Facts) and section references
+> follow `../ThesisPlanning.md`. Where an example and a Standing Fact disagree, the Standing Fact
+> wins.
 
 ---
 
@@ -42,14 +41,15 @@ class of problems, and stating it without the class is an over-claim a referee w
 | α/‖A_desc‖ → 1 | **Assert, scoped**: regular one-axis problems; about 2 on singular ones, 2.3–4.1 on PDEs |
 | d = Θ̃(N) for the descriptor | **Assert, scoped**: a one-axis ODE whose leading coefficient does not vanish; about Θ̃(N²) or faster where it vanishes or on two axes |
 | d = Θ̃(N^{2k}) for the standard form | **Assert**, even with the best exact encoding, since α_H ≥ ‖H‖ for any block encoding |
-| the relative gap at n = 7 | **Assert, with the distinction**: the standard form's ground state is below double-precision resolution by `eigh`, not by SVD; the consequence is the degree, not unresolvability |
+| the relative gap at n = 8 | **Assert, with the distinction**: the standard form's ground state is below double-precision resolution by `eigh` from n = 8, not by SVD; the consequence is the degree, not unresolvability |
 | correctness of the composed H | **Assert what is verified**: V exact to 25 qubits, probe on every construction-only circuit ≤ 24 qubits, IR at any size; T1 = T2 to ≤ 1e-10 where both run |
 | "a ground state has been prepared" | **Assert only for a one-dimensional (near-)kernel, with its tier**: circuit simulation (T1), exact emulation (T2, provably equal to T1) or resource estimate (T3). Never "on hardware"; never for the doubled space (it projects) |
 | a Carleman lift's solution | **Assert the kernel's uniqueness; measure the convergence separately.** A trusted kernel is not a converged lift |
 | end-to-end poly-log speed-up | **Deny it yourself, first.** d = Θ(√(α_H/Δ) log 1/ε) with α_H ≥ ‖H‖; hedge any "for every filter" floor to what Lin & Tong support |
-| the physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in Chapter 3 as reported prior art; reserve the verdict for §3.6 |
+| the physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in Chapter 3 as reported prior art; reserve the verdict for §3.5. Chapter 4 restates it once as the standard form, citing each piece it restates |
+| the standard form | **Specify, and say what differs.** The paper's regime as run: each departure argued where it occurs (a defect and the property gained), collected in Table T10; the data change, 𝔾 and the Gram structure do not. Never "we fixed", never "corrected" |
 | the descriptor's novelty | **Credit, then claim the increment.** The ultraspherical method and first-order-system least squares came first; the increment is the transfer to a block-encoded physics-informed Hamiltonian and its measured consequences |
-| the published encoding's cost | **Assert**, rebuilt and measured (§4.2.2, §9.3), framed as testing the paper's claims. The structured exact encoding (S2) is ours, as a fairness device, never as a rival solver |
+| the paper's encoding's cost | **Assert**, from the printed prefactor and the rebuilt circuit's own α (§4.5.1, §9.2), framed as separating the encoder's cost. The structured exact encoding (S2) is ours, as a fairness device, never as a rival solver |
 | "the solution was read out" | **Assert as classical**: the field is decoded from the prepared state. The paper's interferometric protocol is built at small n and is further work; never "on hardware", never the method's readout |
 
 Pre-empting the examiner's objection in your own voice is worth more than any amount of
@@ -58,7 +58,7 @@ enthusiasm. Snow devotes a paragraph to it:
 > "**Limitations.** Honest accounting requires noting what the results do not establish." — Snow,
 > §8.1
 
-Write that paragraph (§10.6). Markers reward it under "awareness of the significance of the work and
+Write that paragraph (§10.5). Markers reward it under "awareness of the significance of the work and
 its place in the wider field".
 
 ### 1.2 First person plural for method, impersonal for fact
@@ -105,16 +105,17 @@ propositions with proofs for the results that carry the thesis.
 Reserve numbered blocks for:
 
 - the (α, m, ε) block encoding (α is used throughout);
-- the physics-informed Hamiltonian H = R†R of a stacked residual;
+- the standard form, H_std = R†R of a stacked residual (§4.4);
 - the banded factorisation 𝔾 = B̃⁻¹D̃;
 - the Carleman lift.
 
 Reserve **theorems and propositions with proofs** for your own claims. Snow's Theorem 4.1
 (fidelity guarantee) is the model: a formal statement, a proof that fits on half a page, then two
 paragraphs of what the bound *means*. Candidates here: kernel equivalence (both layouts); the
-factorisation of 𝔾; the stacked reflection; the descriptor's cost; the nodal fold's optimality
-(α = 2 = ‖𝕟₁‖, so optimal, not merely tight); the doubled space's kernel is a subspace and
-product states are not, so no answer-independent penalty makes it one-dimensional.
+factorisation of 𝔾; the stacked reflection; the descriptor's cost; the nodal fold's exactness at
+α = 2, within 1.21 of ‖𝕟₁‖₂ (tight, not optimal); the uniqueness count for an order-k ODE; the
+doubled space's kernel is a subspace and product states are not, so no answer-independent penalty
+makes it one-dimensional.
 
 ### 2.2 Intuition first, formalism second, consequence third
 
@@ -241,7 +242,7 @@ still favours your method persuades; one that hides a reversal is found.
 ### 3.3 Numbered findings, some negative
 
 Green closes his numerical study with four numbered findings, two of them negative. Copy the format
-and the honesty. Chapter 9 closes on six or seven (§9.7), at least two negative: the reversals at the
+and the honesty. Chapter 9 closes on six (§9.6), at least two negative: the reversals at the
 ideal bound and on the heat panel; the gap falling on two axes; a trusted kernel hiding a diverging
 lift; Navier–Stokes reached by emulation and estimate only.
 
@@ -263,7 +264,7 @@ Compare *"Figure 5: Gate counts."* with Snow's:
 
 Both exemplars anchor their contribution with a table whose rows are methods and whose columns are
 resources, with a "This Work" row. Two here: **T1** (§2.2), quantum DE approaches by assumptions,
-cost driver, output and failure mode; and **T7** (§9.3), the published, structured and descriptor
+cost driver, output and failure mode; and **T7** (§9.2), the paper's, structured and descriptor
 encodings across ‖H‖, gap, α/‖·‖, cx per query, ancilla, exactness, and the degree as built and at
 α = ‖R‖. **Three encodings**: the middle one separates the encoder wall from the Hamiltonian wall.
 FABLE does not appear. T7 is referenced from the Abstract.
@@ -290,7 +291,7 @@ addresses", which poses italic questions and names the chapter that answers each
 
 Ours is stronger, because it starts from the source paper's own Discussion ("studying the spectral
 gap dependence is an important question for the future work"; "the cost of differentiation") and
-is raised by a critical assessment the reader has just watched. §3.6 poses Q(i)–(iii) in italics,
+is raised by a critical assessment the reader has just watched. §3.5 poses Q(i)–(iii) in italics,
 each answered by `\Cref`: (i) *is the cost the encoder's or the Hamiltonian's?* → Chapter 4; (ii)
 *can the residual be reformulated so that its Hamiltonian is banded and well conditioned, without
 changing its solution, and what does that cost?* → Chapter 5; (iii) *can nonlinear equations be
@@ -319,7 +320,7 @@ Use `\Cref{sec:...}` throughout; never hard-code a number.
 ### 4.4 The recurring spine sentence
 
 Both exemplars restate their thesis in one line at the end of each major section. Ours
-(ThesisPlanning.md §3.3), placed in the Abstract, §1.3, §3.6, §5.1, §5.10, §9.7 and §11.1, reworded
+(ThesisPlanning.md §3.3), placed in the Abstract, §1.3, §3.5, §5.1, §5.10, §9.6 and §11.1, reworded
 each time:
 
 > *Carrying the intermediate derivatives instead of eliminating them turns the physics-informed
@@ -330,7 +331,7 @@ each time:
 ### 4.5 Section-closing summaries for long sections
 
 Green closes his MPS chapter with "Summary"; Snow closes each results chapter with one. Use them
-after Chapter 5 (§5.10) and Chapter 9 (§9.7): 3–7 numbered takeaways.
+after Chapter 5 (§5.10) and Chapter 9 (§9.6): 3–7 numbered takeaways.
 
 ---
 
@@ -350,14 +351,16 @@ after Chapter 5 (§5.10) and Chapter 9 (§9.7): 3–7 numbered takeaways.
 | 10 | **Figures without discussion** | results must be analysed, not displayed | a paragraph per figure, or the figure goes |
 | 11 | **Boilerplate transitions** | wastes the scored page budget | state the finding |
 | 12 | **A thin Discussion** | significance is weighted heavily | why the trade-off exists, where it fails, what a practitioner should choose, what it means for the field |
-| 13 | **Blurring prior art into contribution** | the fastest route to an academic-integrity conversation | attribute Wu et al. at the head of Chapter 3 and at each construction; "we" for our work from Chapter 4 on |
-| 14 | **The published route as a rival you also built** | halves the apparent focus; invites "so what is new?" | the published encoding is rebuilt *to test the paper's claims*; the structured encoding (S2) is ours, framed as isolating the Hamiltonian's cost |
+| 13 | **Blurring prior art into contribution** | the fastest route to an academic-integrity conversation | attribute Wu et al. at the head of Chapter 3 and at each construction; Chapter 4 restates the construction with a citation at every piece and an attribution sentence in its opening; "we" only for departures and results that are ours |
+| 14 | **The paper's route as a rival you also built** | halves the apparent focus; invites "so what is new?" | the paper's encoding is costed at its own α *to separate the encoder's cost*; the structured encoding (S2) is ours, framed as isolating the Hamiltonian's cost |
 | 15 | **Body pages spent on derivation** | buries the narrative | the equation test (§2.6); derivations in Appendices B, E–H |
 | 16 | **Implying the readout was performed on hardware, or is the method's** | a QC-literate marker will ask | "decoded classically from the prepared state"; the interferometric protocol is the paper's, built at small n, further work |
 | 17 | **An unscoped descriptor claim** | the claim is false for part of the ladder, and a referee will find the part | every degree, gap and α claim carries its class (regular one-axis, singular, two-axis) |
 | 18 | **Code-map drift** | the rubric scores a model, not a tour of the software | function names, records and campaigns out of the body (ThesisPlanning.md §3.5) |
 | 19 | **Trust read as convergence** | a trusted kernel certifies the lifted linear problem, not the lift | quote the lift's measured error beside every Carleman preparation |
 | 20 | **Hiding a reversal** | the fairness device exists to show it | report the ideal-bound comparison everywhere, and number the reversals among the findings |
+| 21 | **The audit in the body** | an audit of the source paper is evidence about the paper, not about the thesis's questions; it buries the argument and the page budget | Chapter 3 names each weakness; Chapter 4 argues a departure only where its construction meets it; derivations, tables and numbers of the reproduction live in Appendix K |
+| 22 | **A changelog of departures** | reads as a lab diary and as "fixing" the paper | each departure is a defect and the property gained, inline and in Table T10; no "we then", no dates, no issue numbers |
 
 ---
 
@@ -391,7 +394,8 @@ Rewrites illustrating the target register. Use the pattern, not the text; quote 
 | "Our descriptor is a new idea." | "Banded differentiation is the ultraspherical method's \cite{olver2013}, and avoiding the squared condition number of a high-order least-squares problem is first-order-system least squares' \cite{…}. The increment here is their transfer to a block-encoded Hamiltonian: the kernel is unchanged, the residual is one flat LCU, and the filter's degree falls accordingly." |
 | "The descriptor has a flat gap." | "On a one-axis equation whose leading coefficient does not vanish, the rescaled descriptor's gap is flat in $N$; where the coefficient vanishes, and on two axes, it is not (\Cref{sec:descriptor-gap})." |
 | "The prepared solution can then be read out." | "The field is decoded classically from the prepared state's field blocks and scaled by the regular datum. The paper's interferometric protocol, built and verified at small $n$, is left to future work." |
-| "The gap is really small in the standard form." | "At $n = 7$ the standard form's relative gap lies below double-precision resolution by `eigh` but not by SVD; what it costs is the filter's degree, which grows as $N^{4}$ for this second-order problem." |
+| "The gap is really small in the standard form." | "At $n = 8$ the standard form's relative gap lies below double-precision resolution by `eigh` but not by SVD; what it costs is the filter's degree, which grows as $N^{4}$ for this second-order problem." |
+| "We corrected the paper's constraint points." | "A zero row is exact only where the solution's derivative vanishes; the printed point is rounded, so least squares trades the equation against the constraint and the error floors. The standard form takes the point exactly." |
 | "This gives an exponential speed-up." | "Neither form is poly-logarithmic. The degree is $\Theta(\sqrt{\alpha_H/\Delta}\log 1/\varepsilon)$ with $\alpha_H \ge \|H\|$ for any block encoding; the reformulation lowers $\|H\|$ from $\Theta(N^{8})$ to $\Theta(N^{2})$ for a second-order equation, and with it the degree from $\tilde\Theta(N^4)$ to $\tilde\Theta(N)$ on a regular one-axis problem." |
 | "The results were verified." | "Each circuit equals its independently assembled operator: exactly to 25 qubits, by probe on every construction-only circuit of at most 24, and by IR at any size. Where both run, the simulated circuit equals the exact emulation to within $10^{-10}$ before normalising." |
 | "Burgers was solved with Carleman." | "The lift's kernel is one-dimensional at every order, so imaginary time prepares it; whether the lift converges is a separate question, answered by its error per order, which follows $a/\nu$ and not $\rho$." |

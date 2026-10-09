@@ -42,6 +42,28 @@ decreases ``exponentially'' with $n$, without a closed form.
 
 \paragraph{The derivative circuit (Fig.\ 9).} The registers are, in order, a flag qubit acted on by $R_Y(\omega_c)$ with $\omega_c = 2\arccos\sqrt{1/3}$, an $X$ ancilla, an offset register of $m = n$ qubits sandwiched between Hadamards, a value ancilla, and the $n$-qubit system. Two conditioned subroutines assign the entries on different bases. In $\hat U_R$ the offset $\ket{i}$ selects the $(2i+1)$th superdiagonal and the system $\ket{j}$ the $j$th column; it consists of $n$ singly-controlled $R_Y(\theta_k)$ gates on the value ancilla, controlled by the bits of $\ket{j}$, followed by $n$ cyclic shifts $\hat R_n$. In $\hat U_C$ the offset selects the $(i+1)$th row; it consists of $n$ multi-controlled $R_Y(\varphi_k)$ gates, one shift $\hat L_n$ and $2n$ swaps. With $\mu = 2/\|\G\|_S$ the angles are $\theta_k = 2\arcsin(-2^{k-1}\mu)$ and $\varphi_k = 2\arcsin[-2^{k-1}\mu(1/\sqrt2-1)]$. The circuit uses $m+n+3 = 2n+3$ qubits, its gate count is linear in $n$ before the multi-controlled gates are decomposed and $O(n^3)$ after an $O(n^2)$ decomposition of each, and $\G$ is the top-left $2^n\times2^n$ block of the unitary multiplied by $(2^{n-1}+2^n)\|\G\|_S$. These are the paper's statements; their tests follow.
 
+% Moved from Chapter 4 (plan §6, D; T-36): the verdict on each of the paper's circuit claims.
+\paragraph{The claims tested.} \Cref{tab:published-verdicts} gives the verdict on each claim the paper makes for its circuits. The gate count holds as a bound, the error holds to leading order in $\mu$ (\Cref{prop:epsilon-G}), and the rows of Figs~2 and~8 hold exactly. The qubit count of Fig.~9 is not testable: the rebuild uses registers of its own, so its $2n+5$ neither confirms nor refutes the printed $2n+3$. The prefactor is valid but exceeds $\|\G\|_2$ by a factor growing as $N^3$ (\Cref{sec:standard-published}).
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{The paper's encodings hold their gate and error claims but not their efficiency.} The claims of Wu et al.\ for their block encodings \cite{wu2025pihm}, tested against the rebuilt circuits. Counts are for the rebuilt circuits; the error is to leading order in $\mu$.}
+    \label{tab:published-verdicts}
+    \small
+    \begin{tabular}{@{}l l l l@{}}
+        \toprule
+        Circuit and claim & Printed & As rebuilt & Verdict \\
+        \midrule
+        Fig.~2, $\Brow(x)$ & $n+2$ qubits, $\sqrt{2^{n+1}}$ & the same, exact & holds \\
+        Fig.~8, $\Dzero(x_s)$ & $\sqrt{2^{n+1}}/f(x_s)$ & the same, exact & holds \\
+        Fig.~9, qubits & $2n+3$ & $2n+5$ (own registers) & not testable \\
+        Fig.~9, gates & $O(n^3)$ & $O(n^2)$ & holds (as a bound) \\
+        Fig.~9, error & decreases exponentially & $O(N^{-5})$, bound derived & holds (leading order) \\
+        Fig.~9, prefactor & $(2^{n-1}+2^n)\|\G\|_S$ & valid, $\sim j_{-3/4,1}N^3\|\G\|_2$ & loose \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 \subsection{The small-angle ladder and its error}
 \label{app:ladder}
 

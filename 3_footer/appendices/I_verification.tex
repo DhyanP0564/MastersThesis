@@ -73,3 +73,16 @@
 %   analytic solution; eps_filter from the ideal filter; eps_trunc and
 %   eps_phase from the realised polynomial; d eps_BE for the approximate
 %   published G only; eps_sample from the shot count).
+
+% =============================================================================
+% MOVED FROM CHAPTER 4 (2026-10-09; plan §6, I and §5.8 item 3). First-pass prose on why
+% the reference is the SVD of R and not eigh(H), with Wedin's bound (eq:wedin). Adapt into
+% app:eigh-vs-svd, and its one-number summary into §8.3.
+% =============================================================================
+% The classical reference is the smallest right singular vector of the stacked residual $R$ with $H=R^\dagger R$ (\Cref{sec:standard-passage}), not an eigenvector of $H$, since forming $H$ squares the condition number of $R$. Throughout \Cref{sec:standard-rebuilt,sec:standard-audit}, $H$ and $R$ are the paper's operators; the standard form's are $\Hstd$ and $R_{\mathrm{std}}$. The distinction matters at $n=8$, where the relative gap $\Delta/\|H\|$ of R2a is $\res[2,sci]{build/R2a/standard/n8}{relative_gap}$, below machine epsilon $\epsilon_{\mathrm{mach}}=2^{-52}$ (\Cref{app:eigh-vs-svd}). The error of an eigenvector computed by a symmetric eigensolver is bounded only by $\epsilon_{\mathrm{mach}}\|H\|/\Delta$ \cite{daviskahan1970rotation}, which here exceeds one. A backward-stable SVD returns the exact singular vectors of some $R+\delta R$ with $\|\delta R\|_2\lesssim\epsilon_{\mathrm{mach}}\,\sigma_{\max}$, up to a modest dimension-dependent constant, so by Wedin's $\sin\Theta$ theorem \cite{wedin1972perturbation} the computed vector makes with the exact one an angle
+% \begin{equation}
+%     \sin\vartheta \lesssim \frac{\epsilon_{\mathrm{mach}}\,\sigma_{\max}}{\sigma_1-\sigma_0},
+%     \label{eq:wedin}
+% \end{equation}
+% again up to a constant of order one. Here $\sigma_0<\sigma_1$ are the two smallest singular values of $R$ and $\sigma_{\max}$ its largest, and the bound requires $\sigma_0$ to be isolated, which is the trusted-kernel condition (\Cref{sec:pipeline-reference}). When $\sigma_0\ll\sigma_1$ the denominator is $\sigma_1\approx\sqrt{\Delta}$, so the bound is about $\epsilon_{\mathrm{mach}}\sqrt{\|H\|/\Delta}$: the square root of the eigensolver's. The SVD therefore resolves a gap that the eigensolver cannot. The reference is as accurate as the residual's own spectrum allows, and no more. An iterative reference takes over beyond the dense SVD's reach, and a result is judged only where its kernel is trusted.
+%

@@ -5,7 +5,7 @@ physics-informed effective Hamiltonians for quantum differential-equation solver
 supervisor Jingbo Wang; working title in `1_header/1_title.tex`, final choice in
 ThesisPlanning.md §13.1).
 
-**Governing plan: `ThesisPlanning.md`** (version 2.1, 2026-10-08; eleven chapters). It fixes the
+**Governing plan: `ThesisPlanning.md`** (version 3.0, 2026-10-09; eleven chapters). It fixes the
 chapter structure and order, the contributions, the three questions the thesis answers, the page
 budget, the notation and the claims each chapter may make. Where it conflicts with
 `thesis_guides/`, the plan wins; where anything conflicts with the Standing Facts below on a
@@ -96,28 +96,35 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   `w₀`, `c` (a complex coefficient, never `a` or `α`). Bare `A`, `H`, `R` only in
   regime-independent statements (Chapter 8).
 - Complexity bounds quoted identically, with the same scope, wherever they recur (Abstract,
-  §1, §3.6, §4, §5, §9, §10, §11).
+  §1, §3.5, §4, §5, §9, §10, §11).
 - Algorithm and operator names matching the method as built (`pihm/docs/02_methods.md`).
 - Terminology (ThesisPlanning.md §3.4): standard form vs descriptor form (never
   "collocation" for the paper's regime); chain vs mass form; prepared vs projected; trusted kernel vs converged lift;
   verified (exact / probe / IR) vs emulated vs estimated; minimax edge filter vs imaginary-time
-  filter; benchmark problem R1–R10 (never "rung"); "as printed" only in §4.1–4.3, §9.1 and
-  Appendix K (never "corrected"); realification vs native complex encoding; ratio rows; the
+  filter; benchmark problem R1–R10 (never "rung"); "as printed" and "paper-faithful" only in
+  Appendix K and §4.4's validation paragraph (never "corrected"); the encoder's cost vs the
+  Hamiltonian's cost (never "wall"); realification vs native complex encoding; ratio rows; the
   coupling as a sum of matchings.
-- The audit stated once per layer: Ch. 3 names a weakness, Ch. 4 derives it, §9.1 shows its
-  numbers. The mass form defined once (§5.3), applied in Ch. 6.
-- Chapter numbers after v2.1's renumbering (systems Ch. 6, nonlinearity Ch. 7, pipeline Ch. 8,
-  Numerical Study Ch. 9, Discussion Ch. 10, Conclusions Ch. 11) in prose and header comments.
+- The critique stated once per layer: Ch. 3 names each weakness of the paper (§3.5); Ch. 4 argues
+  the departure where the construction meets it and collects it in Table T10; Appendix K holds the
+  reproduction, the derivations and the numbers. No body section re-derives or tabulates the
+  audit. The standard form defined once (§4.4); the mass form defined once (§5.3), applied in
+  Ch. 6.
+- Chapter and section numbers as the plan fixes them (systems Ch. 6, nonlinearity Ch. 7,
+  pipeline Ch. 8, Numerical Study Ch. 9 with six sections, Discussion Ch. 10 with five,
+  Conclusions Ch. 11; the critical assessment §3.5; the standard form §4.4) in prose and header
+  comments.
 - Acronyms defined at first use; `glossaries` entries present.
 - Australian spelling (`-ise`), except verbatim API names.
 
 ## Standing Facts (do not let drafts contradict these)
 
-Version 4 (2026-10-08), from ThesisPlanning.md §0.2, §1.5 and `pihm/docs/02_methods.md`.
+Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
 
 - **Framing.** The headline contribution is the **descriptor reformulation**. Four numbered
-  supporting contributions: S1 a verified reproduction and audit of Wu et al., and the passage
-  from the faithful rebuild to the standard form (Ch. 4, Table T10); S2 an exact structured
+  supporting contributions: S1 the standard form, the paper's regime stated once (Ch. 4), each
+  departure from the printed method argued where it occurs and collected in Table T10, validated
+  against the paper's printed panels (the record is Appendix K); S2 an exact structured
   encoding of the standard form, which isolates its cost in the Hamiltonian; S3 a
   regime-independent verified preparation pipeline; S4 beyond a single real field: coupled
   systems, complex-valued fields by realification, and Carleman preparation versus doubled-space
@@ -125,6 +132,12 @@ Version 4 (2026-10-08), from ThesisPlanning.md §0.2, §1.5 and `pihm/docs/02_me
   Hamiltonian framework is **prior art** (Wu, Paine, Philip, Gentile & Kyriienko 2025,
   `wu2025pihm`), presented and judged in Chapter 3. The paper's regime is the **standard
   form**. S2 serves the comparison; it is never a rival solver. FABLE appears nowhere.
+- **Chapters 3 and 4.** Ch. 3 presents Wu et al.'s method as prior art, with the paper's own
+  equations only where a weakness is stated against them, and judges it (§3.5 poses Q(i)–(iii));
+  it states no result of ours. Ch. 4 states the construction once, as the standard form, citing
+  each restated piece (Paine et al.: latent space and lifts; Wu et al.: residual and Gram sum;
+  Olver: 𝔾's density), "we" only for departures and our own results, then answers Q(i). The
+  reproduction and the audit of the paper's claims are Appendix K's.
 - **Antecedents.** The descriptor's banded factors are the discrete shadow of the
   **ultraspherical spectral method** (Olver & Townsend 2013), and carrying derivatives as
   unknowns to avoid a squared condition number is the idea of **first-order-system least
@@ -165,12 +178,12 @@ Version 4 (2026-10-08), from ThesisPlanning.md §0.2, §1.5 and `pihm/docs/02_me
 - **Verification.** The stacked-residual reflection V (encoding 2H/α_R² − I) is verified
   **exactly** to 25 qubits; every construction-only circuit of ≤ 24 qubits by probe; lifts and
   couplings by IR at any size. T1 = T2 to ≤ 1e-10 before normalising on every minimax record; the
-  reproduction's QITE T1 records that miss the bar (43 of 46 keys pass before P8) are reported
-  with their degree, never re-judged (re-check this fact after P8).
+  QITE T1 records (the reproduction's and the filter study's) that miss the bar (85 of 91 pass
+  before P8) are reported in Appendix K with their degree, never re-judged (re-check after P8).
 - **Filter.** The **minimax edge filter** prepares every comparison and extension, at the least
   degree that suppresses the excited spectrum to ε relative to the ground value. The
-  imaginary-time (QITE) filter is the paper's: it runs in the reproduction and in the filter
-  study (minimax needs 1.67–1.92× fewer degrees at equal suppression; less at equal measured
+  imaginary-time (QITE) filter is the paper's: it runs in the reproduction (Appendix K) and in the
+  filter study (minimax needs 1.67–1.92× fewer degrees at equal suppression; less at equal measured
   infidelity).
 - **Complexity.** Neither form is poly-log. The degree is d = Θ(√(α_H/Δ) log 1/ε), with
   α_H ≥ ‖H‖ for any block encoding: the residual's effective condition number. Standard form:
@@ -210,8 +223,9 @@ Version 4 (2026-10-08), from ThesisPlanning.md §0.2, §1.5 and `pihm/docs/02_me
   in time lowers the degree. The tensor layout has **2K − 1** terms. The nodal fold is exact at
   α = 2, within 1.21 of ‖𝕟₁‖₂: tight, not optimal.
 - **Variants.** The problem is unnamed ("R2a"); the paper's panel as printed is "R2a as
-  printed" and appears only in Ch. 4's audit and passage (§4.1–4.3), the reproduction (§9.1) and
-  Appendix K. Never "corrected".
+  printed" and appears only in Appendix K and in §4.4's validation paragraph. Never "corrected".
+  The exact constraint points are problem data inherited from the paper's statement (the point it
+  rounded), not answer-independent quantities.
 - Legacy results (`Setonix/`, legacy notebooks, old `docs/`) are never cited; every number
   comes from `pihm`'s P8 records (`results-v1`).
 

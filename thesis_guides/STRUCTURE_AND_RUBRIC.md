@@ -6,10 +6,8 @@ Green 2024 (Honours, *Efficient Quantum State Preparation*) and Snow 2026 (Maste
 Optimised Quantum Circuit Synthesis for Classical Data Encoding*).
 
 **What this file is.** The reference for *what is marked and what good looks like*. The thesis's
-structure, contributions, chapter plans and checklists are in `../ThesisPlanning.md` (v2.0); the
-facts a draft may state are `../CLAUDE.md`'s Standing Facts. Version 2.0 of this file
-(2026-10-01) removed the pre-plan section tree, page budget, per-section deliverables and
-traceability matrix, which the plan had superseded; they are in git history at `4b4e423`.
+structure, contributions, chapter plans, page budget and checklists are in
+`../ThesisPlanning.md`; the facts a draft may state are `../CLAUDE.md`'s Standing Facts.
 
 ---
 
@@ -105,7 +103,8 @@ circuit simulation only at small n (exact emulation, proven equal, beyond it); t
 assumed known; the descriptor's gap falling on two axes and its double-zero limit; reversals of the
 cost comparison at the ideal-encoding bound (R3) and on the heat panel at small n; the doubled
 space projecting; a trusted kernel hiding a diverging Carleman lift; Navier–Stokes reached by
-emulation and estimate only; the DCT a cited primitive; the paper's Figs 6–7 unreproduced. Stating
+emulation and estimate only; the DCT a cited primitive; the paper's PDE and nonlinear panels
+unreproduced (Appendix K). Stating
 these with analysis costs nothing and evidences "insight into significance"; a marker who finds one
 the thesis concealed takes the band.
 
@@ -152,10 +151,10 @@ belongs in the body. "No need to include detailed codes": describe, never list.
    is thus a lower bound"). Ours: §8.8, the strongest baseline and the ideal-encoding bound.
 6. **Comparison tables with a "This Work" row** (Green Tables 5.3–5.4; Snow Table 5.1). Ours: T1
    and T7.
-7. **Numbered findings, some negative** (Green's four, two negative; Snow's §5.3). Ours: §9.7.
+7. **Numbered findings, some negative** (Green's four, two negative; Snow's §5.3). Ours: §9.6.
 8. **Self-standing, claim-first captions** (Snow Fig. 7.1–7.12).
 9. **A practitioner's map of where each method applies** (Green Fig. 4.18). Ours: Table T9.
-10. **A Limitations paragraph in the author's own voice** (Snow §8.1). Ours: §10.6.
+10. **A Limitations paragraph in the author's own voice** (Snow §8.1). Ours: §10.5.
 11. **A catalogue of every target in an appendix** (Snow App. G). Ours: Appendix J.
 
 ### 4.3 What not to copy
