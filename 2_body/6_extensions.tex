@@ -1,0 +1,228 @@
+% =============================================================================
+% Chapter 6  Beyond a Single Real Field: Systems, Complex Fields and
+%            Nonlinearity  (6_extensions.tex)  --  ~6 pp
+% rubric: Project Body (Modelling) -- Model Formulation /30.
+% Plan: ThesisPlanning.md §5.6 v3.2 (T-31, T-32; supporting contribution S4).
+%
+% PURPOSE     Take the construction from one real scalar field, the paper's
+%             scope, to several coupled fields, to complex-valued linear
+%             equations, and to polynomial nonlinearity, and answer Q(iii):
+%             separate what the doubled space can claim (an exact encoding, a
+%             projection) from what the Carleman lift can (a preparation, in
+%             both forms), and set up the fluids.
+% THREAD      Each extension is carried as a coupled linear system on one state,
+%             a block per component; the one route that is not, the paper's
+%             doubled space, only projects.
+% CRITERION   Formulation, "sufficient detail to permit readers to create
+%             equivalent models": the rows, the data and the circuits of a system
+%             and of a lift rebuildable from the body plus Appendix H.
+% SOURCES     ThesisPlanning.md §5.6, §3.4, §8; pihm/docs/02_methods.md §3.2-3.5,
+%             §6.2; pihm/docs/companion/{21,51,55,60,61,62,63,64,65};
+%             pihm/docs/16_extensions.md; pihm/docs/17_navier_stokes.md;
+%             pihm/docs/03_problems/07_r7.md; claims A-10, B-12, B-18, B-19, B-22,
+%             C-09, C-10; src/pihm/circuits/{systems,tensor,standard,sources,
+%             assemble}.py, ir.py (matching_terms), problems/fluids.py
+%             (real_embedding); Wu et al., p. 11 (the Fourier-basis remark).
+% =============================================================================
+
+The physics-informed construction of \Cref{sec:pihm} solves for one real scalar field. Its authors chose the Chebyshev basis partly to keep it so: with a Fourier basis the differentiation matrix is imaginary, and ``due to the complex-valued quantum state, the resulting total energy function is of a complicated form, rendering it difficult to find the ground state'' \cite{wu2025pihm}. Their route to nonlinearity, the doubled space of \Cref{sec:pihm-doubled}, multiplies the register instead of adding to it. This chapter takes the construction to several coupled fields, to complex-valued linear equations and to polynomial nonlinearity, and on the way answers the third question of \Cref{sec:pihm-assessment}: \emph{can the solution of a nonlinear equation be prepared as the unique ground state of a Hamiltonian, rather than selected by projection from a degenerate kernel?}
+
+Each extension that prepares is carried as a coupled linear system on one state, with one block per component: several fields directly, a complex field by realification as two real ones, and a polynomial nonlinearity by the Carleman lift, whose components are the field's monomials. The route that is not such a system, the doubled space, only projects. We state the system and its data once (\Cref{sec:systems-fields,sec:systems-data}), carry complex-valued equations on it (\Cref{sec:systems-complex}), show why the doubled space fails and the lift succeeds (\Cref{sec:doubled-space,sec:carleman}), put the couplings and products on a circuit (\Cref{sec:ext-circuits}), and specify the fluids that test the lift (\Cref{sec:fluids}). \Cref{sec:prep-vs-proj} collects the answer. The constructions and proofs in full are in \Cref{app:nonlinear}.
+
+\subsection{Several Fields on One State}
+\label{sec:systems-fields}
+
+Consider a first-order system of $C$ fields with a constant coupling matrix $\Acoup$, $z_i'=\sum_j\Acoup_{ij}z_j$, each field holding its own first derivative. A time interval $t\in[0,T]$ is carried on the Chebyshev axis $\xi=2t/T-1$, so $dz/d\xi=\tfrac T2\Acoup z$. The state holds one block of $N$ Chebyshev coefficients per field, the field index on a register of $\lceil\log_2C\rceil$ qubits as the most significant index, padded where $C$ is not a power of two with blocks pinned to zero by rows that no other row reads, so the padding decouples as the chain's does (\Cref{sec:descriptor-layouts}). In the standard form (\Cref{def:standard-form}) the state holds the fields alone and every derivative is eliminated through the dense differentiation matrix $\G$; the descriptor carries a system in the mass form of \Cref{eq:mass-form}. The equation rows are
+\begin{equation}
+    \underbrace{I_C\otimes\G_\xi-\tfrac T2\,\Acoup\otimes I_N}_{\text{standard form}},
+    \qquad
+    \underbrace{I_C\otimes\Dt_\xi-\tfrac T2\,\Acoup\otimes\Bt_\xi}_{\text{descriptor (mass form)}}
+    =\bigl(I_C\otimes\Bt_\xi\bigr)\Bigl(I_C\otimes\G_\xi-\tfrac T2\,\Acoup\otimes I_N\Bigr),
+    \label{eq:system-rows}
+\end{equation}
+and by \Cref{thm:kernel-equivalence} their kernels coincide. With the data rows of \Cref{sec:systems-data}, an initial-value problem has a one-dimensional near-kernel in either form, for the reason given in \Cref{sec:carleman}. R7's rows are written out in \Cref{app:systems}.
+
+The descriptor's chain could instead carry each field with its derivative as a block, as it carries a field of higher order. The equation already gives each derivative as $\Acoup z$, so such a block holds nothing the rows do not determine; it doubles the state and adds a block for the rescaling of \Cref{sec:descriptor-rescaling} to balance. It also costs gap: on the harmonic oscillator $u'=v$, $v'=-\pi^2u$ (R7) at $n=8$, the mass form's gap is $\res[3]{build/R7/descriptor/n8}{gap}$ and the block-rescaled chain's $\res[3]{build/R7/descriptor/n8/layout=chain/chain}{gap}$, a ratio of about \prov{2.1} that holds from $n=3$ upwards. The chain is kept only as a labelled ablation.
+% REVISE: the ratio 2.1 (2.10-2.13 for n >= 3, 1.85 at n = 2; 16_extensions.md §1.1) is a
+%   quotient of two keys; export it as a derived key (plan §2.1) or drop the number and keep the
+%   two \res gaps.
+
+The two forms of a system therefore share the state, the data rows, the initial state and the readout, and differ only by the banded, invertible factor $I_C\otimes\Bt_\xi$ on the equation rows. Every system and lift of \Cref{sec:results-nonlinear,sec:results-ns} is compared on this footing: the same unknowns, data and prepared object, and Hamiltonians that differ by one banded factor along the time axis. A system of higher order enters by the usual reduction to first order, as R7 is $u''=-\pi^2u$ written as two fields; none of higher order than R7's was run.
+
+\subsection{Data for Several Fields: Ratio Rows}
+\label{sec:systems-data}
+
+A single field's initial or boundary value is imposed by a homogeneous zero row, which leaves the field's scale free, and a regular datum, which fixes it (\Cref{sec:standard-constraints}). Vector data $y=(y_1,\dots,y_C)$ at a point $x^*$ need the same separation. With an anchor component $a$, $y_a\ne0$, and $y_\perp=\sum_{c\ne a}y_c\ket{c}$ the rest of the data, the \emph{ratio row} on the field register is
+\begin{equation}
+    \Frat = y_a\bigl(I-\ket{a}\bra{a}\bigr)-y_\perp\bra{a},
+    \qquad
+    (\Frat v)_c = y_a v_c - y_c v_a\ \ (c\ne a),\quad (\Frat v)_a=0,
+    \label{eq:ratio-row}
+\end{equation}
+and the data rows are $(\Frat/y_a)\otimes\Brow(x^*)$. The kernel of $\Frat$ is exactly the line through $y$, so the rows impose $z_c(x^*)=(y_c/y_a)\,z_a(x^*)$: the direction of the data, with their scale free. The regular datum on the anchor fixes the scale, a component whose datum is zero is held to zero exactly, and the rows' singular values, $\|y\|$, $|y_a|$ and $0$, weigh the data against the equation at the data's own scale (\Cref{app:systems}, with their three-term circuit).
+
+The initial state of a system is the geometric product state of \Cref{sec:pipeline-filter} on each field's block, weighted by the problem's stated data $w_0/\|w_0\|$: the problem's statement, never its solution. Equal weights would not do, since they cancel exactly on the Taylor--Green vortex of \Cref{sec:fluids}, whose two modes carry data of opposite sign.
+
+\subsection{Complex-Valued Fields}
+\label{sec:systems-complex}
+% TRAPS: "handles complex equations" unscoped; "a complex-valued field was prepared"; the tensor
+%   layout called "prepared"; the legacy DESolverLib cited.
+
+The paper's remark locates the difficulty in the energy function, but the construction does not meet it. If an equation has complex coefficients, data or sources, its stacked residual $R$ is complex, yet $H=R^\dagger R$ is still Hermitian and positive semi-definite, its ground state is still the smallest right singular vector of $R$, and the stacked reflection and the filter of \Cref{sec:pipeline} act on $H'=2H/\alpha_R^2-I$ exactly as before. The non-Hermitian operator is $R$, which the filter never sees, so no non-Hermitian filter is needed. This is a statement about the formulation: no complex residual was prepared in this thesis.
+
+The route that was run is realification. Writing $z=u+\mathrm{i}v$, a complex linear equation becomes a real system of twice as many fields; for one mode $z'=cz$ with a complex coefficient $c$,
+\begin{equation}
+    \begin{pmatrix}u\\v\end{pmatrix}'
+    =\begin{pmatrix}\operatorname{Re}c & -\operatorname{Im}c\\ \operatorname{Im}c & \operatorname{Re}c\end{pmatrix}
+    \begin{pmatrix}u\\v\end{pmatrix},
+    \label{eq:realification}
+\end{equation}
+a system of \Cref{sec:systems-fields} with one more field-register qubit. The map $z\mapsto(\operatorname{Re}z,\operatorname{Im}z)$, a real-linear isomorphism, carries the complex problem's solutions onto the real system's, and real ratio rows on the realified data fix the solution's phase as well as its direction, so an initial-value problem keeps a one-dimensional near-kernel (\Cref{app:realification}). R7 is an instance: with $z=\pi u+\mathrm{i}v$, its equations are the real and imaginary parts of $z'=-\mathrm{i}\pi z$, a single-mode Schr\"odinger-type equation, its state being the realified one with the first block divided by $\pi$. The fluids of \Cref{sec:fluids} meet the paper's remark directly, since they are Fourier--Galerkin systems; they are carried on real bases instead. Burgers' solution from odd data stays odd and lives on sine modes, so it needs no realification, and the vorticity is carried on $\cos(\mathbf k\cdot\mathbf x)$ and $\sin(\mathbf k\cdot\mathbf x)$, an isometric real embedding of the complex Fourier variables (\Cref{app:realification}).
+
+One encoding is natively complex: the tensor layout of the Carleman coupling (\Cref{sec:ext-circuits}) acts on complex Fourier variables, and its \gls{lcu} weights carry the phases $\mathrm{i}^{\sum_da_d}$ of the Fourier symbols $\prod_dk_d^{a_d}$ it applies. It is verified, exactly at the smallest size and by \gls{ir} to field scale, and prepares no state. Native complex preparation is not built. The problem specification types coefficients and data as real, and the circuit loaders for sources, datum slices and the collapse row's value, like the term \gls{ir}, refuse complex data; no complex case is among R1--R10, and none was run in the experiments of \Cref{sec:results}. This was a limit of the implementation, not a result about the method. The classical reference and the \gls{gqsp} and multiplication components already carry complex amplitudes, so lifting the real-data restrictions should need little modification, but that path is untested. The research proposal's ``complex-valued, non-Hermitian equations'' are therefore answered at the level of the formulation, with realification as the route run (\Cref{tab:proposal-deviations}); native complex preparation is future work (\Cref{sec:future-work}).
+
+\subsection{The Doubled Space: Exact Encoding, Degenerate Kernel}
+\label{sec:doubled-space}
+
+A polynomial nonlinearity has two treatments here, the paper's doubled space and the Carleman lift. The first is not a linear system on one state, and that is where it fails; we run it in the standard form only, since the failure is a property of its kernel, which neither form changes. Its encoding is exact: with $\ket{\Psi}=\ket{\psi}\otimes\ket{\psi}$, each product is folded to one Chebyshev series by the nodal fold of \Cref{sec:ext-circuits} and each linear term is carried by a copy of the collapse row (\Cref{app:doubled-space}). Its kernel is large. The equation block maps the $N^2$ amplitudes of $\Psi$ to the $2N$ coefficients of the folded register, so it has rank at most $2N$, and each of the $c$ invariant constraints adds rank at most one:
+\begin{equation}
+    \dim\ker H_\otimes \;\ge\; N^2-2N-c,
+    \label{eq:doubled-kernel}
+\end{equation}
+above the paper's count of $2^{2n-1}=N^2/2$ from $n=3$ for $c\le2$. On $4f''+2(f')^2+f=0$ (R6a) at $n=5$ the kernel has dimension $\res{build/R6a/standard/n5}{kernel_count}$ of $\res{build/R6a/standard/n5}{dimension}$.
+
+\begin{proposition}[A filter projects onto the doubled kernel]
+\label{prop:no-penalty}
+Let $H_\otimes\succeq0$ act on $\mathbb{R}^{N^2}$, $N\ge2$, with $\Pi$ the projector onto its kernel.
+\begin{enumerate}
+    \item The symmetric product states $\{u\otimes u\}$ do not form a linear subspace, and a kernel does. A kernel that contains two independent product states therefore contains states that are not products, and no Hamiltonian has the product states as its kernel.
+    \item Let $P_d$ be filters with $P_d(0)=1$ whose largest magnitude on the rest of the spectrum tends to zero, as for the minimax filter as $d\to\infty$ or for $e^{-\beta H_\otimes}$ as $\beta\to\infty$. For any $\psi_{\mathrm{init}}$ with $\Pi\psi_{\mathrm{init}}\ne0$,
+    \begin{equation}
+        \lim_{d\to\infty}\frac{P_d(H_\otimes)\,\psi_{\mathrm{init}}}{\bigl\|P_d(H_\otimes)\,\psi_{\mathrm{init}}\bigr\|}
+        =\frac{\Pi\,\psi_{\mathrm{init}}}{\bigl\|\Pi\,\psi_{\mathrm{init}}\bigr\|}.
+        \label{eq:doubled-projection}
+    \end{equation}
+    \item A penalty $P\succeq0$ with $\ker(H_\otimes+P)=\operatorname{span}\{\psi_*\otimes\psi_*\}$ must vanish on $\psi_*\otimes\psi_*$ and on no other vector of $\ker H_\otimes$: a condition stated in terms of the solution $\psi_*$.
+\end{enumerate}
+\end{proposition}
+The proof is given in \Cref{app:proof-no-penalty}. A filter returns the initial state's projection onto a kernel that holds the solution's product state among exponentially many others, chosen by $\psi_{\mathrm{init}}$, not by the equation. A penalty that singles out the solution must be built from it and is excluded as answer-dependent; the paper's selection of ``a degenerate state that closely matches the analytical solution'' is such a choice. We report the doubled space as a projection, never as a preparation.
+
+\subsection{The Carleman Lift in Space--Time}
+\label{sec:carleman}
+% TRAPS: re-deriving the space-time rows (they are eq:system-rows with A -> A_K); the lift's
+%   preparation stated without the convergence caveat; rho < 1 as necessary.
+
+The Carleman lift of a polynomial system is a linear system on the system's monomials \cite{liu2021carleman,krovi2023improved} (\Cref{sec:bg-de-nonlinear}), so everything in \Cref{sec:systems-fields,sec:systems-data} carries over: the components become monomials, the ratio rows carry the data's moments, and $\Acoup$ becomes the lifted generator $\Acoup_K$. This section adds only the lift. For $u\in\mathbb{R}^M$,
+\begin{equation}
+    \frac{du}{dt}=\sum_{p=1}^{P}F_p\,u^{\otimes p}
+    \quad\longrightarrow\quad
+    \frac{dz}{dt}=\Acoup_K\,z,
+    \qquad
+    z=\bigl(u_\alpha\bigr)_{1\le|\alpha|\le K},\quad u_\alpha=\textstyle\prod_iu_i^{\alpha_i},
+    \label{eq:carleman-lift}
+\end{equation}
+where the state holds every monomial of degree $1$ to $K$ once, level by level (the symmetric layout), and each row of $\Acoup_K$ comes from differentiating a monomial and substituting $u'$, the terms beyond degree $K$ being dropped. A damped linear part gives a damped lift, since the eigenvalues of $\Acoup_K$ are sums of those of $F_1$. The lift is carried in the scaled variable $u/s$, $s=\max(\|u_0\|,1)$, a diagonal similarity of $\Acoup_K$ that leaves the truncated solution unchanged and keeps the data's higher moments from growing as $\|u_0\|^k$ and pulling the ground state's weight into the top level. Both facts are proved in \Cref{app:carleman-layouts}.
+
+How fast the lift converges is a property of the lift, not of the residual. With $\lambda_1$ the eigenvalue of $F_1$ of largest real part and $\|F_2\|$ taken on symmetric tensors,
+\begin{equation}
+    \rho=\frac{\|u_0\|\,\|F_2\|}{\bigl|\operatorname{Re}\lambda_1(F_1)\bigr|}
+    \label{eq:carleman-ratio}
+\end{equation}
+is the ratio of Liu et al., who prove for a dissipative quadratic system that $\rho<1$ suffices for the truncation error at order $K$ to fall as $\mathcal{O}(\rho^K)$, uniformly in time \cite{liu2021carleman}. The condition is sufficient; nothing in the bound says the lift diverges at $\rho\ge1$. It is a worst case over all data of norm $\|u_0\|$, since $\|F_2\|$ is a supremum over every pair of inputs and $|\operatorname{Re}\lambda_1|$ the slowest decay of any mode. And it says nothing about the residual. For $y'=-y+y^2$ from $y(0)=\tfrac12$ (R8), $\rho=\tfrac12$; on the fluids it exceeds one on most builds. The convergence is therefore measured on every build, order by order against the exact solution of the truncated lift (\Cref{sec:results-nonlinear}).
+
+What the residual guarantees is uniqueness. On the time axis the lifted system is \Cref{eq:system-rows} with $\Acoup\to\Acoup_K$, in either form, with its data as ratio rows at $t=0$ on the scaled moments of $u_0$. The truncated lift is a linear \gls{ivp} whose initial value is fixed up to scale, so its solutions form a one-dimensional space. The residual, restricted to polynomials of degree below $N_t$, then has a one-dimensional near-kernel whose singular value falls spectrally in $N_t$, in both forms and for every $\Acoup_K$, including a lift whose truncation diverges (\Cref{app:carleman-spacetime}). The uniqueness is the initial-value problem's, which the lift carries; neither form contributes it. The decoded field's error splits accordingly,
+\begin{equation}
+    \|\hat u-u\|_\infty\;\le\;\underbrace{\bigl\|z^{(K)}_1-u\bigr\|_\infty}_{\text{the lift's}}+\underbrace{\bigl\|\hat u-z^{(K)}_1\bigr\|_\infty}_{\text{the time axis's}},
+    \label{eq:carleman-error}
+\end{equation}
+with $z^{(K)}_1$ the first level of the truncated lift's exact solution. The lift's part does not depend on $n_t$ and the time axis's falls spectrally to rounding, so the field's error falls with $n_t$ until it meets the lift's floor and then holds; every build records both parts.
+
+\subsection{Couplings and Products on a Circuit}
+\label{sec:ext-circuits}
+% REVISE: the plan asks for one sentence comparing the matchings with a Pauli-word expansion,
+%   with numbers ("more than a thousand Pauli words" on a lift, companion 55, a unit test, not a
+%   record). Export a derived key or give the count in App. H as \prov; the sentence below states
+%   it without a number.
+
+Everything in a system's or a lift's rows except its coupling is built from the bands and rank-one rows of \Cref{sec:descriptor-block-encoding}; the ratio rows are three \gls{lcu} terms (\Cref{app:systems}). This section adds the coupling and the products.
+
+\paragraph{The coupling as a sum of matchings.} A system's coupling $\Acoup$, or a lift's $\Acoup_K$ in the symmetric layout, is sparse and irregular, and its expansion in Pauli words has many terms even when it has few entries. We split it instead into \emph{matchings}, each with at most one entry in every row and column: a permutation of the field register's basis states followed by a diagonal, whose entries are rotations on one flag qubit (\Cref{app:matchings}). Each matching is encoded at its largest entry, so the coupling's subnormalisation is the sum of the matchings' largest entries. The split is an edge colouring of $\Acoup$'s bipartite graph of rows and columns: a greedy colouring uses at most $2\Delta-1$ matchings, $\Delta$ the largest number of entries in a row or column, $\Delta$ is the least possible by K\"onig's theorem \cite{konig1916graphen}, and on every lift built the greedy colouring reached $\Delta$. The field-register factor is the same in both forms, so they pay the same for the coupling. On Burgers' lift on sixteen modes at $K=3$, $\Acoup_K$ has $\res{lift/R9c-M16/standard/n0/carleman=3/verify=ir}{components}$ components and splits into $\res{lift/R9c-M16/standard/n0/carleman=3/verify=ir}{terms}$ matchings at $\alpha/\|\Acoup_K\|=\res[3]{lift/R9c-M16/standard/n0/carleman=3/verify=ir}{alpha_over_norm}$; on the Navier--Stokes lifts the ratio is larger, $\res[3]{lift/R10c-M80/standard/n0/carleman=2/verify=ir}{alpha_over_norm}$ on eighty modes at $K=2$ (\Cref{tab:lift-circuits}).
+
+\paragraph{The tensor layout.} The matchings grow with $\Acoup_K$'s entries, which grow with the number of modes. For a Fourier--Galerkin equation, whose linear operators are Fourier multipliers and whose products are convolutions, a second layout's term count does not: level $k$ is carried as the whole tensor $u^{\otimes k}$ in $k$ slots of wavevectors, and the coupling is a sum of terms ``$F_p$ on slots $j,\dots,j+p-1$'', $2K-1$ of them for a quadratic field whatever the number of modes (\Cref{prop:tensor-terms}). Its multipliers vanish off the truncation, so it maps physical states to physical states with no leakage, and its weights carry the complex phases of \Cref{sec:systems-complex}. Per query it becomes the cheaper of the two as the lift grows: on Burgers on sixteen modes at $K=3$ it takes $\res{lift/R9c-M16/standard/n0/carleman=3/lift=tensor/verify=ir}{cx_count}$ CNOTs against the matchings' $\res{lift/R9c-M16/standard/n0/carleman=3/verify=ir}{cx_count}$. Its subnormalisation is looser in two dimensions, where the fold's $\alpha$ is $N$. It is verified exactly on Burgers' smallest lift and by \gls{ir} to $\res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{modes}$ Navier--Stokes modes, and it encodes the coupling alone: it prepares no state.
+
+\paragraph{Products.} A product is pointwise on a grid, so a fold transforms to node values, keeps the diagonal and transforms back. The doubled space's nodal fold does this with the Chebyshev--Gauss transform $\Ucg$: it is exact and block-encoded at $\alpha=2$, within \prov{1.21} of its norm at every $n$ computed, so tight to a constant but not optimal (\Cref{prop:fold-optimal}). $\Ucg$ is the discrete cosine transform, budgeted as a cited primitive \cite{klappenecker2001dct} and not built gate by gate. The tensor layout's Fourier fold uses the \gls{qft}, which is built, at $\alpha=N^{d/2}$ on $d$ axes, the convolution's own norm.
+% REVISE: 1.21 comes from a unit test (companion 60, computed to n = 12), not a record; App. H
+%   carries it with 1.58 and 1.665 as \prov. Export a derived key or keep the \prov.
+
+\subsection{Fourier--Galerkin Fluids: Burgers and Navier--Stokes}
+\label{sec:fluids}
+% NOTATION: k is the wavenumber in this section only (the equation's order elsewhere); bold k is
+%   a wavevector.
+
+The lift is tested on two periodic flows whose quadratic terms are convolutions. Truncated to finitely many Fourier modes on a real basis (\Cref{sec:systems-complex}) they are polynomial systems of the form of \Cref{eq:carleman-lift}. A build's error has three parts, each measured on its own: the truncation's, against the equation itself; the lift's, the truncated lift's exact solution against the Galerkin system's \gls{ivp}; and the time axis's (\Cref{eq:carleman-error}). The systems, their couplings and their parameters are given in full in \Cref{app:fluids}.
+
+\paragraph{Viscous Burgers (R9).} On $x\in[0,2\pi)$,
+\begin{equation}
+    u_t+u\,u_x=\nu\,u_{xx},\qquad u(x,0)=a\sin x,
+    \label{eq:burgers}
+\end{equation}
+whose solution stays odd and lives on the sine modes $\sin kx$, $k\le M$, with $M=4$, $8$ or $16$. The Galerkin system has $F_1=\operatorname{diag}(-\nu k^2)$ and $F_2$ the projection of $-\tfrac12(u^2)_x$. The least damped mode is $k=1$, so $\rho=a\|F_2\|/\nu$, and $\|F_2\|$ grows with $M$. The strength runs from $a/\nu=0.03$ to $10$, across the lift's convergence boundary, and the Cole--Hopf solution \cite{hopf1950burgers,cole1951burgers} measures the truncation's error.
+
+\paragraph{Two-dimensional Navier--Stokes (R10).} In vorticity form on the periodic square,
+\begin{equation}
+    \omega_t+J(\psi,\omega)=\nu\,\nabla^2\omega,
+    \qquad
+    \nabla^2\psi=-\omega\ \ \text{on }[0,2\pi)^2,
+    \qquad
+    J(\psi,\omega)=\psi_x\omega_y-\psi_y\omega_x,
+    \label{eq:navier-stokes}
+\end{equation}
+with $\nu=1$, the vorticity on the real modes $\cos(\mathbf k\cdot\mathbf x)$ and $\sin(\mathbf k\cdot\mathbf x)$ of the half-plane with $0<|\mathbf k|^2\le k_c^2$ ($12$ to $80$ modes), the stream function eliminated as $\hat\psi_{\mathbf k}=\hat\omega_{\mathbf k}/|\mathbf k|^2$, and every coupling rational and exact. Without viscosity the truncation conserves the energy and the enstrophy, the two invariants that make two-dimensional flow what it is, and modes of equal $|\mathbf k|$ do not interact (\Cref{app:fluids}); a pseudo-spectral \gls{dns} measures the truncation's error. The Taylor--Green vortex $\omega_0=2\sin x\sin y$ \cite{taylorgreen1937} occupies two modes of equal $|\mathbf k|$, so $\omega=\omega_0e^{-2\nu t}$ exactly and its lift is exact at every order: R10a validates the whole chain at a known answer and does not test the lift's convergence. A counter-rotating vortex pair, scaled to $\|w_0\|=a$ and run at $a/\nu=3$, $10$ and $30$, spans several $|\mathbf k|$, so its triads are active and its lift is a real test. The tensor layout's coupling alone is built further, to $148$ and $316$ modes.
+
+\subsection{Preparation Versus Projection}
+\label{sec:prep-vs-proj}
+
+\Cref{tab:prep-vs-proj} places the two nonlinear routes: the doubled space's kernel is a subspace that the solution's product structure is not, so a filter projects; the Carleman lift is a linear system on one state with its data fixed up to scale, so a filter prepares it, in either form.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{The Carleman lift prepares; the doubled space projects.} For each nonlinear route: the forms it is run in, its kernel, what a filter returns from an initial state $\psi_{\mathrm{init}}$, and what a trusted kernel certifies. $\rho<1$ is sufficient for the lift's truncation error to fall as $\rho^K$; the convergence is measured on every build, not inferred from $\rho$ (\Cref{sec:carleman}).}
+    \label{tab:prep-vs-proj}
+    \small
+    \begin{tabular}{@{}p{0.16\linewidth} p{0.12\linewidth} p{0.2\linewidth} p{0.2\linewidth} p{0.2\linewidth}@{}}
+        \toprule
+        Route & Forms run & Kernel & A filter returns & A trusted kernel certifies \\
+        \midrule
+        Doubled space (Wu et al.; R6) & standard only & degenerate, dimension $\ge N^2-2N-c$ & the projection of $\psi_{\mathrm{init}}$ onto the kernel & nothing: the kernel is never one-dimensional, so never trusted \\
+        Carleman lift (R8--R10) & both & one-dimensional near-kernel, from the lifted \gls{ivp}'s uniqueness & the truncated lift's solution & the lifted \emph{linear} problem, not the lift's convergence \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The caveat that matters is in the last column. A unique, trusted kernel certifies that the residual singles out the truncated lift's solution, not that the truncated lift is close to the nonlinear solution, which is the first term of \Cref{eq:carleman-error}, measured separately. The two can part company: past the convergence boundary of Burgers' lift the kernel stays one-dimensional and trusted while the lift diverges (\Cref{sec:results-nonlinear}).
+
+What the descriptor adds is the time axis. At one Carleman order the two forms differ only by $I\otimes\Bt_\xi$ (\Cref{eq:system-rows}), the banded left factor of \Cref{sec:descriptor-idea} applied in time, so the time axis contributes $\|\Dt_\xi\|=2(N_t-1)$ to the mass form's norm against $\|\G_\xi\|=\Theta(N_t^2)$ to the standard form's. Where the gap is flat, as on R7, the mass form's degree therefore grows more slowly with $N_t$; the coupling's part, $\tfrac T2\|\Acoup_K\|$, is common to both and grows with the modes, so at fixed $n_t$ the advantage narrows as the truncation widens. The descriptor's degree is lower in every Navier--Stokes pair compared, and on R8 and R9 from $n_t=4$ (\Cref{sec:results-nonlinear,sec:results-ns}).
+
+The answer to Q(iii) is therefore yes, for polynomial nonlinearities and in either form: the Carleman lift turns the equation into a linear initial-value problem on one state, whose residual has a one-dimensional near-kernel that a filter prepares within $\varepsilon$ (by exact emulation throughout, and by circuit simulation at the smallest sizes), where the doubled space can only project. What is prepared is the truncated lift's solution, and how close it lies to the nonlinear solution is a property of the lift, measured, not certified, by the construction. \Cref{sec:results-nonlinear,sec:results-ns} give the evidence, from the scalar R8 to two-dimensional Navier--Stokes.
+
+% CHECKLIST (marker)
+%   1. Is the scope gap stated from the paper's own words, and Q(iii) posed at the head?
+%   2. Is the thread (one state, a coupled linear system) visible in the opening and in
+%      sec:carleman's first sentence?
+%   3. Are systems and lifts rebuildable from body and Appendix H?
+%   4. Is the mass form applied, not redefined (sec:descriptor-layouts owns it)?
+%   5. Is realification stated as the route run, with R7 as its instance, and every complex-valued
+%      claim scoped (formulation; one encoding verified; preparation not built)?
+%   6. Is "prepared" never used for the doubled space?
+%   7. Is rho < 1 stated as SUFFICIENT, not necessary?
+%   8. Is the nodal fold's alpha = 2 called tight (within 1.21 of ||n_1||_2), not optimal?
+%   9. Is the DCT named as unbuilt, with the reason?
+%  10. Is uniqueness attributed to Carleman (the lifted IVP), not to a form?
+%  11. Is trust distinguished from convergence (sec:prep-vs-proj)?
+%  12. Is each construction stated once in the chapter (matchings, ratio rows, the time axis)?
+% TRAPS (chapter): "handles complex equations" unscoped; any complex-valued result resting on the
+%   legacy DESolverLib (never cited); redefining the mass form or restating its kernel theorem;
+%   calling the tensor encoding "prepared"; claiming higher-order systems were run;
+%   "vector-valued solver"; "K^2 terms" (it is 2K - 1); "both forms" for the doubled space (it is
+%   standard-form only); rho < 1 as necessary; "optimal" for the fold; re-deriving the
+%   space-time rows.

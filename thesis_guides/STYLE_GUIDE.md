@@ -47,9 +47,9 @@ class of problems, and stating it without the class is an over-claim a referee w
 | a Carleman lift's solution | **Assert the kernel's uniqueness; measure the convergence separately.** A trusted kernel is not a converged lift |
 | end-to-end poly-log speed-up | **Deny it yourself, first.** d = Θ(√(α_H/Δ) log 1/ε) with α_H ≥ ‖H‖; hedge any "for every filter" floor to what Lin & Tong support |
 | the physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in Chapter 3 as reported prior art; reserve the verdict for §3.5. Chapter 4 restates it once as the standard form, citing each piece it restates |
-| the standard form | **Specify, and say what differs.** The paper's regime as run: each departure argued where it occurs (a defect and the property gained), collected in Table T10; the data change, 𝔾 and the Gram structure do not. Never "we fixed", never "corrected" |
+| the standard form | **Specify, and say what differs.** Define it by its state (the field alone, every derivative eliminated through 𝔾), in full at the first use in a chapter and by name afterwards, never as "the paper's regime" or "the paper's method": each departure argued where it occurs (a defect and the property gained), collected in Table T10; the data change, 𝔾 and the Gram structure do not. Never "we fixed", never "corrected" |
 | the descriptor's novelty | **Credit, then claim the increment.** The ultraspherical method and first-order-system least squares came first; the increment is the transfer to a block-encoded physics-informed Hamiltonian and its measured consequences |
-| the paper's encoding's cost | **Assert**, from the printed prefactor and the rebuilt circuit's own α (§4.5.1, §9.2), framed as separating the encoder's cost. The structured exact encoding (S2) is ours, as a fairness device, never as a rival solver |
+| the paper's encoding's cost | **Assert**, from the printed prefactor and the rebuilt circuit's own α (§4.5.1, §8.2), framed as separating the encoder's cost. The structured exact encoding (S2) is ours, as a fairness device, never as a rival solver |
 | "the solution was read out" | **Assert as classical**: the field is decoded from the prepared state. The paper's interferometric protocol is built at small n and is further work; never "on hardware", never the method's readout |
 
 Pre-empting the examiner's objection in your own voice is worth more than any amount of
@@ -58,7 +58,7 @@ enthusiasm. Snow devotes a paragraph to it:
 > "**Limitations.** Honest accounting requires noting what the results do not establish." — Snow,
 > §8.1
 
-Write that paragraph (§10.5). Markers reward it under "awareness of the significance of the work and
+Write that paragraph (§9.5). Markers reward it under "awareness of the significance of the work and
 its place in the wider field".
 
 ### 1.2 First person plural for method, impersonal for fact
@@ -233,7 +233,7 @@ Snow's most disciplined move:
 > intermediate-$\chi$ advantage reported below is thus a *lower bound* on the advantage available
 > under improved compilation."
 
-Do the same (§8.8) before any standard-versus-descriptor number: what counts as a gate, how ancilla
+Do the same (§7.8) before any standard-versus-descriptor number: what counts as a gate, how ancilla
 are counted, and **which way the convention biases the comparison**. Ours: the structured encoding
 is the strongest standard-form baseline built, and every comparison is also quoted at the
 ideal-encoding bound α = ‖R‖, which contains neither form's encoding. A conservative convention that
@@ -242,7 +242,7 @@ still favours your method persuades; one that hides a reversal is found.
 ### 3.3 Numbered findings, some negative
 
 Green closes his numerical study with four numbered findings, two of them negative. Copy the format
-and the honesty. Chapter 9 closes on six (§9.6), at least two negative: the reversals at the
+and the honesty. Chapter 8 closes on six (§8.6), at least two negative: the reversals at the
 ideal bound and on the heat panel; the gap falling on two axes; a trusted kernel hiding a diverging
 lift; Navier–Stokes reached by emulation and estimate only.
 
@@ -264,7 +264,7 @@ Compare *"Figure 5: Gate counts."* with Snow's:
 
 Both exemplars anchor their contribution with a table whose rows are methods and whose columns are
 resources, with a "This Work" row. Two here: **T1** (§2.2), quantum DE approaches by assumptions,
-cost driver, output and failure mode; and **T7** (§9.2), the paper's, structured and descriptor
+cost driver, output and failure mode; and **T7** (§8.2), the paper's, structured and descriptor
 encodings across ‖H‖, gap, α/‖·‖, cx per query, ancilla, exactness, and the degree as built and at
 α = ‖R‖. **Three encodings**: the middle one separates the encoder wall from the Hamiltonian wall.
 FABLE does not appear. T7 is referenced from the Abstract.
@@ -295,9 +295,9 @@ is raised by a critical assessment the reader has just watched. §3.5 poses Q(i)
 each answered by `\Cref`: (i) *is the cost the encoder's or the Hamiltonian's?* → Chapter 4; (ii)
 *can the residual be reformulated so that its Hamiltonian is banded and well conditioned, without
 changing its solution, and what does that cost?* → Chapter 5; (iii) *can nonlinear equations be
-prepared rather than projected?* → Chapter 7. Chapter 6 (coupled systems and complex-valued
-fields) answers no numbered question: it opens with the paper's scope and hands Chapter 7 a coupled
-linear system.
+prepared rather than projected?* → Chapter 6, which first carries several fields and
+complex-valued fields as coupled linear systems on one state, because the Carleman lift that answers
+(iii) is one.
 
 ### 4.2 Chapter-opening roadmaps, one to three sentences
 
@@ -305,7 +305,7 @@ linear system.
 > self-contained at the level needed to follow the algorithms and proofs of later chapters; for a
 > fuller account… we refer the reader to…" — Snow, Ch. 2
 
-The second clause licenses brevity, which the marking guide rewards. Chapters 4–7 open with their
+The second clause licenses brevity, which the marking guide rewards. Chapters 4–6 open with their
 question instead of a roadmap.
 
 ### 4.3 Forward and backward references carry a reason
@@ -320,7 +320,7 @@ Use `\Cref{sec:...}` throughout; never hard-code a number.
 ### 4.4 The recurring spine sentence
 
 Both exemplars restate their thesis in one line at the end of each major section. Ours
-(ThesisPlanning.md §3.3), placed in the Abstract, §1.3, §3.5, §5.1, §5.10, §9.6 and §11.1, reworded
+(ThesisPlanning.md §3.3), placed in the Abstract, §1.3, §3.5, §5.1, §5.10, §8.6 and §10.1, reworded
 each time:
 
 > *Carrying the intermediate derivatives instead of eliminating them turns the physics-informed
@@ -331,7 +331,7 @@ each time:
 ### 4.5 Section-closing summaries for long sections
 
 Green closes his MPS chapter with "Summary"; Snow closes each results chapter with one. Use them
-after Chapter 5 (§5.10) and Chapter 9 (§9.6): 3–7 numbered takeaways.
+after Chapter 5 (§5.10) and Chapter 8 (§8.6): 3–7 numbered takeaways.
 
 ---
 

@@ -1,57 +1,82 @@
 % =============================================================================
 % Appendix G  The Descriptor Construction in Full
-% Cited from sec:descriptor-layouts to sec:descriptor-cost.
+% Cited from sec:descriptor-layouts to sec:descriptor-spectrum.
 % Plan: ThesisPlanning.md §6 (G); headline contribution C.
 %
-% CONTENT  The block rows (PDE and coupled-field chains included); the padded
-%          block count; the proof of thm:kernel-equivalence; the term IR and its
-%          compilation; the proof of prop:descriptor-cost; block rescaling.
-% SOURCES  Planning.md §3.4, §3.7 ("Descriptor"), §6.4, App. A-2;
-%          pihm/src/pihm/assemble.py (descriptor mode), ir.py, circuits/lcu.py.
+% CONTENT  The block rows (several axes and coupled fields included); variable
+%          coefficients and the padded block count; kernel equivalence on several
+%          axes and under rescaling; the gap mechanism and the artefacts ruled out;
+%          block rescaling (the rule, its calibration and its limits); the term IR
+%          and its compilation; the proof of prop:descriptor-cost and the norms of
+%          tab:descriptor-regimes; one query's success.
+% SOURCES  pihm docs/companion 50 (chain), 51 (mass form), 52 (kernel
+%          equivalence), 53 (gap mechanism), 54 (block rescaling), 55 (term IR),
+%          56 (cost), 57 (degree scaling); docs/13_descriptor.md;
+%          docs/14_descriptor_gap.md; src/pihm/assemble/descriptor.py, systems.py,
+%          ir.py, circuits/lcu.py, problems/scales.py.
+% REVISE: every \prov in this appendix is a planning probe of
+%   pihm docs/14_descriptor_gap.md (tools/probes/p11-p23), made before P8 and not
+%   held in the records. Before submission either export them as derived keys or
+%   state in one sentence that these tables are pre-P8 probes of the same code.
 % =============================================================================
 
-\subsection{Block rows in full}
+\subsection{Block Rows in Full}
 \label{app:descriptor-rows}
-% LAND: every block row of A_desc, including the source row
-%   (- M_r D0 f_hat^(0)), the padding rows (c_pad f_hat^(b) = 0; the padding
-%   weight is a free parameter, measured as not binding -- M-03), one derivative
-%   chain per axis for a PDE, one chain per field for coupled fields, and the
-%   constraint rows on chosen blocks (Neumann on the f'-block).
 
-\subsection{Higher order, variable coefficients, and the padded block count}
+\Cref{tab:app-descriptor-rows} lists every row block of the chain. On one axis the state is $w=(\fhat{0};\dots;\fhat{k};0;\dots;0)$, one block of $N$ amplitudes per derivative, padded with zero blocks to a power of two so that the block index is a register of $n_f$ qubits, the most significant index of the state. On several axes the field is block~$0$ and each axis $a$ owns the chain $\partial_af,\dots,\partial_a^{k_a}f$ up to the highest order that the equation or a constraint takes along it; a mixed derivative would need a block of its own and is not built. $\Bt_a$ and $\Dt_a$ are the banded factors on axis $a$, tensored with the identity on the other axes.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{The chain's row blocks.} Each row block of the descriptor's stacked residual, the blocks of the state it reads and its content. $\M_{a_j}$ is the standard form's multiplication operator (\Cref{sec:standard-operators}), lifted where the standard form lifts it; the constraint rows are the standard form's (\Cref{def:standard-form}) with each power of $\G$ replaced by the block that carries the derivative.}
+    \label{tab:app-descriptor-rows}
+    \small
+    \begin{tabular}{@{}p{0.24\textwidth} p{0.24\textwidth} p{0.44\textwidth}@{}}
+        \toprule
+        Row block & Reads & Content \\
+        \midrule
+        The equation & the field and every carried derivative & $\sum_j\M_{a_j}\fhat{j}-\M_r\Dzero(x_s)\fhat{0}$ \\
+        Recurrence $m\to m+1$ along axis $a$ & blocks $m$ and $m+1$ of $a$'s chain & $-\Dt_a\,\fhat{m}+\Bt_a\,\fhat{m+1}$ \\
+        Padding block $b$ & block $b$ & $c_{\mathrm{pad}}\,I$, $c_{\mathrm{pad}}=1$ \\
+        A constraint on $\partial_a^mf$ & block $m$ of $a$'s chain & a zero row $\Brow(x^*)$, a collapse row, a datum slice (\Cref{eq:datum-slice}) or a ratio row (\Cref{sec:systems-data}) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+A Neumann condition reads the derivative block with the zero row $\Brow(x)$, the same row that a Dirichlet condition applies to the field block, and no $\G$. A source enters the equation row as in the standard form, through the collapse row on the field block. A first-order equation or system is not carried as a chain but in the mass form of \Cref{eq:mass-form}, whose rows are the standard form's equation rows multiplied by $I_C\otimes\Bt$, with the standard form's constraint rows; its state is the standard form's, one block per component. The system rows of several fields and of a Carleman lift, and their ratio rows, are given in \Cref{app:systems}.
+
+\begin{proposition}[The padding decouples]
+\label{prop:padding-decouples}
+After ordering the columns,
+\begin{equation*}
+    R_{\mathrm{desc}}=\begin{pmatrix}R_{\mathrm{phys}}&0\\0&c_{\mathrm{pad}}I\end{pmatrix},
+\end{equation*}
+so $\Hdesc$ is block diagonal, every polynomial in $\Hdesc$ maps the physical blocks to themselves, and the padding's singular values all equal $c_{\mathrm{pad}}$.
+\end{proposition}
+\begin{proof}
+No equation, recurrence or constraint row reads a padding block, and each padding row block is $c_{\mathrm{pad}}I$ on its own block.
+\end{proof}
+
+The reference, the gap, the filter and the initial state are therefore the physical subspace's, and $c_{\mathrm{pad}}=1$ adds one to $\alpha_R^2$ and nothing to the gap the preparation meets. Over the whole spectrum the padding's singular value can lie below the physical subspace's first excited one, but an initial state on the field block never meets it.
+
+\subsection{Variable Coefficients and the Padded Block Count}
 \label{sec:app-variable-coeff}
-% Moved here from the draft's Appendix B.
 
-For an order-$k$ equation the state is $w = (\fhat{0};\, \dots;\, \fhat{k})$ and
-$\Adesc$ stacks $k$ recurrence block-rows
-$-\Dt\,\fhat{j} + \Bt\,\fhat{j+1} = 0$ above the single differential row
-$\sum_j \M_{a_j}\,\fhat{j} = 0$: $k+1$ block-rows, each $N$ coefficients wide,
-giving the classical $(k+1)N \times (k+1)N$ square matrix of
-\Cref{def:descriptor-residual-operator}.
+A variable coefficient $a_j(x)$ enters the equation row through the standard form's multiplication operator $\M_{a_j}$, the lift of Paine et al.\ (\Cref{prop:lift}), on exactly the axes where the standard form lifts it: an axis with a non-constant coefficient or a source. The descriptor's equation row therefore applies the same operators as the standard form's equation block, which \Cref{thm:kernel-equivalence} needs. A multiplication by a polynomial is banded, with bandwidth the polynomial's degree, so it compiles to the same bands as $\Bt$ and $\Dt$ (\Cref{app:term-ir}). The square Galerkin form, which truncates the exact product to the first $N$ modes and never lifts, is used only as a control in the gap study of \Cref{app:descriptor-gap}.
 
-A variable coefficient $a_j(x)$ enters through $\M_{a_j}$, the square Galerkin truncation to the first $N$ modes of the exact product (the multiplication of \Cref{sec:pihm-residual}), built from its Chebyshev coefficients, or from its monomial coefficients converted exactly. $\M_{a_j}$ is banded, with bandwidth the degree of $a_j$, so it folds into the same shift-and-diagonal form as $\Bt$ and $\Dt$. The truncation is the only approximation in the linear construction; its error is confined to the top Chebyshev modes of a product that is smooth and resolved.
-
-\paragraph{Padding to a power of two.} The classical $(k+1)N \times (k+1)N$
-matrix above is exact and complete as a linear system; it is not, however,
-the object any later stage of the pipeline actually builds. A gate-level
-realisation must index which block $\fhat{j}$ a given operator acts on with a
-qubit register, and a register of $m$ qubits addresses $2^m$ blocks, not
-$k+1$ of them for an arbitrary $k$. $\Adesc$ is therefore \emph{embedded} in a
-$2^{\lceil \log_2(k+1) \rceil}N$-dimensional space: the $k+1$ block-rows and
-block-columns above are kept exactly as derived, and
-$2^{\lceil \log_2(k+1) \rceil} - (k+1)$ further diagonal blocks are appended,
-each a row $c_{\mathrm{pad}} I_N$ with $c_{\mathrm{pad}}=1$ pinning its own dummy field to zero,
-$\fhat{j}_{\text{dummy}} = 0$; no other row reads a padding block, so the padding decouples. This padding is exact: the physical solution already satisfies the dummy rows
-trivially, since it has nothing in those blocks, so no error is introduced
-beyond the multiplication's truncation above. The qubit cost, however, is not
-uniform in $k$:
+With $K=1+\sum_ak_a$ physical blocks, the padded state has
+\begin{equation}
+    \dim w = 2^{\lceil\log_2K\rceil}\prod_aN_a,
+    \qquad
+    n_f=\lceil\log_2K\rceil ,
+    \label{eq:app-padded-count}
+\end{equation}
+amplitudes, against the standard form's $\prod_aN_a$. On one axis $K=k+1$:
 
 \begin{center}
 \begin{tabular}{ccccc}
 \toprule
-Order $k$ & Blocks $k+1$ & Field qubits $\lceil\log_2(k+1)\rceil$ & Padded blocks $2^{\lceil\log_2(k+1)\rceil}$ & Dummy blocks \\
+Order $k$ & Blocks $k+1$ & Field qubits $n_f$ & Padded blocks $2^{n_f}$ & Padding blocks \\
 \midrule
-1 & 2 & 1 & 2 & 0 \\
 2 & 3 & 2 & 4 & 1 \\
 3 & 4 & 2 & 4 & 0 \\
 4 & 5 & 3 & 8 & 3 \\
@@ -60,43 +85,230 @@ Order $k$ & Blocks $k+1$ & Field qubits $\lceil\log_2(k+1)\rceil$ & Padded block
 \end{tabular}
 \end{center}
 
-so the state $w$ the gate-level construction actually carries has
-$2^{\lceil \log_2(k+1) \rceil}N$ components, not $(k+1)N$: equal to the
-unpadded count exactly when $k+1$ is itself a power of two (orders $1, 3, 7,
-\dots$), and up to nearly double it otherwise -- order $2$, the most common
-case after order $1$, already pays for a field register it only three-quarters
-uses. This is the qubit cost that must always accompany the gate-count
-comparison of \Cref{sec:descriptor-cost}.
+A first-order equation takes the mass form and carries no derivative block. The heat equation has $K=4$, and Laplace's and the wave equation $K=5$, padded to eight. The padded count equals the unpadded one exactly when $K$ is a power of two and is less than twice it otherwise; the chain's state is at most $2K$ times the standard form's. This is the qubit cost that accompanies the gate counts of \Cref{sec:descriptor-cost}.
 
-\subsection{Proof of \texorpdfstring{\Cref{thm:kernel-equivalence}}{kernel equivalence}}
+\subsection{Kernel Equivalence on Several Axes and Under Rescaling}
 \label{app:proof-kernel-equivalence}
-% LAND: Bt is upper triangular with a non-zero diagonal, hence invertible; so
-%   the recurrence rows hold iff f_hat^(j+1) = G f_hat^(j) for every j; then the
-%   equation row of A_desc on (p, Gp, ..., G^k p) equals A_std p. Both
-%   inclusions. The padding blocks vanish on the kernel.
 
-\subsection{The term IR and its compilation}
-\label{app:term-ir}
-% LAND: the IR grammar (field word x shift x diagonal; diagonals as Z-strings
-%   by eq:diag-index and reflections R_m); the banded-to-shift-diagonal
-%   conversion (and its limit, implementation issue I-06); what alg:ir-to-lcu
-%   compiles; how the IR mode of tab:verification-modes checks it against the
-%   independently assembled operator at every n.
+The proof of \Cref{thm:kernel-equivalence} in the body treats one axis without rescaling. Both extensions follow from one identity. Let $E$ map a field's coefficients $p$ to the state whose block of order $m$ along axis $a$ is $\G_a^mp$, with $\G_a$ the differentiation matrix on axis $a$ tensored with the identity on the others, and whose padding blocks are zero. Let $S$ be the diagonal of block weights of \Cref{sec:descriptor-rescaling}, equal to $\prod_a\zeta_a^{m_a}$ on a block of order $m_a$ along each axis and to one on the field and padding blocks.
 
-\subsection{Proof of \texorpdfstring{\Cref{prop:descriptor-cost}}{the descriptor cost}}
-\label{app:proof-descriptor-cost}
-% LAND: alpha_A = sum |c_t| (the dominant term zeta^j Dt, of norm 2 zeta^j (N-1), is
-%   encoded at its norm, so alpha_A/||A_desc|| = 1 + O(1/N) to leading order on a regular
-%   one-axis equation at fixed zeta; about 2 where the leading coefficient vanishes, since
-%   comparable terms add in l1); the diagonal selector has ceil(log2(n+4)) qubits for R2
-%   (n gates Z_j, the identity, three reflections), plus the field and shift selectors, the
-%   overflow qubit and the projection flags: ceil(log2(n+4)) + 8 ancilla for R2's system rows
-%   (n = 2-12); O(n^2) gates. Order-optimality among exact LCU encodings that expand
-%   diagonals in Pauli strings from the Omega(log L) bound (chakraborty2025qsvt).
+\begin{proposition}[Substitution identity]
+\label{prop:substitution-identity}
+$R_{\mathrm{desc}}S\,(S^{-1}Ep)=\bigl(R_{\mathrm{std}}\,p;\,0\bigr)$, after ordering the rows: the recurrence and padding rows vanish on $Ep$, and every other row block acts on $Ep$ as the standard form's row block of the same name acts on $p$.
+\end{proposition}
+\begin{proof}
+The recurrence of order $m$ along axis $a$ gives $-\Dt_a\G_a^mp+\Bt_a\G_a^{m+1}p=(\Bt_a\G_a-\Dt_a)\G_a^mp=0$, and the padding blocks of $Ep$ are zero. The equation row gives $\sum_j\M_{a_j}\G^jp-\M_r\Dzero(x_s)p$ term by term, each term's derivative being read from the block that holds it, which is the standard form's equation block. A constraint on $\partial_a^mf$ applies its row to $\G_a^mp$, which is the standard form's row. The factor $S$ multiplies the columns of each block by its weight and $S^{-1}$ divides the block of $Ep$ by the same weight, so they cancel.
+\end{proof}
 
-\subsection{Block rescaling}
+\begin{theorem}[Kernel equivalence, general form]
+\label{thm:kernel-equivalence-general}
+$\ker(R_{\mathrm{desc}}S)=S^{-1}E\ker R_{\mathrm{std}}$, and $E$ is injective, so the two kernels have the same dimension.
+\end{theorem}
+\begin{proof}
+If $p\in\ker R_{\mathrm{std}}$, \Cref{prop:substitution-identity} gives $(R_{\mathrm{desc}}S)(S^{-1}Ep)=0$. Conversely, let $(R_{\mathrm{desc}}S)v=0$ and $w=Sv$. The padding rows force the padding blocks of $w$ to zero. Along each axis's chain each recurrence gives $w_{(a,m+1)}=\Bt_a^{-1}\Dt_aw_{(a,m)}=\G_aw_{(a,m)}$, since $\Bt_a$ is invertible, so $w=Ew_0$, and \Cref{prop:substitution-identity} gives $R_{\mathrm{std}}w_0=0$. $E$ is injective because its first block is the identity.
+\end{proof}
+
+\paragraph{What it does not say.} The theorem says that an exact kernel is present in both forms or in neither, with the same dimension; a one-dimensional kernel is one-dimensional in both. It does not say that near-kernels are equally sharp. The ratio of the first excited to the lowest singular value, which the trust threshold of \Cref{sec:pipeline-reference} reads, is each form's own and differs between them. For a Carleman lift the kernel is the truncated lift's in both forms, and its uniqueness is the initial-value problem's, not a property of either form (\Cref{sec:carleman}).
+
+\subsection{The Gap Mechanism and the Artefacts Ruled Out}
+\label{app:descriptor-gap}
+
+\begin{proposition}[The quotient on represented states]
+\label{prop:descriptor-quotient}
+On the represented states the Rayleigh quotient of the rescaled descriptor is
+\begin{equation}
+    \frac{\|R_{\mathrm{desc}}S\,(S^{-1}Ep)\|^2}{\|S^{-1}Ep\|^2}
+    =\frac{\|R_{\mathrm{std}}\,p\|^2}{\sum_{m=0}^{k}\zeta^{-2m}\|\G^mp\|^2},
+\end{equation}
+and the $j$-th smallest singular value of $R_{\mathrm{desc}}S$ is at most the least, over $(j+1)$-dimensional subspaces $V$ of coefficient vectors, of the largest square root of this quotient on $V$.
+\end{proposition}
+\begin{proof}
+\Cref{prop:substitution-identity} gives the numerator, and the denominator is the norm of the represented state, whose block $m$ is $\zeta^{-m}\G^mp$. By the Courant--Fischer theorem the $j$-th smallest singular value is the least, over $(j+1)$-dimensional subspaces of the state space, of the largest quotient on the subspace; restricting the subspaces to the range of $S^{-1}E$ can only raise it.
+\end{proof}
+
+The bound is not tight. States that break the recurrences cost little where $\Bt$'s least singular value is small, and it falls with $N$, as about $\pi/N$, with its singular vector at the ends of the interval. Measured against the bound at $n=8$, the descriptor's lowest non-zero singular value is \prov{0.99--1.00} times it on controlled equations with a single zero or none, \prov{0.04} times it on an equation with zeros at both ends, and \prov{0.35--0.72} times it on the two-axis problems at $n=4$ per axis.
+
+\paragraph{The concentrated states.} Let $a_k$ vanish simply at an endpoint. A polynomial of degree $N$ can concentrate within $\mathcal{O}(N^{-2})$ of the endpoint, where the Chebyshev points cluster, and each of its derivatives then grows by a factor $\mathcal{O}(N^2)$. On such a state $\|a_kp^{(k)}\|=\mathcal{O}(N^{-2})\|p^{(k)}\|$ and the lower orders are of the same size, so the square root of the quotient is $\mathcal{O}(N^{-2}\zeta^k)$ against the top block. Unscaled, the lowest non-zero singular value is $\mathcal{O}(N^{-2})$ and the gap $\mathcal{O}(N^{-4})$. At an interior zero, where the resolution is $\mathcal{O}(N^{-1})$, the gap is $\mathcal{O}(N^{-2})$. At a double zero at an endpoint, $\|a_kp^{(k)}\|=\mathcal{O}(N^{-4})\|p^{(k)}\|$ and the gap is $\mathcal{O}(N^{-8})$. These are heuristics; the rates are measured. \Cref{tab:app-gap-controls} gives the unscaled gap on controlled equations whose solutions are polynomials where the coefficient vanishes, so that their kernels are exact, built with the square multiplication.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{A zero of the leading coefficient closes the unscaled descriptor's gap at the rate the Chebyshev resolution at the zero predicts.} Unscaled gap of the descriptor from $n=5$ to $n=9$ on controlled equations, against the standard form's. Planning probes, exact classical computation.}
+    \label{tab:app-gap-controls}
+    \small
+    \begin{tabular}{@{}l l l l l@{}}
+        \toprule
+        Equation & Leading coefficient & Descriptor, $n=5\to9$ & Per qubit & Standard \\
+        \midrule
+        $f''+4f'+4f$ & $1$ & \prov{0.458 $\to$ 0.458} & flat & \prov{7.04} \\
+        $(2+x)f''+f'-f$ & $\ge1$ & \prov{0.434 $\to$ 0.432} & flat & \prov{0.777} \\
+        $(2+x)f'+f$ & $\ge1$ & \prov{1.01 $\to$ 1.00} & flat & \prov{4.90} \\
+        $(1-x)f''-xf'+3f$ & zero at $x=1$ & \prov{1.5e-5 $\to$ 2.2e-10} & $\div$\prov{16} & \prov{2.02} \\
+        $(1-x)f'+f$ & zero at $x=1$ & \prov{2.4e-5 $\to$ 3.5e-10} & $\div$\prov{16} & \prov{1.6} \\
+        $(1-x^2)f''-2xf'+20f$ & zeros at $x=\pm1$ & \prov{9.1e-7 $\to$ 8.0e-13} & $\div$\prov{33} & \prov{20.5} \\
+        $xf''+(1-x)f'+3f$ & zero at $x=0$ & \prov{9.3e-3 $\to$ 3.8e-5} & $\div$\prov{4} & \prov{1.85--2.02} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The first excited state lies \prov{96--100}\,\% in the top-derivative block, and at $n=9$ \prov{86--99}\,\% of that block's function lies within $0.02$ of the coefficient's zero. Variable coefficients alone do not close the gap; a zero does.
+
+\paragraph{Two axes.} The equation constrains a sum of top derivatives. Its lowest modes are equal and opposite in two top blocks (transport, Laplace's equation) or sit in the block the equation weights least (the heat equation's $\partial_x^2f$ block, weighted $1/25$), and only the slice rows penalise them: by $\mathcal{O}(1)$ against $\|f\|$, which is small against the derivative blocks. With R5b's constraints and resolution, the lowest singular value that is not a near-solution falls from \prov{0.29} to \prov{0.033} for transport, from \prov{0.081} to \prov{0.0018} for the heat equation and from \prov{0.10} to \prov{0.0011} for Laplace's equation as $n$ goes from $2$ to $4$ per axis, while for $f_t+f$, which has one top block, it stays at \prov{0.87}--\prov{0.86}.
+
+\paragraph{The field block's weight.} Let $P_0$ project onto the field block and let the initial state be supported there. Then $\gamma=|\braket{\psi_g|\psi_{\mathrm{init}}}|=|\braket{P_0\psi_g|\psi_{\mathrm{init}}}|\le\|P_0\psi_g\|=w_f^{1/2}$ by the Cauchy--Schwarz inequality, with $w_f=\|P_0\psi_g\|^2$ the field block's weight that the build records hold. For an exact kernel, $\psi_g\propto S^{-1}Eb$ with $b$ the solution's coefficients, so $w_f=\|b\|^2/\sum_m\zeta^{-2m}\|\G^mb\|^2$. Amplitude amplification then costs a factor $1/\gamma\ge w_f^{-1/2}$ (\Cref{sec:pipeline-filter}).
+
+\paragraph{What it is not.} Each candidate artefact was tested:
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.2\textwidth} p{0.38\textwidth} p{0.34\textwidth}@{}}
+\toprule
+Candidate & Test & Outcome \\
+\midrule
+The lift & R3a with the square multiplication & collapses faster: \prov{2.6e-11} at $n=8$, against \prov{2.7e-8} lifted \\
+The padding & lowest singular value against $c_{\mathrm{pad}}$; the excited state's padding weight & at most \prov{0.74}, below $c_{\mathrm{pad}}=1$, on every padded record; no padding weight \\
+The constraints & controlled equations with none & they collapse too \\
+Precision & lowest singular value against the decomposition's floor $\varepsilon\sigma_{\max}$ & six orders of magnitude above it at the smallest \\
+The basis & a descriptor carrying $f^{(j)}$ in the ultraspherical basis $C^{(j)}$ & the same rates where $a_k$ vanishes \\
+The reference & dense decomposition against the iterative reference & agree to \prov{1.9}\,$\varepsilon\sigma_{\max}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The ultraspherical descriptor keeps a flat gap on regular problems with a norm about \prov{four} times smaller, and on Legendre's equation gains \prov{160}-fold at $n=9$ over the Chebyshev descriptor, the share of the recurrences, but still collapses.
+
+\subsection{Block Rescaling}
 \label{app:block-rescaling}
-% LAND: the rescaling multiplies each LCU term's coefficient by zeta^m for its column block m:
-%   no gate, no ancilla, only a different alpha; zeta is the a priori rule of
-%   sec:descriptor-rescaling (never fitted); its effect on Delta and on alpha_H; why general
-%   equilibration (Theta(dim w) gates, a diagonal block encoding) is excluded.
+
+The rule of \Cref{sec:descriptor-rescaling} returns each axis's weight from the equation's coefficients and the resolution alone:
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.42\textwidth} p{0.5\textwidth}@{}}
+\toprule
+Problem & $\zeta$ \\
+\midrule
+One axis, $a_k$ with no zero on $[-1,1]$ & $2(\bar a_j/\bar a_k)^{1/(k-j)}$, $j$ the lowest order present, $\bar a$ the mean of $|a|$ \\
+One axis, $a_k$ with a zero on $[-1,1]$ & $N/2$ \\
+Several axes & $N_a$, times $\sqrt{\max_b\bar c_b/\bar c_a}$ on an axis of top order two, $\bar c_a$ the mean magnitude of its top coefficient \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Whether $a_k$ vanishes is decided from its roots, to a tolerance loose enough to find a double root. On R2a the rule gives $\zeta=2\sqrt{4/1}=4$, on R2c $\zeta=2\sqrt{400}=40$, and on R3a, whose leading coefficient vanishes at both ends, $\zeta=N/2$.
+
+\paragraph{Why each.} For a regular equation with constant coefficients, $(\bar a_0/\bar a_k)^{1/k}$ is the geometric mean of the characteristic roots' magnitudes, the product of the roots being $\pm a_0/a_k$; a solution $e^{\lambda x}$ has $\|f^{(m)}\|\approx|\lambda|^m\|f\|$, so dividing block $m$ by $\zeta^m$ balances the blocks at the equation's own scale. The factor two is where the cost's minimum over $\zeta$ sits on the regular benchmark problems. Where the leading coefficient vanishes, the concentrated states of \Cref{app:descriptor-gap} have quotient $\mathcal{O}(N^{-4}\zeta^{2k})$, so for second-order problems $\zeta\propto N$ makes it of order one; half the resolution is the constant the sweep found. On several axes the resolution is used per axis, as for a singular equation, and an axis of top order two is weighted so that its top-order term $\bar c_a\zeta_a^2$ balances the others: the wave equation $f_{tt}=c^2f_{xx}$ takes $(cN,N)$, where $(N/2,N/2)$ costs \prov{$10^4$ to $10^6$} times more.
+
+\paragraph{The calibration and its check.} The cost measured is $\sqrt{\|H\|/\Delta}/\gamma$, the walk's queries at an ideal encoding times amplitude amplification, up to the logarithms both forms share. Sweeping $\zeta$ over powers of two on the benchmark problems set the two constants. The same problems then checked the rule, so the check is in-sample. \Cref{tab:app-zeta-window} gives the window of $\zeta$ over which the cost stays within twice its least, and \Cref{tab:app-zeta-rule} the rule's cost against the grid's best.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{The block weight need only be right to about a factor of two.} The window of $\zeta$ within which the cost $\sqrt{\|H\|/\Delta}/\gamma$ stays within twice its least, at $n=7$ on one axis and $n=4$ per axis on two (one weight shown per two-axis problem). Planning probes.}
+    \label{tab:app-zeta-window}
+    \small
+    \begin{tabular}{@{}lccccccc@{}}
+        \toprule
+        & R2a & R2c & R3a & R4a & R4d & R5a & R5b \\
+        \midrule
+        Window of $\zeta$ & \prov{2--16} & \prov{16--64} & \prov{32--90} & \prov{23--90} & \prov{4--16} & \prov{8--32} & \prov{8--16} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{The a priori rule lands near the best weight on a grid.} The rule's cost as a multiple of the cheapest $\zeta$ on a grid of powers of two, with the gap on the physical subspace and the geometric initial state on the field block. A ratio below one is the grid's spacing. Planning probes, in-sample.}
+    \label{tab:app-zeta-rule}
+    \small
+    \begin{tabular}{@{}l c l@{}}
+        \toprule
+        Problems & $n$ & Rule's cost / grid's best \\
+        \midrule
+        R1, R2a--c, R4b--d (regular) & 5, 7 & \prov{0.99--1.17}; R2c at $n=5$: \prov{1.44} \\
+        R3a, R3b, R4a (a simple zero) & 5, 7 & \prov{1.00--1.04} \\
+        R3c, R3d (solved for $v=f/\sqrt{1-x^2}$) & 5, 7 & \prov{1.00--1.18} at $n=5$; \prov{2.07} and \prov{2.22} at $n=7$ \\
+        R5a, R5b, R5c & 3, 4 per axis & \prov{1.00--1.17} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\paragraph{A coefficient that dips.} $(\delta+x^2)f''+f=0$ has no zero but dips to $\delta$. The rule is within \prov{1.3} times the grid's best for $\delta\ge0.01$, and \prov{2.3--4.7} times at $\delta=10^{-3}$, where the resolution sees the dip and it behaves like a zero. None of the benchmark problems dips so.
+
+\paragraph{A double zero.} The paper's R3c and R3d multiply the associated Legendre operator by $1-x^2$, so their leading coefficient $(1-x^2)^2$ vanishes twice at each end. Unscaled, the descriptor's gap there falls as $N^{-8}$. Balancing the concentrated states needs $\zeta\propto N^2$, by which $\|\Hdesc\|$ has grown as $\zeta^4=N^8$. On a grid of $\zeta$ the best cost of the descriptor grows as about \prov{$N^{3.7}$--$N^{3.8}$} over $n=5$ to $8$, against the standard form's \prov{$N^{2.2}$--$N^{2.3}$}, and at $n=8$ it is \prov{760--850} times the standard form's; no block weight brings the two level. Solved for $v=f/\sqrt{1-x^2}$, whose leading coefficient has simple zeros, the two forms' costs grow alike, as \prov{$N^{1.8}$--$N^{1.9}$} at the rule's weight against \prov{$N^{2.0}$}. The ground state stays accurate in both forms at the double zero, its error set by the solution's branch point; it is the cost that the double zero raises.
+
+\paragraph{What it changes in the circuit.} Scaling the columns of block $m$ by $\zeta^m$ multiplies the coefficient $c_t$ of every term whose column block has order $m$ by $\zeta^m$ (\Cref{alg:ir-to-lcu}, line 4). The terms, their selectors and their gates are unchanged, and $\alpha_A=\sum_t|c_t|$ changes with the coefficients. A general diagonal equilibration, a different weight for each amplitude, would need its own diagonal block encoding, with $\Theta(\dim w)$ gates, and is excluded from every circuit.
+
+\subsection{The Term IR and Its Compilation}
+\label{app:term-ir}
+
+The system rows of the descriptor (the equation, the recurrences and the padding; the rank-one constraint rows are encoded apart) form one square operator on the block register and the axes' registers. Each row block sits at a block index of its own: a recurrence at the index of its lower block, the equation at the lowest index left, and each padding row at its own. The term IR writes this operator as
+\begin{equation}
+    A_{\mathrm{sys}}=\sum_tc_t\,P_t\otimes\bigotimes_aF_{t,a},
+    \label{eq:app-term-ir}
+\end{equation}
+with $P_t$ a Pauli word $X^xZ^z$ on the block register (or, for a system's coupling, a matching, \Cref{sec:ext-circuits}), and each $F_{t,a}$ a \emph{band}: a diagonal $D$ followed by the truncated shift that takes column $q$ to row $q-\ell$ and discards it where that row does not exist, with $D$ the identity, one $Z_j$ or a reflection $Q_m$.
+
+\begin{lemma}[An affine band with exceptions]
+\label{lem:affine-band}
+A diagonal whose entries are $v_q=a+bq$ except at a few columns $m$, where $v_m=a+bm+d_m$, is
+\begin{equation*}
+    \operatorname{diag}(v)=\Bigl(a+b\,\frac{N-1}{2}+\sum_m\frac{d_m}{2}\Bigr)I-b\sum_{j=0}^{n-1}2^{j-1}Z_j-\sum_m\frac{d_m}{2}\,Q_m :
+\end{equation*}
+$n+1$ terms and one reflection for each exception.
+\end{lemma}
+\begin{proof}
+$\Lambda=\tfrac{N-1}{2}I-\sum_j2^{j-1}Z_j$ (\Cref{eq:diag-index}, and \Cref{eq:lambda-lcu}), and $\ket{m}\bra{m}=(I-Q_m)/2$.
+\end{proof}
+
+\begin{lemma}[The affine part is tight]
+\label{lem:affine-tight}
+If $a$ and $a+b(N-1)$ have one sign, the combination of \Cref{lem:affine-band} without exceptions has $\alpha=\max(|a|,|a+b(N-1)|)=\|aI+b\Lambda\|_2$.
+\end{lemma}
+\begin{proof}
+$\alpha=|a+b\tfrac{N-1}{2}|+|b|\tfrac{N-1}{2}$, the mean of the end values plus half their range, which is the larger end value in magnitude when the two share a sign.
+\end{proof}
+
+Every band of the descriptor has this form. $\Dt$'s diagonal is $2\Lambda$ except at column~1, where the normalisation of $T_0$ makes it $2\sqrt2$; $\Bt$'s and a constant multiplication's are constant except at their ends; a variable coefficient's multiplication bands and their truncation at the register's edge give the other exceptions. The columns a shift discards are free, and are fitted to keep the combination shortest.
+
+\paragraph{The block register.} Terms whose axis factors agree are merged across the row and column blocks they join, so that the block register carries their pattern as one small matrix $F$, paid for once; the recurrences share $\Dt$ in this way. $F$ is expanded in Pauli words, $F=\sum_{x,z}f_{xz}X^xZ^z$ with $f_{xz}=2^{-n_f}\sum_b(-1)^{z\cdot b}F_{b\oplus x,\,b}$. Where the merged pattern is a single matrix unit on one block, its $2^{n_f}$ Pauli words are replaced by one term with a flag qubit post-selected to keep that block, at the same $\alpha$. A large irregular coupling, a Carleman generator above all, is split into matchings instead (\Cref{sec:ext-circuits}).
+
+\begin{proposition}[Compilation]
+\label{prop:term-ir-compilation}
+Let PREPARE$_R$ load $\operatorname{sgn}(c_t)\sqrt{|c_t|/\alpha_A}$ and PREPARE$_L$ load $\sqrt{|c_t|/\alpha_A}$ at each term's joint index of the factored selectors, with $\alpha_A=\sum_t|c_t|$. Then the circuit that applies PREPARE$_R$, then SELECT, then PREPARE$_L^\dagger$, post-selected on the selectors, the overflow qubits and the flag, block-encodes $A_{\mathrm{sys}}$ at $\alpha_A$.
+\end{proposition}
+\begin{proof}
+On the joint index of term $t$, the factored SELECT applies the tensor product of the operations its registers hold: the term's block-register word and, on each axis, its diagonal and then its shift, which is the band. A joint index that no term uses has zero amplitude in both preparations. The post-selected block is $\sum_t\sqrt{|c_t|/\alpha_A}\cdot\operatorname{sgn}(c_t)\sqrt{|c_t|/\alpha_A}\,U_t=\sum_tc_tU_t/\alpha_A$. With one preparation and its own inverse the signs would square away, and the block would be $\sum_t|c_t|U_t/\alpha_A$.
+\end{proof}
+
+\paragraph{The truncated shift.} On the output register widened by one overflow qubit, initially zero, add $-\ell$ modulo twice the register's size. A row $q-\ell$ inside $[0,N)$ lands in the lower half, and one outside it lands in the upper half, which the projection of the overflow qubit on $\ket0$ discards. The addition is an increment of the qubits from $j$ upwards for each set bit $j$ of $|\ell|$, each a ladder of multi-controlled $X$ gates, and the overflow qubit is the shift's only ancilla.
+
+\paragraph{Rank-one terms.} A source $\ket{\hat r}\bra{\tau(x_s)}/f(x_s)$ is compiled apart and summed with the bands by a further combination: a matrix unit on the block register, the feature map reading $\tau(x_s)$, and a rotation tree loading $\hat r$, with two ancilla and no arithmetic. The constraint rows are encoded the same way, each as its own rows, and stacked into the reflection of \Cref{sec:pipeline-walk}.
+
+\paragraph{The IR check.} The terms are built from the problem, the operator library, the residual's layout, its lifts and its block weights, never from the assembled matrices. Summing them back and comparing the sum with the independently assembled system rows is the IR mode of operator verification, possible at any $n$ (\Cref{tab:verification-modes}); the compiled circuit is then compared with the terms exactly, or by probe states where it is too large.
+
+\subsection{Proof of the Cost Proposition, and the Norms}
+\label{app:proof-descriptor-cost}
+
+\paragraph{Ancilla.} The registers are those of \Cref{app:term-ir}: one overflow qubit for each axis that shifts, at most one flag, and the factored selectors. On axis $a$ the diagonal selector indexes the identity, the $n_a$ gates $Z_j$ and the distinct reflections $r_a$, so it has $\lceil\log_2(1+n_a+r_a)\rceil$ qubits. The reflections are bounded in number by the problem's bands, and the block-register words and the shifts depend on the equation's structure, not on $n$, so every other selector has a width fixed by the problem, and the total is $\mathcal{O}(\log n)$. For R2 the reflections are three ($\Bt$'s diagonal and second superdiagonal at their first entries and $\Dt$'s first entry), so the diagonal selector has $\lceil\log_2(n+4)\rceil$ qubits; the shifts are $0$, $1$ and $2$, two qubits; the block-register selector has four; with the overflow qubit and the flag the count is $\lceil\log_2(n+4)\rceil+8$. It is verified on the compiled circuit of R2's system rows at $n=2$, $4$, $5$ and $12$.
+
+\paragraph{Gates.} SELECT applies each distinct operation once. A $Z_j$ is one gate controlled on $\mathcal{O}(\log n)$ selector qubits; a reflection is one phase controlled on $n_a$ qubits; a shift by a fixed $\ell$ is $\mathcal{O}(\log|\ell|)$ increments of at most $n_a+1$ qubits, each $n_a+1$ multi-controlled $X$ gates of up to $n_a$ controls, $\mathcal{O}(n^2)$ gates with a linear-cost decomposition of each. The block-register operations act on $n_f$ qubits, fixed by the problem, and the preparations are rotation trees over $\mathcal{O}(n)$ joint indices. There are $\mathcal{O}(n)$ distinct operations, the $Z_j$ costing $\mathcal{O}(\log n)$ each and the rest $\mathcal{O}(n^2)$ in all, so the total is $\mathcal{O}(n^2)$.
+
+\paragraph{Exactness.} \Cref{prop:term-ir-compilation}; every term is a unitary, so no part of the encoding is approximate.
+
+\paragraph{The subnormalisation.} Take first a second-order chain with polynomial coefficients whose leading coefficient has no zero, at a fixed $\zeta\ge1$. The recurrences' $\Dt$ terms share the block-register pattern $\operatorname{diag}(1,\zeta,0,0)$, whose Pauli expansion has $\alpha=\tfrac12(|1+\zeta|+|1-\zeta|)=\max(1,\zeta)=\zeta$, its largest entry. With \Cref{lem:affine-tight}, $\Dt$'s affine part is encoded at $2(N-1)$, so these terms contribute $2\zeta(N-1)$ to $\alpha_A$. Every other term is independent of $N$: $\Dt$'s exception at column~1, the $\Bt$ bands weighted by $\zeta$ and $\zeta^2$, the coefficients' multiplication bands weighted by at most $\zeta^2$, and the padding. A source's rank-one term has coefficient $\|\hat r\|\,\|\tau(x_s)\|/|f(x_s)|$, and $\|\hat r\|^2$ grows as $N$ for a fixed smooth source (\Cref{eq:eta-e}), while $\|\tau(x_s)\|^2<2$ (\Cref{prop:tau-norm}). On the other side, $\zeta\Dt$ is a block of $\Adesc$, so $\|\Adesc\|_2\ge2\zeta(N-1)$. Hence $\alpha_A/\|\Adesc\|_2\le1+C/N$ without a source and $1+C'/\sqrt N$ with one, with constants that grow with $\zeta$ and the coefficients. For the mass form of a scalar equation $f'=af$, $\alpha_A\le2(N-1)+\mathcal{O}(1)$ and $\|\Dt-a\Bt\|_2\ge2(N-1)-|a|(2+\sqrt2)$, with the same conclusion. For a chain of order three or more the recurrences' pattern need not be encoded at its largest entry, and no limit is claimed; no benchmark problem has one. Where the leading coefficient vanishes, $\zeta=N/2$ makes $\zeta\Dt$, $\zeta^2\Bt$ and $\zeta^2a_2$ all of order $N^2$ in one row block, and terms of comparable size add in $\ell^1$ in $\alpha_A$, so the ratio tends to a constant, measured near two (\Cref{sec:descriptor-cost}).
+
+\paragraph{Optimality.} An exact combination whose SELECT indexes $L$ distinct operations needs $\lceil\log_2L\rceil$ selector qubits \cite{chakraborty2025qsvt}. $\Lambda$ has exactly $n+1$ non-zero Walsh coefficients, so a combination of Pauli-$Z$ strings needs $n+1$ terms for it and $\Omega(\log n)$ selector qubits. The descriptor's count is therefore of the least order among exact combinations that expand their diagonals in Pauli strings, and is not claimed against encodings built otherwise.
+
+\paragraph{The norms of \Cref{tab:descriptor-regimes}.} Each row block of $R_{\mathrm{desc}}$ is a finite sum of blocks weighted by powers of $\zeta$: $\zeta^m\Dt$, of norm $2\zeta^m(N-1)$; $\zeta^{m+1}\Bt$, of norm at most $(2+\sqrt2)\zeta^{m+1}$; $\zeta^j\M_{a_j}$, of norm at most $\sqrt2\,\zeta^j\sup|a_j|$ (\Cref{prop:lift}); the padding, of norm one; and the rank-one constraint and source rows, of norm $\mathcal{O}(\sqrt N)$, since $\Brow(x)=\sqrt N\ket0\bra{\tau(x)}$ with $\|\tau(x)\|^2<2$. The norm of $R_{\mathrm{desc}}$ is at most the sum of these and at least the largest of them. At fixed $\zeta$ the largest is $2\zeta^{k-1}(N-1)$, so $\|R_{\mathrm{desc}}\|_2=\Theta(N)$ and $\|\Hdesc\|=\Theta(N^2)$. With $\zeta=N/2$ and $k=2$, $\zeta\Dt$, $\zeta^2\Bt$ and $\zeta^2\M_{a_2}$ are each $\Theta(N^2)$, so $\|\Hdesc\|=\Theta(N^4)$; on two axes with $\zeta_a=N_a$ and $k_a=2$ the same count gives $\Theta(N^4)$; and with $\zeta\propto N^2$ the block $\zeta^2\Bt$, of norm at least $2\zeta^2$, gives $\Theta(N^8)$.
+
+\subsection{One Query's Success}
+\label{app:haar-success}
+
+\begin{proposition}[One query on a Haar-random state]
+\label{prop:haar-success}
+One application of a block encoding of $R$ at $\alpha_R$, post-selected, succeeds on a Haar-random state of dimension $D$ with mean probability $\|R\|_F^2/(D\alpha_R^2)$.
+\end{proposition}
+\begin{proof}
+The success probability on $\psi$ is $\|R\psi\|^2/\alpha_R^2$, and $\mathbb{E}\,\psi\psi^\dagger=I/D$ for Haar-random $\psi$, so its mean is $\operatorname{tr}(R^\dagger R)/(D\alpha_R^2)$.
+\end{proof}
+
+In the structured standard form the dense $\G^k$ dominates: for $k=1$, $\|\G\|_F^2\sim N^4/2$ (\Cref{prop:G-structure}) against $\alpha_\G^2\sim N^4$ on $D=N$ amplitudes, so the mean falls as $1/(2N)$. In the descriptor the dominant $\Dt$ has $\|\Dt\|_F^2=\sum_{q<N}(2q)^2\sim4N^3/3$, up to its first entry, against $\alpha^2\sim4N^2$, so the mean stays $\Theta(1)$. The pipeline post-selects no single query, its walk being unitary, so this compares the encodings and is not a cost of the preparation.

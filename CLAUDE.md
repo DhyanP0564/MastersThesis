@@ -5,7 +5,7 @@ physics-informed effective Hamiltonians for quantum differential-equation solver
 supervisor Jingbo Wang; working title in `1_header/1_title.tex`, final choice in
 ThesisPlanning.md §13.1).
 
-**Governing plan: `ThesisPlanning.md`** (version 3.0, 2026-10-09; eleven chapters). It fixes the
+**Governing plan: `ThesisPlanning.md`** (version 3.2, 2026-10-12; ten chapters). It fixes the
 chapter structure and order, the contributions, the three questions the thesis answers, the page
 budget, the notation and the claims each chapter may make. Where it conflicts with
 `thesis_guides/`, the plan wins; where anything conflicts with the Standing Facts below on a
@@ -94,12 +94,14 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   `Δ`, `γ`, `d`, `ε`, `θ₀`, `β` (QITE only), `q_k`, `p_G`, `H′`, `η_e`, `ρ`, `s`, `ζ`, `μ`, `K`,
   `M`, `𝔾`, `B̃`, `D̃`, `A_std`/`A_desc`, `H_std`/`H_desc`, `σ₀`/`σ₁`, `C`, `z`, `𝔸`, `𝔽`, `y_⊥`,
   `w₀`, `c` (a complex coefficient, never `a` or `α`). Bare `A`, `H`, `R` only in
-  regime-independent statements (Chapter 8).
+  regime-independent statements (Chapter 7).
 - Complexity bounds quoted identically, with the same scope, wherever they recur (Abstract,
-  §1, §3.5, §4, §5, §9, §10, §11).
+  §1, §3.5, §4, §5, §8, §9, §10).
 - Algorithm and operator names matching the method as built (`pihm/docs/02_methods.md`).
 - Terminology (ThesisPlanning.md §3.4): standard form vs descriptor form (never
-  "collocation" for the paper's regime); chain vs mass form; prepared vs projected; trusted kernel vs converged lift;
+  "collocation", "the paper's regime" or a bare "the paper's method" for the standard form;
+  it is defined once in full at its first use per chapter by its state, which holds the field alone
+  with every derivative eliminated through 𝔾, then named without re-explaining); chain vs mass form; prepared vs projected; trusted kernel vs converged lift;
   verified (exact / probe / IR) vs emulated vs estimated; minimax edge filter vs imaginary-time
   filter; benchmark problem R1–R10 (never "rung"); "as printed" and "paper-faithful" only in
   Appendix K and §4.4's validation paragraph (never "corrected"); the encoder's cost vs the
@@ -110,10 +112,10 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   reproduction, the derivations and the numbers. No body section re-derives or tabulates the
   audit. The standard form defined once (§4.4); the mass form defined once (§5.3), applied in
   Ch. 6.
-- Chapter and section numbers as the plan fixes them (systems Ch. 6, nonlinearity Ch. 7,
-  pipeline Ch. 8, Numerical Study Ch. 9 with six sections, Discussion Ch. 10 with five,
-  Conclusions Ch. 11; the critical assessment §3.5; the standard form §4.4) in prose and header
-  comments.
+- Chapter and section numbers as the plan fixes them (systems, complex-valued fields and
+  nonlinearity one chapter, Ch. 6, with eight sections; pipeline Ch. 7, Numerical Study Ch. 8 with
+  six sections, Discussion Ch. 9 with five, Conclusions Ch. 10; the critical assessment §3.5; the
+  standard form §4.4) in prose and header comments.
 - Acronyms defined at first use; `glossaries` entries present.
 - Australian spelling (`-ise`), except verbatim API names.
 
@@ -122,7 +124,7 @@ Check across the whole manuscript, reporting only actual inconsistencies:
 Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
 
 - **Framing.** The headline contribution is the **descriptor reformulation**. Four numbered
-  supporting contributions: S1 the standard form, the paper's regime stated once (Ch. 4), each
+  supporting contributions: S1 the standard form, stated once (Ch. 4), each
   departure from the printed method argued where it occurs and collected in Table T10, validated
   against the paper's printed panels (the record is Appendix K); S2 an exact structured
   encoding of the standard form, which isolates its cost in the Hamiltonian; S3 a
@@ -130,8 +132,9 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
   systems, complex-valued fields by realification, and Carleman preparation versus doubled-space
   projection, culminating in 2-D Navier–Stokes. The physics-informed effective
   Hamiltonian framework is **prior art** (Wu, Paine, Philip, Gentile & Kyriienko 2025,
-  `wu2025pihm`), presented and judged in Chapter 3. The paper's regime is the **standard
-  form**. S2 serves the comparison; it is never a rival solver. FABLE appears nowhere.
+  `wu2025pihm`), presented and judged in Chapter 3. The **standard
+  form** is Wu et al.'s construction with the printed defects removed, defined by its state (the
+  field alone, every derivative eliminated through 𝔾), never by reference to the paper. S2 serves the comparison; it is never a rival solver. FABLE appears nowhere.
 - **Chapters 3 and 4.** Ch. 3 presents Wu et al.'s method as prior art, with the paper's own
   equations only where a weakness is stated against them, and judges it (§3.5 poses Q(i)–(iii));
   it states no result of ours. Ch. 4 states the construction once, as the standard form, citing
@@ -148,9 +151,10 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
   tied by banded recurrences (the chain); a first-order equation or system is the standard
   rows times I⊗B̃ (the mass form), with no derivative blocks and nothing to rescale. The kernel
   is the standard form's in both.
-- **The standard form.** The paper's regime (derivatives eliminated through the dense 𝔾, the
-  paper's lifts, least squares), with the printed defects removed: exact constraint points (problem
-  data inherited from the paper's statement, not read off the solution at run time),
+- **The standard form.** The state holds the field alone and every derivative is eliminated through
+  the dense 𝔾 (with the paper's lifts and least squares), with the printed defects removed: exact constraint points (the
+  root of the solution's derivative nearest the paper's value, computed from the reference solution
+  when the problem is built, outside the method: answer-dependent set-up, so a new problem supplies its points),
   Chebyshev-accurate sources, datum slices for initial and boundary functions (the heat data at
   t = −1), the R3c/R3d substitution f = √(1 − x²)v, any number of axes, and the stacked residual R
   with H = R†R never formed. The structured 𝔾 encoding takes n + 4 ancilla for 𝔾 alone.
@@ -224,8 +228,8 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
   α = 2, within 1.21 of ‖𝕟₁‖₂: tight, not optimal.
 - **Variants.** The problem is unnamed ("R2a"); the paper's panel as printed is "R2a as
   printed" and appears only in Appendix K and in §4.4's validation paragraph. Never "corrected".
-  The exact constraint points are problem data inherited from the paper's statement (the point it
-  rounded), not answer-independent quantities.
+  The exact constraint points are roots of the reference solution's derivative nearest the paper's
+  rounded value, resolved when the problem is built: answer-dependent set-up, not answer-independent.
 - Legacy results (`Setonix/`, legacy notebooks, old `docs/`) are never cited; every number
   comes from `pihm`'s P8 records (`results-v1`).
 

@@ -148,13 +148,13 @@ belongs in the body. "No need to include detailed codes": describe, never list.
    4.1). Ours: the kernel-equivalence theorem, the factorisation and the stacked reflection.
 5. **Cost conventions declared before the first comparison, with their bias** (Snow, Ch. 7's
    opening: the worst-case CNOT bound "is deliberately conservative… any advantage reported below
-   is thus a lower bound"). Ours: §8.8, the strongest baseline and the ideal-encoding bound.
+   is thus a lower bound"). Ours: §7.8, the strongest baseline and the ideal-encoding bound.
 6. **Comparison tables with a "This Work" row** (Green Tables 5.3–5.4; Snow Table 5.1). Ours: T1
    and T7.
-7. **Numbered findings, some negative** (Green's four, two negative; Snow's §5.3). Ours: §9.6.
+7. **Numbered findings, some negative** (Green's four, two negative; Snow's §5.3). Ours: §8.6.
 8. **Self-standing, claim-first captions** (Snow Fig. 7.1–7.12).
 9. **A practitioner's map of where each method applies** (Green Fig. 4.18). Ours: Table T9.
-10. **A Limitations paragraph in the author's own voice** (Snow §8.1). Ours: §10.5.
+10. **A Limitations paragraph in the author's own voice** (Snow §8.1). Ours: §9.5.
 11. **A catalogue of every target in an appendix** (Snow App. G). Ours: Appendix J.
 
 ### 4.3 What not to copy
@@ -193,7 +193,7 @@ Only "flawless" earns 10.0; the proofreading marks are the cheapest in the rubri
 2. Every figure and table referenced by `\Cref`, none orphaned; captions below figures, above
    tables.
 3. Symbols consistent (Verification Mode, `../CLAUDE.md`), notably `A` and `H` subscripted by form
-   everywhere except Chapter 8.
+   everywhere except Chapter 7.
 4. Acronyms defined at first use; `glossaries` complete.
 5. Bibliography uniform (IEEE `biblatex`), arXiv IDs where applicable, every entry checked.
 6. Page count within 40–60; declaration signed; Summary of Student Achievement one page, first

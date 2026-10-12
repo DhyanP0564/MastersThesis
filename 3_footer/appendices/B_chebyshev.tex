@@ -11,12 +11,14 @@
 %   its derivative's coefficients) are this appendix's own.
 % The draft's "Higher order, variable coefficients, and the padded block
 %   count" subsection now lives in Appendix G (label sec:app-variable-coeff).
+% 2026-10-12: the recurrence's derivation and the inverse of Bt added (the body's
+%   §5.2 now points here for them); the N = 4 instance now shows R1 in mass form,
+%   the layout it runs in (companion 51), with the chain as its ablation; the
+%   ultraspherical reduction the descriptor does not build is recorded (companion
+%   13). Sources: pihm docs/companion 12, 13, 51.
 % =============================================================================
 
-This appendix records the entries of the banded factors $\Bt$ and
-$\Dt$ introduced in \Cref{sec:descriptor-construction}, the exact factorisation
-$\G = \Bt^{-1}\Dt$, and the fully populated $N = 4$ instance of the
-first-order descriptor operator.
+This appendix records the recurrence that defines the banded factors $\Bt$ and $\Dt$ of \Cref{sec:descriptor-construction}, their entries, the exact factorisation $\G = \Bt^{-1}\Dt$, its connection with the ultraspherical method, and the fully populated $N = 4$ instance of the first-order descriptor operator.
 
 \subsection{The differentiation recurrence}
 
@@ -33,6 +35,8 @@ $\Bt_{\mathrm{raw}}\,p = \Dt_{\mathrm{raw}}\,a$ with
 $\Dt_{\mathrm{raw}}$ a single superdiagonal, $(\Dt_{\mathrm{raw}})_{\ell,\ell+1} = 2(\ell+1)$,
 and $\Bt_{\mathrm{raw}}$ two diagonals,
 $(\Bt_{\mathrm{raw}})_{\ell,\ell} = c_\ell$, $(\Bt_{\mathrm{raw}})_{\ell,\ell+2} = -1$.
+
+The recurrence follows from two trigonometric identities. With $x=\cos\theta$, $T_k'=k\sin k\theta/\sin\theta$, and $\sin(k+1)\theta-\sin(k-1)\theta=2\cos k\theta\sin\theta$ gives $T_{k+1}'/(k+1)-T_{k-1}'/(k-1)=2T_k$ for $k\ge2$, with $T_1=T_2'/4$ and $T_0=T_1'$. Integrating $f'=\sum_kp_kT_k$ term by term with these, the coefficient of $T_\ell$ in $f$ collects $c_{\ell-1}p_{\ell-1}/(2\ell)$ from $T_{\ell-1}$ and $-p_{\ell+1}/(2\ell)$ from $T_{\ell+1}$, which is \Cref{eq:app-cheb-recurrence}; the constant of integration affects $a_0$ alone, which no row of the recurrence reads. The truncation is exact: the derivative of a polynomial of degree below $N$ has degree at most $N-2$, so the dropped coefficients $p_N$ and $p_{N+1}$ vanish, and the last row, $p_{N-1}=0$, holds.
 
 \subsection{The normalised basis}
 
@@ -58,25 +62,70 @@ any $N$. The dense Chebyshev derivative matrix is their exact quotient,
 \begin{equation}
     \G = \Bt^{-1}\Dt ,
 \end{equation}
-an algebraic identity rather than a numerical approximation: $\Bt$ and $\Dt$
-are read directly off the same recurrence that defines $\G$
-(\Cref{eq:app-cheb-recurrence}), so the equality holds exactly at every $N$,
-independent of whichever values a test suite happens to check.
-\Cref{app:verification} reports this identity's
-residual against the reference implementation, alongside the rest of the
-composition-algebra checks.
+an algebraic identity rather than a numerical approximation. $\Bt$ is upper triangular with the non-zero diagonal $(2,1,\dots,1)$, so it is invertible. For any coefficients $a$ the true derivative's coefficients satisfy the truncated rows of \Cref{eq:app-cheb-recurrence}, as shown above, and they are $\G a$; conjugating by $S$ gives $\Bt\G=\Dt$, so the equality holds exactly at every $N$.
 
-\subsection{The norm of the derivative matrix}
+\begin{proposition}[The inverse of the mass factor]
+\label{prop:Bt-inverse}
+$\Bt^{-1}$ is upper triangular and supported where the column index minus the row index is even. Its entries there are $1$ in every row $k\ge1$; in row $0$ they are $\tfrac12$ at column $0$ and $1/\sqrt2$ at every even column $q\ge2$.
+\end{proposition}
+\begin{proof}
+Away from row $0$, $\Bt=I-P$ with $P$ the shift by two, so on each parity class its inverse is $\sum_mP^m$, a triangle of ones. Row $0$ of $\Bt x=e_q$ reads $2x_0-\sqrt2x_2=\delta_{0q}$, which gives $x_0=\tfrac12$ for $q=0$ and, with $x_2=1$, $x_0=1/\sqrt2$ for even $q\ge2$.
+\end{proof}
+
+Multiplying out $\Bt^{-1}\Dt$ with this inverse returns the entries of \Cref{eq:pihm-G-entries}: $\Dt$'s single diagonal forces the inner index to be $p-1$, the parity support of $\Bt^{-1}$ makes $p-k$ odd, and the entry is $2p$ times one, or times $1/\sqrt2$ in row $0$. The density of $\G$ is the inverse of the banded $\Bt$, which is what the descriptor never forms. The triangle of ones has norm $\Theta(N)$ and $\Dt$ has norm $2(N-1)$; their product has the $\Theta(N^2)$ norm of $\G$.
+
+\subsection{The scale factor and the feature vector's norm}
+\label{app:eta-e}
+
+The basis functions $\varphi_0=T_0/\sqrt N$ and $\varphi_k=T_k/\sqrt{N/2}$ ($1\le k<N$) are orthonormal under the discrete inner product on the $N$ Chebyshev nodes. Under the continuous Chebyshev weight $w(x)=(1-x^2)^{-1/2}$ they are orthogonal with a common norm: with $x=\cos\theta$, $\int_{-1}^1T_jT_kw\,dx=\int_0^\pi\cos j\theta\cos k\theta\,d\theta$, which is $\pi$ for $j=k=0$, $\pi/2$ for $j=k\ge1$ and zero otherwise, so $\int\varphi_j\varphi_kw\,dx=(\pi/N)\,\delta_{jk}$ for every $j,k<N$. For $f_N=\sum_kb_k\varphi_k$ Parseval's identity is therefore $\int_{-1}^1f_N^2w\,dx=(\pi/N)\|b\|^2$, which is \Cref{eq:eta-e}.
+
+\begin{proposition}[The feature vector's norm]
+\label{prop:tau-norm}
+With $x=\cos\theta$,
+\begin{equation}
+    \|\tau(x)\|^2=1+\frac1N\Bigl(\frac{\sin(2N-1)\theta}{2\sin\theta}-\frac12\Bigr),
+    \qquad
+    \|\tau(\pm1)\|^2=\frac{2N-1}{N},
+\end{equation}
+and $\|\tau(x)\|^2\le(2N-1)/N<2$ on $[-1,1]$.
+\end{proposition}
+\begin{proof}
+Since $2T_k^2=1+\cos2k\theta$,
+\begin{equation*}
+    \|\tau(x)\|^2=\frac1N\Bigl(T_0^2+2\sum_{k=1}^{N-1}T_k^2\Bigr)=\frac1N\Bigl(N+\sum_{k=1}^{N-1}\cos2k\theta\Bigr).
+\end{equation*}
+The sum is the Dirichlet kernel $\sin((2N-1)\theta)/(2\sin\theta)-\tfrac12$, at most $N-1$, which it attains at $\theta=0$ and $\pi$.
+\end{proof}
+
+The norm oscillates about one and is largest at the ends, so a constraint row at an end of the interval weighs most. That weight is part of the paper's construction and is kept (\Cref{sec:standard-model}). Normalising $\tau(x)$ point by point would also break the consistency of the collapse rows: two collapses $\Brow(x_s)/f(x_s)$ and $\Brow(x_s')/f(x_s')$ map the solution to the same constant, because $\Brow(x)b=f_N(x)\sqrt N\ket0$, whereas with $\tau(x)/\|\tau(x)\|$ they would map it to constants differing by the factor $\|\tau(x_s')\|/\|\tau(x_s)\|$.
+
+\subsection{The structure and norm of the derivative matrix}
 \label{app:cheb-G-norm}
-% TODO (proof): show \|\G\|_2 = \Theta(N^2) in the normalised basis, so that \Cref{sec:pihm-residual} can point here.
-%   Status: upper bound is elementary (\|\G\|_F^2 = \sum_p 4p^2 \cdot \#\{k<p, p-k odd\} ~ N^4/2, so \|\G\|_2 <~ N^2/\sqrt2);
-%   the lower bound is only MEASURED (\|\G\|_2 / N^2 -> 0.472 for N = 4..1024; own script, not a pihm result).
-%   Route for the lower bound: \G is orthogonally similar to the Gauss-node differentiation matrix (\Phi\G\Phi^T, main text), so it is the weighted-L2
-%   (Chebyshev weight) inverse/Markov inequality \|p'\|_w <= C N^2 \|p\|_w with sharpness; or exhibit a test vector (e.g. a sequence of
-%   polynomials attaining the N^2 rate) directly.
-%   NO SOURCE FOUND: searched for a citation stating the bound and its sharpness (Canuto-Quarteroni 1982; Canuto-Hussaini-Quarteroni-Zang;
-%   Boyd; Trefethen 2000). None could be confirmed to state it, and Trefethen's matrix is on Gauss-Lobatto points, not these nodes.
-%   Do not cite until the statement is read in the source.
+
+\begin{proposition}[Structure and norm of $\G$]
+\label{prop:G-structure}
+For $n\ge2$, $\G$ of \Cref{eq:pihm-G-entries} is strictly upper triangular and nilpotent; $\ker\G^j$ is the space of polynomials of degree below $j$; it has $N^2/4$ non-zero entries; it is orthogonally similar to the matrix that maps the values of a polynomial of degree below $N$ at the Chebyshev nodes to the values of its derivative there; and
+\begin{equation}
+    \frac{N^2}{4\sqrt2}\;\le\;\|\G\|_2\;\le\;\frac{N^2}{\sqrt2}.
+    \label{eq:app-G-bounds}
+\end{equation}
+\end{proposition}
+\begin{proof}
+The entries are non-zero only for $p>k$, so $\G$ is strictly upper triangular and $\G^N=0$. $\G$ represents differentiation exactly on polynomials of degree below $N$, so $\G^jb=0$ exactly when the $j$-th derivative of the represented polynomial vanishes, that is when its degree is below $j$. Column $p$ has a non-zero entry in each row $k<p$ of the other parity, $\lceil p/2\rceil$ of them, and $\sum_{p<N}\lceil p/2\rceil=N^2/4$.
+
+For the similarity, let $\Phi_{jk}=\varphi_k(\bar x_j)$ at the nodes $\bar x_j$. The discrete orthonormality of the $\varphi_k$ says that $\Phi$ is orthogonal, and $\Phi b$ is the vector of nodal values of the polynomial with coefficients $b$, so $\Phi\G\Phi^{\top}$ maps nodal values to the nodal values of the derivative.
+
+For the upper bound, $\|\G\|_2\le\|\G\|_F$, and each of the $\lceil p/2\rceil$ entries of column $p$ is at most $2p$ in magnitude, so
+\begin{equation*}
+    \|\G\|_F^2\le\sum_{p=0}^{N-1}4p^2\Bigl(\frac p2+\frac12\Bigr)=\frac{(N-1)^2N^2}{2}+\frac{(N-1)N(2N-1)}{3}=\frac{N^4}{2}-\frac{N^3}{3}-\frac{N^2}{2}+\frac N3\le\frac{N^4}{2}.
+\end{equation*}
+For the lower bound, let $u$ be the unit vector uniform over the $N/4$ even rows $k<N/2$ and $v$ the unit vector uniform over the $N/4$ odd columns $p>N/2$. Every pair $(k,p)$ has $p>k$ with $p-k$ odd, and its entry is $2p>N$ for $k\ge2$ and $\sqrt2p>N/\sqrt2$ for $k=0$, so
+\begin{equation*}
+    \|\G\|_2\ge u^{\top}\G v\ge\frac{4}{N}\cdot\Bigl(\frac N4\Bigr)^2\cdot\frac{N}{\sqrt2}=\frac{N^2}{4\sqrt2}. \qedhere
+\end{equation*}
+\end{proof}
+
+The bounds give $\|\G\|_2=\Theta(N^2)$. The exact limit, $\|\G\|_2/N^2\to1/(2j_{-3/4,1})\approx0.4724$, with $j_{-3/4,1}$ the first positive zero of the Bessel function $J_{-3/4}$, and the growth of every power, $\|\G^k\|_2=\Theta(N^{2k})$, are proved in \Cref{app:G-limits}.
 
 \subsection{The Ultraspherical Connection}
 \label{app:ultraspherical}
@@ -150,6 +199,15 @@ unreduced, differential-algebraic residual for the physics-informed
 Hamiltonian of \cite{wu2025pihm}, whose block structure is exactly what
 \Cref{sec:descriptor-block-encoding} block-encodes.
 
+For a first-order equation the two coincide. The descriptor's mass form multiplies the standard rows by $\Bt$ (\Cref{eq:mass-form}), and for $f'=af$ with $a$ a number, $\Bt(\G-aI)=\Dt-a\Bt$, which in the raw basis is $2(\mathcal{D}_0-a\mathcal{S}_0)$: the ultraspherical method's own operator in the basis $C^{(1)}$, on $N$ unknowns with no derivative block.
+
+\paragraph{A reduction the descriptor does not build.} For $k\ge2$ the same left factor exists. In the raw basis $\mathcal{S}_1\mathcal{S}_0\G^2=\mathcal{D}_1\mathcal{D}_0$ exactly, so $\mathcal{S}_{k-1}\cdots\mathcal{S}_0\,\Astd$ is the ultraspherical method's operator for a constant-coefficient equation: banded, with a bandwidth independent of $N$, on the $N$ coefficients of $f$, and, since the conversions are invertible, with the standard form's kernel, as in \Cref{thm:kernel-equivalence}. It would remove the chain's block register and its recurrence and padding rows. It would also change three things this thesis measures: the residual's rows are weighted by the conversions, so its least-squares ground state is that of a differently weighted problem; the conversions' entries would have to be encoded; and the gap mechanism of \Cref{sec:descriptor-gap} does not carry over without a measurement. This reduction was not built into the pipeline, and the thesis's descriptor is not compared against it.
+% REVISE: pihm docs/companion/13_ultraspherical.md records an exploratory probe
+%   (tools/probes/p32_reduced_ultraspherical.py) on R2a-R2c: ||R|| growing as N and
+%   sigma_1 nearly flat. It is not in the claims register and has no record; if it is
+%   to be quoted, export it or cite it as \prov with its scope (R2 only). It also
+%   belongs in Ch. 9's limitations and Ch. 10's further work.
+
 \subsection{The \texorpdfstring{$N = 4$}{N = 4} instance}
 
 At $n = 2$ ($N = 4$), \Cref{eq:app-normalised-entries} gives
@@ -186,10 +244,29 @@ highest-order one (row $3$ above) depends on none. The factorisation removes
 the fill-in entirely: no row of $\Bt$ or $\Dt$ touches more than
 two coefficients.
 
-For the first-order equation $f' + 2f = 0$ of \Cref{sec:descriptor-layouts},
-$w = (\fhat{0};\, \fhat{1})$ and
-$\Adesc = \left(\begin{smallmatrix} -\Dt & \Bt \\ 2 I_4 & I_4 \end{smallmatrix}\right)$
-is the $8 \times 8$ matrix
+For the first-order equation $f' + 2f = 0$ (R1), the descriptor runs the mass form of \Cref{eq:mass-form}, on the field's own $N$ coefficients and with no derivative block:
+\begin{equation}
+    \Dt + 2\Bt =
+    \begin{pmatrix}
+        4 & 2\sqrt{2} & -2\sqrt{2} & 0 \\
+        0 & 2 & 4 & -2 \\
+        0 & 0 & 2 & 6 \\
+        0 & 0 & 0 & 2
+    \end{pmatrix}
+    = \Bt\,(\G + 2I) ,
+    \qquad
+    \G + 2I =
+    \begin{pmatrix}
+        2 & \sqrt{2} & 0 & 3\sqrt{2} \\
+        0 & 2 & 4 & 0 \\
+        0 & 0 & 2 & 6 \\
+        0 & 0 & 0 & 2
+    \end{pmatrix} .
+    \label{eq:app-mass-form-n4}
+\end{equation}
+The standard form's equation block $\G+2I$ carries the fill-in $3\sqrt2$; the mass form's has none, and every row touches at most three coefficients. Its kernel is that of $\G+2I$, because $\Bt$ is invertible.
+
+The same equation can be carried as a chain, with its derivative as a second block, $w = (\fhat{0};\, \fhat{1})$, the recurrence $-\Dt\,\fhat{0} + \Bt\,\fhat{1} = 0$ and the equation row $2\fhat{0} + \fhat{1} = 0$:
 \begin{equation}
     \Adesc =
     \left[
@@ -206,7 +283,4 @@ is the $8 \times 8$ matrix
     \right] .
     \label{eq:app-descriptor-8x8}
 \end{equation}
-The top four rows are the recurrence block $-\Dt\,\fhat{0} + \Bt\,\fhat{1} = 0$; the
-bottom four are the differential row $2\fhat{0} + \fhat{1} = 0$. Every non-zero entry lies on a
-diagonal or a near-diagonal, in place of the dense $\G + 2I$ of the eliminated
-form.
+The top four rows are the recurrence and the bottom four the equation. This chain doubles the state for a block the equation already determines, which is why first-order equations take the mass form (\Cref{sec:descriptor-layouts}); it is kept only as the mass form's ablation, whose kernel and decoded field agree with the mass form's.

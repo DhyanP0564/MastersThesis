@@ -65,9 +65,9 @@
         R6b & $f'' - 2f^2 + x = 0$ (paper Eq.~34) & $f(0.02615) = 0$ & boundary-value solve to $10^{-12}$ \\
         R7  & $u' = v$, $v' = -\omega^2 u$, $\omega = \pi$ & $u(-1) = 0$, $v(-1) = \omega$ & $u = \sin\omega(x+1)$ \\
         R8  & $y' = -y + y^2$, $t \in [0, 3]$ & $y(0) = \tfrac12$ ($\rho = 0.5$) & $1/(1 + e^{t})$ \\
-        R9  & viscous Burgers, periodic, $u_0 = a\sin x$ & Fourier--Galerkin, $|k| \le K_c$ & Cole--Hopf; DNS; exact lift \\
+        R9  & viscous Burgers, periodic, $u_0 = a\sin x$ & sine modes $k \le M$, $M = 4, 8, 16$; $a/\nu = 0.03$--$10$ & Galerkin \gls{ivp}; Cole--Hopf (truncation); exact lift \\
         R10a & 2-D vorticity Navier--Stokes, $\omega_0 = 2\sin x\sin y$ & $J \equiv 0$ (Taylor--Green) & exact viscous decay \\
-        R10b & 2-D vorticity Navier--Stokes, vortex pair and resonant triads & active nonlinearity & DNS; exact lift \\
+        R10b--d & 2-D vorticity Navier--Stokes, counter-rotating vortex pair & $\|w_0\| = a$, $a/\nu = 3, 10, 30$; active triads & Galerkin \gls{ivp}; \gls{dns} (truncation); exact lift \\
         \bottomrule
     \end{tabular}
 \end{table}

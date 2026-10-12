@@ -1,12 +1,12 @@
 % =============================================================================
-% Chapter 8  Preparing and Verifying the Ground State  (8_pipeline.tex)  --  5.5 pp
+% Chapter 7  Preparing and Verifying the Ground State  (7_pipeline.tex)  --  5.5 pp
 % rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.8.
+% Plan: ThesisPlanning.md §5.7.
 %
 % PURPOSE     Specify everything shared by both forms after the residual is
 %             built, and design the numerical experiment, so a reader could
 %             "create equivalent models". The forms differ only in the
-%             residual, so every difference in Ch. 9 is a difference of
+%             residual, so every difference in Ch. 8 is a difference of
 %             Hamiltonians.
 % CRITERION   (Modelling, verbatim) "described in sufficient detail to permit
 %             readers to create equivalent models. This should include: a
@@ -14,7 +14,7 @@
 %             description and/or diagram of the model configuration; descriptions
 %             of the model input options selected (boundary conditions ...)".
 %             Band 3 names "poor design of numerical experiment": the experiment
-%             design lives here, in the body (§8.8, moved from Ch. 9).
+%             design lives here, in the body (§7.8, moved from the Numerical Study).
 % SOURCES     pihm/docs/02_methods.md (all sections; it is this chapter's source
 %             of truth); ThesisPlanning.md §3.5, §3.7-3.8, §5.4, §6.2, §7;
 %             claims C-03, C-04, C-08, B-13, B-16, B-17, B-24;
@@ -70,8 +70,8 @@
         \midrule
         Zero (invariant) & $\Brow(x)$ on the chosen field or derivative block & $f(x_z)=0$, $f'(x_m)=0$ \\
         Collapse (regular) & $\Dzero(x_s)$ & constants, sources; lifting linear terms in the doubled space \\
-        Ratio (vector data) & $\mathbb{F} = y_a\bigl(I - \ket{a}\bra{a}\bigr) - w\bra{a}$, \ $w = \sum_{c\ne a} y_c\ket{c}$ & multi-component initial data (Carleman); coupled fields \\
-        Datum slice & $\bigl(\mathbb{S}_a(x^\ast) - \hat g\,\tau(x_s)^{\top}/v\bigr)\,\Pi_f$ & inhomogeneous boundary or initial functions, without doubling \\
+        Ratio (vector data) & $\Frat = y_a\bigl(I - \ket{a}\bra{a}\bigr) - y_\perp\bra{a}$, \ $y_\perp = \sum_{c\ne a} y_c\ket{c}$ & multi-component initial data (Carleman); coupled fields \\
+        Datum slice & $\bigl(\Slice_a(x^\ast) - \hat g\,\tau(x_s)^{\top}/v\bigr)\,\Pi_f$ & inhomogeneous boundary or initial functions, without doubling \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -93,8 +93,8 @@
         R6 & Fig.~7: $4f'' + 2f'^2 + f = 0$; $f'' - 2f^2 + x = 0$ & $1 - x^2/8$; boundary-value solve & doubled space (kernel degeneracy) \\
         R7 & $u' = v$, $v' = -\omega^2 u$, $\omega = \pi$ & $\sin$, $\cos$ & two fields; ratio rows \\
         R8 & $y' = -y + y^2$, $y(0) = \tfrac12$ & $1/(1+e^{t})$ & Carleman lift, both forms in time \\
-        R9 & viscous Burgers, periodic, Fourier--Galerkin & Cole--Hopf; DNS & field-scale Carleman; convolution $F_2$; QFT fold \\
-        R10 & 2-D vorticity Navier--Stokes, periodic & Taylor--Green; DNS & the culmination \\
+        R9 & viscous Burgers, periodic, Fourier--Galerkin & Galerkin \gls{ivp}; Cole--Hopf & field-scale Carleman; convolution $F_2$; QFT fold \\
+        R10 & 2-D vorticity Navier--Stokes, periodic & Galerkin \gls{ivp}; Taylor--Green; \gls{dns} & the culmination \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -179,7 +179,7 @@
 \subsection{The Filter and Its Parameters}
 \label{sec:pipeline-filter}
 % ~1 pp
-% LAND, in order (ThesisPlanning.md §5.8 point 5; T-23: MINIMAX IS PRIMARY):
+% LAND, in order (ThesisPlanning.md §5.7 point 5; T-23: MINIMAX IS PRIMARY):
 %   1. GQSP realises any |P| <= 1 polynomial of the walk (eq:gqsp-block),
 %      without parity (prior art, sec:bg-qsp).
 %   2. THE MINIMAX EDGE FILTER (PRIMARY): P = T_d(w(x))/T_d(w(-1)), w mapping
@@ -191,7 +191,7 @@
 %      drafted below -- this is new body content (T-23), not a rename.
 %   3. THE PARAMETERS ARE A PRIORI: the edge (sigma_0, sigma_1 of the
 %      reference) and alpha_R, never the solution. The edge is assumed known,
-%      the standard known-gap assumption; say so here and in sec:limitations (§10.6).
+%      the standard known-gap assumption; say so here and in sec:limitations (§9.5).
 %   4. WHY MINIMAX: at equal suppression it needs 1.67-1.92x fewer degrees than
 %      imaginary time with the ground state at the edge, in both forms (B-17);
 %      at equal MEASURED infidelity the gain is smaller and reverses at loose
@@ -274,14 +274,14 @@
 %   it without forward-referencing this chapter. \Cref{eq:degree} still resolves there.
 
 \begin{equation}
-    \ket{\varphi_0} \propto \bigotimes_{j=0}^{n-1}\Bigl(\ket{0} + r^{2^j}\ket{1}\Bigr),
+    \ket{\psi_{\mathrm{init}}} \propto \bigotimes_{j=0}^{n-1}\Bigl(\ket{0} + r^{2^j}\ket{1}\Bigr),
     \qquad
-    \gamma = \bigl|\braket{\psi_{\mathrm{ref}}|\varphi_0}\bigr| .
+    \gamma = \bigl|\braket{\psi_{\mathrm{ref}}|\psi_{\mathrm{init}}}\bigr| .
     \label{eq:geometric-state}
 \end{equation}
 
 \begin{equation}
-    p_G = \bigl\|f_\beta(H')\,\varphi_0\bigr\|^2 \;\to\; \gamma^2,
+    p_G = \bigl\|f_\beta(H')\,\psi_{\mathrm{init}}\bigr\|^2 \;\to\; \gamma^2,
     \qquad
     \text{gates} \approx \frac{\pi}{4\gamma}\Bigl[\,2d\,g(U_R) + d\,g(\text{refl})\Bigr] .
     \label{eq:qite-cost}
@@ -291,7 +291,7 @@
 
 \subsection{Verification and the Error Budget}
 \label{sec:pipeline-verification}
-% ~1 pp (ThesisPlanning.md §5.8 point 6; moved before Readout, §4.2's order).
+% ~1 pp (ThesisPlanning.md §5.7 point 6; moved before Readout, §4.2's order).
 % LAND, in order:
 %   1. Operator verification: the four modes (tab:verification-modes). Why IR
 %      is not a tautology: it checks what the circuit WILL implement against an
@@ -339,7 +339,7 @@
         Level & Metric & Acceptance \\
         \midrule
         State & infidelity $1 - |\braket{\psi_{\mathrm{ref}}|\psi}|^2$ in the form's own space & $\le \varepsilon = 10^{-6}$, and $\le 10\times$ the predicted bound \\
-        Probability & measured $p_G$ against $\|P(H')\varphi_0\|^2$ & relative difference $\le 10^{-8}$ \\
+        Probability & measured $p_G$ against $\|P(H')\psi_{\mathrm{init}}\|^2$ & relative difference $\le 10^{-8}$ \\
         Field & decoded $f_Q$ against the analytic solution ($L^\infty$, relative $L^2$) & $\le \varepsilon_{\mathrm{disc}} + \kappa_{\mathrm{read}}\sqrt{\varepsilon_{\mathrm{prep}}}$ \\
         T1 against T2 & state difference & $\le 10^{-10}$ \\
         Phases & realised against target polynomial & $\le 10^{-12}$ \\
@@ -357,7 +357,7 @@
 
 \subsection{Reading Out the Solution}
 \label{sec:pipeline-readout}
-% ~0.25 pp (ThesisPlanning.md §5.8 point 7: ONE PARAGRAPH). The classical
+% ~0.25 pp (ThesisPlanning.md §5.7 point 7: ONE PARAGRAPH). The classical
 % decoding is the thesis's own readout; the interferometric PROTOCOL is Wu et
 % al.'s (reproduced, with our p_G < 1 correction: Journal E024; decision T-12).
 % LAND, in order:
@@ -392,7 +392,7 @@
 
 \subsection{Design of the Numerical Experiment}
 \label{sec:pipeline-design}
-% ~0.5 pp -- NEW in v2.0 (ThesisPlanning.md §5.8 point 8; §4.3 step 2: moved
+% ~0.5 pp -- NEW in v2.0 (ThesisPlanning.md §5.7 point 8; §4.3 step 2: moved
 %   here from 9_results.tex's "Experimental Design and Cost Conventions").
 % LAND, in order:
 %   1. What the study varies (n, form, encoder, filter, initial state) and

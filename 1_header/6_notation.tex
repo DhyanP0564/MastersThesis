@@ -11,6 +11,9 @@
 A quick reference for symbols used across the thesis; each is properly
 introduced at its first use in the text below.
 
+\medskip
+\noindent\textbf{Typeface.} The typeface carries a symbol's role and its subscript carries the form. Fixed matrices that discretise an operator or a constraint are blackboard bold: $\G$, $\Bt$, $\Dt$, $\M$, $\nfold$, $\Brow$, $\Dzero$, $\Slice$, $\Ucg$, $\Acoup$, $\Frat$. Assembled objects are italic: the residuals $\Astd$ and $\Adesc$, the stacked residuals $R_{\mathrm{std}}$ and $R_{\mathrm{desc}}$, the Hamiltonians $\Hstd$ and $\Hdesc$, and $V$, $W$ and $H'$. The subscripts $\mathrm{std}$ and $\mathrm{desc}$ name the standard and descriptor forms (\Cref{sec:standard-operators}); bare $A$, $H$ and $R$ are used only in statements true of both forms, and in \Cref{sec:pihm}, where they are the paper's own residual and Hamiltonian. Wu et al.\ print their residual and Hamiltonian in blackboard bold; this thesis writes them $A$ and $H$ throughout. Calligraphic letters are used for the Gram map $\mathcal{T}$, the Hilbert space $\mathcal{H}$ and the order symbol $\mathcal{O}$.
+
 \bigskip
 \noindent\textbf{Discretisation}
 \begin{center}
@@ -23,7 +26,7 @@ $N = 2^n$ & Truncation dimension of one Chebyshev axis. & \Cref{sec:pihm-model} 
 $k$ & Order of an ordinary differential equation. & \Cref{sec:pihm-residual} \\
 $p$ & Degree of a polynomial nonlinearity. & \Cref{sec:carleman} \\
 $n_f$ & Qubits in the field (block) register of the descriptor form. & \Cref{sec:descriptor-layouts} \\
-$\dim w$ & Padded descriptor state dimension, $2^{\lceil\log_2(k+1)\rceil}N$. & \Cref{sec:app-variable-coeff} \\
+$\dim w$ & Padded descriptor state dimension, $2^{\lceil\log_2K\rceil}\prod_aN_a$ with $K$ physical blocks ($2^{\lceil\log_2(k+1)\rceil}N$ on one axis). & \Cref{sec:app-variable-coeff} \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -37,7 +40,9 @@ Symbol & Meaning & Introduced \\
 \midrule
 $T_\ell$ & Chebyshev polynomial of the first kind, degree $\ell$. & \Cref{sec:pihm-model} \\
 $\ket{\tau(x)}$ & The raw Chebyshev feature state. & \Cref{sec:pihm-model} \\
+$\varphi_k$ & Normalised Chebyshev basis functions, $\varphi_0 = T_0/\sqrt{N}$, $\varphi_k = T_k/\sqrt{N/2}$; $\ket{\tau(x)}$ holds their values at $x$. & \Cref{sec:standard-model} \\
 $\psi$, $\eta$, $\eta_e$ & Normalised coefficient state; its scale; $\eta_e = \|b\|^2$. & \Cref{sec:pihm-model} \\
+$\psi_e$ & The ideal state $b/\|b\|$ of a truncated solution $f_N$ with coefficients $b$; the model represents $f_N$ exactly at $(\psi_e, \eta_e)$. & \Cref{sec:standard-model} \\
 $\fhat{j}$ & Coefficients of $f^{(j)}$: one block of the descriptor state. & \Cref{sec:descriptor-layouts} \\
 $w$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$. & \Cref{sec:descriptor-layouts} \\
 \bottomrule
@@ -59,7 +64,7 @@ $\Brow(x)$, $\Dzero(x_s)$ & Rank-one zero (invariant) and collapse (regular) con
 $x_z$, $x_m$, $x_s$ & Constraint points: a zero, an extremum, a source datum. & \Cref{sec:pihm-residual} \\
 $R_0$, $\Uodd$, $\Lambda$ & Factors of the structured exact encoding of $\G$. & \Cref{sec:standard-factorisation} \\
 $\Slice_a(x^*)$, $\hat g$ & Datum-slice row on axis $a$ at $x^*$; the coefficients of the datum function. & \Cref{sec:standard-constraints} \\
-$\Ucg$ & The Chebyshev--Gauss transform used by the nodal fold. & \Cref{sec:folds} \\
+$\Ucg$ & The Chebyshev--Gauss transform used by the nodal fold. & \Cref{sec:ext-circuits} \\
 $\|\G\|_S$ & The paper's norm $\max\bigl(\|\G\G^{\top}\|_1, \|\G^{\top}\G\|_1\bigr)$. & \Cref{sec:pihm-encoding} \\
 \bottomrule
 \end{tabular}
@@ -72,8 +77,8 @@ $\|\G\|_S$ & The paper's norm $\max\bigl(\|\G\G^{\top}\|_1, \|\G^{\top}\G\|_1\bi
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
-$\Astd$, $\Adesc$ & Residual of the standard form; of the descriptor form. & \Cref{sec:pihm-residual} \\
-$\Hstd$, $\Hdesc$ & Effective Hamiltonian of each form; bare $H$ only in regime-independent statements. & \Cref{sec:pihm-residual} \\
+$\Astd$, $\Adesc$ & Residual of the standard form; of the descriptor form. & \Cref{sec:standard-operators} \\
+$\Hstd$, $\Hdesc$ & Effective Hamiltonian of each form; bare $H$ only in regime-independent statements. & \Cref{sec:standard-operators} \\
 $R = [R_1; \dots; R_L]$ & Stacked residual, with $H = R^{\dagger}R$. & \Cref{sec:pipeline-walk} \\
 $H_{\otimes}$ & The doubled-space Hamiltonian. & \Cref{sec:doubled-space} \\
 \bottomrule
@@ -94,9 +99,13 @@ $\Delta$ & Spectral gap $\lambda_1 - \lambda_0$. & \Cref{sec:pipeline-filter} \\
 $\beta$ & Imaginary time. & \Cref{sec:pipeline-filter} \\
 $d$, $q_k$ & GQSP degree; filter coefficients. & \Cref{sec:pipeline-filter} \\
 $\varepsilon$ & Target infidelity ($10^{-6}$). & \Cref{sec:pipeline-filter} \\
-$\varphi_0$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\mathrm{ref}}|\varphi_0}|$ with the reference. & \Cref{sec:pipeline-filter} \\
+$\psi_{\mathrm{init}}$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\mathrm{ref}}|\psi_{\mathrm{init}}}|$ with the reference. & \Cref{sec:pipeline-filter} \\
 $p_G$ & GQSP success probability. & \Cref{sec:pipeline-filter} \\
 $\zeta$ & Block-rescaling constant. & \Cref{sec:descriptor-rescaling} \\
+$S$ & Diagonal of block weights; the rescaled residual is $R_{\mathrm{desc}}S$. & \Cref{sec:descriptor-rescaling} \\
+$E$ & Map from a field's coefficients to the descriptor state that represents it. & \Cref{sec:descriptor-layouts} \\
+$w_f$ & Weight of the field block in the descriptor's ground state; $\gamma^2\le w_f$. & \Cref{sec:descriptor-gap} \\
+$\alpha_A$, $Q_m$ & Subnormalisation of the descriptor's system rows; the reflection $I-2\ket{m}\bra{m}$. & \Cref{sec:descriptor-block-encoding} \\
 $\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of the published encoding of $\G$. & \Cref{app:ladder} \\
 \bottomrule
 \end{tabular}
@@ -111,7 +120,7 @@ Symbol & Meaning & Introduced \\
 \midrule
 $K$ & Carleman truncation order. & \Cref{sec:carleman} \\
 $M$ & Dimension of the base state $u$. & \Cref{sec:carleman} \\
-$\rho$ & Nonlinearity-to-dissipation ratio; the Carleman precondition is $\rho < 1$. & \Cref{sec:carleman} \\
+$\rho$ & Nonlinearity-to-dissipation ratio; $\rho < 1$ is sufficient, not necessary, for the Carleman truncation error to fall as $\rho^K$. & \Cref{sec:carleman} \\
 $F_1$, $F_2$, $\Acoup_K$ & Linear and quadratic terms; the lifted Carleman generator. & \Cref{sec:carleman} \\
 \bottomrule
 \end{tabular}

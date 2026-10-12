@@ -12,16 +12,11 @@
 %          multiplication.py, folds.py).
 % =============================================================================
 
-This appendix gives the $N=4$ instance of the standard-form residual $\Astd$ that
-\Cref{sec:pihm-residual} builds for Wu et al.'s constant-coefficient case, and the
-entries of the lifting operator $\M_{x^p}$ that the same section uses for a
-variable coefficient.
+This appendix gives the $N=4$ instance of the standard-form residual of \Cref{sec:standard-operators} for a constant-coefficient equation, the entries of the lifts $\M_{x^p}$ that the same section uses for a variable coefficient, and the constructions and proofs that \Cref{sec:standard-constraints} points to.
 
-\paragraph{Why a condition for all $x$ is a finite linear system.} \label{app:pihm-constraint-proof}A condition required at every $x\in[-1,1]$, such as the differential equation, reaches the form $\bra{\tau(x)}C\ket{\psi}=0$ for all $x$. The components of $\bra{\tau(x)}$ are linearly independent functions of $x$, so $\bra{\tau(x)}\mathbf{v}$ vanishes for all $x$ only if $\mathbf{v}=0$. Taking $\mathbf{v}=C\ket{\psi}$, the condition for all $x$ is therefore equivalent to the finite system $C\ket{\psi}=0$, which no longer depends on $x$. This is the step that \Cref{sec:pihm-residual} states without proof.
+\paragraph{Why a condition for all $x$ is a finite linear system.} \label{app:pihm-constraint-proof}A condition required at every $x\in[-1,1]$, such as the differential equation, reaches the form $\bra{\tau(x)}C\ket{\psi}=0$ for all $x$. The components of $\bra{\tau(x)}$ are linearly independent functions of $x$, so $\bra{\tau(x)}\mathbf{v}$ vanishes for all $x$ only if $\mathbf{v}=0$. Taking $\mathbf{v}=C\ket{\psi}$, the condition for all $x$ is therefore equivalent to the finite system $C\ket{\psi}=0$, which no longer depends on $x$. This is the step that \Cref{sec:pihm-residual,sec:standard-operators} take without proof.
 
-\paragraph{The standard-form residual at $N=4$.} For Wu et al.'s stiff pilot
-equation \cite{wu2025pihm}, $f'' + 5f' + 400f = 0$, \Cref{eq:pihm-A} gives
-$\Astd = \G^{2} + 5\G + 400I$. At $N=4$, using $\G$ (\Cref{app:cheb}),
+\paragraph{The standard-form residual at $N=4$.} For Wu et al.'s stiff pilot equation \cite{wu2025pihm}, $f'' + 5f' + 400f = 0$, the equation block of \Cref{eq:standard-equation} is $\Astd = \G^{2} + 5\G + 400I$. At $N=4$, with the entries of \Cref{eq:pihm-G-entries},
 \begin{equation}
     \Astd =
     \begin{pmatrix}
@@ -29,22 +24,10 @@ $\Astd = \G^{2} + 5\G + 400I$. At $N=4$, using $\G$ (\Cref{app:cheb}),
         0 & 400 & 20 & 24 \\
         0 & 0 & 400 & 30 \\
         0 & 0 & 0 & 400
-    \end{pmatrix},
+    \end{pmatrix}.
     \label{eq:app-standard-example}
 \end{equation}
-verified directly against \texttt{pihm.chebyshev\_derivative\_matrix}. $\Astd$ is
-triangular here only because this equation has no odd-order term beyond $f'$ at
-even $N$; the off-diagonal entries sit three orders of magnitude below the
-diagonal, a large-coefficient conditioning problem stacked on top of $\G$'s own
-density.
-% REVISE: (1) The matrix is the TRANSPOSE of the draft's (the draft multiplied
-%   G^T); under the thesis convention (T-16) A_std = G^2 + 5G + 400I is upper
-%   triangular. Re-checked against pihm.operators.derivative.derivative_matrix,
-%   2026-09-25. (2) "Triangular only because ..." is not right: every polynomial
-%   in the strictly upper-triangular G is upper triangular. (3) The largest
-%   off-diagonal entry is 30 against 400 -- about one order of magnitude, not
-%   three. (4) pihm.chebyshev_derivative_matrix names the legacy library; cite
-%   the rebuilt package's test instead, or drop the sentence.
+It is upper triangular, as every polynomial in the strictly upper-triangular $\G$ is. At this size the largest off-diagonal entry, $30$, is about one order of magnitude below the diagonal; the entries of $\G^2$ grow as $N^4$, so at larger $N$ the derivative terms dominate the constant one.
 
 \paragraph{The lifting operator $\M_{x^p}$.} $\M_{x^p}$ is exact and
 \emph{rectangular}: multiplying a degree-$(N{-}1)$ model by $x^p$ can raise its
@@ -53,9 +36,9 @@ $2N \times N$, with no truncation. At $n=1$ ($N=2$, so $p \in \{1,2\}$),
 \begin{equation}
     \M_{x^1} =
     \begin{pmatrix}
+        0 & 1 \\
+        1 & 0 \\
         0 & \tfrac{1}{\sqrt2} \\
-        \tfrac{1}{\sqrt2} & 0 \\
-        0 & \tfrac{1}{2} \\
         0 & 0
     \end{pmatrix},
     \qquad
@@ -68,16 +51,7 @@ $2N \times N$, with no truncation. At $n=1$ ($N=2$, so $p \in \{1,2\}$),
     \end{pmatrix},
     \label{eq:app-Mxp-example}
 \end{equation}
-verified directly against \texttt{pihm.multiplication\_matrix}. The general entry
-follows the same product-to-sum identity conjugated into the normalised bases of
-$\ket{\tau(x)}_n$ and $\ket{\tau(x)}_{n+1}$ that \Cref{sec:pihm-residual} states
-in closed form.
-% REVISE: M_{x^1} above is a factor sqrt(2) too small. The rebuilt pihm (whose
-%   lifts reproduce the paper's printed SM §A matrices entry by entry) gives
-%   M_{x^1} = [[0, 1], [1, 0], [0, 1/sqrt2], [0, 0]]: x phi_0^(1) = x/sqrt2 =
-%   phi_1^(2), so the (1, 0) entry is 1. M_{x^2} above agrees with pihm.
-%   pihm.multiplication_matrix names the legacy library (see above).
-
+which reproduce the paper's printed matrices. The general entry follows from the product-to-sum identity conjugated into the normalised bases of $\ket{\tau(x)}_n$ and $\ket{\tau(x)}_{n+1}$ (\Cref{app:lifts-folds}).
 \subsection{The faithful rebuild's conventions}
 \label{app:faithful-conventions}
 % LAND: cited from sec:standard-rebuilt (§4.1). What "faithful" keeps, stated so the rebuild can be
@@ -86,7 +60,7 @@ in closed form.
 %   triangular, which the paper prints as G_n^T (T-16); (3) variable coefficients and sources lifted
 %   from n to n + 1 qubits (M_{x^p}, M_a; app:lifts-folds); (4) Neumann data as B(x_m) G; (5) the
 %   printed constraint points, the Maclaurin sources (orders 3, 5, 7) and the PDE invariant sets;
-%   (6) the doubled space for the quadratic panels (handed to Ch. 7); (7) the Gram sum
+%   (6) the doubled space for the quadratic panels (handed to Ch. 6); (7) the Gram sum
 %   H = sum_i A_i^dagger A_i. Each convention in one line, with the printed value it reproduces; the
 %   printed SM §A matrices follow in app:sm-matrices. The scale eta_e = ||b||^2 is stated in
 %   sec:standard-rebuilt (eq:eta-e), not here.
@@ -111,7 +85,7 @@ Each term $t$ of the equation has a constant $c_t$, a multi-index $\boldsymbol\c
     \Astd = \sum_t c_t\bigotimes_{u=1}^{\omega}\M^{(u)}_t\,\G^{\chi_{t,u}} \;-\; \M_r\,\Dzero(\mathbf x_s),
     \label{eq:app-A-multi}
 \end{equation}
-with $\M^{(u)}_t$ as just described. The source term is the rank-one operator $\M_r\Dzero(\mathbf x_s)=\ket{\hat r}\bra{\tau(\mathbf x_s)}/y_s$, with $\ket{\hat r}$ the coefficients of $r$ on the lifted register (the Kronecker product of the one-dimensional coefficient vectors where $r$ is a product of single-variable polynomials). The equation block's output register has $\omega n+\omega_{\mathrm{lift}}$ qubits, $\omega_{\mathrm{lift}}$ being the number of lifted axes. For $\omega=1$, \Cref{eq:app-A-multi} is \Cref{eq:pihm-A-source}.
+with $\M^{(u)}_t$ as just described. The source term is the rank-one operator $\M_r\Dzero(\mathbf x_s)=\ket{\hat r}\bra{\tau(\mathbf x_s)}/y_s$, with $\ket{\hat r}$ the coefficients of $r$ on the lifted register (the Kronecker product of the one-dimensional coefficient vectors where $r$ is a product of single-variable polynomials). The equation block's output register has $\omega n+\omega_{\mathrm{lift}}$ qubits, $\omega_{\mathrm{lift}}$ being the number of lifted axes. For $\omega=1$, \Cref{eq:app-A-multi} is \Cref{eq:standard-equation}.
 
 An invariant constraint $\partial_u^{j}f=0$ on the face $x_u=x_z$ is the row block $I^{\otimes(u-1)}\otimes\Brow_n(x_z)\G^{j}\otimes I^{\otimes(\omega-u)}$, or $\Brow_{n+1}(x_z)\M_1\G^{j}$ on its own axis if that axis is lifted. The identity factors are on $n$ qubits whether or not their axes are lifted, so only the equation block, not each constraint, acts into the full lifted register. The regular datum at a point $\mathbf x_s$ is the rank-one row $\Dzero(\mathbf x_s)=\bigotimes_u\Brow_n(x_{s,u})/y_s=2^{\omega n/2}\ket{0}\bra{\tau(\mathbf x_s)}/y_s$. Each $\G_u$ has the norm $\Theta(N^2)$ of $\G$.
 
@@ -130,6 +104,24 @@ An invariant constraint $\partial_u^{j}f=0$ on the face $x_u=x_z$ is the row blo
 % TAB: Table T2 lists the datum slice among the constraint kinds (model inputs).
 % TRAPS: reading the datum off the solution at run time; "invariant" for a slice (it is a datum).
 
+An inhomogeneous initial or boundary function $g$ on the slice $x_a=x^*$ of a problem on several Chebyshev axes is imposed by the rows of \Cref{eq:datum-slice},
+\begin{equation*}
+    \Slice_a(x^*)-\frac{\hat g\,\bra{\tau(x_s)}}{f(x_s)}, \qquad \Slice_a(x^*)=I\otimes\dots\otimes\Brow(x^*)\otimes\dots\otimes I\quad(\Brow \text{ on axis } a),
+\end{equation*}
+with $\hat g$ the coefficients of $g$ on the other axes broadcast as a constant along axis $a$: its mode $0$ on that axis, $\sqrt{N_a}$ times the coefficients of $g$, as $\Brow$ emits. $\bra{\tau(x_s)}$ is the feature row at a regular point $x_s$ of the full domain, where the value $f(x_s)$ is known.
+
+\begin{proposition}[Datum slices]
+\label{prop:datum-slice}
+On $cf$, with $f$ the solution and $c$ any scalar, the rows return $c\,\bigl(\hat f|_{x_a=x^*}-\hat g\bigr)$, with $\hat f|_{x_a=x^*}$ the broadcast slice of $f$. They are therefore homogeneous in the scale and vanish on the solution and its multiples.
+\end{proposition}
+\begin{proof}
+$\Slice_a(x^*)$ contracts axis $a$ with $\tau(x^*)$, which gives the slice function's coefficients on the other axes times $\sqrt{N_a}\ket0$ on axis $a$: applied to $cf$, the broadcast slice $c\hat f|_{x_a=x^*}$. The second term applied to $cf$ is $\hat g\,c\,f(x_s)/f(x_s)=c\,\hat g$. If $f|_{x_a=x^*}=g$ the difference is zero.
+\end{proof}
+
+The block is square on $\prod_aN_a$ coefficients but non-zero only on the $\prod_{b\ne a}N_b$ rows with mode $0$ on axis $a$, which carry the slice; the rest are dropped from $R$ without changing $R^\dagger R$. On one axis the slice is a point, and the rows reduce to the single row $\Brow(x^*)-y^*\Dzero(x_s)$ of a point datum $f(x^*)=y^*$, or to $\Brow(x^*)\G^j-y^*\Dzero(x_s)$ for a datum on a derivative (\Cref{def:standard-form}). The rows are built from the problem's statement, the function $g$, the slice and one regular value, so they serve both forms and every resolution; whether the kernel is then one-dimensional is computed (\Cref{sec:standard-constraints}).
+
+\paragraph{Why the heat data sit at $t=-1$.} The paper's heat problem, $\partial_tf=\tfrac1{25}\partial_x^2f$ with $f(t,\pm1)=0$, states its initial function $\sin(2\pi x)$ at $t=0$, inside the Chebyshev time domain $[-1,1]$. Imposed there, it fixes the solution on $[-1,0]$ by a backward heat problem: going back a time $s$, a mode $\sin\tfrac{\ell\pi(x+1)}{2}$ of the data is multiplied by $\exp\bigl(\tfrac{1}{25}(\ell\pi/2)^2s\bigr)$, a factor unbounded in $\ell$, so the problem is ill posed in Hadamard's sense. The standard form states the problem forward from $t=-1$ instead, with the initial function $e^{4\pi^2/25}\sin(2\pi x)$, the paper's solution $e^{-4\pi^2t/25}\sin(2\pi x)$ evaluated there. The solution is the same; the data are set up from it, as R4's constraint points are.
+
 \subsection{The substitution for R3c and R3d}
 \label{app:legendre-substitution}
 % LAND: cited from sec:standard-passage (§4.3, item 4). The associated Legendre operator multiplied
@@ -138,17 +130,38 @@ An invariant constraint $\partial_u^{j}f=0$ on the face $x_u=x_z$ is the row blo
 %   algebraic. Derive the transformed equation and constraints, state the order of the zeros before
 %   and after, and the datum scale carried through (v at x_s). Note that it is also the form the
 %   descriptor can run (sec:descriptor-rescaling's double-zero limit: a double zero is beyond any
-%   rescaling). One line on convergence, pointing to §9.1 / Appendix K for the numbers.
+%   rescaling). One line on convergence, pointing to §8.1 / Appendix K for the numbers.
 % TRAPS: presenting the substitution as the paper's; claiming it for a general double zero.
+
+The paper's R3c and R3d are the associated Legendre equation with $m=1$, multiplied through by $1-x^2$,
+\begin{equation*}
+    (1-x^2)^2f''-2x(1-x^2)f'+\bigl(l(l+1)(1-x^2)-1\bigr)f=0,
+\end{equation*}
+with $l=5$ and $l=6$. Its leading coefficient has a double zero at each end, and its solution $P_l^1=-\sqrt{1-x^2}\,P_l'$ has a branch point there, so its Chebyshev coefficients decay only algebraically: $\sqrt{1-x^2}=|\sin\theta|$ has cosine coefficients of order $k^{-2}$.
+
+\begin{proposition}[The substitution]
+\label{prop:legendre-substitution}
+With $f=\sqrt{1-x^2}\,v$ the equation becomes
+\begin{equation}
+    (1-x^2)\,v''-4x\,v'+\bigl(l(l+1)-2\bigr)v=0,
+    \label{eq:app-legendre-v}
+\end{equation}
+whose leading coefficient has simple zeros at $\pm1$ and whose solution $v=-P_l'$ is a polynomial of degree $l-1$.
+\end{proposition}
+\begin{proof}
+Write $s=\sqrt{1-x^2}$, so that $s'=-x/s$ and $s''=-1/s^3$. Then $f'=sv'-xv/s$ and $f''=sv''-2xv'/s-v/s^3$. Substituting, $(1-x^2)^2f''=s^5v''-2xs^3v'-sv$, $-2x(1-x^2)f'=-2xs^3v'+2x^2sv$ and $\bigl(l(l+1)s^2-1\bigr)sv=l(l+1)s^3v-sv$. The sum is $s^5v''-4xs^3v'+\bigl(l(l+1)s^3-2s(1-x^2)\bigr)v=s^3\bigl[(1-x^2)v''-4xv'+(l(l+1)-2)v\bigr]$, and $s^3>0$ on $(-1,1)$. The solution is $v=f/s=-P_l'$.
+\end{proof}
+
+The data carry through: $f(\pm1)=0$ holds for every $v$ and is dropped; R3c's $f'(0)=0$ is $v'(0)=0$, since $s(0)=1$ and $s'(0)=0$; R3d's $f(0)=0$ is $v(0)=0$; and the regular datum becomes $v(x_s)=f(x_s)/\sqrt{1-x_s^2}$, at $x_s=\tfrac12$. The coefficients of \Cref{eq:app-legendre-v} are polynomials of degree at most two, inside the lift's range, and $v$ is represented exactly once $N>l-1$, so the field error falls to rounding at the first such $n$ (\Cref{sec:standard-constraints}). The substitution removes this double zero because the branch point is a known factor of the solution; it is not a remedy for a double zero in general. The simple zeros it leaves are what the descriptor's block rescaling can treat (\Cref{sec:descriptor-rescaling}).
 
 \subsection{The uniqueness count for an ordinary equation}
 \label{app:uniqueness-count}
 \begin{proposition}[Uniqueness count]
     \label{prop:uniqueness-count}
-    Let $\sum_{j=0}^{k}a_j f^{(j)}=0$ on $[-1,1]$ with smooth coefficients and $a_k$ nowhere zero, and let $c_1,\dots,c_m$ be invariant constraints (each sets a derivative of $f$ at a point to zero). The solutions that satisfy all of them form a space of dimension $k-\rho$, where $\rho$ is the rank of the $c_i$ restricted to the $k$-dimensional solution space $S$. The ground state of the constraint energy is unique up to scale exactly when $\rho=k-1$.
+    Let $\sum_{j=0}^{k}a_j f^{(j)}=0$ on $[-1,1]$ with smooth coefficients and $a_k$ nowhere zero, and let $c_1,\dots,c_m$ be invariant constraints (each sets a derivative of $f$ at a point to zero). The solutions that satisfy all of them form a space of dimension $k-r$, where $r$ is the rank of the $c_i$ restricted to the $k$-dimensional solution space $S$. The ground state of the constraint energy is unique up to scale exactly when $r=k-1$.
 \end{proposition}
 \begin{proof}
-    Since $a_k$ has no zero, the equation is a regular linear system of order $k$ and $S$ has dimension $k$. The map $f\mapsto(c_i(f))_{i\le m}$ is linear on $S$ with rank $\rho$, so its kernel, the solutions that satisfy every constraint, has dimension $k-\rho$. A ground state of zero energy is a nonzero element of that kernel, unique up to scale exactly when the kernel is one-dimensional. For $\rho=k$ the kernel is $\{0\}$ and no nonzero state has zero energy. For $\rho<k-1$ it has dimension at least two.
+    Since $a_k$ has no zero, the equation is a regular linear system of order $k$ and $S$ has dimension $k$. The map $f\mapsto(c_i(f))_{i\le m}$ is linear on $S$ with rank $r$, so its kernel, the solutions that satisfy every constraint, has dimension $k-r$. A ground state of zero energy is a nonzero element of that kernel, unique up to scale exactly when the kernel is one-dimensional. For $r=k$ the kernel is $\{0\}$ and no nonzero state has zero energy. For $r<k-1$ it has dimension at least two.
 \end{proof}
 The rank is that of the constraints restricted to $S$, not of the functionals, so $k-1$ constraints chosen without regard to the equation can fail. The regular datum fixes the scale of the selected solution and requires that it not vanish at the regular point. The proposition concerns the continuous problem: the assembled residual follows the count only as far as the truncation resolves $S$, and the dimension and gap of its kernel are computed, not inferred (\Cref{sec:standard-constraints}). For an inhomogeneous equation, or one whose leading coefficient vanishes (R3a), no count is claimed here and uniqueness is judged by the computed kernel.
 
@@ -170,3 +183,15 @@ The rank is that of the constraints restricted to $S$, not of the functionals, s
 %   D-005), and the folds n_1, n_x from T_j T_k = (T_{j+k} + T_{|j-k|})/2
 %   (eq:pihm-fold). Raw tau in every rank-one row (the paper's convention;
 %   M-04).
+
+For $a(x)=\sum_ma_mT_m(x)$ the identity $T_mT_k=\tfrac12\bigl(T_{m+k}+T_{|m-k|}\bigr)$ gives the Chebyshev coefficients of $a\,T_k$, $X_{jk}=\tfrac12\sum_ma_m\bigl([\,j=m+k\,]+[\,j=|m-k|\,]\bigr)$. In the normalised bases of $n$ input and $n+1$ output qubits, with $\sigma_k$ the normalisation of $T_k$ on each register ($\varphi_k=T_k/\sigma_k$), the lift is $(\M_a)_{jk}=(\sigma^{\mathrm{out}}_j/\sigma^{\mathrm{in}}_k)\,X_{jk}$; a monomial coefficient is converted to its Chebyshev series first.
+
+\begin{proposition}[The lift]
+\label{prop:lift}
+$\M_a\in\mathbb R^{2N\times N}$ represents the product $a\,f_N$ without truncation for every $f_N$ of degree below $N$ if and only if $\deg a\le N$. A constant enters as $a_0\M_1=a_0\sqrt2\,[\,I;\,0\,]$, and $\|\M_a\|_2\le\sqrt2\,\sup_{[-1,1]}|a|$.
+\end{proposition}
+\begin{proof}
+The product has degree at most $N-1+\deg a$, and $2N$ coefficients hold degrees up to $2N-1$, so $\deg a\le N$ suffices; if $\deg a>N$, a series of degree $N-1$ gives a product of degree at least $2N$, which does not fit. Each normalisation $\sigma_k$ on $n+1$ qubits is $\sqrt2$ times that on $n$, since $\varphi_k=T_k/\sqrt{N/2}$ on $n$ qubits and $T_k/\sqrt N$ on $n+1$ for $k\ge1$, and likewise for $T_0$, so the coefficients of a function are multiplied by $\sqrt2$ on the wider register, which gives $\M_1$. For the norm, Parseval's identity of \Cref{app:eta-e} on $n+1$ qubits, where the product is exact, gives $\|\M_ab\|^2=(2N/\pi)\int a^2f_N^2w\,dx\le2\sup|a|^2\,(N/\pi)\int f_N^2w\,dx=2\sup|a|^2\,\|b\|^2$.
+\end{proof}
+
+The lift of $x$ has the non-zero entries $(\M_x)_{10}=(\M_x)_{01}=1$ and $(\M_x)_{k\pm1,k}=1/\sqrt2$ otherwise, from $xT_0=T_1$ and $xT_k=\tfrac12(T_{k+1}+T_{k-1})$, which is \Cref{eq:app-Mxp-example} at $n=1$. On a circuit the lift of $x$ is a combination of truncated shifts, built by the post-selected subtraction of \Cref{app:uodd-select-detail}, and a polynomial coefficient is the sum of the powers of that block weighted by its monomial coefficients, so its subnormalisation is $\sum_p|a_p|\,\alpha_{\M_x}^{\,p}$. For a coefficient that vanishes where the derivatives are largest, such as the $(1-x^2)$ of R3a, this sum far exceeds what the product $\M_a\G^2$ needs, which is the looseness of the standard form's encoding on R3 (\Cref{sec:standard-hamiltonian}). The folds $\nfold_1$ and $\nfold_x$ of the doubled space follow from the same product-to-sum identity applied to a product of two series (\Cref{eq:pihm-fold}); their circuits and norms are given in \Cref{app:doubled-space}.

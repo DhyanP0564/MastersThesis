@@ -43,6 +43,18 @@ decreases ``exponentially'' with $n$, without a closed form.
 \paragraph{The derivative circuit (Fig.\ 9).} The registers are, in order, a flag qubit acted on by $R_Y(\omega_c)$ with $\omega_c = 2\arccos\sqrt{1/3}$, an $X$ ancilla, an offset register of $m = n$ qubits sandwiched between Hadamards, a value ancilla, and the $n$-qubit system. Two conditioned subroutines assign the entries on different bases. In $\hat U_R$ the offset $\ket{i}$ selects the $(2i+1)$th superdiagonal and the system $\ket{j}$ the $j$th column; it consists of $n$ singly-controlled $R_Y(\theta_k)$ gates on the value ancilla, controlled by the bits of $\ket{j}$, followed by $n$ cyclic shifts $\hat R_n$. In $\hat U_C$ the offset selects the $(i+1)$th row; it consists of $n$ multi-controlled $R_Y(\varphi_k)$ gates, one shift $\hat L_n$ and $2n$ swaps. With $\mu = 2/\|\G\|_S$ the angles are $\theta_k = 2\arcsin(-2^{k-1}\mu)$ and $\varphi_k = 2\arcsin[-2^{k-1}\mu(1/\sqrt2-1)]$. The circuit uses $m+n+3 = 2n+3$ qubits, its gate count is linear in $n$ before the multi-controlled gates are decomposed and $O(n^3)$ after an $O(n^2)$ decomposition of each, and $\G$ is the top-left $2^n\times2^n$ block of the unitary multiplied by $(2^{n-1}+2^n)\|\G\|_S$. These are the paper's statements; their tests follow.
 
 % Moved from Chapter 4 (plan §6, D; T-36): the verdict on each of the paper's circuit claims.
+\paragraph{Costing the rebuild.} The rebuild restricts the offsets to odd values. Every non-zero entry of $\G$ has $p-k$ odd, so an even offset, $d=0$ above all, would load a value onto the diagonal and onto entries that must vanish; the uniform superposition over every offset drawn in Fig.~9 does not exclude them. With the ladder coefficient $\mu=2/\|\G\|_S$ and the weight $2/N$ that the odd-offset superposition gives each entry, the rebuilt circuit block-encodes $\G$ at $\alpha=N/\mu=N\|\G\|_S/2$.
+
+\begin{lemma}[The paper's norm of $\G$]
+\label{lem:G-paper-norm}
+For $n\ge3$, $\|\G\|_S=\|\G^{\top}\G\|_1=N(N-1)^2(N+1)/3$.
+\end{lemma}
+\begin{proof}
+$(\G^{\top}\G)_{pq}=\sum_k\G_{kp}\G_{kq}$ is non-zero only for $p\equiv q\pmod 2$, the sum running over the $k<\min(p,q)$ of the other parity with weight $4pq/c_k$. For odd $p\le q$ these $k$ are $0,2,\dots,p-1$, and $\sum1/c_k=\tfrac12+\tfrac{p-1}{2}=p/2$; for even $p\le q$ they are $1,3,\dots,p-1$, again $p/2$. So $(\G^{\top}\G)_{pq}=2\min(p,q)^2\max(p,q)$, non-negative and increasing in both indices, and the largest column sum is the last, $q=N-1$, over the odd $p\le N-1$: $2(N-1)\sum_{i=1}^{N/2}(2i-1)^2=N(N-1)^2(N+1)/3$. The column sums of $\G\G^{\top}$ are, to leading order, $N^4/4$, below this from $n=3$ on.
+\end{proof}
+
+The rebuilt circuit's $\alpha=N\|\G\|_S/2$ is therefore a third of the printed prefactor $\tfrac{3N}{2}\|\G\|_S$ of \Cref{eq:pihm-published-prefactor}, so every cost quoted for the paper's encoding is on the kinder side of the paper's own. With $\|\G\|_S\sim N^4/3$ and $\|\G\|_2\sim N^2/(2j_{-3/4,1})$ (\Cref{thm:G-limit}), the printed prefactor's looseness is $\tfrac{3N}{2}\cdot\tfrac{N^4}{3}\cdot\tfrac{2j_{-3/4,1}}{N^2}=j_{-3/4,1}N^3$, approached from below.
+
 \paragraph{The claims tested.} \Cref{tab:published-verdicts} gives the verdict on each claim the paper makes for its circuits. The gate count holds as a bound, the error holds to leading order in $\mu$ (\Cref{prop:epsilon-G}), and the rows of Figs~2 and~8 hold exactly. The qubit count of Fig.~9 is not testable: the rebuild uses registers of its own, so its $2n+5$ neither confirms nor refutes the printed $2n+3$. The prefactor is valid but exceeds $\|\G\|_2$ by a factor growing as $N^3$ (\Cref{sec:standard-published}).
 
 \begin{table}[htbp]

@@ -11,41 +11,118 @@
 %          arithmetic.py (register_subtractor); pihm/docs/PILLAR1.md.
 % =============================================================================
 
-\subsection{Proof of \texorpdfstring{\Cref{prop:G-factorisation}}{the factorisation}}
+\subsection{Proof of \texorpdfstring{\Cref{prop:G-factorisation}}{the factorisation}, and the two diagonal factors}
 \label{app:proof-G-factorisation}
-% LAND: entry by entry -- (R_0 (2 U_odd) Lambda)_{kp} = r_k * 2[p > k, p - k odd]
-%   * p, with r_0 = 1/sqrt2 and r_k = 1 otherwise, which is eq:pihm-G-entries.
-%   Then Lambda's Z-string form (eq:lambda-lcu) from p = sum_j 2^j (1 - Z_j)/2.
+
+\begin{proof}[Proof of \Cref{prop:G-factorisation}]
+$R_0=\operatorname{diag}(1/\sqrt2,1,\dots,1)$ and $\Lambda=\operatorname{diag}(0,1,\dots,N-1)$ are diagonal, so $\bigl(R_0(2\Uodd)\Lambda\bigr)_{kp}=(R_0)_{kk}\cdot2[\,p>k,\ p-k\ \text{odd}\,]\cdot p$. This is $2p$ for $k\ge1$ and $\sqrt2\,p$ for $k=0$ when $p>k$ and $p-k$ is odd, and zero otherwise, which is \Cref{eq:pihm-G-entries}. $\Uodd=\sum_{d\ \text{odd}}S_d$ with $(S_d)_{kp}=[\,p-k=d\,]$, the sum running over the $N/2$ odd $d\in[1,N-1]$.
+\end{proof}
+
+\begin{lemma}[$\Lambda$ as a sum of Pauli strings]
+\begin{equation}
+    \Lambda = \frac{N-1}{2}\,I - \sum_{j=0}^{n-1} 2^{j-1} Z_j ,
+    \label{eq:lambda-lcu}
+\end{equation}
+so its \gls{lcu} has $n+1$ unitary terms, $\lceil\log_2(n+1)\rceil$ selector qubits and $\alpha_\Lambda=N-1=\|\Lambda\|_2$.
+\end{lemma}
+\begin{proof}
+On $\ket{p}$ with bits $p_j$, $Z_j$ has the eigenvalue $z_j=1-2p_j$, so $p=\sum_j2^jp_j=\sum_j2^j(1-z_j)/2=\tfrac{N-1}{2}-\sum_j2^{j-1}z_j$. The weights' magnitudes sum to $\tfrac{N-1}{2}+\sum_j2^{j-1}=N-1$. The negative weights are phases on SELECT's branches, so no value is loaded by rotation.
+\end{proof}
+
+\begin{lemma}[$R_0$ as two terms]
+$R_0=a\,I+b\,(I-2\ket{0}\!\bra{0})$ with $a=\tfrac12(1+1/\sqrt2)$ and $b=\tfrac12(1-1/\sqrt2)$, both positive, so $\alpha_{R_0}=a+b=1=\|R_0\|_2$, with one selector qubit.
+\end{lemma}
+\begin{proof}
+On $\ket0$ the right side is $a-b=1/\sqrt2$; on every other basis state it is $a+b=1$.
+\end{proof}
 
 \subsection{The arithmetic SELECT}
 \label{app:uodd-select-detail}
-% LAND: U_odd as the average of the N/2 truncated shifts by odd offsets;
-%   PREPARE (X on the offset register's lowest bit, H on the rest); SELECT as
-%   the in-place subtraction p <- p - d (Cuccaro ripple-carry,
-%   cuccaro2004adder) with a borrow flag post-selected on |0>, so every wrapped
-%   term vanishes exactly. Toffoli count O(n). The circuit is fig:uodd-select.
+
+The ripple-carry adder of Cuccaro et al.\ \cite{cuccaro2004adder}, on registers $a$ and $b$ of $n$ qubits with a carry-in $c$ and an overflow $z$, acts as $(c,a,b,z)\mapsto\bigl(c,a,(a+b+c)\bmod2^n,z\oplus[a+b+c\ge2^n]\bigr)$ on every input, since its MAJ and UMA identities do not use $c=0$. Its inverse therefore maps $b$ to $(b-a-c)\bmod2^n$ and flips $z$ exactly when $b<a+c$: with $c=z=0$ it is the in-place subtraction $b\leftarrow(b-a)\bmod2^n$ with the borrow $z=[\,b<a\,]$. The circuit of \Cref{fig:uodd-select} uses an offset register $d$ of $n$ qubits, the carry and the borrow, $n+2$ ancilla in all: PREPARE applies $X$ to the lowest qubit of $d$ and Hadamards to the others, SELECT is the subtraction with $a=d$ and $b$ the system register, and PREPARE$^\dagger$ follows.
+
+\begin{lemma}[The odd shifts by subtraction]
+\label{lem:uodd-select}
+The circuit block-encodes $\Uodd$ exactly at $\alpha=N/2$.
+\end{lemma}
+\begin{proof}
+PREPARE maps $\ket0$ to $\sqrt{2/N}\sum_{d\ \text{odd}}\ket d$. From $\ket p\ket0$, PREPARE and SELECT give $\sqrt{2/N}\sum_{d\ \text{odd}}\ket{(p-d)\bmod N}\ket d\ket{[\,p<d\,]}$. Projecting the borrow on zero keeps the terms with $d\le p$, for which $(p-d)\bmod N=p-d$; projecting the offset register on zero after PREPARE$^\dagger$ weights each by $\bra0\mathrm{PREPARE}^\dagger\ket d=\sqrt{2/N}$. The block's entry $(k,p)$ is therefore $\tfrac2N\,\#\{d\ \text{odd}:d=p-k\ge1\}=\tfrac2N[\,p>k,\ p-k\ \text{odd}\,]$.
+\end{proof}
+
+The terms that wrap around carry a borrow of one and vanish on post-selection, and SELECT is a permutation, so one PREPARE serves all $N/2$ terms. The subtractor costs $n$ MAJ and $n$ UMA gates, each two CNOTs and a Toffoli, and one CNOT: $16n+1$ CNOTs with a six-CNOT Toffoli, which is the transpiled count at every $n$ computed.
 
 \subsection{Proof of \texorpdfstring{\Cref{prop:standard-cost}}{the cost of the structured encoding}}
 \label{app:proof-standard-cost}
-% LAND: alpha multiplies under products: alpha(R_0) = 1, alpha(2 U_odd) = N,
-%   alpha(Lambda) = N - 1, so alpha_G = N(N - 1). Gate count O(n^2) and ancilla
-%   n + O(log n), with the Omega(n) floor from the N/2-term LCU. Products reuse
-%   ancilla with one failure flag per product (implementation issue I-03: until
-%   built, products allocate fresh ancilla -- say which the reported counts use).
+
+\begin{proof}[Proof of \Cref{prop:standard-cost}]
+\emph{Subnormalisation.} A product of block encodings is a block encoding of the product at the product of the subnormalisations, so $\alpha_\G=\alpha_{R_0}\,\alpha_{2\Uodd}\,\alpha_\Lambda=1\cdot N\cdot(N-1)$ by the two lemmas above and \Cref{lem:uodd-select} (a block encoding of $\Uodd$ at $N/2$ is one of $2\Uodd$ at $N$). Its ratio to $\|\G\|_2$ tends to $2j_{-3/4,1}$ by \Cref{thm:G-limit}, since $N(N-1)/N^2\to1$.
+
+\emph{Ancilla.} The encodings are composed as $R_0\cdot\bigl((2\Uodd)\cdot\Lambda\bigr)$, $\Lambda$ applied first, each product sharing one ancilla register between its factors and adding one flag that marks the right factor's failure branch. On the right factor's success branch its ancilla are back at zero, the state the left factor needs, and on its failure branch the flag is raised and the branch never reaches the post-selected output, so the product stays exact. The inner product shares $\max\bigl(n+2,\lceil\log_2(n+1)\rceil\bigr)=n+2$ qubits and adds a flag; the outer shares $\max(1,n+3)$ with $R_0$'s selector and adds a flag: $n+4$ ancilla in all. Of these, the $n-1$ qubits that carry the uniform superposition are forced by the $N/2$ terms of $\Uodd$'s combination, since an \gls{lcu} of $L$ distinct terms needs $\lceil\log_2L\rceil$ selector qubits.
+
+\emph{Gates.} $\Uodd$'s PREPARE and PREPARE$^\dagger$ are $2n$ one-qubit gates and its subtractor $O(n)$ gates. $\Lambda$'s PREPARE is a rotation tree on $\lceil\log_2(n+1)\rceil$ qubits, and its SELECT is $n$ gates $Z_j$ and the negative weights' phases, each controlled on the selector. $R_0$ is $2n$ CNOTs and one $n$-controlled $Z$, and the two flags are an $X$ controlled on $\Lambda$'s selector and one controlled on the inner product's $n+3$ ancilla. An $m$-controlled gate costs $O(m^2)$ CNOTs in an ancilla-free synthesis, so the $n$-controlled gates of $R_0$ and the flags give $O(n^2)$; with a linear-cost synthesis that borrows an idle qubit \cite{barenco1995elementary} they cost $O(n)$, and $\Lambda$'s SELECT, $O(n\log n)$, dominates.
+\end{proof}
+
+\begin{lemma}[The norm of the odd shifts]
+\label{lem:uodd-norm}
+$\|\Uodd\|_2=1/\bigl(2\sin\frac{\pi}{2N+2}\bigr)$, so $\alpha_{\Uodd}/\|\Uodd\|_2=N\sin\frac{\pi}{2N+2}$, which rises to $\pi/2$.
+\end{lemma}
+\begin{proof}
+Ordering rows and columns by parity, $\Uodd$ maps odd columns to even rows and even columns to odd rows, and its two blocks are the $M\times M$ upper triangle of ones with its diagonal, $M=N/2$, and the $(M-1)\times(M-1)$ one, padded with zeros. For the $m\times m$ triangle of ones $L$, $L^{-1}=I-S$ with $S$ the shift above the diagonal, and $(LL^{\top})^{-1}=(I-S^{\top})(I-S)$ is tridiagonal with $1,2,\dots,2$ on the diagonal and $-1$ beside it, whose eigenvalues are $4\sin^2\frac{(2i-1)\pi}{2(2m+1)}$, $i=1,\dots,m$. So $\|L\|_2=1/\bigl(2\sin\frac{\pi}{4m+2}\bigr)$, increasing in $m$, and $m=M$ gives the lemma.
+\end{proof}
+
+$R_0$ and $\Lambda$ are encoded at their norms, so of the limiting ratio $2j_{-3/4,1}$ the factor $\pi/2$ is $\Uodd$'s and the remaining $4j_{-3/4,1}/\pi\approx1.35$ is the product's: $\|R_0(2\Uodd)\Lambda\|_2<\|R_0\|_2\,\|2\Uodd\|_2\,\|\Lambda\|_2$, because $\Lambda$ is largest on the last columns while the leading singular vectors of $\Uodd$ are spread over all of them.
+
+\subsection{The norms of the derivative and its powers}
+\label{app:G-limits}
+
+\begin{theorem}[The norm of $\G$ in the limit]
+\label{thm:G-limit}
+$\|\G\|_2/N^2\to\|K\|=1/(2j_{-3/4,1})\approx0.4724$ as $N\to\infty$, where $(Kf)(s)=\int_s^1t\,f(t)\,dt$ on $L^2(0,1)$ and $j_{-3/4,1}$ is the first positive zero of the Bessel function $J_{-3/4}$.
+\end{theorem}
+\begin{proof}
+Order the rows and columns by parity. $\G$ maps odd columns to even rows and even columns to odd rows, so in that order it is $\bigl(\begin{smallmatrix}0&E\\O&0\end{smallmatrix}\bigr)$ and $\|\G\|_2=\max(\|E\|_2,\|O\|_2)$, with, for $M=N/2$ and $0\le i,j<M$,
+\begin{equation*}
+    E_{ij}=\frac{2(2j+1)}{\sqrt{c_{2i}}}\,[\,j\ge i\,], \qquad O_{ij}=4j\,[\,j>i\,]
+\end{equation*}
+(row $2i$, column $2j+1$ for $E$; row $2i+1$, column $2j$ for $O$; $c_0=2$, $c_{k\ge1}=1$). An $M\times M$ matrix with entries $\tfrac1M\kappa(i,j)$ has the operator norm of the integral operator on $L^2(0,1)$ with the step kernel $\kappa(\lfloor Ms\rfloor,\lfloor Mt\rfloor)$, since $J:v\mapsto\sqrt M\sum_iv_i\mathbf 1_{[i/M,(i+1)/M)}$ is an isometry onto the step functions. Here $E/N^2=\tfrac1M\kappa_E$ with $\kappa_E(i,j)=\tfrac{2j+1}{2M}[\,j\ge i\,]/\sqrt{c_{2i}}$, and $O/N^2=\tfrac1M\kappa_O$ with $\kappa_O(i,j)=\tfrac jM[\,j>i\,]$. Both step kernels are bounded and converge to $k(s,t)=t\,[\,t\ge s\,]$ except on a set of measure $O(1/M)$ (the diagonal cells and the first row), and to within $O(1/M)$ elsewhere, so they converge in $L^2([0,1]^2)$. The Hilbert--Schmidt norm bounds the operator norm, so $\|E\|_2/N^2$ and $\|O\|_2/N^2$ both converge to $\|K\|$.
+
+$K$ is Hilbert--Schmidt, so $\|K\|^2$ is the largest eigenvalue $\lambda$ of $K^*K$, with $(K^*g)(t)=t\int_0^tg(s)\,ds$. Let $\lambda f=K^*Kf$ and $h(t)=\int_0^t(Kf)(s)\,ds$. Then $\lambda f=t\,h$, $h(0)=0$, $h'(1)=(Kf)(1)=0$ and $h''=(Kf)'=-tf=-t^2h/\lambda$. With $a=\lambda^{-1/2}$, $h''+a^2t^2h=0$, whose solutions are $\sqrt t\,J_{\pm1/4}(at^2/2)$, and $h(0)=0$ selects $J_{1/4}$. With $z=at^2/2$, the identity $zJ_\nu'(z)=zJ_{\nu-1}(z)-\nu J_\nu(z)$ at $\nu=\tfrac14$ gives
+\begin{equation*}
+    h'(t)=\frac{1}{2\sqrt t}\bigl(J_{1/4}(z)+4zJ_{1/4}'(z)\bigr)=\frac{2z}{\sqrt t}\,J_{-3/4}(z),
+\end{equation*}
+so $h'(1)=0$ exactly when $J_{-3/4}(a/2)=0$. The eigenvalues are $\lambda=1/a^2$ with $a/2$ the positive zeros of $J_{-3/4}$, the largest at the first, and $\|K\|=1/(2j_{-3/4,1})$.
+\end{proof}
+
+\begin{theorem}[The powers of $\G$]
+\label{thm:Gk-limit}
+For every $k\ge1$, $\|\G^k\|_2/N^{2k}\to\|K^k\|>0$.
+\end{theorem}
+\begin{proof}
+In the parity ordering $\G^k$ is block diagonal or block anti-diagonal, with blocks that are alternating products of $k$ factors $E$ and $O$. Under the isometry $J$ of the previous proof, with $J^*J=I$, each block of $\G^k/N^{2k}$ is unitarily equivalent to a product of $k$ operators that converge in norm to $K$, and so converges to $K^k$. $K$ is injective, since $\int_s^1tf(t)\,dt=0$ for all $s$ forces $f=0$, so $K^k\ne0$.
+\end{proof}
+
+\begin{corollary}[The standard form's norm]
+\label{cor:std-norm}
+For an equation $\sum_{j\le k}a_jf^{(j)}=r$ of order $k$ with constant coefficients and $a_k\ne0$, $\|R_{\mathrm{std}}\|_2=|a_k|\,\|K^k\|\,N^{2k}(1+o(1))=\Theta(N^{2k})$ and $\|\Hstd\|=\Theta(N^{4k})$.
+\end{corollary}
+\begin{proof}
+The equation block $\sum_ja_j\G^j$ has norm $|a_k|\,\|K^k\|\,N^{2k}(1+o(1))$ by \Cref{thm:Gk-limit}, its lower orders being $O(N^{2j})$ with $j<k$. A source block $\M_r\Dzero(x_s)$ is $O(\sqrt N)$, and a constraint row $\Brow(x)\G^j$ is rank one with norm $\sqrt N\|\tau(x)^{\top}\G^j\|\le\sqrt{2N}\,\|\G\|_2^{\,j}=O(N^{2j+1/2})$ by \Cref{prop:tau-norm}, with $j\le k-1$, so every constraint row is $O(N^{2k-3/2})$. Since $\|R\|_2^2=\|A^\dagger A+\sum_iC_i^\dagger C_i\|$ lies between $\|A\|^2$ and $\|A\|^2+\sum_i\|C_i\|^2$, the rows do not move the leading term.
+\end{proof}
+
+The same limits fix the looseness of a power encoded as a product: $\alpha_{\G^k}=\alpha_\G^k=(N(N-1))^k$, so $\alpha_{\G^k}/\|\G^k\|_2\to1/\|K^k\|$, a constant for each $k$, equal to $2j_{-3/4,1}$ at $k=1$. For R2a, whose equation block is $\G^2$ to leading order, this is the constant towards which the measured $\alpha_R/\|R_{\mathrm{std}}\|_2$ of \Cref{sec:standard-hamiltonian} levels off; the theorem does not by itself bound the whole residual's ratio.
 
 \subsection{Subnormalisation across \texorpdfstring{$n$}{n}}
 \label{app:alpha-G}
-% The ratios below are the planning probe's (Planning.md App. A-4; the
-%   factorisation's error is <= 2.3e-13 throughout); regenerate from results-v1.
+% Values from the derivative/n<n> keys (exact classical computation).
 
 \begin{table}[htbp]
     \centering
-    \caption{Subnormalisation of the structured and published encodings of $\G$, relative to $\|\G\|_2$.}
+    \caption{\textbf{The structured encoding rises to $2j_{-3/4,1}\approx2.117$ times the norm; the paper's prefactor grows as $j_{-3/4,1}N^3$.} Subnormalisation of the structured encoding (\Cref{prop:standard-cost}) and the paper's prefactor (\Cref{eq:pihm-published-prefactor}) of $\G$, relative to $\|\G\|_2$, for $n=2$ to $10$. Exact classical computation.}
     \label{tab:alpha-G-full}
     \small
     \begin{tabular}{@{}r r l l@{}}
         \toprule
-        $n$ & $\|\G\|_2$ & Structured & Published \\
+        $n$ & $\|\G\|_2$ & Structured & The paper's \\
         \midrule
         2 & \res[3,fixed]{derivative/n2}{norm} & \res[4]{derivative/n2}{structured_ratio} & \res[3]{derivative/n2}{published_ratio} \\
         3 & \res[3,fixed]{derivative/n3}{norm} & \res[4]{derivative/n3}{structured_ratio} & \res[3]{derivative/n3}{published_ratio} \\

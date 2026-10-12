@@ -1,6 +1,6 @@
 % =============================================================================
-% Chapter 11  Conclusions and Future Work  (11_conclusions.tex)  --  2.5 pp  --  rubric:
-% Conclusions and Topics for Further Investigation /10.   Plan: ThesisPlanning.md §5.11.
+% Chapter 10  Conclusions and Future Work  (10_conclusions.tex)  --  2.5 pp  --  rubric:
+% Conclusions and Topics for Further Investigation /10.   Plan: ThesisPlanning.md §5.10.
 %
 % CRITERION   "Detailed, comprehensive and insightful conclusions AND significant
 %             suggestions for further investigation" (>= 9.0). Both halves are
@@ -20,17 +20,22 @@
 \subsection{Future Work}
 \label{sec:future-work}
 % ~1.25 pp. 4-5 items, each with a MOTIVATION and a CONCRETE FIRST STEP
-%   (ThesisPlanning.md §5.11; choose four or five):
+%   (ThesisPlanning.md §5.10; choose four or five):
 %   1. On-circuit gap or edge estimation, removing the known-edge assumption.
 %   2. A rescaling (or reformulation) that keeps the gap on two axes, the
 %      descriptor's open problem.
 %   3. A gate-level DCT, so the Chebyshev fold is fully built.
 %   4. Hardware validation of R1 at n = 2 (11 qubits; d = 89).
-%   5. NARROWED (v2.1, §5.11 item 5): the research proposal's remaining aims
+%   5. NARROWED (v2.1, §5.10 item 5): the research proposal's remaining aims
 %      (app:proposal) -- native complex encodings (a phase on the collapse row,
 %      a complex state loader) so that complex-valued fields are prepared
 %      without realification, the tensor layout's complex coupling taken through
-%      preparation (§6.5); and data-informed constraint rows. (Not "complex-valued
+%      preparation (§6.3); and data-informed constraint rows. CONCRETE FIRST STEP:
+%      lift the real-data restrictions (the problem specification's real typing of
+%      coefficients and data; the term IR, source, datum-slice and collapse-row
+%      loaders), then run one complex problem. The classical, GQSP and
+%      multiplication components already carry complex128, so "little modification",
+%      UNTESTED; never "natively, with no modification". (Not "complex-valued
 %      and non-Hermitian equations" at large: a complex R still gives a Hermitian
 %      H = R^dagger R, a formulation statement and not a run.)
 %   6. (Candidate) the paper's interferometric readout at scale, with shot-count
@@ -39,6 +44,6 @@
 % CHECKLIST (marker)
 %   1. Does every sec:contributions item get a verdict here?
 %   2. Are 3-5 future directions given, each with a motivation and a first step?
-%   3. Is anything claimed here that Chapter 9 did not evidence?
+%   3. Is anything claimed here that Chapter 8 did not evidence?
 %   4. Is the transferable principle stated?
 %   5. Is the chapter free of new results and new citations?
