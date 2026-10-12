@@ -154,6 +154,47 @@ the untruncated filter holds every excited state's amplitude to at most $\vareps
 \end{equation*}
 wherever the denominator is positive. The tail is absolute while the ground state's filtered value is $f(\sigma_0)=\varepsilon^{\sigma_0^2/\Delta}$ under the time rule, so where the residual has no near-kernel the tail can reach it and the bound certifies nothing. With a trusted kernel, $\sigma_1/\sigma_0\ge20$, $\sigma_0^2/\Delta<1/399$ and $f(\sigma_0)>\varepsilon^{1/399}$.
 
+\paragraph{Comparing the two filters at like error.}
+\label{app:filter-study}
+% Added 2026-10-12 for sec:results-faithful's tab:filter-study; definitions from pihm
+%   docs/15_filters.md ("Like error") and pihm.qsp.filter_comparison.
+A degree means something only at a stated error, so the filter study of \Cref{sec:results-faithful} holds both filters to the same one, at three strengths. \emph{Equal suppression} $\eta$ bounds the excited interval relative to the ground state, $\sup_{x\in[x_1,1]}|P(x)|/|P(x_0)|\le\eta$; it bounds every initial state's infidelity by $\eta^2(1-\gamma^2)/\gamma^2$, depends only on $x_0$ and $x_1$, and is the strength at which the minimax filter is optimal (\Cref{prop:minimax-optimal}). \emph{Equal certified infidelity} $\varepsilon$ is the same bound at the problem's own overlap, $\eta=\gamma\sqrt{\varepsilon/(1-\gamma^2)}$. \emph{Equal measured infidelity} $\varepsilon$ is reached on the problem's own spectrum and initial state, and a degree counts only if every larger degree up to the certified one also reaches $\varepsilon$, so that neither filter's oscillation lands on $\varepsilon$ by coincidence. Imaginary time's $\beta$ is free: each of its degrees is the least over $\beta$, found by a grid search refined about its best point, and so an upper bound on the true least to the refinement's spacing. Both filters are anchored at the spectrum's edge with unit weight (\Cref{prop:filter-normalisation}), so \gls{gqsp} realises either at the same rescaling, and a filter whose success probability falls below $10^{-12}$ is not counted.
+
+On synthetic spectra with the ground state at the edge, gaps from $10^{-8}$ to $10^{-1}$ on the scale of $H'$ and suppressions from $10^{-2}$ to $10^{-10}$, imaginary time needs $\prov{1.67}$--$\prov{1.92}$ times the minimax filter's degree at equal suppression, varying with the suppression and hardly with the gap; above the edge the ratio grows, since imaginary time's value on the ground state then falls with its time. \Cref{tab:filter-study} gives the study on the problems whose references both forms trust. At equal certified infidelity both filters' degrees come from the same worst-case bound, so the ratio is the equal-suppression ratio at the problem's own $\gamma$; every trusted reference has its ground state at the edge, and the ratio lies within the synthetic range in both forms.
+% REVISE: 1.67--1.92 is the synthetic sweep's (pihm docs/15_filters.md §1), not a record; derived
+%   key wanted (plan §2.2). It does not change with the resolution: on R1 in the descriptor it is $\res{filters/R1/descriptor/n2}{e6_qite_worst}$ / $\res{filters/R1/descriptor/n2}{e6_minimax_certified}$ at $n=2$ and $\res{filters/R1/descriptor/n8}{e6_qite_worst}$ / $\res{filters/R1/descriptor/n8}{e6_minimax_certified}$ at $n=8$, so the filter changes the degree's constant and not its growth with $N$. At equal measured infidelity the ratio is smaller, because imaginary time suppresses each excited state more the higher it lies, while the bound holds every one at the equiripple level. At $\varepsilon=10^{-4}$ imaginary time needs fewer degrees on R1 in the standard form and on R3a and R5a in the descriptor, and the same on R1 in the descriptor; at $10^{-6}$ the minimax filter needs fewer on every case.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{The minimax edge filter needs fewer degrees than imaginary time at equal error, except at loose $\varepsilon$ on some problems.} Filter degree, imaginary time (QITE) / minimax, at three strengths of like error: equal certified infidelity at $\varepsilon=10^{-6}$ (both degrees from the worst-case bound at the problem's own $\gamma$), and equal measured infidelity on the problem's own spectrum and geometric initial state at $\varepsilon=10^{-6}$ and $10^{-4}$. $\gamma^2$ is that state's overlap. Problems whose references both forms trust, at one resolution ($n$ per axis on R5a). Exact emulation (T2).}
+    \label{tab:filter-study}
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}l l r r r r@{}}
+        \toprule
+        Problem & Form & $\gamma^2$ & Certified, $10^{-6}$ & Measured, $10^{-6}$ & Measured, $10^{-4}$ \\
+        \midrule
+        R1, $n=4$ & standard & $\res[3]{filters/R1/standard/n4}{gamma2}$ & $\res{filters/R1/standard/n4}{e6_qite_worst}$ / $\res{filters/R1/standard/n4}{e6_minimax_certified}$ & $\res{filters/R1/standard/n4}{e6_qite_degree}$ / $\res{filters/R1/standard/n4}{e6_minimax_degree}$ & $\res{filters/R1/standard/n4}{e4_qite_degree}$ / $\res{filters/R1/standard/n4}{e4_minimax_degree}$ \\
+         & descriptor & $\res[3]{filters/R1/descriptor/n4}{gamma2}$ & $\res{filters/R1/descriptor/n4}{e6_qite_worst}$ / $\res{filters/R1/descriptor/n4}{e6_minimax_certified}$ & $\res{filters/R1/descriptor/n4}{e6_qite_degree}$ / $\res{filters/R1/descriptor/n4}{e6_minimax_degree}$ & $\res{filters/R1/descriptor/n4}{e4_qite_degree}$ / $\res{filters/R1/descriptor/n4}{e4_minimax_degree}$ \\
+        R2a, $n=3$ & standard & $\res[3]{filters/R2a/standard/n3}{gamma2}$ & $\res{filters/R2a/standard/n3}{e6_qite_worst}$ / $\res{filters/R2a/standard/n3}{e6_minimax_certified}$ & $\res{filters/R2a/standard/n3}{e6_qite_degree}$ / $\res{filters/R2a/standard/n3}{e6_minimax_degree}$ & $\res{filters/R2a/standard/n3}{e4_qite_degree}$ / $\res{filters/R2a/standard/n3}{e4_minimax_degree}$ \\
+         & descriptor & $\res[3]{filters/R2a/descriptor/n3}{gamma2}$ & $\res{filters/R2a/descriptor/n3}{e6_qite_worst}$ / $\res{filters/R2a/descriptor/n3}{e6_minimax_certified}$ & $\res{filters/R2a/descriptor/n3}{e6_qite_degree}$ / $\res{filters/R2a/descriptor/n3}{e6_minimax_degree}$ & $\res{filters/R2a/descriptor/n3}{e4_qite_degree}$ / $\res{filters/R2a/descriptor/n3}{e4_minimax_degree}$ \\
+        R3a, $n=3$ & standard & $\res[3]{filters/R3a/standard/n3}{gamma2}$ & $\res{filters/R3a/standard/n3}{e6_qite_worst}$ / $\res{filters/R3a/standard/n3}{e6_minimax_certified}$ & $\res{filters/R3a/standard/n3}{e6_qite_degree}$ / $\res{filters/R3a/standard/n3}{e6_minimax_degree}$ & $\res{filters/R3a/standard/n3}{e4_qite_degree}$ / $\res{filters/R3a/standard/n3}{e4_minimax_degree}$ \\
+         & descriptor & $\res[2,sci]{filters/R3a/descriptor/n3}{gamma2}$ & $\res{filters/R3a/descriptor/n3}{e6_qite_worst}$ / $\res{filters/R3a/descriptor/n3}{e6_minimax_certified}$ & $\res{filters/R3a/descriptor/n3}{e6_qite_degree}$ / $\res{filters/R3a/descriptor/n3}{e6_minimax_degree}$ & $\res{filters/R3a/descriptor/n3}{e4_qite_degree}$ / $\res{filters/R3a/descriptor/n3}{e4_minimax_degree}$ \\
+        R5a, $n=3$ & standard & $\res[3]{filters/R5a/standard/n3x3}{gamma2}$ & $\res{filters/R5a/standard/n3x3}{e6_qite_worst}$ / $\res{filters/R5a/standard/n3x3}{e6_minimax_certified}$ & $\res{filters/R5a/standard/n3x3}{e6_qite_degree}$ / $\res{filters/R5a/standard/n3x3}{e6_minimax_degree}$ & $\res{filters/R5a/standard/n3x3}{e4_qite_degree}$ / $\res{filters/R5a/standard/n3x3}{e4_minimax_degree}$ \\
+         & descriptor & $\res[3]{filters/R5a/descriptor/n3x3}{gamma2}$ & $\res{filters/R5a/descriptor/n3x3}{e6_qite_worst}$ / $\res{filters/R5a/descriptor/n3x3}{e6_minimax_certified}$ & $\res{filters/R5a/descriptor/n3x3}{e6_qite_degree}$ / $\res{filters/R5a/descriptor/n3x3}{e6_minimax_degree}$ & $\res{filters/R5a/descriptor/n3x3}{e4_qite_degree}$ / $\res{filters/R5a/descriptor/n3x3}{e4_minimax_degree}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+% NOTE (2026-10-12 review of Ch. 8): the certified column quotes e6_qite_worst, QITE's least degree
+%   from the same worst-case bound as e6_minimax_certified (pihm.qsp.filter_comparison,
+%   StateComparison). The earlier draft quoted e6_qite_certified, QITE's degree certified on the
+%   actual spectrum and state, a different strength, which put R3a and R5a (descriptor) below
+%   the synthetic range.
+
+\paragraph{An underestimated edge.}
+\label{app:edge-study}
+The degree is set a priori from the spectral edge (\Cref{sec:pipeline-filter}), and a study on R2a at $n=3$ in the standard form measures what an underestimate of it costs, with the imaginary-time filter, whose time the gap sets directly (\Cref{eq:qite-parameters}). At the true gap the degree is $\res{protocol/R2a/standard/n3}{gap_degree}$ and the infidelity $\res[2,sci]{protocol/R2a/standard/n3}{gap_infidelity}$. With the gap halved the degree is $\res{protocol/R2a/standard/n3}{gap_half_degree}$, and with it divided by ten $\res{protocol/R2a/standard/n3}{gap_tenth_degree}$: the factors $\sqrt2$ and $\sqrt{10}$ of an inverse square root, with every preparation still within $\varepsilon$. The paper's own time rule, run in the same study, gives degree $\res{protocol/R2a/standard/n3}{paper_degree}$ and infidelity $\res[2]{protocol/R2a/standard/n3}{paper_infidelity}$: its time is shorter than the gap rule's and its state does not reach $\varepsilon=10^{-6}$. The time rule is examined with the rest of the reproduction in \Cref{app:reproduction}. Exact emulation (T2).
+
 \subsection{Unit Weight of Both Filters}
 \label{app:proof-filter-normalisation}
 

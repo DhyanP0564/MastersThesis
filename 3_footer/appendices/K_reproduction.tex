@@ -193,6 +193,33 @@ built from PREPARE and SELECT subroutines over the unitary decomposition of $\ti
     \end{tabular}
 \end{table}
 
+\subsection{The imaginary-time filter's circuit simulations}
+\label{app:repro-t1}
+% Cited from sec:results-faithful (C-08's scope, plan §2.1). Drafted 2026-10-12 from the
+%   results-v1 records. REVISE: the count of passing keys (43 of 46; 85 of 91 records, each
+%   initial-state candidate counted) is the results guide's, not a key; add a derived key and
+%   quote it.
+The reproduction runs the paper's imaginary-time filter in the standard form, by circuit simulation as well as by exact emulation, at $n=2$ and $3$, the problems as printed and as run. Each circuit simulation is compared with the emulation before normalising, against the bar of $10^{-10}$ that the minimax records all meet (\Cref{sec:results-faithful}). All but the three of \Cref{tab:app-qite-t1} meet it too. The three are among the highest degrees run, of order $10^5$, where the statevector's rounding accumulates over the controlled walks, but the degree alone does not set the difference: on R4a at $n=3$ a record at a comparable degree passes just under the bar, and on the wave equation R5c records at higher degrees pass by more than an order of magnitude. The difference therefore depends on the problem's spectrum and filter as well as on the degree. The bar is kept at every degree, so these are reported as misses and not re-judged. They concern the circuit simulator's arithmetic, not the filter: the emulation is exact for the circuit as built (\Cref{sec:pipeline-verification}), and the minimax filter, whose degrees are smaller at equal suppression, meets the bar on every record.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{Three imaginary-time circuit simulations miss the $10^{-10}$ bar, at degrees of order $10^5$, while others at comparable or higher degrees pass.} The circuit simulation (T1) against the exact emulation (T2), before normalising, from a unit input; below the rule, passing records for comparison: the largest passing difference (R4a) and the highest degree run (R5c). R6b is the doubled space, whose filter output is a projection (\Cref{sec:doubled-space}).}
+    \label{tab:app-qite-t1}
+    \small
+    \begin{tabular}{@{}l r r r r@{}}
+        \toprule
+        Problem & $n$ & Qubits & Degree & T1 against T2 \\
+        \midrule
+        R6b & 2 & \res{stateprep/R6b/standard/n2/T1}{n_qubits} & \res{stateprep/R6b/standard/n2/T1}{degree} & \res[2,sci]{stateprep/R6b/standard/n2/T1}{filtered_agreement} \\
+        R6b as printed & 2 & \res{stateprep/R6b/faithful/standard/n2/T1}{n_qubits} & \res{stateprep/R6b/faithful/standard/n2/T1}{degree} & \res[2,sci]{stateprep/R6b/faithful/standard/n2/T1}{filtered_agreement} \\
+        R4a as printed & 3 & \res{stateprep/R4a/faithful/standard/n3/T1}{n_qubits} & \res{stateprep/R4a/faithful/standard/n3/T1}{degree} & \res[2,sci]{stateprep/R4a/faithful/standard/n3/T1}{filtered_agreement} \\
+        \addlinespace
+        R4a (passes) & 3 & \res{stateprep/R4a/standard/n3/T1}{n_qubits} & \res{stateprep/R4a/standard/n3/T1}{degree} & \res[2,sci]{stateprep/R4a/standard/n3/T1}{filtered_agreement} \\
+        R5c (passes) & 3 & \res{stateprep/R5c/standard/n3x3/T1}{n_qubits} & \res{stateprep/R5c/standard/n3x3/T1}{degree} & \res[2,sci]{stateprep/R5c/standard/n3x3/T1}{filtered_agreement} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 % =============================================================================
 % MOVED FROM CHAPTER 4 (2026-10-09; plan §6, K; T-36). First-pass prose of the claims audit
 % (positive definiteness, uniqueness and the PDE sets, the time rule's bound, the readout

@@ -2,7 +2,7 @@
 
 ## Turning the `pihm` rebuild into a submittable (and publishable) Master's thesis
 
-*Version 3.2, 2026-10-12 (v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
+*Version 3.3, 2026-10-12 (v3.3: Chapter 8 drafted against the results-v1 records; its deviations from §5.8 and the corrections they forced are marked "v3.3" in place. v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
 prior art; Chapter 4 states the construction once, in the form this thesis runs (the standard
 form), and answers the first question; the reproduction and audit of the paper live in Appendix K.
 v3.1 merges v3.0's Chapters 6 (systems and complex-valued fields) and 7 (nonlinearity) into one
@@ -88,12 +88,13 @@ costs. This thesis answers both, in seven steps (steps 6 and 7 are one chapter, 
    one native complex encoding, the tensor layout's coupling, is built and verified but not used for
    preparation.
 7. **Nonlinearity.** The paper's doubled space encodes exactly but projects: its kernel is
-   exponentially degenerate. The Carleman lift prepares, in both forms. On Burgers and Navier–Stokes
-   its convergence follows a/ν, not the worst-case ratio ρ, and past the boundary the kernel stays
-   unique and trusted while the lift diverges. The descriptor's time axis lowers the degree in every
-   Navier–Stokes pair, and the thesis culminates in 2-D incompressible Navier–Stokes: the
-   Taylor–Green vortex and a vortex pair on 12–80 modes, and a tensor-layout coupling of 2K − 1
-   terms to 316 modes.
+   exponentially degenerate. The Carleman lift prepares, in both forms. On Burgers its convergence
+   follows a/ν, not the worst-case ratio ρ; on Navier–Stokes it also grows with the modes, yet
+   converges at ρ far above one (v3.3: checked against the results-v1 records); on both, past the
+   boundary, the kernel stays unique and trusted while the lift diverges. The descriptor's time axis
+   lowers the degree in every Navier–Stokes pair, and the thesis culminates in 2-D incompressible
+   Navier–Stokes: the Taylor–Green vortex and a vortex pair prepared on 12–48 modes and built to 80,
+   and a tensor-layout coupling of 2K − 1 terms to 316 modes.
 
 Neither form is poly-log, every result is a classical computation, and nothing ran on hardware.
 
@@ -132,7 +133,7 @@ Columns: **S** = scaffolded to this plan, **D** = drafted, **N** = numbers curre
 | 5 Descriptor, `5_descriptor.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | reviewed 2026-10-12 and fixes applied (pointers retargeted to Ch. 4; App. G drafted in full). The gates-per-query Standing Fact is scoped to constant coefficients (2026-10-12). Open: App. G's `\prov` probe tables; about 13 pp against 9 |
 | 6 Beyond a single real field, `6_extensions.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | first-pass prose to plan §5.6 v3.2 (2026-10-12), checked against companions, reports 16–17 and the code; apparatus moved to App. H, now drafted in full; ≈ 7.2 pp against 6. Open: two derived keys (R7's gap ratio; the fold norms) |
 | 7 Pipeline, `7_pipeline.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | first-pass prose to plan §5.7 (2026-10-12); reviewed 2026-10-12 and fixes applied: the fairness declaration corrected (as built favours the descriptor; also Ch. 4 §4.4, this plan, STYLE_GUIDE, CLAUDE.md); reflection credited to qubitisation/QSVT; trim candidates executed (F2 dropped; `tab:run-inputs` → App. J; iterative reference, T1 cost model and `tab:acceptance` → App. I; `eq:qite-filter` and `eq:readout-identity` → App. F); verification and filter-study numbers → §8.1's NOTE. Open: plan §2.2 TODO |
-| 8 Numerical Study, `8_results.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | scaffold aligned 2026-10-12: the "Reproducing Wu et al." section removed (Table T6 and Figure F6 moved to Appendix K with their labels); §8.1's validation paragraph added to its LAND; T7's stale cells corrected |
+| 8 Numerical Study, `8_results.tex` | ☑ | ◐ | ◐ | ☐ | ☐ | first pass 2026-10-12 against the results-v1 records (every key resolves; rerun the exporter `--used-only` to refresh the committed `numbers.tex`); deviations from §5.8 marked v3.3 (F10 → `tab:growth`; R10 scope 12–48 prepared, 80 built; no T1 on R10). About 13.5 pp against 8.5 with placeholder figures. Figures F7–F9, F11–F14 are placeholders (notebooks not exported). Open: the `\prov` items of plan §2.1 |
 | 9 Discussion, `9_discussion.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | scaffold aligned 2026-10-12: "What the Reproduction Says About the Published Method" removed. Open: T9 gains two rows |
 | 10 Conclusions, `10_conclusions.tex` | ☑ | ☐ | ☐ | ☐ | ☐ | future-work item 5 narrowed (plan §5.10) |
 | Appendices A–M | ◐ | ☐ | ☐ | ☐ | ☐ | B, G and H drafted, C and D in part; **K to be scaffolded as the reproduction and audit** (plan §6); C, D, I absorb the items of plan §6 |
@@ -243,8 +244,12 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
   `\prov`; a Pauli-word count for the matchings (App. H states it without a number); the notation
   table's `dim w` entry uses K for the block count (left as is at the author's instruction).
 - **Chapter 8.** *Resolved 2026-10-12:* the Burgers caption (converges at a/ν = 3, diverges at 10),
-  the trust threshold in `tab:eta-reproduction`'s caption (20, also in App. K's header), and T7's
-  gap and degree rows, now `\res` (minimax, n = 8). *Open:* T7's other rows are still `\prov`.
+  the trust threshold in `tab:eta-reproduction`'s caption (20, also in App. K's header); T7 now
+  `\res` in every numeric cell (first pass, 2026-10-12). *Open (`\prov`, derived keys wanted):* the
+  B-17 range 1.67–1.92 (§8.1); ρ for R9 (1.86, 16.1) and R10c-M48 (≈ 24) (§8.4–8.5); R7's gap ratio
+  (≈ 2.1, shared with Ch. 6); the R10 truncation's error against DNS (§8.5); the counts behind
+  "every" in §8.1 (verified circuits, minimax T1 keys, trusted T2 records) and in App. K's
+  `app:repro-t1` (43 of 46 QITE keys).
 - **The factorisation's error 3.4e-13 (§4.5.2)** is a one-off measurement, typed as `\prov`;
   replace with a derived key (the largest entrywise error of 𝔾 = R₀(2U_odd)Λ against 𝔾, n ≤ 10) or
   delete the number.
@@ -596,7 +601,7 @@ enforced in Review Mode only (`CLAUDE.md`).
 % 2_body/8_results.tex  (~8.5 pp)
 \section{Numerical Study}                                     % sec:results
   \subsection{The Pipeline Is Faithful}                        % sec:results-faithful; S1 validation, S3: F7, F8
-  \subsection{Where the Cost Lies}                             % sec:results-scaling; Q(i),(ii): F9, T7, F10
+  \subsection{Where the Cost Lies}                             % sec:results-scaling; Q(i),(ii): F9, T7, tab:growth
   \subsection{The Descriptor's Gap and Its Rescaling}          % sec:results-gap; F11, F12
   \subsection{Systems and Nonlinear Problems}                  % sec:results-nonlinear; F13
   \subsection{Case Study: Two-Dimensional Navier--Stokes}      % sec:results-ns; F14
@@ -1598,10 +1603,12 @@ sentence; the full per-problem results → Appendix J; the reproduction of the p
    paper's, the structured and the descriptor encodings, with fitted exponents; T2 points where
    measured and T3 beyond, visibly distinguished. **Table T7** (nb 21, 40): the paper's | structured
    | descriptor, across ‖H‖ scaling, gap, α/‖·‖, cx per query, ancilla, exactness, degree at n = 8
-   as built and at α = ‖R‖, and the degree's exponent. **Figure F10** (nb 41, optional): case by
-   case, the descriptor's cost over the standard form's, as built and at the ideal bound, with the
-   reversals marked. Interpretation: the encoder's cost (the paper's to structured) and the
-   Hamiltonian's cost (structured to descriptor) as two gaps on one plot.
+   as built and at α = ‖R‖, and the degree's exponent. **Table `tab:growth`** (v3.3, replacing the
+   optional Figure F10): the degree's growth exponent on every linear panel and R7, both forms, as
+   built and at the ideal bound, grouped by the classes of `tab:descriptor-regimes`; the reversals
+   in prose (R3 at the ideal bound, and why R4a, whose coefficient vanishes at one end only, does
+   not reverse; the heat panel → §8.3). Interpretation: the encoder's cost (the paper's to
+   structured) and the Hamiltonian's cost (structured to descriptor) as two gaps on one plot.
 3. **§8.3 The descriptor's gap and its rescaling (1.5 p; the challenge; `sec:results-gap`).**
    **Figure F11** (nb 42): the gap and γ² unscaled against rescaled, every panel; the a priori rule
    against the best ζ on a grid; where it stops (two axes, the singular ‖H‖ growth). **Figure F12**
@@ -1620,12 +1627,16 @@ sentence; the full per-problem results → Appendix J; the reproduction of the p
    where a/5ν reaches one, is an extrapolation: say so): a negative finding with its analysis.
 5. **§8.5 Case study: two-dimensional Navier–Stokes (1.25 p; `sec:results-ns`).** **Figure F14**
    (nb 70): vorticity snapshots and the degree pairs. Taylor–Green validates F₁, the rows and the
-   time axis (the lift exact to rounding). The vortex pair at a/ν = 3, 10 and 30 on 12–80 modes: the
-   lift's convergence and the truncation against a direct simulation; every exact emulation within
-   ε; the descriptor's time axis lowers the degree in every pair, the ratio narrowing as the modes
-   grow (C-10). The tensor layout to 316 modes in 2K − 1 terms, a native complex encoding verified
-   but not prepared (§6.3), with its gates per query against the matchings (B-19). T1 is beyond the
-   simulation budget here, with its estimate quoted: said plainly.
+   time axis (the lift exact to rounding). The vortex pair at a/ν = 3, 10 and 30, prepared (T2, T3)
+   on 12–48 modes and built classically to 80 (v3.3 scope, checked at results-v1): the lift's
+   convergence against a/ν and M, and the truncation against a direct simulation; at a/ν = 30 the
+   lift diverges from 28 modes with its kernel trusted (a second instance of B-18's negative
+   finding), and the window T = 1/8 restores it on 12 modes; every exact emulation within ε; the
+   descriptor's time axis lowers the degree in every pair, the ratio narrowing as the modes grow
+   (C-10). The tensor layout to 316 modes in 2K − 1 terms, a native complex encoding verified but
+   not prepared (§6.3), with its gates per query against the matchings (B-19). No circuit simulation
+   was attempted on R10 (no estimate record exists): the narrowest prepared circuit, 27 qubits at
+   n_t = 4, is wider than any simulated (24). Said plainly.
 6. **§8.6 Summary of findings (0.5 p; `sec:results-summary`).** Six numbered findings, **at least
    two negative**, for example:
    1. the cost of the standard form is its Hamiltonian's;
@@ -1751,7 +1762,7 @@ guidelines' "laboratory handbook" role; keep it factual and short (3–4 pp).
 | F7 | verification accuracy against n | §8.1 | nb 20 | exact/probe/IR |
 | F8 | decoded field with its error budget | §8.1 | nb 32 | T1/T2 |
 | F9 | **headline:** looseness, relative gap and degree against N, three encodings | §8.2 | nb 40 | T2 + T3 |
-| F10 | the forms head to head, as built and at α = ‖R‖ (optional) | §8.2 | nb 41 | T3 |
+| F10 | (replaced by `tab:growth`, v3.3) | §8.2 | – | T3 |
 | F11 | the gap and γ², unscaled against rescaled | §8.3 | nb 42 | classical |
 | F12 | three representative problems, both forms | §8.3 | nb 43 | classical + T2/T3 |
 | F13 | the lift's convergence against a/ν (R9), with R8's surface | §8.4 | nb 61, 62 | classical + T2 |
@@ -1764,7 +1775,7 @@ guidelines' "laboratory handbook" role; keep it factual and short (3–4 pp).
 `tab:run-inputs`, the run options (App. J, named in §7.2); T4
 verification modes (§7.6; the acceptance criteria, `tab:acceptance`, in App. I); T5 descriptor block rows (§5.3); **T7 the headline
 three-encoding table (§8.2)**; T8 preparation versus projection (§6.8); T9 applicability map
-(§9.3); **T10 deviations from the printed method (§4.4, `tab:deviations`)**; `tab:alpha-G-short`
+(§9.3); **T10 deviations from the printed method (§4.4, `tab:deviations`)**; `tab:filter-study` (§8.1) and `tab:growth` (§8.2) (v3.3); `tab:alpha-G-short`
 (§4.5.3). Appendix tables include T6 (`tab:eta-reproduction`, App. K) and
 `tab:published-verdicts` (App. D). Ch. 6's one body table is T8; R7's numbers go to §8.4.
 
