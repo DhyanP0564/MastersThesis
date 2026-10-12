@@ -2,52 +2,51 @@
 % Appendix J  Benchmark Catalogue  --  cited from sec:pipeline-inputs and
 % sec:results-gap.   Plan: ThesisPlanning.md §6 (J).
 %
-% CONTENT  R0-R10: equations, references, constraints (paper-faithful and
-%          corrected), n-grids and parameters; a per-problem results table
-%          (both forms, tiers).
-% SOURCES  Planning.md §5.1-5.3; pihm/src/pihm/problems/ladder.py, fluids.py;
+% CONTENT  R1-R10 AS RUN (T-27: the label names the problem with the data of §4.3):
+%          equations, constraint rows, regular points, references, n-grids and
+%          parameters; a per-problem results table (both forms, tiers). The paper's
+%          printed rows are the reproduction's and live in Appendix K, not here.
+% SOURCES  pihm/docs/03_problems/01-10 (generated from pihm.problems.ladder; each
+%          problem as run and as printed); pihm/src/pihm/problems/ladder.py, fluids.py;
 %          results-v1.
-% The equation and reference columns below are fixed by the problems; every
-%   measured value is \prov until results-v1.
+% REWRITTEN 2026-10-12 (Verification Mode A1): the linear table used to list the
+%   printed invariant rows under the as-run labels; it now lists the rows as run.
 % =============================================================================
 
 \subsection{Linear problems}
 \label{app:catalogue-linear}
-% LAND: for each problem the n-grid run, both variants' constraints (the
-%   corrected variant: exact roots, Chebyshev sources, datum slices; the heat
-%   equation's datum at t = -1, ISSUE-008) and any rescaling (zeta = omega for
-%   R2c). R0 (operator identities, n = 1-10) is described in words only.
+% LAND: for each problem the n-grid run and any rescaling (zeta = 40 for R2c, from
+%   eq:zeta-rule). R0 (operator identities, n = 1-10) is described in words only.
 
 \begin{table}[htbp]
     \centering
-    \caption{The linear benchmark problems, R1--R5, with the paper's printed invariant constraints.}
+    \caption{\textbf{The linear benchmark problems, R1--R5, as run.} Each problem's equation, its constraint rows (\Cref{sec:standard-constraints}), its regular point $x_s$ and its reference solution. A point $x_z$ is the root of the reference (or of its derivative) nearest the value the paper prints, set up from the reference solution; every source enters by its Chebyshev coefficients; R3c and R3d are solved for $v=f/\sqrt{1-x^2}$; the heat equation's initial function is imposed at $t=-1$. The paper's printed rows, run only in the reproduction, are recorded in \Cref{app:reproduction}.}
     \label{tab:catalogue-linear}
-    \small
-    \begin{tabular}{@{}l p{0.33\linewidth} p{0.25\linewidth} p{0.28\linewidth}@{}}
+    \footnotesize
+    \begin{tabular}{@{}l p{0.26\linewidth} p{0.29\linewidth} l p{0.24\linewidth}@{}}
         \toprule
-        & Equation & Invariant (printed) & Reference \\
+        & Equation & Constraint rows & $x_s$ & Reference \\
         \midrule
-        R1  & $f' + 2f = 0$ & -- ($f(-1) = 1$ regular) & $e^{-2(x+1)}$ \\
-        R2a & $f'' + 4f' + 4f = 0$ & $f(-1) = 0$ & $\tfrac12(1+x)e^{-2x}$ \\
-        R2b & $f'' - 2f' - 3f = 0$ & $f(0) = 0$ & $\tfrac14\bigl(e^{3x} - e^{-x}\bigr)$ \\
-        R2c & $f'' + 5f' + 400f = 0$ & $f'(0) = 0$ & $e^{-5x/2}\bigl(\cos\omega x + \tfrac{\sqrt7}{21}\sin\omega x\bigr)$, $\omega = \tfrac{15\sqrt7}{2}$ \\
-        R3a & Legendre, $l = 4$ & $f'(0) = 0$ & $P_4$ \\
-        R3b & Legendre, $l = 5$ & $f(0) = 0$ & $P_5$ \\
-        R3c & associated Legendre, $l = 5$, $m = 1$ & $f'(0) = 0$ & $P_5^1$ \\
-        R3d & associated Legendre, $l = 6$, $m = 1$ & $f(0) = 0$ & $P_6^1$ \\
-        R4a & $(x-1)f'' - xf' + f = (x-1)^2$ & $f'(-0.2) = 0$ & closed form \\
-        R4b & $f'' + 4f' + 4f = e^{-2x}$, $\bar p = 3$ & $f(-0.73) = 0$ & closed form \\
-        R4c & $f'' - 5f' + 6f = xe^{2x}$, $\bar p = 5$ & $f(0.91) = 0$ & closed form \\
-        R4d & $f'' + 4f' + 20f = xe^{-2x}\sin 4x$, $\bar p = 7$ & $f'(-0.75) = 0$ & closed form \\
-        R5a & Laplace, $f_{xx} + f_{yy} = 0$ & $f(\pm1, y) = f(x, -1) = 0$ & $\cos\tfrac{\pi x}{2}\,\sinh\tfrac{\pi(y+1)}{2}/\sinh\pi$ \\
-        R5b & heat, $f_t = \tfrac{1}{25} f_{xx}$ & $f(t, \pm1) = 0$, $f_x(t, \pm\tfrac34) = 0$ & $e^{-4\pi^2 t/25}\sin 2\pi x$ \\
-        R5c & wave, $f_{tt} = 4 f_{xx}$ & $f(\tfrac18, x) = f(\tfrac78, x) = 0$, $f(t, \pm1) = 0$ & $\cos 4\pi t\,\sin 2\pi x$ \\
+        R1  & $f' + 2f = 0$ & -- (regular datum $f(-1)=1$) & $-1$ & $e^{-2(x+1)}$ \\
+        R2a & $f'' + 4f' + 4f = 0$ & $f(-1) = 0$ & $0$ & $\tfrac12(1+x)e^{-2x}$ \\
+        R2b & $f'' - 2f' - 3f = 0$ & $f(0) = 0$ & $\tfrac12$ & $\tfrac14\bigl(e^{3x} - e^{-x}\bigr)$ \\
+        R2c & $f'' + 5f' + 400f = 0$ & $f'(0) = 0$ & $0$ & $e^{-5x/2}\bigl(\cos\omega x + \tfrac{\sqrt7}{21}\sin\omega x\bigr)$, $\omega = \tfrac{15\sqrt7}{2}$ \\
+        R3a & $(1-x^2)f'' - 2xf' + 20f = 0$ & $f'(0) = 0$ & $1$ & $P_4$ \\
+        R3b & $(1-x^2)f'' - 2xf' + 30f = 0$ & $f(0) = 0$ & $1$ & $P_5$ \\
+        R3c & $(1-x^2)v'' - 4xv' + 28v = 0$ & $v'(0) = 0$ & $\tfrac12$ & $f = P_5^1 = -\sqrt{1-x^2}\,P_5'$ \\
+        R3d & $(1-x^2)v'' - 4xv' + 40v = 0$ & $v(0) = 0$ & $\tfrac12$ & $f = P_6^1 = -\sqrt{1-x^2}\,P_6'$ \\
+        R4a & $(x-1)f'' - xf' + f = (x-1)^2$ & $f'(x_z) = 0$, $x_z = -0.19598$ & $0$ & $\tfrac32e^{x} - \tfrac18x(8x+13) - 1$ \\
+        R4b & $f'' + 4f' + 4f = e^{-2x}$ & $f(x_z) = 0$, $x_z = 1-\sqrt3$ & $0$ & $\tfrac12e^{-2x}(x^2 - 2x - 2)$ \\
+        R4c & $f'' - 5f' + 6f = xe^{2x}$ & $f(x_z) = 0$, $x_z = 0.90542$ & $0$ & $\tfrac16\bigl(4e^{3x} - e^{2x}(3x^2 + 6x + 2)\bigr)$ \\
+        R4d & $f'' + 4f' + 20f = xe^{-2x}\sin 4x$ & $f'(x_z) = 0$, $x_z = -0.74681$ & $0$ & $\tfrac1{64}e^{-2x}\bigl((x-48)\sin4x - 4(x^2+16)\cos4x\bigr)$ \\
+        R5a & Laplace, $f_{xx} + f_{yy} = 0$ & $f(\pm1, y) = f(x, -1) = 0$; datum slice $f(x,1) = \sin\tfrac{\pi(x+1)}{2}$ & $(0, 1)$ & $\cos\tfrac{\pi x}{2}\,\sinh\tfrac{\pi(y+1)}{2}/\sinh\pi$ \\
+        R5b & heat, $f_t = \tfrac{1}{25} f_{xx}$ & $f(t, \pm1) = 0$; datum slice $f(-1,x) = e^{4\pi^2/25}\sin2\pi x$ & $(-1, \tfrac14)$ & $e^{-4\pi^2 t/25}\sin 2\pi x$ \\
+        R5c & wave, $f_{tt} = 4 f_{xx}$ & $f(t, \pm1) = 0$; datum slice $f(0,x) = \sin2\pi x$; $\partial_tf(0,x) = 0$ & $(0, \tfrac14)$ & $\cos 4\pi t\,\sin 2\pi x$ \\
         \bottomrule
     \end{tabular}
 \end{table}
-% R4a-R4d: write out each closed form (ladder.py holds them). The printed
-%   Laplace solution has cosh where cos is meant (A-05); the reference above is
-%   the corrected one.
+% The printed Laplace solution has cosh where cos is meant (A-05); the reference above
+%   satisfies the boundary conditions (§4.3).
 
 \subsection{Nonlinear and coupled problems}
 \label{app:catalogue-nonlinear}
@@ -62,12 +61,42 @@
         & Equation & Data & Reference \\
         \midrule
         R6a & $4f'' + 2f'^2 + f = 0$ (paper Eq.~29) & $f'(0) = 0$, $x_s = 0$ & $1 - x^2/8$ \\
-        R6b & $f'' - 2f^2 + x = 0$ (paper Eq.~34) & $f(0.02615) = 0$ & boundary-value solve to $10^{-12}$ \\
+        R6b & $f'' - 2f^2 + x = 0$ (paper Eq.~34) & $f(x_z) = 0$, $x_z = 0.026147$ (printed $0.02615$) & boundary-value solve to $10^{-12}$ \\
         R7  & $u' = v$, $v' = -\omega^2 u$, $\omega = \pi$ & $u(-1) = 0$, $v(-1) = \omega$ & $u = \sin\omega(x+1)$ \\
         R8  & $y' = -y + y^2$, $t \in [0, 3]$ & $y(0) = \tfrac12$ ($\rho = 0.5$) & $1/(1 + e^{t})$ \\
         R9  & viscous Burgers, periodic, $u_0 = a\sin x$ & sine modes $k \le M$, $M = 4, 8, 16$; $a/\nu = 0.03$--$10$ & Galerkin \gls{ivp}; Cole--Hopf (truncation); exact lift \\
         R10a & 2-D vorticity Navier--Stokes, $\omega_0 = 2\sin x\sin y$ & $J \equiv 0$ (Taylor--Green) & exact viscous decay \\
         R10b--d & 2-D vorticity Navier--Stokes, counter-rotating vortex pair & $\|w_0\| = a$, $a/\nu = 3, 10, 30$; active triads & Galerkin \gls{ivp}; \gls{dns} (truncation); exact lift \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Run Options}
+\label{app:run-options}
+% MOVED 2026-10-12 from sec:pipeline-inputs (review 2.1, trim candidate 3); the body names the
+%   options and points here.
+
+Every run is a problem of \Cref{tab:ladder} at a resolution, with the options of \Cref{tab:run-inputs}. The defaults are the configuration every comparison of \Cref{sec:results} uses; the alternatives are controls, labelled ablations, or the paper's choices kept to test the paper.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{The model's input options and the values used.} Every run is a problem of \Cref{tab:ladder} at a resolution with these options; the default is used unless a result states otherwise.}
+    \label{tab:run-inputs}
+    \small
+    \begin{tabular}{@{}p{0.2\linewidth} p{0.38\linewidth} p{0.34\linewidth}@{}}
+        \toprule
+        Option & Values & Default and use \\
+        \midrule
+        Resolution & $n$ qubits per Chebyshev axis, $N=2^n$; $n_t$ on a time axis; modes $M$ (R9, R10) & swept per problem (\Cref{tab:catalogue-linear,tab:catalogue-nonlinear}) \\
+        Form & standard; descriptor & both, compared \\
+        Descriptor layout & chain (order $\ge2$); mass form (first order) & by the equation's order; the chain on a first-order system as an ablation \\
+        Block rescaling & $\zeta$ a priori (\Cref{eq:zeta-rule}); none & $\zeta$; unscaled as an ablation \\
+        Encoding of $\G$ & structured, exact; the paper's & structured; the paper's in resource estimates only \\
+        Nonlinearity & doubled space; Carleman order $K$, symmetric or tensor layout & as the problem requires; the doubled space in the standard form only \\
+        Filter & minimax edge filter; imaginary time & minimax; imaginary time in the filter study and the reproduction \\
+        Target $\varepsilon$ & suppression of the excited spectrum relative to the ground state & $10^{-6}$; also $10^{-4}$ and $10^{-8}$ in the filter study \\
+        Initial state & geometric product state, $r=\pm\tfrac12$; uniform; random & geometric; uniform and random as controls \\
+        Tier & circuit simulation (T1); exact emulation (T2); resource estimate (T3) & every tier the run's size allows (\Cref{sec:pipeline-verification}) \\
         \bottomrule
     \end{tabular}
 \end{table}

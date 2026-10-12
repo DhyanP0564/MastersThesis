@@ -1,430 +1,383 @@
 % =============================================================================
 % Chapter 7  Preparing and Verifying the Ground State  (7_pipeline.tex)  --  5.5 pp
 % rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.7.
+% Plan: ThesisPlanning.md §5.7 (v3.2); supporting contribution S3.
 %
 % PURPOSE     Specify everything shared by both forms after the residual is
 %             built, and design the numerical experiment, so a reader could
 %             "create equivalent models". The forms differ only in the
 %             residual, so every difference in Ch. 8 is a difference of
-%             Hamiltonians.
+%             residuals: of Hamiltonians, or of their encodings (sec:pipeline-design
+%             separates the two).
 % CRITERION   (Modelling, verbatim) "described in sufficient detail to permit
 %             readers to create equivalent models. This should include: a
 %             description of any software tools used and/or created; a
 %             description and/or diagram of the model configuration; descriptions
 %             of the model input options selected (boundary conditions ...)".
 %             Band 3 names "poor design of numerical experiment": the experiment
-%             design lives here, in the body (§7.8, moved from the Numerical Study).
-% SOURCES     pihm/docs/02_methods.md (all sections; it is this chapter's source
-%             of truth); ThesisPlanning.md §3.5, §3.7-3.8, §5.4, §6.2, §7;
-%             claims C-03, C-04, C-08, B-13, B-16, B-17, B-24;
-%             pihm/docs/15_filters.md; pihm/docs/companion/40-47 and 70-76.
-% WRITE WHEN  Now as formulation (wave W1); numbers at gate G3 (wave W2).
+%             design lives here, in the body (sec:pipeline-design).
+% SOURCES     pihm/docs/02_methods.md (all sections; this chapter's source of
+%             truth); pihm/docs/companion/40-47 and 70-76; pihm/docs/15_filters.md;
+%             claims C-03, C-04, C-08, B-13, B-16, B-17, B-24; ThesisPlanning.md
+%             §3.4-3.5, §5.7, §6 (F, I).
+% NUMBERING   The opening has no heading (no stacked headings), so the plan's
+%             §7.2-7.9 are this file's 7.1-7.8. Every pointer is a \Cref.
 % Bare H, A and R are correct in this chapter only: its statements are
 % regime-independent (decision T-07).
+% FIRST PASS  2026-10-12, drafted against companion 40-47, 70-76 and the
+%             pre-P8 records (scratch export); every number by key.
+% REVIEW      2026-10-12 (Review Mode) fixes applied: the fairness declaration
+%             (as built favours the descriptor; the ideal bound isolates the
+%             Hamiltonian); antecedent credit for the reflection; the filter
+%             study's and the verification's numbers moved to sec:results-faithful
+%             (see the NOTE there); trim candidates 1-3 executed: F2 dropped,
+%             tab:run-inputs -> App. J, the iterative reference and the T1 cost
+%             model -> App. I; tab:acceptance -> App. I; eq:qite-filter and the
+%             readout identity -> App. F; the ladder's reference column dropped.
 % =============================================================================
 
-% Overview and model configuration: no heading; follows the section heading directly (no stacked headings).
-% ~0.75 pp
-% LAND, in order:
-%   1. The pipeline figure (F1), the most important figure in the thesis: a
-%      marker who reads only its caption should be able to state what the thesis
-%      does. Its caption must stand alone as a summary of the model. Attach
-%      the classical reference and the verification modes and tiers to the
-%      stages they check.
-%   2. The design principle: the forms differ only in the residual; every later
-%      section of this chapter is one stage of the figure.
-% FIG: fig:pipeline (F1, TikZ).
+How is a residual turned into a verified prepared state, on terms that let the two forms be compared? \Cref{sec:standard,sec:descriptor,sec:extensions} each end with a residual; this chapter specifies what happens to it, and so how the answers to the three questions of \Cref{sec:pihm-assessment} are tested. A problem is given as data (\Cref{sec:pipeline-inputs}), its classical reference is computed from the stacked residual (\Cref{sec:pipeline-reference}), the residual is block-encoded and made into a quantum walk (\Cref{sec:pipeline-walk}), a polynomial filter of the walk is applied at a degree fixed in advance (\Cref{sec:pipeline-filter}), the result is verified (\Cref{sec:pipeline-verification}) and the field is decoded (\Cref{sec:pipeline-readout}). The two forms enter only through the residual they hand to this pipeline (\Cref{fig:pipeline}), so a difference measured between them in \Cref{sec:results} is a difference between their residuals: between their Hamiltonians $H=R^\dagger R$, or between the encodings of them. \Cref{sec:pipeline-design} states how the experiment tells the two apart, and \Cref{sec:pipeline-software} gives the software. The statements hold for any stacked residual, so $R$, $H$ and $\alpha_R$ carry no form subscript here.
 
-\placeholderfigure[8cm]{Model configuration: from problem specification to decoded field.}{fig:pipeline}{Pipeline schematic (TikZ). Problem specification (equation, constraints, variant, $n$) $\to$ residual assembly (standard form $|$ descriptor form) $\to$ stacked-residual block encoding $U_R$ $\to$ reflection $V$ $\to$ walk $W$ $\to$ GQSP imaginary-time filter $\to$ post-selection $\to$ readout. Alongside: the classical reference (SVD of $R$) and the three verification tiers (circuit simulation, exact emulation, resource estimate) attached to the stages they check.}
+% FIG: fig:pipeline (F1), the most important figure in the thesis: its caption must stand alone as
+%   a summary of the model. Check the boxes against pihm's stages at results-v1.
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        font=\footnotesize,
+        node distance=3.5mm,
+        stage/.style={draw, thick, rounded corners=2pt, fill=gray!7, align=center, text width=8.0cm, inner sep=3pt, execute at begin node={\Centering\thickmuskip=5mu\medmuskip=4mu}},
+        side/.style={draw, densely dashed, rounded corners=2pt, align=left, text width=3.5cm, inner sep=3pt, font=\footnotesize, execute at begin node=\RaggedRight},
+        flow/.style={-{Stealth[length=2mm]}, thick},
+        link/.style={-{Stealth[length=1.6mm]}, densely dashed},
+    ]
+        \node[stage] (spec) {\textbf{Problem}: equation, constraint rows, regular datum\\ resolution $n$ and the run's options};
+        \node[stage, below=of spec] (res) {\textbf{Stacked residual} $R=[R_1;\dots;R_L]$, \ $H=R^\dagger R$\\ standard form $|$ descriptor (chain, mass form)\\ linear $|$ doubled space $|$ Carleman lift};
+        \node[stage, below=of res] (enc) {\textbf{Block encoding} $U_R$: the blocks $R_j$ at $\alpha_j$, stacked\\ $\alpha_R=(\sum_j\alpha_j^2)^{1/2}$};
+        \node[stage, below=of enc] (walk) {\textbf{Reflection} $V=U_R^\dagger(2\Pi-I)U_R$\\ $\Pi V\Pi=H'=2H/\alpha_R^2-I$\\ \textbf{Walk} $W=(2\Pi-I)V$, \ $\Pi W^k\Pi=T_k(H')$};
+        \node[stage, below=of walk] (filt) {\textbf{GQSP filter}: minimax edge filter $P_d(H')$ on $\psi_{\mathrm{init}}$\\ degree $d$ fixed by $\varepsilon$, the edge and $\alpha_R$};
+        \node[stage, below=of filt] (post) {\textbf{Post-selection}: success probability $p_G\to\gamma^2$\\ raised by amplitude amplification};
+        \node[stage, below=of post] (field) {\textbf{Decoded field} $f_Q$: the state's field blocks\\ scaled by the regular datum};
+        \foreach \a/\b in {spec/res,res/enc,enc/walk,walk/filt,filt/post,post/field}
+            \draw[flow] (\a) -- (\b);
+        \node[side, left=5mm of res] (ref) {\textbf{Classical reference}: the smallest right singular vector of $R$; $\sigma_0$, $\sigma_1$, $\psi_{\mathrm{ref}}$; trusted if one-dimensional, gap ratio $\ge20$};
+        \node[side, left=5mm of field] (acc) {\textbf{Acceptance} against the reference: infidelity, success probability, field error within budget};
+        \draw[link] (res) -- (ref);
+        \draw[link] ([xshift=-12mm]ref.south) -- ([xshift=-12mm]acc.north);
+        \draw[link] ([xshift=10mm]ref.south) |- node[pos=0.78, above, font=\scriptsize] {edge $\sigma_0,\sigma_1$} (filt.west);
+        \draw[link] (field) -- (acc);
+        \coordinate (mv) at ($(enc.east)!0.5!(walk.east)$);
+        \node[side, right=5mm of mv] (ver) {\textbf{Operator verification} of the block $2H/\alpha_R^2-I$ against the assembled $H$: exact, probe or IR};
+        \draw[link] (ver.west) -- (enc.east);
+        \draw[link] (ver.west) -- (walk.east);
+        \coordinate (mt) at ($(filt.east)!0.5!(post.east)$);
+        \node[side, right=5mm of mt] (tiers) {\textbf{State preparation}: circuit simulation (T1); exact emulation (T2), equal to the circuit's output; resource estimate (T3)};
+        \draw[link] (tiers.west) -- (filt.east);
+        \draw[link] (tiers.west) -- (post.east);
+    \end{tikzpicture}
+    \caption{\textbf{One pipeline serves both forms, from a problem's data to a decoded field.} Centre: the model's stages. A problem is data (\Cref{tab:constraint-kinds,tab:run-inputs}); the two forms differ only in the stacked residual $R$ they build, and every later stage is the same for both, so a difference measured between the forms is a difference between their residuals: their Hamiltonians $H=R^\dagger R$, or the encodings of them. $R$ is block-encoded at $\alpha_R$ and turned into a reflection $V$ whose block is $H'=2H/\alpha_R^2-I$ and a walk $W$ whose powers are Chebyshev polynomials of $H'$; a \gls{gqsp} circuit applies the minimax edge filter, of a degree fixed before any run, to an answer-independent initial state, and the post-selected state is decoded classically. Left: the classical reference, the smallest right singular vector of $R$, supplies the spectral edge that fixes the filter's degree and is the yardstick of every acceptance test. Right: operator verification checks the encoded Hamiltonian against the independently assembled one; the prepared state is evaluated by circuit simulation (T1) at small $n$, by exact emulation (T2), which equals the circuit's post-selected output, and by resource estimates (T3) beyond. Every result is a classical computation; nothing ran on hardware.}
+    \label{fig:pipeline}
+\end{figure}
 
 \subsection{Problems and Model Inputs}
 \label{sec:pipeline-inputs}
-% ~1 pp
-% LAND, in order:
-%   1. THE BENCHMARK LADDER R1-R10 (tab:ladder): one new capability each, so a
-%      failure localises, with its physics (full specifications -> Appendix J,
-%      app:catalogue).
-%   2. THE CONSTRAINT KINDS (tab:constraint-kinds): the rubric's "boundary
-%      conditions". A problem is DATA: equation terms, constraints, regular
-%      datum, reference.
-%   3. The paper's panels as printed appear ONLY IN THE REPRODUCTION (T-27);
-%      elsewhere the problem is unnamed ("R2a"), never "corrected R2a".
-%   4. The inputs every run records: n per axis, form, encoder, filter,
-%      epsilon = 1e-6, initial state, rescaling, Carleman order K.
-% TAB: tab:constraint-kinds (T2), tab:ladder (T3).
-% REVISE (T-27): LAND point 3 used to read "Paper-faithful versus corrected
-%   variants" -- ThesisPlanning.md's controlled vocabulary (§3.4) retires
-%   "corrected"/"paper-faithful" as the general framing: only the reproduction
-%   chapter distinguishes "R2a" from "R2a as printed"; everywhere else the
-%   problem has one name.
+% ~1 pp. LAND: the ladder (tab:ladder, T3); the constraint kinds (tab:constraint-kinds, T2), the
+%   rubric's "boundary conditions"; a problem is data; the printed panels only in App. K (T-27);
+%   the run options, named here, tabulated in App. J (tab:run-inputs).
+
+A problem is data: its fields and axes; its equation, as a sum of terms, each a coefficient function, a derivative order on an axis, a field and possibly a source; its constraint rows; its regular datum; and its reference solution. Nothing downstream depends on a problem except through these. The benchmark problems R1--R10 of \Cref{tab:ladder} are ordered so that each adds one capability to those before it, and a failure therefore localises to the capability that introduced it. R2--R6 are the paper's examples \cite{wu2025pihm} with the data of \Cref{sec:standard-constraints}, and each label names that problem; the paper's own panels are run only to test the paper (\Cref{app:reproduction}). The equations, references, constraint rows, resolutions and parameters of every problem are listed in \Cref{app:catalogue}.
 
 \begin{table}[htbp]
     \centering
-    \caption{The shared constraint layer: every constraint row, in either form, is one of four kinds.}
-    \label{tab:constraint-kinds}
-    \small
-    \begin{tabular}{@{}l p{0.42\linewidth} p{0.33\linewidth}@{}}
-        \toprule
-        Kind & Operator & Use \\
-        \midrule
-        Zero (invariant) & $\Brow(x)$ on the chosen field or derivative block & $f(x_z)=0$, $f'(x_m)=0$ \\
-        Collapse (regular) & $\Dzero(x_s)$ & constants, sources; lifting linear terms in the doubled space \\
-        Ratio (vector data) & $\Frat = y_a\bigl(I - \ket{a}\bra{a}\bigr) - y_\perp\bra{a}$, \ $y_\perp = \sum_{c\ne a} y_c\ket{c}$ & multi-component initial data (Carleman); coupled fields \\
-        Datum slice & $\bigl(\Slice_a(x^\ast) - \hat g\,\tau(x_s)^{\top}/v\bigr)\,\Pi_f$ & inhomogeneous boundary or initial functions, without doubling \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\begin{table}[htbp]
-    \centering
-    \caption{The benchmark ladder. Each problem adds one capability to those below it; R2--R6 are the paper's Figs 3--7.}
+    \caption{\textbf{The benchmark problems: each adds one capability to those above it.} R2--R6 are the examples of Wu et al.\ \cite{wu2025pihm} (their Figs~3--7) with the data of \Cref{sec:standard-constraints}; R7--R10 extend beyond one real field (\Cref{sec:extensions}). References, constraint rows and resolutions: \Cref{app:catalogue}.}
     \label{tab:ladder}
     \small
-    \begin{tabular}{@{}l p{0.36\linewidth} p{0.2\linewidth} p{0.3\linewidth}@{}}
+    \begin{tabular}{@{}l p{0.48\linewidth} p{0.42\linewidth}@{}}
         \toprule
-        & Problem & Reference & New capability \\
+        & Problem & New capability \\
         \midrule
-        R1 & $f' + 2f = 0$, $f(-1) = 1$ & $e^{-2(x+1)}$ & smallest end-to-end system \\
-        R2 & Fig.~3: $\{1,4,4\}$, $\{1,-2,-3\}$, $\{1,5,400\}$ & closed form & order 2; Dirichlet and Neumann invariants; stiffness \\
-        R3 & Fig.~4: Legendre, $m=0$ ($l=4,5$) and $m=1$ ($l=5,6$) & $P_l$, $P_l^1$ & variable coefficients and lifts; an exact kernel ($m=0$) \\
-        R4 & Fig.~5: four inhomogeneous equations & closed form & source injection via $\Dzero$; Maclaurin sources \\
-        R5 & Fig.~6: Laplace (2-D), heat and wave (1+1-D) & closed form & multi-axis tensors; invariants versus datum slices \\
-        R6 & Fig.~7: $4f'' + 2f'^2 + f = 0$; $f'' - 2f^2 + x = 0$ & $1 - x^2/8$; boundary-value solve & doubled space (kernel degeneracy) \\
-        R7 & $u' = v$, $v' = -\omega^2 u$, $\omega = \pi$ & $\sin$, $\cos$ & two fields; ratio rows \\
-        R8 & $y' = -y + y^2$, $y(0) = \tfrac12$ & $1/(1+e^{t})$ & Carleman lift, both forms in time \\
-        R9 & viscous Burgers, periodic, Fourier--Galerkin & Galerkin \gls{ivp}; Cole--Hopf & field-scale Carleman; convolution $F_2$; QFT fold \\
-        R10 & 2-D vorticity Navier--Stokes, periodic & Galerkin \gls{ivp}; Taylor--Green; \gls{dns} & the culmination \\
+        R1 & $f' + 2f = 0$, $f(-1) = 1$ & the smallest end-to-end system \\
+        R2 & three second-order equations, $\{1,4,4\}$, $\{1,-2,-3\}$, $\{1,5,400\}$ & order two; Dirichlet and Neumann data; stiffness (R2c) \\
+        R3 & Legendre, $m=0$ ($l=4,5$), and associated Legendre, $m=1$ ($l=5,6$) & variable coefficients and lifts; an exact kernel; the substitution of \Cref{sec:standard-constraints} (R3c, R3d) \\
+        R4 & four inhomogeneous equations & sources by their Chebyshev coefficients \\
+        R5 & Laplace (two space axes), heat and wave (one space and one time axis) & two axes; initial and boundary functions as datum slices \\
+        R6 & $4f'' + 2f'^2 + f = 0$; $f'' - 2f^2 + x = 0$ & the doubled space (a degenerate kernel) \\
+        R7 & $u' = v$, $v' = -\pi^2 u$ & two coupled fields; ratio rows \\
+        R8 & $y' = -y + y^2$, $y(0) = \tfrac12$ & the Carleman lift on a time axis, both forms \\
+        R9 & viscous Burgers, periodic, $a/\nu=0.03$--$10$ on $4$--$16$ sine modes & a field-scale lift across its convergence boundary \\
+        R10 & two-dimensional Navier--Stokes in vorticity form, periodic, $12$--$80$ modes & incompressible flow; the tensor layout to $316$ modes \\
         \bottomrule
     \end{tabular}
 \end{table}
+
+The data enter as rows of the four kinds of \Cref{tab:constraint-kinds}, the model's boundary and initial conditions, each the same in both forms. Two kinds of datum are set up from the reference solution when the problem is built, for the reasons of \Cref{sec:standard-constraints}: the exact constraint points of R4 and R6b, and the heat equation's initial function at $t=-1$. Every other datum is the problem's statement.
+
+\begin{table}[htbp]
+    \centering
+    \caption{\textbf{Every constraint row either leaves the solution's scale free or ties data to it.} The four kinds of row that carry a problem's data, grouped by that role. All rows enter the stacked residual at weight one and are the same in both forms; a row acts on the block that holds the quantity it constrains, so a derivative's zero row is $\Brow(x^\ast)\G^{j}$ in the standard form and $\Brow(x^\ast)$ on the $j$-th derivative block in the descriptor's chain (\Cref{sec:descriptor-constraints}). $x^\ast$ is the point (or slice) where the data are given, $x_s$ a regular point, and $a$ the anchor component of a vector datum. Definitions: \Cref{sec:standard-constraints,sec:systems-data}.}
+    \label{tab:constraint-kinds}
+    \small
+    \begin{tabular}{@{}l p{0.27\linewidth} p{0.34\linewidth} p{0.17\linewidth}@{}}
+        \toprule
+        Row & Data it carries & Operator & Problems \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textit{Vanishes on the solution and its multiples: fixes the shape, leaves the scale free}} \\[2pt]
+        Zero & $f^{(j)}(x^\ast)=0$ at a point: Dirichlet ($j=0$), Neumann ($j=1$), or the same on a boundary of a \gls{pde} & $\Brow(x^\ast)\G^{j}$, with $\Brow(x)=\sqrt{N}\ket{0}\bra{\tau(x)}$ & R2--R6 \\
+        Datum slice & an initial or boundary \emph{function} $g$ on the slice $x_a=x^\ast$ of a \gls{pde} & $\Slice_a(x^\ast)-\hat g\bra{\tau(x_s)}/f(x_s)$ & R5 \\
+        Ratio & a vector datum $y$ at $x^\ast$: the initial values of a coupled system or of a Carleman lift & $\bigl(\Frat/y_a\bigr)\otimes\Brow(x^\ast)$, with $\Frat=y_a(I-\ket{a}\bra{a})-y_\perp\bra{a}$ fixing the direction of $y$ & R7--R10 \\
+        \addlinespace
+        \multicolumn{4}{@{}l}{\textit{Maps the solution to a constant, whatever its scale: ties data to the scale}} \\[2pt]
+        Collapse & the regular datum $f(x_s)$, which fixes the scale after preparation; through it a source $r$, a non-zero point datum $y^\ast$, and the linear terms of the doubled space & $\Dzero(x_s)=\Brow(x_s)/f(x_s)$, entering as $-\M_r\Dzero(x_s)$ for a source and as $\Brow(x^\ast)\G^{j}-y^\ast\Dzero(x_s)$ for a datum & every problem (the scale); R4 (sources); R6 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+A run is a problem at a resolution with a set of options: the form and, for the descriptor, its layout and block rescaling; the encoding of $\G$; the treatment of a nonlinearity; the filter; the target $\varepsilon=10^{-6}$; and the initial state. Their values and defaults are listed in \Cref{tab:run-inputs} (\Cref{app:run-options}). The defaults are the configuration every comparison of \Cref{sec:results} uses; the alternatives are controls, labelled ablations, or the paper's choices kept to test the paper.
 
 \subsection{The Classical Reference}
 \label{sec:pipeline-reference}
-% ~0.4 pp
-% LAND, in order:
-%   1. The reference is the smallest right singular vector of the stacked
-%      residual R (eq:reference-svd): dense SVD to 8,192 physical columns
-%      (accuracy by Wedin's bound); beyond, shift-invert Lanczos on the
-%      augmented system [[I, R], [R^dagger, -mu I]], which never squares R,
-%      then Rayleigh-Ritz, its bound an a posteriori estimate. TRUSTED means a
-%      one-dimensional kernel with gap ratio above 20.
-%   2. Why not eigh(R^T R): squaring the residual squares its condition number,
-%      and the standard form's reference fails from n ~ 7 -- ONE number here
-%      (1 - |cos| = 0.73 at n = 8, Planning.md A-3); the table goes to Appendix I
-%      (app:verification).
-%   3. Decoding, eta_e, and the three metric levels (operator, state, decoded
-%      field vs analytic) with explicit inner products (principle D9).
+% ~0.5 pp. LAND: the smallest right singular vector; Wedin's bound against the eigensolver's (the
+%   bounds and the table -> app:eigh-vs-svd); the iterative reference beyond 8,192 physical columns
+%   (-> app:iterative-reference); trust at gap ratio 20; three metric levels.
+% NOTE (standing fact): the code trusts a gap ratio of AT LEAST 20 (classical.reference,
+%   DEFAULT_MIN_GAP_RATIO); CLAUDE.md says "above 20" (plan §2.2 TODO).
 
+Every result is judged against a classical reference: the ground state of $H$, computed from $R$ and never from $H$, a departure from the paper's eigenvector of the formed Hamiltonian (\Cref{tab:deviations}). With the singular value decomposition $R=\sum_j\sigma_j\,u_jv_j^\dagger$ and $\sigma_0\le\sigma_1\le\dots\le\sigma_{\max}$,
 \begin{equation}
-    \ket{\psi_{\mathrm{ref}}} = \operatorname*{arg\,min}_{\|\psi\| = 1}\,\|R\psi\|_2 ,
+    \ket{\psi_{\mathrm{ref}}}=v_0=\operatorname*{arg\,min}_{\|\psi\|=1}\|R\psi\|_2,
     \qquad
-    \kappa\bigl(R^{\dagger}R\bigr) = \kappa(R)^2 .
+    \lambda_j=\sigma_j^2,
+    \qquad
+    \Delta=\sigma_1^2-\sigma_0^2 .
     \label{eq:reference-svd}
 \end{equation}
+The reason for working with $R$ is accuracy. A backward-stable \gls{svd} of $R$ bounds the computed ground state's error by about $\epsilon_{\mathrm{mach}}\sigma_{\max}/(\sigma_1-\sigma_0)$, by Wedin's theorem \cite{wedin1972perturbation}, while an eigensolver applied to the formed $H$ is bounded only by about $\epsilon_{\mathrm{mach}}\sigma_{\max}^2/(\sigma_1^2-\sigma_0^2)$, by the Davis--Kahan theorem \cite{daviskahan1970rotation}: larger by about the residual's condition number $\sigma_{\max}/\sigma_1$ (\Cref{prop:wedin}). Forming $H$ squares the condition number of the problem the reference solves, and the standard form's spectrum is wide enough for this to decide the matter: on R2a at $n=8$ the relative gap $\Delta/\|H\|$ is \res[2,sci]{build/R2a/standard/n8}{relative_gap} (a classical computation), below $\epsilon_{\mathrm{mach}}=2^{-52}$, so the eigensolver's bound exceeds one while Wedin's does not (\Cref{app:eigh-vs-svd}).
+
+The dense \gls{svd} is used up to $8{,}192$ physical columns, the descriptor's decoupled padding excluded (\Cref{prop:padding-decouples}). Beyond it, the smallest singular triplets come from shift-invert Lanczos iteration on an augmented system that never forms $R^\dagger R$, with an a posteriori estimate of the ground state's error; it reaches residuals of \res{build/R10d-M48/descriptor/n4/carleman=3}{dimension} columns on the Navier--Stokes lifts (\Cref{app:iterative-reference}).
+
+A computed spectrum always has a smallest value, and the reference must decide whether it is a kernel. The kernel is placed at the largest ratio $\sigma_k/\sigma_{k-1}$ among the lowest seventeen singular values, and the reference is \emph{trusted} when that kernel is one-dimensional with gap ratio at least $20$. The threshold is the largest ratio that the spectra of the benchmark problems show without a kernel, the stiff R2c's structural $\sigma_2/\sigma_1$, just under $20$; it is a property of this set of spectra, not a theorem (\Cref{app:trust-threshold}). Trust certifies that a kernel is detected, not that the field has converged: when the truncated solution is close to the residual's minimiser, the gap ratio bounds its angle to the ground state by about $\sigma_0/\sigma_1$, and the field's accuracy is measured separately.
+
+A preparation is judged only where its reference is trusted, at three levels: the operator (each encoding against the assembled operator, \Cref{sec:pipeline-verification}), the state (the infidelity $1-|\braket{\psi_{\mathrm{ref}}|\psi}|^2$ in the form's own space) and the field (the $L^\infty$ and relative $L^2$ errors of the decoded field against the reference solution on a uniform grid, \Cref{sec:pipeline-readout}).
 
 \subsection{From Stacked Residual to Quantum Walk}
 \label{sec:pipeline-walk}
-% ~1 pp
-% LAND, in order:
-%   1. The stacked residual and its row-select block encoding (eq:stacked-encoding):
-%      a QUADRATURE combination of the blocks' subnormalisations, no l1 penalty.
-%   2. prop:stacked-reflection (claim C-03); proof -> Appendix F
-%      (app:proof-stacked-reflection).
-%   3. The walk and its Chebyshev powers (eq:walk). L-18's caution belongs in
-%      the proof, not here.
-%   4. Interpretation: the spectrum lands on [-1, 1] automatically; controlled-V
-%      needs only a controlled reflection.
-%   5. One sentence of resources: ancilla ceil(log2 L) + max_j a_j, about 14 at
-%      n = 2 for the descriptor, against 23 for the legacy Gram-sum composition
-%      (Planning.md A-2; \prov until results-v1).
+% ~0.75 pp. LAND: the stacked encoding (eq:stacked-encoding), a quadrature combination; the
+%   proposition (C-03; the construction credited to qubitisation/QSVT), proof ->
+%   app:proof-stacked-reflection; the walk (eq:walk); the spectrum on [-1, 1] and the gap divided by
+%   alpha_R; controlled V from controlled reflections.
+% CHECKED 2026-10-12 (review 1.5): App. D does not record how the paper combines its Gram terms or
+%   at what subnormalisation, so the comparison below is hedged ("would reach").
 
+Each block $R_j$ of the residual, the equation's rows and each constraint's, is block-encoded by its form's circuits at a subnormalisation $\alpha_j$ (\Cref{sec:standard-cost,sec:descriptor-block-encoding,sec:ext-circuits}). The blocks are stacked rather than summed: a row-select register of $\lceil\log_2L\rceil$ qubits is prepared in $\sum_j(\alpha_j/\alpha_R)\ket{j}$ and $U_j$ is applied when it holds $j$, and unlike the selector of a linear combination of unitaries the register is never returned by an inverse preparation, so that
 \begin{equation}
-    R = \begin{pmatrix} R_1 \\ \vdots \\ R_L \end{pmatrix},
+    \bigl(\bra{j}\otimes\bra{0_a}\bigr)\,U_R\,\bigl(\ket{0}\otimes\ket{0_a}\bigr)=\frac{R_j}{\alpha_R},
     \qquad
-    \bigl(\bra{j}\otimes\bra{0_a}\bigr)\,U_R\,\bigl(\ket{0}\otimes\ket{0_a}\bigr) = \frac{R_j}{\alpha_R},
-    \qquad
-    \alpha_R = \Bigl(\sum_{j=1}^{L}\alpha_j^2\Bigr)^{1/2},
-    \qquad
-    H = R^{\dagger}R .
+    \alpha_R=\Bigl(\sum_{j=1}^{L}\alpha_j^2\Bigr)^{1/2},
     \label{eq:stacked-encoding}
 \end{equation}
+with $a$ the blocks' shared ancilla and the row select read as part of the output. The subnormalisations add in quadrature, $\alpha_R=\|(\alpha_j)\|_2$, the form of the bound $\|R\|_2\le(\sum_j\|R_j\|_2^2)^{1/2}$ itself, so a stack of tight blocks is loose only by as much as $\|R\|$ falls below that bound. The paper combines its terms by a linear combination of unitaries (\Cref{sec:pihm-encoding}); a combination of the Gram terms $R_j^\dagger R_j$, each encoded as a product of two encodings of its block, would reach the same $\alpha_H=\sum_j\alpha_j^2$, where the stack needs one encoding of each block and one reflection.
+
+That reflection is the standard way to block-encode $A^\dagger A$ from a block encoding of $A$, the construction that underlies qubitisation and the quantum singular value transformation \cite{lowchuang2019qubitization,gilyen2019qsvt}. What is particular here is its application to the stacked residual, whose blocks enter in quadrature, and the verification of the whole Hamiltonian it encodes (\Cref{sec:pipeline-verification}).
 
 \begin{proposition}[Stacked-residual reflection]
 \label{prop:stacked-reflection}
-% STATE: for any stacked residual whose blocks R_j have block encodings with
-%   subnormalisations alpha_j, the operator below is a Hermitian unitary whose
-%   input block encodes H' = 2H/alpha_R^2 - I, and its controlled version needs
-%   only a controlled reflection.
+Let $U_R$ satisfy \Cref{eq:stacked-encoding}, let $\Pi_a$ project the shared ancilla onto $\ket{0_a}$, and let $\Pi_{\mathrm{in}}$ project the shared ancilla and the row select onto zero. Then
 \begin{equation}
-    \begin{gathered}
-        V = U_R^{\dagger}\,\bigl(2\Pi_{a=0} - I\bigr)\,U_R,
-        \qquad
-        V^{\dagger} = V, \quad V^2 = I, \\
-        \Pi_{\mathrm{in}}\,V\,\Pi_{\mathrm{in}} = \frac{2H}{\alpha_R^2} - I \equiv H',
-        \qquad
-        C(V) = U_R^{\dagger}\,C\bigl(2\Pi_{a=0} - I\bigr)\,U_R .
-    \end{gathered}
+    V=U_R^{\dagger}\,\bigl(2\Pi_a-I\bigr)\,U_R
+    \quad\text{satisfies}\quad
+    V^{\dagger}=V,\quad V^2=I,\quad
+    \Pi_{\mathrm{in}}\,V\,\Pi_{\mathrm{in}}=\frac{2H}{\alpha_R^2}-I\equiv H',
     \label{eq:stacked-reflection}
 \end{equation}
+with $H=R^\dagger R$, and $V$ controlled on further qubits is $U_R^\dagger\,C(2\Pi_a-I)\,U_R$: only the reflection carries the control.
 \end{proposition}
 
+The proof is given in \Cref{app:proof-stacked-reflection}. $V$ block-encodes $H'$ at subnormalisation one and $H$ at $\alpha_H=\alpha_R^2$, at the cost of the stack, its inverse and one multi-controlled $Z$ gate. Its spectrum needs no rescaling: $H\succeq0$ and $\|H\|=\|R\|^2\le\alpha_R^2$, so $H'$ has its spectrum in $[-1,1]$, its eigenvectors are the right singular vectors of $R$, and its ground value sits at $x_0=-1+2\sigma_0^2/\alpha_R^2$, at the edge of the interval when the kernel is exact. Its gap is $2\Delta/\alpha_R^2$: the encoding's subnormalisation divides the gap the filter must resolve, which is how the encoder's cost of \Cref{sec:standard} enters the degree. Qubitisation \cite{lowchuang2019qubitization} turns the reflection into a walk whose powers are Chebyshev polynomials of $H'$,
 \begin{equation}
-    W = \bigl(2\Pi_{\mathrm{in}} - I\bigr)\,V,
+    W=\bigl(2\Pi_{\mathrm{in}}-I\bigr)\,V,
     \qquad
-    \Pi_{\mathrm{in}}\,W^{k}\,\Pi_{\mathrm{in}} = T_k(H') .
+    \Pi_{\mathrm{in}}\,W^{k}\,\Pi_{\mathrm{in}}=T_k(H') ,
     \label{eq:walk}
 \end{equation}
+because $W$ acts on each two-dimensional subspace spanned by an eigenvector of $H'$ and its image under $V$ as a rotation by $\arccos\lambda$, $\lambda$ the eigenvalue (\Cref{app:qubitisation}). The identity holds for one power of $W$ followed by one projection, not for a projection after every step. Controlling $W$ needs only its two reflections controlled, since $U_R^\dagger U_R=I$ where the control is off, so a controlled walk is no wider than $U_R$ and its simulation holds a statevector of $2^q$ amplitudes, never an operator (\Cref{app:controlled-walk}). The descriptor's padding blocks decouple from the physical subspace (\Cref{prop:padding-decouples}), so $H'$ is block diagonal and a state on the physical subspace stays there under every polynomial in $W$.
 
 \subsection{The Filter and Its Parameters}
 \label{sec:pipeline-filter}
-% ~1 pp
-% LAND, in order (ThesisPlanning.md §5.7 point 5; T-23: MINIMAX IS PRIMARY):
-%   1. GQSP realises any |P| <= 1 polynomial of the walk (eq:gqsp-block),
-%      without parity (prior art, sec:bg-qsp).
-%   2. THE MINIMAX EDGE FILTER (PRIMARY): P = T_d(w(x))/T_d(w(-1)), w mapping
-%      the excited spectrum [x_1, 1] onto [-1, 1], at the least degree that
-%      suppresses it to epsilon relative to the ground value:
-%      d = ceil(arccosh(1/epsilon)/theta_0), theta_0 = arccosh(-w(x_0)),
-%      computed from heights above the edge so the ground state's is resolved.
-%      TODO: the minimax degree formula and the w(x) construction are not yet
-%      drafted below -- this is new body content (T-23), not a rename.
-%   3. THE PARAMETERS ARE A PRIORI: the edge (sigma_0, sigma_1 of the
-%      reference) and alpha_R, never the solution. The edge is assumed known,
-%      the standard known-gap assumption; say so here and in sec:limitations (§9.5).
-%   4. WHY MINIMAX: at equal suppression it needs 1.67-1.92x fewer degrees than
-%      imaginary time with the ground state at the edge, in both forms (B-17);
-%      at equal MEASURED infidelity the gain is smaller and reverses at loose
-%      epsilon. Imaginary time (eq:qite-filter, prop:filter-normalisation,
-%      claim C-04) is THE PAPER'S filter: it runs in the reproduction
-%      (sec:results-reproduction) and the filter study (sec:results-faithful).
-%   5. Phases from Weiss's complement and the inverse NLFT (cited); the
-%      realised polynomial matches its target to <= 1e-12.
-%   6. INITIAL STATES (eq:geometric-state): the geometric product state on the
-%      field block (n R_Y rotations, r = +-1/2, the candidate with the larger
-%      MEASURED success probability kept); for a system, each field's block
-%      weighted by the problem's stated initial data; uniform and random as
-%      controls; gamma always reported.
-%   7. Success probability p -> gamma^2, amplitude amplification
-%      floor(pi/(4 arcsin gamma)) rounds, total cost (eq:qite-cost).
-%   8. DEVIATIONS FROM WU ET AL.: one sentence pointing to \Cref{tab:deviations}
-%      (T10, §4.3), which lists them all (T-34); none is restated here.
-% REVISE (v2.1, T-34): moved to tab:deviations in §4.3. The former LAND item 8,
-%   kept for the move: "DEVIATIONS FROM WU ET AL., a short list: GQSP for
-%   mixed-parity QSVT; normalisation by the construction's alpha for ||H||_F;
-%   THE MINIMAX FILTER FOR IMAGINARY TIME; parameters from the edge. The paper's
-%   time rule (eq:pihm-time-rule) is a variant run on R2 (sec:results-reproduction)
-%   that falls short of epsilon (claim A-11)."
-% FIG (optional): fig:gqsp-circuit (F2) -- one of the four body circuits.
-% REVISE (T-23): this LAND and the equations below were QITE-primary (the
-%   section was titled "GQSP Imaginary-Time Filtering with A Priori
-%   Parameters"). CLAUDE.md Standing Facts (Filter) make the MINIMAX EDGE
-%   FILTER primary for every comparison and extension; imaginary time (QITE)
-%   is the paper's filter, run only in the reproduction and the filter study.
-%   The minimax construction and degree formula are new body content to draft,
-%   not present below yet.
-% REVISE: the old LAND's "warm start as a labelled variant" names a variant
-%   that was never built (ThesisPlanning.md §2.1, "New in v2.0" list); dropped
-%   above. Initial states are answer-independent (CLAUDE.md Standing Facts,
-%   Parameters): no warm start.
+% ~1 pp. LAND (T-23: MINIMAX IS PRIMARY): GQSP (eq:gqsp-block); the minimax edge filter and its
+%   degree (eq:minimax-filter, eq:minimax-degree); a priori parameters and the known-edge
+%   assumption; unit weight of both filters (prop:filter-normalisation, C-04); why minimax (B-17:
+%   the numbers are §8.1's), imaginary time as the paper's filter (-> app:qite-filter); phases;
+%   initial states (eq:geometric-state); success, amplification and the total count
+%   (eq:total-cost); deviations pointer to tab:deviations.
+% CITE-CHECK: Chebyshev's inequality in borweinerdelyi1995 (Ch. 5, "Chebyshev's inequality"):
+%   confirm the section before submission.
 
+A filter is a polynomial $P$ of $H'$ that keeps the ground state and suppresses the rest. \Gls{gqsp} \cite{motlagh2024gqsp} realises any polynomial with $|P(z)|\le1$ on the unit circle as a sequence of single-qubit rotations on one signal qubit interleaved with $d$ applications of $W$ controlled on it, with no parity constraint (\Cref{sec:bg-qsp}). On the signal's zero, restricted once by $\Pi_{\mathrm{in}}$, the circuit block-encodes
 \begin{equation}
-    \Pi_{\mathrm{in}}\,P(W)\,\Pi_{\mathrm{in}} = \sum_{k=0}^{d} q_k\,T_k(H'),
+    \Pi_{\mathrm{in}}\,P(W)\,\Pi_{\mathrm{in}}=\sum_{k=0}^{d}q_k\,T_k(H'),
     \qquad
-    P(z) = \sum_{k=0}^{d} q_k z^k,
+    P(z)=\sum_{k=0}^{d}q_kz^k,
     \qquad
-    \sup_{|z|=1} |P(z)| \le 1 .
+    \sup_{|z|=1}|P(z)|\le1,
     \label{eq:gqsp-block}
 \end{equation}
+by \Cref{eq:walk}, so a filter given by its Chebyshev coefficients $q_k$ is realised by the analytic polynomial with the same coefficients. The phases are computed from $P$ by Weiss's complement, obtained by spectral factorisation \cite{berntson2025complementary}, and the inverse nonlinear Fourier transform \cite{laneve2025gqspnlft,nlfft2025su2}, with no root-finding; the polynomial they realise is rebuilt from them alone and compared with $P$ to within $10^{-12}$ (\Cref{app:gqsp-phases}).
 
-% REVISE (T-23): the minimax edge filter's own equations (P = T_d(w(x))/
-%   T_d(w(-1)), theta_0, the degree formula) are not yet drafted here; they are
-%   the primary filter and belong before eq:qite-filter below, which is now
-%   THE PAPER'S variant (run in the reproduction and the filter study), not
-%   the pipeline's default.
-
+\paragraph{The minimax edge filter.} The filter that prepares every comparison and extension in this thesis is the polynomial of degree $d$ that is smallest on the excited spectrum relative to its value at the ground state. With $x_1$ the first excited value of $H'$ and $w$ the affine map of $[x_1,1]$ onto $[-1,1]$,
 \begin{equation}
-    f_\beta(x) = e^{-\beta(1+x)},
-    \qquad
-    f_\beta(H') = e^{-2\beta H/\alpha_R^2},
-    \qquad
-    q_k = \bigl(2 - \delta_{k0}\bigr)(-1)^k e^{-\beta} I_k(\beta) .
-    \label{eq:qite-filter}
+    \begin{gathered}
+        P_d(x)=\frac{T_d\bigl(w(x)\bigr)}{T_d\bigl(w(-1)\bigr)},
+        \qquad
+        w(x)=\frac{2x-(x_1+1)}{1-x_1},
+        \\
+        \sup_{x\in[x_1,1]}\frac{|P_d(x)|}{|P_d(x_0)|}=\frac{1}{\cosh(d\theta_0)},
+        \qquad
+        \theta_0=\operatorname{arccosh}\bigl(-w(x_0)\bigr).
+    \end{gathered}
+    \label{eq:minimax-filter}
 \end{equation}
-
-\begin{proposition}[Normalisation of the imaginary-time filter]
-\label{prop:filter-normalisation}
-% STATE: for every beta > 0 the Chebyshev coefficients of f_beta have unit
-%   l1 norm, so GQSP realises the filter without rescaling.
+$|P_d|\le1$ on $[-1,1]$ with equality at $-1$, and by Chebyshev's classical inequality \cite{borweinerdelyi1995} no polynomial of degree $d$ achieves a smaller ratio; it is the eigenstate-filtering polynomial of Lin and Tong \cite{lintong2020filtering,lintong2020groundstate} anchored at the spectrum's edge. We take the least degree that suppresses the excited spectrum to $\varepsilon$ relative to the ground state,
 \begin{equation}
-    \sum_{k=0}^{\infty} |q_k| = 1 .
+    d=\left\lceil\frac{\operatorname{arccosh}(1/\varepsilon)}{\theta_0}\right\rceil,
+    \qquad
+    \theta_0=\operatorname{arccosh}\Bigl(1+\frac{2(h_1-h_0)}{2-h_1}\Bigr),
+    \qquad
+    h_j=1+x_j=\frac{2\sigma_j^2}{\alpha_R^2},
+    \label{eq:minimax-degree}
+\end{equation}
+with $\theta_0$ computed from the heights $h_j$ above the spectrum's edge, which keep their relative precision where $x_0$ and $x_1$ would round to $-1$, as they do whenever $\alpha_R\gg\sigma_1$. Then $d\approx(\alpha_R/2\sqrt\Delta)\ln(2/\varepsilon)$, an instance of \Cref{eq:degree}.\footnote{From $\operatorname{arccosh}(1+e)\approx\sqrt{2e}$, valid for a small normalised gap with $h_1\ll1$, which gives $\theta_0\approx2\sqrt\Delta/\alpha_R$ (\Cref{app:minimax-filter}).} Its coefficients are obtained by exact Chebyshev interpolation, so nothing is truncated. For an initial state of overlap $\gamma$ with a one-dimensional target the prepared state's infidelity is at most $(1-\gamma^2)\varepsilon^2/\gamma^2$, a bound that is finite whenever $\gamma>0$ (\Cref{app:minimax-filter}).
+
+\paragraph{The parameters are a priori.} The degree needs $\varepsilon$, the circuit's own $\alpha_R$ and the spectrum's edge, $\sigma_0$ and $\sigma_1$ from the classical reference; it never reads the solution. The edge is assumed known. This is the standard known-gap assumption: a solver without a classical reference would need a lower bound on the gap in its place, at a degree proportional to the bound's inverse square root, and estimating it on the circuit is outside this thesis (\Cref{sec:limitations}). The paper sets its imaginary time instead by \Cref{eq:pihm-time-rule}, which contains no $\varepsilon$ and leaves the first excited state a fraction of the ground state's amplitude that is bounded away from zero whatever accuracy is wanted (\Cref{app:paper-claims}); this is why the degree is set from the edge.
+
+\paragraph{Imaginary time, and why it is not used.} The paper's filter \cite{wu2025pihm} is imaginary time, $e^{-\beta(1+x)}$ in the variable of $H'$, whose Chebyshev coefficients are modified Bessel functions, whose truncation is certified by its tail and whose time is set from the gap (\Cref{app:qite-filter}). Both filters meet the condition of \Cref{eq:gqsp-block} at full weight.
+
+\begin{proposition}[Unit weight of both filters]
+\label{prop:filter-normalisation}
+For every $\beta>0$ the Chebyshev coefficients $q_k$ of $e^{-\beta(1+x)}$ (\Cref{eq:qite-filter}), and for every $d$ and $x_1\in(-1,1)$ those of $P_d$ in \Cref{eq:minimax-filter}, alternate in sign and satisfy
+\begin{equation}
+    \sum_{k}|q_k|=1 ,
     \label{eq:filter-normalisation}
 \end{equation}
+so $|P(z)|\le\sum_k|q_k|=1$ on the unit circle, with equality at $z=-1$.
 \end{proposition}
 
-\begin{equation}
-    \beta = \frac{\alpha_R^2}{2\Delta}\,\ln\frac{1}{\varepsilon_f},
-    \qquad
-    d \approx \sqrt{2\beta\,\ln(2/\varepsilon_t)} ,
-    \label{eq:qite-parameters}
-\end{equation}
-% eq:degree (the filter-general Chebyshev degree formula, d = Theta(sqrt(alpha_H/Delta)
-%   log 1/eps)) moved to 2_body/2_literature.tex's sec:bg-filtering (ThesisPlanning.md
-%   §4.3 step 2): it is stated once, in the background, so Chs 4-6 can argue costs from
-%   it without forward-referencing this chapter. \Cref{eq:degree} still resolves there.
+The proof is given in \Cref{app:proof-filter-normalisation}: each filter is the reflection, about the spectrum's edge, of a function whose Chebyshev coefficients are non-negative and sum to its value of one there. The two filters share the factor $\alpha_R/\sqrt\Delta$ and differ in the logarithms, which bring imaginary time's degree close to twice the minimax filter's at equal suppression of the excited spectrum (\Cref{app:qite-filter}).
 
+The filter study of \Cref{sec:results-faithful} measures that ratio in both forms, at equal suppression and at equal measured infidelity, where the gain is smaller and on some problems reverses at loose $\varepsilon$. The minimax filter is therefore every comparison's filter; imaginary time runs only in that study and in the reproduction of the paper (\Cref{app:reproduction}).
+
+\paragraph{The initial state.} The filter acts on the geometric product state,
 \begin{equation}
-    \ket{\psi_{\mathrm{init}}} \propto \bigotimes_{j=0}^{n-1}\Bigl(\ket{0} + r^{2^j}\ket{1}\Bigr),
+    \ket{\psi_{\mathrm{init}}}\propto\bigotimes_{j=0}^{n-1}\Bigl(\ket{0}+r^{2^j}\ket{1}\Bigr)=\sum_{k=0}^{N-1}r^k\ket{k},
     \qquad
-    \gamma = \bigl|\braket{\psi_{\mathrm{ref}}|\psi_{\mathrm{init}}}\bigr| .
+    r=\pm\tfrac12,
+    \qquad
+    \gamma=\bigl|\braket{\psi_{\mathrm{ref}}|\psi_{\mathrm{init}}}\bigr| ,
     \label{eq:geometric-state}
 \end{equation}
+on the field block and zero on every other block: $n$ single-qubit rotations and no entangling gate. Its rationale is the geometric decay of a smooth function's Chebyshev coefficients, with a rate and a sign pattern guessed, not fitted. Both signs of $r$ are run and the one with the larger measured success probability is kept, a rule that needs only what a quantum computer observes. A system's fields each carry the state weighted by the problem's stated initial data $w_0/\|w_0\|$ (\Cref{sec:systems-data}). The uniform state and a seeded random state are controls, and $\gamma$ is reported for every run. Where the ground state has weight outside the field block, in the descriptor's derivative blocks or a lift's higher levels, $\gamma$ is at most the square root of the field block's weight (\Cref{sec:descriptor-gap}).
 
+\paragraph{Success and total cost.} The post-selection succeeds with probability $p_G=\|P_d(H')\psi_{\mathrm{init}}\|^2\ge\gamma^2P_d(x_0)^2$, which tends to $\gamma^2$ as the ground value approaches the edge. Amplitude amplification \cite{brassard2000amplitude} with $\lfloor\pi/(4\arcsin\gamma)\rfloor$ rounds raises it to at least one half, so with $g(W)$ the two-qubit gate count of one walk the cost of a preparation is\footnote{The count takes $\gamma$ from the classical reference, as the degree takes the edge; without it, fixed-point amplification costs a constant factor more. Running both signs of $r$ doubles the preparations, a factor the count leaves out (\Cref{app:amplification}).}
 \begin{equation}
-    p_G = \bigl\|f_\beta(H')\,\psi_{\mathrm{init}}\bigr\|^2 \;\to\; \gamma^2,
+    \text{queries}=(2k_{\mathrm{aa}}+1)\,d,
     \qquad
-    \text{gates} \approx \frac{\pi}{4\gamma}\Bigl[\,2d\,g(U_R) + d\,g(\text{refl})\Bigr] .
-    \label{eq:qite-cost}
+    \text{gates}=(2k_{\mathrm{aa}}+1)\,d\;g(W),
+    \qquad
+    k_{\mathrm{aa}}=\Bigl\lfloor\frac{\pi}{4\arcsin\gamma}\Bigr\rfloor,
+    \label{eq:total-cost}
 \end{equation}
-
-\placeholderfigure{The GQSP filter circuit.}{fig:gqsp-circuit}{Optional quantikz circuit: one GQSP ancilla; $R_0\prod_{k=1}^{d}\bigl[C_0W\,R_k\bigr]$ with $C_0W$ the controlled walk built from $U_R$, $U_R^\dagger$ and the two reflections, only the reflections controlled (\Cref{prop:stacked-reflection}); post-selection on the ancilla and the block-encoding register. The $R_k$ phases realise whichever filter is in force (minimax, primary; imaginary time, the paper's).}
+linear in $1/\gamma$ for small $\gamma$; the one-qubit rotations, the initial state and the amplification's reflections grow more slowly and are left out. The departures of this section from the paper's filter, phases, normalisation and initial state are collected with the others in \Cref{tab:deviations}.
 
 \subsection{Verification and the Error Budget}
 \label{sec:pipeline-verification}
-% ~1 pp (ThesisPlanning.md §5.7 point 6; moved before Readout, §4.2's order).
-% LAND, in order:
-%   1. Operator verification: the four modes (tab:verification-modes). Why IR
-%      is not a tautology: it checks what the circuit WILL implement against an
-%      INDEPENDENTLY ASSEMBLED operator, and the compiler is exact-verified per
-%      term type.
-%   2. State-preparation verification: T1, T2, T3.
-%   3. The argument for T2 = T1, stated BEFORE any T2 number is used: by
-%      qubitisation and GQSP the output depends on the encoding only through
-%      Pi V Pi (eq:stacked-reflection, eq:gqsp-block), so T2 is exact, and T1
-%      checks it (<= 1e-10) where both run.
-%   4. The resource estimate preceding every T1 run: memory 16 * 2^q bytes from
-%      the circuit's structure, time from one measured step; `infeasible` is
-%      recorded rather than attempted (decision 20).
-%   5. Acceptance criteria (tab:acceptance) and the error budget
-%      (eq:error-budget), every term measured separately.
-% OFFLOAD: the protocol in full, the memory model and its calibration (measured
-%   0.85-1.05 of the model at 22 qubits) -> Appendix I (app:verification).
-% TAB: tab:verification-modes (T4), tab:acceptance. Confirm the tolerances
-%   against pihm's verify.py at results-v1.
+% ~1 pp. LAND: operator verification (tab:verification-modes, T4), why IR is not a tautology; the
+%   tiers and the T2 = T1 argument BEFORE any T2 number; what circuit simulation reaches; the
+%   pre-run estimate (-> app:t1-model); acceptance (tab:acceptance -> app:error-budget); the error
+%   budget (eq:error-budget), eps_BE = eps_sample = 0. The verification outcomes are §8.1's.
+% REVISE (P8): the circuit-simulation reach below is the pre-P8 records' (20 qubits for a problem
+%   as run; the 26-28-qubit runs beyond the budget); recheck at results-v1 against CLAUDE.md's
+%   "about 26 qubits" (plan §2.2 TODO).
+
+Two questions are kept apart: whether each circuit encodes the operator it claims to, and whether the filter prepares the ground state. The first is \emph{operator verification} (\Cref{tab:verification-modes}). Its target is the whole block $2H/\alpha_R^2-I$ of the reflection, with $H$ formed from the residual assembled from the problem, never from the compiler that produced the circuit, so wherever the exact and probe modes reach, the composed Hamiltonian is verified whole rather than by parts.
+
+The exact mode reconstructs the block one input column at a time, one statevector evolution per column, and certifies the circuit completely at that size; its cost grows with the number of input columns as well as with the width, and its largest check, at 25 qubits, is of the paper's own R4d panel, whose Maclaurin source widens the register. The probe mode compares the circuit's action on twenty structured and Haar-random vectors with sparse products, which certifies the root-mean-square error and is evidence, not proof; it runs on every circuit of at most 24 qubits that the exact mode does not cover, the Navier--Stokes lifts' reflections among them. The \gls{ir} mode sums the compiled terms of a lift or coupling back into a sparse matrix and compares it with the assembled operator at any size. It is not a tautology, because the two sides are independent constructions from the problem; what it leaves open, the step from terms to gates, the exact and probe modes close where a circuit can be simulated, and beyond that the compiled circuit is the same construction at a larger size, not independently verified. Wider circuits are recorded for their subnormalisation and gate counts alone. The protocols are given in \Cref{app:verification-modes}, and the errors reached in \Cref{sec:results-faithful}.
 
 \begin{table}[htbp]
     \centering
-    \caption{Operator-verification modes: what each compares, up to what size, and to what tolerance.}
+    \caption{\textbf{Operator verification: every circuit is compared with an independently assembled operator.} What each mode compares, where it is used and its tolerance. $X$ is the target, the reflection's block $2H/\alpha_R^2-I$ or an atom's operator; the approximation mode applies only to the paper's approximate encoding of $\G$, which enters resource estimates alone. Protocols and coverage: \Cref{app:verification-modes}.}
     \label{tab:verification-modes}
     \small
-    \begin{tabular}{@{}l p{0.41\linewidth} p{0.14\linewidth} p{0.2\linewidth}@{}}
+    \begin{tabular}{@{}l p{0.37\linewidth} p{0.22\linewidth} p{0.19\linewidth}@{}}
         \toprule
-        Mode & Comparison & Size & Tolerance \\
+        Mode & Comparison & Used on & Tolerance \\
         \midrule
-        Exact & statevector per input column; $\alpha\,\Pi_{\mathrm{out}}U\Pi_{\mathrm{in}}$ against the independently assembled operator & $\lesssim 20$ qubits & max-abs $\le 10^{-10}\|X\|$ \\
-        Probe & 16--32 Haar-random and structured inputs against $X\psi/\alpha$ by sparse matrix--vector products & $\lesssim 28$--$30$ qubits & relative $\le 10^{-9}$ \\
-        IR & compiled term IR against the residual assembly at every size; each term type exactly at small $n$ & any $n$ & $\le 10^{-12}$ \\
-        Approximation & published $\G$ only: entry error $\epsilon_{\G}(n)$ against the small-angle bound & exact sizes & reported, not gated \\
+        Exact & the whole block, one statevector evolution per input column, entry by entry & circuits whose input columns it can afford, to 25 qubits & max-abs $\le10^{-10}\|X\|_2$ \\
+        Probe & $4$ structured and $16$ Haar-random inputs against sparse products $X\psi/\alpha$ & every other circuit of at most 24 qubits & relative $\le10^{-9}$ per input \\
+        \gls{ir} & the compiled terms, summed to a sparse matrix, against the assembled operator & lifts and couplings at any size & relative max-abs $\le10^{-10}$ \\
+        Approx. & the paper's $\G$: entry error against its bound & the sizes the exact mode reaches & reported, not gated \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
-    \centering
-    \caption{Acceptance criteria for every state-preparation run.}
-    \label{tab:acceptance}
-    \small
-    \begin{tabular}{@{}l p{0.42\linewidth} p{0.34\linewidth}@{}}
-        \toprule
-        Level & Metric & Acceptance \\
-        \midrule
-        State & infidelity $1 - |\braket{\psi_{\mathrm{ref}}|\psi}|^2$ in the form's own space & $\le \varepsilon = 10^{-6}$, and $\le 10\times$ the predicted bound \\
-        Probability & measured $p_G$ against $\|P(H')\psi_{\mathrm{init}}\|^2$ & relative difference $\le 10^{-8}$ \\
-        Field & decoded $f_Q$ against the analytic solution ($L^\infty$, relative $L^2$) & $\le \varepsilon_{\mathrm{disc}} + \kappa_{\mathrm{read}}\sqrt{\varepsilon_{\mathrm{prep}}}$ \\
-        T1 against T2 & state difference & $\le 10^{-10}$ \\
-        Phases & realised against target polynomial & $\le 10^{-12}$ \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+The second question is \emph{state-preparation verification}, at three tiers. \emph{Circuit simulation} (T1) runs the \gls{gqsp} circuit on a statevector simulator, one controlled walk at a time. \emph{Exact emulation} (T2) computes $\sum_kq_kT_k(H')\psi_{\mathrm{init}}$ by the Chebyshev three-term recurrence with $H'v=2R^\dagger(Rv)/\alpha_R^2-v$, two sparse products a step and $H$ never formed, up to degree $2^{20}$. A \emph{resource estimate} (T3) takes $\alpha_R$ and the walk's gate count from the circuit, the edge and $\gamma$ from the reference and the degree from \Cref{eq:minimax-degree}, and prepares nothing.
 
+T2 is not an approximation to the circuit. By \Cref{prop:stacked-reflection}, \Cref{eq:walk} and \Cref{eq:gqsp-block}, the circuit's post-selected output is $\sum_kq_kT_k(H')\psi_{\mathrm{init}}$, which depends on the encoding only through $\Pi_{\mathrm{in}}V\Pi_{\mathrm{in}}=H'$; two encodings with the same $H'$ give the same output for every filter. T2 therefore computes the circuit's output exactly, up to rounding, for the circuit's own $\alpha_R$, and T1 tests not the mathematics but that the circuit as built implements it, wherever both run (\Cref{sec:results-faithful}).
+
+Every circuit simulation is preceded by an estimate of its memory and time from the circuit, and a run whose estimate exceeds its budget is recorded with the estimate and not attempted (\Cref{app:t1-model}). Circuit simulation therefore covers the smallest resolutions only: the largest circuit simulated for a problem as run has \res{stateprep/R4d/descriptor/n3/T1/filter=minimax}{n_qubits} qubits (R4d at $n=3$, descriptor form). The descriptor's Laplace problem at $n=(2,2)$, at \res{stateprep/R5a/descriptor/n2x2/T1/filter=minimax}{n_qubits} qubits and degree \res{stateprep/R5a/descriptor/n2x2/T1/filter=minimax}{degree}, has an estimated \res[2]{stateprep/R5a/descriptor/n2x2/T1/filter=minimax}{predicted_seconds}\,s against a budget of \res[2]{stateprep/R5a/descriptor/n2x2/T1/filter=minimax}{budget_seconds}\,s, and rests on T2 and T3. That is a statement about the simulation budget, not about the circuit: by the argument above, a circuit that implements $V$ outputs T2's state, though at this width the reflection is built and counted but not independently verified.
+
+Each preparation is accepted against bars at every level, collected in \Cref{tab:acceptance} (\Cref{app:error-budget}): the state's infidelity at most $\varepsilon$ and within ten times its a priori bound; the circuit against its emulation within $10^{-10}$, compared before normalising, because normalising divides rounding by $\sqrt{p_G}$; the success probabilities within $10^{-8}$ relative; the realised phases within $10^{-12}$ of their target; and the field within an error budget. The prepared state's distance from the reference, $d(a,b)=\min_\phi\|a-e^{\mathrm{i}\phi}b\|$, splits along the chain the state passes through: the untruncated filter's output against the target (the filter term), T2's state against that output (the truncation term, rounding alone for the minimax filter), and the state the realised phases prepare against T2's (the phase term). The distance is a metric, so the terms add, and each is carried to the field by the exact readout bound $B$ of \Cref{prop:readout-bound}:
 \begin{equation}
-    \|f_Q - f\| \le
-    \underbrace{\|f_{\mathrm{ref}} - f\|}_{\varepsilon_{\mathrm{disc}}}
-    + \kappa_{\mathrm{read}}\bigl(\varepsilon_{\mathrm{filter}} + \varepsilon_{\mathrm{trunc}} + \varepsilon_{\mathrm{phase}} + d\,\varepsilon_{\mathrm{BE}}\bigr)
-    + \varepsilon_{\mathrm{sample}} .
+    \|f_Q-f\|_\infty\;\le\;\underbrace{\|f_{\mathrm{ref}}-f\|_\infty}_{\varepsilon_{\mathrm{disc}}}+B\bigl(d_{\mathrm{total}}\bigr),
+    \qquad
+    d_{\mathrm{total}}\le d_{\mathrm{filter}}+d_{\mathrm{trunc}}+d_{\mathrm{phase}} ,
     \label{eq:error-budget}
 \end{equation}
+where $f_{\mathrm{ref}}$ is the reference's own field, so $\varepsilon_{\mathrm{disc}}$ is the discretisation's error, and $B(d)$ is linear in $d$ for small $d$. Every encoding is exact and the field is decoded classically, so there is no block-encoding term and no sampling term.
 
 \subsection{Reading Out the Solution}
 \label{sec:pipeline-readout}
-% ~0.25 pp (ThesisPlanning.md §5.7 point 7: ONE PARAGRAPH). The classical
-% decoding is the thesis's own readout; the interferometric PROTOCOL is Wu et
-% al.'s (reproduced, with our p_G < 1 correction: Journal E024; decision T-12).
-% LAND, in order:
-%   1. THE READOUT, STATED FIRST: the field is decoded CLASSICALLY from the
-%      prepared state's field blocks, scaled by the regular datum
-%      (eq:readout-field).
-%   2. ONE PARAGRAPH on the paper's protocol: the interferometric readout
-%      (all-zero probabilities P_G(x), P_C(x) after the inverse feature map) is
-%      built and verified only at small n (R1, R2a, R5a), with our correction
-%      for p_G < 1 (eq:readout-identity; the paper's Eq. 36 assumes
-%      deterministic preparation, derivation -> Appendix F
-%      app:readout-identity); its study AT SCALE is future work, never the
-%      method's readout.
-% REVISE (T-24): this subsection used to run to 0.5 pp, treating the
-%   interferometric protocol's shot cost (point 4) and combiner-qubit cost
-%   (point 5) as part of the pipeline's own readout cost accounting.
-%   CLAUDE.md Standing Facts (Readout) make classical decoding the thesis's
-%   readout and the interferometric protocol a reproduced, small-n-only
-%   construction; compress to the one paragraph above and move the shot-cost
-%   and combiner-cost detail to Appendix F if kept at all.
+% ~0.25 pp (plan §5.7 item 7: ONE PARAGRAPH, T-24). Classical decoding first; the paper's protocol
+%   attributed, built and verified at small n, its correction for p_G < 1 (eq:readout-identity and
+%   its derivation -> app:readout-identity), further work.
 
+The field is read out classically: it is decoded from the prepared state's field blocks and scaled by the regular datum. With $\ell_x(\psi)=\braket{\tau(x)|D\psi}$ the field's value functional, $D$ the map from the state to the field's coefficients (the field block; for a lift, its first level times the scale $s$),
 \begin{equation}
-    f^{\ast}(x) = 4P_C(x) - P_G(x) - \frac{1}{2N} = \sqrt{\frac{p_G}{N}}\;\tau(x)\cdot\psi ,
-    \label{eq:readout-identity}
-\end{equation}
-\begin{equation}
-    f_Q(x) = f(x_s)\,\frac{f^{\ast}(x)}{f^{\ast}(x_s)},
+    f_Q(x)=f(x_s)\,\frac{\ell_x(\psi)}{\ell_{x_s}(\psi)},
     \qquad
-    \eta_e = \frac{f(x_s)^2\,p_G}{N\,f^{\ast}(x_s)^2} .
+    \eta=\Bigl(\frac{f(x_s)}{\ell_{x_s}(\psi)}\Bigr)^{2},
     \label{eq:readout-field}
 \end{equation}
+so the state's global phase and norm cancel and the decoded field carries the sign of the datum; $\eta$ is the linear model's scale of \Cref{sec:standard-model}. The paper reads the field out point by point instead, by an interferometric measurement (\Cref{sec:pihm-encoding}) whose identity assumes a deterministic preparation. A filter followed by post-selection succeeds with probability $p_G<1$, and the identity then carries a factor $\sqrt{p_G}$ (\Cref{eq:readout-identity}): the field, a ratio, is unaffected, and the scale read out with $p_G=1$ is wrong by the factor $p_G$. The protocol is built and verified, with this correction, on R1, R2a and R5a at small $n$; each point costs two circuits and $\mathcal{O}(1/\delta^2)$ shots for an overlap to $\delta$, and its study at scale is further work (\Cref{sec:future-work}), not the method's readout. The departure from the paper's readout is listed in \Cref{tab:deviations}.
 
 \subsection{Design of the Numerical Experiment}
 \label{sec:pipeline-design}
-% ~0.5 pp -- NEW in v2.0 (ThesisPlanning.md §5.7 point 8; §4.3 step 2: moved
-%   here from 9_results.tex's "Experimental Design and Cost Conventions").
-% LAND, in order:
-%   1. What the study varies (n, form, encoder, filter, initial state) and
-%      holds fixed (constraints, epsilon).
-%   2. What counts as a gate: transpiled to {cx, u}, dense cited primitives
-%      counted apart; ancilla counted on the composed V.
-%   3. FAIRNESS, DECLARED: the structured encoding is the strongest
-%      standard-form baseline built, and every comparison is quoted as built
-%      AND at alpha = ||R|| (T-25), so a reported advantage is not an encoder
-%      artefact.
-%   4. The tier is marked on every number.
-% TODO: this subsection is new in v2.0 and not yet drafted (wave W1).
+% ~0.5 pp. LAND: what varies and what is fixed; what counts as a gate and an ancilla; FAIRNESS,
+%   DECLARED, with its true bias: as built favours the descriptor (its encoder is the tighter); the
+%   ideal bound alpha = ||R|| isolates the Hamiltonian (T-25); the tier on every number.
+
+The study varies the resolution ($n$ per axis, $n_t$, the modes $M$ and the Carleman order $K$), the form, the encoding of $\G$, the filter, the target $\varepsilon$ and the initial state, one at a time from the defaults of \Cref{tab:run-inputs}. Within a comparison of the forms everything else is fixed: the problem and its constraint rows, $\varepsilon=10^{-6}$, the minimax filter, the geometric initial state on the field block and the readout.
+
+\paragraph{Cost conventions.} A query is one application of the walk $W$; a preparation costs $d$ queries and an amplified one $(2k_{\mathrm{aa}}+1)d$ (\Cref{eq:total-cost}). Gates per query are the two-qubit gates of one walk after transpiling to $\{\mathrm{CX},U\}$ \cite{qiskit2024}, with one-qubit gates counted separately and dense primitives that are cited rather than built, the doubled space's discrete cosine transform, counted apart. Ancilla are counted on the composed reflection $V$: the row select, every block's ancilla and, in the descriptor's chain, nothing for the block register, which is part of the state.
+
+\paragraph{Fairness, declared.} The standard form is costed with its structured encoding, the cheapest exact encoding of it built, and it carries the paper's Hamiltonian to leading order (\Cref{sec:standard-form}), so measured against the paper's own method the baseline is not weakened. It is not as tight as the descriptor's encoding. On R2a at $n=8$ the structured encoding's $\alpha_R/\|R\|_2$ is \res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_ratio} against the descriptor's \res[3]{looseness/stateprep/R2a/descriptor/n8/T3/filter=minimax}{alpha_ratio}, and on R3a at $n=7$, whose lifted coefficient the structured encoding pays for in full, it is \res[2,sci]{looseness/stateprep/R3a/standard/n7/T3/filter=minimax}{alpha_ratio} (exact classical computations from the built circuits and the assembled residuals; \Cref{sec:standard-hamiltonian,sec:descriptor-cost}). The degree is linear in $\alpha_R$ (\Cref{eq:degree}), so an as-built comparison favours the descriptor by about the ratio of the two encodings' looseness, a factor that belongs to the encodings, not to the Hamiltonians. Every comparison is therefore quoted twice: as built, and at the ideal-encoding bound $\alpha_R=\|R\|_2$ of \Cref{sec:standard-hamiltonian}, the least degree the minimax filter needs on the residual through any encoding of it (\Cref{prop:ideal-degree}). The difference between a form's two degrees is its encoder's cost; a difference between the forms at the ideal bound is a difference between their Hamiltonians, and only that difference answers the first two questions. Where the order of the forms reverses at the ideal bound, as on R3 (\Cref{sec:descriptor-rescaling}), the reversal is reported as a finding (\Cref{sec:results-scaling}).
+
+\paragraph{Tiers and fits.} Every number states its tier. Degrees beyond the emulation's reach are resource estimates: exact for this filter, given the spectrum and the circuit's $\alpha_R$, but with no state prepared, and compared with T2 where both exist. Every resource estimate is computed at its own resolution, from that resolution's circuit and reference, and none is extrapolated; the growth of a degree with $N$ is quoted as a measured exponent between stated resolutions. Both forms are given the exact spectral edge, so the known-edge assumption favours neither, though it leaves out the cost of finding the edge (\Cref{sec:limitations}).
 
 \subsection{Software and Computation}
 \label{sec:pipeline-software}
-% ~0.25 pp. NO code listings in the body ("no need to include detailed codes").
-% LAND: pihm (numpy, scipy, qiskit, qiskit-aer): one implementation per
-%   concept, problems as hashed data, tests of each claim; production on
-%   Setonix; every number regenerated from archived records by one command
-%   (Appendix L). No code listings.
-% OFFLOAD: -> Appendix L (app:software): "the package architecture, the record
-%   schema and the commands that regenerate every figure from results-v1 are
-%   given in Appendix L".
+% ~0.25 pp. NO code listings ("no need to include detailed codes"). Detail -> app:software.
+% CITED 2026-10-12: NumPy, SciPy (Crossref) and Setonix (Pawsey's Conditions of Use, which ask
+%   for the DOI citation); the Pawsey acknowledgement is in 1_header/2_acknowledgments.tex.
+
+The pipeline is implemented in \texttt{pihm}, a Python package written for this thesis, on NumPy \cite{harris2020numpy} and SciPy \cite{virtanen2020scipy} for the classical linear algebra and Qiskit and Qiskit Aer for the circuits and their simulation \cite{qiskit2024}. Each concept has one implementation, shared by both forms and every problem, so a difference between the forms cannot come from different code for the same step. A problem is a declarative specification whose hash identifies every record made from it, and each claim the thesis makes has a test that recomputes it. The production runs were made on the Setonix supercomputer of the Pawsey Supercomputing Research Centre \cite{pawsey2023setonix} at one tagged version of the code, and every number and figure in this thesis is regenerated from the archived records by one command. The package's architecture, the record format, the campaigns and the commands are given in \Cref{app:software}.
 
 % CHECKLIST (marker)
-%   1. Is there a configuration diagram (fig:pipeline)?
-%   2. Is every input option named, with its value?
-%   3. Is the software described?
-%   4. Is the experiment's design and fairness justified (sec:pipeline-design)?
-%   5. Are the deviations from the paper listed (by pointer to tab:deviations, §4.3)?
+%   1. Is there a configuration diagram (fig:pipeline), with a caption that stands alone?
+%   2. Is every input option named, with its value (tab:run-inputs in App. J, tab:constraint-kinds)?
+%   3. Is the software described (sec:pipeline-software)?
+%   4. Is the experiment's design and fairness justified, with its true bias (sec:pipeline-design)?
+%   5. Are the deviations from the paper pointed to tab:deviations (§7.2, §7.4, §7.6)?
 %   6. Is the T2 = T1 argument stated before any T2 number is used?
 %   7. Is the readout classical, the protocol attributed to the paper?
-% TRAPS  A software manual; "Pillar" and "tier" jargon; QITE presented as the
-%        comparison's filter; the readout presented as new or as the method's
-%        readout.
+% TRAPS  A software manual; "Pillar" and "tier" jargon; QITE presented as the comparison's filter;
+%        the readout presented as new or as the method's readout; "could not simulate" written as
+%        "cannot reach"; the legacy Gram-sum composition's ancilla (never cited); the as-built
+%        comparison called conservative.

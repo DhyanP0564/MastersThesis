@@ -319,13 +319,19 @@ A quantum circuit is said to be \textbf{efficient} if its circuit depth, gate co
 % MOVED HERE (ThesisPlanning.md §4.3 step 2, v2.0): eq:degree and its text
 %   used to sit in 7_pipeline.tex's filter subsection; stating it once, in the
 %   background, lets Chs 4-6 quote it without a forward reference.
+% HOME OF eq:degree (2026-10-12, first pass for the author to rewrite): the two
+%   paragraphs around the display are the ONLY statement of the formula and of
+%   alpha_H >= ||H||; Chs 3-7 cite \Cref{eq:degree} and do not restate either. Keep
+%   this text general: problem-specific consequences stay where they are argued.
 
+A ground state at the lower edge of a spectrum can be isolated by a polynomial of the block-encoded Hamiltonian that is large at the ground value and small on the rest of the spectrum. Let $H\succeq0$ be block-encoded at subnormalisation $\alpha_H$, with gap $\Delta=\lambda_1-\lambda_0$ and a ground value small against $\Delta$. In the variable $H/\alpha_H$ the excited spectrum lies in an interval at distance of order $\Delta/\alpha_H$ from the ground value, and the Chebyshev polynomial of that interval, normalised at the ground value, has the least maximum on it of any polynomial of its degree, by Chebyshev's classical inequality \cite{borweinerdelyi1995}; Lin and Tong use the same property for eigenstate filtering \cite{lintong2020filtering,lintong2020groundstate}. A Chebyshev polynomial grows away from its interval as the hyperbolic cosine of its degree times the square root of the distance, so suppressing the excited spectrum to $\varepsilon$ relative to the ground state needs the degree
 \begin{equation}
     d = \Theta\!\left(\sqrt{\frac{\alpha_H}{\Delta}}\,\log\frac{1}{\varepsilon}\right),
     \qquad
     \alpha_H = \alpha_R^2 .
     \label{eq:degree}
 \end{equation}
+Each degree is one query of the block encoding, so $d$ counts the queries of one filtered preparation before amplification. Two properties make \Cref{eq:degree} the instrument of every cost argument that follows. The circuit enters only through $\alpha_H$, and no block encoding of $H$ has $\alpha_H<\|H\|$, because the block of a unitary has norm at most one \cite{gilyen2019qsvt}; the degree is therefore at least of order $\sqrt{\|H\|/\Delta}\,\log(1/\varepsilon)$ whatever the encoding. And when $H=R^\dagger R$ is encoded through a block encoding of $R$ at subnormalisation $\alpha_R$, then $\alpha_H=\alpha_R^2$ and the degree is linear in $\alpha_R$; for an exact kernel the gap is the square of the smallest non-zero singular value of $R$, so $\sqrt{\alpha_H/\Delta}$ is at least the ratio of the largest singular value of $R$ to that one, the residual's effective condition number. The cost of a filtered ground state is thus set by the norm of the operator it is built from, measured against its gap.
 
 \subsection{Readout and Amplitude Amplification}
 \label{sec:bg-readout}

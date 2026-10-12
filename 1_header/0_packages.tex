@@ -16,7 +16,7 @@
 \usepackage{calligra}
 \usepackage{caption}
 \usepackage{datetime}
-\usepackage{dblfnote}
+% \usepackage{dblfnote} % removed 2026-10-12: incompatible with the current LaTeX kernel (undefined \dfn@elt@getht) once a footnote is used; the thesis needs single-column footnotes only
 \usepackage{dirtytalk}
 \usepackage{dsfont}
 \usepackage{etex}
@@ -72,6 +72,7 @@
 
 % Quantum computing packages
 \usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc} % the model-configuration figure (fig:pipeline)
 \usepackage{quantikz}
 
 % Placeholder figure: draws a boxed, described stand-in for a figure not yet

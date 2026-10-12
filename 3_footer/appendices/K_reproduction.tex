@@ -1,8 +1,11 @@
 % =============================================================================
-% Appendix K  Reproduction Record  --  cited from sec:results-reproduction.
+% Appendix K  Reproduction Record  --  cited from sec:pihm-assessment, the validation
+%   paragraph of sec:standard-form, sec:pipeline-filter and sec:limitations.
 % Plan: ThesisPlanning.md §6 (K); supporting contribution S1.
 %
-% CONTENT  All 16 panels, paper-faithful and corrected; the Fig. 5 triage; the
+% CONTENT  Table T6 (tab:eta-reproduction) and Figure F6 (fig:faithful-vs-corrected),
+%          moved here from Ch. 8 on 2026-10-12; all 16 panels, as printed and as run;
+%          the Fig. 5 triage; the
 %          unreproduced panels (R-D1 to R-D3) and the printed errors (M-02,
 %          M-07); the paper-claims register A-01 to A-13 with verdicts; the
 %          tau-truncation ablation (decision 11).
@@ -17,15 +20,47 @@
 
 \subsection{All panels}
 \label{app:repro-panels}
+% MOVED 2026-10-12 from Ch. 8 (plan §4.3: Ch. 8 loses its reproduction section): Table T6.
 
 \begin{table}[htbp]
     \centering
-    \caption{The paper's solutions at its printed resolution: $L^\infty$ error of the paper-faithful and corrected variants, and the corrected variant's best over $n$. Classical computation.}
+    \caption{\textbf{The exact solution reproduces the printed scale factor of every ordinary panel, to within one unit of the last printed digit, and of no partial differential or nonlinear panel.} The printed scale factor $\eta$ of each panel against the exact solution's $\eta_e=\|b\|^2$ (\Cref{eq:eta-e}) and the paper-faithful ground state's $\eta$, at the printed $n$. $^\dagger$: the ground state is not trusted (a degenerate kernel, or a gap ratio below 20). Classical computation.}
+    \label{tab:eta-reproduction}
+    \small
+    \begin{tabular}{@{}l l r l l l l@{}}
+        \toprule
+        Fig. & Problem & $n$ & Printed $\eta$ & Ideal $\eta_e=\|b\|^2$ & Ground state & Agreement \\
+        \midrule
+        3b & R2a & 3 & 1.29 & \res[places=5]{build/R2a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R2a/faithful/standard/n3}{eta}\resflag{build/R2a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        3c & R2b & 3 & 32.47 & \res[places=5]{build/R2b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R2b/faithful/standard/n3}{eta}\resflag{build/R2b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark (one unit low) \\
+        3d & R2c & 5 & 451.71 & \res[places=5]{build/R2c/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R2c/faithful/standard/n5}{eta}\resflag{build/R2c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4a & R3a & 3 & 1.75 & \res[places=5]{build/R3a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R3a/faithful/standard/n3}{eta}\resflag{build/R3a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4b & R3b & 3 & 1.49 & \res[places=5]{build/R3b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R3b/faithful/standard/n3}{eta}\resflag{build/R3b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4c & R3c & 5 & 108.51 & \res[places=5]{build/R3c/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R3c/faithful/standard/n5}{eta}\resflag{build/R3c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        4d & R3d & 5 & 135.38 & \res[places=5]{build/R3d/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R3d/faithful/standard/n5}{eta}\resflag{build/R3d/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        5a & R4a & 3 & 1.35 & \res[places=5]{build/R4a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R4a/faithful/standard/n3}{eta}\resflag{build/R4a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        5b & R4b & 3 & 14.74 & \res[places=5]{build/R4b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R4b/faithful/standard/n3}{eta}\resflag{build/R4b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark (one unit low) \\
+        5c & R4c & 4 & 0.82 & \res[places=5]{build/R4c/faithful/standard/n4}{eta_ideal} & $\res[places=5]{build/R4c/faithful/standard/n4}{eta}\resflag{build/R4c/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        5d & R4d & 4 & 77.51 & \res[places=5]{build/R4d/faithful/standard/n4}{eta_ideal} & $\res[places=5]{build/R4d/faithful/standard/n4}{eta}\resflag{build/R4d/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & \checkmark \\
+        \midrule
+        6b & R5a & 3 & 5.21559 & \res[places=5]{build/R5a/faithful/standard/n3x3}{eta_ideal} & $\res[places=5]{build/R5a/faithful/standard/n3x3}{eta}\resflag{build/R5a/faithful/standard/n3x3}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        6d & R5b & 4 & 603.863 & \res[places=5]{build/R5b/faithful/standard/n4x4}{eta_ideal} & $\res[places=5]{build/R5b/faithful/standard/n4x4}{eta}\resflag{build/R5b/faithful/standard/n4x4}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        6f & R5c & 5 & 216.469 & \res[places=5]{build/R5c/faithful/standard/n5x5}{eta_ideal} & $\res[places=5]{build/R5c/faithful/standard/n5x5}{eta}\resflag{build/R5c/faithful/standard/n5x5}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        7b & R6a & 2 & 3.75367 & \res[places=5]{build/R6a/faithful/standard/n2}{eta_ideal} & $\res[places=5]{build/R6a/faithful/standard/n2}{eta}\resflag{build/R6a/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        7c & R6b & 2 & 0.07984 & \res[places=5]{build/R6b/faithful/standard/n2}{eta_ideal} & $\res[places=5]{build/R6b/faithful/standard/n2}{eta}\resflag{build/R6b/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\times$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{The paper's solutions at its printed resolution: $L^\infty$ error of each panel as printed (the paper-faithful variant) and of the problem as run, and the problem's best over $n$. Classical computation.}
     \label{tab:app-repro-errors}
     \small
     \begin{tabular}{@{}l l r l l l@{}}
         \toprule
-        Fig. & Problem & Printed $n$ & Faithful & Corrected & Corrected, best over $n$ \\
+        Fig. & Problem & Printed $n$ & As printed & As run & As run, best over $n$ \\
         \midrule
         3b & R2a & 3 & $\res[2,sci]{build/R2a/faithful/standard/n3}{field_err_linf}\resflag{build/R2a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R2a/standard/n3}{field_err_linf}\resflag{build/R2a/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R2a/standard/best}{field_err_linf} ($n = \res{build/R2a/standard/best}{n}$) \\
         3c & R2b & 3 & $\res[2,sci]{build/R2b/faithful/standard/n3}{field_err_linf}\resflag{build/R2b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & $\res[2,sci]{build/R2b/standard/n3}{field_err_linf}\resflag{build/R2b/standard/n3}{trusted}{}{^{\dagger}}$ & \res[2,sci]{build/R2b/standard/best}{field_err_linf} ($n = \res{build/R2b/standard/best}{n}$) \\
@@ -53,10 +88,14 @@
 
 \subsection{The Fig.~5 triage}
 \label{app:repro-triage}
+% MOVED 2026-10-12 from Ch. 8: Figure F6.
+
+\placeholderfigure{Printed choices distort the paper's solutions at the printed resolution.}{fig:faithful-vs-corrected}{Four panels, the paper's Figs 5a--5d (R4a--R4d): the analytic solution, the paper-faithful ground state (rounded constraint points, Maclaurin sources) and R4a--R4d as run, with exact roots and Chebyshev sources, at the printed $n$; inset or second row: $L^\infty$ error against $n$ for both variants. Source: notebook \texttt{10\_paper\_reproduction}. Classical computation.}
+
 
 \begin{table}[htbp]
     \centering
-    \caption{Which printed choice causes the Fig.~5 error: the paper-faithful variant over $n = 4, \dots, 10$, each correction alone, and both together.}
+    \caption{Which printed choice causes the Fig.~5 error: the paper-faithful variant over $n = 4, \dots, 10$, each departure alone, and both together.}
     \label{tab:app-fig5-triage}
     \small
     \begin{tabular}{@{}l l l l l l@{}}
@@ -101,16 +140,16 @@
         & Claim & Verdict \\
         \midrule
         A-01 & $\G$, $\M$, $\nfold_1$ and $\Brow$ as printed at $n = 2$ & \prov{reproduced} \\
-        A-02 & the printed $\eta_e$ of Figs~3--5 (11 panels) & \prov{within one unit of the last printed digit; 9/11 equal when rounded} \\
-        A-03 & the printed $\eta_e$ of Fig.~6 & \prov{not reproduced} \\
-        A-04 & the printed $\eta_e$ of Fig.~7 & \prov{not reproduced} \\
+        A-02 & the printed $\eta$ of Figs~3--5 (11 panels) & \prov{within one unit of the last printed digit; 9/11 equal when rounded} \\
+        A-03 & the printed $\eta$ of Fig.~6 & \prov{not reproduced} \\
+        A-04 & the printed $\eta$ of Fig.~7 & \prov{not reproduced} \\
         A-05 & the printed Laplace solution & \prov{a typographical error ($\cosh$ for $\cos$)} \\
         A-06 & the $\Brow$ circuit (Fig.~2): $n+2$ qubits, prefactor $\sqrt{2^{n+1}}$ & \prov{confirmed} \\
         A-07 & the $\G$ circuit (Fig.~9): $2n+3$ qubits, $O(n^3)$ gates, error decreasing exponentially & \prov{--} \\
         A-08 & the $\Dzero$ circuit (Fig.~8): prefactor $\sqrt{2^{n+1}}/f(x_s)$ & \prov{confirmed} \\
         A-09 & the linear $H$ is positive definite with distinct eigenvalues & \prov{--} \\
         A-10 & the doubled-space $H$ has at least $2^{2n-1}$ zero eigenvalues & \prov{--} \\
-        A-11 & the time rule $t \ge \lambda_{\max}/(\lambda_2(n-1))$ suffices & \prov{--} \\
+        A-11 & the time rule $\beta \ge \lambda_{\max}/(\lambda_2(n-1))$ suffices & \prov{--} \\
         A-12 & the necessary terms scale as $O(\mathrm{poly}(n))$ and are efficient & \prov{true for gates; not for the subnormalisation} \\
         A-13 & the examples are solved accurately at the printed $n$ & \prov{distorted where rounded points or Maclaurin sources enter} \\
         \bottomrule
@@ -120,13 +159,14 @@
 \subsection{The paper's filter and its parameters}
 \label{app:paper-filter}
 % RECEIVED FROM sec:pihm-encoding (2026-10-04 contraction). The body keeps the idea,
-%   the time rule and the O(1/Delta) expectation; this holds the detail. Tested in
-%   sec:results-reproduction and, for the filter study, sec:pipeline-filter.
-The paper realises imaginary time by QSVT on a block encoding of $\tilde H = H/\|H\|_F$ \cite{wu2025pihm}. The target $p(x)\approx e^{-tx}$ has indefinite parity, so the paper finds one set of phase angles for its even part and one for its odd part, of maximal degrees $d^e$ and $d^o$, runs the two opposite-parity QSVT sequences and sums them by an LCU: a mixed-parity circuit. Each sequence uses the unitary dilation
+%   the time rule, the examples' times and degrees and the O(1/Delta) expectation;
+%   this holds the detail. Tested in app:paper-claims and, for the filter study,
+%   sec:pipeline-filter. The paper's t is written beta (T-08).
+The paper realises imaginary time by QSVT on a block encoding of $\tilde H = H/\|H\|_F$ \cite{wu2025pihm}. The target $p(x)\approx e^{-\beta x}$ has indefinite parity, so the paper finds one set of phase angles for its even part and one for its odd part, of maximal degrees $d^e$ and $d^o$, runs the two opposite-parity QSVT sequences and sums them by an LCU: a mixed-parity circuit. Each sequence uses the unitary dilation
 \begin{equation}
     U(\tilde H) = \begin{pmatrix} \tilde H & \sqrt{I-\tilde H\tilde H^\dagger} \\ \sqrt{I-\tilde H^\dagger\tilde H} & -\tilde H^\dagger \end{pmatrix},
 \end{equation}
-built from PREPARE and SELECT subroutines over the unitary decomposition of $\tilde H$ with $m = \lceil\log_2 L\rceil$ ancilla for $L$ unitaries. The time satisfies the approximate bound $t \ge \lambda_{\max}/(\lambda_2(n-1))$ (\Cref{eq:pihm-time-rule}). For the paper's two Legendre examples of its supplement, $t = 15$ and $t = 8$ recover the ground state with $(d^e,d^o) = (6,7)$. Beyond the $O(1/\Delta)\,\mathrm{polylog}(1/\varepsilon)$ preparation time, the paper expects algorithmic thermalisation to reach $O(1/\sqrt{\Delta})$, and notes that GQSP, GQET and GQSVT could improve the circuit.
+built from PREPARE and SELECT subroutines over the unitary decomposition of $\tilde H$ with $m = \lceil\log_2 L\rceil$ ancilla for $L$ unitaries. The time $\beta$ is set by the paper's approximate lower bound, \Cref{eq:pihm-time-rule}, and its examples' times and degrees are stated with the method in \Cref{sec:pihm-encoding}. The paper also notes that \gls{gqsp}, GQET and GQSVT could improve the circuit.
 
 \subsection{The tau-truncation ablation}
 \label{app:repro-tau}

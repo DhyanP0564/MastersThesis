@@ -46,7 +46,7 @@ The ripple-carry adder of Cuccaro et al.\ \cite{cuccaro2004adder}, on registers 
 The circuit block-encodes $\Uodd$ exactly at $\alpha=N/2$.
 \end{lemma}
 \begin{proof}
-PREPARE maps $\ket0$ to $\sqrt{2/N}\sum_{d\ \text{odd}}\ket d$. From $\ket p\ket0$, PREPARE and SELECT give $\sqrt{2/N}\sum_{d\ \text{odd}}\ket{(p-d)\bmod N}\ket d\ket{[\,p<d\,]}$. Projecting the borrow on zero keeps the terms with $d\le p$, for which $(p-d)\bmod N=p-d$; projecting the offset register on zero after PREPARE$^\dagger$ weights each by $\bra0\mathrm{PREPARE}^\dagger\ket d=\sqrt{2/N}$. The block's entry $(k,p)$ is therefore $\tfrac2N\,\#\{d\ \text{odd}:d=p-k\ge1\}=\tfrac2N[\,p>k,\ p-k\ \text{odd}\,]$.
+PREPARE maps $\ket0$ to $\sqrt{2/N}\sum_{\ell\ \text{odd}}\ket\ell$. From $\ket p\ket0$, PREPARE and SELECT give $\sqrt{2/N}\sum_{\ell\ \text{odd}}\ket{(p-\ell)\bmod N}\ket\ell\ket{[\,p<\ell\,]}$. Projecting the borrow on zero keeps the terms with $\ell\le p$, for which $(p-\ell)\bmod N=p-\ell$; projecting the offset register on zero after PREPARE$^\dagger$ weights each by $\bra0\mathrm{PREPARE}^\dagger\ket\ell=\sqrt{2/N}$. The block's entry $(k,p)$ is therefore $\tfrac2N\,\#\{\ell\ \text{odd}:\ell=p-k\ge1\}=\tfrac2N[\,p>k,\ p-k\ \text{odd}\,]$.
 \end{proof}
 
 The terms that wrap around carry a borrow of one and vanish on post-selection, and SELECT is a permutation, so one PREPARE serves all $N/2$ terms. The subtractor costs $n$ MAJ and $n$ UMA gates, each two CNOTs and a Toffoli, and one CNOT: $16n+1$ CNOTs with a six-CNOT Toffoli, which is the transpiled count at every $n$ computed.

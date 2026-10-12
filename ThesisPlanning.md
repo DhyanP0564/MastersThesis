@@ -126,18 +126,18 @@ Columns: **S** = scaffolded to this plan, **D** = drafted, **N** = numbers curre
 |---|---|---|---|---|---|---|
 | Front matter (title, declaration, achievement, abstract) | ☑ | ☐ | ☐ | ☐ | ☐ | §13 |
 | 1 Introduction | ☑ | ☐ | ☐ | ☐ | ☐ | the outline (§1.4) must name Ch. 3 as judged prior art and Ch. 4 as the standard form and Q(i) |
-| 2 Background and Literature Review | ☑ | ◐ | n/a | ☐ | ☐ | §2.1 drafted; history, lineage and FOSLS to add (§5.2). The heading "Readout and Amplitude Amplification" differs from §4.2's "Readout" |
+| 2 Background and Literature Review | ☑ | ◐ | n/a | ☐ | ☐ | §2.1 drafted; history, lineage and FOSLS to add (§5.2). §2.6 holds `eq:degree` with a first-pass statement of it and of α_H ≥ ‖H‖ (2026-10-12), the only one: Chs 3–7 cite it |
 | 3 PIHM (prior art), `3_pihm.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | scaffold and first-pass prose to plan §5.3 |
 | 4 Standard form, `4_standard.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | scaffold and first-pass prose to plan §5.4; Table T10 filled |
-| 5 Descriptor, `5_descriptor.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | reviewed 2026-10-12 and fixes applied (pointers retargeted to Ch. 4; App. G drafted in full). Open: the gates-per-query Standing Fact's scope (REVISE in §5.8); App. G's `\prov` probe tables; about 13 pp against 9 |
+| 5 Descriptor, `5_descriptor.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | reviewed 2026-10-12 and fixes applied (pointers retargeted to Ch. 4; App. G drafted in full). The gates-per-query Standing Fact is scoped to constant coefficients (2026-10-12). Open: App. G's `\prov` probe tables; about 13 pp against 9 |
 | 6 Beyond a single real field, `6_extensions.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | first-pass prose to plan §5.6 v3.2 (2026-10-12), checked against companions, reports 16–17 and the code; apparatus moved to App. H, now drafted in full; ≈ 7.2 pp against 6. Open: two derived keys (R7's gap ratio; the fold norms) |
-| 7 Pipeline, `7_pipeline.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | §7.3 must absorb Wedin's bound against the eigensolver's (from Ch. 4's earlier draft); the deviations list is a pointer to T10 (§4.4) |
-| 8 Numerical Study, `8_results.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | **scaffold not yet aligned**: remove the "Reproducing Wu et al." section (its table and Figure F6 move to Appendix K) and add §8.1's validation paragraph; the Burgers caption states "diverging past a/ν ≈ 5" |
-| 9 Discussion, `9_discussion.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | **scaffold not yet aligned**: remove "What the Reproduction Says About the Published Method"; T9 gains two rows |
+| 7 Pipeline, `7_pipeline.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | first-pass prose to plan §5.7 (2026-10-12); reviewed 2026-10-12 and fixes applied: the fairness declaration corrected (as built favours the descriptor; also Ch. 4 §4.4, this plan, STYLE_GUIDE, CLAUDE.md); reflection credited to qubitisation/QSVT; trim candidates executed (F2 dropped; `tab:run-inputs` → App. J; iterative reference, T1 cost model and `tab:acceptance` → App. I; `eq:qite-filter` and `eq:readout-identity` → App. F); verification and filter-study numbers → §8.1's NOTE. Open: plan §2.2 TODO |
+| 8 Numerical Study, `8_results.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | scaffold aligned 2026-10-12: the "Reproducing Wu et al." section removed (Table T6 and Figure F6 moved to Appendix K with their labels); §8.1's validation paragraph added to its LAND; T7's stale cells corrected |
+| 9 Discussion, `9_discussion.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | scaffold aligned 2026-10-12: "What the Reproduction Says About the Published Method" removed. Open: T9 gains two rows |
 | 10 Conclusions, `10_conclusions.tex` | ☑ | ☐ | ☐ | ☐ | ☐ | future-work item 5 narrowed (plan §5.10) |
 | Appendices A–M | ◐ | ☐ | ☐ | ☐ | ☐ | B, G and H drafted, C and D in part; **K to be scaffolded as the reproduction and audit** (plan §6); C, D, I absorb the items of plan §6 |
 | `ref.bib` audit (T-29) | – | ☐ | – | – | ☐ | before W1 drafting ends |
-| Verification Mode pass | | | | ☐ | | §14 |
+| Verification Mode pass | | | | ◐ | | §14. Chs 3–7 against the appendices and the code, 2026-10-12: findings A1–A9, B1–B12, C applied |
 
 **Measured length (2026-10-09 build, Ch. 3–4 first pass):** Ch. 3 about 5.5 pp and Ch. 4 about
 10.5 pp (Table T10 a full page at `\scriptsize`), against 3.75 and 6.5; Ch. 5 about 13 pp against 9.
@@ -226,8 +226,12 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
 - **Appendix K** is scaffolded as the reproduction record only; it must take the audit of plan §6
   (T-36), including the claims' derivations from the earlier Ch. 4 draft (the time rule's bound, the
   positive-definiteness verdict, the uniqueness count's role) and Table T6 and Figure F6 from Ch. 8.
-- **Appendix I** takes Wedin's bound against the eigensolver's (`eq:wedin` in the earlier Ch. 4
-  draft), with `tab:eigh-vs-svd`.
+- **Appendix I.** *Resolved 2026-10-12:* drafted in full; Wedin's bound against the eigensolver's
+  is `prop:wedin` there and `eq:wedin` in §7.2. *Open:* `tab:eigh-vs-svd` is a planning probe on
+  a problem that is not R2a (f(−½) = 0), all `\prov`: regenerate on R2a (an eigensolver column
+  needs a build-stage metric or a derived key) or relabel it; the per-atom table needs a derived key.
+- **Chapter 7 and Appendices F, I (2026-10-12):** their open items are in the end-of-drafting
+  TODO (§2.2).
 
 **Chapters.**
 
@@ -247,9 +251,9 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
 
 **Results README and keys.**
 
-- `0_results/README.md` describes `degree` and `tau` as the QITE filter's (minimax runs have
-  `degree` and no `tau`), and has no rows for the `growth` and `looseness` derived keys. Fix the
-  README before W2.
+- `0_results/README.md`: *resolved 2026-10-12* for `degree`/`tau`, the T3 metrics and the T1
+  agreement metrics (`filtered_agreement` is C-08's, before normalising; `t2_agreement` is the
+  normalised state's). *Open:* no rows yet for the `growth` and `looseness` derived keys.
 - The Chapter 6 evidence keys. R7's mass-form gap against the chain's (2.1 at n ≥ 4,
   `16_extensions.md` §1.1) and the matchings' term count and α against Pauli words are not exported
   as `\res` keys; add derived keys before §6.1 and §6.6 quote them, or quote them as `\prov` with a
@@ -262,6 +266,42 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
   publisher and add it to `ref.bib` (T-29).
 - **STYLE_GUIDE §7** quotes the relative gap at n = 8 (5.9e-15 at n = 7 is above 2⁻⁵²; 2.3e-17 at
   n = 8 is below it).
+
+### 2.2 End-of-drafting TODO (review together at the end; do not act on these piecemeal)
+
+Collected while drafting; each item says where it lives. Tick here when resolved.
+
+**Evidence gaps the Chapter 7 draft exposes (2026-10-12).**
+
+- [ ] **The largest exact verification is a reproduction record.** The 25-qubit exact check of the
+  stacked reflection is `encode/R4d/faithful/standard/n3` (the printed Maclaurin source widens the
+  register); the largest exact check of a problem as run is smaller. §7.5 says "from the
+  reproduction". Decide: keep, or run an exact check of a problem as run near 25 qubits.
+- [ ] **Unverified wide reflections.** The R5 descriptor reflections at n = (2, 2) (27 qubits) are
+  construction-only (`verify=none`), above the 24-qubit probe ceiling, and their circuit simulations
+  are beyond the budget; §7.5 says the reflection there is "built and counted but not independently
+  verified". Decide: raise the probe ceiling for these, or keep the caveat.
+- [ ] **B-17's range is `\prov`.** "1.67–1.92" (§7.4) is the synthetic sweep's
+  (`docs/15_filters.md` §1), not a record.
+- [ ] **`tab:eigh-vs-svd` (App. I) is a planning probe on a problem that is not R2a**
+  ({1,4,4} with f(−½) = 0), all `\prov`. Regenerate on R2a (needs an eigensolver metric in the build
+  stage or a derived key) or relabel.
+- [ ] **The circuit-simulation frontier.** The Standing Facts say T1 reaches about 26 qubits at n = 2
+  in the standard form; the pre-P8 records show the 26–28-qubit runs (R5 descriptor) beyond the
+  budget. Re-check against P8 and correct `CLAUDE.md` or Ch. 7 accordingly (Ch. 7 quotes no frontier).
+- [ ] **Trust threshold wording.** The code trusts a gap ratio of *at least* 20; `CLAUDE.md` says
+  "above 20". Immaterial; align `CLAUDE.md` to the code.
+
+**Derived keys to export (`pihm/tools/thesis/derived.py`).**
+
+- [ ] Worst minimax `filtered_agreement` over every T1 record (C-08; §7.5 quotes one record).
+- [ ] Minimax/QITE degree ratio at equal suppression (B-17; replaces the `\prov` above).
+- [ ] Worst `phases_max_error` over the records (B-16; App. F states it qualitatively).
+- [ ] The iterative reference's drift check against the dense SVD on R2a, n = 8–10 (App. I,
+  qualitative).
+- [ ] Per-atom exact errors over n (App. I's per-atom table).
+- [ ] The worst exact-mode error over all records (C-03; App. F quotes the record that attains it in
+  the pre-P8 export).
 
 ---
 
@@ -279,14 +319,14 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
 > α/‖A_desc‖ → 1 on regular one-axis problems. The gap the derivative blocks erode is restored on
 > one axis by an a priori block rescaling at no gate cost, so the filter degree is Θ̃(N) for a
 > regular one-axis ODE, against Θ̃(N^{2k}) for the standard form's best exact encoding. *Costs,
-> volunteered:* the block register, a higher gate count per query at small n, a gap that still falls
+> volunteered:* the block register, a higher gate count per query at small n on constant-coefficient problems, a gap that still falls
 > on two axes, and no remedy for a double zero. *Antecedents:* ultraspherical; first-order-system
 > least squares. *Evidence:* Ch. 5, §8.2–8.3; claims C-05, C-06, B-01, B-02, B-04–B-06, B-21.
 
 **Supporting.**
 
 > **S1. The standard form, specified and validated.** Wu et al.'s construction, in which the state
-> holds the field alone and every derivative is eliminated through 𝔾, stated once and completely, in the form every later chapter runs (answer-independent except its constraint points and the heat panel's initial time, set up from the reference solution and said so): exact
+> holds the field alone and every derivative is eliminated through 𝔾, stated once and completely, in the form every later chapter runs (answer-independent except its constraint points and the heat panel's initial function at t = −1, set up from the reference solution and said so): exact
 > constraint points, Chebyshev sources, datum slices for initial and boundary functions, the R3c/R3d
 > substitution, any number of axes and the stacked residual, each departure argued where it occurs
 > and collected in Table T10. The departures change the data, never 𝔾 or the Gram structure, so the
@@ -338,7 +378,7 @@ answers one.
 | question | answered (formulation) | evidenced (results) |
 |---|---|---|
 | (i) *Does the method's total number of queries originate in the particular encoder circuits, or in the Hamiltonian itself?* | Ch. 4 (§4.5–4.6) | §8.2 |
-| (ii) *Can the residual be reformulated so that its Hamiltonian is banded and well conditioned, without changing its solution, and what does that cost?* | Ch. 5 | §8.2–8.3 |
+| (ii) *Can the residual be reformulated so that its Hamiltonian is banded and well conditioned without changing its solution, and what does the reformulation cost?* | Ch. 5 | §8.2–8.3 |
 | (iii) *Can nonlinear equations be prepared rather than projected?* (with its prerequisite, the paper's scope: several fields, complex-valued fields, §6.1–6.3) | Ch. 6 | §8.4–8.5 |
 | (how the answers are tested) | Ch. 7 | §8.1 |
 
@@ -457,7 +497,7 @@ space in Chapter 7, with the detail in Appendices B–I and L. Results & Discuss
 paper, not about the thesis's questions, so it is in Appendix K (T-36). Four pages of slack remain
 under the cap.
 
-**Trim order if over budget:** §2.1 first; then §8.3's third representative problem (to Appendix
+**Trim order if over budget:** §2.1 first; (Chapter 7's three candidates, the F2 placeholder, §7.2's iterative-reference detail and `tab:run-inputs`, were executed 2026-10-12); then §8.3's third representative problem (to Appendix
 J); then §7.9 and §7.8 to their minimum; then §4.5.1 to its verdict (the rebuild's prose to
 Appendix D); then §4.5.3's gate table to Appendix E; then §6.6's matchings to one paragraph (their
 construction to Appendix H); then §3.3 to its claims only. Chapter 5 is cut last. The page budget is
@@ -490,16 +530,16 @@ enforced in Review Mode only (`CLAUDE.md`).
   \subsection{Block Encoding, Linear Combinations of Unitaries and Qubitisation}
   \subsection{Quantum Signal Processing and Its Generalisation}
   \subsection{Ground-State Preparation by Filtering}          % the degree formula
-  \subsection{Readout}
+  \subsection{Readout and Amplitude Amplification}
   \subsection{Synthesis}
 
 % 2_body/3_pihm.tex  (~3.75 pp)  PRIOR ART, judged (T-13)
 \section{The Physics-Informed Effective Hamiltonian Method}   % sec:pihm
   % opening, no heading
-  \subsection{The Latent Chebyshev Model}                      % sec:pihm-model
-  \subsection{The Residual and Its Hamiltonian}                % sec:pihm-residual
-  \subsection{The Paper's Circuits, Filter and Readout}        % sec:pihm-encoding
-  \subsection{The Doubled-Space Extension to Nonlinearity}     % sec:pihm-doubled
+  \subsection{The Chebyshev Latent-Space Model}                % sec:pihm-model
+  \subsection{Hamiltonian Construction}                        % sec:pihm-residual
+  \subsection{Circuits, Filtering and Readout}                 % sec:pihm-encoding
+  \subsection{Doubled-Space Extension to Nonlinearity}         % sec:pihm-doubled
   \subsection{Critical Assessment}                             % sec:pihm-assessment; poses Q(i)-(iii)
 
 % 2_body/4_standard.tex  (~6.5 pp)  (T-30)
@@ -542,7 +582,8 @@ enforced in Review Mode only (`CLAUDE.md`).
 
 % 2_body/7_pipeline.tex  (~5.5 pp)
 \section{Preparing and Verifying the Ground State}            % sec:pipeline
-  \subsection{Overview and Model Configuration}                % F1
+  % opening, no heading: the question, the pipeline in one paragraph, F1. With no
+  % "Overview" heading, this plan's §7.2-7.9 are the thesis's §7.1-7.8.
   \subsection{Problems and Model Inputs}                       % T2 constraint kinds, T3 ladder
   \subsection{The Classical Reference}                         % Wedin's bound
   \subsection{From Stacked Residual to Quantum Walk}
@@ -594,7 +635,8 @@ closes every structural change.
 board tracks it): Ch. 8 loses its reproduction section, whose table (`tab:eta-reproduction`, T6)
 and figure (`fig:faithful-vs-corrected`, F6) move to Appendix K with their labels, and §8.1 gains
 its validation paragraph's LAND; Ch. 9 loses its reproduction section; Ch. 7's §7.3 LAND gains
-Wedin's bound; Appendices C, D, I and K take the items of plan §6.
+Wedin's bound; Appendices C, D, I and K take the items of plan §6. *Done 2026-10-12:* the
+Ch. 8 and Ch. 9 moves; the rest of Appendix K's audit is still open.
 
 ---
 
@@ -1018,8 +1060,11 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
      eigh(H); initial states; the doubled space; one real field. Pipeline rows point to Ch. 7; the
      doubled space and one real field to Ch. 6.
    - **The fairness sentence:** the departures change the data and the solve, never 𝔾 or the Gram
-     structure, so the standard form has the paper's ‖H‖ and its cost, and better accuracy: a
-     comparison against it is conservative.
+     structure, so the standard form has the paper's ‖H‖ and its cost, and better accuracy: the
+     baseline is not weakened against the paper. (v3.2, 2026-10-12: it is *not* conservative
+     against the descriptor. Its structured encoding is looser than the descriptor's (α_R/‖R‖ 7.7
+     against 1.04 on R2a at n = 8, `looseness` keys), so an as-built comparison favours the
+     descriptor; only the ideal bound isolates the Hamiltonian, §7.7.)
    - **The validation paragraph (S1's evidence, the only body trace of the reproduction):** the
      paper-faithful variant, with every printed choice kept, reproduces the paper's printed
      supplementary matrices entry by entry and the printed scale factors of all eleven ODE panels to
@@ -1178,9 +1223,10 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
    - **Measured (assert, with `\res`):** α/‖A_desc‖ → 1 on regular one-axis problems, about 2 on
      singular ones, 2.3–4.1 on PDEs (B-04).
    - **Interpretation, two paragraphs:** what O(log n) ancilla mean beside the standard form's
-     n + 4 for 𝔾 alone; and, volunteered, that at reachable n the descriptor's gate count per query
-     is *higher* than the structured standard form's (more terms, the block register), so its
-     advantage is the degree, not the gates per query.
+     n + 4 for 𝔾 alone; and, volunteered, that at reachable n on constant-coefficient problems the descriptor's
+     gate count per query is *higher* than the structured standard form's (more terms, the block
+     register), so its advantage there is the degree, not the gates per query; on the lifted
+     variable-coefficient panels its query is the cheaper (R3 from n = 4, R4a from n = 3).
 9. **§5.9 Consequences for the spectrum and the filter (1.25 p).**
    - ‖H_desc‖ = Θ(N²); with the rescaled gap flat on a regular one-axis problem, `eq:degree` gives
      **d = Θ̃(N)**, against Θ̃(N^{2k}) (`eq:standard-wall`); about Θ̃(N²) or faster where the leading
@@ -1439,7 +1485,9 @@ selected (boundary conditions…)**". Band 3 names "**poor design of numerical e
 2. **§7.2 Problems and model inputs (1.0 p).** **Table T3**, the benchmark ladder R1–R10: one new
    capability each, so a failure localises, with its physics (full specifications → Appendix J).
    **Table T2**, the constraint kinds (zero, collapse, ratio, datum slice): the rubric's "boundary
-   conditions". A problem is data: equation terms, constraints, regular datum, reference. The paper's
+   conditions". **`tab:run-inputs`** (v3.2, 2026-10-12): every input option with its values and
+   default, for the checklist's "every input option named, with its value"; the body names the
+   options and the table sits in Appendix J (`app:run-options`). A problem is data: equation terms, constraints, regular datum, reference. The paper's
    panels as printed appear only in Appendix K (T-27). The inputs every run records: n per axis,
    form, encoder, filter, ε = 1e-6, initial state, rescaling, Carleman order K.
 3. **§7.3 The classical reference (0.5 p).** The smallest right singular vector of the stacked R:
@@ -1498,9 +1546,11 @@ selected (boundary conditions…)**". Band 3 names "**poor design of numerical e
 8. **§7.8 Design of the numerical experiment (0.5 p).** What the study varies (n, form, encoder,
    filter, initial state) and holds fixed (constraints, ε); what counts as a gate (transpiled to
    {cx, u}, dense cited primitives counted apart); ancilla counted on the composed V. **Fairness,
-   declared:** the structured encoding is the strongest standard-form baseline built, and every
-   comparison is quoted as built and at α = ‖R‖ (T-25), so a reported advantage is not an encoder
-   artefact. The tier is marked on every number.
+   declared:** the structured encoding is the cheapest exact standard-form encoding built, but it
+   is looser than the descriptor's, so the as-built comparison favours the descriptor by about the
+   ratio of the two looseness factors (v3.2 correction, 2026-10-12). Every comparison is quoted as
+   built and at α = ‖R‖ (T-25); only the ideal-bound comparison is a statement about the
+   Hamiltonians. The tier is marked on every number.
 9. **§7.9 Software and computation (0.25 p).** `pihm` (numpy, scipy, qiskit, qiskit-aer): one
    implementation per concept, problems as hashed data, tests of each claim; production on Setonix;
    every number regenerated from archived records by one command (Appendix L). No code listings.
@@ -1694,7 +1744,7 @@ guidelines' "laboratory handbook" role; keep it factual and short (3–4 pp).
 |---|---|---|---|---|
 | F0 | concept: degree = √(looseness/relative gap), the two costs (optional) | §1.2 | TikZ | n/a |
 | F1 | model configuration (the pipeline) | §7.1 | TikZ | n/a |
-| F2 | the GQSP circuit (optional) | §7.5 | quantikz | n/a |
+| F2 | the GQSP circuit (optional; dropped from the body 2026-10-12, App. F if wanted) | §7.5 | quantikz | n/a |
 | F3 | U_odd's SELECT (subtraction with borrow) | §4.5.3 | quantikz | n/a |
 | F4 | sparsity of A_std against A_desc | §5.1 | `pipeline.solutions` structure view | exact |
 | F5 | the descriptor's flat LCU | §5.7 | quantikz | n/a |
@@ -1710,8 +1760,9 @@ guidelines' "laboratory handbook" role; keep it factual and short (3–4 pp).
 **Appendix figures:** F6, the panels as printed against the problem (Fig. 5), and the triage
 (Appendix K; nb 11; classical).
 
-**Body tables:** T1 approaches (§2.2); T2 constraint kinds (§7.2); T3 benchmark ladder (§7.2); T4
-verification modes and acceptance (§7.6); T5 descriptor block rows (§5.3); **T7 the headline
+**Body tables:** T1 approaches (§2.2); T2 constraint kinds (§7.2); T3 benchmark ladder (§7.2);
+`tab:run-inputs`, the run options (App. J, named in §7.2); T4
+verification modes (§7.6; the acceptance criteria, `tab:acceptance`, in App. I); T5 descriptor block rows (§5.3); **T7 the headline
 three-encoding table (§8.2)**; T8 preparation versus projection (§6.8); T9 applicability map
 (§9.3); **T10 deviations from the printed method (§4.4, `tab:deviations`)**; `tab:alpha-G-short`
 (§4.5.3). Appendix tables include T6 (`tab:eta-reproduction`, App. K) and

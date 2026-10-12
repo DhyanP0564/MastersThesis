@@ -1,75 +1,261 @@
 % =============================================================================
 % Appendix F  The Shared Pipeline: Identities and Formulas
-% Cited from sec:pipeline-walk, sec:pipeline-filter, sec:pipeline-readout.
-% Plan: ThesisPlanning.md §6 (F); supporting contribution S3 (claims C-03,
-% C-04, C-08).
+% Cited from sec:pipeline-walk, sec:pipeline-filter, sec:pipeline-design and
+% sec:pipeline-readout. Plan: ThesisPlanning.md §6 (F); supporting contribution
+% S3 (claims C-03, C-04, B-16, B-17, B-24).
 %
-% CONTENT  Proofs of prop:stacked-reflection and prop:filter-normalisation;
-%          qubitisation (Pi W^k Pi = T_k(H')); controlled-V from a controlled
-%          reflection; the filter coefficients; the beta and d formulas; the
-%          success probability; the readout identity for p_G < 1.
-% SOURCES  Planning.md §3.7 (composition), §3.8, §7.3, §7.6, App. A-7;
-%          Journal E023-E024; pihm/src/pihm/circuits/compose.py, gqsp.py,
-%          qsp/filters.py, qsp/readout.py.
+% CONTENT  (2026-10-12: eq:qite-filter and eq:readout-identity moved here from Ch. 7.)
+%          The stacked residual and the proof of prop:stacked-reflection;
+%          qubitisation; the controlled walk; the minimax edge filter (its
+%          optimality, degree, guarantee and success probability); the
+%          imaginary-time filter (coefficients, certified truncation, time,
+%          guarantee); the proof of prop:filter-normalisation for both filters;
+%          GQSP and its phases; amplification, the total count and the degree at
+%          the ideal-encoding bound; the readout identity for p_G < 1.
+% SOURCES  pihm/docs/companion/40-47; pihm/src/pihm/circuits/{compose,gqsp}.py,
+%          qsp/{minimax,filters,phases,nlft,prepare,initial,readout}.py.
+% FIRST PASS 2026-10-12, from the companion; every statement there carries its
+%          test.
 % =============================================================================
 
-\subsection{Proof of \texorpdfstring{\Cref{prop:stacked-reflection}}{the stacked-residual reflection}}
+Throughout, $R=[R_1;\dots;R_L]$ is a stacked residual whose block $R_j$ has a block encoding $U_j$ at subnormalisation $\alpha_j$ on one system register with a shared ancilla register $a$, $H=R^\dagger R$, and $\sigma_0\le\sigma_1\le\dots\le\sigma_{\max}$ are the singular values of $R$.
+
+\subsection{The Stacked Residual and Its Reflection}
 \label{app:proof-stacked-reflection}
-% LAND: V is a Hermitian unitary because it is a unitary conjugation of a
-%   reflection; Pi_in V Pi_in = 2 Pi_in U_R^dagger Pi_{a=0} U_R Pi_in - Pi_in, and
-%   Pi_in U_R^dagger Pi_{a=0} U_R Pi_in = sum_j R_j^dagger R_j / alpha_R^2 =
-%   H / alpha_R^2 by eq:stacked-encoding (the row-select register is left free
-%   by Pi_{a=0}). Controlled-V: C(V) = U_R^dagger C(2 Pi - I) U_R, since
-%   U_R^dagger U_R = I when the control is off. Numerically: A-7 (1.0e-15).
 
-\subsection{Qubitisation: Chebyshev polynomials of the walk}
+Let a row-select register of $\lceil\log_2L\rceil$ qubits sit beside $a$. PREPARE takes it from $\ket0$ to $\sum_j(\alpha_j/\alpha_R)\ket j$ with $\alpha_R=(\sum_j\alpha_j^2)^{1/2}$, and SELECT applies $U_j$ when it holds $j$. Write $\Pi_a$ for the projector of $a$ onto $\ket{0_a}$ and $\Pi_{\mathrm{in}}$ for that of $a$ and the row select together onto zero, and $U_R=\mathrm{SELECT}\cdot\mathrm{PREPARE}$.
+
+\begin{lemma}[The stack]
+\label{lem:stack}
+$\bigl(\bra j\otimes\bra{0_a}\bigr)U_R\bigl(\ket0\otimes\ket{0_a}\bigr)=R_j/\alpha_R$; that is, $\Pi_aU_R\Pi_{\mathrm{in}}=R/\alpha_R$ with the row select read as output.
+\end{lemma}
+\begin{proof}
+$\bra j\mathrm{PREPARE}\ket0=\alpha_j/\alpha_R$, and SELECT on $\ket j$ is $U_j$, whose block is $R_j/\alpha_j$.
+\end{proof}
+
+Unlike a linear combination's selector, the row select is never returned by an inverse preparation: the blocks are stacked, not summed, and their weights $\alpha_j^2$ add in quadrature.
+
+\begin{proof}[Proof of \Cref{prop:stacked-reflection}]
+$2\Pi_a-I$ is a Hermitian unitary, so its conjugate $V$ by the unitary $U_R$ is Hermitian and unitary, and $V^2=I$. Using $\Pi_a^2=\Pi_a$ and $\Pi_{\mathrm{in}}U_R^\dagger U_R\Pi_{\mathrm{in}}=\Pi_{\mathrm{in}}$,
+\begin{equation*}
+    \Pi_{\mathrm{in}}V\Pi_{\mathrm{in}}
+    =2\bigl(\Pi_aU_R\Pi_{\mathrm{in}}\bigr)^\dagger\bigl(\Pi_aU_R\Pi_{\mathrm{in}}\bigr)-\Pi_{\mathrm{in}}
+    =\frac{2R^\dagger R}{\alpha_R^2}-I
+\end{equation*}
+by \Cref{lem:stack}. For the controlled version: where the controls hold, $U_R^\dagger C(2\Pi_a-I)U_R$ is $V$; where they fail it is $U_R^\dagger U_R=I$.
+\end{proof}
+
+$U_R$'s own gates are never controlled, so controlling $V$ adds a control to one multi-controlled $Z$ and nothing wider than $U_R$'s widest gate. Since $H\succeq0$ and $\|H\|=\|R\|^2\le\alpha_R^2$, the spectrum of $H'$ lies in $[-1,1]$; a singular value $s$ of $R$ sits at $x=-1+2s^2/\alpha_R^2$, at the \emph{height} $h=1+x=2s^2/\alpha_R^2$ above the edge. The filters below work with heights, which keep their relative precision where $x$ itself would round to $-1$. Numerically, $V$ is verified exactly against $2H/\alpha_R^2-I$ on every exact-mode record, the worst entrywise error \res[2,sci]{encode/R6a/standard/n3}{verify_max_error}.
+% REVISE: the worst exact-mode error over all records (5.9e-15 in the claims register, C-03) is
+%   quoted here through the record that attains it in the pre-P8 export; check at results-v1 or
+%   export a derived key.
+
+\subsection{Qubitisation}
 \label{app:qubitisation}
-% LAND: W acts on each two-dimensional invariant subspace as a rotation by
-%   theta = arccos(lambda'), lambda' = 2 lambda / alpha_R^2 - 1; hence
-%   Pi_in W^k Pi_in = T_k(H') (eq:walk; lowchuang2019qubitization).
-%   CAUTION (lesson L-18): this is ONE matrix power followed by ONE restriction.
-%   Iterating "apply W, then project" disagrees outright: the intermediate
-%   (ancilla non-zero) branches carry information the final restriction still
-%   depends on. Numerically: A-7 (7.7e-15 for k < 12).
 
-\subsection{The controlled walk}
+Let $\Pi=\Pi_{\mathrm{in}}$ and $W=(2\Pi-I)V$.
+
+\begin{theorem}[Qubitisation \cite{lowchuang2019qubitization}]
+\label{thm:qubitisation}
+For every $k\ge0$, $\Pi W^k\Pi=T_k(H')$ with $H'=\Pi V\Pi$.
+\end{theorem}
+\begin{proof}
+Let $\ket\lambda$ be an eigenvector of $H'$ in the image of $\Pi$ with eigenvalue $\lambda$. Then $\Pi V\ket\lambda=\lambda\ket\lambda$ and $\|V\ket\lambda\|=1$, so for $|\lambda|<1$, $V\ket\lambda=\lambda\ket\lambda+s\ket{\lambda^\perp}$ with $s=\sqrt{1-\lambda^2}$ and $\ket{\lambda^\perp}$ a unit vector orthogonal to the image of $\Pi$. From $V^2=I$, $V\ket{\lambda^\perp}=s\ket\lambda-\lambda\ket{\lambda^\perp}$. On the plane of $\ket\lambda$ and $\ket{\lambda^\perp}$, $2\Pi-I=\operatorname{diag}(1,-1)$, so $W$ is the rotation
+\begin{equation*}
+    W=\begin{pmatrix}\cos\vartheta&\sin\vartheta\\-\sin\vartheta&\cos\vartheta\end{pmatrix},
+    \qquad\vartheta=\arccos\lambda,
+\end{equation*}
+and $\bra\lambda W^k\ket\lambda=\cos k\vartheta=T_k(\lambda)$. $W^k\ket\lambda$ stays in the plane, which meets the image of $\Pi$ in $\ket\lambda$'s line, so $\Pi W^k\ket\lambda=T_k(\lambda)\ket\lambda$. For $\lambda=\pm1$, $V\ket\lambda=\lambda\ket\lambda$ and $W^k\ket\lambda=\lambda^k\ket\lambda$. The eigenvectors span the image of $\Pi$.
+\end{proof}
+
+The theorem projects once, after $k$ steps. Applying $W$ and projecting after every step gives other polynomials: the branches with a non-zero ancilla carry $\ket{\lambda^\perp}$'s component, which later steps rotate back into the image of $\Pi$. Every verification of a walk or filter circuit therefore restricts once, at the end.
+
+\subsection{The Controlled Walk}
 \label{app:controlled-walk}
-% LAND: only the two reflections are controlled; U_R and U_R^dagger are not.
-%   Why this matters for simulation (lesson L-21): the statevector evolves one
-%   controlled walk at a time, memory 16 * 2^q bytes, never a dense operator
-%   (4^q). The T1 engine is Qiskit Aer (qiskit2024).
 
-\subsection{The imaginary-time filter}
-\label{app:proof-filter-normalisation}
-% LAND: the proof of prop:filter-normalisation from the Chebyshev expansion
-%   below (the modified-Bessel generating function; abramowitz1964handbook):
-%   evaluating at x = -1 gives e^{beta} = I_0 + 2 sum_k I_k(beta), so
-%   sum |q_k| = e^{-beta} e^{beta} = 1. Then the truncation degree d and the
-%   parameter formulas eq:qite-parameters (the known-gap assumption,
-%   lintong2020groundstate), and the success probability p_G -> gamma^2 with
-%   amplitude amplification at pi / (4 gamma).
-% L-07: scipy's ive returns NaN for large arguments; the coefficients are
-%   computed stably (a correctness condition only if the text quotes beta ~ 1e9).
+With $Z_0=I-2\ket0\bra0$ on a register, $2\Pi-I=-Z_0$, so $W=Z_0^{(\mathrm{in})}U_R^\dagger Z_0^{(a)}U_R$, the two signs cancelling. Controlled on further qubits, $W$ is the same circuit with the two reflections controlled, since where the controls fail both reflections are the identity and $U_R^\dagger U_R=I$. A controlled walk thus holds no gate wider than $U_R$'s widest, and simulating it is a statevector problem of $2^q$ amplitudes, never an operator problem of $4^q$. A circuit's global phase becomes a relative phase once it is controlled: the phases of the linear combination's terms, and \gls{gqsp}'s global phase when a whole preparation is controlled (\Cref{app:readout-identity}), are therefore carried as phase gates on the controls. A dropped phase $\lambda$ would scale an overlap by $\cos\lambda$.
 
+\subsection{The Minimax Edge Filter}
+\label{app:minimax-filter}
+
+Let $x_0<x_1$ be the ground and first excited values of $H'$, $w(x)=(2x-(x_1+1))/(1-x_1)$ the affine map of $[x_1,1]$ onto $[-1,1]$, and $P_d=T_d(w(x))/T_d(w(-1))$ as in \Cref{eq:minimax-filter}.
+
+\begin{proposition}[Suppression and optimality]
+\label{prop:minimax-optimal}
+$|P_d|\le1$ on $[-1,1]$ with equality at $-1$, and
+\begin{equation*}
+    \sup_{x\in[x_1,1]}\frac{|P_d(x)|}{|P_d(x_0)|}=\frac{1}{\cosh(d\theta_0)},
+    \qquad\theta_0=\operatorname{arccosh}\bigl(-w(x_0)\bigr).
+\end{equation*}
+No polynomial of degree $d$ achieves a smaller ratio.
+\end{proposition}
+\begin{proof}
+On $[x_1,1]$, $|T_d(w)|\le1$. Below $x_1$, $w<-1$ and $|T_d(w)|=\cosh\bigl(d\operatorname{arccosh}(-w)\bigr)$, which increases as $x$ falls to $-1$; so $|P_d|\le1$ with equality at $-1$, and the ratio is $1/|T_d(w(x_0))|=1/\cosh(d\theta_0)$. Optimality is Chebyshev's extremal property: among polynomials of degree $d$ that take the value $1$ at a point $z$ outside $[-1,1]$, $T_d/T_d(z)$ has the least maximum on $[-1,1]$, namely $1/|T_d(z)|$, which is Chebyshev's inequality \cite{borweinerdelyi1995}; Lin and Tong use the same property for eigenstate filtering \cite{lintong2020filtering}. Apply it in the variable $w$ at $z=w(x_0)$.
+\end{proof}
+
+\paragraph{The degree from heights.} The degree of \Cref{eq:minimax-degree} is the least $d$ with $1/\cosh(d\theta_0)\le\varepsilon$. With the heights $h_j=1+x_j=2\sigma_j^2/\alpha_R^2$,
+\begin{equation*}
+    -w(x_0)-1=\frac{2(h_1-h_0)}{2-h_1},
+\end{equation*}
+so $\theta_0=\operatorname{arccosh}(1+e)$ with $e=2(h_1-h_0)/(2-h_1)$, evaluated as $\log\bigl(1+e+\sqrt{e(2+e)}\bigr)$ without forming $1+e$. For small $e$, $\operatorname{arccosh}(1+e)\approx\sqrt{2e}$ and $h_1-h_0=2\Delta/\alpha_R^2$, so $\theta_0\approx2\sqrt\Delta/\alpha_R$ and
 \begin{equation}
-    e^{-\beta x} = I_0(\beta) + 2\sum_{k=1}^{\infty} (-1)^k I_k(\beta)\,T_k(x) .
-    \label{eq:bessel-expansion}
+    d\approx\frac{\alpha_R}{2\sqrt\Delta}\,\ln\frac2\varepsilon .
+    \label{eq:app-minimax-growth}
 \end{equation}
 
-\subsection{GQSP phases}
-\label{app:gqsp-phases}
-% LAND: the circuit R_0 prod_k [C_0 W R_k] (motlagh2024gqsp); the Weiss
-%   complement (berntson2025complementary) and the inverse NLFT
-%   (laneve2025gqspnlft; CITE-NEEDED arXiv:2505.12615); the realised polynomial
-%   against the target on a 4d-point unit-circle grid (<= 1e-12).
+\paragraph{The coefficients.} $P_d$ is sampled at $2^{\lceil\log_2 2(d+1)\rceil}>d$ Chebyshev--Gauss nodes, and its Chebyshev coefficients are read off by a type-II discrete cosine transform, exact for a polynomial of degree below the number of nodes: interpolation, not a fit. Nothing is truncated.
 
-\subsection{The readout identity for probabilistic preparation}
+\begin{proposition}[Guarantee]
+\label{prop:minimax-guarantee}
+Let $\psi_{\mathrm{init}}$ have overlap $\gamma>0$ with a one-dimensional target, the ground state. At the degree of \Cref{eq:minimax-degree} the normalised output $P_d(H')\psi_{\mathrm{init}}/\|P_d(H')\psi_{\mathrm{init}}\|$ has infidelity at most
+\begin{equation*}
+    \Bigl(\frac{\sqrt{1-\gamma^2}}{\gamma\cosh(d\theta_0)}\Bigr)^2\le\frac{1-\gamma^2}{\gamma^2}\,\varepsilon^2 .
+\end{equation*}
+\end{proposition}
+\begin{proof}
+Write $\psi_{\mathrm{init}}=\gamma u+\sqrt{1-\gamma^2}\,u_\perp$ with $u$ the ground state and $u_\perp$ in the excited span. The filter maps $\gamma u$ to $\gamma P_d(x_0)u$ and $\sqrt{1-\gamma^2}u_\perp$ to a vector in the excited span of norm at most $\sqrt{1-\gamma^2}\,|P_d(x_0)|/\cosh(d\theta_0)$ by \Cref{prop:minimax-optimal}. The infidelity is the squared sine of the angle to $u$, at most its squared tangent, the off-target norm over the on-target one.
+\end{proof}
+
+For a target of $t>1$ singular vectors the same argument holds with the ratios of the angles of the $t$-th and lower heights. The suppression is measured relative to the ground state's own filtered value, so there is no absolute tail for that value to fall beneath, and the bound is finite whenever $\gamma>0$; imaginary time's can fail (\Cref{app:qite-filter}). The success probability is $p_G=\|P_d(H')\psi_{\mathrm{init}}\|^2\ge\gamma^2P_d(x_0)^2$, with $P_d(x_0)=\cosh(d\theta_0)/\cosh(d\theta_{-1})$, $\theta_{-1}=\operatorname{arccosh}(-w(-1))$: one when the kernel is exact, $x_0=-1$, and close to one wherever $h_0\ll h_1$, as for a trusted kernel.
+
+\subsection{The Imaginary-Time Filter}
+\label{app:qite-filter}
+
+On a singular value $s$ of $R$, $f_\beta(x)=e^{-\beta(1+x)}=e^{-2\beta s^2/\alpha_R^2}$, so $f_\beta(H')=e^{-tH}$ with $t=2\beta/\alpha_R^2$: imaginary time $\beta$ in the units of $H'$. From the generating function of the modified Bessel functions \cite{abramowitz1964handbook}, $e^{z\cos\vartheta}=I_0(z)+2\sum_{k\ge1}I_k(z)\cos k\vartheta$, at $z=-\beta$ and $x=\cos\vartheta$, with $I_k(-\beta)=(-1)^kI_k(\beta)$,
+\begin{equation}
+    e^{-\beta x}=I_0(\beta)+2\sum_{k=1}^{\infty}(-1)^kI_k(\beta)\,T_k(x),
+    \label{eq:bessel-expansion}
+\end{equation}
+which, multiplied by $e^{-\beta}$, gives the filter and its coefficients,
+\begin{equation}
+    f_\beta(x)=e^{-\beta(1+x)},
+    \qquad
+    f_\beta(H')=e^{-2\beta H/\alpha_R^2},
+    \qquad
+    q_k=\bigl(2-\delta_{k0}\bigr)(-1)^k e^{-\beta} I_k(\beta).
+    \label{eq:qite-filter}
+\end{equation}
+
+\paragraph{Certified truncation.} Truncated at degree $d$, the series errs on $[-1,1]$ by at most its tail $\sum_{k>d}|q_k|$, since $|T_k|\le1$, and by \Cref{prop:filter-normalisation} the tail is $1-\sum_{k\le d}|q_k|$, computed without summing the infinite series. The degree used is the least whose tail is below the tolerance $\varepsilon_t=\varepsilon/10$: a certified degree. For large $\beta$ and $k=\mathcal{O}(\sqrt\beta)$, $e^{-\beta}I_k(\beta)\approx e^{-k^2/(2\beta)}/\sqrt{2\pi\beta}$, so the tail is about $\operatorname{erfc}(d/\sqrt{2\beta})$ and $d\approx\sqrt{2\beta\ln(2/\varepsilon_t)}$. Where the library Bessel function overflows, at $\beta$ of order $10^9$, the values come from $e^{-\beta}I_k(\beta)=\frac1\pi\int_0^\pi e^{-2\beta\sin^2(t/2)}\cos kt\,dt$ by the trapezoid rule, one real fast Fourier transform, spectrally accurate for this analytic periodic integrand.
+
+\paragraph{The time.} With $\Delta=\sigma_1^2-\sigma_0^2$ and
+\begin{equation}
+    \beta=\frac{\alpha_R^2}{2\Delta}\ln\frac1\varepsilon,
+    \qquad
+    d\approx\frac{\alpha_R}{\sqrt\Delta}\Bigl(\ln\frac1\varepsilon\,\ln\frac2{\varepsilon_t}\Bigr)^{1/2},
+    \label{eq:qite-parameters}
+\end{equation}
+the untruncated filter holds every excited state's amplitude to at most $\varepsilon$ times the ground state's, since $f_\beta(x_1)/f_\beta(x_0)=e^{-2\beta\Delta/\alpha_R^2}=\varepsilon$ and $f_\beta$ falls with $s$. Against \Cref{eq:app-minimax-growth} the factor $\alpha_R/\sqrt\Delta$ is the same, and the logarithms make imaginary time's degree approach twice the minimax filter's as $\varepsilon\to0$ with $\varepsilon_t=\varepsilon/10$.
+
+\paragraph{The a priori bound.} For a one-dimensional target and tail $T$, the argument of \Cref{prop:minimax-guarantee}, with the truncation an operator of norm at most $T$, gives the infidelity bound
+\begin{equation*}
+    1-F\le\Bigl(\frac{\sqrt{1-\gamma^2}\,f(\sigma_1)+T}{\gamma f(\sigma_0)-T}\Bigr)^2,
+    \qquad f(s)=e^{-2\beta s^2/\alpha_R^2},
+\end{equation*}
+wherever the denominator is positive. The tail is absolute while the ground state's filtered value is $f(\sigma_0)=\varepsilon^{\sigma_0^2/\Delta}$ under the time rule, so where the residual has no near-kernel the tail can reach it and the bound certifies nothing. With a trusted kernel, $\sigma_1/\sigma_0\ge20$, $\sigma_0^2/\Delta<1/399$ and $f(\sigma_0)>\varepsilon^{1/399}$.
+
+\subsection{Unit Weight of Both Filters}
+\label{app:proof-filter-normalisation}
+
+\begin{proof}[Proof of \Cref{prop:filter-normalisation}]
+\emph{Imaginary time.} $I_k(\beta)>0$ for $\beta>0$, so the $q_k$ alternate in sign and $\sum_k|q_k|=e^{-\beta}\bigl(I_0(\beta)+2\sum_{k\ge1}I_k(\beta)\bigr)$, the generating function at $\vartheta=0$ times $e^{-\beta}$, which is $e^{-\beta}e^{\beta}=1$.
+
+\emph{The minimax filter.} Let $\tilde P(y)=P_d(-y)$. With $a=2/(1-x_1)$ and $b=(1+x_1)/(1-x_1)\ge0$, $w(-y)=-(ay+b)$ and $a=1+b$, so $ay+b=y+b(1+y)$ and $\tilde P(y)=T_d\bigl(y+b(1+y)\bigr)/T_d(1+2b)$, the factors $(-1)^d$ cancelling. Taylor's theorem, exact for a polynomial, gives
+\begin{equation*}
+    T_d\bigl(y+b(1+y)\bigr)=\sum_{m=0}^{d}\frac{b^m}{m!}\,(1+y)^m\,T_d^{(m)}(y).
+\end{equation*}
+Every derivative of $T_d$ has non-negative Chebyshev coefficients, by induction from $T_j'=jU_{j-1}$ and $U_{j-1}=2\sum_iT_i$ over $0<i<j$ with $i\equiv j-1\pmod 2$, plus $T_0$ when $j$ is odd; $(1+y)^m=(T_0+T_1)^m$ has non-negative coefficients; and so does a product of two such series, since $T_iT_j=\tfrac12(T_{i+j}+T_{|i-j|})$. With $b^m/m!\ge0$ and $T_d(1+2b)>0$, $\tilde P$ has non-negative coefficients $\tilde q_k$, and $\sum_k\tilde q_k=\tilde P(1)=P_d(-1)=1$. Since $T_k(-x)=(-1)^kT_k(x)$, the coefficients of $P_d$ are $(-1)^k\tilde q_k$.
+
+In both cases $|\sum_kq_kz^k|\le\sum_k|q_k|=1$ on the unit circle, with equality at $z=-1$, where the alternating signs align.
+\end{proof}
+
+\subsection{GQSP and Its Phases}
+\label{app:gqsp-phases}
+
+A signal qubit is added to the walk's register. With
+\begin{equation*}
+    R(\theta,\phi)=\begin{pmatrix}e^{\mathrm{i}\phi}\cos\theta&e^{\mathrm{i}\phi}\sin\theta\\ \sin\theta&-\cos\theta\end{pmatrix}
+\end{equation*}
+on the signal and $C_0W=\ket0\bra0\otimes W+\ket1\bra1\otimes I$, the circuit is
+\begin{equation*}
+    U_\Phi=e^{\mathrm{i}\lambda}R(\theta_d,\phi_d)\,C_0W\,R(\theta_{d-1},\phi_{d-1})\cdots C_0W\,R(\theta_0,\phi_0).
+\end{equation*}
+On an eigenvector of $W$ with eigenvalue $z$, $C_0W$ acts on the signal as $\operatorname{diag}(z,1)$. Motlagh and Wiebe \cite{motlagh2024gqsp} show that for every $P(z)=\sum_{k\le d}q_kz^k$ with $|P|\le1$ on the unit circle there are phases with $e^{\mathrm{i}\lambda}\bra0R(\theta_d,\phi_d)\operatorname{diag}(z,1)\cdots R(\theta_0,\phi_0)\ket0=P(z)$. $W$ is unitary, hence normal, so the signal's zero block of $U_\Phi$ is $P(W)$ on the walk's register, and restricting once by $\Pi_{\mathrm{in}}$ and applying \Cref{thm:qubitisation} gives \Cref{eq:gqsp-block}. The circuit is $d$ controlled walks and $d+1$ one-qubit rotations on one more qubit than the walk, uses $W$ but never $W^\dagger$, and needs no parity.
+
+The phases are found from the coefficients in four steps.
+\begin{enumerate}
+    \item \emph{Margin.} $P$ is divided by $\sup|P|/(1-\mu)$, $\mu=10^{-2}$, so that $1-|P|^2>0$ on the circle and its logarithm is finite. Both filters have $\sup|P|=1$, so the circuit realises $(1-\mu)P$ and succeeds with probability $(1-\mu)^2p_G=0.9801\,p_G$, a constant that the cost estimates leave out.
+    \item \emph{Weiss's complement.} The unique outer polynomial $Q$ of degree $d$ with $|P|^2+|Q|^2=1$ on the circle is obtained by spectral factorisation: $\tfrac12\log(1-|P|^2)$ is sampled on a fast-Fourier-transform grid, $\mathrm{i}$ times its Hilbert transform is added by doubling the causal half of its cepstrum, and the result is exponentiated; the grid grows fourfold until the coefficients beyond degree $d$ fall below $10^{-11}$ relative \cite{berntson2025complementary}. No root-finding is used, which is unstable well below the degrees needed here.
+    \item \emph{The inverse nonlinear Fourier transform.} $(Q,P)$ is the SU(2) nonlinear Fourier transform of a sequence $(F_k)$, and \gls{gqsp} is equivalent to it \cite{laneve2025gqspnlft}. The sequence is recovered by the fast divide-and-conquer inverse \cite{nlfft2025su2}, or by layer stripping, both stable because $Q$ is outer.
+    \item \emph{The angles.} $\theta_k=\arctan|F_k|$ for $k<d$ and $\theta_d=\pi/2-\arctan|F_d|$; $\phi_d=\arg F_d$, $\phi_{d-1}=\arg F_d-\arg F_{d-1}$ and $\phi_k=\arg F_{k+1}-\arg F_k-\pi$ otherwise; $\lambda$, a global phase, from the overlap of the $\lambda=0$ polynomial with $P$ at eight roots of unity, weighted by $|P|$.
+\end{enumerate}
+The polynomial the angles realise is rebuilt from them alone, in coefficient space, and compared with the target on $4(d+1)$ points of the circle. Acceptance is $10^{-12}$, in double precision throughout. The realised polynomials meet it to degrees of order $10^6$ in the standard form; in the descriptor's filter study two of the filters, at degrees of order $2\times10^5$, reach just over $10^{-12}$.
+% REVISE: the last sentence summarises claim B-16 (65/65 standard-form T2 records to degree
+%   9.5e5, worst 6.3e-13; 172/174 descriptor filters, the others 1.1e-12 and 1.3e-12) from the
+%   claims register, not a record; key it (phases_max_error over the records) or keep it qualitative.
+
+\subsection{Amplification, the Total Count and the Ideal-Encoding Degree}
+\label{app:amplification}
+
+\begin{proposition}[Amplification]
+With $\vartheta=\arcsin\gamma$ and $k_{\mathrm{aa}}=\lfloor\pi/(4\vartheta)\rfloor$ rounds of amplitude amplification \cite{brassard2000amplitude}, a preparation that succeeds with probability $\gamma^2$ succeeds with probability at least $\max(\gamma^2,1-\gamma^2)\ge\tfrac12$, at $2k_{\mathrm{aa}}+1$ applications of the preparation or its inverse.
+\end{proposition}
+\begin{proof}
+$k$ rounds rotate the success amplitude from $\sin\vartheta$ to $\sin(2k+1)\vartheta$. If $\gamma\ge\sin(\pi/4)$, then $k_{\mathrm{aa}}=0$ and the probability is $\gamma^2\ge\tfrac12$. Otherwise $k_{\mathrm{aa}}\le\pi/(4\vartheta)<k_{\mathrm{aa}}+1$ gives $\pi/2-\vartheta<(2k_{\mathrm{aa}}+1)\vartheta\le\pi/2+\vartheta$, so $\sin^2(2k_{\mathrm{aa}}+1)\vartheta\ge\cos^2\vartheta=1-\gamma^2>\tfrac12$.
+\end{proof}
+
+For small $\gamma$, $k_{\mathrm{aa}}\approx\pi/(4\gamma)$: a poor initial state costs linearly in $1/\gamma$. Exact amplification needs $\gamma$, which the resource estimate takes from the reference, as the degree takes the spectral edge; without it, fixed-point amplification costs a constant factor more. The geometric initial state is run for both signs of $r$ and the one with the larger success probability kept, which doubles the preparations; the count leaves that factor out, as it leaves out the margin below. The total count of \Cref{eq:total-cost} takes $p_G=\gamma^2$ and the transpiled two-qubit count $g(W)$ of one walk, and leaves out what grows more slowly: the $d+1$ rotations of \gls{gqsp}, the initial state's $n$ rotations, the amplification's reflections and the factor $(1-\mu)^{-2}$. A resource estimate computes every quantity at the target resolution itself: $\alpha_R$ and $g(W)$ from the circuit, $\sigma_0$, $\sigma_1$ and $\gamma$ from the classical reference, the minimax degree exactly from \Cref{eq:minimax-degree}.
+
+\begin{proposition}[The degree at the ideal-encoding bound]
+\label{prop:ideal-degree}
+Every block encoding of $R$ has $\alpha\ge\|R\|_2$, and the degree of \Cref{eq:minimax-degree} does not increase as $\alpha$ falls. The degree at $\alpha=\|R\|_2$ is therefore the least that the minimax edge filter needs on $R$ through any block encoding of it. The same holds for a block encoding of $H$ itself, at $\alpha_H\ge\|H\|=\|R\|_2^2$.
+\end{proposition}
+\begin{proof}
+$\alpha\ge\|R\|_2$ is a block encoding's defining condition. The heights are $h_j=2\sigma_j^2/\alpha^2$; as $\alpha$ falls, $h_1$ and $h_1-h_0=2\Delta/\alpha^2$ both grow, so $\theta_0=\operatorname{arccosh}\bigl(1+2(h_1-h_0)/(2-h_1)\bigr)$ grows and $d=\lceil\operatorname{arccosh}(1/\varepsilon)/\theta_0\rceil$ does not. For an encoding of $H$ the heights are $2\lambda_j/\alpha_H$, the same function of $\alpha_H=\alpha^2$.
+\end{proof}
+
+Any difference between a form's degree as built and its ideal degree is its encoder's cost; any difference between two forms at the ideal degree is their Hamiltonians'. With \Cref{eq:app-minimax-growth} and $\alpha_R\ge\|R\|$, $d\gtrsim\tfrac12\sqrt{\|H\|/\Delta}\,\ln(2/\varepsilon)$, a property of $H$ that no encoding removes.
+
+\subsection{The Readout Identity for Probabilistic Preparation}
 \label{app:readout-identity}
-% LAND: the all-zero amplitude after U_tau^dagger(x) is <u(x)|v>, with
-%   u(x) = tau(x)/sqrt2 the feature map's leading column and u_0 = 1/sqrt(2N);
-%   v = sqrt(p_G) psi for the prepared state G and (e_0 + g)/2 for the combined
-%   state C. Squaring and subtracting gives eq:readout-identity exactly for any
-%   p_G; the paper's Eq. 36 is its p_G = 1 case. Then eq:readout-field.
-%   Controlled global phase (lesson L-22): controlled, a circuit's global phase
-%   is a relative phase and must become a phase gate on the control; lost, it
-%   scales the overlap by cos(lambda).
+
+Let $\hat U_{\mathrm{prep}}$ be the preparation, the initial state's rotations followed by the \gls{gqsp} circuit, whose output is $\ket{0_a}g+\ket{\mathrm{junk}}$, with $g=\sqrt{p_G}\,\psi$ the system part on the all-zero ancilla and $\ket{\mathrm{junk}}$ supported on non-zero ancilla. Let $\hat U_\tau(x)$ be the paper's feature map, one per axis, and $u(x)=\tau(x)/2^{m/2}$ the first column of their product on $m$ axes, $\tau(x)$ the Kronecker product of the axes' feature vectors.
+\begin{itemize}
+    \item \emph{G}: $\hat U_{\mathrm{prep}}$, then $\hat U_\tau^\dagger(x)$; $P_G(x)$ is the probability that every qubit reads zero.
+    \item \emph{C}: a selector qubit in $\ket+$, $\hat U_{\mathrm{prep}}$ controlled on it, a Hadamard on it, then $\hat U_\tau^\dagger(x)$; $P_C(x)$ is the all-zero probability, the selector included.
+\end{itemize}
+
+\begin{lemma}
+\label{lem:readout-amplitude}
+The all-zero amplitude of $\hat U_\tau^\dagger(x)$ applied to $\ket v\ket0$ is $u(x)\cdot v$.
+\end{lemma}
+\begin{proof}
+It is $\bra0\hat U_\tau^\dagger\ket{v,0}=\overline{\bra{v,0}\hat U_\tau\ket0}$, and the feature maps' all-zero column restricted to their ancilla's zero is the real vector $u(x)$.
+\end{proof}
+
+\begin{proposition}[The readout identity]
+\label{prop:readout-identity}
+With $N$ the field's dimension on $m$ axes,
+\begin{equation*}
+    4P_C(x)-P_G(x)-\frac{1}{2^mN}=\frac{2}{2^m}\sqrt{\frac{p_G}{N}}\;\tau(x)\cdot\psi ,
+\end{equation*}
+On one axis, $m=1$,
+\begin{equation}
+    4P_C(x)-P_G(x)-\frac{1}{2N}=\sqrt{\frac{p_G}{N}}\;\braket{\tau(x)|\psi}.
+    \label{eq:readout-identity}
+\end{equation}
+\end{proposition}
+\begin{proof}
+The junk has a non-zero ancilla and contributes nothing to an all-zero outcome, so by \Cref{lem:readout-amplitude} $P_G=(u\cdot g)^2$. In C, before the closing Hadamard the state is $(\ket0\ket0+\ket1\hat U_{\mathrm{prep}}\ket0)/\sqrt2$; after it the selector's zero carries $(\ket0+\hat U_{\mathrm{prep}}\ket0)/2$, whose all-zero-ancilla system part is $(e_0+g)/2$. So $P_C=(u_0+u\cdot g)^2/4$ and $4P_C-P_G=u_0^2+2u_0\,u\cdot g$. Every feature vector has $\tau_0=1/\sqrt N$, so $u_0=1/\sqrt{2^mN}$ and
+\begin{equation*}
+    2u_0\,u\cdot g=\frac{2}{2^m}\sqrt{\frac{p_G}{N}}\;\tau\cdot\psi .\qedhere
+\end{equation*}
+\end{proof}
+
+The interference with $e_0$ recovers the overlap's sign, which one probability alone cannot. For one axis and a deterministic preparation, $p_G=1$, this is the paper's Eq.~36 \cite{wu2025pihm}. The model is $f_Q(x)=\sqrt\eta\,\tau(x)\cdot\psi$, so with $f^\ast$ the left-hand side the field follows from a ratio against the regular datum and needs no $p_G$, while the scale does:
+\begin{equation*}
+    f_Q(x)=f(x_s)\,\frac{f^\ast(x)}{f^\ast(x_s)},
+    \qquad
+    \eta_e=\Bigl(\frac{2}{2^m}\Bigr)^2\frac{f(x_s)^2\,p_G}{N\,f^\ast(x_s)^2}.
+\end{equation*}
+Taking $p_G=1$ misstates $\eta_e$ by the factor $p_G$. C needs $\hat U_{\mathrm{prep}}$ controlled on the selector: the rotations take the control, each controlled walk needs only its two reflections controlled on the selector and the signal together (\Cref{app:controlled-walk}), and \gls{gqsp}'s global phase becomes a phase gate on the selector, whose loss would scale $f^\ast$ by $\cos\lambda$ and $\eta_e$ by $1/\cos^2\lambda$. Simulated, the two circuits reproduce the exact overlap, the field and $\eta_e$ on R1, R2a and R5a, the first two on one axis and the third on two.

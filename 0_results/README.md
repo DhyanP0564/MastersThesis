@@ -97,9 +97,10 @@ The ones most often quoted:
 | `encode` | `alpha_R` | α_R of the stacked-residual reflection |
 | | `verify_max_error`, `verify_tolerance`, flag `verify_passed` | the circuit against the classical Hamiltonian |
 | | `cx_count`, `depth`, `one_qubit_count`, `n_qubits_total`, `n_anc_qubits` | resources |
-| `stateprep` | `degree`, `tau`, `epsilon` | the QITE filter's degree d, β (`tau` in the code), and target accuracy ε |
+| `stateprep` | `degree`, `tau`, `epsilon` | the filter's degree d (minimax or QITE); β, imaginary time (`tau` in the code, QITE runs only); the target ε |
+| | T3 only: `ideal_degree`, `alpha_R`, `norm_R`, `amplification_rounds`, `gate_count` | the degree at α = ‖R‖; α_R and ‖R‖₂; ⌊π/(4 arcsin γ)⌋; the total two-qubit count |
 | | `success_probability`, `infidelity` | the post-selection probability p_G; the prepared state against the reference |
-| | T1 only: `t2_agreement`, `n_qubits` | circuit output against T2; the circuit's width |
+| | T1 only: `filtered_agreement`, `t2_agreement`, `n_qubits` | circuit against T2 **before** normalising, max-abs from a unit input (the acceptance metric, ≤ 1e-10, claim C-08); the same after normalising (meaningful only where p ≥ 1e-12); the circuit's width |
 | | infeasible runs: `predicted_seconds`, `predicted_peak_gib` | the resource estimate that refused the run |
 | `readout` | `eta`, `field_err_linf`, `success_probability` | the read-out η_e and field error, at the probe points |
 | | T1 only: `t2_agreement`, `eta_agreement`, `sampled_eta` | against T2; with `shots`, the shot-sampled η_e |

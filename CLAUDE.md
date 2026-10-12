@@ -204,12 +204,15 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
 - **Encoding costs.** Descriptor ancilla: ⌈log₂(n+4)⌉ + 8 for R2's system rows (12–13 for the
   reflection): O(log n), order-optimal only among exact LCU encodings (Ω(log L), Chakraborty et
   al.). α/‖A_desc‖ → 1 on regular one-axis problems only (about 2 singular, 2.3–4.1 on PDEs).
-  At reachable n the descriptor's gates per query exceed the structured standard form's; its
-  advantage is the degree. The structured standard encoding bounds α_H/‖H‖ for constant
+  On constant-coefficient problems, at reachable n, the descriptor's gates per query exceed the
+  structured standard form's, and its advantage is the degree; on the lifted variable-coefficient
+  panels its query is the cheaper (R3 from n = 4, R4a from n = 3; `pihm/docs/13_descriptor.md` §3). The structured standard encoding bounds α_H/‖H‖ for constant
   coefficients only; it is loose for R3's lifted multiplier.
 - **Fair comparison.** Every cost comparison is quoted as built **and** at the ideal-encoding
   bound α = ‖R‖. Where the order reverses (R3 at the ideal bound; the heat panel at small n),
-  the reversal is a reported finding.
+  the reversal is a reported finding. The as-built comparison is **not** conservative: the
+  structured encoding is looser than the descriptor's (α_R/‖R‖ about 7.7 against 1.04 on R2a at
+  n = 8), so as built favours the descriptor; only the ideal bound compares the Hamiltonians.
 - **Classical reference.** The smallest right singular vector of the stacked residual: dense
   SVD to 8,192 physical columns, iterative shift-invert Lanczos on the augmented system beyond
   (its bound an a posteriori estimate). Never `eigh(RᵀR)`. A kernel is **trusted** when it is

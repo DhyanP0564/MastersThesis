@@ -95,10 +95,13 @@ Symbol & Meaning & Introduced \\
 $\alpha$, $\alpha_R$, $\alpha_H = \alpha_R^2$ & Subnormalisation: generic, of $R$, of $H$. & \Cref{sec:bg-block-encoding} \\
 $V$, $W$ & Stacked-residual reflection; qubitised walk. & \Cref{sec:pipeline-walk} \\
 $H' = 2H/\alpha_R^2 - I$ & The normalised Hamiltonian that $V$ block-encodes. & \Cref{sec:pipeline-walk} \\
-$\Delta$ & Spectral gap $\lambda_1 - \lambda_0$. & \Cref{sec:pipeline-filter} \\
+$\sigma_0$, $\sigma_1$, $\sigma_{\max}$ & Smallest, second-smallest and largest singular values of $R$; $\lambda_j=\sigma_j^2$. & \Cref{sec:pipeline-reference} \\
+$\Delta$ & Spectral gap $\lambda_1 - \lambda_0=\sigma_1^2-\sigma_0^2$. & \Cref{sec:pipeline-reference} \\
+$x_0$, $x_1$; $h_j$ & Ground and first excited values of $H'$; their heights $1+x_j=2\sigma_j^2/\alpha_R^2$. & \Cref{sec:pipeline-filter} \\
+$w(\cdot)$, $\theta_0$ & The minimax filter's edge map of $[x_1,1]$ onto $[-1,1]$; its rate $\operatorname{arccosh}(-w(x_0))$. & \Cref{sec:pipeline-filter} \\
 $\beta$ & Imaginary time. & \Cref{sec:pipeline-filter} \\
 $d$, $q_k$ & GQSP degree; filter coefficients. & \Cref{sec:pipeline-filter} \\
-$\varepsilon$ & Target infidelity ($10^{-6}$). & \Cref{sec:pipeline-filter} \\
+$\varepsilon$ & Target: the excited spectrum's suppression relative to the ground state, and the infidelity bar ($10^{-6}$). & \Cref{sec:pipeline-filter} \\
 $\psi_{\mathrm{init}}$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\mathrm{ref}}|\psi_{\mathrm{init}}}|$ with the reference. & \Cref{sec:pipeline-filter} \\
 $p_G$ & GQSP success probability. & \Cref{sec:pipeline-filter} \\
 $\zeta$ & Block-rescaling constant. & \Cref{sec:descriptor-rescaling} \\
@@ -106,7 +109,7 @@ $S$ & Diagonal of block weights; the rescaled residual is $R_{\mathrm{desc}}S$. 
 $E$ & Map from a field's coefficients to the descriptor state that represents it. & \Cref{sec:descriptor-layouts} \\
 $w_f$ & Weight of the field block in the descriptor's ground state; $\gamma^2\le w_f$. & \Cref{sec:descriptor-gap} \\
 $\alpha_A$, $Q_m$ & Subnormalisation of the descriptor's system rows; the reflection $I-2\ket{m}\bra{m}$. & \Cref{sec:descriptor-block-encoding} \\
-$\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of the published encoding of $\G$. & \Cref{app:ladder} \\
+$\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of the paper's encoding of $\G$. & \Cref{app:ladder} \\
 \bottomrule
 \end{tabular}
 \end{center}

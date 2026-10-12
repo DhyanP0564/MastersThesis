@@ -235,8 +235,10 @@ Snow's most disciplined move:
 
 Do the same (§7.8) before any standard-versus-descriptor number: what counts as a gate, how ancilla
 are counted, and **which way the convention biases the comparison**. Ours: the structured encoding
-is the strongest standard-form baseline built, and every comparison is also quoted at the
-ideal-encoding bound α = ‖R‖, which contains neither form's encoding. A conservative convention that
+is the cheapest exact standard-form encoding built, yet it is looser than the descriptor's, so the
+as-built comparison favours the descriptor; every comparison is therefore also quoted at the
+ideal-encoding bound α = ‖R‖, which contains neither form's encoding and alone compares the
+Hamiltonians. A conservative convention that
 still favours your method persuades; one that hides a reversal is found.
 
 ### 3.3 Numbered findings, some negative
@@ -266,7 +268,7 @@ Both exemplars anchor their contribution with a table whose rows are methods and
 resources, with a "This Work" row. Two here: **T1** (§2.2), quantum DE approaches by assumptions,
 cost driver, output and failure mode; and **T7** (§8.2), the paper's, structured and descriptor
 encodings across ‖H‖, gap, α/‖·‖, cx per query, ancilla, exactness, and the degree as built and at
-α = ‖R‖. **Three encodings**: the middle one separates the encoder wall from the Hamiltonian wall.
+α = ‖R‖. **Three encodings**: the middle one separates the encoder's cost from the Hamiltonian's cost.
 FABLE does not appear. T7 is referenced from the Abstract.
 
 ### 3.6 Report the negative and the dimension-capped honestly
@@ -293,8 +295,8 @@ Ours is stronger, because it starts from the source paper's own Discussion ("stu
 gap dependence is an important question for the future work"; "the cost of differentiation") and
 is raised by a critical assessment the reader has just watched. §3.5 poses Q(i)–(iii) in italics,
 each answered by `\Cref`: (i) *is the cost the encoder's or the Hamiltonian's?* → Chapter 4; (ii)
-*can the residual be reformulated so that its Hamiltonian is banded and well conditioned, without
-changing its solution, and what does that cost?* → Chapter 5; (iii) *can nonlinear equations be
+*can the residual be reformulated so that its Hamiltonian is banded and well conditioned without
+changing its solution, and what does the reformulation cost?* → Chapter 5; (iii) *can nonlinear equations be
 prepared rather than projected?* → Chapter 6, which first carries several fields and
 complex-valued fields as coupled linear systems on one state, because the Carleman lift that answers
 (iii) is one.

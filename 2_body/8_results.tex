@@ -42,69 +42,9 @@
 % Opening: no heading; follows the section heading directly (no stacked headings).
 % ~0.25 pp -- BEFORE §8.1. LAND: what each section evidences; the tiers; the
 %   records' provenance in one sentence; the full per-problem results ->
-%   Appendix J (app:catalogue). No label: this is unnumbered lead-in prose,
+%   Appendix J (app:catalogue); the reproduction of the paper -> Appendix K
+%   (app:reproduction), one sentence. No label: this is unnumbered lead-in prose,
 %   not a subsection the outline points to.
-
-\subsection{Reproducing Wu et al.}
-\label{sec:results-reproduction}
-% ~1.75 pp (S1). Framed as REPRODUCTION, never as rivalry (Style Trap 14).
-% LAND, in order:
-%   1. tab:eta-reproduction: eta_e for the 11 ODE panels (printed, ideal
-%      ||b||^2, ours at the printed n) and a summary line for the five others
-%      (Appendix K has all 16). The closed form eq:eta-e (derived in §4.1) is
-%      CITED, not restated: what it validates is that our conventions are the
-%      paper's. This section holds the numbers for the claims §4.2 derives; it
-%      does not re-argue them.
-%   2. fig:faithful-vs-corrected (nb 11): the panels as printed against the
-%      problem for Fig. 5, the distortion from rounded points and Maclaurin
-%      sources.
-%   3. The Fig. 6 and 7 NON-REPRODUCTIONS and the hypotheses tested; the
-%      Laplace typo; the heat panel's backward data.
-%   4. The paper's quantum claims (nb 12): the time rule falls short of
-%      epsilon (A-11), the linear H is semi-definite where the discrete
-%      solution is exact (A-09), the doubled-space kernel count (A-10).
-%   5. The claims verdicts -> Appendix K (app:reproduction; one paragraph
-%      here).
-% TAB: tab:eta-reproduction (T6). FIG: fig:faithful-vs-corrected (F6).
-
-The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{sec:standard-model}.
-
-\begin{table}[htbp]
-    \centering
-    \caption{The paper's printed scale factors against the exact solution's $\|b\|^2$ (\Cref{eq:eta-e}) and the paper-faithful ground state at the printed $n$. $^\dagger$: the ground state is not trusted (a degenerate kernel, or a gap ratio below 20). Classical computation.}
-    \label{tab:eta-reproduction}
-    \small
-    \begin{tabular}{@{}l l r l l l l@{}}
-        \toprule
-        Fig. & Problem & $n$ & Printed $\eta_e$ & Ideal $\|b\|^2$ & Ground state & Agreement \\
-        \midrule
-        3b & R2a & 3 & 1.29 & \res[places=5]{build/R2a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R2a/faithful/standard/n3}{eta}\resflag{build/R2a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        3c & R2b & 3 & 32.47 & \res[places=5]{build/R2b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R2b/faithful/standard/n3}{eta}\resflag{build/R2b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark (one unit low) \\
-        3d & R2c & 5 & 451.71 & \res[places=5]{build/R2c/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R2c/faithful/standard/n5}{eta}\resflag{build/R2c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        4a & R3a & 3 & 1.75 & \res[places=5]{build/R3a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R3a/faithful/standard/n3}{eta}\resflag{build/R3a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        4b & R3b & 3 & 1.49 & \res[places=5]{build/R3b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R3b/faithful/standard/n3}{eta}\resflag{build/R3b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        4c & R3c & 5 & 108.51 & \res[places=5]{build/R3c/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R3c/faithful/standard/n5}{eta}\resflag{build/R3c/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        4d & R3d & 5 & 135.38 & \res[places=5]{build/R3d/faithful/standard/n5}{eta_ideal} & $\res[places=5]{build/R3d/faithful/standard/n5}{eta}\resflag{build/R3d/faithful/standard/n5}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        5a & R4a & 3 & 1.35 & \res[places=5]{build/R4a/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R4a/faithful/standard/n3}{eta}\resflag{build/R4a/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        5b & R4b & 3 & 14.74 & \res[places=5]{build/R4b/faithful/standard/n3}{eta_ideal} & $\res[places=5]{build/R4b/faithful/standard/n3}{eta}\resflag{build/R4b/faithful/standard/n3}{trusted}{}{^{\dagger}}$ & \checkmark (one unit low) \\
-        5c & R4c & 4 & 0.82 & \res[places=5]{build/R4c/faithful/standard/n4}{eta_ideal} & $\res[places=5]{build/R4c/faithful/standard/n4}{eta}\resflag{build/R4c/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        5d & R4d & 4 & 77.51 & \res[places=5]{build/R4d/faithful/standard/n4}{eta_ideal} & $\res[places=5]{build/R4d/faithful/standard/n4}{eta}\resflag{build/R4d/faithful/standard/n4}{trusted}{}{^{\dagger}}$ & \checkmark \\
-        \midrule
-        6b & R5a & 3 & 5.21559 & \res[places=5]{build/R5a/faithful/standard/n3x3}{eta_ideal} & $\res[places=5]{build/R5a/faithful/standard/n3x3}{eta}\resflag{build/R5a/faithful/standard/n3x3}{trusted}{}{^{\dagger}}$ & $\times$ \\
-        6d & R5b & 4 & 603.863 & \res[places=5]{build/R5b/faithful/standard/n4x4}{eta_ideal} & $\res[places=5]{build/R5b/faithful/standard/n4x4}{eta}\resflag{build/R5b/faithful/standard/n4x4}{trusted}{}{^{\dagger}}$ & $\times$ \\
-        6f & R5c & 5 & 216.469 & \res[places=5]{build/R5c/faithful/standard/n5x5}{eta_ideal} & $\res[places=5]{build/R5c/faithful/standard/n5x5}{eta}\resflag{build/R5c/faithful/standard/n5x5}{trusted}{}{^{\dagger}}$ & $\times$ \\
-        7b & R6a & 2 & 3.75367 & \res[places=5]{build/R6a/faithful/standard/n2}{eta_ideal} & $\res[places=5]{build/R6a/faithful/standard/n2}{eta}\resflag{build/R6a/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\times$ \\
-        7c & R6b & 2 & 0.07984 & \res[places=5]{build/R6b/faithful/standard/n2}{eta_ideal} & $\res[places=5]{build/R6b/faithful/standard/n2}{eta}\resflag{build/R6b/faithful/standard/n2}{trusted}{}{^{\dagger}}$ & $\times$ \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\placeholderfigure{Printed choices distort the paper's solutions at the printed resolution.}{fig:faithful-vs-corrected}{Four panels, the paper's Figs 5a--5d (R4a--R4d): the analytic solution, the paper-faithful ground state (rounded constraint points, Maclaurin sources) and R4a--R4d solved with exact roots and Chebyshev sources, at the printed $n$; inset or second row: $L^\infty$ error against $n$ for both variants. Source: notebook \texttt{10\_paper\_reproduction}. Classical computation.}
-% REVISE (T-27): this caption used to say "the corrected ground state" for the
-%   exact-root/Chebyshev-source variant. ThesisPlanning.md's controlled
-%   vocabulary retires "corrected" as a general term (only "R2a" vs "R2a as
-%   printed" exists, confined to this chapter); the replacement above names
-%   the variant by what changed, not by a corrected/faithful label.
 
 \subsection{The Pipeline Is Faithful}
 \label{sec:results-faithful}
@@ -114,6 +54,11 @@ The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{s
 %   old operators section has moved to sec:results-scaling (§8.3), since cost
 %   is Q(i)/Q(ii) evidence, not a faithfulness check.
 % LAND, in order:
+%   0. One opening paragraph of validation (plan §5.8 item 1): the standard
+%      form's operators and solutions converge spectrally to the reference on
+%      every linear panel (R1-R5, best trusted error and its n), and the
+%      paper-faithful variant reproduces the paper where it should (one
+%      sentence, pointer app:reproduction; Table T6 and Figure F6 live there).
 %   1. Operators equal the assembled residuals in every mode
 %      (fig:verification-accuracy, nb 20).
 %   2. The circuit equals the emulation before normalising, <= 1e-10, on
@@ -129,10 +74,32 @@ The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{s
 %      minimax needs 1.67-1.92x fewer degrees at equal suppression, in both
 %      forms.
 % FIG: fig:verification-accuracy (F7), fig:decoded-field (F8).
+% NOTE (2026-10-12, moved from Ch. 7 by its review; Ch. 7 points here for each): state these,
+%   each with its tier, AFTER Ch. 7's T2 = T1 argument, which they rely on.
+%   (a) Operator verification reached: the largest exact verification, 25 qubits, worst entrywise
+%       error 1.8e-15 (\res{encode/R4d/faithful/standard/n3}{n_qubits_total},
+%       \res[2,sci]{encode/R4d/faithful/standard/n3}{verify_max_error}; a reproduction record: say
+%       so, plan §2.2); probe to 24 qubits incl. the Navier-Stokes lifts' reflections
+%       (encode/R10a-M12/descriptor/n2/carleman=2/verify=probe); IR to the tensor layout's
+%       \res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{components} components.
+%   (b) Circuit against emulation, before normalising (C-08; metric filtered_agreement): every
+%       minimax record within 1e-10 (worst value: derived key wanted, plan §2.2); example R2a,
+%       n = 3, descriptor: \res{stateprep/R2a/descriptor/n3/T1/filter=minimax}{n_qubits} qubits,
+%       degree \res{stateprep/R2a/descriptor/n3/T1/filter=minimax}{degree}, difference
+%       \res[2,sci]{stateprep/R2a/descriptor/n3/T1/filter=minimax}{filtered_agreement}.
+%   (c) The filter study (B-17), exact emulation, both forms, at three strengths of like error
+%       (equal suppression; equal certified infidelity; equal measured infidelity, defined as in
+%       pihm docs/15_filters.md): \prov{1.67--1.92} at equal suppression with the ground state at
+%       the edge (synthetic sweep; derived key wanted, plan §2.2); R2a, n = 3, standard form, at
+%       eps = 1e-6: certified \res{filters/R2a/standard/n3}{e6_minimax_certified} against
+%       \res{filters/R2a/standard/n3}{e6_qite_certified}, measured
+%       \res{filters/R2a/standard/n3}{e6_minimax_degree} against
+%       \res{filters/R2a/standard/n3}{e6_qite_degree}; at loose eps QITE needs fewer measured degrees
+%       on some problems (B-17: 9 of 33 standard at 1e-4).
 
-\placeholderfigure{Every encoding is verified to its mode's tolerance at every size tested.}{fig:verification-accuracy}{Verification error against $n$ for the published, structured and descriptor encodings: exact mode (filled markers), probe mode (open markers), IR mode (crosses), with each mode's tolerance as a dashed line; a second panel gives transpiled CNOT count per query against $n$ with fitted exponents. Source: notebook \texttt{20\_pillar1\_operators}.}
+\placeholderfigure{Every encoding is verified to its mode's tolerance at every size tested.}{fig:verification-accuracy}{Verification error against $n$ for the paper's, the structured and the descriptor encodings: exact mode (filled markers), probe mode (open markers), IR mode (crosses), with each mode's tolerance as a dashed line; a second panel gives transpiled CNOT count per query against $n$ with fitted exponents. Source: notebook \texttt{20\_pillar1\_operators}.}
 
-\placeholderfigure{The prepared state reproduces the analytic solution to within the predicted error budget.}{fig:decoded-field}{Decoded field $f_Q(x)$ against the analytic solution for R1 and R2a (both forms): circuit simulation (T1, with shot-sampled readout) and exact emulation (T2) overlaid; second panel: the error budget of \Cref{eq:error-budget} broken into $\varepsilon_{\mathrm{disc}}$, $\varepsilon_{\mathrm{filter}}$, $\varepsilon_{\mathrm{trunc}}$, $\varepsilon_{\mathrm{phase}}$ and $\varepsilon_{\mathrm{sample}}$ against $n$. Source: notebook \texttt{30\_pillar2\_stateprep}.}
+\placeholderfigure{The prepared state reproduces the analytic solution to within the predicted error budget.}{fig:decoded-field}{Decoded field $f_Q(x)$ against the analytic solution for R1 and R2a (both forms): circuit simulation (T1) and exact emulation (T2) overlaid, the field decoded classically; second panel: the error budget of \Cref{eq:error-budget}, $\varepsilon_{\mathrm{disc}}$ and the filter, truncation and phase terms carried to the field by $B$, against $n$. Source: notebook \texttt{30\_pillar2\_stateprep}.}
 
 \subsection{Where the Cost Lies}
 \label{sec:results-scaling}
@@ -149,8 +116,8 @@ The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{s
 %      grows as the square root of the first over the second), for the
 %      published, structured and descriptor encodings, with fitted exponents;
 %      T2 points where measured and T3 beyond, VISIBLY distinguished.
-%   3. Interpretation: the ENCODER WALL (published to structured) and the
-%      HAMILTONIAN WALL (structured to descriptor) as two gaps on one plot.
+%   3. Interpretation: the ENCODER'S COST (the paper's to structured) and the
+%      HAMILTONIAN'S COST (structured to descriptor) as two gaps on one plot.
 %   3a. F10 (nb 41, optional): case by case, the descriptor's cost over the
 %      standard form's, as built and at the ideal bound alpha = ||R||, with the
 %      reversals marked.
@@ -173,19 +140,19 @@ The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{s
 
 \begin{table}[htbp]
     \centering
-    \caption{Where the cost lies: the standard form under the paper's encoding and under the structured exact encoding, against the descriptor form, for Fig.~3b ($\{1,4,4\}$, $f(-1)=0$). Tier: T2 where measured, T3 beyond.}
+    \caption{Where the cost lies: the standard form under the paper's encoding and under the structured exact encoding, against the descriptor form, for R2a ($f''+4f'+4f=0$). Tier: T2 where measured, T3 beyond.}
     \label{tab:headline}
     \small
     \begin{tabular}{@{}l l l l@{}}
         \toprule
-        Quantity & Standard, published & Standard, structured & Descriptor \\
+        Quantity & Standard, the paper's encoding & Standard, structured & Descriptor \\
         \midrule
         $\|H\|$ & \prov{$\Theta(N^8)$} & \prov{$\Theta(N^8)$} & \prov{$\Theta(N^2)$} \\
         Gap $\Delta$ at $n = 8$ & $\res[3]{build/R2a/standard/n8}{gap}$ (flat) & $\res[3]{build/R2a/standard/n8}{gap}$ (flat) & $\res[3]{build/R2a/descriptor/n8}{gap}$ (flat) \\
-        $\alpha_{\G}/\|\G\|_2$ & \prov{$\sim N^3/2$} & \prov{$\le 2.12$} & no $\G$ \\
-        $\alpha_H/\|H\|$ & \prov{$\sim N^{12}$} & \prov{22 $\to$ 60} & \prov{5.3 $\to$ 1.05} \\
+        $\alpha_{\G}/\|\G\|_2$ & \prov{$\sim j_{-3/4,1}N^3$ (printed)} & \prov{$\le 2.12$} & no $\G$ \\
+        $\alpha_H/\|H\|$ & \prov{$\sim N^{12}$} & $\res[2]{looseness/stateprep/R2a/standard/n2/T3/filter=minimax}{hamiltonian_ratio}\to\res[2]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{hamiltonian_ratio}$ & $\res[2]{looseness/stateprep/R2a/descriptor/n2/T3/filter=minimax}{hamiltonian_ratio}\to\res[3]{looseness/stateprep/R2a/descriptor/n8/T3/filter=minimax}{hamiltonian_ratio}$ \\
         Gates per query & \prov{$O(n^3)$, approximate} & \prov{$O(n^2)$, exact} & \prov{$O(n^2)$, exact} \\
-        Ancilla & \prov{$2n+3$ ($\G$ alone)} & \prov{$n + O(\log n)$ per $\G$} & \prov{$\lceil\log_2(n+4)\rceil + 8$} \\
+        Ancilla & \prov{$2n+3$ ($\G$ alone)} & \prov{$n+4$ ($\G$ alone)} & \prov{$\lceil\log_2(n+4)\rceil + 8$} \\
         Degree at $n = 8$ ($\varepsilon = 10^{-6}$) & $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax/encoder=published}{degree}$ & $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R2a/descriptor/n8/T3/filter=minimax}{degree}$ \\
         Degree scaling & \prov{$\sim N^{10}$} & \prov{$\tilde\Theta(N^4)$} & \prov{$\tilde\Theta(N)$} \\
         \bottomrule
@@ -196,7 +163,7 @@ The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{s
 %   corrected above) -- confirm against results-v1's actual record before
 %   removing this comment.
 
-\placeholderfigure[7cm]{The encoder wall and the Hamiltonian wall are separate gaps.}{fig:scaling-headline}{Three log--log panels against $N = 2^n$ for Fig.~3b: (a) $\|H\|$ and $\alpha_H$ for the published, structured and descriptor encodings; (b) the gap $\Delta$; (c) the filter degree $d$, with fitted exponents ($\approx N^{10}$, $\tilde\Theta(N^4)$, $\tilde\Theta(N)$). Exact emulation (T2) as filled markers, resource estimates (T3) as open markers. Source: notebook \texttt{40\_scaling\_and\_claims}.}
+\placeholderfigure[7cm]{The encoder's cost and the Hamiltonian's cost are separate gaps.}{fig:scaling-headline}{Three log--log panels against $N = 2^n$ for R2a: (a) $\|H\|$ and $\alpha_H$ for the paper's, the structured and the descriptor encodings; (b) the gap $\Delta$; (c) the filter degree $d$, with fitted exponents ($\approx N^{10}$, $\tilde\Theta(N^4)$, $\tilde\Theta(N)$). Exact emulation (T2) as filled markers, resource estimates (T3) as open markers. Source: notebook \texttt{40\_scaling\_and\_claims}.}
 
 \placeholderfigure[7cm]{Three representative problems: where the comparison, quoted as built, reverses at the ideal encoding bound.}{fig:cost-reversals}{Case by case (R2a, R2c, R3a, R5b, ...), the descriptor's cost over the standard form's, as built and at the ideal bound $\alpha = \|R\|$, with the reversals marked (R3 at the ideal bound; the heat panel at small $n$). Optional. Source: notebook \texttt{40\_scaling\_and\_claims}.}
 
@@ -297,4 +264,4 @@ The closed form of the ideal scale factor is \Cref{eq:eta-e}, derived in \Cref{s
 %   4. Does every caption stand alone?
 %   5. Are there at least two negative findings?
 %   6. Is every Abstract number backed here?
-%   7. Is sec:results-reproduction framed as a test of the paper, not rivalry?
+%   7. Is the paper's reproduction a one-sentence pointer to App. K, not a section?
