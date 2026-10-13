@@ -46,6 +46,11 @@ draft is a first pass for them to rewrite in their own voice.
   `0_results/generated/numbers.tex`. A placeholder box (pending, stale, …) is expected while
   drafting; never replace it with a typed number. `\prov{...}` only for a number `pihm` does
   not produce. Every quantitative claim names its tier.
+- **Evidence rule** (plan T-20, v3.4): Chapters 4–6 quote proofs and exact classical
+  computations on the assembled operators only (norms, gaps, kernel dimensions, field weights,
+  α/‖·‖ of built encodings); every filter degree, preparation, gate count and tier-labelled
+  number lives in Chapter 8, and Chapter 7 states no result. A formulation chapter derives its
+  law through `eq:degree` and names the results section that measures it.
 - Flag rather than silently invent any claim the Standing Facts do not support or the research
   code does not verify. Hedge what is inferred; assert only what is measured.
 - Keep the reviewer's eye while drafting: note weaknesses and rubric gaps alongside the draft.
@@ -107,8 +112,9 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   Appendix K and §4.4's validation paragraph (never "corrected"); the encoder's cost vs the
   Hamiltonian's cost (never "wall"); realification vs native complex encoding; ratio rows; the
   coupling as a sum of matchings.
-- The critique stated once per layer: Ch. 3 names each weakness of the paper (§3.5); Ch. 4 argues
-  the departure where the construction meets it and collects it in Table T10; Appendix K holds the
+- The critique stated once per layer: Ch. 3 names each weakness of the paper (§3.5); Ch. 4 makes
+  each departure in one clause where the construction meets it and collects it in Table T10;
+  Appendices C and K hold the arguments, and Appendix K the
   reproduction, the derivations and the numbers. No body section re-derives or tabulates the
   audit. The standard form defined once (§4.4); the mass form defined once (§5.3), applied in
   Ch. 6.
@@ -125,7 +131,7 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
 
 - **Framing.** The headline contribution is the **descriptor reformulation**. Four numbered
   supporting contributions: S1 the standard form, stated once (Ch. 4), each
-  departure from the printed method argued where it occurs and collected in Table T10, validated
+  departure from the printed method made where it occurs and collected in Table T10, validated
   against the paper's printed panels (the record is Appendix K); S2 an exact structured
   encoding of the standard form, which isolates its cost in the Hamiltonian; S3 a
   regime-independent verified preparation pipeline; S4 beyond a single real field: coupled
@@ -174,21 +180,22 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
   blocks, scaled by the regular datum. The paper's interferometric protocol is built and
   verified only at small n (R1, R2a, R5a), with our correction for p_G < 1; it is further work,
   never the method's readout. Nothing ran on hardware.
-- **Tiers.** All results are classical computations. Circuit simulation (T1) reaches about 26
-  qubits at n = 2 (standard form), and is beyond the simulation budget on R10, where its
-  estimate is quoted. Exact emulation (T2) is provably equal to the circuit's post-selected
+- **Tiers.** All results are classical computations. Circuit simulation (T1) reaches 20 qubits
+  (the widest simulated, R4a and R4d at n = 3); the two-axis descriptor circuits, from 28 qubits,
+  are beyond the simulation budget, where its estimate is quoted, and none was attempted on R10. Exact emulation (T2) is provably equal to the circuit's post-selected
   output and reaches filter degrees of 2²⁰. Beyond that only resource estimates (T3) are
   quoted. Always name the tier. "Could not simulate" is never "cannot reach".
 - **Verification.** The stacked-residual reflection V (encoding 2H/α_R² − I) is verified
   **exactly** to 25 qubits; every construction-only circuit of ≤ 24 qubits by probe; lifts and
   couplings by IR at any size. T1 = T2 to ≤ 1e-10 before normalising on every minimax record; the
-  QITE T1 records (the reproduction's and the filter study's) that miss the bar (85 of 91 pass
-  before P8) are reported in Appendix K with their degree, never re-judged (re-check after P8).
+  QITE T1 records (the reproduction's and the filter study's) that miss the bar (3 of 46, at
+  degrees of order 10⁵) are reported in Appendix K with their degree, never re-judged.
 - **Filter.** The **minimax edge filter** prepares every comparison and extension, at the least
   degree that suppresses the excited spectrum to ε relative to the ground value. The
   imaginary-time (QITE) filter is the paper's: it runs in the reproduction (Appendix K) and in the
-  filter study (minimax needs 1.67–1.92× fewer degrees at equal suppression; less at equal measured
-  infidelity).
+  filter study (imaginary time needs 1.67–1.92× the minimax degree at equal suppression on synthetic
+  spectra, and 1.75–1.82× on the study's records at ε = 10⁻⁶, inside that range; less at equal
+  measured infidelity).
 - **Complexity.** Neither form is poly-log. The degree is d = Θ(√(α_H/Δ) log 1/ε), with
   α_H ≥ ‖H‖ for any block encoding: the residual's effective condition number. Standard form:
   ‖H_std‖ = Θ(N^{4k}) for order k, so d = Θ̃(N^{2k}) (Θ̃(N⁴) at second order) even with the best

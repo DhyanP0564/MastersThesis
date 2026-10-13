@@ -61,6 +61,10 @@ The terms that wrap around carry a borrow of one and vanish on post-selection, a
 
 \emph{Gates.} $\Uodd$'s PREPARE and PREPARE$^\dagger$ are $2n$ one-qubit gates and its subtractor $O(n)$ gates. $\Lambda$'s PREPARE is a rotation tree on $\lceil\log_2(n+1)\rceil$ qubits, and its SELECT is $n$ gates $Z_j$ and the negative weights' phases, each controlled on the selector. $R_0$ is $2n$ CNOTs and one $n$-controlled $Z$, and the two flags are an $X$ controlled on $\Lambda$'s selector and one controlled on the inner product's $n+3$ ancilla. An $m$-controlled gate costs $O(m^2)$ CNOTs in an ancilla-free synthesis, so the $n$-controlled gates of $R_0$ and the flags give $O(n^2)$; with a linear-cost synthesis that borrows an idle qubit \cite{barenco1995elementary} they cost $O(n)$, and $\Lambda$'s SELECT, $O(n\log n)$, dominates.
 \end{proof}
+% REVISE: the two-qubit gate counts at n = 2 and 5 are \prov (transpiled once, not exported);
+%   moved here from §4.5.3 in v3.4 (StructuralReview.md F1: gate counts are not the body's
+%   formulation). Replace with a key or delete.
+The transpiled two-qubit gate counts of the encoding of $\G$ alone are available only at small $n$, \prov{109} at $n=2$ and \prov{471} at $n=5$: consistent with the bound, but too few to fit it.
 
 \begin{lemma}[The norm of the odd shifts]
 \label{lem:uodd-norm}
@@ -117,12 +121,12 @@ The same limits fix the looseness of a power encoded as a product: $\alpha_{\G^k
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The structured encoding rises to $2j_{-3/4,1}\approx2.117$ times the norm; the paper's prefactor grows as $j_{-3/4,1}N^3$.} Subnormalisation of the structured encoding (\Cref{prop:standard-cost}) and the paper's prefactor (\Cref{eq:pihm-published-prefactor}) of $\G$, relative to $\|\G\|_2$, for $n=2$ to $10$. Exact classical computation.}
+    \caption[Subnormalisation of the two encodings of $\G$, $n=2$--$10$]{\textbf{The structured encoding rises to $2j_{-3/4,1}\approx2.117$ times $\|\G\|_2$; Wu et al.'s prefactor grows as $j_{-3/4,1}N^3$.} Subnormalisation over $\|\G\|_2$ of the structured encoding (\Cref{prop:standard-cost}) and of Wu et al.'s prefactor (\Cref{eq:pihm-published-prefactor}) for the differentiation matrix $\G$, $n=2$--$10$, $N=2^n$. $j_{-3/4,1}$, first positive zero of the Bessel function $J_{-3/4}$. Exact classical computation.}
     \label{tab:alpha-G-full}
     \small
     \begin{tabular}{@{}r r l l@{}}
         \toprule
-        $n$ & $\|\G\|_2$ & Structured & The paper's \\
+        $n$ & $\|\G\|_2$ & Structured & Wu et al.'s \\
         \midrule
         2 & \res[3,fixed]{derivative/n2}{norm} & \res[4]{derivative/n2}{structured_ratio} & \res[3]{derivative/n2}{published_ratio} \\
         3 & \res[3,fixed]{derivative/n3}{norm} & \res[4]{derivative/n3}{structured_ratio} & \res[3]{derivative/n3}{published_ratio} \\

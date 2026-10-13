@@ -7,17 +7,17 @@
 % PURPOSE     Present Wu et al.'s method as ATTRIBUTED PRIOR ART, at the depth a referee
 %             needs to follow the critique, and judge it; the judgement poses Q(i)-(iii).
 %             The construction is NOT built in full here: Chapter 4 states it once, as the
-%             standard form. This chapter carries the paper's own equations only where a
-%             weakness is stated against them, cited by the paper's equation numbers.
+%             standard form. This chapter carries Wu et al.'s own equations only where a
+%             weakness is stated against them, cited by Wu et al.'s equation numbers.
 % CRITERION   The first sentence says the chapter reports prior art; the last section
-%             reads as a gap statement. "The paper", "Wu et al.", "the authors" throughout;
+%             reads as a gap statement. "Wu et al.", "Wu et al.", "the authors" throughout;
 %             "we" only in §3.5's verdicts.
-% SOURCES     The paper (wu2025pihm, arXiv:2504.13174; PDF in Research/Papers/): Eqs 1-16
+% SOURCES     Wu et al. (wu2025pihm, arXiv:2504.13174; PDF in Research/Papers/): Eqs 1-16
 %             (model, G_n^T, lifts, constraints, the Gram sum), 21-28 (sources, PDEs),
 %             29-33 (doubled space), Methods §1-3 (circuits, QITE by QSVT and the time rule,
 %             the interferometric readout), the Discussion (the open questions, the Fourier
 %             remark). paine2023physicsinformed (latent space, lifts); paine2026concurrent.
-%             pihm/docs/companion 10, 11, 20, 21 (the paper's conventions as reproduced), 31
+%             pihm/docs/companion 10, 11, 20, 21 (Wu et al.'s conventions as reproduced), 31
 %             (the circuits' claims), 42 (the time rule), 47 (the readout), 60 (the doubled
 %             space); docs/22_claims_register.md A-01..A-13 for what §3.5 may say.
 % WRITE WHEN  Now (W1). First-pass prose below (2026-10-09), for the author to rewrite.
@@ -26,63 +26,64 @@
 % NOT HERE (and where it lives): 𝔾's entries, norm and similarity -> §4.2 and App. B; the
 %   normalised basis, eta_e and the raw-tau argument -> §4.1; the stacked residual and the
 %   least-squares reading -> §4.4; the uniqueness count -> §4.3 and App. C; every check of the
-%   paper's claims (positive definiteness, the time rule's bound, the readout's correction,
+%   Wu et al.'s claims (positive definiteness, the time rule's bound, the readout's correction,
 %   the circuits' verdicts, the reproduction) -> App. K (with App. D, F); the projection
-%   proposition -> §6.4 (prop:no-penalty); the paper's QSVT detail -> App. K (app:paper-filter);
+%   proposition -> §6.4 (prop:no-penalty); Wu et al.'s QSVT detail -> App. K (app:paper-filter);
 %   the circuits' registers and angles -> App. D (app:published-build); the readout identity
 %   -> Ch. 7 (eq:readout-identity) and App. F.
 % =============================================================================
 
 % OPENING (no heading; ~0.4 pp). LAND, in order:
 %   1. First sentence: this chapter presents and evaluates Wu et al.'s method (prior art).
-%   2. The three-step move with the paper's f'' + f = 0: coefficients as amplitudes; the
+%   2. The three-step move with Wu et al.'s f'' + f = 0: coefficients as amplitudes; the
 %      equation and its data as annihilating operators; the ground state of their summed Gram
 %      matrices as the solution; then block encoding, filter, readout.
 %   3. The lineage in one sentence (differentiable quantum circuits -> Chebyshev latent space).
-%   4. What the paper claims for the method (no training; evaluation off any grid; poly(n)
+%   4. What Wu et al.\ claim for the method (no training; evaluation off any grid; poly(n)
 %      terms "implemented efficiently"), so the assessment has a target.
-%   5. The roadmap in one sentence, naming Ch. 4 as where the construction is stated in full.
+%   5. (v3.6) Why the efficiency claim must be read against eq:degree; Ch. 4 named as where the
+%      construction is stated in full. No section roadmap (plan §3.5 rule 1).
 % CHECKLIST  Attribution in sentence one; no result of ours; the claims quoted, not paraphrased
 %   into stronger ones.
 % TRAPS  "We present our method"; restating Ch. 2's background; any number.
 
-This chapter presents the physics-informed effective Hamiltonian method of Wu, Paine, Philip, Gentile and Kyriienko \cite{wu2025pihm} and evaluates it. The method turns a differential equation into a ground-state problem in three steps. The unknown function is expanded in Chebyshev polynomials whose coefficients are the amplitudes of an $n$-qubit state $\ket{\psi}$; the equation and each of its data conditions become matrix operators that annihilate $\ket{\psi}$ when it holds the solution's coefficients, so that the paper's introductory example $f''+f=0$ becomes $(\G^{2}+I)\ket{\psi}=0$, with $\G$ the matrix that differentiates a Chebyshev series; and the Gram matrices of these operators are summed into an effective Hamiltonian $H$ whose ground state is the solution. Preparing that ground state needs a block encoding of $H$, a filter that removes its excited spectrum, and a measurement that reads the field back. The construction descends from differentiable quantum circuits \cite{kyriienko2021differentiable} through their Chebyshev latent space \cite{paine2023physicsinformed}.
+This chapter presents the \gls{pihm} of Wu, Paine, Philip, Gentile and Kyriienko \cite{wu2025pihm} and evaluates it. The method turns a differential equation into a ground-state problem. The unknown function is expanded in Chebyshev polynomials whose coefficients are the amplitudes of an $n$-qubit state $\ket{\psi}$; the equation and each of its data conditions become matrix operators that annihilate $\ket{\psi}$ when it holds the solution's coefficients; and the Gram matrices of these operators are summed into an effective Hamiltonian $H$ whose ground state is the solution. Preparing that ground state needs a block encoding of $H$, a filter that removes its excited spectrum, and a measurement that reads the field back. The construction descends from differentiable quantum circuits \cite{kyriienko2021differentiable} through their Chebyshev latent space \cite{paine2023physicsinformed}.
 
-The paper's case for the method is that it needs no variational training, that its solution can be evaluated at any point of the domain rather than on a grid, and that ``necessary terms have $O(\mathrm{poly}(n))$ scaling and can be implemented efficiently'' \cite{wu2025pihm}. \Cref{sec:pihm-model,sec:pihm-residual,sec:pihm-encoding,sec:pihm-doubled} present the model, Hamiltonian, circuits and nonlinear extension in the paper's own terms, and \Cref{sec:pihm-assessment} assesses them; the form this thesis runs is stated in \Cref{sec:standard}.
+The method is claimed to need no variational training, prepare a continuous analytic function for $x\in[-1,1]$, and ``necessary terms [operator circuits] have $O(\mathrm{poly}(n))$ scaling and can be implemented efficiently'' \cite{wu2025pihm}. Wu et al.\ use \gls{qsvt}-based \gls{qite} and expect a cost of order $\Delta^{-1}\,\mathrm{polylog}(1/\varepsilon)$, but state that the gap is "not easy to bound" and leave its dependence to future work. We first present Wu et al.'s own terms, its model, Hamiltonian, circuits and nonlinear extension and evaluate them here, and present an improved construction in \Cref{sec:standard}.
 
 \subsection{The Chebyshev Latent-Space Model}
 \label{sec:pihm-model}
 % ~0.45 pp. LAND, in order:
-%   1. The quantum Chebyshev state |tau(x)>_n as the paper defines it (its Eq. 3), displayed
+%   1. The quantum Chebyshev state |tau(x)>_n as Wu et al.\ define it (their Eq. 3), displayed
 %      (eq:pihm-chebyshev-feature-map; Ch. 4 restates it as the normalised basis).
-%   2. The model f_Q = sqrt(eta) <tau(x)|psi> (eq:pihm-fq, the paper's Eq. 2), eta > 0 as the
-%      paper writes it.
-%   3. Orthonormal at the Chebyshev nodes, not a unit vector elsewhere; the paper discards
+%   2. The model f_Q = sqrt(eta) <tau(x)|psi> (eq:pihm-fq, Wu et al.'s Eq. 2), eta > 0 as the
+%      Wu et al.\ write it.
+%   3. Orthonormal at the Chebyshev nodes, not a unit vector elsewhere; Wu et al.\ discard
 %      ||tau(x)|| "since it can be implicitly incorporated into the scaling factor", so its
 %      derivations use the unnormalised state (quote, one clause).
-%   4. The scale fixed after preparation by one regular datum (the paper's Eq. 11).
-% CHECKLIST  Every statement is the paper's; eta_e's closed form is NOT here (§4.1).
-% TRAPS  "We keep tau raw" (a departure framing belongs to §4.1; here it is the paper's own
+%   4. The scale fixed after preparation by one regular datum (Wu et al.'s Eq. 11).
+% CHECKLIST  Every statement is Wu et al.'s; eta_e's closed form is NOT here (§4.1).
+% TRAPS  "We keep tau raw" (a departure framing belongs to §4.1; here it is Wu et al.'s own
 %   convention); the sign of eta (§4.1).
 
-The model is an overlap \cite{paine2023physicsinformed,wu2025pihm}. On $n$ qubits, with $N=2^n$, the paper defines the quantum Chebyshev state or feature map
+On $n$ qubits, with $N=2^n$, the quantum Chebyshev state or feature map is
 \begin{equation}
     \ket{\tau(x)}_n = \frac{1}{2^{n/2}}\,T_0(x)\ket{0}^{\otimes n} + \frac{1}{2^{(n-1)/2}}\sum_{k=1}^{N-1} T_k(x)\ket{k},
     \label{eq:pihm-chebyshev-feature-map}
 \end{equation}
-whose components are the first $N$ Chebyshev polynomials of the first kind, and writes the solution as the scaled overlap
+whose components are the first $N$ Chebyshev polynomials of the first kind. The model is a scaled overlap
 \begin{equation}
     f_Q(x) = \sqrt{\eta}\,f_q(x), \qquad f_q(x) = \braket{\tau(x)|\psi}_n, \qquad \braket{\psi|\psi}=1,
     \label{eq:pihm-fq}
 \end{equation}
-where the amplitudes of $\ket{\psi}$ are the series' weighted coefficients and $\eta>0$ is a scaling factor that carries the norm a unit vector cannot (the paper's Eqs~2--3). The $N$ states $\ket{\tau(\bar x_j)}_n$ at the Chebyshev nodes $\bar x_j=\cos[\pi(j+\tfrac12)/N]$ are orthonormal, but elsewhere $\ket{\tau(x)}_n$ is not a unit vector; a circuit prepares its normalised version by post-selection, and the paper discards the norm, ``since it can be implicitly incorporated into the scaling factor'', so its derivations use the unnormalised state. Every constraint below is linear in $\ket{\psi}$ and fixes only its direction. The scale is recovered after the ground state $\ket{\psi_g}$ has been prepared, from one known value of the solution, the \emph{regular} datum $f(x_s)=y_s$: $\sqrt{\eta}=y_s/\braket{\tau(x_s)|\psi_g}_n$ (the paper's Eq.~11).
+where the amplitudes of $\ket{\psi}$ are the series' weighted coefficients and $\eta>0$ is a scaling factor \cite{paine2023physicsinformed,wu2025pihm}. The $N$ states $\ket{\tau(\bar x_j)}_n$ at the Chebyshev nodes $\bar x_j=\cos[\pi(j+\tfrac12)/N]$ are orthonormal, but elsewhere $\ket{\tau(x)}_n$ is not a unit vector; a circuit prepares its normalised version by post-selection, and Wu et al.\ discard the norm, ``since it can be implicitly incorporated into the scaling factor'', so their derivations use the unnormalised state. Every constraint below is linear in $\ket{\psi}$ and fixes only its direction. The scale is recovered after the ground state $\ket{\psi_g}$ has been prepared, from one known value of the solution, the \emph{regular} datum $f(x_s)=y_s$: $\sqrt{\eta}=y_s/\braket{\tau(x_s)|\psi_g}_n$.
 
 \subsection{Hamiltonian Construction}
 \label{sec:pihm-residual}
-% ~1.0 pp. LAND, in order (the paper's constructions only, with its equation numbers):
-%   1. Differentiation by 𝔾 (printed G_n^T, the paper's Eq. 4; this thesis's convention, T-16,
+% ~1.0 pp. LAND, in order (Wu et al.'s constructions only, with its equation numbers):
+%   1. Differentiation by 𝔾 (printed G_n^T, Wu et al.'s Eq. 4; this thesis's convention, T-16,
 %      said once); dense because T_p' contains every lower T_k of the other parity (olver2013);
-%      entries in §4.2. The constant-coefficient residual (eq:pihm-A, the paper's Eq. 15).
+%      entries in §4.2. The constant-coefficient residual (eq:pihm-A, Wu et al.'s Eq. 15).
 %      The subscript "std" is only named here; Ch. 4 defines the standard form.
 %   2. Variable coefficients by the lift x^p <tau|_n = <tau|_{n+1} M_{x^p} (Eq. 5, Paine et al.);
 %      sources through the collapse row D0(x_s) and a MACLAURIN series truncated at p-bar (Eqs
@@ -94,36 +95,34 @@ where the amplitudes of $\ket{\psi}$ are the series' weighted coefficients and $
 %   4. Two variables by Kronecker products (Eqs 22-28) and the PDE invariant sets as printed
 %      (Laplace's three homogeneous sides; heat's f(t,+-1) = 0 and d_x f(t,+-3/4) = 0; wave's
 %      f(t,+-1) = 0, f(1/8,x) = f(7/8,x) = 0), whose points are zeros of the known solutions.
-%   5. The Gram sum H = T(A) + sum T(B_i) (eq:pihm-hamiltonian, Eq. 16); the paper's
+%   5. The Gram sum H = T(A) + sum T(B_i) (eq:pihm-hamiltonian, Eq. 16); Wu et al.'s
 %      "positive-definite with distinct eigenvalues"; the eigenvalue problem; the PINN reading.
 %   6. Pointer: the worked N = 4 residual and the lifts' entries -> App. C.
 % CHECKLIST  Nothing of ours (no exact-kernel claim, no stacked R, no k-1 count, no norm).
 % TRAPS  "Collocation"; Theta(N^2) for ||𝔾|| here (§4.2); calling the printed points "rounded"
 %   as a criticism (that is §3.5's; here: "printed to two decimal places").
 
-Differentiation acts on the coefficients by a fixed matrix, $f_q'(x)=\braket{\tau(x)|\G|\psi}_n$, with $\G$ the Chebyshev differentiation matrix (the paper's Eq.~4). The paper defines the lower-triangular $\G_n$ and applies its transpose, $\G_n^{\top}$, to the coefficient vector; that upper-triangular matrix is written $\G$ throughout. $\G$ is dense, because the derivative of $T_p$ contains every $T_k$ of the opposite parity below it \cite{olver2013}: one high coefficient of $f$ reaches every lower coefficient of $f'$. Its entries are given in \Cref{sec:standard-operators}. Higher derivatives are its powers, so a homogeneous linear \gls{ode} with constant coefficients, $\sum_j a_jf^{(j)}=0$, is represented by
+Differentiation acts on the coefficients by a fixed matrix, $f_q'(x)=\braket{\tau(x)|\G|\psi}_n$, with $\G$ the Chebyshev differentiation matrix.\footnote{Wu et al.\ define the lower-triangular $\G_n$ and apply their transpose, $\G_n^{\top}$, to the coefficient vector. We write that upper-triangular matrix as $\G$ throughout.} $\G$ is dense, because the derivative of $T_p$ contains every $T_k$ of the opposite parity below it \cite{olver2013}: one high coefficient of $f$ reaches every lower coefficient of $f'$. Its entries are given in \Cref{sec:standard-operators}. Higher derivatives are its powers, so a homogeneous linear \gls{ode} with constant coefficients, $\sum_j a_jf^{(j)}=0$, is represented by
 \begin{equation}
-    A\ket{\psi}=0, \qquad A=\sum_{j}a_j\,\G^{j}
+    A\ket{\psi}=0, \qquad A=\sum_{j}a_j\,\G^{j}.
     \label{eq:pihm-A}
 \end{equation}
-(the paper's Eq.~15, there of second order).
+For variable coefficients, $\M_{x^p}$ is introduced \cite{paine2023physicsinformed}. Using the Chebyshev product-to-sum identity, it can be shown that $x^p\bra{\tau(x)}_n=\bra{\tau(x)}_{n+1}\M_{x^p}$. For each power $p$, it is a $2N\times N$ matrix that carries $x^p$ onto a register one qubit wider, so that every term of the equation shares the $(n+1)$-qubit basis. A polynomial coefficient $a_j(x)$ enters as the sum of the lifts of its monomials. A source $r(x)$ is brought into the same form through the regular datum: the collapse row $\Dzero(x_s)=\Brow_n(x_s)/f(x_s)$, with $\Brow_n$ defined below, maps the solution's coefficients to the constant $1/\sqrt{\eta}$, so a source expanded in a order $\bar p$-truncated Maclaurin series enters the equation's operator as $-\bigl(\sum_{p\le\bar p}c_p\M_{x^p}\bigr)\Dzero(x_s)$, with $c_p$ the Maclaurin coefficients of $r$.
 
-A variable coefficient cannot be substituted in the same way, because the Chebyshev coefficients of a product are not the products of the factors' coefficients. The paper uses the lift of Paine et al.\ \cite{paine2023physicsinformed}, $x^p\bra{\tau(x)}_n=\bra{\tau(x)}_{n+1}\M_{x^p}$ (its Eq.~5), a constant $2N\times N$ matrix that carries a power of $x$ onto a register one qubit wider, so that every term of the equation shares the $(n+1)$-qubit basis; a polynomial coefficient $a_j(x)$, the only kind the paper's examples use, enters as the sum $\M_{a_j}$ of the lifts of its monomials. A source $r(x)$ does not scale with $\ket{\psi}$ and is brought into the same form through the regular datum: the collapse row $\Dzero(x_s)=\Brow_n(x_s)/f(x_s)$, with $\Brow_n$ defined below, maps the solution's coefficients to the constant $1/\sqrt{\eta}$, so a source expanded in a Maclaurin series truncated at order $\bar p$ enters the equation's operator as $-\M_r\Dzero(x_s)$, with $\M_r=\sum_{p\le\bar p}c_p\M_{x^p}$ and $c_p$ the Maclaurin coefficients of $r$ (the paper's Eqs~11--14). The paper's three examples with transcendental sources take $\bar p=3$, $5$ and $7$.
+Boundary and initial conditions enter as data constraints built from the rank-one row $\Brow_n(x)=\sqrt{2^n}\,\ket{0}^{\otimes n}\bra{\tau(x)}_n$, which maps the model to the constant function equal to its value at $x$. An \emph{invariant} constraint has a zero target and is unchanged by scaling: $f(x_z)=0$ gives $\Brow_n(x_z)\ket{\psi}=0$, and $f'(x_m)=0$ gives $\Brow_n(x_m)\G\ket{\psi}=0$. Wu et al.\ place these at boundaries where the solution vanishes or at interior zeros and extrema of the known solution, and uses one invariant constraint for each second-order ordinary example, with the regular datum fixing the scale.
 
-Boundary and initial conditions enter as data constraints built from the rank-one row $\Brow_n(x)=\sqrt{2^n}\,\ket{0}^{\otimes n}\bra{\tau(x)}_n$ (the paper's Eqs~9--10), which maps the model to the constant function equal to its value at $x$. An \emph{invariant} constraint has a zero target and is unchanged by scaling: $f(x_z)=0$ gives $\Brow_n(x_z)\ket{\psi}=0$, and $f'(x_m)=0$ gives $\Brow_n(x_m)\G\ket{\psi}=0$. The paper places these at boundaries where the solution vanishes or at interior zeros and extrema of the known solution, printed to two decimal places for the inhomogeneous examples ($x=-0.2$, $-0.73$, $0.91$ and $-0.75$), and uses one invariant constraint for each second-order ordinary example, with the regular datum fixing the scale.
-
-Two variables are carried on two $n$-qubit registers with the product state $\bra{\tau(x)}_n\otimes\bra{\tau(y)}_n$; derivatives act as $\G\otimes I$ and $I\otimes\G$, and a constraint on a boundary as $\Brow_n(x_z)\otimes I$ (the paper's Eqs~22--28). The invariant sets of the three \gls{pde} examples are chosen by hand. Laplace's equation uses its three homogeneous sides, and its non-zero side $f(x,1)=\sin(\pi(x+1)/2)$ appears in no constraint. The heat equation $\partial_tf=\tfrac{1}{25}\partial_x^2f$ uses $f(t,\pm1)=0$ and $\partial_xf(t,\pm\tfrac34)=0$, and the wave equation $\partial_t^2f=4\partial_x^2f$ uses $f(t,\pm1)=0$, $f(\tfrac18,x)=0$ and $f(\tfrac78,x)=0$. The points $\pm\tfrac34$, $\tfrac18$ and $\tfrac78$ are zeros of the known solutions.
+A function of several variables is carried on one register per variable, with the product of the feature maps as its basis; Wu et al.\ treat two. For variables $x$ and $y$ the state is $\bra{\tau(x)}_n\otimes\bra{\tau(y)}_n$ on two $n$-qubit registers; derivatives act as $\G\otimes I$ and $I\otimes\G$, and a constraint on a boundary as $\Brow_n(x_z)\otimes I$. The invariant sets of the three \gls{pde} examples are chosen by hand: Laplace's equation uses its three homogeneous sides, so its non-zero side appears in no constraint, and the heat and wave examples place interior points at zeros of the known solutions (the sets are listed in \Cref{app:reproduction}).
 
 Each operator is turned into a Gram matrix, and the Gram matrices are summed:
 \begin{equation}
     H=\mathcal{T}(A)+\sum_i\mathcal{T}(\Brow_i), \qquad \mathcal{T}(X)=X^{\top}X, \qquad \braket{\psi|H|\psi}=\|A\psi\|^2+\sum_i\|\Brow_i\psi\|^2,
     \label{eq:pihm-hamiltonian}
 \end{equation}
-where $\Brow_i$ runs over the invariant constraints (the paper's Eq.~16). The energy of a state is its total squared violation of the equation and its data. The paper describes $H$ as ``a real symmetric positive-definite matrix with distinct eigenvalues'' and recasts the equation as the eigenvalue problem $H\ket{\psi_g}=\lambda_{\min}\ket{\psi_g}$ with $\lambda_{\min}\approx0$. It calls $H$ physics-informed because $\mathcal{T}(A)$ embeds the differential constraint as the loss of a \gls{pinn} \cite{raissi2019pinn} embeds it, while the $\mathcal{T}(\Brow_i)$ embed the data, but nothing is trained: the ground state is prepared. The paper's worked residual at $N=4$ and the entries of the lifts are given in \Cref{app:pihm-residual}.
+where $\Brow_i$ runs over the invariant constraints. The energy of a state is its total squared violation of the equation and its data. Wu et al.\ describe $H$ as ``a real symmetric positive-definite matrix with distinct eigenvalues'' and recast the equation as the eigenvalue problem $H\ket{\psi_g}=\lambda_{\min}\ket{\psi_g}$ with $\lambda_{\min}\approx0$. It calls $H$ physics-informed because $\mathcal{T}(A)$ embeds the differential constraint as the loss of a \gls{pinn} \cite{raissi2019pinn} embeds it, while the $\mathcal{T}(\Brow_i)$ embed the data, but nothing is trained: the ground state is prepared. Wu et al.'s worked residual at $N=4$ and the entries of the lifts are given in \Cref{app:pihm-residual}.
 
 \subsection{Circuits, Filtering and Readout}
 \label{sec:pihm-encoding}
-% ~0.6 pp. LAND, three paragraphs, each the idea and the paper's claims, no verdicts:
+% ~0.6 pp. LAND, three paragraphs, each the idea and Wu et al.'s claims, no verdicts:
 %   1. Block encodings: B and D0 by the inverse feature map and a reflection (Figs 2, 8; n + 2
 %      qubits, sqrt(2^{n+1}), "high probability"); 𝔾 by two conditioned subroutines loading its
 %      entries as rotation amplitudes (Fig. 9), at the prefactor (eq:pihm-published-prefactor),
@@ -135,44 +134,44 @@ where $\Brow_i$ runs over the invariant constraints (the paper's Eq.~16). The en
 %      App. K (app:paper-filter).
 %   3. Readout: interferometric, two all-zero probabilities per point (Eqs 36-39); the identity
 %      -> Ch. 7 (eq:readout-identity) and App. F.
-% CHECKLIST  Every claim quoted or attributed; none judged here; beta for the paper's t (T-08).
+% CHECKLIST  Every claim quoted or attributed; none judged here; beta for Wu et al.'s t (T-08).
 % TRAPS  "published" in prose (§14.2 item 8); the time rule's shortfall (App. K); the readout
 %   presented as the method's readout in this thesis.
 
-\paragraph{Block encodings.} The paper block-encodes each term of $H$ separately and combines them by a \gls{lcu} (\Cref{sec:bg-block-encoding}). The rank-one rows $\Brow_n(x)$ and $\Dzero(x_s)$ pair the inverse Chebyshev feature map with a reflection about the all-zero state (its Figs~2 and~8), on $n+2$ qubits at subnormalisation $\sqrt{2^{n+1}}$, and run ``with high probability''. $\G$ is encoded approximately by two conditioned subroutines that load its entries as rotation amplitudes (its Fig.~9). The circuit's top-left block is $\G$ divided by the prefactor
+\paragraph{Block encodings.} Each term of $H$ block-encoded separately and combined by a \gls{lcu} (\Cref{sec:bg-block-encoding}). The rank-one rows $\Brow_n(x)$ and $\Dzero(x_s)$ pair the inverse Chebyshev feature map with a reflection about the all-zero state, on $n+2$ qubits at subnormalisation $\sqrt{2^{n+1}}$, and run ``with high probability''\cite{wu2025pihm}. $\G$ is encoded \emph{approximately} by two conditioned subroutines that load its entries as rotation amplitudes. The circuit's top-left block is $\G$ divided by the prefactor
 \begin{equation}
-    \alpha_{\G}^{\mathrm{paper}}=\bigl(2^{n-1}+2^{n}\bigr)\,\|\G\|_S, \qquad \|\G\|_S=\max\bigl(\|\G\G^{\top}\|_1,\ \|\G^{\top}\G\|_1\bigr),
+    \alpha_{\G}^{\mathrm{Wu}}=\bigl(2^{n-1}+2^{n}\bigr)\,\|\G\|_S, \qquad \|\G\|_S=\max\bigl(\|\G\G^{\top}\|_1,\ \|\G^{\top}\G\|_1\bigr),
     \label{eq:pihm-published-prefactor}
 \end{equation}
 on $2n+3$ qubits, ``with negligible errors in matrix entries that exponentially decrease as $n$ increases'', and with $O(n^3)$ gates once the multi-controlled gates are decomposed: ``polynomial in $n$ and thus efficient'' \cite{wu2025pihm}. The registers, subroutines and angles are given in \Cref{app:published-build}.
 
-\paragraph{The imaginary-time filter.} The ground state is prepared by \gls{qite} \cite{motta2020qite}, which multiplies each eigencomponent of an initial state by $e^{-\beta E}$, so that the lowest dominates once $\beta$ exceeds the inverse gap. The paper applies it to $\tilde H=H/\|H\|_F$ by an indefinite-parity \gls{qsvt} sequence \cite{gilyen2019qsvt} whose phases are fitted to $e^{-\beta x}$ (\Cref{sec:bg-qsp,sec:bg-filtering}); the paper's imaginary time $t$ is written $\beta$ here, since $\tau$ names the feature state. The time is set by an ``approximate lower bound'',
+\paragraph{Ground-state preparation.} The ground state is prepared by \gls{qite} \cite{motta2020qite}, which multiplies each eigencomponent of an initial state by $e^{-\beta E}$, so that the lowest dominates once $\beta$ exceeds the inverse gap. Wu et al.\ apply it to $\tilde H=H/\|H\|_F$ by an indefinite-parity \gls{qsvt} sequence \cite{gilyen2019qsvt} whose phases are fitted to $e^{-\beta x}$ (\Cref{sec:bg-qsp,sec:bg-filtering}). The time is set by an ``approximate lower bound'',
 \begin{equation}
     \beta\ \ge\ \frac{\lambda_{\max}}{\lambda_2\,(n-1)},
     \label{eq:pihm-time-rule}
 \end{equation}
-with $\lambda_{\max}$ and $\lambda_2$ the largest and second-smallest eigenvalues of $\tilde H$ (or $H$), and two examples are reported to need $\beta=15$ and $8$ with even and odd polynomial degrees $(6,7)$. For the cost, the paper expects a preparation time of order $\Delta^{-1}\,\mathrm{polylog}(1/\varepsilon)$ by eigenstate filtering \cite{lintong2020groundstate}, or $\Delta^{-1/2}$ by algorithmic thermalisation \cite{chen2023thermal}, and notes that the gaps ``are problem-dependent and in general are not easy to bound''. Its phase sets and the dilation of $\tilde H$ are given in \Cref{app:paper-filter}.
+with $\lambda_{\max}$ and $\lambda_2$ the largest and second-smallest eigenvalues of $\tilde H$ (or $H$). Wu et al.\ expect a preparation time of order $\Delta^{-1}\,\mathrm{polylog}(1/\varepsilon)$ by eigenstate filtering \cite{lintong2020groundstate}, or $\Delta^{-1/2}$ by algorithmic thermalisation \cite{chen2023thermal}, and notes that the gaps ``are problem-dependent and in general are not easy to bound''. Its phase sets and the dilation of $\tilde H$ are given in \Cref{app:paper-filter}.
 
-\paragraph{Readout.} The field is read out point by point by an interferometric overlap measurement \cite{kyriienko2020inverse,scali2023topological}. Measuring the all-zero outcome after the inverse feature map returns only the squared overlap, so the paper measures two probabilities, one for the prepared state and one for that state superposed with a reference, and combines them into the signed overlap $\braket{\tau(x)|\psi_g}$ and, with $\eta$, the field value $f_Q(x)$ (its Eqs~36--39). The identity is restated in \Cref{eq:readout-identity}.
+\paragraph{Readout.} The field is read out point by point by an interferometric overlap measurement \cite{kyriienko2020inverse,scali2023topological}. Measuring the all-zero outcome after the inverse feature map returns only the squared overlap, so Wu et al.\ measure two probabilities, one for the prepared state and one for that state superposed with a reference, and combine them into the signed overlap $\braket{\tau(x)|\psi_g}$ and with $\eta$, the field value $f_Q(x)$. The identity is restated in \Cref{eq:readout-identity}.
 
 \subsection{Doubled-Space Extension to Nonlinearity}
 \label{sec:pihm-doubled}
 % ~0.35 pp. LAND, in order:
-%   1. Psi = psi (x) psi; the fold (eq:pihm-fold, the paper's Eq. 8); products as
+%   1. Psi = psi (x) psi; the fold (eq:pihm-fold, Wu et al.'s Eq. 8); products as
 %      n_1(𝔾^i (x) 𝔾^j); linear terms tensored with D0(x_s) (Eq. 30); H on 2n qubits.
-%   2. Demonstrated on two quadratic ODEs at n = 2; the paper's own count of at least
+%   2. Demonstrated on two quadratic ODEs at n = 2; Wu et al.'s own count of at least
 %      2^{2n-1} degenerate zero-energy states and its selection of the state that "closely
 %      matches the analytical solution" (quote).
 %   3. Quadratic only: degree p needs p copies (App. H); paine2026concurrent notes the same.
 % CHECKLIST  No proposition here: the projection argument is §3.5's weakness, proved in §6.4.
 % TRAPS  "prepared" for the doubled space; N^2 vs 2N (it is N^2 = 2^{2n}).
 
-A nonlinear term such as $(f')^2$ cannot be expressed as a linear operator on $\ket{\psi}$. The paper's treatment doubles the space: the unknown becomes $\ket{\Psi}=\ket{\psi}\otimes\ket{\psi}$ on $2n$ qubits, a product of two model functions is the overlap of $\ket{\Psi}$ with a product of two feature states, and the product-to-sum rule folds that product back into one Chebyshev series on one extra qubit,
+A nonlinear term such as $(f')^2$ cannot be expressed as a linear operator on $\ket{\psi}$. Wu et al.'s treatment doubles the space: the unknown becomes $\ket{\Psi}=\ket{\psi}\otimes\ket{\psi}$ on $2n$ qubits, a product of two model functions is the overlap of $\ket{\Psi}$ with a product of two feature states, and the product-to-sum rule folds that product back into one Chebyshev series on one extra qubit,
 \begin{equation}
     \bra{\tau(x)}_n\otimes\bra{\tau(x)}_n=\bra{\tau(x)}_{n+1}\,\nfold_1, \qquad \nfold_1\in\mathbb{R}^{2N\times N^2}
     \label{eq:pihm-fold}
 \end{equation}
-(its Eq.~8), so that $f^{(i)}f^{(j)}$ becomes $\nfold_1(\G^{i}\otimes\G^{j})$ on $\ket{\Psi}$. Linear terms are carried into the same space by tensoring them with the collapse row $\Dzero(x_s)$, which supplies the constant of one copy (its Eq.~30), and the Hamiltonian is built as in \Cref{eq:pihm-hamiltonian}. The paper demonstrates the construction on two quadratic ordinary equations at $n=2$ and reports that the Hamiltonian then has at least $2^{2n-1}$ degenerate zero-energy states, so that solving the equation is ``converted to that of seeking a degenerate state'' that ``closely matches the analytical solution''. The construction is quadratic: a term of degree $p$ needs $p$ copies, a register of dimension $N^p$ (\Cref{app:doubled-space}), as Paine's concurrent work also observes \cite{paine2026concurrent}.
+(their Eq.~8), so that $f^{(i)}f^{(j)}$ becomes $\nfold_1(\G^{i}\otimes\G^{j})$ on $\ket{\Psi}$. Linear terms are carried into the same space by tensoring them with the collapse row $\Dzero(x_s)$, which supplies the constant of one copy (their Eq.~30), and the Hamiltonian is built as in \Cref{eq:pihm-hamiltonian}. Wu et al.\ demonstrate the construction on two quadratic ordinary equations at $n=2$ and reports that the Hamiltonian then has at least $2^{2n-1}$ degenerate zero-energy states, so that solving the equation is ``converted to that of seeking a degenerate state'' that ``closely matches the analytical solution''. The construction is quadratic: a term of degree $p$ needs $p$ copies, a register of dimension $N^p$ (\Cref{app:doubled-space}), as Paine's concurrent work also observes \cite{paine2026concurrent}.
 
 \subsection{Critical Assessment}
 \label{sec:pihm-assessment}
@@ -196,8 +195,8 @@ A nonlinear term such as $(f')^2$ cannot be expressed as a linear operator on $\
 %                  rule has no epsilon -> app:paper-claims, sec:pipeline-filter.
 %        scope:    the doubled space projects -> sec:doubled-space; the readout identity assumes
 %                  deterministic preparation -> sec:pipeline-readout; one real scalar field,
-%                  complex states set aside (the paper's Discussion, quoted) -> sec:extensions.
-%   3. The paper's own open questions, quoted; paine2026concurrent raises the first without
+%                  complex states set aside (Wu et al.'s Discussion, quoted) -> sec:extensions.
+%   3. Wu et al.'s own open questions, quoted; paine2026concurrent raises the first without
 %      answering it.
 %   4. Q(i)-(iii) in italics, each with its chapter by \Cref; the spine as the question beneath,
 %      tying all three to it: Q(iii) has two halves, preparation against projection AND
@@ -205,23 +204,23 @@ A nonlinear term such as $(f')^2$ cannot be expressed as a linear operator on $\
 %      answered in sec:prep-vs-proj, measured in sec:results-nonlinear, sec:results-ns).
 % CHECKLIST  Every weakness has a pointer; the ranking is visible; the questions close the
 %   chapter; nothing measured is quoted (pointers only).
-% TRAPS  Re-deriving a weakness here (it is argued where pointed); "the paper is wrong"
+% TRAPS  Re-deriving a weakness here (it is argued where pointed); "Wu et al.\ are wrong"
 %   register; any floor "for any filter" stated without Lin & Tong's hedge (that is §4.6's).
 
 \paragraph{Strengths.} The construction is unified: ordinary and partial differential equations and their data constraints take one least-squares form, and nonlinear terms have a route into it. Its kernel is exact whenever the solution is a polynomial within the truncation. The Chebyshev basis needs no spatial grid, so the model and all its derivatives are available at every $x\in[-1,1]$ from one prepared state, and the Hamiltonian has few terms, each with polynomially many gates.
 
-\paragraph{Weaknesses in the cost.} With this construction the spectrum of the Hamiltonian (not just its circuits) may fix the cost. A polynomial filter's degree grows as the square root of the encoding's subnormalisation over the gap, and no encoding brings that subnormalisation below $\|H\|$ (\Cref{eq:degree}). Because $H$ is the Gram matrix of the residual, the square root is the residual's own norm over the root of the gap. Every derivative enters the residual as a power of $\G$, whose norm grows as $N^2$ (\Cref{sec:standard-operators}), so an operator of order $k$ grows as $N^{2k}$, the familiar ill-conditioning of dense Chebyshev differentiation \cite{olver2013}. For an equation whose leading coefficient does not vanish, and a gap that does not grow with $N$, the number of queries therefore grows with each derivative eliminated through $\G$, whatever the circuit. A least-squares functional built from operators of high order is the setting in which first-order-system least squares carries the derivatives as unknowns instead \cite{cai1994fosls}. The expected time $O(\Delta^{-1}\,\mathrm{polylog}(1/\varepsilon))$ leaves its units open: if $\Delta$ is the gap of $\tilde H$, it is the gap of $H$ divided by $\|H\|_F$, and the norm re-enters there. The paper's report of ``a sizable gap for the studied problems'' is therefore not yet evidence about the cost. Separately, the prefactor of \Cref{eq:pihm-published-prefactor} is not compared with $\|\G\|_2$, which it exceeds by a factor growing with $N$, so the circuit for $\G$ is loose even against the matrix it encodes. \Cref{sec:standard-published,sec:standard-hamiltonian} separate the two.
+\paragraph{Weaknesses in the cost.} With this construction the spectrum of the Hamiltonian (not just its circuits) may fix the cost. A polynomial filter's degree grows as the square root of the encoding's subnormalisation over the gap, and no encoding brings that subnormalisation below $\|H\|$ (\Cref{eq:degree}). Because $H$ is the Gram matrix of the residual, the square root is the residual's own norm over the root of the gap. Every derivative enters the residual as a power of $\G$, whose norm grows as $N^2$ (\Cref{sec:standard-operators}), so an operator of order $k$ grows as $N^{2k}$, the familiar ill-conditioning of dense Chebyshev differentiation \cite{olver2013}. For an equation whose leading coefficient does not vanish, and a gap that does not grow with $N$, the number of queries therefore grows with each derivative eliminated through $\G$, whatever the circuit. A least-squares functional built from operators of high order is the setting in which first-order-system least squares carries the derivatives as unknowns instead \cite{cai1994fosls}. The expected time $O(\Delta^{-1}\,\mathrm{polylog}(1/\varepsilon))$ leaves its units open: if $\Delta$ is the gap of $\tilde H$, it is the gap of $H$ divided by $\|H\|_F$, and the norm re-enters there. Wu et al.'s report of ``a sizable gap for the studied problems'' is therefore not yet evidence about the cost. Separately, the prefactor of \Cref{eq:pihm-published-prefactor} is not compared with $\|\G\|_2$, which it exceeds by a factor growing with $N$, so the circuit for $\G$ is loose even against the matrix it encodes. \Cref{sec:standard-published,sec:standard-hamiltonian} separate the two.
 
 \paragraph{Weaknesses in the evidence.} Each inhomogeneous example combines a rounded constraint point with a truncated Maclaurin source, and either alone sets an error floor that no increase in $n$ removes: a zero imposed where the solution does not vanish contradicts the equation, and a truncated source changes the equation being solved (\Cref{sec:standard-operators,sec:standard-constraints}, \Cref{app:reproduction}). The \gls{pde} examples sometimes take their invariant points from the known solution, which a new problem does not supply, and their invariant sets omit the initial or boundary function that fixes the solution, so the kernel degenerates as $n$ grows beyond the printed resolution. The heat equation's stated initial function sits at $t=0$, inside the time domain, where it would pose a backward problem (\Cref{sec:standard-constraints}). The description of $H$ as positive definite with distinct eigenvalues is stronger than a sum of Gram matrices allows, and the case the method aims at, a solution represented exactly, is a zero eigenvalue (\Cref{sec:standard-form}). The time rule (\Cref{eq:pihm-time-rule}) contains no $\varepsilon$, so it cannot certify a target accuracy, and it needs $\lambda_{\max}$ and $\lambda_2$, which the method does not supply in advance (\Cref{app:paper-claims}).
 
-\paragraph{Weaknesses in scope.} The nonlinear route projects rather than prepares: any function of the Hamiltonian acts as a scalar on its zero-energy eigenspace, so a filter returns the projection of the initial state onto a kernel whose dimension, by the paper's own count, is at least $2^{2n-1}$, and the direction it picks within that kernel is set by the initial state, not by the equation (\Cref{sec:doubled-space}). The readout identity treats the prepared state as the ground state with certainty, although a filter followed by post-selection succeeds with probability below one, and it returns one point of the field per measurement campaign (\Cref{sec:pipeline-readout}). The construction is stated for one real scalar field, and the paper sets complex-valued states aside, since with a Fourier basis ``the resulting total energy function is of a complicated form, rendering it difficult to find the ground state'' (\Cref{sec:extensions}).
+\paragraph{Weaknesses in scope.} The nonlinear route projects rather than prepares: any function of the Hamiltonian acts as a scalar on its zero-energy eigenspace, so a filter returns the projection of the initial state onto a kernel whose dimension, by Wu et al.'s own count, is at least $2^{2n-1}$, and the direction it picks within that kernel is set by the initial state, not by the equation (\Cref{sec:doubled-space}). The readout identity treats the prepared state as the ground state with certainty, although a filter followed by post-selection succeeds with probability below one, and it returns one point of the field per measurement campaign (\Cref{sec:pipeline-readout}). The construction is stated for one real scalar field, and Wu et al.\ set complex-valued states aside, since with a Fourier basis ``the resulting total energy function is of a complicated form, rendering it difficult to find the ground state'' (\Cref{sec:extensions}).
 
-\paragraph{Open problems.} The paper's Discussion leaves three questions open: ``studying the spectral gap dependence is an important question for the future work''; the choice of basis, for which ``one guiding principle here can be the cost of differentiation, where the goal is minimizing the depth of quantum circuits to implement derivatives, multiplication etc.''; and the data constraints, whose choice it calls ``crucial for regularizing solutions and growing the gap'' \cite{wu2025pihm}. Paine's concurrent work \cite{paine2026concurrent} finds, on a few small instances, that the normalised gap depends on the Hamiltonian's construction and the function encoding, but gives no scaling with resolution or circuits, so it raises the first question without answering it. The first weakness above is that question's quantitative form: the gap must be set against the Hamiltonian's norm, which the differentiation matrix sets.
+\paragraph{Open problems.} Wu et al.'s Discussion leaves three questions open: ``studying the spectral gap dependence is an important question for the future work''; the choice of basis, for which ``one guiding principle here can be the cost of differentiation, where the goal is minimizing the depth of quantum circuits to implement derivatives, multiplication etc.''; and the data constraints, whose choice it calls ``crucial for regularizing solutions and growing the gap'' \cite{wu2025pihm}. Paine's concurrent work \cite{paine2026concurrent} finds, on a few small instances, that the normalised gap depends on the Hamiltonian's construction and the function encoding, but gives no scaling with resolution or circuits, so it raises the first question without answering it. The first weakness above gives the first two problems a common quantitative form. The gap must be set against the Hamiltonian's norm, and the cost of differentiation, which Wu et al.\ measure by the depth of a circuit, is also paid in that norm, a factor growing as $N^2$ in the residual's norm for each derivative eliminated through $\G$, at every query of the filter.
 
-The assessment leaves three questions, which the next three chapters answer in turn:
+Read against the degree of \Cref{eq:degree}, the assessment leaves three questions, which the next three chapters answer in turn:
 \begin{enumerate}[label=(\roman*)]
     \item \emph{Is the query count set by the encoder or by the Hamiltonian?} (\Cref{sec:standard})
     \item \emph{Can the residual be reformulated so that its Hamiltonian is banded and well conditioned without changing its solution, and what does the reformulation cost?} (\Cref{sec:descriptor})
     \item \emph{Can the solution of a nonlinear equation be prepared as the unique ground state of a Hamiltonian, rather than selected by projection from a degenerate kernel, and does the reformulation's advantage survive there?} (\Cref{sec:extensions}, which first carries several fields and complex-valued fields as coupled linear systems, since the lift that answers it is one)
 \end{enumerate}
-All three concern the Hamiltonian's norm, which sets the filter's degree: (i) locates its source, (ii) asks whether changing what the residual carries lowers it, and (iii) asks whether a nonlinear equation admits a Hamiltonian with a unique ground state, to which the question applies at all.
+The questions follow the two terms of the degree. The first two concern its numerator: (i) asks whether the norm that sets the query count belongs to the circuit or to the operator, and (ii) whether changing what the residual carries can lower that norm without moving the kernel, and what the change costs elsewhere, in the state, the circuit or the gap. The third concerns the denominator at its limit. A degenerate kernel has no gap above its ground value, so a filter cannot single out one state in it; (iii) therefore asks first for a Hamiltonian whose ground state is unique, the condition under which the degree is defined at all, and only then whether the reformulation still lowers it.

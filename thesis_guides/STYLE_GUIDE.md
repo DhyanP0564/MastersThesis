@@ -82,7 +82,7 @@ one-sentence paragraphs in the body, and neither has half-page blocks.
 
 Kill these on sight; they are pure page-budget waste:
 - "It is important to note that…" → delete, state the thing
-- "In this section, we will discuss…" → replace with the actual roadmap sentence
+- "In this section, we will discuss…" → delete; open on the tension that motivates the section (§4.2)
 - "As mentioned previously…" → use `\Cref{}` instead
 - "very", "quite", "extremely", "obviously", "clearly" → delete or quantify
 - "This is a very significant improvement" → "This is a factor of N³ in the degree"
@@ -203,7 +203,7 @@ repository, a notebook or a README.
 ### 2.7 A scientific argument, not a code map
 
 The project was built as software; the thesis is not about the software. ThesisPlanning.md §3.5's
-rules, in brief: every chapter opens with its question and closes with its answer; constructions
+rules, in brief: every chapter arrives at its question and closes on a hand-off (§4.2); constructions
 are stated as mathematics, never as function names; findings are stated as findings, never as the
 history of the issue that found them; records, campaigns, hashes and Slurm live in Appendix L; each
 benchmark problem is introduced by the physics it carries.
@@ -297,18 +297,32 @@ is raised by a critical assessment the reader has just watched. §3.5 poses Q(i)
 each answered by `\Cref`: (i) *is the cost the encoder's or the Hamiltonian's?* → Chapter 4; (ii)
 *can the residual be reformulated so that its Hamiltonian is banded and well conditioned without
 changing its solution, and what does the reformulation cost?* → Chapter 5; (iii) *can nonlinear equations be
-prepared rather than projected?* → Chapter 6, which first carries several fields and
+prepared rather than projected, and does the reformulation's advantage survive there?* → Chapter 6, which first carries several fields and
 complex-valued fields as coupled linear systems on one state, because the Carleman lift that answers
 (iii) is one.
 
-### 4.2 Chapter-opening roadmaps, one to three sentences
+### 4.2 Chapter openings and closings: arrive, then hand off (v3.6)
 
-> "This chapter assembles the technical machinery used throughout the thesis. The treatment is
-> self-contained at the level needed to follow the algorithms and proofs of later chapters; for a
-> fuller account… we refer the reader to…" — Snow, Ch. 2
+Green carries his narrative at the joins, not in roadmaps. A part opens on the tension the last
+result left ("It is motivated by the bound on the growth of entanglement entropy… (Equation 3.20)",
+§4.4) and closes on the limitation the next part takes up ("This presents a critical challenge in the
+design of efficient quantum circuits to encode these states accurately", the last line of §4.4.2;
+§4.5 is the circuits). His chapter-by-chapter map appears once, in §1.3. Copy the structure, not the
+register: no "exceptionally", "tremendous", "crucial".
 
-The second clause licenses brevity, which the marking guide rewards. Chapters 4–6 open with their
-question instead of a roadmap.
+- **Opening.** Start from what the previous chapter settled or left open, in its terms; reach the
+  chapter's question, in italics, within the first paragraph. Definitions and attribution that the
+  chapter contract requires stay in the opening. No list of `\Cref`s to the chapter's own sections:
+  the roadmap lives once, in §1.4. Never open with the question quoted back ("Is X? This is the
+  first question of §3.5").
+- **Closing.** What the chapter settled, what it leaves open, and where that is taken up, in one
+  paragraph. The hand-off must carry content (a limit, a scope, a cost that moved); a sentence that
+  only announces the next chapter is cut. Formulation chapters still name the results section that
+  measures them.
+- **Inside a chapter.** Where a section turns the argument (theorem → challenge, spectrum → circuit),
+  its first sentence says why the turn is needed; specification sections need no hand-off.
+
+Exception: Chapter 3's first sentence is its attribution (T-13).
 
 ### 4.3 Forward and backward references carry a reason
 
@@ -334,6 +348,22 @@ each time:
 
 Green closes his MPS chapter with "Summary"; Snow closes each results chapter with one. Use them
 after Chapter 5 (§5.10) and Chapter 8 (§8.6): 3–7 numbered takeaways.
+
+### 4.6 The narrative threads (v3.6)
+
+Green's motifs ("dimensionality burden", "structure", "the boundary of efficient preparation")
+recur at every join, so a reader can enter any chapter and know where it sits. Ours, fixed in
+ThesisPlanning.md §3.2:
+
+1. **The degree's two terms.** d = Θ(√(α_H/Δ) log 1/ε). Wu et al.'s open problems are its
+   denominator (the gap) and, on our reading, its numerator (the cost of differentiation, paid in
+   the norm at every query, where they measured it by depth). Every opening and closing in Chs 2–8
+   says which term the chapter moves.
+2. **What is prepared.** Unique ground state → trusted kernel → same kernel in both forms → a
+   trusted kernel that is not a converged lift.
+
+Name them in the chapter's own terms ("the numerator", "the gap above the ground value"), never as
+"thread 1", and never as "the first question" without the content of the question.
 
 ---
 

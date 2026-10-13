@@ -63,7 +63,7 @@ three \gls{lcu} terms, each a field-register operation times the zero row's enco
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The matchings are cheaper only on small lifts; the tensor layout's term count does not grow.} The coupling $\Acoup_K$ of the Carleman lift of Burgers (R9c, $a/\nu=1$) and of the Navier--Stokes vortex pair (R10c, $a/\nu=10$) on $M$ modes, encoded alone: in the symmetric layout as matchings, and in the tensor layout as $2K-1$ terms on its physical states. $\alpha/\|\Acoup_K\|$ is the encoding's subnormalisation over the coupling's norm; CNOTs are per query. Every entry is verified by \gls{ir} to $10^{-10}$; ``--'' marks a symmetric layout not built. Classical construction and verification.}
+    \caption[Encodings of the Carleman coupling: symmetric and tensor layouts]{\textbf{The matchings are cheaper only on small lifts; the tensor layout's term count does not grow.} The Carleman lift's coupling $\Acoup_K$, encoded alone, for Burgers (R9c, $a/\nu=1$) and the Navier--Stokes vortex pair (R10c, $a/\nu=10$): in the symmetric layout as a sum of matchings, in the tensor layout as $2K-1$ terms on its physical states. $M$, Galerkin modes; $K$, Carleman order; $\alpha/\|\Acoup_K\|$, subnormalisation over the coupling's norm; CNOTs, per query; --, symmetric layout not built. Every entry verified by \gls{ir} to $10^{-10}$. Classical construction and verification.}
     \label{tab:lift-circuits}
     \small
     \begin{tabular}{@{}l r r r r r r r r@{}}
@@ -102,11 +102,11 @@ so $Rz=0$ if and only if $R_\iota\iota(z)=0$, and $\ker R_\iota=\iota(\ker R)$, 
 
 \paragraph{The doubled residual.} On $\ket{\Psi}=\ket{\psi}\otimes\ket{\psi}$, let a term have coefficient $c$ and $k\le2$ field factors, the $i$-th carrying the derivative $\G^{j_i}$, and a multiplier of degree at most one; it becomes $c\,\nfold_1\bigl(\Dzero(x_s)^{\otimes(2-k)}\otimes\G^{j_1}\otimes\cdots\bigr)$ for a constant multiplier and the same with $\nfold_x$ for the multiplier $x$. A linear term is thereby carried by one copy of the collapse row, which on $\psi$ is the constant $f_q(x_s)/f(x_s)$, and a source by two. An invariant constraint becomes $\nfold_1\bigl(\Dzero(x_s)\otimes\Brow(x^*)\G^j\bigr)$, and the readout is $\nfold_1(\Dzero\otimes I)$, with $f_Q=\eta f_q$ ($p=1$ in $f_Q=\eta^{1/p}f_q$). The equation block maps the $N^2$ amplitudes of $\Psi$ to the $2N$ coefficients of the folded register on $n+1$ qubits.
 
-\paragraph{The kernel bound.} The equation block has $2N$ rows, so rank at most $2N$, and each constraint block is a fold of a Kronecker product of two rank-one rows, so rank at most one. With $m$ invariant constraints, $\operatorname{rank}R\le2N+m$ and $\dim\ker H_\otimes=\dim\ker R\ge N^2-2N-m$, which is at least $N^2/2=2^{2n-1}$ once $N\ge8$ for $m\le2$. At $n=2$ the bound is weaker than the paper's count, which the records meet there by measurement. \Cref{tab:doubled-kernel} gives the measured dimensions; at $n=2$ to $4$ the equation blocks have rank $2N-3$ (R6a) and $2N-1$ (R6b), each problem with one constraint.
+\paragraph{The kernel bound.} The equation block has $2N$ rows, so rank at most $2N$, and each constraint block is a fold of a Kronecker product of two rank-one rows, so rank at most one. With $m$ invariant constraints, $\operatorname{rank}R\le2N+m$ and $\dim\ker H_\otimes=\dim\ker R\ge N^2-2N-m$, which is at least $N^2/2=2^{2n-1}$ once $N\ge8$ for $m\le2$. At $n=2$ the bound is weaker than Wu et al.'s count, which the records meet there by measurement. \Cref{tab:doubled-kernel} gives the measured dimensions; at $n=2$ to $4$ the equation blocks have rank $2N-3$ (R6a) and $2N-1$ (R6b), each problem with one constraint.
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The doubled space's kernel grows as $N^2$.} Dimension of the kernel of $H_\otimes$ for the paper's two quadratic equations, R6a ($4f''+2(f')^2+f=0$) and R6b ($f''-2f^2+x=0$), against the state's dimension $N^2$ and the paper's lower bound $2^{2n-1}$. Classical computation (\gls{svd} of the stacked residual).}
+    \caption[Kernel dimension of the doubled space]{\textbf{The doubled space's kernel grows as $N^2$.} Kernel dimension of the doubled-space Hamiltonian $H_\otimes$ for R6a ($4f''+2(f')^2+f=0$) and R6b ($f''-2f^2+x=0$), against the doubled state's dimension $N^2$ and Wu et al.'s lower bound $2^{2n-1}$; $N=2^n$. Classical computation (\gls{svd} of the stacked residual).}
     \label{tab:doubled-kernel}
     \small
     \begin{tabular}{@{}r r r r r@{}}

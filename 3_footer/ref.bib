@@ -87,10 +87,14 @@
   primaryclass  = {quant-ph}
 }
 
-@misc{jennings2023cost,
+@article{jennings2023cost,
   author        = {Jennings, David and Lostaglio, Matteo and Lowrie, Robert B. and Pallister, Sam and Sornborger, Andrew T.},
   title         = {{The cost of solving linear differential equations on a quantum computer: fast-forwarding to explicit resource counts}},
-  year          = {2023},
+  journal       = {Quantum},
+  volume        = {8},
+  pages         = {1553},
+  year          = {2024},
+  doi           = {10.22331/q-2024-12-10-1553},
   eprint        = {2309.07881},
   archiveprefix = {arXiv},
   primaryclass  = {quant-ph}
@@ -162,8 +166,8 @@
 }
 
 @article{subasi2019adiabatic,
-  author        = {Somma, Rolando D. and Subasi, Yigit and Orsucci, Davide},
-  title         = {{Quantum algorithms for systems of linear equations inspired by adiabatic quantum computing}},
+  author        = {Suba{\c{s}}{\i}, Yi{\u{g}}it and Somma, Rolando D. and Orsucci, Davide},
+  title         = {{Quantum Algorithms for Systems of Linear Equations Inspired by Adiabatic Quantum Computing}},
   journal       = {Physical Review Letters},
   volume        = {122},
   pages         = {060504},
@@ -938,4 +942,180 @@
   year      = {2023},
   address   = {Perth, Western Australia},
   doi       = {10.48569/18sb-8s43}
+}
+
+% ---------------------------------------------------------------------------
+% Chapter 2 literature pass (2026-10-12). Each entry's metadata checked against
+% Crossref (DOI) or the arXiv listing, and each against the claim it supports:
+%   berry2014highorder      linear multistep + linear systems, poly(1/eps) (abstract)
+%   childsliuostrander2021  PDEs by FD and spectral methods, log(1/eps) (abstract)
+%   aaronson2015fineprint   the input/condition-number/output caveats of HHL
+%   montanaro2016fem        at most polynomial speed-up at fixed dimension (abstract)
+%   leyton2008nonlinear     resources exponential in the integration time (abstract)
+%   mcclean2018barren       barren plateaus
+%   bravoprieto2023vqls     H_G = A^dag (1 - |b><b|) A, zero-energy ground state (Sec. 2.1.2)
+%   barison2022variational  Feynman--Kitaev clock: dynamics as a ground state (abstract)
+%   pool2024nonlinear       space and time in registers, Burgers, one ground state (abstract)
+%   somma2013gap            quadratic gap amplification for frustration-free H (abstract)
+%   lowchuang2017qsp        quantum signal processing
+%   bochevgunzburger1998    LS of a 2nd-order operator O(h^-4) vs O(h^-2); first-order
+%                           decomposition restores O(h^-2) (Secs 2.2-2.3, pp. 801-802)
+%   preskill2018nisq        the NISQ era
+% ---------------------------------------------------------------------------
+
+@article{berry2014highorder,
+  author        = {Berry, Dominic W.},
+  title         = {{High-order quantum algorithm for solving linear differential equations}},
+  journal       = {Journal of Physics A: Mathematical and Theoretical},
+  volume        = {47},
+  number        = {10},
+  pages         = {105301},
+  year          = {2014},
+  doi           = {10.1088/1751-8113/47/10/105301},
+  eprint        = {1010.2745},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{childsliuostrander2021pde,
+  author        = {Childs, Andrew M. and Liu, Jin-Peng and Ostrander, Aaron},
+  title         = {{High-precision quantum algorithms for partial differential equations}},
+  journal       = {Quantum},
+  volume        = {5},
+  pages         = {574},
+  year          = {2021},
+  doi           = {10.22331/q-2021-11-10-574},
+  eprint        = {2002.07868},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{aaronson2015fineprint,
+  author        = {Aaronson, Scott},
+  title         = {{Read the fine print}},
+  journal       = {Nature Physics},
+  volume        = {11},
+  number        = {4},
+  pages         = {291--293},
+  year          = {2015},
+  doi           = {10.1038/nphys3272}
+}
+
+@article{montanaro2016fem,
+  author        = {Montanaro, Ashley and Pallister, Sam},
+  title         = {{Quantum algorithms and the finite element method}},
+  journal       = {Physical Review A},
+  volume        = {93},
+  number        = {3},
+  pages         = {032324},
+  year          = {2016},
+  doi           = {10.1103/PhysRevA.93.032324},
+  eprint        = {1512.05903},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@misc{leyton2008nonlinear,
+  author        = {Leyton, Sarah K. and Osborne, Tobias J.},
+  title         = {{A quantum algorithm to solve nonlinear differential equations}},
+  year          = {2008},
+  eprint        = {0812.4423},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{mcclean2018barren,
+  author        = {McClean, Jarrod R. and Boixo, Sergio and Smelyanskiy, Vadim N. and Babbush, Ryan and Neven, Hartmut},
+  title         = {{Barren plateaus in quantum neural network training landscapes}},
+  journal       = {Nature Communications},
+  volume        = {9},
+  pages         = {4812},
+  year          = {2018},
+  doi           = {10.1038/s41467-018-07090-4}
+}
+
+@article{bravoprieto2023vqls,
+  author        = {Bravo-Prieto, Carlos and LaRose, Ryan and Cerezo, M. and Suba{\c{s}}{\i}, Yi{\u{g}}it and Cincio, Lukasz and Coles, Patrick J.},
+  title         = {{Variational Quantum Linear Solver}},
+  journal       = {Quantum},
+  volume        = {7},
+  pages         = {1188},
+  year          = {2023},
+  doi           = {10.22331/q-2023-11-22-1188},
+  eprint        = {1909.05820},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{barison2022variational,
+  author        = {Barison, Stefano and Vicentini, Filippo and Cirac, Ignacio and Carleo, Giuseppe},
+  title         = {{Variational dynamics as a ground-state problem on a quantum computer}},
+  journal       = {Physical Review Research},
+  volume        = {4},
+  pages         = {043161},
+  year          = {2022},
+  doi           = {10.1103/PhysRevResearch.4.043161},
+  eprint        = {2204.03454},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{pool2024nonlinear,
+  author        = {Pool, Albert J. and Somoza, Alejandro D. and Mc Keever, Conor and Lubasch, Michael and Horstmann, Birger},
+  title         = {{Nonlinear dynamics as a ground-state solution on quantum computers}},
+  journal       = {Physical Review Research},
+  volume        = {6},
+  number        = {3},
+  pages         = {033257},
+  year          = {2024},
+  doi           = {10.1103/PhysRevResearch.6.033257},
+  eprint        = {2403.16791},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{somma2013gap,
+  author        = {Somma, Rolando D. and Boixo, Sergio},
+  title         = {{Spectral Gap Amplification}},
+  journal       = {SIAM Journal on Computing},
+  volume        = {42},
+  number        = {2},
+  pages         = {593--610},
+  year          = {2013},
+  doi           = {10.1137/120871997},
+  eprint        = {1110.2494},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph}
+}
+
+@article{lowchuang2017qsp,
+  author        = {Low, Guang Hao and Chuang, Isaac L.},
+  title         = {{Optimal Hamiltonian Simulation by Quantum Signal Processing}},
+  journal       = {Physical Review Letters},
+  volume        = {118},
+  number        = {1},
+  pages         = {010501},
+  year          = {2017},
+  doi           = {10.1103/PhysRevLett.118.010501}
+}
+
+@article{bochevgunzburger1998review,
+  author        = {Bochev, Pavel B. and Gunzburger, Max D.},
+  title         = {{Finite Element Methods of Least-Squares Type}},
+  journal       = {SIAM Review},
+  volume        = {40},
+  number        = {4},
+  pages         = {789--837},
+  year          = {1998},
+  doi           = {10.1137/S0036144597321156}
+}
+
+@article{preskill2018nisq,
+  author        = {Preskill, John},
+  title         = {{Quantum Computing in the NISQ era and beyond}},
+  journal       = {Quantum},
+  volume        = {2},
+  pages         = {79},
+  year          = {2018},
+  doi           = {10.22331/q-2018-08-06-79}
 }

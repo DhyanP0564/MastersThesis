@@ -166,7 +166,7 @@ On synthetic spectra with the ground state at the edge, gaps from $10^{-8}$ to $
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The minimax edge filter needs fewer degrees than imaginary time at equal error, except at loose $\varepsilon$ on some problems.} Filter degree, imaginary time (QITE) / minimax, at three strengths of like error: equal certified infidelity at $\varepsilon=10^{-6}$ (both degrees from the worst-case bound at the problem's own $\gamma$), and equal measured infidelity on the problem's own spectrum and geometric initial state at $\varepsilon=10^{-6}$ and $10^{-4}$. $\gamma^2$ is that state's overlap. Problems whose references both forms trust, at one resolution ($n$ per axis on R5a). Exact emulation (T2).}
+    \caption[Filter degree, imaginary time against minimax]{\textbf{The minimax edge filter needs a lower degree than imaginary time at equal error, except at loose $\varepsilon$ on some problems.} Each cell: imaginary-time (QITE) degree / minimax degree, both forms, at one resolution per problem ($n$ per axis on R5a) whose reference both forms trust. Three equal-error criteria: certified infidelity at $\varepsilon=10^{-6}$ (both degrees from the worst-case bound at the problem's own $\gamma$), and measured infidelity at $\varepsilon=10^{-6}$ and $10^{-4}$ on the problem's own spectrum from the geometric initial state. $\gamma^2$, that state's overlap with the ground state. Exact emulation (T2).}
     \label{tab:filter-study}
     \footnotesize
     \setlength{\tabcolsep}{4pt}
@@ -193,10 +193,24 @@ On synthetic spectra with the ground state at the edge, gaps from $10^{-8}$ to $
 
 \paragraph{An underestimated edge.}
 \label{app:edge-study}
-The degree is set a priori from the spectral edge (\Cref{sec:pipeline-filter}), and a study on R2a at $n=3$ in the standard form measures what an underestimate of it costs, with the imaginary-time filter, whose time the gap sets directly (\Cref{eq:qite-parameters}). At the true gap the degree is $\res{protocol/R2a/standard/n3}{gap_degree}$ and the infidelity $\res[2,sci]{protocol/R2a/standard/n3}{gap_infidelity}$. With the gap halved the degree is $\res{protocol/R2a/standard/n3}{gap_half_degree}$, and with it divided by ten $\res{protocol/R2a/standard/n3}{gap_tenth_degree}$: the factors $\sqrt2$ and $\sqrt{10}$ of an inverse square root, with every preparation still within $\varepsilon$. The paper's own time rule, run in the same study, gives degree $\res{protocol/R2a/standard/n3}{paper_degree}$ and infidelity $\res[2]{protocol/R2a/standard/n3}{paper_infidelity}$: its time is shorter than the gap rule's and its state does not reach $\varepsilon=10^{-6}$. The time rule is examined with the rest of the reproduction in \Cref{app:reproduction}. Exact emulation (T2).
+The degree is set a priori from the spectral edge (\Cref{sec:pipeline-filter}), and a study on R2a at $n=3$ in the standard form measures what an underestimate of it costs, with the imaginary-time filter, whose time the gap sets directly (\Cref{eq:qite-parameters}). At the true gap the degree is $\res{protocol/R2a/standard/n3}{gap_degree}$ and the infidelity $\res[2,sci]{protocol/R2a/standard/n3}{gap_infidelity}$. With the gap halved the degree is $\res{protocol/R2a/standard/n3}{gap_half_degree}$, and with it divided by ten $\res{protocol/R2a/standard/n3}{gap_tenth_degree}$: the factors $\sqrt2$ and $\sqrt{10}$ of an inverse square root, with every preparation still within $\varepsilon$. Wu et al.'s own time rule, run in the same study, gives degree $\res{protocol/R2a/standard/n3}{paper_degree}$ and infidelity $\res[2]{protocol/R2a/standard/n3}{paper_infidelity}$: its time is shorter than the gap rule's and its state does not reach $\varepsilon=10^{-6}$. The time rule is examined with the rest of the reproduction in \Cref{app:reproduction}. Exact emulation (T2).
 
 \subsection{Unit Weight of Both Filters}
 \label{app:proof-filter-normalisation}
+% MOVED v3.4 (StructuralReview.md F3) from sec:pipeline-filter: the statement, with its labels;
+%   the body keeps one sentence and points here.
+
+\begin{proposition}[Unit weight of both filters]
+\label{prop:filter-normalisation}
+For every $\beta>0$ the Chebyshev coefficients $q_k$ of $e^{-\beta(1+x)}$ (\Cref{eq:qite-filter}), and for every $d$ and $x_1\in(-1,1)$ those of $P_d$ in \Cref{eq:minimax-filter}, alternate in sign and satisfy
+\begin{equation}
+    \sum_{k}|q_k|=1 ,
+    \label{eq:filter-normalisation}
+\end{equation}
+so $|P(z)|\le\sum_k|q_k|=1$ on the unit circle, with equality at $z=-1$.
+\end{proposition}
+
+Each filter is the reflection, about the spectrum's edge, of a function whose Chebyshev coefficients are non-negative and sum to its value of one there.
 
 \begin{proof}[Proof of \Cref{prop:filter-normalisation}]
 \emph{Imaginary time.} $I_k(\beta)>0$ for $\beta>0$, so the $q_k$ alternate in sign and $\sum_k|q_k|=e^{-\beta}\bigl(I_0(\beta)+2\sum_{k\ge1}I_k(\beta)\bigr)$, the generating function at $\vartheta=0$ times $e^{-\beta}$, which is $e^{-\beta}e^{\beta}=1$.
@@ -260,7 +274,7 @@ Any difference between a form's degree as built and its ideal degree is its enco
 \subsection{The Readout Identity for Probabilistic Preparation}
 \label{app:readout-identity}
 
-Let $\hat U_{\mathrm{prep}}$ be the preparation, the initial state's rotations followed by the \gls{gqsp} circuit, whose output is $\ket{0_a}g+\ket{\mathrm{junk}}$, with $g=\sqrt{p_G}\,\psi$ the system part on the all-zero ancilla and $\ket{\mathrm{junk}}$ supported on non-zero ancilla. Let $\hat U_\tau(x)$ be the paper's feature map, one per axis, and $u(x)=\tau(x)/2^{m/2}$ the first column of their product on $m$ axes, $\tau(x)$ the Kronecker product of the axes' feature vectors.
+Let $\hat U_{\mathrm{prep}}$ be the preparation, the initial state's rotations followed by the \gls{gqsp} circuit, whose output is $\ket{0_a}g+\ket{\mathrm{junk}}$, with $g=\sqrt{p_G}\,\psi$ the system part on the all-zero ancilla and $\ket{\mathrm{junk}}$ supported on non-zero ancilla. Let $\hat U_\tau(x)$ be Wu et al.'s feature map, one per axis, and $u(x)=\tau(x)/2^{m/2}$ the first column of their product on $m$ axes, $\tau(x)$ the Kronecker product of the axes' feature vectors.
 \begin{itemize}
     \item \emph{G}: $\hat U_{\mathrm{prep}}$, then $\hat U_\tau^\dagger(x)$; $P_G(x)$ is the probability that every qubit reads zero.
     \item \emph{C}: a selector qubit in $\ket+$, $\hat U_{\mathrm{prep}}$ controlled on it, a Hadamard on it, then $\hat U_\tau^\dagger(x)$; $P_C(x)$ is the all-zero probability, the selector included.
@@ -293,7 +307,7 @@ The junk has a non-zero ancilla and contributes nothing to an all-zero outcome, 
 \end{equation*}
 \end{proof}
 
-The interference with $e_0$ recovers the overlap's sign, which one probability alone cannot. For one axis and a deterministic preparation, $p_G=1$, this is the paper's Eq.~36 \cite{wu2025pihm}. The model is $f_Q(x)=\sqrt\eta\,\tau(x)\cdot\psi$, so with $f^\ast$ the left-hand side the field follows from a ratio against the regular datum and needs no $p_G$, while the scale does:
+The interference with $e_0$ recovers the overlap's sign, which one probability alone cannot. For one axis and a deterministic preparation, $p_G=1$, this is Wu et al.'s Eq.~36 \cite{wu2025pihm}. The model is $f_Q(x)=\sqrt\eta\,\tau(x)\cdot\psi$, so with $f^\ast$ the left-hand side the field follows from a ratio against the regular datum and needs no $p_G$, while the scale does:
 \begin{equation*}
     f_Q(x)=f(x_s)\,\frac{f^\ast(x)}{f^\ast(x_s)},
     \qquad

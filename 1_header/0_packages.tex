@@ -11,10 +11,12 @@
 \usepackage{pdfpages}
 \usepackage{algorithm2e}
 \usepackage{array}
+\usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage[most]{tcolorbox}
 \usepackage{calligra}
 \usepackage{caption}
+\captionsetup{font=footnotesize, labelfont=bf} % captions smaller than body text; "Figure N:" in bold
 \usepackage{datetime}
 % \usepackage{dblfnote} % removed 2026-10-12: incompatible with the current LaTeX kernel (undefined \dfn@elt@getht) once a footnote is used; the thesis needs single-column footnotes only
 \usepackage{dirtytalk}
@@ -76,17 +78,17 @@
 \usepackage{quantikz}
 
 % Placeholder figure: draws a boxed, described stand-in for a figure not yet
-% produced. Usage: \placeholderfigure[height]{caption}{label}{description}
-\newcommand{\placeholderfigure}[4][6cm]{%
+% produced. Usage: \placeholderfigure[height][list-of-figures title]{caption}{label}{description}
+\NewDocumentCommand{\placeholderfigure}{O{6cm} o m m m}{%
   \begin{figure}[htbp]
     \centering
     \fbox{%
       \begin{minipage}[c][#1][c]{0.86\linewidth}
-        \centering\itshape\color{gray!60!black} #4
+        \centering\itshape\color{gray!60!black} #5
       \end{minipage}%
     }
-    \caption{#2}
-    \label{#3}
+    \IfValueTF{#2}{\caption[#2]{#3}}{\caption{#3}}
+    \label{#4}
   \end{figure}%
 }
 
@@ -153,6 +155,10 @@
 
 \setcounter{secnumdepth}{3}
 
+% figures and tables numbered by section (Figure 4.2) and by appendix (Table K.3)
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
 %lists
 \usepackage{enumitem}
 
@@ -166,7 +172,7 @@
 \newcommand{\prov}[1]{\textcolor{BrickRed}{#1}}
 
 %reference list
-\usepackage[backend=biber,style=ieee]{biblatex} %Sbliography with IEEE style.
+\usepackage[backend=biber,bibstyle=ieee,citestyle=numeric-comp]{biblatex} %IEEE reference list; citations grouped in one bracket with ranges compressed ([1--3], [1, 4]).
 \addbibresource{3_footer/ref.bib} %Imports bibliography file
 % ref.bib's note fields are internal provenance for this repo's own audit (T-29):
 % where an entry's details were inferred rather than stated by the citing text, not

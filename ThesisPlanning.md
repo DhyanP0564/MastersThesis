@@ -2,7 +2,7 @@
 
 ## Turning the `pihm` rebuild into a submittable (and publishable) Master's thesis
 
-*Version 3.5, 2026-10-12 (v3.5: `StructuralReview.md` F4, F5 and F7 applied: Chapter 2 restructured and drafted (§5.2), Q(iii) given its second half (§3.2), the ladder moved to §4.1 and "trusted" defined at its first use in §4.3. v3.4: the structural pass F1–F3 of `StructuralReview.md` applied: the evidence rule in T-20, the departures compressed (T-30, T-34), Chapter 7 compressed, the budget of §4.1 revised. v3.3: Chapter 8 drafted against the results-v1 records; its deviations from §5.8 and the corrections they forced are marked "v3.3" in place. v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
+*Version 3.6, 2026-10-13 (v3.6: the opening and closing convention, §3.5 rule 1, and the narrative threads, §3.2, after Green's exemplar: a chapter arrives at its question from the tension the previous chapter left, carries no section roadmap, and closes on a hand-off; the chapter entries of §4.2 and §5 amended to match. v3.5: `StructuralReview.md` F4, F5 and F7 applied: Chapter 2 restructured and drafted (§5.2), Q(iii) given its second half (§3.2), the ladder moved to §4.1 and "trusted" defined at its first use in §4.3. v3.4: the structural pass F1–F3 of `StructuralReview.md` applied: the evidence rule in T-20, the departures compressed (T-30, T-34), Chapter 7 compressed, the budget of §4.1 revised. v3.3: Chapter 8 drafted against the results-v1 records; its deviations from §5.8 and the corrections they forced are marked "v3.3" in place. v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
 prior art; Chapter 4 states the construction once, in the form this thesis runs (the standard
 form), and answers the first question; the reproduction and audit of the paper live in Appendix K.
 v3.1 merges v3.0's Chapters 6 (systems and complex-valued fields) and 7 (nonlinearity) into one
@@ -390,12 +390,30 @@ answers one.
 | (iii) *Can nonlinear equations be prepared rather than projected, and does the reformulation's advantage survive there?* (with its prerequisite, the paper's scope: several fields, complex-valued fields, §6.1–6.3; v3.5, `StructuralReview.md` F5: the second half ties Q(iii) to the spine, answered in §6.8 through the time axis) | Ch. 6 | §8.4–8.5 |
 | (how the answers are tested) | Ch. 7 | §8.1 |
 
-Each formulation chapter opens by restating its question in one sentence and closes by naming the
-results section that tests it. Ch. 4 first states the object its question is about (the standard
+Chapters open and close by §3.5 rule 1 (v3.6): a formulation chapter arrives at its question from
+the tension the previous chapter left, states it in italics within its opening paragraph, and closes
+on a hand-off (what it settled, what it leaves open, and where that is taken up, the results section
+included). Ch. 4 first states the object its question is about (the standard
 form, §4.1–4.4) and then answers it (§4.5–4.6). Ch. 6 opens with the scope the paper leaves (one
 real scalar field; its Discussion's remark on complex-valued states; a doubled space for quadratic
 terms) and with Q(iii); it builds the coupled linear system first (§6.1–6.3), because the Carleman
 lift that answers Q(iii) is one (§6.5).
+
+**The threads (v3.6).** Openings and closings carry the questions through two threads, named in each
+chapter's own terms rather than by question number.
+
+1. *The degree's two terms.* Wu et al.'s two open problems, the gap's behaviour and the cost of
+   differentiation, are the denominator and (on the thesis's reading, argued in §3.5) the numerator
+   of d = Θ(√(α_H/Δ) log 1/ε). Ch. 2: every route pays a ratio its discretisation fixes. Ch. 3: the
+   assessment reduces to the two terms; Wu et al. measure the cost of differentiation by depth, but
+   it is also paid in the norm, at every query. Ch. 4: the numerator splits into the encoder's cost
+   and the Hamiltonian's; the latter is the cost of differentiation, paid in queries. Ch. 5: the
+   numerator falls; the denominator erodes, and is restored on one axis. Ch. 6: the denominator at
+   zero (a degenerate kernel projects); a lift with a unique ground state. Ch. 7: both terms
+   measured on equal terms. Ch. 8: the degrees measured, in the order the predictions depend on one
+   another. Ch. 9: the mechanism.
+2. *What is prepared.* A unique ground state (Chs 3, 6); a trusted kernel (Chs 4, 7); the same
+   kernel in both forms (Ch. 5); a trusted kernel that is not a converged lift (Chs 6, 8).
 
 ### 3.3 The spine sentence
 
@@ -451,8 +469,13 @@ coefficients, order k, one axis), not by "the paper's regime".
 
 The rubric scores a model a reader could rebuild, not a tour of the software. Rules:
 
-1. **Every chapter opens with its question and closes with its answer.** No chapter opens with "this
-   chapter describes the module…".
+1. **Every chapter arrives at its question and closes on a hand-off** (v3.6, after Green's
+   exemplar). The opening starts from the tension the previous chapter left and reaches the question,
+   in italics, within its first paragraph; it carries no section-by-section roadmap (no list of
+   `\Cref`s), which lives once, in §1.4. The closing states what the chapter settled and what it
+   leaves open, in the threads' terms (§3.2), and names where that is taken up. No sentence only
+   announces the next; no chapter opens with "this chapter describes the module…" or with its
+   question quoted back. Ch. 3's first sentence stays its attribution (T-13).
 2. **State constructions as mathematics.** `assemble`, `stacked_reflection`, `t2` and their
    relatives appear in the body only in §7.9 and the figure-script comments; elsewhere they are the
    residual, the reflection V, the exact emulation.
@@ -594,7 +617,7 @@ enforced in Review Mode only (`CLAUDE.md`).
 
 % 2_body/7_pipeline.tex  (~5.5 pp)
 \section{Preparing and Verifying the Ground State}            % sec:pipeline
-  % opening, no heading: the question, the pipeline in one paragraph, F1. With no
+  % opening, no heading: why a predicted ratio needs one pipeline to become a comparison (v3.6), the pipeline in one paragraph, F1. With no
   % "Overview" heading, this plan's §7.2-7.9 are the thesis's §7.1-7.8.
   \subsection{Problems and Model Inputs}                       % T3 ladder by pointer (in §4.1, v3.5)
   \subsection{The Classical Reference}                         % Wedin's bound
@@ -746,8 +769,9 @@ count (`eq:degree`). The PIHM sits where the three meet, and its authors left it
 
 **Scaffold (as drafted).**
 
-0. **Opening (0.2 p).** Two literatures meet; how the chapter judges (assumes, cost, returns,
-   fails); roadmap.
+0. **Opening (0.2 p).** The ratio every route pays, which its discretisation fixes (the thread);
+   the three bodies of work it is followed through; how the chapter judges (assumes, cost, returns,
+   fails). No section roadmap (v3.6).
 1. **§2.1 Quantum computation preliminaries (≤ 1 p, prose only).** Amplitude encoding and its two
    consequences (the norm carried separately, which is η; access only by measurement); ancilla and
    post-selection; queries × gates per query, and qubits; the tilde convention; the fault-tolerant
@@ -856,8 +880,9 @@ say; `docs/06_results_guide/81_reproduction.md` for what Appendix K shows.
    ground state of their summed Gram matrices as the solution. The lineage in one sentence
    (differentiable quantum circuits → the Chebyshev latent space). What the paper claims for the
    method, so the assessment has a target: no variational training, evaluation off any grid, poly(n)
-   terms "implemented efficiently". The roadmap in one sentence, naming Ch. 4 as where the
-   construction is stated in full.
+   terms "implemented efficiently". Why the last claim must be read against the degree
+   (`eq:degree`), so the assessment has a measure; Ch. 4 named as where the construction is stated
+   in full (v3.6: no section roadmap).
 1. **§3.1 The latent Chebyshev model (0.45 p; `sec:pihm-model`).** The quantum Chebyshev state
    |τ(x)⟩ₙ, displayed as the paper's Eq. 3 (`eq:pihm-chebyshev-feature-map`; §4.1 restates it as
    the normalised basis and adds what the thesis needs: orthogonality, η_e, the raw weight); the model
@@ -974,7 +999,7 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
 
 **Chapter contract.**
 
-- **Arc.** Opening (Q(i), the two costs, the attribution, the roadmap) → §4.1 the model → §4.2 the
+- **Arc.** Opening (the gate-count claim against the degree, the two costs, Q(i), the attribution) → §4.1 the model → §4.2 the
   operators → §4.3 the constraints and data → §4.4 the standard form, defined, with T10 and the
   validation → §4.5 encoding 𝔾 (the paper's encoding, then the exact factorisation and its cost)
   → §4.6 what no encoding removes, and the hand-off to Ch. 5. Each subsection ends on the sentence
@@ -998,15 +1023,16 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
 **Scaffold.**
 
 0. **Opening, no heading (0.3 p).**
-   - Q(i) in the first sentence (`sec:pihm-assessment`).
+   - Arrive at Q(i) (`sec:pihm-assessment`) from the paper's gate-count claim: a gate count prices
+     one query, the degree counts queries (v3.6).
    - Why the two costs separate: d depends on the encoding only through α (`eq:degree`), and
      α_H ≥ ‖H‖ for every block encoding. The **encoder's cost** (the excess of α_H over ‖H‖) and the
      **Hamiltonian's cost** (‖H‖ itself) defined here, once.
    - The attribution sentence: the construction is Wu et al.'s, on Paine et al.'s latent space; it
      is stated once here as the thesis runs it, the standard form, and each place it departs from
      the printed method is argued where it occurs and collected in Table T10.
-   - The roadmap in one sentence: the standard form (§4.1–4.4), then its encodings and what remains
-     (§4.5–4.6).
+   - No roadmap (v3.6). The close hands off to Ch. 5: the encoder's cost removable, the
+     Hamiltonian's not, the cost of differentiation paid in queries; the operator is what is left.
 1. **§4.1 The model (0.6 p; `sec:standard-model`).**
    - The basis functions φ₀ = T₀/√N, φ_k = T_k/√(N/2) (discretely orthonormal at the nodes), with f_N = ⟨τ(x)|b⟩ = ‖b‖⟨τ(x)|ψ_e⟩, ψ_e = b/‖b‖ (representability, not a requirement on the prepared state), so that τ(x) of `eq:pihm-chebyshev-feature-map`
      (the paper's Eq. 3, shown in §3.1) is the vector of the φ_k at x; orthonormal at
@@ -1322,9 +1348,10 @@ the complex-valued remark.
 **Scaffold.**
 
 0. **Opening, no heading (0.3 p).** The paper's scope (one real scalar field), its remark on
-   complex-valued states, quoted, and its doubled space for quadratic terms (§3.4); Q(iii) in one
-   sentence (`sec:pihm-assessment`); the thread, in one sentence: everything this chapter adds is a
-   coupled linear system on one state, except the doubled space; the roadmap. *(v3.2, checked
+   complex-valued states, quoted, and its doubled space for quadratic terms (§3.4); Q(iii)
+   (`sec:pihm-assessment`), arrived at from the doubled space's zero gap (no finite degree, so a
+   filter projects); the thread, in one sentence: everything this chapter adds is a coupled linear
+   system on one state, except the doubled space. No roadmap (v3.6). *(v3.2, checked
    against the paper's p. 11: the remark is about the **Fourier basis**, whose differentiation
    matrix is imaginary, so the state is complex-valued and "the resulting total energy function is
    of a complicated form". Quote it with that context; §6.3 answers it twice: H = R†R stays
@@ -1610,7 +1637,8 @@ established.
 `18_claims.md`; the results guide `docs/06_results_guide/` 82–87, ordered as this chapter; the
 notebooks of Planning §10.8, one per figure.
 
-**Opening (0.25 p).** What each section evidences; the tiers; the records' provenance in one
+**Opening (0.25 p).** The predictions of Chs 4–6 as claims about operators, and the order in which
+they depend on one another (v3.6: no section roadmap); the tiers; the records' provenance in one
 sentence; the full per-problem results → Appendix J; the reproduction of the paper → Appendix K.
 
 **Scaffold.**
@@ -2141,7 +2169,8 @@ The seminar (25 minutes plus questions) is outside the document; F0 or F1, F9 an
    readout; "optimal" for the nodal fold; "a/ν ≈ 5" as a measured boundary; a complex-valued field
    "prepared" or "solved"; "we fixed" or an issue number in Ch. 4; a typed `pihm` number.
 5. Ultraspherical and first-order least squares credited in §2.3 and §5.1–5.2; Paine 2026 cited.
-6. The vocabulary of plan §3.4 holds throughout; every chapter opens with its question (plan §3.5).
+6. The vocabulary of plan §3.4 holds throughout; every chapter arrives at its question and closes on
+   a hand-off, with no section roadmap (plan §3.5 rule 1).
 7. The tier marked on every quantitative figure and table; every as-built comparison has its
    ideal-bound twin.
 8. The research proposal in Appendix M, with deviations.

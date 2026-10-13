@@ -3,7 +3,7 @@
 % sec:standard-published and sec:results-faithful.
 % Plan: ThesisPlanning.md §6 (D).
 %
-% CONTENT  The paper's Figs 2, 8 and 9 rebuilt; every deviation from the printed
+% CONTENT  Wu et al.'s Figs 2, 8 and 9 rebuilt; every deviation from the printed
 %          figure; the measured qubits, gates and eps_G(n); the published
 %          prefactor against ||G||_2.
 % SOURCES  Planning.md §3.7, §6.3, App. A-4; claims A-06 to A-08 (pihm
@@ -15,7 +15,7 @@
 %   Fig. 9 build. DROPPED (snapshot 2cd640c): the legacy reconstruction's
 %   resource count (n + 4 ancilla, adder, "two flags live") and its
 %   verification claims. The ladder's per-bit coefficient is written mu here
-%   (the paper's alpha; the draft's beta): beta is imaginary time (T-08) and
+%   (Wu et al.'s alpha; the draft's beta): beta is imaginary time (T-08) and
 %   alpha a subnormalisation.
 % =============================================================================
 
@@ -23,7 +23,7 @@
 argument, the circuit Wu et al.\ use to load $\G$'s column-linear entries as a
 rotation amplitude \cite{wu2025pihm}. This appendix gives the mechanism in full,
 together with a rigorous bound on its entrywise error that this thesis derives and
-verifies -- the source paper states only that the error is ``negligible'' and
+verifies -- the source states only that the error is ``negligible'' and
 decreases ``exponentially'' with $n$, without a closed form.
 % REVISE: "verifies" -- point to the approximation-mode measurement of
 %   eps_G(n) (tab:verification-modes) at results-v1.
@@ -40,12 +40,12 @@ decreases ``exponentially'' with $n$, without a closed form.
 
 \paragraph{The constraint rows (Figs 2 and 8).} $\Brow(x)$ and $\Dzero(x_s)$ are block-encoded by the inverse feature map $U_\tau^\dagger(x)$ followed by $\hat S_{n+1} = 2\ket{0}\!\bra{0}-I$ controlled inside a Hadamard sandwich on one ancilla, a two-term LCU on $n+2$ qubits. The encoded block is $\Brow(x)/\sqrt{2^{n+1}}$, and $\Dzero(x_s)/\bigl(\sqrt{2^{n+1}}/f(x_s)\bigr)$ for the collapse row. The global phase of $-1$ in $\hat S_{n+1}$ is a relative phase once the circuit is controlled, and cannot be dropped.
 
-\paragraph{The derivative circuit (Fig.\ 9).} The registers are, in order, a flag qubit acted on by $R_Y(\omega_c)$ with $\omega_c = 2\arccos\sqrt{1/3}$, an $X$ ancilla, an offset register of $m = n$ qubits sandwiched between Hadamards, a value ancilla, and the $n$-qubit system. Two conditioned subroutines assign the entries on different bases. In $\hat U_R$ the offset $\ket{i}$ selects the $(2i+1)$th superdiagonal and the system $\ket{j}$ the $j$th column; it consists of $n$ singly-controlled $R_Y(\theta_k)$ gates on the value ancilla, controlled by the bits of $\ket{j}$, followed by $n$ cyclic shifts $\hat R_n$. In $\hat U_C$ the offset selects the $(i+1)$th row; it consists of $n$ multi-controlled $R_Y(\varphi_k)$ gates, one shift $\hat L_n$ and $2n$ swaps. With $\mu = 2/\|\G\|_S$ the angles are $\theta_k = 2\arcsin(-2^{k-1}\mu)$ and $\varphi_k = 2\arcsin[-2^{k-1}\mu(1/\sqrt2-1)]$. The circuit uses $m+n+3 = 2n+3$ qubits, its gate count is linear in $n$ before the multi-controlled gates are decomposed and $O(n^3)$ after an $O(n^2)$ decomposition of each, and $\G$ is the top-left $2^n\times2^n$ block of the unitary multiplied by $(2^{n-1}+2^n)\|\G\|_S$. These are the paper's statements; their tests follow.
+\paragraph{The derivative circuit (Fig.\ 9).} The registers are, in order, a flag qubit acted on by $R_Y(\omega_c)$ with $\omega_c = 2\arccos\sqrt{1/3}$, an $X$ ancilla, an offset register of $m = n$ qubits sandwiched between Hadamards, a value ancilla, and the $n$-qubit system. Two conditioned subroutines assign the entries on different bases. In $\hat U_R$ the offset $\ket{i}$ selects the $(2i+1)$th superdiagonal and the system $\ket{j}$ the $j$th column; it consists of $n$ singly-controlled $R_Y(\theta_k)$ gates on the value ancilla, controlled by the bits of $\ket{j}$, followed by $n$ cyclic shifts $\hat R_n$. In $\hat U_C$ the offset selects the $(i+1)$th row; it consists of $n$ multi-controlled $R_Y(\varphi_k)$ gates, one shift $\hat L_n$ and $2n$ swaps. With $\mu = 2/\|\G\|_S$ the angles are $\theta_k = 2\arcsin(-2^{k-1}\mu)$ and $\varphi_k = 2\arcsin[-2^{k-1}\mu(1/\sqrt2-1)]$. The circuit uses $m+n+3 = 2n+3$ qubits, its gate count is linear in $n$ before the multi-controlled gates are decomposed and $O(n^3)$ after an $O(n^2)$ decomposition of each, and $\G$ is the top-left $2^n\times2^n$ block of the unitary multiplied by $(2^{n-1}+2^n)\|\G\|_S$. These are Wu et al.'s statements; their tests follow.
 
-% Moved from Chapter 4 (plan §6, D; T-36): the verdict on each of the paper's circuit claims.
+% Moved from Chapter 4 (plan §6, D; T-36): the verdict on each of Wu et al.'s circuit claims.
 \paragraph{Costing the rebuild.} The rebuild restricts the offsets to odd values. Every non-zero entry of $\G$ has $p-k$ odd, so an even offset, $d=0$ above all, would load a value onto the diagonal and onto entries that must vanish; the uniform superposition over every offset drawn in Fig.~9 does not exclude them. With the ladder coefficient $\mu=2/\|\G\|_S$ and the weight $2/N$ that the odd-offset superposition gives each entry, the rebuilt circuit block-encodes $\G$ at $\alpha=N/\mu=N\|\G\|_S/2$.
 
-\begin{lemma}[The paper's norm of $\G$]
+\begin{lemma}[Wu et al.'s norm of $\G$]
 \label{lem:G-paper-norm}
 For $n\ge3$, $\|\G\|_S=\|\G^{\top}\G\|_1=N(N-1)^2(N+1)/3$.
 \end{lemma}
@@ -53,13 +53,13 @@ For $n\ge3$, $\|\G\|_S=\|\G^{\top}\G\|_1=N(N-1)^2(N+1)/3$.
 $(\G^{\top}\G)_{pq}=\sum_k\G_{kp}\G_{kq}$ is non-zero only for $p\equiv q\pmod 2$, the sum running over the $k<\min(p,q)$ of the other parity with weight $4pq/c_k$. For odd $p\le q$ these $k$ are $0,2,\dots,p-1$, and $\sum1/c_k=\tfrac12+\tfrac{p-1}{2}=p/2$; for even $p\le q$ they are $1,3,\dots,p-1$, again $p/2$. So $(\G^{\top}\G)_{pq}=2\min(p,q)^2\max(p,q)$, non-negative and increasing in both indices, and the largest column sum is the last, $q=N-1$, over the odd $p\le N-1$: $2(N-1)\sum_{i=1}^{N/2}(2i-1)^2=N(N-1)^2(N+1)/3$. The column sums of $\G\G^{\top}$ are, to leading order, $N^4/4$, below this from $n=3$ on.
 \end{proof}
 
-The rebuilt circuit's $\alpha=N\|\G\|_S/2$ is therefore a third of the printed prefactor $\tfrac{3N}{2}\|\G\|_S$ of \Cref{eq:pihm-published-prefactor}, so every cost quoted for the paper's encoding is on the kinder side of the paper's own. With $\|\G\|_S\sim N^4/3$ and $\|\G\|_2\sim N^2/(2j_{-3/4,1})$ (\Cref{thm:G-limit}), the printed prefactor's looseness is $\tfrac{3N}{2}\cdot\tfrac{N^4}{3}\cdot\tfrac{2j_{-3/4,1}}{N^2}=j_{-3/4,1}N^3$, approached from below.
+The rebuilt circuit's $\alpha=N\|\G\|_S/2$ is therefore a third of the printed prefactor $\tfrac{3N}{2}\|\G\|_S$ of \Cref{eq:pihm-published-prefactor}, so every cost quoted for Wu et al.'s encoding is on the kinder side of the printed one. With $\|\G\|_S\sim N^4/3$ and $\|\G\|_2\sim N^2/(2j_{-3/4,1})$ (\Cref{thm:G-limit}), the printed prefactor's looseness is $\tfrac{3N}{2}\cdot\tfrac{N^4}{3}\cdot\tfrac{2j_{-3/4,1}}{N^2}=j_{-3/4,1}N^3$, approached from below.
 
-\paragraph{The claims tested.} \Cref{tab:published-verdicts} gives the verdict on each claim the paper makes for its circuits. The gate count holds as a bound, the error holds to leading order in $\mu$ (\Cref{prop:epsilon-G}), and the rows of Figs~2 and~8 hold exactly. The qubit count of Fig.~9 is not testable: the rebuild uses registers of its own, so its $2n+5$ neither confirms nor refutes the printed $2n+3$. The prefactor is valid but exceeds $\|\G\|_2$ by a factor growing as $N^3$ (\Cref{sec:standard-published}).
+\paragraph{The claims tested.} \Cref{tab:published-verdicts} gives the verdict on each claim Wu et al.\ make for their circuits. The gate count holds as a bound, the error holds to leading order in $\mu$ (\Cref{prop:epsilon-G}), and the rows of Figs~2 and~8 hold exactly. The qubit count of Fig.~9 is not testable: the rebuild uses registers of its own, so its $2n+5$ neither confirms nor refutes the printed $2n+3$. The prefactor is valid but exceeds $\|\G\|_2$ by a factor growing as $N^3$ (\Cref{sec:standard-published}).
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The paper's encodings hold their gate and error claims but not their efficiency.} The claims of Wu et al.\ for their block encodings \cite{wu2025pihm}, tested against the rebuilt circuits. Counts are for the rebuilt circuits; the error is to leading order in $\mu$.}
+    \caption[Wu et al.'s encodings against their printed claims]{\textbf{Wu et al.'s encodings hold their gate and error claims but not their efficiency.} Each claim of Wu et al.\ \cite{wu2025pihm} for their block encodings (their Figs~2, 8 and 9), as printed and as measured on the rebuilt circuits. $\Brow(x)$, rank-one zero-constraint row; $\Dzero(x_s)$, rank-one collapse row at the regular point $x_s$; $\|\G\|_S=\|\G^\top\G\|_1$, Wu et al.'s norm of the differentiation matrix; $j_{-3/4,1}$, first positive zero of $J_{-3/4}$. The error is to leading order in the ladder coefficient $\mu=2/\|\G\|_S$.}
     \label{tab:published-verdicts}
     \small
     \begin{tabular}{@{}l l l l@{}}
@@ -137,7 +137,7 @@ $\mu \cdot 2^0 = \mu = 1$ exactly and the bound is not yet meaningful.
 
 \subsection{Measured resources and error}
 \label{app:published-resources}
-% LAND: the paper's claims against the build, n = 2 ... 8: qubits (claimed
+% LAND: Wu et al.'s claims against the build, n = 2 ... 8: qubits (claimed
 %   2n + 3 for G), gates after MCX decomposition (claimed O(n^3)), the measured
 %   eps_G(n) beside the bound of prop:epsilon-G rescaled by the published
 %   prefactor (eq:pihm-published-prefactor), and alpha / ||G||_2.
@@ -148,7 +148,7 @@ $\mu \cdot 2^0 = \mu = 1$ exactly and the bound is not yet meaningful.
 
 \begin{table}[htbp]
     \centering
-    \caption{The published encoding of $\G$ against the paper's claims. Classical exact-mode measurement.}
+    \caption[Wu et al.'s encoding of $\G$: qubits, gates and error]{\textbf{Wu et al.'s encoding of $\G$: qubits, gates and entry error against the printed claims.} $n$, qubits of the system register, $N=2^n$; $\|\G\|_S=\|\G^\top\G\|_1$, Wu et al.'s norm; $\epsilon_{\G}$, largest entry error of the encoded $\G$, bounded and measured. Exact-mode classical measurement.}
     \label{tab:app-epsilon-G}
     \small
     \begin{tabular}{@{}r r l l l l l@{}}

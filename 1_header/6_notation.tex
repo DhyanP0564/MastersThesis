@@ -12,12 +12,11 @@ A quick reference for symbols used across the thesis; each is properly
 introduced at its first use in the text below.
 
 \medskip
-\noindent\textbf{Typeface.} The typeface carries a symbol's role and its subscript carries the form. Fixed matrices that discretise an operator or a constraint are blackboard bold: $\G$, $\Bt$, $\Dt$, $\M$, $\nfold$, $\Brow$, $\Dzero$, $\Slice$, $\Ucg$, $\Acoup$, $\Frat$. Assembled objects are italic: the residuals $\Astd$ and $\Adesc$, the stacked residuals $R_{\mathrm{std}}$ and $R_{\mathrm{desc}}$, the Hamiltonians $\Hstd$ and $\Hdesc$, and $V$, $W$ and $H'$. The subscripts $\mathrm{std}$ and $\mathrm{desc}$ name the standard and descriptor forms (\Cref{sec:standard-operators}); bare $A$, $H$ and $R$ are used only in statements true of both forms, and in \Cref{sec:pihm}, where they are the paper's own residual and Hamiltonian. Wu et al.\ print their residual and Hamiltonian in blackboard bold; this thesis writes them $A$ and $H$ throughout. Calligraphic letters are used for the Gram map $\mathcal{T}$, the Hilbert space $\mathcal{H}$ and the order symbol $\mathcal{O}$.
+\noindent\textbf{Typeface.} Fixed discretisation matrices are blackboard bold ($\G$, $\Bt$, $\Dt$, $\M$, $\nfold$, $\Brow$, $\Dzero$, $\Slice$, $\Ucg$, $\Acoup$, $\Frat$); assembled objects are italic ($\Astd$, $\Adesc$, $R_{\mathrm{std}}$, $R_{\mathrm{desc}}$, $\Hstd$, $\Hdesc$, $V$, $W$, $H'$). The subscripts $\mathrm{std}$ and $\mathrm{desc}$ name the two forms (\Cref{sec:standard-operators}); bare $A$, $H$ and $R$ appear only in statements true of both forms and in \Cref{sec:pihm}, where they are Wu et al.'s own and are printed in blackboard bold. Calligraphic letters are $\mathcal{T}$ (Gram map), $\mathcal{H}$ (Hilbert space) and $\mathcal{O}$ (order symbol).
 
 \bigskip
-\noindent\textbf{Discretisation}
-\begin{center}
-\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\noindent\textbf{Discretisation}\par\nopagebreak\smallskip
+\noindent\begin{tabularx}{\textwidth}{@{}l X l@{}}
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
@@ -28,13 +27,11 @@ $p$ & Degree of a polynomial nonlinearity. & \Cref{sec:carleman} \\
 $n_f$ & Qubits in the field (block) register of the descriptor form. & \Cref{sec:descriptor-layouts} \\
 $\dim w$ & Padded descriptor state dimension, $2^{\lceil\log_2K\rceil}\prod_aN_a$ with $K$ physical blocks ($2^{\lceil\log_2(k+1)\rceil}N$ on one axis). & \Cref{sec:app-variable-coeff} \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}
 
 \bigskip
-\noindent\textbf{The Chebyshev model}
-\begin{center}
-\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\noindent\textbf{The Chebyshev model}\par\nopagebreak\smallskip
+\noindent\begin{tabularx}{\textwidth}{@{}l X l@{}}
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
@@ -44,36 +41,32 @@ $\varphi_k$ & Normalised Chebyshev basis functions, $\varphi_0 = T_0/\sqrt{N}$, 
 $\psi$, $\eta$, $\eta_e$ & Normalised coefficient state; its scale; $\eta_e = \|b\|^2$. & \Cref{sec:pihm-model} \\
 $\psi_e$ & The ideal state $b/\|b\|$ of a truncated solution $f_N$ with coefficients $b$; the model represents $f_N$ exactly at $(\psi_e, \eta_e)$. & \Cref{sec:standard-model} \\
 $\fhat{j}$ & Coefficients of $f^{(j)}$: one block of the descriptor state. & \Cref{sec:descriptor-layouts} \\
-$w$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$. & \Cref{sec:descriptor-layouts} \\
+$w$, $E$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$; the map from a field's coefficients to the descriptor state that represents it. & \Cref{sec:descriptor-layouts} \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}
 
 \bigskip
-\noindent\textbf{Operators and constraints}
-\begin{center}
-\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\noindent\textbf{Operators and constraints}\par\nopagebreak\smallskip
+\noindent\begin{tabularx}{\textwidth}{@{}l X l@{}}
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
 $\G$ & Differentiation matrix, $f \mapsto f'$, in coefficient space: dense, strictly upper triangular, $\|\G\|_2 = \Theta(N^2)$ (Wu et al.\ print it as $\G_n^{\top}$). & \Cref{sec:pihm-residual} \\
 $\Bt$, $\Dt$ & Banded factors of the differentiation matrix, $\G = \Bt^{-1}\Dt$. & \Cref{sec:descriptor-construction} \\
-$\M_{x^p}$, $\M_a$ & Multiplication by $x^p$ (the exact lift, $2N \times N$) and by a smooth $a(x)$. & \Cref{sec:pihm-residual} \\
+$\M_{x^p}$, $\M_a$ & Multiplication by $x^p$ (the exact lift, $2N \times N$) and by a smooth $a(x)$. & \Cref{sec:pihm-residual,sec:standard-operators} \\
 $\nfold_1$, $\nfold_x$ & Product-to-sum folds. & \Cref{sec:pihm-doubled} \\
 $\Brow(x)$, $\Dzero(x_s)$ & Rank-one zero (invariant) and collapse (regular) constraint rows. & \Cref{sec:pihm-residual} \\
 $x_z$, $x_m$, $x_s$ & Constraint points: a zero, an extremum, a source datum. & \Cref{sec:pihm-residual} \\
 $R_0$, $\Uodd$, $\Lambda$ & Factors of the structured exact encoding of $\G$. & \Cref{sec:standard-factorisation} \\
 $\Slice_a(x^*)$, $\hat g$ & Datum-slice row on axis $a$ at $x^*$; the coefficients of the datum function. & \Cref{sec:standard-constraints} \\
 $\Ucg$ & The Chebyshev--Gauss transform used by the nodal fold. & \Cref{sec:ext-circuits} \\
-$\|\G\|_S$ & The paper's norm $\max\bigl(\|\G\G^{\top}\|_1, \|\G^{\top}\G\|_1\bigr)$. & \Cref{sec:pihm-encoding} \\
+$\|\G\|_S$ & Wu et al.'s norm $\max\bigl(\|\G\G^{\top}\|_1, \|\G^{\top}\G\|_1\bigr)$. & \Cref{sec:pihm-encoding} \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}
 
 \bigskip
-\noindent\textbf{Residuals and Hamiltonians}
-\begin{center}
-\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\noindent\textbf{Residuals and Hamiltonians}\par\nopagebreak\smallskip
+\noindent\begin{tabularx}{\textwidth}{@{}l X l@{}}
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
@@ -82,13 +75,11 @@ $\Hstd$, $\Hdesc$ & Effective Hamiltonian of each form; bare $H$ only in regime-
 $R = [R_1; \dots; R_L]$ & Stacked residual, with $H = R^{\dagger}R$. & \Cref{sec:pipeline-walk} \\
 $H_{\otimes}$ & The doubled-space Hamiltonian. & \Cref{sec:doubled-space} \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}
 
 \bigskip
-\noindent\textbf{Block encoding, filtering and state preparation}
-\begin{center}
-\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\noindent\textbf{Block encoding, filtering and state preparation}\par\nopagebreak\smallskip
+\noindent\begin{tabularx}{\textwidth}{@{}l X l@{}}
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
@@ -100,24 +91,19 @@ $\Delta$ & Spectral gap $\lambda_1 - \lambda_0=\sigma_1^2-\sigma_0^2$. & \Cref{s
 $x_0$, $x_1$; $h_j$ & Ground and first excited values of $H'$; their heights $1+x_j=2\sigma_j^2/\alpha_R^2$. & \Cref{sec:pipeline-filter} \\
 $w(\cdot)$, $\theta_0$ & The minimax filter's edge map of $[x_1,1]$ onto $[-1,1]$; its rate $\operatorname{arccosh}(-w(x_0))$. & \Cref{sec:pipeline-filter} \\
 $\beta$ & Imaginary time. & \Cref{sec:pipeline-filter} \\
-$d$, $q_k$ & GQSP degree; filter coefficients. & \Cref{sec:pipeline-filter} \\
+$d$, $q_k$, $p_G$ & GQSP degree; filter coefficients; success probability. & \Cref{sec:pipeline-filter} \\
 $\varepsilon$ & Target: the excited spectrum's suppression relative to the ground state, and the infidelity bar ($10^{-6}$). & \Cref{sec:pipeline-filter} \\
 $\psi_{\mathrm{init}}$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\mathrm{ref}}|\psi_{\mathrm{init}}}|$ with the reference. & \Cref{sec:pipeline-filter} \\
-$p_G$ & GQSP success probability. & \Cref{sec:pipeline-filter} \\
-$\zeta$ & Block-rescaling constant. & \Cref{sec:descriptor-rescaling} \\
-$S$ & Diagonal of block weights; the rescaled residual is $R_{\mathrm{desc}}S$. & \Cref{sec:descriptor-rescaling} \\
-$E$ & Map from a field's coefficients to the descriptor state that represents it. & \Cref{sec:descriptor-layouts} \\
+$\zeta$, $S$ & Block-rescaling constant; the diagonal of block weights, so that the rescaled residual is $R_{\mathrm{desc}}S$. & \Cref{sec:descriptor-rescaling} \\
 $w_f$ & Weight of the field block in the descriptor's ground state; $\gamma^2\le w_f$. & \Cref{sec:descriptor-gap} \\
 $\alpha_A$, $Q_m$ & Subnormalisation of the descriptor's system rows; the reflection $I-2\ket{m}\bra{m}$. & \Cref{sec:descriptor-block-encoding} \\
-$\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of the paper's encoding of $\G$. & \Cref{app:ladder} \\
+$\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of Wu et al.'s encoding of $\G$. & \Cref{app:ladder} \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}
 
 \bigskip
-\noindent\textbf{Nonlinearity}
-\begin{center}
-\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\noindent\textbf{Nonlinearity}\par\nopagebreak\smallskip
+\noindent\begin{tabularx}{\textwidth}{@{}l X l@{}}
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
@@ -126,13 +112,11 @@ $M$ & Dimension of the base state $u$. & \Cref{sec:carleman} \\
 $\rho$ & Nonlinearity-to-dissipation ratio; $\rho < 1$ is sufficient, not necessary, for the Carleman truncation error to fall as $\rho^K$. & \Cref{sec:carleman} \\
 $F_1$, $F_2$, $\Acoup_K$ & Linear and quadratic terms; the lifted Carleman generator. & \Cref{sec:carleman} \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}
 
 \bigskip
-\noindent\textbf{Systems and complex coefficients}
-\begin{center}
-\begin{tabular}{@{}l p{0.62\textwidth} l@{}}
+\noindent\textbf{Systems and complex coefficients}\par\nopagebreak\smallskip
+\noindent\begin{tabularx}{\textwidth}{@{}l X l@{}}
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
@@ -144,5 +128,4 @@ $y$, $y_a$, $y_\perp$ & The vector datum; its anchor component; its off-anchor p
 $w_0$ & A system's stated initial data; it weights the initial state. & \Cref{sec:systems-data} \\
 $c = \operatorname{Re}c + i\operatorname{Im}c$ & A complex coefficient, in the realification example. & \Cref{sec:systems-complex} \\
 \bottomrule
-\end{tabular}
-\end{center}
+\end{tabularx}

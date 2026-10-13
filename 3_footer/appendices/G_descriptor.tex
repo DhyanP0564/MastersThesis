@@ -27,7 +27,7 @@
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The chain's row blocks.} Each row block of the descriptor's stacked residual, the blocks of the state it reads and its content. $\M_{a_j}$ is the standard form's multiplication operator (\Cref{sec:standard-operators}), lifted where the standard form lifts it; the constraint rows are the standard form's (\Cref{def:standard-form}) with each power of $\G$ replaced by the block that carries the derivative.}
+    \caption[Row blocks of the descriptor's chain]{\textbf{The chain's row blocks: one equation row, banded recurrences, padding and constraints.} Each row block of the descriptor's stacked residual, the state blocks it reads and its operator. $\fhat{m}$, coefficients of the $m$-th derivative; $\M_{a_j}$, multiplication by the coefficient $a_j$ (the standard form's, lifted where it lifts); $\M_r$, multiplication by the source $r$; $\Dzero(x_s)$, collapse row at the regular point $x_s$; $\Bt_a$, $\Dt_a$, the banded factors of $\G=\Bt^{-1}\Dt$ along axis $a$; $c_{\mathrm{pad}}$, padding weight; $\Brow(x^*)$, zero row at $x^*$. Constraint rows are the standard form's (\Cref{def:standard-form}) with each power of $\G$ replaced by the block that carries the derivative.}
     \label{tab:app-descriptor-rows}
     \small
     \begin{tabular}{@{}p{0.24\textwidth} p{0.24\textwidth} p{0.44\textwidth}@{}}
@@ -132,7 +132,7 @@ The bound is not tight. States that break the recurrences cost little where $\Bt
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{A zero of the leading coefficient closes the unscaled descriptor's gap at the rate the Chebyshev resolution at the zero predicts.} Unscaled gap of the descriptor from $n=5$ to $n=9$ on controlled equations, against the standard form's. Planning probes, exact classical computation.}
+    \caption[Unscaled descriptor gap against zeros of the leading coefficient]{\textbf{A zero of the leading coefficient closes the unscaled descriptor's gap at the rate the Chebyshev resolution at the zero predicts.} Unscaled descriptor gap at $n=5$ and $n=9$, its factor of decrease per added qubit, and the standard form's gap, on seven equations whose leading coefficient is bounded away from zero, has a simple zero, or vanishes at both ends. Planning probes; exact classical computation.}
     \label{tab:app-gap-controls}
     \small
     \begin{tabular}{@{}l l l l l@{}}
@@ -202,7 +202,7 @@ Whether $a_k$ vanishes is decided from its roots, to a tolerance loose enough to
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The block weight need only be right to about a factor of two.} The window of $\zeta$ within which the cost $\sqrt{\|H\|/\Delta}/\gamma$ stays within twice its least, at $n=7$ on one axis and $n=4$ per axis on two (one weight shown per two-axis problem). Planning probes.}
+    \caption[Window of block weights near the least cost]{\textbf{The block weight need only be right to about a factor of two.} Range of the block weight $\zeta$ over which the cost $\sqrt{\|H\|/\Delta}/\gamma$ stays within twice its least, at $n=7$ on one axis and $n=4$ per axis on two (one weight shown per two-axis problem). $\|H\|$, Hamiltonian norm; $\Delta$, spectral gap; $\gamma$, the initial state's overlap; the cost counts the walk's queries at an ideal encoding times amplitude amplification. Planning probes.}
     \label{tab:app-zeta-window}
     \small
     \begin{tabular}{@{}lccccccc@{}}
@@ -216,7 +216,7 @@ Whether $a_k$ vanishes is decided from its roots, to a tolerance loose enough to
 
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The a priori rule lands near the best weight on a grid.} The rule's cost as a multiple of the cheapest $\zeta$ on a grid of powers of two, with the gap on the physical subspace and the geometric initial state on the field block. A ratio below one is the grid's spacing. Planning probes, in-sample.}
+    \caption[The a priori block weight against a grid search]{\textbf{The a priori rule lands near the best block weight on a grid.} Cost $\sqrt{\|H\|/\Delta}/\gamma$ at the rule's $\zeta$, over the least cost on a grid of powers of two; $\Delta$, gap on the physical subspace; $\gamma$, overlap of the geometric initial state on the field block. A ratio below one is the grid's spacing. Planning probes, in-sample.}
     \label{tab:app-zeta-rule}
     \small
     \begin{tabular}{@{}l c l@{}}
@@ -233,7 +233,7 @@ Whether $a_k$ vanishes is decided from its roots, to a tolerance loose enough to
 
 \paragraph{A coefficient that dips.} $(\delta+x^2)f''+f=0$ has no zero but dips to $\delta$. The rule is within \prov{1.3} times the grid's best for $\delta\ge0.01$, and \prov{2.3--4.7} times at $\delta=10^{-3}$, where the resolution sees the dip and it behaves like a zero. None of the benchmark problems dips so.
 
-\paragraph{A double zero.} The paper's R3c and R3d multiply the associated Legendre operator by $1-x^2$, so their leading coefficient $(1-x^2)^2$ vanishes twice at each end. Unscaled, the descriptor's gap there falls as $N^{-8}$. Balancing the concentrated states needs $\zeta\propto N^2$, by which $\|\Hdesc\|$ has grown as $\zeta^4=N^8$. On a grid of $\zeta$ the best cost of the descriptor grows as about \prov{$N^{3.7}$--$N^{3.8}$} over $n=5$ to $8$, against the standard form's \prov{$N^{2.2}$--$N^{2.3}$}, and at $n=8$ it is \prov{760--850} times the standard form's; no block weight brings the two level. Solved for $v=f/\sqrt{1-x^2}$, whose leading coefficient has simple zeros, the two forms' costs grow alike, as \prov{$N^{1.8}$--$N^{1.9}$} at the rule's weight against \prov{$N^{2.0}$}. The ground state stays accurate in both forms at the double zero, its error set by the solution's branch point; it is the cost that the double zero raises.
+\paragraph{A double zero.} Wu et al.'s R3c and R3d multiply the associated Legendre operator by $1-x^2$, so their leading coefficient $(1-x^2)^2$ vanishes twice at each end. Unscaled, the descriptor's gap there falls as $N^{-8}$. Balancing the concentrated states needs $\zeta\propto N^2$, by which $\|\Hdesc\|$ has grown as $\zeta^4=N^8$. On a grid of $\zeta$ the best cost of the descriptor grows as about \prov{$N^{3.7}$--$N^{3.8}$} over $n=5$ to $8$, against the standard form's \prov{$N^{2.2}$--$N^{2.3}$}, and at $n=8$ it is \prov{760--850} times the standard form's; no block weight brings the two level. Solved for $v=f/\sqrt{1-x^2}$, whose leading coefficient has simple zeros, the two forms' costs grow alike, as \prov{$N^{1.8}$--$N^{1.9}$} at the rule's weight against \prov{$N^{2.0}$}. The ground state stays accurate in both forms at the double zero, its error set by the solution's branch point; it is the cost that the double zero raises.
 
 \paragraph{What it changes in the circuit.} Scaling the columns of block $m$ by $\zeta^m$ multiplies the coefficient $c_t$ of every term whose column block has order $m$ by $\zeta^m$ (\Cref{alg:ir-to-lcu}, line 4). The terms, their selectors and their gates are unchanged, and $\alpha_A=\sum_t|c_t|$ changes with the coefficients. A general diagonal equilibration, a different weight for each amplitude, would need its own diagonal block encoding, with $\Theta(\dim w)$ gates, and is excluded from every circuit.
 
@@ -280,6 +280,8 @@ On the joint index of term $t$, the factored SELECT applies the tensor product o
 \end{proof}
 
 \paragraph{The truncated shift.} On the output register widened by one overflow qubit, initially zero, add $-\ell$ modulo twice the register's size. A row $q-\ell$ inside $[0,N)$ lands in the lower half, and one outside it lands in the upper half, which the projection of the overflow qubit on $\ket0$ discards. The addition is an increment of the qubits from $j$ upwards for each set bit $j$ of $|\ell|$, each a ladder of multi-controlled $X$ gates, and the overflow qubit is the shift's only ancilla.
+
+\paragraph{The compilation, line by line.} \Cref{alg:ir-to-lcu}'s lines 1 and 2 are the decomposition of each block into bands and of each diagonal into an affine part and its exceptions (\Cref{lem:affine-band}). Line 3 gathers terms whose axis factors agree across the rows and columns they join, so that the block register carries their pattern once, as a small matrix expanded in Pauli words, and the recurrences' common $\Dt$ is paid for once and not $k$ times. Line 4 applies the block rescaling. In lines 5 and 6 the two preparations differ only in the signs, so that $\bra{0}\mathrm{PREPARE}_L^\dagger\,\mathrm{SELECT}\,\mathrm{PREPARE}_R\ket{0}=\sum_tc_tU_t/\alpha_A$; one preparation and its own inverse would give $\sum_t|c_t|U_t/\alpha_A$ instead. The selectors are factored, each only as wide as the number of distinct values its terms use, and SELECT applies each distinct operation once, controlled on its own register.
 
 \paragraph{Rank-one terms.} A source $\ket{\hat r}\bra{\tau(x_s)}/f(x_s)$ is compiled apart and summed with the bands by a further combination: a matrix unit on the block register, the feature map reading $\tau(x_s)$, and a rotation tree loading $\hat r$, with two ancilla and no arithmetic. The constraint rows are encoded the same way, each as its own rows, and stacked into the reflection of \Cref{sec:pipeline-walk}.
 

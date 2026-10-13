@@ -14,6 +14,25 @@
 
 \subsection{Modes, Sizes and Tolerances}
 \label{app:verification-modes}
+% MOVED v3.4 (StructuralReview.md F3) from sec:pipeline-verification: tab:verification-modes (T4),
+%   with its label; the body describes the three modes in three sentences and points here.
+
+\begin{table}[htbp]
+    \centering
+    \caption[Operator verification modes and their tolerances]{\textbf{Every circuit is compared with an independently assembled operator.} Each verification mode by what it compares, where it is used and its tolerance. $X$, the target: the reflection's block $2H/\alpha_R^2-I$ or an atom's operator; $\alpha$, the circuit's subnormalisation; $\psi$, an input state; \gls{ir}, the compiled term list. The approximation mode applies only to Wu et al.'s approximate encoding of $\G$, which enters resource estimates alone.}
+    \label{tab:verification-modes}
+    \small
+    \begin{tabular}{@{}l p{0.37\linewidth} p{0.22\linewidth} p{0.19\linewidth}@{}}
+        \toprule
+        Mode & Comparison & Used on & Tolerance \\
+        \midrule
+        Exact & the whole block, one statevector evolution per input column, entry by entry & circuits whose input columns it can afford, to 25 qubits & max-abs $\le10^{-10}\|X\|_2$ \\
+        Probe & $4$ structured and $16$ Haar-random inputs against sparse products $X\psi/\alpha$ & every other circuit of at most 24 qubits & relative $\le10^{-9}$ per input \\
+        \gls{ir} & the compiled terms, summed to a sparse matrix, against the assembled operator & lifts and couplings at any size & relative max-abs $\le10^{-10}$ \\
+        Approx. & Wu et al.'s $\G$: entry error against its bound & the sizes the exact mode reaches & reported, not gated \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 A block encoding $(U,\alpha)$ of an operator $X$ is exact when $\alpha\,\Pi_{\mathrm{out}}U\Pi_{\mathrm{in}}=X$, the projectors fixing the ancilla at zero. Every mode of \Cref{tab:verification-modes} compares that block, or its action on vectors, with a target built from the problem by the operator library and the residual's assembly, never from the compiler that produced the circuit; a target rebuilt from the circuit's own parts would check the compiler against itself. The pipeline's usual target is the stacked reflection's block $2H/\alpha_R^2-I$ with $H$ formed from the assembled residual; the atoms (the derivative, a lift, a feature-map row) are compared with their operators in the same way.
 
@@ -37,7 +56,7 @@ Random probes therefore certify the root-mean-square error $\|E\|_F/\sqrt D$, an
 
 \paragraph{IR.} The compiled terms of a descriptor residual, a coupling or a lift are summed back into a sparse matrix and compared with the operator assembled from the problem, entry by entry relative to its norm, at tolerance $10^{-10}$, at any size and with no simulation (\Cref{app:term-ir}). The two sides are independent constructions, so the comparison is not a tautology. What it leaves open is the step from terms to gates, which the exact and probe modes check where a circuit can be simulated. Together they chain: the assembled operator equals the terms at every $n$, and the terms equal the circuit at every simulable size. The compiler is structural, one atom per term, so the circuit at a larger size is the same construction, but it is not independently verified there.
 
-\paragraph{Approximation.} The paper's approximate encoding of $\G$ (\Cref{app:published-build}) is compared with $\G$ and its entrywise error reported beside the bound of \Cref{prop:epsilon-G}; the mode never fails, since the encoding is approximate by design and enters resource estimates only.
+\paragraph{Approximation.} Wu et al.'s approximate encoding of $\G$ (\Cref{app:published-build}) is compared with $\G$ and its entrywise error reported beside the bound of \Cref{prop:epsilon-G}; the mode never fails, since the encoding is approximate by design and enters resource estimates only.
 
 Circuits wider than the probe ceiling are construction-only records: their subnormalisation, register split and gate counts are recorded, with no verdict.
 
@@ -83,7 +102,7 @@ The ratio of the two is $\sigma_{\max}/(\sigma_1+\sigma_0)$, the residual's cond
 %   build stage or a derived key), or relabel the caption with the probe's problem.
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{The eigensolver loses the residual's condition number; the SVD does not.} Accuracy of the classical reference, $1-|\cos|$ against the exact coefficients, for the standard form by a symmetric eigensolver on $R_{\mathrm{std}}^{\top}R_{\mathrm{std}}$ and by \gls{svd} of $R_{\mathrm{std}}$, and for the descriptor form, on $f''+4f'+4f=0$ with $f(-\tfrac12)=0$. Classical computation.}
+    \caption[Accuracy of the classical reference: eigensolver against SVD]{\textbf{The eigensolver loses the residual's condition number; the SVD does not.} Error $1-|\cos|$ of the classical reference against the exact coefficients ($\cos$, cosine of the angle between them) on $f''+4f'+4f=0$, $f(-\tfrac12)=0$: the standard form by a symmetric eigensolver on $R_{\mathrm{std}}^{\top}R_{\mathrm{std}}$ and by \gls{svd} of $R_{\mathrm{std}}$, and the descriptor. Classical computation.}
     \label{tab:eigh-vs-svd}
     \small
     \begin{tabular}{@{}r l l l@{}}
@@ -153,7 +172,7 @@ with $M_0$ the interpreter and libraries, eight statevector-sized buffers at the
 % MOVED 2026-10-12 from sec:pipeline-verification (review 2.1), with the body's one-sentence summary.
 \begin{table}[htbp]
     \centering
-    \caption{\textbf{Every preparation is judged at five levels, each against a bar it can be measured to.} The acceptance criteria applied to every state preparation whose reference is trusted. The state bar's a priori bound comes from the spectral edge, $\gamma$ and the filter (\Cref{prop:minimax-guarantee}); the circuit bar is judged before normalising, because normalising divides rounding by $\sqrt{p_G}$, and on the normalised states only where $p_G\ge10^{-12}$ (\Cref{lem:normalising}). A run that fails a bar is reported as a finding, never re-judged.}
+    \caption[Acceptance criteria for a state preparation]{\textbf{Every preparation is judged at five levels, each against a bar it can be measured to.} Applied to every preparation whose reference is trusted; a run that fails a bar is reported as a finding, never re-judged. $\psi$, $\psi_{\mathrm{ref}}$, prepared and reference states; $\varepsilon$, target suppression; $p_G$, post-selection success probability; $d$, filter degree; $\varepsilon_{\mathrm{disc}}$, discretisation error; $B(d_{\mathrm{total}})$, the error budget. The state bar's a priori bound follows from the spectral edge, $\gamma$ and the filter (\Cref{prop:minimax-guarantee}); the circuit bar is judged before normalising, which divides rounding by $\sqrt{p_G}$, and on normalised states only where $p_G\ge10^{-12}$ (\Cref{lem:normalising}).}
     \label{tab:acceptance}
     \small
     \begin{tabular}{@{}l p{0.44\linewidth} p{0.34\linewidth}@{}}
