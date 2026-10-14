@@ -17,36 +17,62 @@
 %   dispatch tables; the import direction enforced by an architecture test.
 % FIG: fig:pihm-architecture.
 
-\placeholderfigure[5cm][The layers of the \texttt{pihm} package]{The layers of the \texttt{pihm} package and the one direction in which they may import.}{fig:pihm-architecture}{Layer diagram: \texttt{basis} $\to$ \texttt{operators} $\to$ \texttt{problems}/\texttt{carleman} $\to$ \texttt{assemble}/\texttt{ir} $\to$ \texttt{classical}/\texttt{circuits} $\to$ \texttt{verify}/\texttt{resources} $\to$ \texttt{qsp} $\to$ \texttt{pipeline} $\to$ \texttt{cli}; an architecture test fails on any import against the arrow.}
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        unit/.style={draw, thick, rounded corners=2pt, fill=gray!7, minimum width=1.55cm, minimum height=0.55cm, inner sep=2pt, font=\scriptsize\ttfamily},
+        flow/.style={-{Stealth[length=1.6mm]}, thick},
+        link/.style={-{Stealth[length=1.4mm]}, densely dashed},
+    ]
+        \foreach \name/\x/\y in {basis/0/0, operators/1.95/0, problems/3.9/0.45, carleman/3.9/-0.45, assemble/5.85/0.45, ir/5.85/-0.45, classical/7.8/0.45, circuits/7.8/-0.45, verify/9.75/0.45, resources/9.75/-0.45, qsp/11.7/0, pipeline/13.65/0, plotting/15.6/0}
+            \node[unit] (\name) at (\x,\y) {\name};
+        \foreach \x [count=\k from 0] in {0,1.95,3.9,5.85,7.8,9.75,11.7,13.65,15.6}
+            \node[font=\scriptsize, text=gray] at (\x,-1.05) {\k};
+        \foreach \x in {0,1.95,3.9,5.85,7.8,9.75,11.7,13.65}
+            \draw[flow] (\x+0.82,0) -- (\x+1.95-0.82,0);
+        \draw[flow] (assemble.south) -- (ir.north);
+        \node[draw, densely dashed, rounded corners=3pt, inner sep=5pt, fit=(basis)(problems)(carleman)(plotting), label={[font=\scriptsize\ttfamily, anchor=south west]north west:src/pihm}] (pkg) {};
+        \node[draw, densely dashed, rounded corners=2pt, font=\scriptsize, align=center, inner sep=3pt] (tools) at (13.6,-1.95) {\texttt{tools/} (\texttt{run\_campaign.py}, \texttt{export\_numbers.py}),\\ the notebooks and this thesis's figure scripts};
+        \draw[link] ([xshift=4mm]pipeline.south) -- ([xshift=4mm]pipeline.south |- tools.north);
+        \draw[link] ([xshift=4mm]plotting.south) -- ([xshift=4mm]plotting.south |- tools.north);
+        \node[font=\scriptsize, anchor=west, align=left] at (-0.85,-1.95) {layer \textcolor{gray}{$0$--$8$};\ an arrow points from a unit to the units that may import it,\\ and \texttt{tests/test\_architecture.py} fails on any import against the arrows.};
+    \end{tikzpicture}
+    \caption[The layers of the \texttt{pihm} package]{\textbf{The \texttt{pihm} package imports in one direction only.} Each unit of \texttt{src/pihm} by its layer, from the Chebyshev basis (0) to plotting (8), with an arrow from a unit to the units that may import it; an architecture test fails on any import against the arrows. The package has no command line: campaigns are run, their summaries collected and the generated numbers exported by the scripts in \texttt{tools/}, outside the package, beside the notebooks and this thesis's figure scripts.}
+    \label{fig:pihm-architecture}
+\end{figure}
 
 \subsection{Records and provenance}
 \label{app:software-records}
 % LAND: Problem (frozen, declarative, hashed), RunSpec (problem, variant, form,
 %   n, stage, options -> config_hash), Record (meta.json with status ok |
 %   failed | infeasible | skipped and provenance; strict-JSON metrics.json;
-%   arrays.npz; log.txt); summary.csv from `pihm collect`; invalidation of runs
+%   arrays.npz; log.txt); summary.csv from `tools/run_campaign.py --collect` (pihm has no CLI); invalidation of runs
 %   predating a fix (Planning.md §9.2).
 
 \subsection{Campaigns and computational resources}
 \label{app:software-campaigns}
 % LAND: a campaign YAML expands to a manifest, one row per run with a
 %   config_hash and a resource class predicted by the resource estimator; one
-%   array job per class; stages self-contained; idempotent reruns. Confirm the
-%   partition names and limits on Setonix before quoting them.
+%   array job per class; stages self-contained; idempotent reruns.
 
+% CHECKED 2026-10-14 against tools/slurm/campaign.slurm (the job's defaults), configs/production.yaml
+%   (one job or one array per campaign, a job's hours) and the campaign files' group allocations
+%   (pihm.pipeline.campaign.classes): every request is on the work partition, 16 CPUs; no highmem
+%   class was used.
 \begin{table}[htbp]
     \centering
-    \caption[Resource classes of the Setonix campaigns]{\textbf{Resource classes of the Setonix campaigns.} Each class's request (partition, CPUs, memory, wall time) and the runs it served.}
+    \caption[Resource requests of the Setonix campaigns]{\textbf{Resource requests of the Setonix campaigns.} Every request is one node of the \texttt{work} partition with 16 CPUs. A campaign of many short runs is one job, its runs in sequence, for 2 to 18 hours; a campaign of long or large runs is a Slurm array, one task per run, each group of runs asking for the memory and time below. A run that its own resource estimate shows cannot fit its allocation is recorded as infeasible, with the estimate.}
     \label{tab:resource-classes}
     \small
-    \begin{tabular}{@{}l p{0.42\linewidth} p{0.4\linewidth}@{}}
+    \begin{tabular}{@{}l l p{0.5\linewidth}@{}}
         \toprule
-        Class & Request & Typical runs \\
+        Memory & Time & Runs \\
         \midrule
-        S  & \prov{\texttt{work}, 1 CPU, 4 GB, 30 min} & construction, IR checks, small exact verification \\
-        M  & \prov{\texttt{work}, 16 CPUs, 64 GB, 4 h} & exact verification to 20 qubits; mid-size exact emulation \\
-        L  & \prov{\texttt{work}, 64--128 CPUs, $\sim$230 GB, 12--24 h} & circuit-simulation ceilings; large emulation; probes to 30 qubits \\
-        XL & \prov{\texttt{highmem}, 1 TB} & the largest emulation and probe runs \\
+        64 GB & 12 h & the default: every build, verification, preparation and resource estimate not listed below \\
+        32 GB & 4--24 h & the circuit simulations (T1) of the linear problems, systems and lifts \\
+        64 GB & 24 h & the longest circuit simulations of the descriptor \\
+        128 GB & 6--12 h & the larger Navier--Stokes builds and preparations \\
+        230 GB & 12 h & the largest Navier--Stokes builds and resource estimates \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -77,7 +103,7 @@
 \subsection{Regenerating the results}
 \label{app:software-regenerate}
 % LAND: the commands that rebuild every figure and every generated number from
-%   tag results-v1 (ThesisPlanning.md §10.2-10.3): the campaigns, `pihm collect`,
+%   tag results-v1 (ThesisPlanning.md §10.2-10.3): the campaigns, `tools/run_campaign.py --collect`,
 %   the notebooks 10-50, the thesis exporter writing generated/numbers.tex and
 %   Figs/generated/.
 

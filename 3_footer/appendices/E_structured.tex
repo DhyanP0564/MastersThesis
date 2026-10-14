@@ -5,7 +5,11 @@
 %
 % CONTENT  The proof of prop:G-factorisation; Lambda, U_odd (subtraction with a
 %          borrow flag) and R_0 as circuits; the resource derivation behind
-%          prop:standard-cost; alpha / ||G||_2 across n.
+%          prop:standard-cost; alpha / ||G||_2 across n; the standard form's gap bounded
+%          above independently of N, and the degree floor it gives (prop:std-gap-bound, added
+%          2026-10-13; not in pihm/docs, which record the gap as measured: checked numerically
+%          on R2a for n = 2..8: the Rayleigh maximum on S is 60.4 at every n, against
+%          lambda_1 = 29.2 at n = 2 and 7.04 from n = 3).
 % SOURCES  Planning.md §3.7 ("Standard form, structured exact"), App. A-4;
 %          pihm/src/pihm/circuits/standard.py (structured_derivative_encoding),
 %          arithmetic.py (register_subtractor); pihm/docs/PILLAR1.md.
@@ -57,14 +61,11 @@ The terms that wrap around carry a borrow of one and vanish on post-selection, a
 \begin{proof}[Proof of \Cref{prop:standard-cost}]
 \emph{Subnormalisation.} A product of block encodings is a block encoding of the product at the product of the subnormalisations, so $\alpha_\G=\alpha_{R_0}\,\alpha_{2\Uodd}\,\alpha_\Lambda=1\cdot N\cdot(N-1)$ by the two lemmas above and \Cref{lem:uodd-select} (a block encoding of $\Uodd$ at $N/2$ is one of $2\Uodd$ at $N$). Its ratio to $\|\G\|_2$ tends to $2j_{-3/4,1}$ by \Cref{thm:G-limit}, since $N(N-1)/N^2\to1$.
 
-\emph{Ancilla.} The encodings are composed as $R_0\cdot\bigl((2\Uodd)\cdot\Lambda\bigr)$, $\Lambda$ applied first, each product sharing one ancilla register between its factors and adding one flag that marks the right factor's failure branch. On the right factor's success branch its ancilla are back at zero, the state the left factor needs, and on its failure branch the flag is raised and the branch never reaches the post-selected output, so the product stays exact. The inner product shares $\max\bigl(n+2,\lceil\log_2(n+1)\rceil\bigr)=n+2$ qubits and adds a flag; the outer shares $\max(1,n+3)$ with $R_0$'s selector and adds a flag: $n+4$ ancilla in all. Of these, the $n-1$ qubits that carry the uniform superposition are forced by the $N/2$ terms of $\Uodd$'s combination, since an \gls{lcu} of $L$ distinct terms needs $\lceil\log_2L\rceil$ selector qubits.
+\emph{Ancilla.} The encodings are composed as $R_0\cdot\bigl((2\Uodd)\cdot\Lambda\bigr)$, $\Lambda$ applied first, each product sharing one ancilla register between its factors and adding one flag that marks the right factor's failure branch. On the right factor's success branch its ancilla are back at zero, the state the left factor needs, and on its failure branch the flag is raised and the branch never reaches the post-selected output, so the product stays exact. The inner product shares $\max\bigl(n+2,\lceil\log_2(n+1)\rceil\bigr)=n+2$ qubits and adds a flag; the outer shares $\max(1,n+3)$ with $R_0$'s selector and adds a flag: $n+4$ ancilla in all, the count of the built circuit for every $n$ from $2$ to $8$. Of these, the $n-1$ qubits that carry the uniform superposition are forced by the $N/2$ terms of $\Uodd$'s combination, since an \gls{lcu} of $L$ distinct terms needs $\lceil\log_2L\rceil$ selector qubits.
 
 \emph{Gates.} $\Uodd$'s PREPARE and PREPARE$^\dagger$ are $2n$ one-qubit gates and its subtractor $O(n)$ gates. $\Lambda$'s PREPARE is a rotation tree on $\lceil\log_2(n+1)\rceil$ qubits, and its SELECT is $n$ gates $Z_j$ and the negative weights' phases, each controlled on the selector. $R_0$ is $2n$ CNOTs and one $n$-controlled $Z$, and the two flags are an $X$ controlled on $\Lambda$'s selector and one controlled on the inner product's $n+3$ ancilla. An $m$-controlled gate costs $O(m^2)$ CNOTs in an ancilla-free synthesis, so the $n$-controlled gates of $R_0$ and the flags give $O(n^2)$; with a linear-cost synthesis that borrows an idle qubit \cite{barenco1995elementary} they cost $O(n)$, and $\Lambda$'s SELECT, $O(n\log n)$, dominates.
 \end{proof}
-% REVISE: the two-qubit gate counts at n = 2 and 5 are \prov (transpiled once, not exported);
-%   moved here from §4.5.3 in v3.4 (StructuralReview.md F1: gate counts are not the body's
-%   formulation). Replace with a key or delete.
-The transpiled two-qubit gate counts of the encoding of $\G$ alone are available only at small $n$, \prov{109} at $n=2$ and \prov{471} at $n=5$: consistent with the bound, but too few to fit it.
+The transpiled two-qubit gate counts of the encoding of $\G$ alone are $\res{derivative-circuit/n2}{structured_cx}$ at $n=2$, $\res{derivative-circuit/n5}{structured_cx}$ at $n=5$ and $\res{derivative-circuit/n8}{structured_cx}$ at $n=8$: consistent with the bound, though the transpiler's synthesis of the multi-controlled gates makes them too irregular to fit an exponent.
 
 \begin{lemma}[The norm of the odd shifts]
 \label{lem:uodd-norm}
@@ -113,7 +114,40 @@ For an equation $\sum_{j\le k}a_jf^{(j)}=r$ of order $k$ with constant coefficie
 The equation block $\sum_ja_j\G^j$ has norm $|a_k|\,\|K^k\|\,N^{2k}(1+o(1))$ by \Cref{thm:Gk-limit}, its lower orders being $O(N^{2j})$ with $j<k$. A source block $\M_r\Dzero(x_s)$ is $O(\sqrt N)$, and a constraint row $\Brow(x)\G^j$ is rank one with norm $\sqrt N\|\tau(x)^{\top}\G^j\|\le\sqrt{2N}\,\|\G\|_2^{\,j}=O(N^{2j+1/2})$ by \Cref{prop:tau-norm}, with $j\le k-1$, so every constraint row is $O(N^{2k-3/2})$. Since $\|R\|_2^2=\|A^\dagger A+\sum_iC_i^\dagger C_i\|$ lies between $\|A\|^2$ and $\|A\|^2+\sum_i\|C_i\|^2$, the rows do not move the leading term.
 \end{proof}
 
-The same limits fix the looseness of a power encoded as a product: $\alpha_{\G^k}=\alpha_\G^k=(N(N-1))^k$, so $\alpha_{\G^k}/\|\G^k\|_2\to1/\|K^k\|$, a constant for each $k$, equal to $2j_{-3/4,1}$ at $k=1$. For R2a, whose equation block is $\G^2$ to leading order, this is the constant towards which the measured $\alpha_R/\|R_{\mathrm{std}}\|_2$ of \Cref{sec:standard-hamiltonian} levels off; the theorem does not by itself bound the whole residual's ratio.
+The same limits fix the looseness of a power encoded as a product: $\alpha_{\G^k}=\alpha_\G^k=(N(N-1))^k$, so $\alpha_{\G^k}/\|\G^k\|_2\to1/\|K^k\|$, a constant for each $k$, equal to $2j_{-3/4,1}$ at $k=1$. For R2a, whose equation block is $\G^2$ to leading order, this is the constant towards which the measured $\alpha_R/\|R_{\mathrm{std}}\|_2$ of \Cref{sec:standard-hamiltonian} levels off, from $\res[3]{looseness/stateprep/R2a/standard/n2/T3/filter=minimax}{alpha_ratio}$ at $n=2$ to $\res[3]{looseness/stateprep/R2a/standard/n6/T3/filter=minimax}{alpha_ratio}$ at $n=6$ and $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_ratio}$ at $n=8$; the theorem does not by itself bound the whole residual's ratio.
+
+\subsection{The standard form's gap and the degree it implies}
+\label{app:std-gap}
+
+Write $\|g\|_w^2=\int_{-1}^{1}g(x)^2(1-x^2)^{-1/2}\,dx$. On a register of $N'$ terms, a polynomial $g$ of degree below $N'$ has a coefficient vector $\hat g$ in the normalised basis with $\braket{\tau(x)|\hat g}=g(x)$ and, by the Parseval identity of \Cref{eq:eta-e}, $\|\hat g\|^2=(N'/\pi)\|g\|_w^2$.
+
+\begin{proposition}[The standard form's gap is bounded]
+\label{prop:std-gap-bound}
+Let $\sum_{j\le k}a_jf^{(j)}=r$ be an \gls{ode} on one axis with polynomial coefficients $a_j$ and a source $r$ continuous on $[-1,1]$, with regular datum $f(x_s)=y_s\ne0$, and let its standard form (\Cref{def:standard-form}) carry zero rows $\Brow(x^*)\G^{j}$ and point-datum rows $\Brow(x^*)\G^{j}-y^*\Dzero(x_s)$, each at weight one. There is a constant $C$, fixed by the equation, its source and its rows and independent of $N$, such that for every $N\ge\max(2,\max_j\deg a_j)$
+\begin{equation*}
+    \Delta=\lambda_1(\Hstd)-\lambda_0(\Hstd)\le\lambda_1(\Hstd)\le C .
+\end{equation*}
+If moreover the coefficients are constant, $a_k\ne0$ and every row has order below $k$, then for every block encoding of $R_{\mathrm{std}}$ the degree of the minimax edge filter (\Cref{eq:minimax-degree}) satisfies, once $\|R_{\mathrm{std}}\|_2^2\ge2C$,
+\begin{equation*}
+    d\ \ge\ \frac{\|R_{\mathrm{std}}\|_2}{2\sqrt{2C}}\,\operatorname{arccosh}\frac1\varepsilon\ =\ \Omega\bigl(N^{2k}\log(1/\varepsilon)\bigr).
+\end{equation*}
+\end{proposition}
+\begin{proof}
+Let $P_1$ be the polynomials of degree at most one and $b(p)$ the coefficient vector of $p\in P_1$ on the field register. The map $p\mapsto b(p)$ is linear and injective, so $S=b(P_1)$ is two-dimensional, and $\|b(p)\|^2=(N/\pi)\|p\|_w^2$.
+
+\emph{The equation block.} $\G$ differentiates exactly on the represented space, and each lift multiplies exactly since $\deg a_j\le N$ (\Cref{prop:lift}), so $\sum_j\M_{a_j}\G^jb(p)$ is the coefficient vector of $\sum_ja_jp^{(j)}$ on the equation block's register of $N_A\in\{N,2N\}$ terms. The source block gives $\M_r\Dzero(x_s)b(p)=\hat r\,p(x_s)/y_s$, with $\hat r$ the first $N_A$ Chebyshev coefficients of the interpolant $I_mr$ of $r$ at $m\ge N_A$ Chebyshev--Gauss nodes, as the source is built. So $\Astd b(p)$ is the coefficient vector of $g_p=\sum_ja_jp^{(j)}-r_{N_A}\,p(x_s)/y_s$, with $r_{N_A}$ the truncation of $I_mr$. Truncation is an orthogonal projection in $\|\cdot\|_w$, and the $m$-point Gauss--Chebyshev rule integrates $(I_mr)^2$, of degree $2m-2$, exactly, so $\|r_{N_A}\|_w^2\le\|I_mr\|_w^2=(\pi/m)\sum_{i}r(x_i)^2\le\pi\sup|r|^2$. Hence
+\begin{equation*}
+    \frac{\|\Astd b(p)\|^2}{\|b(p)\|^2}=\frac{N_A}{N}\,\frac{\|g_p\|_w^2}{\|p\|_w^2}\le\frac{2}{\|p\|_w^2}\Bigl(\sum_j\|a_jp^{(j)}\|_w+\sqrt\pi\,\sup|r|\,\frac{|p(x_s)|}{|y_s|}\Bigr)^2 .
+\end{equation*}
+
+\emph{The rows.} $\Brow(x^*)=\sqrt N\ket0\bra{\tau(x^*)}$, so $\Brow(x^*)\G^jb(p)=\sqrt N\,p^{(j)}(x^*)\ket0$ and a point-datum row gives $\sqrt N\bigl(p^{(j)}(x^*)-y^*p(x_s)/y_s\bigr)\ket0$. Each row $C_i$ is therefore $\sqrt N\,\ell_i(p)\ket0$ for a linear functional $\ell_i$ on $P_1$ that does not depend on $N$, and $\|C_ib(p)\|^2/\|b(p)\|^2=\pi\,\ell_i(p)^2/\|p\|_w^2$.
+
+\emph{The bound.} Summing, $\braket{b|\Hstd|b}/\braket{b|b}=\bigl(\|\Astd b\|^2+\sum_i\|C_ib\|^2\bigr)/\|b\|^2\le Q(p)$ for $b=b(p)$, where $Q$ is the sum of the two right-hand sides above. $Q$ does not depend on $N$, is continuous on $P_1\setminus\{0\}$ and is unchanged by scaling $p$, so it attains a finite maximum $C$ on the unit sphere of the two-dimensional space $P_1$. By the Courant--Fischer theorem $\lambda_1(\Hstd)=\min_{\dim V=2}\max_{v\in V}\braket{v|\Hstd|v}/\braket{v|v}\le\max_{v\in S}\braket{v|\Hstd|v}/\braket{v|v}\le C$, and $\lambda_0\ge0$ because $\Hstd=R_{\mathrm{std}}^\dagger R_{\mathrm{std}}$.
+
+\emph{The degree.} In \Cref{eq:minimax-degree}, written in the heights $h_j=2\lambda_j/\alpha_R^2$ of \Cref{app:minimax-filter}, $\theta_0=\operatorname{arccosh}(1+e)$ with $e=2(h_1-h_0)/(2-h_1)$. Since $\cosh\sqrt{2e}\ge1+e$, $\theta_0\le\sqrt{2e}$. Every block encoding has $\alpha_R\ge\|R_{\mathrm{std}}\|_2$, so $h_1\le2C/\|R_{\mathrm{std}}\|_2^2\le1$, whence $e\le2(h_1-h_0)=4\Delta/\alpha_R^2$ and $\theta_0\le\sqrt{8\Delta}/\alpha_R\le\sqrt{8C}/\|R_{\mathrm{std}}\|_2$. Then $d\ge\operatorname{arccosh}(1/\varepsilon)/\theta_0$ gives the bound, and \Cref{cor:std-norm} gives $\|R_{\mathrm{std}}\|_2=\Theta(N^{2k})$, with $\operatorname{arccosh}(1/\varepsilon)\ge\ln(1/\varepsilon)$.
+\end{proof}
+
+The bound uses nothing about the solution and holds for variable coefficients, R3's included: two smooth trial functions, on which the residual is $O(1)$ at every resolution, already bound the first excited value. It is an upper bound only. The matching lower bound on $\Delta$, which the degree's upper bound $O(N^{2k}\log(1/\varepsilon))$ for the structured encoding needs, is not proved; it is measured on R2a and R2b (\Cref{sec:standard-hamiltonian}). The degree bound is the minimax edge filter's; for polynomial filters in general it holds as far as Lin and Tong's optimality supports \cite{lintong2020groundstate}.
 
 \subsection{Subnormalisation across \texorpdfstring{$n$}{n}}
 \label{app:alpha-G}

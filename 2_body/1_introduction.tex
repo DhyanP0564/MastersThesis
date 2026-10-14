@@ -1,89 +1,220 @@
 % =============================================================================
-% Chapter 1  Introduction  --  ~3.5 pp  --  rubric: Introduction & Literature
-% Review /20.   Plan: ThesisPlanning.md §5.1.
+% Chapter 1  Introduction  --  ~3 pp  --  rubric: Introduction & Literature
+% Review /20.   Plan: ThesisPlanning.md §5.1 (v3.13: restructured to an unheaded
+% opening and two subsections).
 %
 % PURPOSE     Establish that quantum DE solvers matter and that the physics-
-%             informed Hamiltonian route has a specific, *located* cost problem;
-%             then state what this thesis contributes, and what it does not.
+%             informed Hamiltonian route has a specific, *located* cost problem its
+%             authors left open; then state what this thesis contributes, and what
+%             it does not.
 % CRITERION   "Comprehensive, superior understanding of the historical background
 %             and state of the art, with excellent connection of the current field
 %             to the project" (>= 18/20). The introduction converges; it does not
-%             survey.
-% SOURCES     Planning.md §0; ThesisPlanning.md §3.1 (contributions), §3.2 (spine
-%             sentence), §3.3 (vocabulary).
+%             survey (the families and their judgement are Chapter 2's).
+% FORM (v3.13) An unheaded opening of four paragraphs (target -> the method -> the
+%             cost it left open -> the number), then two subsections. The opening
+%             mirrors Chapter 10's first paragraph, so the thesis opens and closes on
+%             the same tension. No internal labels in the prose (C, S1-S4, Q(i)-(iii),
+%             tier names other than T1-T3 once); no run-in \emph{Heading.} paragraphs.
+% SOURCES     ThesisPlanning.md §0.1 (story), §3.1 (contributions), §3.2 (questions),
+%             §3.3 (spine sentence), §3.4 (vocabulary); 10_conclusions.tex (the
+%             verdicts this chapter must promise, no more); 8_results.tex §8.6.
 % WRITE WHEN  Last (wave W6), so it promises only what was delivered.
+% FIRST PASS  2026-10-14, against the drafted Chs 2-10 (Ch. 10's verdicts, §8.6's findings);
+%             every number by key; Wu et al.'s two quotations checked against the paper's
+%             Discussion.
 % =============================================================================
 
-\subsection{Differential Equations as a Target for Quantum Computation}
-\label{sec:intro-target}
-% ~1 pp
-% LAND, in order:
-%   1. Applications (fluids, finance, fields), with citations to the domains.
-%   2. Why quantum algorithms are proposed for them.
-%   3. The resource that matters: queries x gates per query, and qubits.
-%   4. The algorithm families in one or two sentences each; the detail and the
-%      judgement are Chapter 2's job (sec:background).
+% --- Opening (no heading; ~1.5 pp) -------------------------------------------
+% LAND, in order (one paragraph each):
+%   1. THE TARGET (~0.3 pp). Differential equations model fluids, fields and
+%      finance; a register of n qubits holds a function of N = 2^n values, which
+%      is why quantum solvers are proposed. Their output is a state, read only by
+%      measurement, and their cost is queries x gates per query on a register of
+%      qubits, on a fault-tolerant machine. Every route pays a ratio its
+%      discretisation fixes (a linear system's condition number, a lift's ratio of
+%      nonlinearity to dissipation, an encoded Hamiltonian's norm against its gap):
+%      Chapter 2's thread in ONE sentence, no family-by-family survey. The thesis
+%      compares quantum formulations with one another and claims no advantage over
+%      classical solvers.
+%   2. THE METHOD (~0.35 pp). Wu et al.'s method attributed at FIRST mention
+%      (\cite{wu2025pihm}), with its lineage in one clause: differentiable quantum
+%      circuits (\cite{kyriienko2021differentiable}) -> the Chebyshev latent space
+%      and its lifts (\cite{paine2023physicsinformed}) -> the physics-informed
+%      effective Hamiltonian. Three sentences: Chebyshev coefficients as amplitudes;
+%      the equation and its data as operators that annihilate the solution; their
+%      Gram sum H, whose ground state is the solution, prepared by a filter with no
+%      training. Their claim: every term has a circuit of poly(n) gates.
+%   3. THE COST LEFT OPEN (~0.45 pp). A polynomial gate count prices ONE query;
+%      the number of queries is the filter's degree, d = Theta(sqrt(alpha_H/Delta)
+%      log 1/eps) with alpha_H >= ||H|| for any block encoding (inline; the
+%      labelled eq:degree is Chapter 2's). Wu et al.'s two open problems, quoted:
+%      "the spectral gap dependence" and "the cost of differentiation". They are
+%      the degree's denominator and, on our reading, its numerator. The thesis's
+%      questions in ONE prose sentence (after Chapter 10's first paragraph): what
+%      sets the number of queries, the encoder or the Hamiltonian; whether it can
+%      be lowered by changing the residual rather than the circuit, without
+%      changing the solution; and whether the answer survives nonlinear equations,
+%      where Wu et al.'s construction projects rather than prepares. No italic
+%      list: the questions are derived and stated formally once, in
+%      sec:pihm-assessment.
+%   4. THE NUMBER (~0.4 pp; the marker's "number by page 2"). On the critically
+%      damped oscillator f'' + 4f' + 4f = 0 (R2a, Wu et al.'s Fig. 3b problem) at
+%      n = 8, minimax edge filter, resource estimates (T3, named as such):
+%        Wu et al.'s encoding
+%          \res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax/encoder=published}{degree}
+%        the exact structured encoding
+%          \res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{degree}
+%        the ideal-encoding bound alpha = ||R|| (no encoding of this Hamiltonian
+%        does better)
+%          \res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{ideal_degree}
+%        the descriptor form, as built and at its ideal bound
+%          \res{stateprep/R2a/descriptor/n8/T3/filter=minimax}{degree},
+%          \res{stateprep/R2a/descriptor/n8/T3/filter=minimax}{ideal_degree}
+%      Read it: the first factor is the encoder's cost, which an exact encoding
+%      removes; what remains at the ideal bound is the Hamiltonian's cost, which
+%      only a different Hamiltonian with the same kernel removes. Scope in one
+%      clause: R2a is a regular problem (gloss: one axis, polynomial coefficients,
+%      a leading coefficient without zeros on [-1, 1], analytic data, a solution
+%      unique up to scale), where the gain is largest; singular and two-axis
+%      problems gain less or reverse (said in sec:contributions).
+% TRAPS  A survey of algorithm families here; leading with the descriptor before the
+%        baseline (in paragraph 4 the baseline numbers come first); "speed-up";
+%        quoting the as-built comparison without the ideal bound.
 
-\subsection{Physics-Informed Hamiltonians and Where Their Cost Lies}
-\label{sec:intro-cost}
-% ~1 pp
-% LAND, in order:
-%   1. Wu et al.'s idea in three sentences, attributed at FIRST mention
-%      (\cite{wu2025pihm}), not at first critique.
-%   2. The question this thesis asks: is the method's cost in its ENCODER or in
-%      its HAMILTONIAN?
-%   3. One quantitative sentence before the end of page 2. At n = 8 (Wu et al.'s
-%      Fig. 3b) the filter degree is 8.2e23 as published, 1.2e10 with the best
-%      exact encoding, and 5.6e3 in descriptor form (Planning.md App. A-6).
-%      Quote with \res once pihm produces them (\prov{...} until then); check
-%      which filter the final numbers use (A-6 quotes the minimax edge filter).
+Differential equations describe how fluids flow and how heat spreads, and the cost of solving one numerically grows with the resolution it needs: $N$ unknowns along each of $D$ axes make $N^D$ in all. A register of $n$ qubits holds a vector of $N=2^n$ amplitudes, and this exponential compression is the reason quantum algorithms for differential equations are proposed \cite{berry2014highorder,childsliu2020spectral,liu2021carleman}. What such an algorithm returns is a quantum state, from which measurement recovers only a few properties of the solution \cite{aaronson2015fineprint}, and what it costs on a fault-tolerant machine is the number of queries it makes to a circuit encoding the equation, multiplied by the gates in each query. Every route pays a ratio that the discretisation fixes before any circuit is built: the condition number of a linear system, the strength of a nonlinearity against the dissipation in a linearised equation, or the norm of an encoded Hamiltonian against its spectral gap. An accurate discretisation can still make that ratio large. For an equation in a fixed number of dimensions with a smooth solution, the most a quantum solver can gain over the best classical methods is polynomial \cite{montanaro2016fem}, so this thesis compares quantum formulations with one another and claims no advantage over classical solvers.
+
+One recent route makes the solution a ground state. It descends from the differentiable quantum circuits of Kyriienko, Paine and Elfving, which train a parametrised circuit on the residual of the equation \cite{kyriienko2021differentiable}, and from the Chebyshev latent space of Paine, Elfving and Kyriienko, in which the solution's Chebyshev coefficients are the amplitudes of a state and differentiation acts on them as a fixed matrix \cite{paine2023physicsinformed}. Wu, Paine, Philip, Gentile and Kyriienko removed the training \cite{wu2025pihm}. In their \gls{pihm}, the equation and each of its data conditions become operators that annihilate the state exactly when it holds the solution's coefficients, and the sum of their Gram matrices is a Hamiltonian $H$ whose ground state is the solution. A spectral filter prepares that state directly, with nothing to optimise. Wu et al.\ show that every term of $H$ has a circuit of $\mathcal{O}(\mathrm{poly}(n))$ gates, so one application of the Hamiltonian is cheap.
+
+A cheap application says nothing about how many applications a preparation needs. That number is the degree of the filter, and for a block encoding of $H$ at subnormalisation $\alpha_H\ge\|H\|$, a gap $\Delta$ above the ground state and a suppression $\varepsilon$ of the excited states, it grows as $d=\Theta\bigl(\sqrt{\alpha_H/\Delta}\,\log(1/\varepsilon)\bigr)$ (\Cref{eq:degree}). Wu et al.'s Discussion leaves open two problems that bear on it. They write that ``studying the spectral gap dependence is an important question for the future work'', and they suggest that the choice of basis be guided by ``the cost of differentiation'' \cite{wu2025pihm}, which they measure as circuit depth. The gap is the degree's denominator. On our reading the cost of differentiation sits in its numerator as well: each derivative eliminated through the Chebyshev differentiation matrix, which is dense and whose norm grows as $N^2$, multiplies the residual's norm by a factor of that order and the Hamiltonian's by its square, and the filter pays for that norm at every query (\Cref{sec:pihm-assessment}). We therefore ask how the number of queries grows with the resolution, and how much of that growth belongs to the encoder and how much to the Hamiltonian; whether that number can be lowered by changing the residual rather than the circuit, while keeping the solution; and whether the answer survives the step to nonlinear equations, where Wu et al.'s construction selects a state from a degenerate kernel by projection instead of preparing a unique one.
+
+The two costs can be told apart on a single problem. Take the critically damped oscillator $f''+4f'+4f=0$, one of Wu et al.'s examples and here called R2a, at $n=8$ qubits, with the minimax edge filter, the polynomial of least degree that suppresses the excited states to $\varepsilon=\res[1,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{epsilon}$. With Wu et al.'s encoding of the differentiation matrix the filter's degree is $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax/encoder=published}{degree}$. An exact encoding of the same Hamiltonian brings it down to $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{degree}$, and no encoding of that Hamiltonian can do better than $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{ideal_degree}$, the degree at the ideal-encoding bound $\alpha=\|R\|$, where $R$ is the residual operator whose Gram matrix is $H$. The fall from the first number to the second is the encoder's cost, and an exact encoding removes it. What remains is the Hamiltonian's cost, which only a different Hamiltonian with the same ground state can remove. The descriptor form developed in this thesis is such a Hamiltonian, and on the same problem its filter needs a degree of $\res{stateprep/R2a/descriptor/n8/T3/filter=minimax}{degree}$ as built and $\res{stateprep/R2a/descriptor/n8/T3/filter=minimax}{ideal_degree}$ at its own ideal bound. All five are resource estimates, each computed from a subnormalisation and the classically computed gap; the standard form's degrees lie far beyond the simulation budget. R2a is a regular problem, posed on one axis with polynomial coefficients, a leading coefficient without zeros on $[-1,1]$, analytic data and a solution unique up to scale, and it is where the reformulation gains most. On singular problems and on two axes it gains less, and in two cases the comparison reverses (\Cref{sec:contributions}).
 
 \subsection{Contributions and Scope}
 \label{sec:contributions}
-% ~1 pp
+% ~1.1 pp
 % LAND, in order:
-%   1. The numbered contributions (ThesisPlanning.md §3.1): the headline C, then
-%      S1-S4. Each is one sentence of WHAT and one clause of EVIDENCE (a chapter
-%      pointer). C always carries its cost (the block register); S2 is phrased
-%      as serving the comparison ("isolates ..."), never as a rival solver.
-%        C   the descriptor reformulation                      -> Ch. 5, §8.2-8.3
-%        S1  a verified reproduction and audit of Wu et al.     -> §4.1-4.4, §8.1, App. K
-%        S2  an exact structured encoding of the standard form  -> Ch. 4, §8.2
-%        S3  a regime-independent verified pipeline             -> Ch. 7, §8.1
-%        S4  beyond a single real field: systems, complex       -> Ch. 6, §8.4-8.5
-%            fields, nonlinearity (preparation vs projection)
-%   2. The spine sentence (ThesisPlanning.md §3.3).
-%   2a. If the three questions are restated here, Q(iii) carries both halves
-%      (StructuralReview.md F5): "can the solution of a nonlinear equation be prepared ...
-%      rather than selected by projection ..., and does the reformulation's advantage
-%      survive there?" -- verbatim as sec:pihm-assessment.
-%   3. The scope statement, once, plainly: every result is a classical
-%      computation -- circuit simulation (T1) at small n, exact emulation (T2)
-%      beyond it, resource estimates (T3) beyond that. Nothing ran on hardware.
-%      Readout is classical, decoded from the prepared state's field blocks; the
-%      Wu et al.'s interferometric protocol is built and verified only at small n
-%      (R1, R2a, R5a), with our correction for p_G < 1, and is further work.
-% REVISE (T-24): the line above replaces "Readout is Wu et al.'s protocol,
-%   reproduced in simulation", which overstates what is reproduced and
-%   understates that the thesis's own readout is classical decoding, not the
-%   Wu et al.'s interferometric protocol (CLAUDE.md Standing Facts, Readout).
-%   4. What is NOT claimed: a poly-log end-to-end cost; preparation for
-%      degenerate formulations; a new readout protocol.
+%   1. THE PRINCIPAL CONTRIBUTION, one paragraph (the descriptor reformulation):
+%      keep the dense G as its banded factors, G = B~^{-1} D~, carrying the
+%      intermediate derivatives as unknowns (the chain, order >= 2) or multiplying
+%      a first-order equation or system through by B~ (the mass form); the kernel
+%      is unchanged in both. Antecedents credited in the same paragraph
+%      (\cite{olver2013}, \cite{cai1994fosls}); the increment is the transfer to a
+%      block-encoded Hamiltonian and its measured consequences. ||H_desc|| =
+%      Theta(N^2) against the standard form's Theta(N^{4k}); one flat LCU with
+%      O(log n) ancilla (ceil(log2(n+4)) + 8 for R2's system rows); on a regular
+%      problem the gap is proved Theta(1) and the degree is Theta~(N) against
+%      Theta~(N^{2k}). COSTS, volunteered: the block register; more two-qubit gates
+%      per query than the structured standard form at the sizes built on
+%      constant-coefficient problems; about N^2 on singular problems, where an a
+%      priori block rescaling restores the gap without ancilla but not free in
+%      gates, and Legendre's equation favours the standard form at the ideal bound;
+%      on two axes the gap falls even when rescaled, and on the heat equation at
+%      small n the standard form needs the lower degree; a double zero is beyond
+%      any rescaling. Close on the spine sentence (ThesisPlanning.md §3.3),
+%      reworded. Pointer: sec:descriptor, sec:results-scaling, sec:results-gap.
+%   2. THE FOUR SUPPORTING CONTRIBUTIONS, an enumerate of four items in chapter
+%      order, each one or two sentences of WHAT and one pointer of EVIDENCE. No
+%      labels and no bold run-in titles: each item opens on the contribution itself.
+%        (a) The standard form, specified once (the field alone, every derivative
+%            eliminated through G), each printed defect replaced where the
+%            construction meets it (Table T10); the data change, G and the Gram
+%            structure do not. Validated: with the printed choices restored it
+%            reproduces the scale factors of all eleven ODE panels to within one
+%            unit of the last printed digit; the PDE and nonlinear panels do not
+%            reproduce, documented with the hypotheses tested.
+%            -> sec:standard, app:reproduction
+%        (b) An exact structured encoding of G (alpha_G = N(N-1) <= 2.12 ||G||_2,
+%            O(n^2) gates, n + 4 ancilla for G alone), phrased as SERVING THE
+%            COMPARISON: for constant coefficients it isolates the standard form's
+%            cost in its Hamiltonian; it is loose for a lifted variable coefficient.
+%            Never a rival solver. -> sec:standard-factorisation, sec:results-scaling
+%        (c) Beyond a single real field: coupled first-order systems on one state
+%            in both forms (ratio rows; the coupling as a sum of matchings);
+%            complex-valued linear equations by realification, since H = R^dag R
+%            stays Hermitian; Wu et al.'s doubled space shown to project (kernel of
+%            dimension >= 2^{2n-1}) where the Carleman lift prepares, in both forms,
+%            up to 2-D incompressible Navier--Stokes on 12 to 48 modes (T2/T3);
+%            a trusted kernel shown not to certify a converged lift.
+%            -> sec:extensions, sec:results-nonlinear, sec:results-ns
+%        (d) One verified preparation pipeline for both forms: a stacked-residual
+%            reflection and its walk, GQSP with the minimax edge filter (chosen over
+%            imaginary time by a study in both forms), a priori parameters,
+%            answer-independent initial states; every circuit verified against its
+%            assembled operator, and circuit simulation equal to exact emulation
+%            within 1e-10 before normalising on every minimax record.
+%            -> sec:pipeline, sec:results-faithful
+%   3. THE SCOPE, one paragraph, plainly: every result is a classical computation:
+%      circuit simulation (T1) to 20 qubits, exact emulation (T2), provably equal
+%      to the circuit's post-selected output, to filter degrees of 2^20, and
+%      resource estimates (T3) beyond. "Beyond the simulation budget" is never
+%      "cannot reach". Nothing ran on hardware. The field is read out classically,
+%      decoded from the prepared state's field blocks; Wu et al.'s interferometric
+%      protocol is built and verified only at small n (R1, R2a, R5a), with our
+%      correction for p_G < 1, and is further work. The spectral edge is taken from
+%      the classical reference (a stated limitation).
+%   4. WHAT IS NOT CLAIMED, one short paragraph (prose, not a list): a poly-log
+%      end-to-end cost (neither form is); an advantage over classical solvers (on
+%      one axis a classical spectral solver needs O(N) operations); a floor for
+%      every algorithm (the floor is for polynomial filters of the walk, hedged to
+%      what Lin & Tong support); preparation from a degenerate formulation; native
+%      complex preparation (realification only); a converged lift certified by its
+%      kernel.
+%   5. THE DEPARTURE FROM THE PROPOSAL (2026-10-14 review), one short paragraph: what was
+%      proposed; the reason (the query count's growth with N, from the dense G's encoding and
+%      norm, inherited by any extension, so settled first); GQSP lifts the proposal's two QSVT
+%      restrictions and R^dag R is Hermitian (keep the two reasons apart: GQSP does not handle
+%      non-Hermitian operators); what is left. Detail and table in app:proposal.
+% CITE-NEEDED: the opening's applications sentence (fluids, fields, finance) has no
+%   entry in ref.bib; add one to three domain citations, checked against the
+%   publisher (T-29), or cut the sentence to the quantum-solver literature already
+%   cited in Chapter 2.
+
+The principal contribution is a reformulation of the residual, which we call the descriptor form. Chebyshev differentiation is dense, but it factorises into two banded matrices, $\G=\Bt^{-1}\Dt$, which are, up to a factor of two, the conversion and differentiation operators of Olver and Townsend's ultraspherical spectral method \cite{olver2013}. The descriptor form keeps the two factors and never forms $\G$. An equation of second or higher order carries its intermediate derivatives as unknowns, each tied to the next by a banded recurrence, in what we call the chain; a first-order equation or system is multiplied through by $\Bt$, in the mass form. In both layouts the residual's kernel is the standard form's, so the state prepared is the same solution. Carrying derivatives as unknowns so that high order does not compound the conditioning is the idea of \gls{fosls} \cite{cai1994fosls}. What is new here is the transfer of these two classical ideas to a block-encoded Hamiltonian, and a measurement of what it does to the cost of preparing the ground state. The Hamiltonian's norm falls from $\Theta(N^{4k})$ for an order-$k$ equation with constant coefficients to $\Theta(N^2)$, and the residual compiles to a single \gls{lcu} with $\mathcal{O}(\log n)$ ancilla qubits, $\lceil\log_2(n+4)\rceil+8$ for the oscillators' equation block. On a regular problem the gap is proved bounded below independently of $N$ (\Cref{thm:flat-gap}), and the degree grows as $\tilde\Theta(N)$, where for constant coefficients the standard form's grows as $\tilde\Theta(N^{2k})$ even under the best exact encoding.
+
+The reformulation is not free. The derivatives need a block register, and at the sizes built a descriptor query costs more two-qubit gates than a standard one on constant-coefficient problems, so the advantage there lies in the number of queries alone. The carried derivatives also erode the gap wherever the equation fails to control them. On singular problems, whose leading coefficient vanishes somewhere on $[-1,1]$, an a priori block rescaling restores the gap without ancilla, lengthening each query by a factor that the equation fixes, and the degree then grows as about $N^2$; on Legendre's equation the standard form needs the smaller degree at the ideal bound. On two axes the rescaled gap still falls with $N$, and on the heat equation at four qubits per axis the standard form needs the lower degree. A double zero of the leading coefficient is beyond any rescaling. Carrying the intermediate derivatives instead of eliminating them therefore makes the residual banded and keeps its kernel, lowering the Hamiltonian's norm from $\Theta(N^8)$ to $\Theta(N^2)$ for a second-order equation; the price is a block register and a gap that the derivative blocks erode, which an a priori rescaling restores on one axis without ancilla (\Cref{sec:descriptor,sec:results-scaling,sec:results-gap}).
+
+The reformulation rests on four further pieces of work, listed in the order the thesis presents them.
+\begin{enumerate}
+    \item We state Wu et al.'s construction once, as the standard form, in which the state holds the field alone and every derivative is eliminated through $\G$. Where a printed choice would make a problem inaccurate, answer-dependent or ill posed, the standard form replaces it at the point where the construction meets it (\Cref{tab:deviations}); the replacements change the data and leave $\G$ and the Gram structure alone, so the baseline keeps Wu et al.'s cost. With the printed choices restored, the construction reproduces the scale factors of all eleven of their \gls{ode} examples to within one unit of the last printed digit. Their partial differential and nonlinear examples do not reproduce, and the hypotheses tested are recorded (\Cref{sec:standard}, \Cref{app:reproduction}).
+    \item An exact factorisation of the differentiation matrix gives an encoding of $\G$ with $\mathcal{O}(n^2)$ gates and $n+4$ ancilla qubits, within a factor $\res[3]{derivative/n10}{structured_ratio}$ of its norm at $n=10$, against $\res[2,sci]{derivative/n10}{published_ratio}$ for Wu et al.'s approximate encoding. It exists to make the comparison fair: for constant coefficients it holds the encoder's cost to a constant, so whatever growth remains in the standard form's degree belongs to its Hamiltonian. For a lifted variable coefficient it is loose, and there only the ideal bound separates the two costs (\Cref{sec:standard-factorisation,sec:results-scaling}).
+    \item Both forms are carried beyond the single real field that Wu et al.\ treat. The fields of a coupled first-order system share one state, a block each, with vector data entering as rows that fix a direction and leave the scale free, and a coupling compiled as a sum of matchings; the Fourier bases for which Wu et al.\ set complex-valued states aside are carried on real ones. For nonlinear equations we show that Wu et al.'s doubled space has a kernel of dimension at least $2^{2n-1}$, so a filter only projects onto it, while a Carleman lift, itself a coupled linear system, has a one-dimensional kernel at every order run and is prepared in both forms, up to two-dimensional incompressible Navier--Stokes on $12$ to $48$ Fourier modes by exact emulation and resource estimate. A trusted kernel, one-dimensional and well isolated, turns out not to certify that the lift has converged (\Cref{sec:extensions,sec:results-nonlinear,sec:results-ns}).
+    \item One preparation pipeline serves both forms, so that a difference measured between them is a difference between their residuals. It block-encodes $H$ through a reflection built from the stacked residual and filters the quantum walk of that reflection by \gls{gqsp} with the minimax edge filter, which a study in both forms preferred to Wu et al.'s imaginary-time filter; its parameters are fixed a priori and its initial states chosen without knowledge of the answer. Every Hamiltonian of at most $24$ qubits is verified whole against the operator assembled from the problem, every lift and coupling term by term at any size, and wherever both run, the simulated circuit equals the exact emulation within $10^{-10}$ before normalising on every run of the minimax filter (\Cref{sec:pipeline,sec:results-faithful}).
+\end{enumerate}
+
+Every result in the thesis is a classical computation, and nothing ran on quantum hardware. The evidence comes in three tiers, named wherever a number is quoted: circuit simulation (T1), which reaches $\res{stateprep/R4d/descriptor/n3/T1/filter=minimax}{n_qubits}$ qubits; exact emulation (T2), provably equal to the circuit's post-selected output, which reaches filter degrees of $2^{20}$; and resource estimates (T3) beyond that, a circuit too wide to simulate being reported as beyond the simulation budget and never as out of the algorithm's reach. The field is decoded classically from the prepared state's amplitudes, which a quantum computer does not expose, and scaled by a known value of the solution; Wu et al.'s interferometric readout is built and verified, with a correction for a post-selection that succeeds with probability below one, only at small $n$ on R1, R2a and R5a, and costing it is further work. The edge of the excited spectrum, which the filter's degree needs, is taken from the classical reference solution. Neither form is polylogarithmic in $N$, and no advantage over classical solvers is claimed: on one axis a classical spectral solver needs only $\mathcal{O}(N)$ operations \cite{olver2013}. The floor on the standard form's degree is shown for polynomial filters of the walk, and since Lin and Tong's optimality result for ground-state preparation assumes access to $H$ rather than to its residual \cite{lintong2020groundstate}, whether it binds every algorithm is left open. No solution is said to be prepared from a degenerate formulation, no complex-valued field is prepared natively, and a trusted kernel is never read as a converged lift.
+
+The work departs from its research proposal (\Cref{app:proposal}), which set out to carry Wu et al.'s method to complex-valued nonlinear equations, among them the nonlinear Schr\"odinger and complex Ginzburg--Landau equations, through a generalised \gls{qsvt}, and to add data-informed terms to its Hamiltonian. Reproducing and costing Wu et al.'s examples showed that the query count, whose growth with the resolution their Discussion leaves open, grows as a power of $N$, through the encoding of the dense differentiation matrix and through the norm that matrix gives the Hamiltonian. Any extension would inherit that cost, so the thesis settles it first. The filter is applied by \gls{gqsp}, which already lifts the two restrictions the proposal sought a generalised transform for, real coefficients and a definite parity, and a complex residual would need no further transform, since the filter acts only on the Hermitian $R^\dagger R$. Of the proposed equations only Burgers' is treated, joined by two-dimensional Navier--Stokes; the Schr\"odinger and Ginzburg--Landau equations and the data-informed Hamiltonians are left to further work.
 
 \subsection{Outline}
 \label{sec:outline}
-% ~0.5 pp
-% LAND: one item per chapter naming its job, headings quoted verbatim. Mark
-%   Chapter 3 as reviewed prior art and Chapters 4-7 as this thesis's model.
+% ~0.4 pp
+% LAND: ONE paragraph of prose (no bullets), each chapter by its heading verbatim
+%   and its job in one clause: Chapter 2 the routes, the spectral methods and the
+%   primitives, judged; Chapter 3 Wu et al.'s method as reviewed prior art, closing
+%   on the three questions; Chapter 4 the standard form, stated once, and where its
+%   cost lies; Chapter 5 the descriptor reformulation; Chapter 6 the step from one
+%   real field to coupled and nonlinear ones; Chapter 7 how the
+%   answers are tested and the design of the numerical experiment; Chapter 8 the
+%   evidence, one section per question; Chapters 9-10 the mechanism, the limits
+%   and the further work. Mark Chapter 3 as prior art and Chapters 4-7 as this
+%   thesis's model. One closing sentence for the appendices: the proofs and
+%   constructions (B-I), the catalogue (J), the reproduction and audit of Wu et
+%   al.'s examples (K), the records (L), the proposal and its deviations (M).
+%   This is the thesis's only section roadmap (ThesisPlanning.md §3.5 rule 1).
+
+\Cref{sec:background}, the background and literature review, follows the ratio a discretisation fixes through the quantum routes to differential equations, the spectral methods on which the construction rests and the quantum primitives that turn a ratio into a count of queries, judging each. \Cref{sec:pihm} presents the \gls{pihm} as Wu et al.\ published it, as prior art, assesses it, and ends on the three questions that the rest of the thesis answers. \Crefrange{sec:standard}{sec:pipeline} are the thesis's own model. \Cref{sec:standard}, the standard form and its cost, states the construction once and locates its cost; \Cref{sec:descriptor}, the descriptor reformulation, changes the residual and accounts for what the change costs; \Cref{sec:extensions}, on systems and nonlinearity, carries both forms from one real field to coupled and nonlinear ones; and \Cref{sec:pipeline}, on preparing and verifying the ground state, describes the pipeline through which both forms are tested and the design of the numerical experiment. \Cref{sec:results}, the numerical study, gives the evidence, one section per question. \Cref{sec:discussion} discusses the mechanism behind the findings and their limits, and \Cref{sec:conclusions}, the conclusions and future work, gives the verdicts and the work they leave open. The appendices hold the proofs and constructions (\Cref{app:cheb} to \Cref{app:verification}), the catalogue of benchmark problems (\Cref{app:catalogue}), the reproduction and audit of Wu et al.'s examples (\Cref{app:reproduction}), the software and records (\Cref{app:software}), and the research proposal with its deviations (\Cref{app:proposal}).
 
 % CHECKLIST (marker)
-%   1. Can a non-specialist physicist state the problem after two pages?
-%   2. Is there a number on or before page 2?
-%   3. Is every contribution numbered and falsifiable, with its evidence named?
+%   1. Can a non-specialist physicist state the problem after the opening?
+%   2. Is there a number on or before page 2, quoted as built AND at the ideal bound?
+%   3. Is every contribution falsifiable, with its evidence named?
 %   4. Is the scope statement explicit, including the tier vocabulary and
 %      "no hardware"?
 %   5. Is Wu et al. attributed at first mention, not at first critique?
 %   6. Does the outline match the headings verbatim?
+%   7. Does every promise here have a verdict in Chapter 10, and nothing more?
 % TRAPS  Leading with the descriptor's advantage before the reader knows the
-%        baseline; claiming a speed-up (Style Trap 9); listing S2 as a competing
-%        method.
+%        baseline; claiming a speed-up (Style Trap 9); listing the structured
+%        encoding as a competing method; an unscoped descriptor claim (Trap 17);
+%        the three questions as an italic list (they are §3.5's).

@@ -12,7 +12,10 @@ A quick reference for symbols used across the thesis; each is properly
 introduced at its first use in the text below.
 
 \medskip
-\noindent\textbf{Typeface.} Fixed discretisation matrices are blackboard bold ($\G$, $\Bt$, $\Dt$, $\M$, $\nfold$, $\Brow$, $\Dzero$, $\Slice$, $\Ucg$, $\Acoup$, $\Frat$); assembled objects are italic ($\Astd$, $\Adesc$, $R_{\mathrm{std}}$, $R_{\mathrm{desc}}$, $\Hstd$, $\Hdesc$, $V$, $W$, $H'$). The subscripts $\mathrm{std}$ and $\mathrm{desc}$ name the two forms (\Cref{sec:standard-operators}); bare $A$, $H$ and $R$ appear only in statements true of both forms and in \Cref{sec:pihm}, where they are Wu et al.'s own and are printed in blackboard bold. Calligraphic letters are $\mathcal{T}$ (Gram map), $\mathcal{H}$ (Hilbert space) and $\mathcal{O}$ (order symbol).
+\noindent\textbf{Typeface.} Matrices are italic. Calligraphic letters are the maps that change the register, the lifts $\M$ and the folds $\nfold$, and also $\mathcal{T}$ (Gram map), $\mathcal{H}$ (Hilbert space) and $\mathcal{O}$ (order symbol). The constraint rows $\Brow$, $\Dzero$, $\Slice$ and $\Frat$ are blackboard bold; otherwise blackboard bold is kept for $\mathbb{R}$, $\mathbb{C}$ and the expectation $\mathbb{E}$. Wu et al.\ print every non-unitary matrix in blackboard bold (\Cref{sec:pihm-residual}). The subscripts $\mathrm{std}$ and $\mathrm{desc}$ name the two forms (\Cref{sec:standard-operators}); bare $A$, $H$ and $R$ appear only in statements true of both forms and in \Cref{sec:pihm}, where they are Wu et al.'s own.
+
+\medskip
+\noindent\textbf{Classes of problem.} A linear problem on one axis is \emph{regular} when its coefficients are polynomials, its leading coefficient has no zero on $[-1,1]$, its data are analytic and its solution is unique up to scale, and \emph{singular} when its leading coefficient has a zero there (\Cref{def:regular}). Every degree, gap and subnormalisation claim of the descriptor names its class.
 
 \bigskip
 \noindent\textbf{Discretisation}\par\nopagebreak\smallskip
@@ -22,7 +25,7 @@ Symbol & Meaning & Introduced \\
 \midrule
 $n$ & Qubits per Chebyshev axis (the resolution). & \Cref{sec:pihm-model} \\
 $N = 2^n$ & Truncation dimension of one Chebyshev axis. & \Cref{sec:pihm-model} \\
-$k$ & Order of an ordinary differential equation. & \Cref{sec:pihm-residual} \\
+$k$ & Order of an \gls{ode}. & \Cref{sec:pihm-residual} \\
 $p$ & Degree of a polynomial nonlinearity. & \Cref{sec:carleman} \\
 $n_f$ & Qubits in the field (block) register of the descriptor form. & \Cref{sec:descriptor-layouts} \\
 $\dim w$ & Padded descriptor state dimension, $2^{\lceil\log_2K\rceil}\prod_aN_a$ with $K$ physical blocks ($2^{\lceil\log_2(k+1)\rceil}N$ on one axis). & \Cref{sec:app-variable-coeff} \\
@@ -51,12 +54,12 @@ $w$, $E$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$; the map from a fi
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
-$\G$ & Differentiation matrix, $f \mapsto f'$, in coefficient space: dense, strictly upper triangular, $\|\G\|_2 = \Theta(N^2)$ (Wu et al.\ print it as $\G_n^{\top}$). & \Cref{sec:pihm-residual} \\
+$\G$ & Differentiation matrix, $f \mapsto f'$, in coefficient space: dense, strictly upper triangular, $\|\G\|_2 = \Theta(N^2)$ (Wu et al.\ print it as $\mathbb{G}_n^{\top}$). & \Cref{sec:pihm-residual} \\
 $\Bt$, $\Dt$ & Banded factors of the differentiation matrix, $\G = \Bt^{-1}\Dt$. & \Cref{sec:descriptor-construction} \\
 $\M_{x^p}$, $\M_a$ & Multiplication by $x^p$ (the exact lift, $2N \times N$) and by a smooth $a(x)$. & \Cref{sec:pihm-residual,sec:standard-operators} \\
 $\nfold_1$, $\nfold_x$ & Product-to-sum folds. & \Cref{sec:pihm-doubled} \\
 $\Brow(x)$, $\Dzero(x_s)$ & Rank-one zero (invariant) and collapse (regular) constraint rows. & \Cref{sec:pihm-residual} \\
-$x_z$, $x_m$, $x_s$ & Constraint points: a zero, an extremum, a source datum. & \Cref{sec:pihm-residual} \\
+$x_z$, $x_m$, $x_s$ & Constraint points: a zero, an extremum, the datum point ($f(x_s)\ne0$). & \Cref{sec:pihm-residual} \\
 $R_0$, $\Uodd$, $\Lambda$ & Factors of the structured exact encoding of $\G$. & \Cref{sec:standard-factorisation} \\
 $\Slice_a(x^*)$, $\hat g$ & Datum-slice row on axis $a$ at $x^*$; the coefficients of the datum function. & \Cref{sec:standard-constraints} \\
 $\Ucg$ & The Chebyshev--Gauss transform used by the nodal fold. & \Cref{sec:ext-circuits} \\
@@ -70,9 +73,9 @@ $\|\G\|_S$ & Wu et al.'s norm $\max\bigl(\|\G\G^{\top}\|_1, \|\G^{\top}\G\|_1\bi
 \toprule
 Symbol & Meaning & Introduced \\
 \midrule
-$\Astd$, $\Adesc$ & Residual of the standard form; of the descriptor form. & \Cref{sec:standard-operators} \\
-$\Hstd$, $\Hdesc$ & Effective Hamiltonian of each form; bare $H$ only in regime-independent statements. & \Cref{sec:standard-operators} \\
-$R = [R_1; \dots; R_L]$ & Stacked residual, with $H = R^{\dagger}R$. & \Cref{sec:pipeline-walk} \\
+$\Astd$, $\Adesc$ & Equation block of each form's stacked residual; the descriptor's includes its recurrence rows. & \Cref{sec:standard-operators,def:descriptor-residual-operator} \\
+$\Hstd$, $\Hdesc$ & Effective Hamiltonian of each form; bare $H$ only in regime-independent statements. & \Cref{sec:standard-form} \\
+$R = [R_1; \dots; R_L]$ & Stacked residual: the equation block over the constraint rows, with $H = R^{\dagger}R$; the thesis works with $R$. & \Cref{sec:standard-form} \\
 $H_{\otimes}$ & The doubled-space Hamiltonian. & \Cref{sec:doubled-space} \\
 \bottomrule
 \end{tabularx}
@@ -97,6 +100,7 @@ $\psi_{\mathrm{init}}$, $\gamma$ & Initial state; its overlap $|\braket{\psi_{\m
 $\zeta$, $S$ & Block-rescaling constant; the diagonal of block weights, so that the rescaled residual is $R_{\mathrm{desc}}S$. & \Cref{sec:descriptor-rescaling} \\
 $w_f$ & Weight of the field block in the descriptor's ground state; $\gamma^2\le w_f$. & \Cref{sec:descriptor-gap} \\
 $\alpha_A$, $Q_m$ & Subnormalisation of the descriptor's system rows; the reflection $I-2\ket{m}\bra{m}$. & \Cref{sec:descriptor-block-encoding} \\
+$P_t$, $D_t$ & A descriptor term's block word on the block register; its diagonal (the identity, a $Z_j$ or a $Q_m$). & \Cref{sec:descriptor-block-encoding} \\
 $\epsilon_{\G}$, $\mu$ & Entry error and per-bit coefficient of Wu et al.'s encoding of $\G$. & \Cref{app:ladder} \\
 \bottomrule
 \end{tabularx}

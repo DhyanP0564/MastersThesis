@@ -5,7 +5,7 @@ physics-informed effective Hamiltonians for quantum differential-equation solver
 supervisor Jingbo Wang; working title in `1_header/1_title.tex`, final choice in
 ThesisPlanning.md §13.1).
 
-**Governing plan: `ThesisPlanning.md`** (version 3.2, 2026-10-12; ten chapters). It fixes the
+**Governing plan: `ThesisPlanning.md`** (version 3.13, 2026-10-14; ten chapters). It fixes the
 chapter structure and order, the contributions, the three questions the thesis answers, the page
 budget, the notation and the claims each chapter may make. Where it conflicts with
 `thesis_guides/`, the plan wins; where anything conflicts with the Standing Facts below on a
@@ -97,7 +97,7 @@ at stake.
 Check across the whole manuscript, reporting only actual inconsistencies:
 - Symbol usage (ThesisPlanning.md §8): `n` vs `N = 2^n`, `k`, `p`, `n_f`, `α`, `α_R`, `α_H`,
   `Δ`, `γ`, `d`, `ε`, `θ₀`, `β` (QITE only), `q_k`, `p_G`, `H′`, `η_e`, `ρ`, `s`, `ζ`, `μ`, `K`,
-  `M`, `𝔾`, `B̃`, `D̃`, `A_std`/`A_desc`, `H_std`/`H_desc`, `σ₀`/`σ₁`, `C`, `z`, `𝔸`, `𝔽`, `y_⊥`,
+  `M`, `G`, `B̃`, `D̃`, `A_std`/`A_desc`, `H_std`/`H_desc`, `σ₀`/`σ₁`, `C`, `z`, `Γ`, `𝔽`, `y_⊥`,
   `w₀`, `c` (a complex coefficient, never `a` or `α`). Bare `A`, `H`, `R` only in
   regime-independent statements (Chapter 7).
 - Complexity bounds quoted identically, with the same scope, wherever they recur (Abstract,
@@ -106,7 +106,8 @@ Check across the whole manuscript, reporting only actual inconsistencies:
 - Terminology (ThesisPlanning.md §3.4): standard form vs descriptor form (never
   "collocation", "the paper's regime" or a bare "the paper's method" for the standard form;
   it is defined once in full at its first use per chapter by its state, which holds the field alone
-  with every derivative eliminated through 𝔾, then named without re-explaining); chain vs mass form; prepared vs projected; trusted kernel vs converged lift;
+  with every derivative eliminated through G, then named without re-explaining); chain vs mass form; regular vs singular problem (`def:regular`, cited by name, never the
+  hypotheses restated as a scope); prepared vs projected; trusted kernel vs converged lift;
   verified (exact / probe / IR) vs emulated vs estimated; minimax edge filter vs imaginary-time
   filter; benchmark problem R1–R10 (never "rung"); "as printed" and "paper-faithful" only in
   Appendix K and §4.4's validation paragraph (never "corrected"); the encoder's cost vs the
@@ -116,10 +117,10 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   each departure in one clause where the construction meets it and collects it in Table T10;
   Appendices C and K hold the arguments, and Appendix K the
   reproduction, the derivations and the numbers. No body section re-derives or tabulates the
-  audit. The standard form defined once (§4.4); the mass form defined once (§5.3), applied in
+  audit. The standard form defined once (§4.4); the mass form defined once (§5.2), applied in
   Ch. 6.
-- Chapter and section numbers as the plan fixes them (systems, complex-valued fields and
-  nonlinearity one chapter, Ch. 6, with eight sections; pipeline Ch. 7, Numerical Study Ch. 8 with
+- Chapter and section numbers as the plan fixes them (systems and nonlinearity one chapter,
+  Ch. 6, "Systems and Nonlinearity", with eight sections; pipeline Ch. 7, Numerical Study Ch. 8 with
   six sections, Discussion Ch. 9 with five, Conclusions Ch. 10; the critical assessment §3.5; the
   standard form §4.4) in prose and header comments.
 - Acronyms defined at first use; `glossaries` entries present.
@@ -127,7 +128,7 @@ Check across the whole manuscript, reporting only actual inconsistencies:
 
 ## Standing Facts (do not let drafts contradict these)
 
-Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
+Version 5.1 (2026-10-14; 5.1 adds the classes of problem), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
 
 - **Framing.** The headline contribution is the **descriptor reformulation**. Four numbered
   supporting contributions: S1 the standard form, stated once (Ch. 4), each
@@ -140,12 +141,12 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
   Hamiltonian framework is **prior art** (Wu, Paine, Philip, Gentile & Kyriienko 2025,
   `wu2025pihm`), presented and judged in Chapter 3. The **standard
   form** is Wu et al.'s construction with the printed defects removed, defined by its state (the
-  field alone, every derivative eliminated through 𝔾), never by reference to the paper. S2 serves the comparison; it is never a rival solver. FABLE appears nowhere.
+  field alone, every derivative eliminated through G), never by reference to the paper. S2 serves the comparison; it is never a rival solver. FABLE appears nowhere.
 - **Chapters 3 and 4.** Ch. 3 presents Wu et al.'s method as prior art, with the paper's own
   equations only where a weakness is stated against them, and judges it (§3.5 poses Q(i)–(iii));
   it states no result of ours. Ch. 4 states the construction once, as the standard form, citing
   each restated piece (Paine et al.: latent space and lifts; Wu et al.: residual and Gram sum;
-  Olver: 𝔾's density), "we" only for departures and our own results, then answers Q(i). The
+  Olver: G's density), "we" only for departures and our own results, then answers Q(i). The
   reproduction and the audit of the paper's claims are Appendix K's.
 - **Antecedents.** The descriptor's banded factors are the discrete shadow of the
   **ultraspherical spectral method** (Olver & Townsend 2013), and carrying derivatives as
@@ -158,15 +159,15 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
   rows times I⊗B̃ (the mass form), with no derivative blocks and nothing to rescale. The kernel
   is the standard form's in both.
 - **The standard form.** The state holds the field alone and every derivative is eliminated through
-  the dense 𝔾 (with the paper's lifts and least squares), with the printed defects removed: exact constraint points (the
+  the dense G (with the paper's lifts and least squares), with the printed defects removed: exact constraint points (the
   root of the solution's derivative nearest the paper's value, computed from the reference solution
   when the problem is built, outside the method: answer-dependent set-up, so a new problem supplies its points),
   Chebyshev-accurate sources, datum slices for initial and boundary functions (the heat data at
   t = −1), the R3c/R3d substitution f = √(1 − x²)v, any number of axes, and the stacked residual R
-  with H = R†R never formed. The structured 𝔾 encoding takes n + 4 ancilla for 𝔾 alone.
+  with H = R†R never formed. The structured G encoding takes n + 4 ancilla for G alone.
 - **Systems.** Several fields of a first-order system share one state, a block each, in both
-  forms (standard I⊗𝔾 − 𝔸⊗I; descriptor mass form). Vector data enter as ratio rows (direction
-  fixed, scale free); 𝔸 is a sum of matchings on a circuit, the same in both forms. On R7 the
+  forms (standard I⊗G − Γ⊗I; descriptor mass form). Vector data enter as ratio rows (direction
+  fixed, scale free); Γ is a sum of matchings on a circuit, the same in both forms. On R7 the
   mass form's gap is about 2.1× a block-rescaled chain's. Only first-order systems were run.
 - **Complex-valued fields.** `pihm` carries real data only and refuses complex sources, data and
   coefficients. A complex R would still give a Hermitian H = R†R (no non-Hermitian filter is
@@ -199,18 +200,37 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
 - **Complexity.** Neither form is poly-log. The degree is d = Θ(√(α_H/Δ) log 1/ε), with
   α_H ≥ ‖H‖ for any block encoding: the residual's effective condition number. Standard form:
   ‖H_std‖ = Θ(N^{4k}) for order k, so d = Θ̃(N^{2k}) (Θ̃(N⁴) at second order) even with the best
-  exact encoding. Descriptor: ‖H_desc‖ = Θ(N²); d = Θ̃(N) **for a one-axis ODE whose leading
-  coefficient does not vanish**, about Θ̃(N²) or faster where it vanishes or on two axes. Never
-  state a descriptor degree, gap or α claim without this scope. A floor "for any filter" is
+  exact encoding. Descriptor: ‖H_desc‖ = Θ(N²); d = Θ̃(N) **on a regular problem**, about Θ̃(N²) or
+  faster on singular problems or on two axes. Never state a descriptor degree, gap or α claim
+  without its class. A floor "for any filter" is
   hedged to what Lin & Tong support.
+- **Classes of problem.** `def:regular` (§5.3, before `thm:flat-gap`): a linear problem on one
+  axis (an equation, or a first-order system z′ = Γz with constant Γ) is **regular** if its
+  coefficients are polynomials and its leading coefficient has no zero on [−1, 1], its source and
+  solution are analytic, and its constraint rows read f, …, f^{(k−1)} at fixed points with the
+  solution unique up to scale; **singular** if a_k has a zero on [−1, 1] (simple, or double as in
+  R3c/R3d before substitution). R1, R2, R4b–d, R7 and the truncated Carleman lifts are regular;
+  R3, R4a singular. Scopes cite the class by name; the hypotheses are restated only before §5.3
+  (Ch. 4's uniqueness lemma keeps its own weaker one) and in a gloss in captions, the Abstract,
+  §1 and §10. "Regular" is one-axis only and unrelated to the regular datum; x_s is the **datum point**,
+  never "regular point" (an ODE regular point has a_k ≠ 0; R3's x_s = 1 is a singular point).
 - **The descriptor's gap.** Its norm carries every derivative it carries, so its gap is flat
-  only where the equation controls each of them. **Block rescaling** (an a priori ζ from the
-  equation and the resolution, never fitted) restores an O(1) gap on one axis and is folded
-  into the LCU coefficients: **no gates, no ancilla**. On two axes the gap still falls with N;
-  a double zero of the leading coefficient is beyond any rescaling.
+  only where the equation controls each of them. On a regular problem the
+  gap is **proved Θ(1)**, in the chain unscaled or at a fixed ζ, and in the mass form (which has
+  no derivative block, so nothing to rescale) (`thm:flat-gap`, App. G,
+  by compactness: no explicit constant, its value is measured). **Block rescaling** (an a priori
+  ζ from the equation and the resolution, never fitted) restores an O(1) gap on one axis
+  (measured on singular problems) and **adds no ancilla**. It is **not free in
+  gates**: the weights enter the block register's patterns before their Pauli expansion, so a
+  pattern equal across its blocks gains words (diag(1,1,0,0) two, diag(1,ζ,0,0) four); the terms
+  and gates per query grow by at most 4^{n_f}, a factor fixed by the equation, not by n (scratch
+  check 2026-10-13, `compile_system` rescale none vs block, not a results-v1 record: cx ×1.42–1.44
+  on R2a/R2c, ×1.08–1.13 on R3a/R4a, ×1.07–1.12 on R5, n = 3–7; R1's mass form unchanged).
+  Never "no gates" or "no gate cost"; write "without ancilla". On two axes the gap still falls
+  with N; a double zero of the leading coefficient is beyond any rescaling.
 - **Encoding costs.** Descriptor ancilla: ⌈log₂(n+4)⌉ + 8 for R2's system rows (12–13 for the
   reflection): O(log n), order-optimal only among exact LCU encodings (Ω(log L), Chakraborty et
-  al.). α/‖A_desc‖ → 1 on regular one-axis problems only (about 2 singular, 2.3–4.1 on PDEs).
+  al.). α/‖A_desc‖ → 1 on regular problems only (about 2 singular, 2.3–4.1 on PDEs).
   On constant-coefficient problems, at reachable n, the descriptor's gates per query exceed the
   structured standard form's, and its advantage is the degree; on the lifted variable-coefficient
   panels its query is the cheaper (R3 from n = 4, R4a from n = 3; `pihm/docs/13_descriptor.md` §3). The structured standard encoding bounds α_H/‖H‖ for constant
@@ -235,7 +255,8 @@ Version 5 (2026-10-09), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/
   Burgers it follows a/ν, not ρ: converging at a/ν = 3, diverging at 10; "a/ν ≈ 5" is an
   extrapolation). A trusted kernel does not certify a converged lift. The descriptor's mass form
   in time lowers the degree. The tensor layout has **2K − 1** terms. The nodal fold is exact at
-  α = 2, within 1.21 of ‖𝕟₁‖₂: tight, not optimal.
+  α = 2, within 1.27 of ‖𝒩₁‖₂ at n = 2, the ratio falling to 1.20 by n = 12 (`fold/n<n>` keys): tight,
+  not optimal.
 - **Variants.** The problem is unnamed ("R2a"); the paper's panel as printed is "R2a as
   printed" and appears only in Appendix K and in §4.4's validation paragraph. Never "corrected".
   The exact constraint points are roots of the reference solution's derivative nearest the paper's

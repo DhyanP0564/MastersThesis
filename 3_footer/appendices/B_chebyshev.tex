@@ -12,7 +12,7 @@
 % The draft's "Higher order, variable coefficients, and the padded block
 %   count" subsection now lives in Appendix G (label sec:app-variable-coeff).
 % 2026-10-12: the recurrence's derivation and the inverse of Bt added (the body's
-%   §5.2 now points here for them); the N = 4 instance now shows R1 in mass form,
+%   §5.2, now §5.1 after the v3.9 merge, points here for them); the N = 4 instance now shows R1 in mass form,
 %   the layout it runs in (companion 51), with the chain as its ablation; the
 %   ultraspherical reduction the descriptor does not build is recorded (companion
 %   13). Sources: pihm docs/companion 12, 13, 51.
@@ -97,7 +97,7 @@ Since $2T_k^2=1+\cos2k\theta$,
 The sum is the Dirichlet kernel $\sin((2N-1)\theta)/(2\sin\theta)-\tfrac12$, at most $N-1$, which it attains at $\theta=0$ and $\pi$.
 \end{proof}
 
-The norm oscillates about one and is largest at the ends, so a constraint row at an end of the interval weighs most. That weight is part of Wu et al.'s construction and is kept (\Cref{sec:standard-model}). Normalising $\tau(x)$ point by point would also break the consistency of the collapse rows: two collapses $\Brow(x_s)/f(x_s)$ and $\Brow(x_s')/f(x_s')$ map the solution to the same constant, because $\Brow(x)b=f_N(x)\sqrt N\ket0$, whereas with $\tau(x)/\|\tau(x)\|$ they would map it to constants differing by the factor $\|\tau(x_s')\|/\|\tau(x_s)\|$.
+The norm oscillates about one and is largest at the ends, so a constraint row at an end of the interval weighs most. That weight is part of Wu et al.'s construction and is kept (\Cref{sec:standard-model}). Where the residual has no exact kernel its ground state is a least-squares compromise between the rows, so normalising $\tau(x)$ point by point, which gives Wu et al.'s $\tilde\tau(x)$, would change the rows' relative weights and with them the solution; the rows are therefore built, and block-encoded, from the unnormalised vector. Normalising $\tau(x)$ point by point would also break the consistency of the collapse rows: two collapses $\Brow(x_s)/f(x_s)$ and $\Brow(x_s')/f(x_s')$ map the solution to the same constant, because $\Brow(x)b=f_N(x)\sqrt N\ket0$, whereas with $\tau(x)/\|\tau(x)\|$ they would map it to constants differing by the factor $\|\tau(x_s')\|/\|\tau(x_s)\|$.
 
 \subsection{The structure and norm of the derivative matrix}
 \label{app:cheb-G-norm}
@@ -132,7 +132,7 @@ The bounds give $\|\G\|_2=\Theta(N^2)$. The exact limit, $\|\G\|_2/N^2\to1/(2j_{
 
 The banded factorisation above is the first-derivative case of the
 ultraspherical spectral method of Olver and Townsend \cite{olver2013}. Stating
-the correspondence precisely is what fixes what this thesis adds to it.
+the correspondence precisely is what fixes what we add to it.
 
 Olver and Townsend represent a function's derivative not in the Chebyshev
 basis $T_k$ but in the ultraspherical (Gegenbauer) basis $C_k^{(\lambda)}$,
@@ -192,7 +192,7 @@ performed, and no operator beyond $\Bt$, $\Dt$ and the
 multiplication operators of \Cref{sec:app-variable-coeff} is required at any
 order $k$ -- the price is the larger state $w$ that carries every
 intermediate derivative explicitly instead of eliminating it
-(\Cref{sec:app-variable-coeff}). What this thesis adds to \cite{olver2013}
+(\Cref{sec:app-variable-coeff}). What we add to \cite{olver2013}
 is not a new sparsification of differentiation -- that is their result -- but
 applying the \emph{same} $\lambda = 0$ identity block-wise to build an
 unreduced, differential-algebraic residual for the physics-informed
@@ -201,7 +201,7 @@ Hamiltonian of \cite{wu2025pihm}, whose block structure is exactly what
 
 For a first-order equation the two coincide. The descriptor's mass form multiplies the standard rows by $\Bt$ (\Cref{eq:mass-form}), and for $f'=af$ with $a$ a number, $\Bt(\G-aI)=\Dt-a\Bt$, which in the raw basis is $2(\mathcal{D}_0-a\mathcal{S}_0)$: the ultraspherical method's own operator in the basis $C^{(1)}$, on $N$ unknowns with no derivative block.
 
-\paragraph{A reduction the descriptor does not build.} For $k\ge2$ the same left factor exists. In the raw basis $\mathcal{S}_1\mathcal{S}_0\G^2=\mathcal{D}_1\mathcal{D}_0$ exactly, so $\mathcal{S}_{k-1}\cdots\mathcal{S}_0\,\Astd$ is the ultraspherical method's operator for a constant-coefficient equation: banded, with a bandwidth independent of $N$, on the $N$ coefficients of $f$, and, since the conversions are invertible, with the standard form's kernel, as in \Cref{thm:kernel-equivalence}. It would remove the chain's block register and its recurrence and padding rows. It would also change three things this thesis measures: the residual's rows are weighted by the conversions, so its least-squares ground state is that of a differently weighted problem; the conversions' entries would have to be encoded; and the gap mechanism of \Cref{sec:descriptor-gap} does not carry over without a measurement. This reduction was not built into the pipeline, and the thesis's descriptor is not compared against it.
+\paragraph{A reduction the descriptor does not build.} For $k\ge2$ the same left factor exists. In the raw basis $\mathcal{S}_1\mathcal{S}_0\G^2=\mathcal{D}_1\mathcal{D}_0$ exactly, so $\mathcal{S}_{k-1}\cdots\mathcal{S}_0\,\Astd$ is the ultraspherical method's operator for a constant-coefficient equation: banded, with a bandwidth independent of $N$, on the $N$ coefficients of $f$, and, since the conversions are invertible, with the standard form's kernel, as in \Cref{thm:kernel-equivalence}. It would remove the chain's block register and its recurrence and padding rows. It would also change three things we measure: the residual's rows are weighted by the conversions, so its least-squares ground state is that of a differently weighted problem; the conversions' entries would have to be encoded; and the gap mechanism of \Cref{sec:descriptor-gap} does not carry over without a measurement. This reduction was not built into the pipeline, and the thesis's descriptor is not compared against it.
 % REVISE: pihm docs/companion/13_ultraspherical.md records an exploratory probe
 %   (tools/probes/p32_reduced_ultraspherical.py) on R2a-R2c: ||R|| growing as N and
 %   sigma_1 nearly flat. It is not in the claims register and has no record; if it is

@@ -17,6 +17,17 @@
 \usepackage{calligra}
 \usepackage{caption}
 \captionsetup{font=footnotesize, labelfont=bf} % captions smaller than body text; "Figure N:" in bold
+% Float placement: LaTeX's defaults send any float taller than 70% of a page to a
+% float page of its own, which need only be half full, so a large figure or table
+% leaves a page of white space. Let floats fill more of a text page, allow more of
+% them per page, and require a float-only page to be mostly full before making one.
+\renewcommand{\topfraction}{0.9}        % max fraction of a page for top floats
+\renewcommand{\bottomfraction}{0.8}     % max fraction of a page for bottom floats
+\renewcommand{\textfraction}{0.07}      % min fraction of a text page that is text
+\renewcommand{\floatpagefraction}{0.8}  % min fraction of a float page that is floats
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
 \usepackage{datetime}
 % \usepackage{dblfnote} % removed 2026-10-12: incompatible with the current LaTeX kernel (undefined \dfn@elt@getht) once a footnote is used; the thesis needs single-column footnotes only
 \usepackage{dirtytalk}
@@ -34,12 +45,24 @@
 \usepackage{mparhack}
 \usepackage{multicol}
 \usepackage{multirow}
-\usepackage{parskip}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}{1.5ex \@plus .5ex \@minus .2ex}{-1em}{\normalfont\normalsize\bfseries}}
+\makeatother
 \usepackage{lscape}
 \usepackage{pdflscape}
 \usepackage{pdfpages}
 \usepackage{placeins}
 \usepackage[document]{ragged2e}
+% Conventional paragraphs: the first line indented, no space between paragraphs. Under ragged2e's
+% document-wide \RaggedRight the indent is \RaggedRightParindent, not \parindent.
+\setlength{\parindent}{1.5em}
+\setlength{\RaggedRightParindent}{\parindent}
+\setlength{\parskip}{0pt plus 1pt}
+% Tables and their notes are not running text: no paragraph indent inside them.
+\AddToHook{env/tabular/begin}{\setlength{\RaggedRightParindent}{0pt}}
+\AddToHook{env/longtable/begin}{\setlength{\RaggedRightParindent}{0pt}}
+\AddToHook{env/table/begin}{\setlength{\RaggedRightParindent}{0pt}}
+\AddToHook{env/table*/begin}{\setlength{\RaggedRightParindent}{0pt}}
 \usepackage{rotating}
 \usepackage{setspace}
 \usepackage{subcaption}
@@ -58,7 +81,7 @@
 
 %page setup
 %this where we adjust the binding offset, if relevant
-\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage[a4paper,margin=1.5cm]{geometry}
 \usepackage{lastpage} % for page 1 of n footers
 
 %cross referencing
@@ -74,7 +97,7 @@
 
 % Quantum computing packages
 \usepackage{tikz}
-\usetikzlibrary{positioning,arrows.meta,calc} % the model-configuration figure (fig:pipeline)
+\usetikzlibrary{positioning,arrows.meta,calc,fit} % fig:pipeline; fit for fig:pihm-architecture
 \usepackage{quantikz}
 
 % Placeholder figure: draws a boxed, described stand-in for a figure not yet
@@ -127,23 +150,26 @@
 
 % -----------------------------------------------------------------------------
 % Thesis notation (ThesisPlanning.md §8, decisions T-06 to T-09 and T-16).
-% The Chebyshev operators are blackboard bold, as in Wu et al., under the macro
-% names pihm's Sphinx configuration uses (\G, \Bt, \Dt), so an equation copies
-% between the code documentation and the thesis unchanged. \G is the
-% coefficient-space differentiation matrix, f -> f' (strictly upper
-% triangular); Wu et al. print the same matrix as G_n^T.
-\usepackage{bbm} % lowercase blackboard bold, for the product-to-sum fold
-\newcommand{\G}{\mathbb{G}}               % differentiation matrix
-\newcommand{\Bt}{\tilde{\mathbb{B}}}      % banded factor: \G = \Bt^{-1}\Dt
-\newcommand{\Dt}{\tilde{\mathbb{D}}}      % banded factor
-\newcommand{\M}{\mathbb{M}}               % multiplication: \M_{x^p} (lift), \M_a
-\newcommand{\nfold}{\mathbbm{n}}          % product-to-sum fold: \nfold_1, \nfold_x
+% Typeface (T-06, v3.6): matrices italic; calligraphic for the maps that change
+% the register (lifts \M, folds \nfold) and the Gram map; blackboard bold only
+% for number sets and expectation. Wu et al. print every non-unitary matrix in
+% blackboard bold, said once in Chapter 3. The macro names are the ones pihm's
+% Sphinx configuration uses (\G, \Bt, \Dt), so an equation copies between the
+% code documentation and the thesis unchanged. \G is the coefficient-space
+% differentiation matrix, f -> f' (strictly upper triangular); Wu et al. print
+% the same matrix as \mathbb{G}_n^T.
+\newcommand{\G}{G}                        % differentiation matrix
+\newcommand{\Bt}{\tilde{B}}               % banded factor: \G = \Bt^{-1}\Dt
+\newcommand{\Dt}{\tilde{D}}               % banded factor
+\newcommand{\M}{\mathcal{M}}              % multiplication: \M_{x^p} (lift), \M_a (Olver-Townsend's \mathcal{M}[a])
+\newcommand{\nfold}{\mathcal{N}}          % product-to-sum fold: \nfold_1, \nfold_x
+% Constraint rows: still blackboard bold, typeface pending (ThesisPlanning.md T-06).
 \newcommand{\Brow}{\mathbb{B}}            % rank-one zero (invariant) constraint row
 \newcommand{\Dzero}{\mathbb{D}^{(0)}}     % rank-one collapse (regular) constraint row
-\newcommand{\Acoup}{\mathbb{A}}          % a system's coupling matrix; \Acoup_K the Carleman generator
 \newcommand{\Frat}{\mathbb{F}}            % ratio row (direction fixed, scale free)
 \newcommand{\Slice}{\mathbb{S}}           % datum-slice row, \Slice_a(x^*)
-\newcommand{\Ucg}{\mathbb{U}}             % Chebyshev--Gauss transform (nodal fold)
+\newcommand{\Acoup}{\Gamma}               % a system's coupling matrix; \Acoup_K the Carleman generator
+\newcommand{\Ucg}{U_{\mathrm{CG}}}        % Chebyshev--Gauss transform (nodal fold)
 \newcommand{\Uodd}{U_{\mathrm{odd}}}      % average of the odd-offset truncated shifts
 \newcommand{\Astd}{A_{\mathrm{std}}}      % standard-form residual
 \newcommand{\Adesc}{A_{\mathrm{desc}}}    % descriptor-form residual
@@ -187,4 +213,4 @@
 \input{1_header/glossary}
 
 %line spacing
-\linespread{1.25}
+\linespread{1.15}

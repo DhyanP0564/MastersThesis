@@ -143,7 +143,7 @@ belongs in the body. "No need to include detailed codes": describe, never list.
 2. **A named gap section closing the literature**, posing explicit questions that later chapters
    answer by name (Snow §3.6). Ours: Chapter 3's closing, Q(i)–(iii).
 3. **Design rationale before mechanism** (Snow §4.1: "the question is what to optimise"). Ours:
-   §5.1 "The idea".
+   §5.1, which opens on the idea before the factorisation it names.
 4. **One formal result with a short proof and two paragraphs of interpretation** (Snow's Theorem
    4.1). Ours: the kernel-equivalence theorem, the factorisation and the stacked reflection.
 5. **Cost conventions declared before the first comparison, with their bias** (Snow, Ch. 7's

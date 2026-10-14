@@ -76,7 +76,12 @@ Quantities no single record holds come from `pihm/tools/thesis/derived.py`:
 |---|---|---|
 | `build/<p>/<variant>/<regime>/best[/<label>]` | `field_err_linf`, `n` | smallest *trusted* L∞ error over n, and the n where it occurs |
 | `build/<p>/<variant>/<regime>/floor[/<label>]` | `low`, `high` | smallest and largest L∞ error from n = 4 on, trusted or not (the Fig. 5 triage) |
-| `derivative/n<n>`, n = 2 … 10 | `norm`, `structured_alpha`, `structured_ratio`, `published_alpha`, `published_ratio` | ‖𝔾‖₂, and the structured and published encodings' α and α/‖𝔾‖₂ |
+| `derivative/n<n>`, n = 2 … 10 | `norm`, `structured_alpha`, `structured_ratio`, `published_alpha`, `published_ratio` | ‖G‖₂, and the structured and published encodings' α and α/‖G‖₂ |
+
+`production` (from `export_numbers.py` itself, not `derived.py`) holds the size of the production:
+`campaigns`, `runs`, the runs by status (`ok`, `infeasible`, `failed`, `skipped`), `hours` (the runs'
+wall time summed) and `peak_memory_gib` (the largest run's). It is `pending` while any run has no
+record.
 
 A statistic is `stale` if any run it ranges over is not current.
 
