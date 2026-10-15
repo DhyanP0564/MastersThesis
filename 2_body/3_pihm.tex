@@ -24,13 +24,13 @@
 % WRITE WHEN  Now (W1). First-pass prose below (2026-10-09), for the author to rewrite.
 % BUDGET      3.75 pp: opening 0.4, §3.1 0.45, §3.2 1.0, §3.3 0.6, §3.4 0.35, §3.5 1.0.
 %
-% NOT HERE (and where it lives): G's entries, norm and similarity -> §4.2 and App. B; the
+% NOT HERE (and where it lives): G's entries, norm and similarity -> §4.2 and App. A; the
 %   normalised basis, eta_e and the raw-tau argument -> §4.1; the stacked residual and the
-%   least-squares reading -> §4.4; the uniqueness count -> §4.3 and App. C; every check of the
+%   least-squares reading -> §4.4; the uniqueness count -> §4.3 and App. B; every check of the
 %   Wu et al.'s claims (positive definiteness, the time rule's bound, the readout's correction,
-%   the circuits' verdicts, the reproduction) -> App. K (with App. D, F); the projection
-%   proposition -> §6.4 (prop:no-penalty); Wu et al.'s QSVT detail -> App. K (app:paper-filter);
-%   the circuits' registers and angles -> App. D (app:published-build); the readout identity
+%   the circuits' verdicts, the reproduction) -> App. I (with App. I, F); the projection
+%   proposition -> §6.4 (prop:no-penalty); Wu et al.'s QSVT detail -> App. I (app:paper-filter);
+%   the circuits' registers and angles -> App. I (app:published-build); the readout identity
 %   -> Ch. 7 (eq:readout-identity) and App. F.
 % =============================================================================
 
@@ -98,7 +98,7 @@ where the amplitudes of $\ket{\psi}$ are the series' weighted coefficients and $
 %      f(t,+-1) = 0, f(1/8,x) = f(7/8,x) = 0), whose points are zeros of the known solutions.
 %   5. The Gram sum H = T(A) + sum T(B_i) (eq:pihm-hamiltonian, Eq. 16); Wu et al.'s
 %      "positive-definite with distinct eigenvalues"; the eigenvalue problem; the PINN reading.
-%   6. Pointer: the worked N = 4 residual and the lifts' entries -> App. C.
+%   6. Pointer: the worked N = 4 residual and the lifts' entries -> App. B.
 % CHECKLIST  Nothing of ours (no exact-kernel claim, no stacked R, no k-1 count, no norm).
 % TRAPS  "Collocation"; Theta(N^2) for ||G|| here (§4.2); calling the printed points "rounded"
 %   as a criticism (that is §3.5's; here: "printed to two decimal places").
@@ -128,15 +128,15 @@ where $\Brow_i$ runs over the invariant constraints. The energy of a state is it
 %      qubits, sqrt(2^{n+1}), "high probability"); G by two conditioned subroutines loading its
 %      entries as rotation amplitudes (Fig. 9), at the prefactor (eq:pihm-published-prefactor),
 %      2n + 3 qubits, O(n^3) gates, errors that "exponentially decrease"; "polynomial in n and
-%      thus efficient". Registers and angles -> App. D.
+%      thus efficient". Registers and angles -> App. I.
 %   2. The filter: QITE by indefinite-parity QSVT on H/||H||_F; the time rule
 %      (eq:pihm-time-rule) as "an approximate lower bound"; t = 15 and 8 at degrees (6, 7); the
 %      expected O(1/Delta polylog) time and "not easy to bound". Assumes §2.5-2.6. Detail ->
-%      App. K (app:paper-filter).
+%      App. I (app:paper-filter).
 %   3. Readout: interferometric, two all-zero probabilities per point (Eqs 36-39); the identity
 %      -> Ch. 7 (eq:readout-identity) and App. F.
 % CHECKLIST  Every claim quoted or attributed; none judged here; beta for Wu et al.'s t (T-08).
-% TRAPS  "published" in prose (§14.2 item 8); the time rule's shortfall (App. K); the readout
+% TRAPS  "published" in prose (§14.2 item 8); the time rule's shortfall (App. I); the readout
 %   presented as the method's readout in this thesis.
 
 \paragraph{Block encodings.} Each term of $H$ is block-encoded separately and combined by an \gls{lcu} (\Cref{sec:bg-block-encoding}). The rank-one rows $\Brow_n(x)$ and $\Dzero(x_s)$ pair the inverse Chebyshev feature map with a reflection about the all-zero state, on $n+2$ qubits at subnormalisation $\sqrt{2^{n+1}}$, and run ``with high probability'' \cite{wu2025pihm}. $\G$ is encoded \emph{approximately} by two conditioned subroutines that load its entries as rotation amplitudes. The circuit's top-left block is $\G$ divided by the prefactor
@@ -163,7 +163,7 @@ with $\lambda_{\max}$ and $\lambda_2$ the largest and second-smallest eigenvalue
 %   2. Demonstrated on two quadratic ODEs at n = 2; Wu et al.'s own count of at least
 %      2^{2n-1} degenerate zero-energy states and its selection of the state that "closely
 %      matches the analytical solution" (quote).
-%   3. Quadratic only: degree p needs p copies (App. H); paine2026concurrent notes the same.
+%   3. Quadratic only: degree p needs p copies (App. E); paine2026concurrent notes the same.
 % CHECKLIST  No proposition here: the projection argument is §3.5's weakness, proved in §6.4.
 % TRAPS  "prepared" for the doubled space; N^2 vs 2N (it is N^2 = 2^{2n}).
 
@@ -210,13 +210,13 @@ so that $f^{(i)}f^{(j)}$ becomes $\nfold_1(\G^{i}\otimes\G^{j})$ on $\ket{\Psi}$
 
 \paragraph{Strengths.} The construction is unified: \glspl{ode}, \glspl{pde} and their data take one least-squares form, with a route for nonlinear terms. Given exact data, its kernel is exact for any polynomial solution within the truncation. With no grid, the model and its derivatives are available at every $x\in[-1,1]$ from one prepared state, and $H$ has few terms, each of polynomially many gates.
 
-\paragraph{Weaknesses in the cost.} A filter's degree grows as $\sqrt{\alpha_H/\Delta}$ with $\alpha_H\ge\|H\|$ for any encoding (\Cref{eq:degree}), which for a sum of Gram matrices is bounded below by the effective condition number of the equation and constraint operators taken together, so the spectrum of $H$ may set the cost whatever its circuits. Each derivative enters $A$ as a power of the dense $\G$, whose norm grows as $N^2$ (\Cref{sec:standard-operators}) \cite{olver2013}. For an equation whose leading coefficient does not vanish, at a gap that does not grow with $N$, the query count therefore grows with each derivative eliminated through $\G$. Classical least squares avoids the same growth by carrying the derivatives as unknowns, in first-order-system least squares \cite{cai1994fosls}. Wu et al.'s expected time hides the norm in the normalisation of $\tilde H$ (\Cref{app:paper-filter}). Separately, the prefactor of \Cref{eq:pihm-published-prefactor} exceeds $\|\G\|_2$ by a factor growing with $N$; \Cref{sec:standard-published,sec:standard-hamiltonian} separate this looseness from the operator's norm.
+\paragraph{Weaknesses in the cost.} A filter's degree grows as $\sqrt{\alpha_H/\Delta}$ with $\alpha_H\ge\|H\|$ for any encoding (\Cref{eq:degree}), which for a sum of Gram matrices is bounded below by the effective condition number of the equation and constraint operators taken together, so the spectrum of $H$ may set the cost whatever its circuits. Each derivative enters $A$ as a power of the dense $\G$, whose norm grows as $N^2$ (\Cref{sec:standard-operators}) \cite{olver2013}. For an equation with constant coefficients, at a gap that does not grow with $N$, the query count therefore grows with each derivative eliminated through $\G$. Classical least squares avoids the same growth by carrying the derivatives as unknowns, in first-order-system least squares \cite{cai1994fosls}. Wu et al.'s expected time hides the norm in the normalisation of $\tilde H$ (\Cref{app:paper-filter}). Separately, the prefactor of \Cref{eq:pihm-published-prefactor} exceeds $\|\G\|_2$ by a factor growing with $N$; \Cref{sec:standard-published,sec:standard-hamiltonian} separate this looseness from the operator's norm.
 
 \paragraph{Weaknesses in the evidence.} The printed examples carry error floors that no increase in $n$ removes: their constraint points are rounded zeros and extrema of the known solution, demanding a zero the solution lacks, and their truncated Maclaurin sources pose a different equation (\Cref{sec:standard-operators,sec:standard-constraints}, \Cref{app:reproduction}). The \gls{pde} examples' invariant sets are read off the known solution and omit the initial or boundary function that fixes it, so the kernel degenerates beyond the printed resolution; the heat example's initial function, at $t=0$ inside the time domain, would pose a backward, ill-posed problem (\Cref{sec:standard-constraints}). Wu et al.\ describe $H$ as positive definite, yet it is singular in the very case the method aims at, a solution represented exactly (\Cref{sec:standard-form}). The time rule (\Cref{eq:pihm-time-rule}) contains no $\varepsilon$ and needs $\lambda_{\max}$ and $\lambda_2$ in advance, so it certifies no accuracy (\Cref{app:paper-claims}).
 
 \paragraph{Weaknesses in scope.} The nonlinear route projects rather than prepares: any function of $H$ is a scalar on its zero-energy eigenspace, of dimension at least $2^{2n-1}$, so a filter returns the initial state's projection onto it, a direction set by the initial state and not by the equation (\Cref{sec:doubled-space}). The readout identity assumes the ground state is prepared with certainty, though post-selection succeeds with probability below one, and yields one point of the field per measurement campaign (\Cref{sec:pipeline-readout}). The construction carries one real scalar field: complex-valued states are set aside, since with a Fourier basis the energy is ``of a complicated form, rendering it difficult to find the ground state'' \cite{wu2025pihm} (\Cref{sec:extensions}).
 
-\paragraph{Open problems.} Wu et al.\ leave open ``the spectral gap dependence'', the choice of basis, to be guided by ``the cost of differentiation'', and the data constraints, ``crucial for regularizing solutions and growing the gap'' \cite{wu2025pihm}. Paine's concurrent comparison raises the first without giving its scaling in $N$ (\Cref{sec:bg-de-ground}). The first two are the two terms of \Cref{eq:degree}. The gap is its denominator and has meaning only against the norm, and the cost of differentiation, which Wu et al.\ measure in circuit depth, is also paid in its numerator at every query. Three questions follow, the first two on the numerator and the third on the denominator at its limit, where a degenerate kernel leaves no gap and the degree is undefined:
+\paragraph{Open problems.} Wu et al.\ leave open ``the spectral gap dependence'', the choice of basis, to be guided by ``the cost of differentiation'', and the data constraints, ``crucial for regularizing solutions and growing the gap'' \cite{wu2025pihm}. In concurrent work, Paine compares Hamiltonian constructions and function encodings (grid values against spectral coefficients) on linear and nonlinear examples, and finds that both choices affect the recovery of the solution, the spectral gap, its degeneracy and the readout \cite{paine2026concurrent}. On the few small instances studied the normalised gap depends on both choices without a general ordering, no scaling with resolution or block-encoding circuit is given, and the lift for products is polynomial only, needing more registers as the degree grows; the comparison raises the first problem without giving its scaling in $N$. The first two are the two terms of \Cref{eq:degree}. The gap is its denominator and has meaning only against the norm, and the cost of differentiation, which Wu et al.\ measure in circuit depth, is also paid in its numerator at every query. Three questions follow, the first two on the numerator and the third on the denominator at its limit, where a degenerate kernel leaves no gap and the degree is undefined:
 \begin{enumerate}[label=(\roman*)]
     \item \emph{How does the query count grow with the resolution, and how much of that growth belongs to the encoder and how much to the Hamiltonian?} (\Cref{sec:standard})
     \item \emph{Can the residual be reformulated so that its Hamiltonian is banded and well conditioned without changing its solution, and what does the reformulation cost?} (\Cref{sec:descriptor})

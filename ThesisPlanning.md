@@ -2,9 +2,9 @@
 
 ## Turning the `pihm` rebuild into a submittable (and publishable) Master's thesis
 
-*Version 3.13, 2026-10-14 (v3.13: Chapter 1 re-planned against the drafted chapters to an unheaded opening (target, method, the cost left open, the number, quoted as built and at the ideal bound) and two subsections, Contributions and Scope (§1.1) and Outline (§1.2); the survey of algorithm families and concept figure F0 dropped, the contributions listed without labels; every §1.x pointer in this plan and the style guide retargeted (§5.1, §4.2). v3.12: Chapter 10 written as one continuous chapter, its two subsections merged: the verdicts in the order of the questions, without contribution labels or section pointers, and the further work grown out of the two limits that bound the result (§5.10, §4.2). v3.11: the class of problem named once. `def:regular` (§5.3, before `thm:flat-gap`) defines a *regular* problem, one axis, polynomial coefficients, a leading coefficient without zeros on [−1, 1], analytic data and a solution unique up to scale, which are `thm:flat-gap`'s hypotheses, and a *singular* one, whose leading coefficient has a zero; every later degree, gap and α scope cites the class by name (§3.4) instead of restating the condition, and the restatements that dropped part of the hypotheses are gone. v3.10: Chapter 5's "Constraints and Partial Differential Equations" merged into §5.2, renamed "The Descriptor Residual and Its Kernel", the constraints stated before the kernel theorem that assumes them and the several axes after it; §5.4–5.9 renumbered §5.3–5.8 throughout. v3.9: Chapter 5's opening, "The Idea" and "The Banded Factorisation" merged into one §5.1, the factorisation being the idea; §5.3–5.10 renumbered §5.2–5.9 throughout. v3.8: Chapter 5's review pass: block rescaling adds no ancilla but is not free in gates, so "no gate cost" is withdrawn everywhere; the regular one-axis gap proved Θ(1) (`thm:flat-gap`, App. G); Algorithm 5.1 moved to App. G beside its walkthrough. v3.7: the typeface, T-06: matrices italic, register-changing maps calligraphic, blackboard bold only for number sets, expectation and, pending, the constraint rows. v3.6: the opening and closing convention, §3.5 rule 1, and the narrative threads, §3.2, after Green's exemplar: a chapter arrives at its question from the tension the previous chapter left, carries no section roadmap, and closes on a hand-off; the chapter entries of §4.2 and §5 amended to match. v3.5: `StructuralReview.md` F4, F5 and F7 applied: Chapter 2 restructured and drafted (§5.2), Q(iii) given its second half (§3.2), the ladder moved to §4.1 and "trusted" defined at its first use in §4.3. v3.4: the structural pass F1–F3 of `StructuralReview.md` applied: the evidence rule in T-20, the departures compressed (T-30, T-34), Chapter 7 compressed, the budget of §4.1 revised. v3.3: Chapter 8 drafted against the results-v1 records; its deviations from §5.8 and the corrections they forced are marked "v3.3" in place. v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
+*Version 3.14, 2026-10-15 (v3.14: the appendices restructured, 13 → 11, in chapter order: the gate reference deleted, every test of the paper gathered in Appendix I, every tier-labelled number outside Chapter 8 in Appendix H, Appendix J cut to one page that cites the repository at a frozen tag, and the material moved to the repository staged in `3_footer/appendices/_offload_to_pihm.tex`; every appendix letter in this plan updated, the old → new map in §6. v3.13: Chapter 1 re-planned against the drafted chapters to an unheaded opening (target, method, the cost left open, the number, quoted as built and at the ideal bound) and two subsections, Contributions and Scope (§1.1) and Outline (§1.2); the survey of algorithm families and concept figure F0 dropped, the contributions listed without labels; every §1.x pointer in this plan and the style guide retargeted (§5.1, §4.2). v3.12: Chapter 10 written as one continuous chapter, its two subsections merged: the verdicts in the order of the questions, without contribution labels or section pointers, and the further work grown out of the two limits that bound the result (§5.10, §4.2). v3.11: the class of problem named once. `def:regular` (§5.3, before `thm:flat-gap`) defines a *regular* problem, one axis, polynomial coefficients, a leading coefficient without zeros on [−1, 1], analytic data and a solution unique up to scale, which are `thm:flat-gap`'s hypotheses, and a *singular* one, whose leading coefficient has a zero; every later degree, gap and α scope cites the class by name (§3.4) instead of restating the condition, and the restatements that dropped part of the hypotheses are gone. v3.10: Chapter 5's "Constraints and Partial Differential Equations" merged into §5.2, renamed "The Descriptor Residual and Its Kernel", the constraints stated before the kernel theorem that assumes them and the several axes after it; §5.4–5.9 renumbered §5.3–5.8 throughout. v3.9: Chapter 5's opening, "The Idea" and "The Banded Factorisation" merged into one §5.1, the factorisation being the idea; §5.3–5.10 renumbered §5.2–5.9 throughout. v3.8: Chapter 5's review pass: block rescaling adds no ancilla but is not free in gates, so "no gate cost" is withdrawn everywhere; the regular one-axis gap proved Θ(1) (`thm:flat-gap`, App. D); Algorithm 5.1 moved to App. D beside its walkthrough. v3.7: the typeface, T-06: matrices italic, register-changing maps calligraphic, blackboard bold only for number sets, expectation and, pending, the constraint rows. v3.6: the opening and closing convention, §3.5 rule 1, and the narrative threads, §3.2, after Green's exemplar: a chapter arrives at its question from the tension the previous chapter left, carries no section roadmap, and closes on a hand-off; the chapter entries of §4.2 and §5 amended to match. v3.5: `StructuralReview.md` F4, F5 and F7 applied: Chapter 2 restructured and drafted (§5.2), Q(iii) given its second half (§3.2), the ladder moved to §4.1 and "trusted" defined at its first use in §4.3. v3.4: the structural pass F1–F3 of `StructuralReview.md` applied: the evidence rule in T-20, the departures compressed (T-30, T-34), Chapter 7 compressed, the budget of §4.1 revised. v3.3: Chapter 8 drafted against the results-v1 records; its deviations from §5.8 and the corrections they forced are marked "v3.3" in place. v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
 prior art; Chapter 4 states the construction once, in the form this thesis runs (the standard
-form), and answers the first question; the reproduction and audit of the paper live in Appendix K.
+form), and answers the first question; the reproduction and audit of the paper live in Appendix I.
 v3.1 merges v3.0's Chapters 6 (systems and complex-valued fields) and 7 (nonlinearity) into one
 chapter, "Systems and Nonlinearity" (T-31), so the pipeline, the study, the discussion and the
 conclusions are now Chapters 7–10.*
@@ -51,7 +51,7 @@ costs. This thesis answers both, in seven steps (steps 6 and 7 are one chapter, 
    formed. Table T10 collects the departures. They change the data, never G or the Gram structure,
    so the baseline has the paper's cost and better accuracy. Its paper-faithful variant reproduces
    the printed scale factors of all eleven ODE panels to within one unit of the last printed digit;
-   the PDE and nonlinear panels do not reproduce (the record is Appendix K).
+   the PDE and nonlinear panels do not reproduce (the record is Appendix I).
 2. **Where the cost lies.** The filter's degree is d = Θ(√(α_H/Δ) log 1/ε): the residual's
    effective condition number. Two costs hide in it. The *encoder's cost*: the paper's
    normalisation of G is about N³ looser than ‖G‖, and our exact structured encoding removes it for
@@ -129,14 +129,14 @@ Columns: **S** = scaffolded to this plan, **D** = drafted, **N** = numbers curre
 | 1 Introduction | ☑ | ☐ | ☐ | ☐ | ☐ | v3.13 (2026-10-14): re-planned against the drafted Chs 2–10 to an unheaded opening and two subsections (§5.1); scaffold rewritten, numbers by current key, F0 dropped. The outline (§1.2) must name Ch. 3 as judged prior art and Ch. 4 as the standard form. Open: the applications citations (CITE-NEEDED) |
 | 2 Background and Literature Review | ☑ | ◐ | n/a | ☐ | ☐ | v3.5 (2026-10-12): restructured (F4) and drafted in full; every citation checked against its record and its claim. Reviewed and rewritten for density 2026-10-13 (no announcement sentences, aphorisms or rhetorical "not X but Y"; plainer headings), no claim dropped; length in §5.2. `eq:degree` now carries the edge argument (spectral gap amplification) and the polynomial-filter hedge |
 | 3 PIHM (prior art), `3_pihm.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | scaffold and first-pass prose to plan §5.3 |
-| 4 Standard form, `4_standard.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | scaffold and first-pass prose to plan §5.4. v3.4 pass (F1, F2): degrees to §8.2, departures to one clause (arguments and numbers to App. C and K), T10 compact; 5,574 → 4,999 words, about 10 pp against 7.5 |
-| 5 Descriptor, `5_descriptor.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | reviewed 2026-10-12 and fixes applied (pointers retargeted to Ch. 4; App. G drafted in full). The gates-per-query Standing Fact is scoped to constant coefficients (2026-10-12). Open: App. G's `\prov` probe tables. v3.4 pass (F1): degrees, gates per query and the reflection's ancilla to §8.2; rescaling constants, algorithm commentary and the Haar paragraph to App. G; 6,773 → 6,404 words, about 13.5 pp against 10.5. Review 2 (2026-10-13, v3.8): rescaling's gate claim corrected (code: weights before the Pauli expansion); Algorithm 5.1's order fixed and the listing moved to App. G; R5b quoted from n = 4 (n = 3 untrusted in both forms); `thm:flat-gap` proved (App. G); de-duplicated against App. G; 6,339 → 5,840 words, about 10.65 pp at the new margins (placeholder figures at 6 cm). v3.9 (2026-10-14): opening, §5.1 and §5.2 merged into §5.1, each of the antecedent credit, the factor-keeping move and the norm claim now stated once. v3.10 (2026-10-14): §5.3 merged into §5.2 ("The Descriptor Residual and Its Kernel"), the theorem's two forward references removed, the duplicated coefficient-and-source sentence dropped, the several-axis state cost stated in one clause with its count in App. G |
-| 6 Beyond a single real field, `6_extensions.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | first-pass prose to plan §5.6 v3.2 (2026-10-12), checked against companions, reports 16–17 and the code; apparatus moved to App. H, now drafted in full; ≈ 7.5 pp against 6.5 (v3.4: the tensor layout's CNOTs to `tab:lift-circuits`; §6.8's results to pointers). Open: two derived keys (R7's gap ratio; the fold norms) |
-| 7 Pipeline, `7_pipeline.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | first-pass prose to plan §5.7 (2026-10-12); reviewed 2026-10-12 and fixes applied: the fairness declaration corrected (as built favours the descriptor; also Ch. 4 §4.4, this plan, STYLE_GUIDE, CLAUDE.md); reflection credited to qubitisation/QSVT; trim candidates executed (F2 dropped; `tab:run-inputs` → App. J; iterative reference, T1 cost model and `tab:acceptance` → App. I; `eq:qite-filter` and `eq:readout-identity` → App. F); verification and filter-study numbers → §8.1's NOTE. v3.4 pass (F3): `tab:constraint-kinds` → App. J; `prop:filter-normalisation` and the imaginary-time detail → App. F; `tab:verification-modes` → App. I; the T1 frontier and the fairness numbers → §8.1–8.2; 5,147 → 4,223 words, about 9 pp against 6 (F3's estimate was optimistic: the next cuts are Review Mode's). Review 2 (2026-10-13): Lin–Tong attribution corrected; R2a's relative gap → §5.8, the iterative reference's reach → App. I (evidence rule); GQSP and the filter's optimality left to §2.4; heights, amplification footnote and `eq:error-budget` → App. F, I; probe claim narrowed; closing hand-off added; 8.3 → 7.5 pp measured. Open: plan §2.2 TODO |
-| 8 Numerical Study, `8_results.tex` | ☑ | ◐ | ◐ | ☐ | ☐ | first pass 2026-10-12 against the results-v1 records (every key resolves; rerun the exporter `--used-only` to refresh the committed `numbers.tex`); deviations from §5.8 marked v3.3 (F10 → `tab:growth`; R10 scope 12–48 prepared, 80 built; no T1 on R10). Review pass 2 (2026-10-13): 13.3 → 10.9 pp measured against 10 (F7, F8 → App. I; F12 now the reversals figure in §8.2; three-problem list cut per §4.1's trim order; ideal-bound degrees added on R7, R8, Burgers; heat reversal scoped to R5b at the ideal bound; Burgers' time-axis advantage scoped to n_t ≥ 4). Figures F7–F9, F11–F14 are placeholders (notebooks not exported). Open: the `\prov` items of plan §2.1 |
+| 4 Standard form, `4_standard.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | scaffold and first-pass prose to plan §5.4. v3.4 pass (F1, F2): degrees to §8.2, departures to one clause (arguments and numbers to App. B and I), T10 compact; 5,574 → 4,999 words, about 10 pp against 7.5 |
+| 5 Descriptor, `5_descriptor.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | reviewed 2026-10-12 and fixes applied (pointers retargeted to Ch. 4; App. D drafted in full). The gates-per-query Standing Fact is scoped to constant coefficients (2026-10-12). Open: App. D's `\prov` probe tables. v3.4 pass (F1): degrees, gates per query and the reflection's ancilla to §8.2; rescaling constants, algorithm commentary and the Haar paragraph to App. D; 6,773 → 6,404 words, about 13.5 pp against 10.5. Review 2 (2026-10-13, v3.8): rescaling's gate claim corrected (code: weights before the Pauli expansion); Algorithm 5.1's order fixed and the listing moved to App. D; R5b quoted from n = 4 (n = 3 untrusted in both forms); `thm:flat-gap` proved (App. D); de-duplicated against App. D; 6,339 → 5,840 words, about 10.65 pp at the new margins (placeholder figures at 6 cm). v3.9 (2026-10-14): opening, §5.1 and §5.2 merged into §5.1, each of the antecedent credit, the factor-keeping move and the norm claim now stated once. v3.10 (2026-10-14): §5.3 merged into §5.2 ("The Descriptor Residual and Its Kernel"), the theorem's two forward references removed, the duplicated coefficient-and-source sentence dropped, the several-axis state cost stated in one clause with its count in App. D |
+| 6 Beyond a single real field, `6_extensions.tex` | ☑ | ◐ | ☐ | ☐ | ☐ | first-pass prose to plan §5.6 v3.2 (2026-10-12), checked against companions, reports 16–17 and the code; apparatus moved to App. E, now drafted in full; ≈ 7.5 pp against 6.5 (v3.4: the tensor layout's CNOTs to `tab:lift-circuits`; §6.8's results to pointers). Open: two derived keys (R7's gap ratio; the fold norms) |
+| 7 Pipeline, `7_pipeline.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | first-pass prose to plan §5.7 (2026-10-12); reviewed 2026-10-12 and fixes applied: the fairness declaration corrected (as built favours the descriptor; also Ch. 4 §4.4, this plan, STYLE_GUIDE, CLAUDE.md); reflection credited to qubitisation/QSVT; trim candidates executed (F2 dropped; `tab:run-inputs` → App. H; iterative reference, T1 cost model and `tab:acceptance` → App. G; `eq:qite-filter` and `eq:readout-identity` → App. F); verification and filter-study numbers → §8.1's NOTE. v3.4 pass (F3): `tab:constraint-kinds` → App. H; `prop:filter-normalisation` and the imaginary-time detail → App. F; `tab:verification-modes` → App. G; the T1 frontier and the fairness numbers → §8.1–8.2; 5,147 → 4,223 words, about 9 pp against 6 (F3's estimate was optimistic: the next cuts are Review Mode's). Review 2 (2026-10-13): Lin–Tong attribution corrected; R2a's relative gap → §5.8, the iterative reference's reach → App. G (evidence rule); GQSP and the filter's optimality left to §2.4; heights, amplification footnote and `eq:error-budget` → App. F, G; probe claim narrowed; closing hand-off added; 8.3 → 7.5 pp measured. Open: plan §2.2 TODO |
+| 8 Numerical Study, `8_results.tex` | ☑ | ◐ | ◐ | ☐ | ☐ | first pass 2026-10-12 against the results-v1 records (every key resolves; rerun the exporter `--used-only` to refresh the committed `numbers.tex`); deviations from §5.8 marked v3.3 (F10 → `tab:growth`; R10 scope 12–48 prepared, 80 built; no T1 on R10). Review pass 2 (2026-10-13): 13.3 → 10.9 pp measured against 10 (F7, F8 → App. G; F12 now the reversals figure in §8.2; three-problem list cut per §4.1's trim order; ideal-bound degrees added on R7, R8, Burgers; heat reversal scoped to R5b at the ideal bound; Burgers' time-axis advantage scoped to n_t ≥ 4). Figures F7–F9, F11–F14 are placeholders (notebooks not exported). Open: the `\prov` items of plan §2.1 |
 | 9 Discussion, `9_discussion.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | scaffold aligned 2026-10-12: "What the Reproduction Says About the Published Method" removed. Open: T9 gains two rows |
 | 10 Conclusions, `10_conclusions.tex` | ☑ | ☑ | ☑ | ◐ | ☐ | v3.12 (2026-10-14): drafted, reviewed and rewritten as one continuous chapter (no subsections, no contribution labels); every key current; about 2.9 pp against 2. Open: the verdicts to be checked against §1.1 once it is drafted |
-| Appendices A–M | ◐ | ☐ | ☐ | ☐ | ☐ | B, G and H drafted, C and D in part; **K to be scaffolded as the reproduction and audit** (plan §6); C, D, I absorb the items of plan §6 |
+| Appendices A–K | ◐ | ☐ | ☐ | ☐ | ☐ | restructured 2026-10-15 (plan §6); A–H drafted (small REVISEs in F, G, H); I drafted except the hypotheses for Figs 6–7, the claims' derivations and the paper-faithful conventions; J to write (one page); the writing order is in §6 |
 | `ref.bib` audit (T-29) | – | ☐ | – | – | ☐ | before W1 drafting ends |
 | Verification Mode pass | | | | ◐ | | §14. Chs 3–7 against the appendices and the code, 2026-10-12: findings A1–A9, B1–B12, C applied |
 
@@ -165,7 +165,7 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
 | T-09 | Carleman ratio symbol | **ρ**; R stays the stacked residual | collision with R |
 | T-10 | benchmark labels and vocabulary | **R1–R10**, called *benchmark problems*; never "rung", "pillar", "gate G3" or "tier T2" in prose; *operator verification*, *state-preparation verification*, *circuit simulation / exact emulation / resource estimate* with (T1/T2/T3) once | code vocabulary is not thesis vocabulary |
 | T-11 | the notation table | in the front matter (`1_header/6_notation.tex`) | |
-| T-13 | Chapter 3's register | **Prior art, judged.** Ch. 3 presents Wu et al.'s method as published, with the paper's own equations only where a weakness is stated against them, and closes on Q(i)–(iii). Our measurements and constructions are never in §3.1–3.4; §3.5 points to where each weakness is argued (Ch. 4) or evidenced (App. K) | the Intro & Lit HD gate is a critical assessment of the material reviewed; a marker must be able to see what is the paper's |
+| T-13 | Chapter 3's register | **Prior art, judged.** Ch. 3 presents Wu et al.'s method as published, with the paper's own equations only where a weakness is stated against them, and closes on Q(i)–(iii). Our measurements and constructions are never in §3.1–3.4; §3.5 points to where each weakness is argued (Ch. 4) or evidenced (App. I) | the Intro & Lit HD gate is a critical assessment of the material reviewed; a marker must be able to see what is the paper's |
 | T-14 | title | keep the working title until W4, then choose from §13.1 | |
 | T-15 | numbers | keyed lookups `\res{<run>}{<metric>}` from `pihm`'s exporter; a missing number renders its reason; `--final` checks source digests (D-130) | typed numbers drift |
 | T-16 | G's convention | **G is the coefficient-space map f ↦ f′** (strictly upper triangular), as in `pihm`; the paper prints the same matrix as 𝔾ₙᵀ, said once (§4.2) | |
@@ -175,18 +175,18 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
 | T-20 | chapter order | **Story first.** After the paper's critical assessment (Ch. 3) come the three answers in order: the standard form and its cost (Ch. 4, Q(i)); the descriptor (Ch. 5, Q(ii)); the extensions beyond one real field (Ch. 6, Q(iii)), coupled systems first, as the prerequisite of nonlinearity. The shared pipeline and the design of the numerical experiment follow as Ch. 7, immediately before the evidence (Ch. 8). The degree formula for filtering an edge ground state is in the background (§2.4, v3.5), so Chs 4–6 can argue costs. Ch. 8 has one section per question or contribution. **Evidence rule (v3.4, `StructuralReview.md` F1):** Chs 4–6 quote proofs and exact classical computations on the assembled operators only (norms, gaps, kernel dimensions, field weights, α/‖·‖ of built encodings); every filter degree, preparation, gate count and tier-labelled number lives in Ch. 8. A formulation chapter derives its law through `eq:degree` and names the results section that measures it; Ch. 7 states no result | the reader meets the tension (the Hamiltonian's cost) before the machinery; the pipeline, placed before Ch. 8, reads as the method of a numerical study, where the rubric's "design of numerical experiment" belongs |
 | T-21 | the descriptor's challenge | **Its own body subsection** (§5.3, the gap of a carried derivative) before the cure (§5.4, block rescaling), and its own results section (§8.3) | a genuine failure of the naive reformulation, diagnosed, cured a priori and bounded: what the top band calls insight |
 | T-22 | first-order equations and systems | **The descriptor has two layouts**, named in the body: the chain (order ≥ 2) and the mass form (first-order equations and systems: I⊗D̃ − Γ⊗B̃, the standard rows times I⊗B̃). The kernel-equivalence theorem covers both; systems themselves are Ch. 6's | the mass form is the descriptor of R1 and R7–R10 |
-| T-23 | the preparation filter | **The minimax edge filter** prepares every comparison and extension; QITE is the paper's filter, run in the reproduction (App. K) and in the filter study (§8.1). β, the Bessel coefficients and Σ\|q_k\| = 1 stay, as the studied filter's | P8 runs the R1–R5 comparison under minimax in both forms |
+| T-23 | the preparation filter | **The minimax edge filter** prepares every comparison and extension; QITE is the paper's filter, run in the reproduction (App. I) and in the filter study (§8.1). β, the Bessel coefficients and Σ\|q_k\| = 1 stay, as the studied filter's | P8 runs the R1–R5 comparison under minimax in both forms |
 | T-24 | readout | **Classical.** The field is decoded from the prepared state; η from the regular datum. The paper's interferometric protocol, built and verified at small n with our correction for p_G < 1, is one paragraph in §7.7, its identity in Appendix F, and future work | `pihm` decision 27 |
 | T-25 | fairness of the comparison | **Every cost comparison is quoted twice**: as built (each form's own circuits) and at the ideal-encoding bound α = ‖R‖, which has neither form's encoding in it. Where the order reverses, the reversal is a reported finding | the structured encoding is loose on R3 (C-02), so as-built comparisons there favour the descriptor for the wrong reason |
 | T-26 | prior art for the headline | **Credit two antecedents** wherever the contribution is claimed: the ultraspherical spectral method (Olver & Townsend 2013) and first-order-system least squares (Cai, Lazarov, Manteuffel & McCormick 1994). Cite the concurrent Paine 2026 (arXiv:2609.26330) in §2.2 and §3.5 | "isn't this FOSLS, or ultraspherical?" is answered first; the increment is the transfer to a block-encoded Hamiltonian and its measured consequences |
-| T-27 | variant vocabulary | **The problem is unnamed.** "R2a" is the problem. The paper's panel as printed is "R2a as printed" (or "paper-faithful") and appears **only in Appendix K and in §4.4's validation paragraph**. In Ch. 4's prose a printed choice is "the printed point", "the paper's source", never a variant name. Never write "corrected" outside App. K's verbatim record | the thesis runs one problem per panel; the printed variant exists only to test the paper |
-| T-28 | software in the body | **One short paragraph** (§7.9); records, provenance and source digests in Appendix L only | the rubric asks for "a description of any software tools", not a manual |
+| T-27 | variant vocabulary | **The problem is unnamed.** "R2a" is the problem. The paper's panel as printed is "R2a as printed" (or "paper-faithful") and appears **only in Appendix I and in §4.4's validation paragraph**. In Ch. 4's prose a printed choice is "the printed point", "the paper's source", never a variant name. Never write "corrected" outside App. I's verbatim record | the thesis runs one problem per panel; the printed variant exists only to test the paper |
+| T-28 | software in the body | **One short paragraph** (§7.9); records, provenance and source digests in Appendix J only | the rubric asks for "a description of any software tools", not a manual |
 | T-29 | bibliography | **Audit `ref.bib` before drafting ends.** `wu2025pihm`'s author list must read Hsin-Yu Wu, Annie E. Paine, Evan Philip, Antonio A. Gentile and Oleksandr Kyriienko; the `note` fields print internal notes. Missing entries are listed in §5.2 | a misattributed source paper costs the Style mark and credibility |
-| T-30 | Chapter 4's job | **Build once, depart in place, then cost.** Ch. 4 states the construction once, as the standard form, crediting each piece to its source (Paine et al. for the latent space and lifts, Wu et al. for the residual and its Hamiltonian, Olver for the density of G). Each place the printed method is replaced, the departure is made in one clause where the construction meets it (the defect and the replacement, with a pointer); the printed choices are stated in §3.2 and not restated, and the arguments and their numbers live in App. C and K (v3.4, `StructuralReview.md` F2). Table T10 (§4.4) collects them, with the pipeline-level departures pointing to Ch. 7. One validation paragraph (§4.4) says that the paper-faithful variant reproduces the printed matrices and the eleven ODE scale factors, and that the PDE and nonlinear panels do not (App. K). Then Q(i): the paper's encoding of G (§4.5.1), the exact structured encoding (§4.5.2–4.5.3), and what no encoding removes (§4.6) | the model is specified where the Formulation criterion looks for it, once, as run; a reader never has to apply a list of changes to the paper's version to recover it |
+| T-30 | Chapter 4's job | **Build once, depart in place, then cost.** Ch. 4 states the construction once, as the standard form, crediting each piece to its source (Paine et al. for the latent space and lifts, Wu et al. for the residual and its Hamiltonian, Olver for the density of G). Each place the printed method is replaced, the departure is made in one clause where the construction meets it (the defect and the replacement, with a pointer); the printed choices are stated in §3.2 and not restated, and the arguments and their numbers live in App. B and I (v3.4, `StructuralReview.md` F2). Table T10 (§4.4) collects them, with the pipeline-level departures pointing to Ch. 7. One validation paragraph (§4.4) says that the paper-faithful variant reproduces the printed matrices and the eleven ODE scale factors, and that the PDE and nonlinear panels do not (App. I). Then Q(i): the paper's encoding of G (§4.5.1), the exact structured encoding (§4.5.2–4.5.3), and what no encoding removes (§4.6) | the model is specified where the Formulation criterion looks for it, once, as run; a reader never has to apply a list of changes to the paper's version to recover it |
 | T-31 | coupled systems, complex fields and nonlinearity | **One chapter, Ch. 6, "Systems and Nonlinearity" (6.5 pp; v3.1, merging v3.0's Chs 6 and 7).** Its thread: each extension is carried as a coupled linear system on one state, a block per component (several fields directly; a complex field by realification; a polynomial nonlinearity by the Carleman lift, whose components are monomials), except the paper's doubled space, which projects. Order: systems (§6.1–6.2), complex-valued fields (§6.3), the doubled space (§6.4), the Carleman lift (§6.5), every coupling and product on a circuit in one place (§6.6), the fluids (§6.7), preparation against projection (§6.8). The mass form is *applied* (its definition and kernel equivalence stay in §5.2). The chapter answers Q(iii); the systems sections are its prerequisite, not a separate question | the paper treats one real scalar field, and S4 is one contribution; two short chapters split one argument and stated the circuits (matchings, tensor layout, folds) and the system-to-lift hand-off twice. One chapter states the system once, lets the lift *be* that system with Γ → Γ_K, and gives Q(iii) a single home |
 | T-32 | complex-valued equations | **Scope: realification, plus the one native complex encoding that was built; no new code.** §6.3: a complex R gives a Hermitian positive semi-definite H = R†R; the route run is realification; R7 is exactly the realification of z′ = −iπz; R9 and R10 use real Fourier bases; the tensor layout's coupling is built on complex Fourier variables and verified but never used for preparation; native complex preparation is future work | the paper's Discussion sets complex states aside, and the proposal promised them; the honest answer is formulational with narrow evidence |
-| T-34 | deviations from Wu et al. | **Table T10 in §4.4** lists every deviation, residual-level (made in §4.1–4.4) and pipeline-level (stated with a pointer to Ch. 7). v3.4: compact, four columns (choice, this thesis, the printed choice's defect, where), at `\footnotesize`; the evidence for each row is App. K's. The pipeline chapter's filter section points to T10 and restates none | one place for "what did the student change, and why" |
-| T-36 | where the audit lives | **Appendix K.** The reproduction of every printed panel (Table T6), the Fig. 5 triage (Figure F6), the non-reproduced panels and the hypotheses tested, every claim A-01–A-13 with its derivation and verdict (positive definiteness, uniqueness, the time rule's bound, the readout identity's correction, the circuits), the paper's filter and the tau ablation. The body names each weakness in §3.5 and argues the departures it motivates in Ch. 4; no body section re-derives or tabulates the audit | the audit tests the paper; the thesis's argument is where the cost lies. Pages go to the descriptor's results and discussion, where the marks for insight are |
+| T-34 | deviations from Wu et al. | **Table T10 in §4.4** lists every deviation, residual-level (made in §4.1–4.4) and pipeline-level (stated with a pointer to Ch. 7). v3.4: compact, four columns (choice, this thesis, the printed choice's defect, where), at `\footnotesize`; the evidence for each row is App. I's. The pipeline chapter's filter section points to T10 and restates none | one place for "what did the student change, and why" |
+| T-36 | where the audit lives | **Appendix I.** The reproduction of every printed panel (Table T6), the Fig. 5 triage (Figure F6), the non-reproduced panels and the hypotheses tested, every claim A-01–A-13 with its derivation and verdict (positive definiteness, uniqueness, the time rule's bound, the readout identity's correction, the circuits), the paper's filter and the tau ablation. The body names each weakness in §3.5 and argues the departures it motivates in Ch. 4; no body section re-derives or tabulates the audit | the audit tests the paper; the thesis's argument is where the cost lies. Pages go to the descriptor's results and discussion, where the marks for insight are |
 | T-37 | naming the standard form | **Define by its state, once in full per chapter, then name it.** The standard form is the field alone with every derivative eliminated through G; never "the paper's regime" or a bare "the paper's method". The rule is in §3.4 | the paper's regime is a reference, not a definition, and it implies the thesis's form is the paper's, against S1 |
 
 ---
@@ -203,13 +203,13 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
   the traps.
 - **`0_results/README.md`** is how to quote a number.
 - **`Code/pihm/docs/02_methods.md`** is the method as built, the source for Chapters 4 and 7 and
-  Appendix I.
+  Appendix G.
 - **`Code/pihm/docs/companion/`** is the mathematics as built, with derivations and proofs beside the
-  code and tests that implement them, sectioned as Appendices B–I: the first source for every
+  code and tests that implement them, sectioned as Appendices A–G: the first source for every
   appendix proof and every body proposition. Its files are cited in §5 by number (for example
   "companion 51" for `51_mass_form.md`).
 - **`Code/pihm/docs/06_results_guide/`** is generated from the records (81 reproduction → 87
-  findings): the first stop for what a results section, or Appendix K, can claim.
+  findings): the first stop for what a results section, or Appendix I, can claim.
 - **`Code/pihm/docs/03_problems/`** gives each benchmark problem's equation, data, constraint rows,
   datum point and reference, as printed and as run.
 - **`Code/pihm/docs/22_claims_register.md`** gives the verdict of every claim A-01–C-10;
@@ -221,36 +221,36 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
 
 **Appendices.**
 
-- **Appendix D, measured ε_G(n), qubits and gates.** `tab:app-epsilon-G` is all `\prov`; the
+- **Appendix I, measured ε_G(n), qubits and gates.** `tab:app-epsilon-G` is all `\prov`; the
   rebuilt circuit's measured counts and error are not exported. Needs a derived key, or the table
   stays a bound (companion 31 gives the bound and the measured fraction of it).
-- **Appendix C, several axes (`app:pihm-multi-axis`).** A visible `\todo` stub: derive the
+- **Appendix B, several axes (`app:pihm-multi-axis`).** A visible `\todo` stub: derive the
   register count, give a worked three-variable example and the lifted-axis bookkeeping.
-- **Appendix K** is scaffolded as the reproduction record only; it must take the audit of plan §6
+- **Appendix I** is scaffolded as the reproduction record only; it must take the audit of plan §6
   (T-36), including the claims' derivations from the earlier Ch. 4 draft (the time rule's bound, the
   positive-definiteness verdict, the uniqueness count's role) and Table T6 and Figure F6 from Ch. 8.
-- **Appendix I.** *Resolved 2026-10-12:* drafted in full; Wedin's bound against the eigensolver's
+- **Appendix G.** *Resolved 2026-10-12:* drafted in full; Wedin's bound against the eigensolver's
   is `prop:wedin` there and `eq:wedin` in §7.2. *Open:* `tab:eigh-vs-svd` is a planning probe on
   a problem that is not R2a (f(−½) = 0), all `\prov`: regenerate on R2a (an eigensolver column
   needs a build-stage metric or a derived key) or relabel it; the per-atom table needs a derived key.
-- **Chapter 7 and Appendices F, I (2026-10-12):** their open items are in the end-of-drafting
+- **Chapter 7 and Appendices F, G (2026-10-12):** their open items are in the end-of-drafting
   TODO (§2.2).
 
 **Chapters.**
 
 - **Chapter 6 (`6_extensions.tex`).** *Resolved 2026-10-12:* the v3.1 REVISE items (the
   "descriptor Hamiltonian" sentence, the fold's title, T8's column, the colouring bound); the König
-  citation (`konig1916graphen`, checked against Crossref); Appendix H written in full, its fluids
+  citation (`konig1916graphen`, checked against Crossref); Appendix E written in full, its fluids
   LAND errors gone; the notation table's ρ entry ("sufficient, not necessary"); Table T2's y_⊥.
   *Open:* derived keys for R7's gap ratio (about 2.1) and the fold norms (1.58, 1.665, 1.21), both
-  `\prov`; a Pauli-word count for the matchings (App. H states it without a number); the notation
+  `\prov`; a Pauli-word count for the matchings (App. E states it without a number); the notation
   table's `dim w` entry uses K for the block count (left as is at the author's instruction).
 - **Chapter 8.** *Resolved 2026-10-12:* the Burgers caption (converges at a/ν = 3, diverges at 10),
-  the trust threshold in `tab:eta-reproduction`'s caption (20, also in App. K's header); T7 now
+  the trust threshold in `tab:eta-reproduction`'s caption (20, also in App. I's header); T7 now
   `\res` in every numeric cell (first pass, 2026-10-12). *Open (`\prov`, derived keys wanted):* the
   B-17 range 1.67–1.92 (§8.1); ρ for R9 (1.86, 16.1) and R10c-M48 (≈ 24) (§8.4–8.5); R7's gap ratio
   (≈ 2.1, shared with Ch. 6); the R10 truncation's error against DNS (§8.5); the counts behind
-  "every" in §8.1 (verified circuits, minimax T1 keys, trusted T2 records) and in App. K's
+  "every" in §8.1 (verified circuits, minimax T1 keys, trusted T2 records) and in App. I's
   `app:repro-t1` (43 of 46 QITE keys).
 - **The factorisation's error 3.4e-13 (§4.5.2)** is a one-off measurement, typed as `\prov`;
   replace with a derived key (the largest entrywise error of G = R₀(2U_odd)Λ against G, n ≤ 10) or
@@ -267,7 +267,7 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
   REVISE.
 - **C-08's scope.** Every minimax T1 record meets T1 = T2 ≤ 1e-10; 43 of the 46 QITE T1 records do,
   the misses reported with their degree. The QITE records are the reproduction's and the filter
-  study's, so the body states C-08 for the minimax records and App. K reports the QITE misses.
+  study's, so the body states C-08 for the minimax records and App. I reports the QITE misses.
   Checked at results-v1 (2026-10-12): 43 of 46.
 - The ρ sentence of §6.5 cites Liu et al., *PNAS* 118, e2026805118 (2021); check it against the
   publisher and add it to `ref.bib` (T-29).
@@ -290,7 +290,7 @@ Collected while drafting; each item says where it lives. Tick here when resolved
   verified". Decide: raise the probe ceiling for these, or keep the caveat.
 - [x] **B-17's range is `\prov`.** *Resolved 2026-10-14:* `filters/synthetic/edge` (derived from the sweep). "1.67–1.92" (§7.4) is the synthetic sweep's
   (`docs/15_filters.md` §1), not a record.
-- [x] **`tab:eigh-vs-svd` (App. I) is a planning probe on a problem that is not R2a** *Resolved 2026-10-14:* regenerated on R2a, sine of the angle, `reference/R2a/<regime>/n<n>`.
+- [x] **`tab:eigh-vs-svd` (App. G) is a planning probe on a problem that is not R2a** *Resolved 2026-10-14:* regenerated on R2a, sine of the angle, `reference/R2a/<regime>/n<n>`.
   ({1,4,4} with f(−½) = 0), all `\prov`. Regenerate on R2a (needs an eigensolver metric in the build
   stage or a derived key) or relabel.
 - [x] **The circuit-simulation frontier.** *Resolved 2026-10-12 at results-v1:* the widest circuit
@@ -303,14 +303,14 @@ Collected while drafting; each item says where it lives. Tick here when resolved
 **Derived keys to export (`pihm/tools/thesis/derived.py`).** *2026-10-14:* every `\prov` in the
 thesis is now a key: per-query gates and ancilla (`query/`), R7's chain ratio, the fold norms, ρ and
 the truncation errors (`panel/`), the synthetic filter range, both encodings of G (`derivative-circuit/`),
-the reference's accuracy, and App. G's probes (p9b–p22) ported as code-only keys, cached by source digest.
+the reference's accuracy, and App. D's probes (p9b–p22) ported as code-only keys, cached by source digest.
 
 - [ ] Worst minimax `filtered_agreement` over every T1 record (C-08; §7.5 quotes one record).
 - [x] Minimax/QITE degree ratio at equal suppression (B-17; replaces the `\prov` above).
 - [ ] Worst `phases_max_error` over the records (B-16; App. F states it qualitatively).
-- [x] The iterative reference's drift check against the dense SVD on R2a, n = 8–10 (App. I,
+- [x] The iterative reference's drift check against the dense SVD on R2a, n = 8–10 (App. G,
   qualitative). *Resolved 2026-10-14:* `iterative/R2a/standard/drift`.
-- [ ] Per-atom exact errors over n (App. I's per-atom table).
+- [ ] Per-atom exact errors over n (App. G's per-atom table).
 - [ ] The worst exact-mode error over all records (C-03; App. F quotes the record that attains it in
   the pre-P8 export).
 
@@ -344,7 +344,7 @@ the reference's accuracy, and App. G's probes (p9b–p22) ported as code-only ke
 > baseline has the paper's cost and better accuracy. Its paper-faithful variant reproduces the
 > printed scale factors of all eleven ODE panels to within one unit of the last printed digit; the
 > PDE and nonlinear panels, which do not reproduce, are documented with the hypotheses tested.
-> *Evidence:* §4.1–4.4, Table T10, Appendix K; claims A-01–A-05, A-09, A-11, A-13, C-07.
+> *Evidence:* §4.1–4.4, Table T10, Appendix I; claims A-01–A-05, A-09, A-11, A-13, C-07.
 
 > **S2. An exact structured encoding of the standard form.** G = R₀(2U_odd)Λ gives α_G = N(N−1)
 > ≤ 2.12‖G‖₂ with O(n²) gates and n + 4 ancilla for G alone, against an α/‖G‖₂ growing like N³ for the
@@ -448,7 +448,7 @@ question it answers); §5.1; §5.8; §8.6; Ch. 10's close.
 | exact emulation (T2) | "simulated" | provably equal to T1's post-selected output |
 | resource estimate (T3) | "predicted to work" | |
 | beyond the simulation budget (estimate quoted) | "failed", "too big", "infeasible" alone | |
-| R2a; R2a as printed (paper-faithful) | "corrected R2a", "wrong/fixed version" | "as printed" as a variant name only in App. K and §4.4's validation paragraph (T-27) |
+| R2a; R2a as printed (paper-faithful) | "corrected R2a", "wrong/fixed version" | "as printed" as a variant name only in App. I and §4.4's validation paragraph (T-27) |
 | the standard form takes / replaces / imposes …; "the printed point", "the paper's source" | "we fixed", "corrections", "bug", "the passage" | each departure named by the defect it removes and the property it gains (plan §3.5 rule 7) |
 | several fields; a (coupled) system; the field register | "vector-valued solver", "multi-field method" | Ch. 6 |
 | ratio row | "vector boundary condition" | pins the direction of vector data, leaves its scale free |
@@ -464,7 +464,7 @@ differentiation matrix G, so f⁽ʲ⁾ acts as Gʲ and the equation is one block
 descriptor form is its counterpart (the state carries the derivatives as unknowns, tied by banded
 factors). Neither definition mentions the paper. Wu et al. are cited where a piece is restated; the
 printed method and "as printed" name the paper's choices where a departure is argued (Ch. 4, T10,
-App. K); "the paper's" qualifies only things that are the paper's (its encoding, circuits, equations,
+App. I); "the paper's" qualifies only things that are the paper's (its encoding, circuits, equations,
 figures, data). **Full explanation once, at the first use in each chapter; later uses name the
 standard form without re-explaining it.** Scope a claim by a mathematical condition (constant
 coefficients, order k, one axis), not by "the paper's regime".
@@ -500,8 +500,8 @@ The rubric scores a model a reader could rebuild, not a tour of the software. Ru
    never cited. A finding that came from an issue is stated as a finding ("the descriptor's gap
    closes on singular problems"), with its evidence in a figure or appendix. A
    design choice is justified by its reason, never by "we decided".
-4. **Records, hashes, campaigns, digests and Slurm** live in Appendix L. The body says "every number
-   is regenerated from the archived records by one command (Appendix L)".
+4. **Records, hashes, campaigns, digests and Slurm** live in Appendix J. The body says "every number
+   is regenerated from the archived records by one command (Appendix J)".
 5. **The physics stays in view.** Each benchmark problem is introduced by its equation and the
    capability it tests or the physics it carries (stiffness, a singular leading coefficient, a heat
    equation, a vortex pair), never by its campaign.
@@ -543,15 +543,15 @@ leaves no slack under the cap of 60.
 
 **Why this split.** Formulation (Chapters 4–7, 30.5 pages) must let a reader "create equivalent
 models", so the model is stated once in Ch. 4, and configuration, inputs and software have body
-space in Chapter 7, with the detail in Appendices B–I and L. Results & Discussion (Chapters 8–9,
+space in Chapter 7, with the detail in Appendices A–G and J. Results & Discussion (Chapters 8–9,
 13 pages) carry the evidence and the insight; the audit of the source paper is evidence about the
-paper, not about the thesis's questions, so it is in Appendix K (T-36). Half a page of slack remains
+paper, not about the thesis's questions, so it is in Appendix I (T-36). Half a page of slack remains
 under the cap.
 
 **Trim order if over budget:** (v3.4's pass, `StructuralReview.md` F1–F3, executed 2026-10-12; F6's tables for Ch. 8 next); §2.1 first; (Chapter 7's three candidates, the F2 placeholder, §7.2's iterative-reference detail and `tab:run-inputs`, were executed 2026-10-12); then §8.3's third representative problem (to Appendix
 J); then §7.9 and §7.8 to their minimum; then §4.5.1 to its verdict (the rebuild's prose to
-Appendix D); then §4.5.3's gate table to Appendix E; then §6.6's matchings to one paragraph (their
-construction to Appendix H); then §3.3 to its claims only. Chapter 5 is cut last. The page budget is
+Appendix I); then §4.5.3's gate table to Appendix C; then §6.6's matchings to one paragraph (their
+construction to Appendix E); then §3.3 to its claims only. Chapter 5 is cut last. The page budget is
 enforced in Review Mode only (`CLAUDE.md`).
 
 ### 4.2 LaTeX section tree
@@ -568,16 +568,15 @@ enforced in Review Mode only (`CLAUDE.md`).
   % opening, no heading
   \subsection{Quantum Computation Preliminaries}               % sec:bg-qc; <= 1 p, prose
   \subsection{Quantum Algorithms for Differential Equations}   % sec:bg-de
-      \subsubsection{Linear-Systems and Linear-Combination Routes}
-      \subsubsection{Nonlinear Equations: Carleman and Related Linearisations}
-      \subsubsection{Variational Routes}
-      \subsubsection{Ground-State and Physics-Informed Routes}
-      \subsubsection{Critical Assessment}                      % T1 table, "this work" row
-  \subsection{Spectral Methods and Their Conditioning}         % sec:bg-spectral
+      % titled \paragraphs (2026-10-15): linear systems; Hamiltonian simulation and
+      %   Schroedingerisation; variational; ground-state preparation; critical assessment
+      %   (T1, one row per route, no PIHM or "this work" row)
+  \subsection{Classical Discretisation and Linearisation}     % sec:bg-spectral
       \subsubsection{Chebyshev Discretisation and Differentiation}
       \subsubsection{The Ultraspherical Method}
       \subsubsection{First-Order System Least Squares}        % + the increment
       \subsubsection{Fourier--Galerkin Truncation}
+      \subsubsection{Carleman Linearisation}                   % sec:bg-carleman (moved from §2.2)
   \subsection{Block Encodings, Signal Processing and Filtering} % sec:bg-primitives
       \subsubsection{Block Encodings and Linear Combinations of Unitaries}  % def:block-encoding
       \subsubsection{Quantum Signal Processing}
@@ -613,7 +612,7 @@ enforced in Review Mode only (`CLAUDE.md`).
   \subsection{The Descriptor Residual and Its Kernel}  % sec:descriptor-layouts; chain | mass form | constraints (sec:descriptor-constraints) | theorem | several axes (v3.10 merge)
   \subsection{The Descriptor's Gap}                 % the challenge (T-21); def:regular; thm:flat-gap
   \subsection{Block Rescaling}                                 % the cure and its limits
-  \subsection{The Block Encoding} % F5 (algorithm in App. G, v3.8)
+  \subsection{The Block Encoding} % F5 (algorithm in App. D, v3.8)
   \subsection{Cost of the Descriptor Encoding}                 % proposition
   \subsection{Consequences for the Spectrum and the Filter}
   \subsection{Summary}
@@ -682,10 +681,10 @@ closes every structural change.
 
 **Aligning the rest of the scaffold to this plan** (structural only, no prose drafted; the status
 board tracks it): Ch. 8 loses its reproduction section, whose table (`tab:eta-reproduction`, T6)
-and figure (`fig:faithful-vs-corrected`, F6) move to Appendix K with their labels, and §8.1 gains
+and figure (`fig:faithful-vs-corrected`, F6) move to Appendix I with their labels, and §8.1 gains
 its validation paragraph's LAND; Ch. 9 loses its reproduction section; Ch. 7's §7.3 LAND gains
-Wedin's bound; Appendices C, D, I and K take the items of plan §6. *Done 2026-10-12:* the
-Ch. 8 and Ch. 9 moves; the rest of Appendix K's audit is still open.
+Wedin's bound; Appendices B, I, G and I take the items of plan §6. *Done 2026-10-12:* the
+Ch. 8 and Ch. 9 moves; the rest of Appendix I's audit is still open.
 
 ---
 
@@ -699,8 +698,8 @@ Planning.md §10.8.
 *v3.4 (`StructuralReview.md` F1–F3).* Where an entry below lists, for Chs 4–7, a filter degree, a
 gate count, a preparation or any tier-labelled number, it now lives in Ch. 8 (T-20's evidence
 rule). Where it lists the argument of a departure in §4.1–4.3, the argument and its numbers now
-live in App. C or K and the body keeps one clause (T-30). Where it places a table or proposition
-in Ch. 7 that v3.4 moved (`tab:constraint-kinds` → App. J, `tab:verification-modes` → App. I,
+live in App. B or I and the body keeps one clause (T-30). Where it places a table or proposition
+in Ch. 7 that v3.4 moved (`tab:constraint-kinds` → App. H, `tab:verification-modes` → App. G,
 `prop:filter-normalisation` → App. F), the appendix holds it. The `.tex` scaffolds carry the
 current LAND lists.
 
@@ -822,7 +821,15 @@ count (`eq:degree`). The PIHM sits where the three meet, and its authors left it
    consequences (the norm carried separately, which is η; access only by measurement); ancilla and
    post-selection; queries × gates per query, and qubits; the tilde convention; the fault-tolerant
    frame, NISQ in one paragraph (Preskill 2018). No definitions: the block encoding is §2.4's.
-2. **§2.2 Quantum algorithms for differential equations (2.6 p).**
+2. **§2.2 Quantum algorithms for differential equations (2.6 p).** *Revised 2026-10-15 (the
+   author's instruction): no subsubsections; one titled paragraph per route, each introducing the
+   route, then its strengths, then its weaknesses: linear systems (a); Hamiltonian simulation,
+   LCHS and Schrödingerisation (new, from (a)); variational (c); ground-state preparation (d,
+   ending in one sentence placing the PIHM in the route, no PIHM lineage or review); critical
+   assessment (e). Carleman (b) moved to §2.3 (`sec:bg-carleman`): a classical linearisation that
+   composes with a route, not a route. Paine 2026 moved to §3.5's open problems. T1 has one row
+   per route and no PIHM or this-work row. The items below are the pre-revision scaffold, kept
+   for their content.*
    - (a) *Linear systems.* HHL (cost; the κ^{1−δ} bound) → Berry 2014 (multistep, poly 1/ε) →
      Berry et al. 2017 (Taylor, polylog) → Childs & Liu 2020 (Chebyshev collocation in time: dense;
      κ bounded by a degree-3.5 polynomial in the nodes) → Childs, Liu & Ostrander 2021 (PDEs) →
@@ -851,7 +858,7 @@ count (`eq:degree`). The PIHM sits where the three meet, and its authors left it
    derivative, tau/collocation conditioning N^{2k} (Olver & Townsend §4). **Ultraspherical:** the
    (S, D) pair, almost banded, κ linear, bounded after a diagonal preconditioner; B̃, D̃ its first
    pair; rescaling as the preconditioner; **volunteered: the full ultraspherical reduction (banded
-   on N unknowns, no block register) is neither built nor compared** (App. B, §9.5). **FOSLS:**
+   on N unknowns, no block register) is neither built nor compared** (App. A, §9.5). **FOSLS:**
    least squares of a second-order operator O(h⁻⁴) against O(h⁻²) (Bochev & Gunzburger 1998,
    §2.2); first-order decomposition restores O(h⁻²) and decouples the unknowns (§2.3); the standard
    form is the high-order least-squares method, the descriptor FOSLS in a spectral basis; the filter
@@ -873,7 +880,7 @@ over. In order, with the estimated saving: (1) §2.4's LCU mechanics and qubitis
 App. F, keeping the definition and α ≥ ‖A‖ (0.3); (2) the readout paragraph to two sentences, T1's
 "returns" column carrying the rest (0.2); (3) §2.4.2's phase-finding sentence to Ch. 7, which
 already cites it (0.1); (4) §2.1's NISQ paragraph to one sentence (0.2); (5) §2.3.4 Fourier–Galerkin
-to App. H's opening, one sentence kept (0.25); (6) §2.2(a)'s history compressed to one paragraph,
+to App. E's opening, one sentence kept (0.25); (6) §2.2(a)'s history compressed to one paragraph,
 dropping Childs–Liu–Ostrander and the fast-forwarding detail (0.3); (7) Paine 2026 to one sentence
 here, its assessment staying in §3.5 (0.1); (8) Lin & Tong's interior filters to two sentences
 (0.2); (9) §2.5 merged into §2.2(e)'s close (0.2); (10) T1 at `\scriptsize` (0.15). Total ≈ 2 pp,
@@ -882,8 +889,8 @@ to set Ch. 2 at 8.5 and take the 1.5 pp from Chs 4 and 7, which are already flag
 the new material (the ground-state lineage, the edge argument behind `eq:degree`, the FOSLS
 conditioning statement) is what the HD gate rewards.
 
-**Marker checklist.** Every family has a weakness sentence; T1 is present with both rows marked as
-the thesis's reading; the history is visible; ultraspherical and FOSLS credited before Ch. 5, with
+**Marker checklist.** Every route has its strengths and a weakness; T1 is present, one row per
+route, with no PIHM or this-work row (2026-10-15); the history is visible; ultraspherical and FOSLS credited before Ch. 5, with
 the increment and the uncompared ultraspherical reduction; the concurrent work cited; §2.1 ≤ 1 p of
 prose; `eq:degree` hedged (edge; polynomial filters); nothing unused; IEEE `biblatex` throughout.
 
@@ -918,7 +925,7 @@ readout), the Discussion (the open questions, the Fourier remark); Paine, Elfvin
 (the latent space and the lifts); Paine 2026 (concurrent work); companion 10, 11, 20, 21 for the
 paper's conventions as `pihm` reproduces them, 31 (the circuits' claims), 42 (the time rule), 47 (the
 readout), 60 (the doubled space); `docs/22_claims_register.md` A-01–A-13 for what the critique may
-say; `docs/06_results_guide/81_reproduction.md` for what Appendix K shows.
+say; `docs/06_results_guide/81_reproduction.md` for what Appendix I shows.
 
 **Scaffold.**
 
@@ -959,10 +966,10 @@ say; `docs/06_results_guide/81_reproduction.md` for what Appendix K shows.
    - *Block encodings:* 𝔹 and 𝔻⁽⁰⁾ by the inverse feature map and a reflection (n + 2 qubits,
      "high probability"); G as an LCU loading entries as rotation amplitudes, at the prefactor
      (2ⁿ⁻¹ + 2ⁿ)‖G‖_S (`eq:pihm-published-prefactor`), 2n + 3 qubits, O(n³) gates, entry errors that
-     "exponentially decrease". The registers and angles → Appendix D.
+     "exponentially decrease". The registers and angles → Appendix I.
    - *The filter:* QITE by indefinite-parity QSVT on H/‖H‖_F; the time rule t ≥ λ_max/(λ₂(n − 1))
      (`eq:pihm-time-rule`), which the paper calls an approximate lower bound; its expected
-     O(Δ⁻¹ polylog 1/ε) preparation time. It assumes §2.4 (v3.5). Detail → Appendix K.
+     O(Δ⁻¹ polylog 1/ε) preparation time. It assumes §2.4 (v3.5). Detail → Appendix I.
    - *Readout:* the interferometric overlap measurement, two all-zero probabilities per point
      (Eqs 36–39). One paragraph; its identity in Ch. 7 and Appendix F.
 4. **§3.4 The doubled-space extension (0.35 p; `sec:pihm-doubled`).** Ψ = ψ ⊗ ψ with the fold 𝒩₁
@@ -983,15 +990,15 @@ say; `docs/06_results_guide/81_reproduction.md` for what Appendix K shows.
         (pointer `sec:standard-hamiltonian`), never asserted here;
      2. the prefactor of the G circuit is loose against ‖G‖ (pointer `sec:standard-published`);
      3. the printed choices (rounded constraint points, truncated Maclaurin sources) set an error
-        floor at the printed n (pointer `sec:standard-constraints`, Appendix K);
+        floor at the printed n (pointer `sec:standard-constraints`, Appendix I);
      4. the PDE invariant sets omit the initial or boundary function that fixes the solution, are
         read off the known solution, and degenerate beyond the printed n; the heat panel's natural
         completion (its initial function at t = 0) would pose a backward, ill-posed problem on
-        [−1, 0] (pointer `sec:standard-constraints`, Appendix K);
+        [−1, 0] (pointer `sec:standard-constraints`, Appendix I);
      5. "positive-definite with distinct eigenvalues" is stronger than a sum of Gram matrices allows
         (pointer `sec:standard-form`);
      6. the time rule contains no ε, so it cannot certify an accuracy, and needs λ_max and λ₂ in
-        advance (pointer Appendix K; the thesis's filter, §7.5);
+        advance (pointer Appendix I; the thesis's filter, §7.5);
      7. the nonlinear route cannot prepare: any function of H acts as a scalar on its kernel
         (pointer `sec:doubled-space`);
      8. the readout identity assumes deterministic preparation (pointer `sec:pipeline-readout`,
@@ -1008,9 +1015,9 @@ say; `docs/06_results_guide/81_reproduction.md` for what Appendix K shows.
 **Figures and tables.** None. (A figure of the published pipeline would show the interferometric
 readout, which is not the method's; Style Guide §2.4.)
 
-**Appendix offloads.** Appendix D: the published circuits' registers, angles and counts. Appendix
+**Appendix offloads.** Appendix I: the published circuits' registers, angles and counts. Appendix
 K: the paper's filter in full (phase sets, the dilation, t = 15 and 8 at degrees (6, 7)), every claim
-with its verdict. Appendix H: the p-copy extension of the doubled space. Ch. 7 and Appendix F: the
+with its verdict. Appendix E: the p-copy extension of the doubled space. Ch. 7 and Appendix F: the
 readout identity.
 
 **Marker checklist.** The first sentence attributes; no sentence reads as authorship of the
@@ -1019,7 +1026,7 @@ none of our numbers, our constructions or our lemmas in §3.1–3.4; §3.5's wea
 where they are argued; the three questions close the chapter; ≤ 4 pp.
 
 **Traps.** "Collocation"; stating Θ(N^{4k}) or a degree here (Ch. 4's result); re-deriving the
-time rule's shortfall or the readout correction (App. K, App. F); defining the standard form here;
+time rule's shortfall or the readout correction (App. I, App. F); defining the standard form here;
 "published" in visible prose (§14.2 item 8); any Θ̃(N²) floor.
 
 ---
@@ -1032,7 +1039,7 @@ occurs (T-30); then answer Q(i): separate the encoder's cost from the Hamiltonia
 G exactly, and show that the degree stays Θ̃(N^{2k}) because the cost is the Hamiltonian's.
 
 **Criterion.** Formulation, band 4: "a significant advance in the state of the art", and "described
-in sufficient detail to permit readers to create equivalent models": §4.1–4.4 with Appendix C is
+in sufficient detail to permit readers to create equivalent models": §4.1–4.4 with Appendix B is
 that specification for the standard form. Carries S1 and S2.
 
 **Sources.** `docs/02_methods.md` §1–3 (the problems, the model, the residual); `docs/companion/`
@@ -1061,7 +1068,7 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
   choice, the defect (a mathematical kind), the replacement, the property gained. No history, no
   "we fixed", no issue number. T10 collects them.
 - **Numbers.** By `\res` only; at most one number per departure, and the validation paragraph's
-  pointer to App. K.
+  pointer to App. I.
 - **First use.** Each benchmark problem by its equation at first use, then its tag (T-10). R2a
   (f″ + 4f′ + 4f = 0, f(−1) = 0, f(0) = ½; the paper's Fig. 3b) is the running example from §4.1;
   R4a–R4d in §4.3 (rounded points and Maclaurin sources); R3c/R3d in §4.3 (the double zero); R5a–R5c
@@ -1096,14 +1103,14 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
 2. **§4.2 Differentiation and multiplication (0.9 p; `sec:standard-operators`).**
    - G's entries (`eq:pihm-G-entries`): 2p/√c_k for p > k, p − k odd; exact on the represented
      space; strictly upper triangular, nilpotent, ker G^j the polynomials of degree < j;
-     N²/4 non-zeros; ‖G‖₂ = Θ(N²), with its limit (proofs → Appendices B and E); orthogonally similar
+     N²/4 non-zeros; ‖G‖₂ = Θ(N²), with its limit (proofs → Appendices A and C); orthogonally similar
      to the nodal differentiation matrix, so the N² is not an artefact of the basis. The paper prints
      the same matrix as 𝔾ₙᵀ (T-16), said once.
    - The lift ℳ_a ∈ ℝ^{2N×N} for a polynomial coefficient (`eq:pihm-Mxp`, Paine et al.'s): exact if
      and only if deg a ≤ N; a constant coefficient enters as a₀ℳ₁ = a₀√2[I; 0]. ‖ℳ_a‖₂ ≤ √2 sup|a|.
      The standard form keeps the paper's lift, and the descriptor applies the same lift on the same
      axes (`assemble/descriptor.py`, `mult="lift"`); the square Galerkin form is only the gap
-     study's control (App. G).
+     study's control (App. D).
    - **The equation block** A_std = Σ_j ℳ_{a_j}G^j − ℳ_r𝔻⁽⁰⁾(x_s), the source injected through the
      regular datum as the rank-one |r̂⟩⟨τ(x_s)|/f(x_s). **Departure (sources):** the paper expands r
      in a Maclaurin series truncated at p̄ = 3, 5, 7; a truncated source poses a different equation
@@ -1124,7 +1131,7 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
      its solution, exactly: the root of the solution's derivative nearest the paper's value,
      computed from the reference solution when the problem is built (`exact_root`), outside the method:
      **not** an answer-independent quantity, and a new problem must supply its points. Each printed choice
-     alone floors the error, and only both removed converge (one sentence; the triage → App. K).
+     alone floors the error, and only both removed converge (one sentence; the triage → App. I).
    - **Uniqueness (ours, a lemma):** a homogeneous order-k ODE whose leading coefficient has no zero
      needs constraints of rank k − 1 on its solution space plus one regular datum; the rank is that
      on the solution space, not of the functionals (statement; proof → `app:uniqueness-count`). For
@@ -1175,7 +1182,7 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
      supplementary matrices entry by entry and the printed scale factors of all eleven ODE panels to
      within one unit of the last printed digit; the three PDE and two nonlinear panels do not
      reproduce, by the exact solution's η_e or any ground state computed. Pointer: the record, the
-     triage and every claim's verdict are Appendix K. One `\res` at most (R2a's η_ideal against 1.29).
+     triage and every claim's verdict are Appendix I. One `\res` at most (R2a's η_ideal against 1.29).
 5. **§4.5 Encoding the derivative (1.6 p; `sec:standard-factorisation`).**
    - **§4.5.1 The paper's encoding (0.4 p; `sec:standard-published`).** What it is (an LCU loading
      the column value 2p as a rotation amplitude, approximate); the only claim that decides the cost
@@ -1184,7 +1191,7 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
      We rebuild the mechanism (registers of our own, odd offsets only) so that its cost can be
      counted like the others, at its own α, a third of the printed prefactor, the kinder reading;
      approximate, so it enters resource estimates only. The claims' verdicts, the rebuild and its
-     error bound → Appendix D (`tab:published-verdicts`, `prop:epsilon-G`).
+     error bound → Appendix I (`tab:published-verdicts`, `prop:epsilon-G`).
    - **§4.5.2 An exact factorisation (0.5 p; `sec:standard-exact`).** The idea in words (row weight ×
      parity-selected shift × column index, each depending on one index); `prop:G-factorisation`
      (C-01), G = R₀(2U_odd)Λ; the measured error as a check on the implementation, not as evidence.
@@ -1194,7 +1201,7 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
      selector of the N/2-term LCU, the price of the sum of shifts against the descriptor's O(log n));
      `tab:alpha-G-short`; lifts, rank-one rows and products sharing one ancilla register; the
      stacked residual composed into one reflection (§7.4) and verified against the assembled H
-     (§7.6). The arithmetic and the proofs → Appendix E.
+     (§7.6). The arithmetic and the proofs → Appendix C.
 6. **§4.6 What remains: the standard-form Hamiltonian (1.2 p; `sec:standard-hamiltonian`).**
    - For constant coefficients α_R/‖R‖ stays bounded on R2a (`looseness/…` keys; C-02): the encoder
      has done its job.
@@ -1217,15 +1224,15 @@ in decisions 15, 31, 34 and 49; state them, never cite them (plan §3.5 rule 3).
      reversal reported.
    - Close: the answer to Q(i) in two sentences, and Ch. 5 named as changing the Hamiltonian.
 
-**Figures and tables.** T10 (`tab:deviations`); `tab:alpha-G-short` (full table → Appendix E); F3
-(`fig:uodd-select`). `tab:published-verdicts` is Appendix D's.
+**Figures and tables.** T10 (`tab:deviations`); `tab:alpha-G-short` (full table → Appendix C); F3
+(`fig:uodd-select`). `tab:published-verdicts` is Appendix I's.
 
-**Appendix offloads.** Appendix B: G's entries, structure and Θ(N²). Appendix C: the worked N = 4
+**Appendix offloads.** Appendix A: G's entries, structure and Θ(N²). Appendix B: the worked N = 4
 residual, the lifts and folds, the multi-axis residual, the datum-slice rows, the R3c/R3d
-substitution, the uniqueness count and its proof, the paper-faithful conventions. Appendix D: the
-paper's circuits as rebuilt, their claims' verdicts and the error bound. Appendix E: the
+substitution, the uniqueness count and its proof, the paper-faithful conventions. Appendix I: the
+paper's circuits as rebuilt, their claims' verdicts and the error bound. Appendix C: the
 factorisation's proof, the arithmetic SELECT, the cost proof, the Bessel-kernel limit and
-‖G^k‖₂ = Θ(N^{2k}). Appendix I: eigh against SVD and Wedin's bound. Appendix K: the reproduction,
+‖G^k‖₂ = Θ(N^{2k}). Appendix G: eigh against SVD and Wedin's bound. Appendix I: the reproduction,
 the triage and every claim's verdict.
 
 **Marker checklist.** The first paragraph poses Q(i) and attributes the construction; every
@@ -1249,7 +1256,7 @@ including the reformulation's own challenge and its cure.
 
 **Criterion.** Formulation, band 4, "warranting publication". The body carries the idea, the object
 (stated once), the cost (a formal result), the challenge and the interpretation; entries,
-constructions and proofs go to Appendices B and G.
+constructions and proofs go to Appendices A and D.
 
 **Sources.** `docs/02_methods.md` §3.2; `docs/13_descriptor.md`; `docs/14_descriptor_gap.md` (the
 challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-05, C-06;
@@ -1262,7 +1269,7 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
    opening paragraph, before §5.1, arrives from §4.6 and poses Q(ii) only. §5.1 then: the idea in one
    sentence (dense because the derivative is expanded in the function's basis; banded into the
    neighbouring basis); B̃f̂⁽¹⁾ = D̃f̂⁽⁰⁾ and G = B̃⁻¹D̃, B̃ on its diagonal and second superdiagonal,
-   D̃ on its first (entries and the recurrence → Appendix B), ‖D̃‖ = 2(N − 1), ‖B̃‖ ≤ 2 + √2; the
+   D̃ on its first (entries and the recurrence → Appendix A), ‖D̃‖ = 2(N − 1), ‖B̃‖ ≤ 2 + √2; the
    ultraspherical antecedent credited once, with the reduction it would offer and why it is not
    built; the move (keep the factor as a row, carry the derivatives; chain and mass form named);
    first-order-system least squares credited and the increment named. **Figure F4**: the sparsity of
@@ -1272,7 +1279,7 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
    since the theorem assumes the constraint placement and extends to the several-axis chains).**
    - *The chain* (order k ≥ 2): w = (f̂⁽⁰⁾; …; f̂⁽ᵏ⁾), padded to 2^⌈log₂(k+1)⌉ blocks; the block rows
      (recurrences −D̃f̂⁽ʲ⁾ + B̃f̂⁽ʲ⁺¹⁾ = 0, the equation row, padding) in the Definition's matrix;
-     **Table T5** moved to Appendix G (`tab:app-descriptor-rows`), with the several-axis rows. A
+     **Table T5** moved to Appendix D (`tab:app-descriptor-rows`), with the several-axis rows. A
      variable coefficient by the standard form's own lift, on the axes it lifts (§4.2), so the two
      equation rows apply the same operators (the kernel theorem needs this); stated once, here.
    - *The mass form* (first-order equations and systems): no derivative block, since the equation
@@ -1286,13 +1293,13 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
      G; the regular datum on block 0, so decoding and scaling are the standard form's.
    - **Theorem (kernel equivalence)**, both layouts: ker A_desc = {(p, Gp, …, Gᵏp) : p ∈ ker A_std}
      for the chain, and ker A_desc = ker A_std for the mass form, because B̃ is invertible. Proof in
-     five lines in the body if it fits, else Appendix G.
+     five lines in the body if it fits, else Appendix D.
    - *Several axes* (paragraph, after the theorem): one field block and a chain per axis; mixed
      derivatives not built; datum slices for initial and boundary *functions* (defined with the
      standard form, §4.3), available to both forms (so "the descriptor avoids doubling for linear
      PDEs" is **not** claimed, B-20). The state cost in one clause, 2^⌈log₂(1+Σk_a)⌉·∏N_a against
-     ∏N_a, the examples in App. G (`sec:app-variable-coeff`). Then the theorem's extension to several
-     axes and to the rescaled residual (proof App. G).
+     ∏N_a, the examples in App. D (`sec:app-variable-coeff`). Then the theorem's extension to several
+     axes and to the rescaled residual (proof App. D).
    - The least-squares ground states differ by row weighting and converge to the same function (B-02).
    - **Volunteer the cost in the same breath:** the chain grows the state from N to 2^⌈log₂(k+1)⌉·N;
      the mass form grows nothing.
@@ -1309,7 +1316,7 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
      every later scope is one word.
    - **Theorem (v3.8, `thm:flat-gap`):** for a regular problem the gap is
      Θ(1): in the chain unscaled or at a fixed ζ, and in the mass form, which has no derivative
-     block and so nothing to rescale. Proof in App. G (`app:flat-gap`): the
+     block and so nothing to rescale. Proof in App. D (`app:flat-gap`): the
      recurrence rows are the defect f_{j+1} − f_j′ in the U-weighted norm (`lem:second-kind`),
      integration recovers the lower blocks, the equation row the top block, and compactness
      closes it; no explicit constant.
@@ -1318,7 +1325,7 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
      the field block crowded out of the ground state, so an initial state on it has tiny overlap
      (R2c unscaled: field weight 5.4e-6).
    - What it is not: the lift, the padding, the precision, the constraints, the basis and the
-     reference method are ruled out (one sentence; the evidence → Appendix G).
+     reference method are ruled out (one sentence; the evidence → Appendix D).
 4. **§5.4 Block rescaling (1.0 p) — the cure and its limits.**
    - f̂⁽ᵐ⁾ ↦ ζ^{−m} f̂⁽ᵐ⁾ (`eq:block-rescaling`): S diagonal and invertible, so the kernel and the
      field block's readout are unchanged. **In the circuit it reweights the bands before the block
@@ -1343,12 +1350,12 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
    source's N coefficients loaded by a rotation tree (O(N) gates for a general source, as for any
    general state, poly(n) for a polynomial one: B-11) and added by one further combination. A system's coupling Γ (a sum of matchings) is Ch. 6's: one pointer.
    **Figure F5** (quantikz) in the body; the **algorithm** (term IR → PREPARE/SELECT/PREPARE†)
-   and its line-referenced walkthrough (Snow's model) together in App. G (`app:term-ir`; v3.8,
+   and its line-referenced walkthrough (Snow's model) together in App. D (`app:term-ir`; v3.8,
    2026-10-13, moved to meet the page budget, the walkthrough having moved in v3.4).
 6. **§5.6 Cost of the descriptor encoding (1.0 p).**
    - **Proposition (structure):** an exact block encoding; ⌈log₂(n+4)⌉ + 8 ancilla for R2's system
      rows (O(log n): the block register, the term selector, the overflow and projection flags);
-     O(n²) gates without a source or with a polynomial one, O(N) added by a general source (B-11). Proof → Appendix G. With Ω(log L), the ancilla count is order-optimal *among exact
+     O(n²) gates without a source or with a polynomial one, O(N) added by a general source (B-11). Proof → Appendix D. With Ω(log L), the ancilla count is order-optimal *among exact
      LCU encodings*; hedge exactly that far.
    - **Measured (assert, with `\res`):** α/‖A_desc‖ → 1 on regular problems, about 2 on
      singular ones, 2.3–4.1 on PDEs (B-04).
@@ -1371,10 +1378,10 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
 8. **§5.8 Summary (0.25 p).** Four numbered takeaways, one of them a limit, and the spine.
 
 **Figures and tables.** F4 (sparsity, from `pihm.pipeline.solutions`' structure view), F5 (flat LCU),
-Algorithm G.1 (App. G, v3.8), T5 (block rows; in Appendix G as `tab:app-descriptor-rows`); optionally T5b (the descriptor's term types: arity, gates, verified
+Algorithm G.1 (App. D, v3.8), T5 (block rows; in Appendix D as `tab:app-descriptor-rows`); optionally T5b (the descriptor's term types: arity, gates, verified
 residual).
 
-**Appendix offloads.** Appendix B: B̃, D̃ entries and the ultraspherical identities. Appendix G: the
+**Appendix offloads.** Appendix A: B̃, D̃ entries and the ultraspherical identities. Appendix D: the
 block rows in full, the padded count, the mass form, the kernel-equivalence proof, the gap mechanism
 and its ruled-out artefacts, the rescaling rule and its checks against a grid, the term IR and its
 compilation, the cost proof.
@@ -1403,7 +1410,7 @@ and every coupling and product meets the circuit in one place (§6.6).
 
 **Criterion.** Formulation, "sufficient detail to permit readers to create equivalent models": the
 rows, the data and the circuits of a system and of a lift must be rebuildable from the body plus
-Appendix H. The chapter opens with the scope the paper leaves (one real field; its Discussion: with
+Appendix E. The chapter opens with the scope the paper leaves (one real field; its Discussion: with
 a Fourier basis "the resulting total energy function is of a complicated form, rendering it
 difficult to find the ground state"; a doubled space for quadratic terms) and with Q(iii), and
 closes on Q(iii)'s answer (§6.8). Carries S4.
@@ -1446,7 +1453,7 @@ the complex-valued remark.
      chain stays as a labelled ablation.
    - *(v3.2)* The rows are displayed **once**, here (`eq:system-rows`, components the most
      significant index, as §5.2's `eq:mass-form`), with the time axis's T/2; §6.5 does not
-     re-display them (`eq:carleman-spacetime` retired; App. H's comment retargeted).
+     re-display them (`eq:carleman-spacetime` retired; App. E's comment retargeted).
    - The standard and descriptor forms of a system share their state, initial state and readout,
      and differ only by I⊗B̃: the like-for-like comparison R7–R10 rely on.
    - Higher-order systems: by reduction to first order (one sentence; none run beyond R7's
@@ -1496,7 +1503,7 @@ the complex-valued remark.
      (`prop:no-penalty`): a kernel containing ψ⊗ψ and φ⊗φ contains their sum, which is not a product
      state, so no Hamiltonian enforces the product structure; any function of H returns the initial
      state's projection onto the kernel; the paper's choice reported as the product state of least
-     residual. Proof → Appendix H. *(v3.2: state it for any filter that is constant on the kernel
+     residual. Proof → Appendix E. *(v3.2: state it for any filter that is constant on the kernel
      and suppresses the rest, so it covers the minimax filter as well as QITE; the existing draft
      stated it for imaginary time only. The bound behind A-10 is dim ker ≥ N² − 2N − c for c
      invariant constraints, above 2^{2n−1} from n = 3; quote the measured count by
@@ -1530,7 +1537,7 @@ the complex-valued remark.
      greedy colouring reached Δ. Each matching's α is its own largest entry, so the coupling's α is
      the **sum** of those. Measured α/‖Γ_K‖ (keys `lift/…/verify=ir`): about 1.1–1.5 on R9, 2.3–7.3
      on R10. No Pauli-word count is exported: compare the matchings with the tensor layout instead
-     (both keyed), and put the Pauli count in App. H as `\prov` or drop it.)*
+     (both keyed), and put the Pauli count in App. E as `\prov` or drop it.)*
    - The ratio rows as three LCU terms (identity, projector, a loaded rank-one term).
    - **The tensor layout:** Γ_K in **2K − 1 terms** (not K²), each F_p on adjacent slots, which
      reaches field scale; built on complex Fourier variables (§6.3).
@@ -1563,9 +1570,9 @@ the complex-valued remark.
    sentence tying back to §5.1: the mass form is the same banded left factor, applied in time.
    Close: the answer to Q(iii) in two sentences, and §8.4–8.5 named as its evidence.
 
-**Figures and tables.** T8 (`tab:prep-vs-proj`). No figure; R7's numbers go to §8.4. *(v3.2 cut, 2026-10-12: `prop:fold-optimal` moved to App. H with its proof, the body keeping one paragraph on the folds; the tensor layout's circuit, the matchings' construction, the lift's spectrum and level scale, R7's rows and the fluids' parameters likewise. App. H adds `tab:lift-circuits` and `tab:doubled-kernel`. Body ≈ 7.2 pp against 6.)*
+**Figures and tables.** T8 (`tab:prep-vs-proj`). No figure; R7's numbers go to §8.4. *(v3.2 cut, 2026-10-12: `prop:fold-optimal` moved to App. E with its proof, the body keeping one paragraph on the folds; the tensor layout's circuit, the matchings' construction, the lift's spectrum and level scale, R7's rows and the fluids' parameters likewise. App. E adds `tab:lift-circuits` and `tab:doubled-kernel`. Body ≈ 7.2 pp against 6.)*
 
-**Appendix offloads.** Appendix H, in the chapter's order: (opening section, `app:systems`) the
+**Appendix offloads.** Appendix E, in the chapter's order: (opening section, `app:systems`) the
 system rows in full, the padding, the ratio rows and their three-term circuit, the matchings by edge
 colouring, the realification map and its kernel equivalence, the real embedding of the Fourier
 variables; then the doubled-space algebra, its kernel and `prop:no-penalty`'s proof; the symmetric
@@ -1574,7 +1581,7 @@ for Burgers and Navier–Stokes in full.
 
 **Marker checklist.** The scope gap stated from the paper's own words, and Q(iii) at the head; the
 thread (one state, a coupled linear system) visible in the opening and in §6.5's first sentence;
-systems and lifts rebuildable from body and Appendix H; the mass form *applied*, not redefined (§5.2
+systems and lifts rebuildable from body and Appendix E; the mass form *applied*, not redefined (§5.2
 owns it); realification stated as the route run, with R7 as its instance; every complex-valued claim
 scoped (formulation; one encoding verified; preparation not built); "prepared" never for the doubled
 space; ρ stated as sufficient; the fold's α = 2 called tight (within 1.21), not optimal; the DCT named
@@ -1615,17 +1622,17 @@ selected (boundary conditions…)**". Band 3 names "**poor design of numerical e
    paragraph.
 2. **§7.2 Problems and model inputs (1.0 p).** The benchmark ladder R1–R10 by pointer (**Table T3**
    moved to §4.1 beside the running example, v3.5, `StructuralReview.md` F7; full specifications →
-   Appendix J).
+   Appendix H).
    **Table T2**, the constraint kinds (zero, collapse, ratio, datum slice): the rubric's "boundary
    conditions". **`tab:run-inputs`** (v3.2, 2026-10-12): every input option with its values and
    default, for the checklist's "every input option named, with its value"; the body names the
-   options and the table sits in Appendix J (`app:run-options`). A problem is data: equation terms, constraints, regular datum, reference. The paper's
-   panels as printed appear only in Appendix K (T-27). The inputs every run records: n per axis,
+   options and the table sits in Appendix H (`app:run-options`). A problem is data: equation terms, constraints, regular datum, reference. The paper's
+   panels as printed appear only in Appendix I (T-27). The inputs every run records: n per axis,
    form, encoder, filter, ε = 1e-6, initial state, rescaling, Carleman order K.
 3. **§7.3 The classical reference (0.5 p).** The smallest right singular vector of the stacked R:
    dense SVD to 8,192 physical columns, its accuracy Wedin's bound ε σ_max/(σ₁ − σ₀), the square
    root of the eigensolver's ε‖H‖/Δ (so `eigh(RᵀR)` is never used: one number, R2a's relative gap
-   at n = 8 below 2⁻⁵²; the table → Appendix I); beyond, shift-invert Lanczos on the augmented
+   at n = 8 below 2⁻⁵²; the table → Appendix G); beyond, shift-invert Lanczos on the augmented
    system [[I, R], [R†, −μI]], which never squares R, then Rayleigh–Ritz, with an a posteriori
    estimate. Trusted means a one-dimensional kernel with its ratio above 20, the largest spacing the
    ladder's spectra show without one. Decoding, η_e, and the metrics at three levels (operator,
@@ -1642,7 +1649,7 @@ selected (boundary conditions…)**". Band 3 names "**poor design of numerical e
      state's is resolved.
    - **The parameters are a priori:** the edge (σ₀, σ₁ of the reference) and α_R, never the
      solution. The edge is assumed known, the standard known-gap assumption; say so here and in
-     §9.5. The paper's time rule contains no ε and falls short of it (one sentence; App. K), which
+     §9.5. The paper's time rule contains no ε and falls short of it (one sentence; App. I), which
      is why the degree is set from the edge.
    - **Why minimax:** at equal suppression it needs 1.67–1.92 times fewer degrees than imaginary
      time with the ground state at the edge, in both forms (B-17); at equal *measured* infidelity
@@ -1685,7 +1692,7 @@ selected (boundary conditions…)**". Band 3 names "**poor design of numerical e
    Hamiltonians. The tier is marked on every number.
 9. **§7.9 Software and computation (0.25 p).** `pihm` (numpy, scipy, qiskit, qiskit-aer): one
    implementation per concept, problems as hashed data, tests of each claim; production on Setonix;
-   every number regenerated from archived records by one command (Appendix L). No code listings.
+   every number regenerated from archived records by one command (Appendix J). No code listings.
 
 **Marker checklist.** A configuration diagram; every input option with its value; the software
 described; the experiment's design and fairness justified; the deviations from the paper pointed to
@@ -1712,14 +1719,14 @@ notebooks of Planning §10.8, one per figure.
 
 **Opening (0.25 p).** The predictions of Chs 4–6 as claims about operators, and the order in which
 they depend on one another (v3.6: no section roadmap); the tiers; the records' provenance in one
-sentence; the full per-problem results → Appendix J; the reproduction of the paper → Appendix K.
+sentence; the full per-problem results → Appendix H; the reproduction of the paper → Appendix I.
 
 **Scaffold.**
 
 1. **§8.1 The pipeline is faithful (1.5 p; S1, S3; `sec:results-faithful`).** One opening paragraph
    of validation: the standard form's operators and solutions converge spectrally to the reference
    on every linear panel (R1–R5, best trusted error and its n), and the paper-faithful variant
-   reproduces the paper where it should (one sentence, App. K). Operators equal the assembled
+   reproduces the paper where it should (one sentence, App. I). Operators equal the assembled
    residuals in every mode (**Figure F7**, nb 20). The circuit equals the emulation before
    normalising, ≤ 1e-10, on every minimax T1 record (nb 31). Every trusted preparation within ε and
    its a priori bound (nb 30); the decoded field within its budget (**Figure F8**, nb 32). What the
@@ -1743,7 +1750,7 @@ sentence; the full per-problem results → Appendix J; the reproduction of the p
    (nb 43): three representative problems in both forms, each with its solution and cost: R2c
    (stiff: rescaling's biggest gain), R3a (a leading coefficient with zeros: where the ideal-bound
    comparison reverses), R5b (heat on two axes: the gap still falls, and the descriptor costs more
-   at small n). The rest → Appendix J.
+   at small n). The rest → Appendix H.
 4. **§8.4 Systems and nonlinear problems (1.5 p; Ch. 6, Q(iii), S4; `sec:results-nonlinear`).**
    **R7 first (one paragraph, nb 60):** the coupled oscillator, the realification of z′ = −iπz, in
    both forms and the chain ablation: field error, the mass form's gap against the chain's (about
@@ -1818,7 +1825,7 @@ band-4 separator.
    Navier–Stokes bounded by emulation and estimate; the descriptor's Hilbert-space and per-query cost;
    the double zero excluded; the iterative reference's bound an estimate; trust is not convergence;
    complex-valued fields carried by realification only, with no native complex preparation; the
-   paper's PDE and nonlinear panels unreproduced (App. K; the authors not contacted).
+   paper's PDE and nonlinear panels unreproduced (App. I; the authors not contacted).
 
 **Marker checklist.** Explains rather than restates; the complexity argument consistent with §3.5,
 §4.6 and §5.7; every limitation owned with its analysis; consequences for the field drawn.
@@ -1866,27 +1873,53 @@ No new results and no new citations in this chapter.
 
 ## 6. Appendices (outside the page limit)
 
+**Restructured 2026-10-15** (13 → 11; this table and every letter in this file use the new scheme). The
+gate reference was deleted (§2.1 cites Nielsen & Chuang); everything that tests the paper (the
+paper-faithful conventions, the Laplace invariant set, the published circuits) joined the
+reproduction and audit (I); the tier-labelled filter and edge studies and the fluid problems' data
+joined the catalogue (H); the order follows the chapters. Labels are unchanged. Material moved to
+the repository is staged verbatim in `3_footer/appendices/_offload_to_pihm.tex` until ported. Old →
+new: B→A, C→B, E→C, G→D, H→E, F→F, I→G, J→H, D and K→I, L→J, M→K.
+
 | | appendix | content | cited in |
 |---|---|---|---|
-| A | Quantum gate reference | the gate table; multi-controlled decompositions | §2.1 |
-| B | Chebyshev and ultraspherical identities | normalised basis, S, G's entries, structure and Θ(N²) (`app:cheb-G-norm`), the B̃/D̃ recurrence, the ultraspherical connection, the N = 4 instance | §2.3, §4.2, §5.1 |
-| C | The standard form in full | the finite-system step (`app:pihm-constraint-proof`); the worked N = 4 residual; ℳ_{x^p}, ℳ_a, 𝒩₁, 𝒩_x; the residual on any number of axes (`app:pihm-multi-axis`); the datum-slice rows (`app:datum-slice`); the R3c/R3d substitution (`app:legendre-substitution`); the uniqueness count and its proof (`app:uniqueness-count`); the paper-faithful conventions (`app:faithful-conventions`) and the printed SM §A matrices reproduced (`app:sm-matrices`, A-01) | §4.1–4.4 |
-| D | The paper's circuits as built | Figs 2, 8, 9 rebuilt; every deviation from the printed figures; the claims' verdicts (`tab:published-verdicts`); the error bound (`prop:epsilon-G`) and measured ε_G(n), qubits and gates; the prefactor against ‖G‖₂ | §3.3, §4.5.1 |
-| E | The structured exact G encoding | the factorisation proof; Λ, U_odd (subtraction with borrow), R₀; the cost proof; α across n (`tab:alpha-G-full`); the Bessel-kernel limit and ‖G^k‖₂ = Θ(N^{2k}) | §4.5–4.6 |
-| F | Shared pipeline identities | the stacked reflection; qubitisation (one power, then one restriction); the controlled walk; imaginary-time coefficients and Σ\|q_k\| = 1; the minimax edge filter and its degree; GQSP phases; the interferometric readout and the identity for p_G < 1 | §7.4–7.7 |
-| G | The descriptor construction in full | block rows; the padded count; the mass form; the kernel-equivalence proof; the gap mechanism and its ruled-out artefacts; the rescaling rule and its checks; the term IR and its compilation; the cost proof | §5.2–5.6 |
-| H | Systems and the nonlinear route in full | **(opening, `app:systems`)** the system rows in both forms and the padding; ratio rows and their three-term circuit; the coupling as matchings by edge colouring; realification and its kernel equivalence; the real embedding of the Fourier variables; **then** the doubled-space algebra and kernel and the p-copy extension; the Carleman lift (symmetric and tensor layouts, the level scale, the tensor layout's complex weights); space–time forms; the folds (α = 2 within 1.21 of ‖𝒩₁‖₂); Fourier–Galerkin F₁ and F₂ for Burgers and Navier–Stokes; R9 and R10's panels | Ch. 6 (§6.1–6.3, then §6.4–6.7) |
-| I | Verification protocol | modes, sizes and tolerances; structured probes; per-term residuals; `eigh` against SVD (`tab:eigh-vs-svd`) and Wedin's bound against the eigensolver's; the iterative reference and its checks against the dense SVD; the T1 memory and time model; acceptance and the error budget | §7.3, §7.6 |
-| J | Benchmark catalogue | R1–R10: equations, references, constraints, n-grids, parameters; a per-problem results table (both forms, tiers) | §7.2, §8.3 |
-| K | The reproduction and audit of Wu et al. | how the paper-faithful variant is built (`app:faithful-conventions` in C); every printed panel's η_e against the exact solution's and the ground state's (**Table T6**, `tab:eta-reproduction`); the panels' errors as printed and as run (`tab:app-repro-errors`); the Fig. 5 triage (**Figure F6**, `fig:faithful-vs-corrected`; `tab:app-fig5-triage`); the non-reproduced Figs 6–7 and the hypotheses tested (`app:repro-unreproduced`); every claim A-01–A-13 with its derivation and verdict (`app:paper-claims`, `tab:paper-claims`): positive definiteness and distinctness (the Laplace set's near-degenerate bottom), the uniqueness count's role, the PDE invariant sets' rank loss, the time rule's suppression bound e^{−1/(n−1)} and its measured shortfall, the readout identity's p_G correction (pointer F), the circuits (pointer D); the paper's filter (`app:paper-filter`); the tau ablation (`app:repro-tau`); the QITE T1 records' agreement with T2 | §3.5, §4.4, §7.5, §9.5 |
-| L | Software and reproducibility | `pihm`'s architecture; records, provenance and the source digest; campaigns and Setonix; tests; regenerating every figure and number; environment pins | §7.9 |
-| M | Research proposal, with deviations | the proposal verbatim and the deviations table (§13.4) | – |
+| A | Chebyshev and ultraspherical identities | normalised basis, S, G's entries, structure and Θ(N²) (`app:cheb-G-norm`), the B̃/D̃ recurrence, the ultraspherical connection, the N = 4 instance | §2.3, §4.2, §5.1 |
+| B | The standard form in full | the finite-system step (`app:pihm-constraint-proof`); the worked N = 4 residual; ℳ_{x^p}, ℳ_a, 𝒩₁, 𝒩_x; the residual on any number of axes (`app:pihm-multi-axis`); the datum-slice rows (`app:datum-slice`); the R3c/R3d substitution (`app:legendre-substitution`); the uniqueness count and its proof (`app:uniqueness-count`); the exact constraint points (`app:exact-points`); lifts and folds (`app:lifts-folds`). Nothing paper-faithful (T-27) | §4.1–4.4 |
+| C | The structured exact G encoding | the factorisation proof; Λ, U_odd (subtraction with borrow), R₀; the cost proof; α across n (`tab:alpha-G-full`); the Bessel-kernel limit and ‖G^k‖₂ = Θ(N^{2k}); the standard form's gap bound (`prop:std-gap-bound`) | §4.5–4.6 |
+| D | The descriptor construction in full | block rows; the padded count; the mass form; the kernel-equivalence proof; the gap mechanism and its ruled-out artefacts; the proof of `thm:flat-gap`; the rescaling rule and its checks; the term IR and its compilation; the cost proof | §5.2–5.6 |
+| E | Systems and the nonlinear route in full | **(opening, `app:systems`)** the system rows in both forms and the padding; ratio rows and their three-term circuit; the coupling as matchings by edge colouring; realification and its kernel equivalence; the real embedding of the Fourier variables; **then** the doubled-space algebra and kernel and the p-copy extension; the Carleman lift (symmetric and tensor layouts, the level scale, the tensor layout's complex weights); space–time forms; the folds (α = 2 within 1.21 of ‖𝒩₁‖₂); Fourier–Galerkin F₁ and F₂ for Burgers and Navier–Stokes (the problems' data are H's) | Ch. 6 (§6.1–6.3, then §6.4–6.7) |
+| F | Shared pipeline identities | the stacked reflection; qubitisation (one power, then one restriction); the controlled walk; imaginary-time coefficients and Σ\|q_k\| = 1; the minimax edge filter and its degree; GQSP and its phases (the phase-finding recipe in the repository); amplification and the ideal-encoding degree; the readout identity for p_G < 1. Identities and proofs only: no tier-labelled result | §7.4–7.7 |
+| G | Verification and the classical reference | modes, sizes and tolerances (structured probes and per-atom checks in one paragraph); `eigh` against SVD (`tab:eigh-vs-svd`) and Wedin's bound against the eigensolver's; the iterative reference and its checks against the dense SVD; the trust threshold; the T1 memory and time model; acceptance and the error budget | §7.3, §7.6 |
+| H | Benchmark problems and results by problem | R1–R10: equations, references, constraints, data (the fluid problems' runs and initial conditions, `app:fluid-data`); the constraint kinds and run options; the per-problem results tables (both forms, tiers); the filter study and the underestimated edge (`app:filter-studies`) | §7.2, §8.1, §8.3 |
+| I | The reproduction and audit of Wu et al. | the paper-faithful variant's conventions (`app:faithful-conventions`; the printed SM §A matrices in one sentence, A-01); every printed panel's η and errors, as printed and as run (**Table T6**, `tab:eta-reproduction`, one merged table); the Fig. 5 triage (**Figure F6**, `fig:faithful-vs-corrected`; `tab:app-fig5-triage`); the non-reproduced Figs 6–7 and the hypotheses tested, the printed errors and the Laplace invariant set (`app:repro-unreproduced`); every claim A-01–A-13 with its derivation and verdict (`app:paper-claims`, `tab:paper-claims`): positive definiteness and distinctness, the uniqueness count's role, the PDE invariant sets' rank loss, the time rule's suppression bound e^{−1/(n−1)} and its measured shortfall (`app:edge-study` in H), the readout identity's p_G correction (pointer F); Wu et al.'s circuits as rebuilt (`app:pihm-circuit`: `app:published-build`, `app:ladder`, `prop:epsilon-G`, `tab:app-epsilon-G`); the paper's filter (`app:paper-filter`); the tau ablation (`app:repro-tau`); the QITE T1 records' agreement with T2 | §3.3, §3.5, §4.4, §4.5.1, §7.5, §9.5 |
+| J | Software and reproducibility | one page: the repository at a frozen reference (tag `results-v1`, commit, DOI); architecture, records and provenance, campaigns and Setonix, tests, regenerating every figure and number, environment — a few sentences each, the detail in the repository | §7.9, §8 |
+| K | Research proposal, with deviations | the proposal verbatim and the deviations table (§13.4) | – |
 
-**The pointer rule:** never "see Appendix E"; write "the factorisation's proof and the borrow-flag
-SELECT are given in Appendix E". **Appendix K** is where a reader who wants to check the paper goes;
+**Writing order (v3.14).** What is still to write, in order of the marks at stake, each against the
+REVISE scaffold in its file:
+1. I, `app:repro-unreproduced`: the hypotheses tested for Figs 6–7 (R-D1, R-D2), one paragraph per
+   figure. §9.5 says "not reproduced under any hypothesis tested" and points here; nothing answers it yet.
+2. I, `app:paper-claims`: the derivations behind A-09, the uniqueness count and the PDE sets' rank loss,
+   A-11 (the suppression bound e^{−1/(n−1)} and `eq:time-rule-shortfall`), and the readout pointer,
+   adapted from the Chapter 4 first-pass prose commented out under the claims table.
+3. I, `app:faithful-conventions`: the paper-faithful conventions, one line each, and A-01 in one sentence.
+4. F, `app:gqsp-phases`: one sentence for phase-finding steps 2–4 (the citations survive in Ch. 2), then
+   fix "in four steps".
+5. G, `app:verification-modes`: one paragraph for the structured probes and the per-atom checks.
+6. H, `app:fluid-data`: smooth the join of the moved Burgers sentence.
+7. The repository: port the blocks of `_offload_to_pihm.tex` into `pihm`'s docs; freeze tag `results-v1`
+   (commit hash; a Zenodo DOI if possible). J cites the repository, so this precedes J.
+8. J: the one page.
+9. Optional: E's one clause on the inviscid truncation's conservation; B's pointer to the three-axis
+   example; A's 8 × 8 chain (keep or move).
+10. Build, check the merged Table T6's width, and run a Verification Mode pass over A–K.
+
+**The pointer rule:** never "see Appendix C"; write "the factorisation's proof and the borrow-flag
+SELECT are given in Appendix C". **Appendix I** is where a reader who wants to check the paper goes;
 it is written as a record with derivations, not as a narrative, and it may use "as printed" and the
-paper-faithful variant names freely. **Appendix L** exists for the rubric's "software tools" and the
-guidelines' "laboratory handbook" role; keep it factual and short (3–4 pp).
+paper-faithful variant names freely. **Appendix J** exists for the rubric's "software tools" and the
+guidelines' "laboratory handbook" role; keep it factual and to one page, the detail in the
+repository as the guidelines' "accompanying document" (Part B, items 12–13), cited at a frozen tag.
 
 ---
 
@@ -1912,15 +1945,15 @@ guidelines' "laboratory handbook" role; keep it factual and short (3–4 pp).
 | F14 | Navier–Stokes: vorticity and the degree pairs | §8.5 | nb 70 | T2 + T3 |
 
 **Appendix figures:** F6, the panels as printed against the problem (Fig. 5), and the triage
-(Appendix K; nb 11; classical).
+(Appendix I; nb 11; classical).
 
-**Body tables:** T1 approaches (§2.2); T2 constraint kinds (App. J, v3.4); T3 benchmark ladder (§4.1, v3.5, `StructuralReview.md` F7);
-`tab:run-inputs`, the run options (App. J, named in §7.2); T4
-verification modes (§7.6; the acceptance criteria, `tab:acceptance`, in App. I); T5 descriptor block rows (§5.2); **T7 the headline
+**Body tables:** T1 approaches (§2.2); T2 constraint kinds (App. H, v3.4); T3 benchmark ladder (§4.1, v3.5, `StructuralReview.md` F7);
+`tab:run-inputs`, the run options (App. H, named in §7.2); T4
+verification modes (§7.6; the acceptance criteria, `tab:acceptance`, in App. G); T5 descriptor block rows (§5.2); **T7 the headline
 three-encoding table (§8.2)**; T8 preparation versus projection (§6.8); T9 applicability map
 (§9.3); **T10 deviations from the printed method (§4.4, `tab:deviations`)**; `tab:filter-study` (§8.1) and `tab:growth` (§8.2) (v3.3); `tab:alpha-G-short`
-(§4.5.3). Appendix tables include T6 (`tab:eta-reproduction`, App. K) and
-`tab:published-verdicts` (App. D). Ch. 6's one body table is T8; R7's numbers go to §8.4.
+(§4.5.3). Appendix tables include T6 (`tab:eta-reproduction`, App. I) and
+`tab:published-verdicts` (App. I). Ch. 6's one body table is T8; R7's numbers go to §8.4.
 
 **Captions** (style guide §3.4): a bold claim, then what is plotted, on which axes, for which
 problem and parameters, then each panel, then the takeaway, then the tier. Figure captions below,
@@ -1974,7 +2007,7 @@ table captions above.
 | Planning / code | clash | thesis |
 |---|---|---|
 | τ (imaginary time), `tau` | τ(x) feature state | **β** (T-08), QITE only |
-| φ₀ (initial state) | φ₀ = T₀/√N, a basis function (§4.1, App. B) | **ψ_init** |
+| φ₀ (initial state) | φ₀ = T₀/√N, a basis function (§4.1, App. A) | **ψ_init** |
 | τ̃(x) (the paper's point-normalised τ/‖τ‖) | B̃, D̃ use the tilde; the thesis keeps τ raw | name it once in §4.1 as the paper's τ̃, never use it |
 | R (Carleman ratio) | stacked residual R | **ρ** (T-09) |
 | λ (block rescaling) | eigenvalues λ₀, λ₁ | **ζ** (T-19) |
@@ -1984,7 +2017,7 @@ table captions above.
 | P (padded dimension) | P(z) GQSP polynomial | **dim w** |
 | bare A, H | both forms | subscripts (T-07) |
 | 𝔾, 𝔸, 𝕄, 𝕟₁, 𝕌 (the paper's and the plan's blackboard bold) | M (Carleman dimension), A (residual), n (qubits), U (unitaries) | G; Γ; ℳ; 𝒩₁; U_CG (T-06, v3.7) |
-| ℳ (a matching, App. H) | ℳ the lift | **𝒫** |
+| ℳ (a matching, App. E) | ℳ the lift | **𝒫** |
 | Gᵀ applied to ψ (the paper's print) | upper-triangular G | G, no transpose (T-16) |
 | B̃_std (raw basis) | std = standard form | **B̃_raw** (T-19) |
 | β (the paper's ladder coefficient) | imaginary time | **μ** (T-19) |
@@ -2020,7 +2053,7 @@ register at `results-v1`; if not, the prose is rewritten to what is supported.
 | B-02 | exact kernels coincide; elsewhere both forms' fields converge alike | §5.2 | A (restated) |
 | B-03 | "O(1) ancilla" | – | X → C-06 |
 | B-04/B-05 | α/‖·‖ → 1 on regular panels; ~2 singular; 2.3–4.1 on PDEs | §5.6; T7 | H |
-| B-06 | gap Θ(1) on regular problems, proved (def:regular, thm:flat-gap, App. G); rescaled gap O(1) on one axis, measured on singular problems; still falls on two | §5.3–5.4; §8.3 | H |
+| B-06 | gap Θ(1) on regular problems, proved (def:regular, thm:flat-gap, App. D); rescaled gap O(1) on one axis, measured on singular problems; still falls on two | §5.3–5.4; §8.3 | H |
 | B-07 | relative gap, with the eigh/SVD distinction | §5.7; §7.3 | A |
 | B-08/B-09 | old query and gate scalings | – | X → C-05, §9.2 |
 | B-10 | Neumann costs Θ(N²) more | – | X |
@@ -2150,9 +2183,9 @@ copy-back.
 
 | wave | unlocked by | write | notes |
 |---|---|---|---|
-| **W0** | this plan | the scaffold aligned to this plan (§4.3: Ch. 8, Ch. 9, Appendices C, D, I, K); the REVISE sweep (plan §2.1); the `ref.bib` audit and additions (T-29, plan §5.2) | structural only; zero undefined references |
-| **W1** | now | Ch. 2; Ch. 3; Ch. 4; Ch. 5; Ch. 6; Ch. 7; Appendices A–I | maths and method; numbers render as their placeholders |
-| **W2** | P8 copied back; exporter rerun | Ch. 8 in order §8.1 → §8.5; Appendices J, K, L; then every `\res` in Chs 4–7 checked | the numbers freeze |
+| **W0** | this plan | the scaffold aligned to this plan (§4.3: Ch. 8, Ch. 9, Appendices B, I, G, I); the REVISE sweep (plan §2.1); the `ref.bib` audit and additions (T-29, plan §5.2) | structural only; zero undefined references |
+| **W1** | now | Ch. 2; Ch. 3; Ch. 4; Ch. 5; Ch. 6; Ch. 7; Appendices A–G | maths and method; numbers render as their placeholders |
+| **W2** | P8 copied back; exporter rerun | Ch. 8 in order §8.1 → §8.5; Appendices H, I, J; then every `\res` in Chs 4–7 checked | the numbers freeze |
 | **W3** | W2 | §8.6; Ch. 9 | check §8.6's findings against P8 first (TR-1) |
 | **W4** | W3 | Ch. 1; Abstract; Ch. 10; Summary of Student Achievement; App M; the title (T-14) | written last, so they promise only what was delivered |
 | **W5** | W4 | Verification Mode; Review Mode per chapter; page count; §14; the supervisor's draft (guideline 9) | |
@@ -2225,7 +2258,7 @@ Navier–Stokes extensions; the Setonix production; the thesis. Name the help re
 supervisor; AI coding assistance, if the School's policy requires it to be declared (check it, and
 mirror it in the Acknowledgements, guideline 8).
 
-### 13.4 Research proposal deviations (Appendix M)
+### 13.4 Research proposal deviations (Appendix K)
 
 | proposed (May 2025) | outcome | why |
 |---|---|---|
@@ -2247,12 +2280,12 @@ The seminar (25 minutes plus questions) is outside the document; F0 or F1, F9 an
 
 ### 14.1 Content
 
-1. Every §1.1 contribution has a verdict in Ch. 10 and evidence in Ch. 8 or Appendix K.
+1. Every §1.1 contribution has a verdict in Ch. 10 and evidence in Ch. 8 or Appendix I.
 2. Every Abstract number has a `\res` key and a Ch. 8 location.
 3. Every claim ID cited in prose reads ✅ or ⚠️-as-restated in the register at `results-v1` (§9).
 4. `grep` finds none of: "collocation" or "the paper's regime" naming the standard form; "O(1) ancilla"; "+ 6" ancilla;
-   "Θ̃(N²) floor"; "not verified end to end"; "corrected" anywhere in prose outside App. K's verbatim
-   record; "as printed" or "paper-faithful" outside Appendix K and §4.4's validation paragraph;
+   "Θ̃(N²) floor"; "not verified end to end"; "corrected" anywhere in prose outside App. I's verbatim
+   record; "as printed" or "paper-faithful" outside Appendix I and §4.4's validation paragraph;
    "warm start"; "K^2 terms"; "Pillar"; "rung"; "wall"; QITE as the comparison's filter; "prepared"
    beside the doubled space or the tensor layout; the readout protocol "reproduced" as the method's
    readout; "optimal" for the nodal fold; "a/ν ≈ 5" as a measured boundary; a complex-valued field
@@ -2262,7 +2295,7 @@ The seminar (25 minutes plus questions) is outside the document; F0 or F1, F9 an
    a hand-off, with no section roadmap (plan §3.5 rule 1).
 7. The tier marked on every quantitative figure and table; every as-built comparison has its
    ideal-bound twin.
-8. The research proposal in Appendix M, with deviations.
+8. The research proposal in Appendix K, with deviations.
 
 ### 14.2 Style and presentation (/10: "flawless")
 

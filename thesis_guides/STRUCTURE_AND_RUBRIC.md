@@ -104,7 +104,7 @@ assumed known; the descriptor's gap falling on two axes and its double-zero limi
 cost comparison at the ideal-encoding bound (R3) and on the heat panel at small n; the doubled
 space projecting; a trusted kernel hiding a diverging Carleman lift; Navier–Stokes reached by
 emulation and estimate only; the DCT a cited primitive; the paper's PDE and nonlinear panels
-unreproduced (Appendix K). Stating
+unreproduced (Appendix I). Stating
 these with analysis costs nothing and evidences "insight into significance"; a marker who finds one
 the thesis concealed takes the band.
 
@@ -155,7 +155,7 @@ belongs in the body. "No need to include detailed codes": describe, never list.
 8. **Self-standing, claim-first captions** (Snow Fig. 7.1–7.12).
 9. **A practitioner's map of where each method applies** (Green Fig. 4.18). Ours: Table T9.
 10. **A Limitations paragraph in the author's own voice** (Snow §8.1). Ours: §9.5.
-11. **A catalogue of every target in an appendix** (Snow App. G). Ours: Appendix J.
+11. **A catalogue of every target in an appendix** (Snow App. G). Ours: Appendix H.
 
 ### 4.3 What not to copy
 
@@ -197,7 +197,7 @@ Only "flawless" earns 10.0; the proofreading marks are the cheapest in the rubri
 4. Acronyms defined at first use; `glossaries` complete.
 5. Bibliography uniform (IEEE `biblatex`), arXiv IDs where applicable, every entry checked.
 6. Page count within 40–60; declaration signed; Summary of Student Achievement one page, first
-   person; the proposal and its deviations in Appendix M; the supervisor's endorsement.
+   person; the proposal and its deviations in Appendix K; the supervisor's endorsement.
 7. Read the whole thesis aloud once.
 
 ---

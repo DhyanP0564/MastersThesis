@@ -197,18 +197,6 @@
 }
 
 % ---------------------------------------------------------------------------
-% Quantum Computing Foundations
-% ---------------------------------------------------------------------------
-
-@misc{Lin2022Lecture,
-	author = {Lin, Lin},
-	year = {2022},
-	month = {jan 20},
-	title = {Lecture notes on quantum algorithms for scientific computation},
-	howpublished = {https://arxiv.org/abs/2201.08309},
-}
-
-% ---------------------------------------------------------------------------
 % Readout / amplitude-amplification cluster
 % ---------------------------------------------------------------------------
 
@@ -224,17 +212,22 @@
   primaryclass  = {quant-ph}
 }
 
-@misc{scali2023topological,
+@article{scali2023topological,
   author        = {Scali, Stefano and Umeano, Chukwudubem and Kyriienko, Oleksandr},
   title         = {{Quantum topological data analysis via the estimation of the density of states}},
-  year          = {2023},
+  journal       = {Physical Review A},
+  volume        = {110},
+  number        = {4},
+  pages         = {042616},
+  year          = {2024},
+  doi           = {10.1103/PhysRevA.110.042616},
   eprint        = {2312.07115},
   archiveprefix = {arXiv},
   primaryclass  = {quant-ph}
 }
 
 @misc{williams2024readout,
-  author        = {Williams, Chelsea A. and Scali, Stefano and Gentile, Antonio Anna and Berger, Dorian and Kyriienko, Oleksandr},
+  author        = {Williams, Chelsea A. and Scali, Stefano and Gentile, Antonio A. and Berger, Daniel and Kyriienko, Oleksandr},
   title         = {{Addressing the Readout Problem in Quantum Differential Equation Algorithms with Quantum Scientific Machine Learning}},
   year          = {2024},
   eprint        = {2411.14259},
@@ -243,24 +236,20 @@
   annotation          = {Related work distinguished from this repo's readout approach; not a competing technique}
 }
 
-@misc{brassard2000amplitude,
+@incollection{brassard2000amplitude,
   author        = {Brassard, Gilles and H{\o}yer, Peter and Mosca, Michele and Tapp, Alain},
   title         = {{Quantum Amplitude Amplification and Estimation}},
-  year          = {2000},
+  editor        = {Lomonaco, Jr., Samuel J. and Brandt, Howard E.},
+  booktitle     = {{Quantum Computation and Information}},
+  series        = {Contemporary Mathematics},
+  volume        = {305},
+  publisher     = {American Mathematical Society},
+  address       = {Providence, RI},
+  pages         = {53--74},
+  year          = {2002},
+  doi           = {10.1090/conm/305/05215},
   eprint        = {quant-ph/0005055},
   archiveprefix = {arXiv}
-}
-
-@inproceedings{berry2014exponential,
-  author        = {Berry, Dominic W. and Childs, Andrew M. and Cleve, Richard and Kothari, Robin and Somma, Rolando D.},
-  title         = {{Exponential improvement in precision for simulating sparse Hamiltonians}},
-  booktitle     = {Proceedings of the 46th Annual ACM Symposium on Theory of Computing (STOC 2014)},
-  pages         = {283--292},
-  year          = {2014},
-  eprint        = {1312.1414},
-  archiveprefix = {arXiv},
-  primaryclass  = {quant-ph},
-  annotation          = {Introduces the oblivious amplitude-amplification variant used in readout.py}
 }
 
 @article{suzuki2020amplitude,
@@ -287,10 +276,15 @@
   primaryclass  = {quant-ph}
 }
 
-@misc{nishi2025overlap,
-  author        = {Nishi, Hirofumi and Kosugi, Taichi and Huang, Yifan and Hirose, Kenta and Okayama, Yuta and Matsushita, Yu-ichiro},
+@article{nishi2025overlap,
+  author        = {Nishi, Hirofumi and Kosugi, Taichi and Huang, Xinchi and Hirose, Satoshi and Okayama, Tatsuya and Matsushita, Yu-ichiro},
   title         = {{Quantum State Readout via Overlap-Based Feature Extraction}},
-  year          = {2025},
+  journal       = {Physical Review A},
+  volume        = {114},
+  number        = {3},
+  pages         = {032459},
+  year          = {2026},
+  doi           = {10.1103/3l9h-c367},
   eprint        = {2505.08613},
   archiveprefix = {arXiv},
   primaryclass  = {quant-ph},
@@ -302,7 +296,7 @@
 % ---------------------------------------------------------------------------
 
 @article{camps2024explicit,
-  author        = {Camps, Daan and Van Beeumen, Roel and Lin, Lin and Yang, Chao},
+  author        = {Camps, Daan and Lin, Lin and Van Beeumen, Roel and Yang, Chao},
   title         = {{Explicit Quantum Circuits for Block Encodings of Certain Sparse Matrices}},
   journal       = {SIAM Journal on Matrix Analysis and Applications},
   volume        = {45},
@@ -315,7 +309,7 @@
 }
 
 @article{sunderhauf2024blockencoding,
-  author        = {S\"underhauf, Christoph and Campbell, Earl and Camps, Daan},
+  author        = {S\"underhauf, Christoph and Campbell, Earl and Camps, Joan},
   title         = {{Block-encoding structured matrices for data input in quantum computing}},
   journal       = {Quantum},
   volume        = {8},
@@ -327,23 +321,13 @@
 }
 
 @misc{chakraborty2025qsvt,
-  author        = {Chakraborty, Shantanav and Hazra, Rishav and Li, Xin and Shao, Changpeng and Wang, Qisheng and Zhang, Zhicheng},
+  author        = {Chakraborty, Shantanav and Hazra, Soumyabrata and Li, Tongyang and Shao, Changpeng and Wang, Xinzhao and Zhang, Yuxin},
   title         = {{Quantum singular value transformation without block encodings: near-optimal complexity with minimal ancilla}},
   year          = {2025},
   eprint        = {2504.02385},
   archiveprefix = {arXiv},
   primaryclass  = {quant-ph},
   annotation          = {Theorem A.1 gives the ancilla lower bound cited for exact block encodings of L-term decompositions}
-}
-
-@misc{zhang2026lowancilla,
-  author        = {Zhang, Zhicheng and Shao, Changpeng},
-  title         = {{Low-ancilla block encodings via Hamiltonian simulation}},
-  year          = {2026},
-  eprint        = {2607.01843},
-  archiveprefix = {arXiv},
-  primaryclass  = {quant-ph},
-  annotation          = {Not yet implemented in this repo; flagged as the theoretically correct way to beat the current ancilla count}
 }
 
 @article{motlagh2024gqsp,
@@ -368,23 +352,6 @@
   year          = {2001},
   eprint        = {quant-ph/0111038},
   archiveprefix = {arXiv}
-}
-
-@misc{qrtlib2025,
-  title         = {{QRTlib}},
-  year          = {2025},
-  eprint        = {2510.16625},
-  archiveprefix = {arXiv},
-  primaryclass  = {quant-ph},
-  annotation          = {Quantum real-transform (DCT/DST/Hartley) circuit library extending Klappenecker--R\"otteler}
-}
-
-@misc{dyadic2026fractional,
-  title         = {{Dyadic-Order Quantum Fractional Transforms}},
-  year          = {2026},
-  eprint        = {2604.09295},
-  archiveprefix = {arXiv},
-  primaryclass  = {quant-ph}
 }
 
 @article{childs2012lcu,
@@ -419,18 +386,6 @@
   volume  = {52},
   pages   = {3457},
   year    = {1995}
-}
-
-@article{maslov2016relativephase,
-  author        = {Maslov, Dmitri},
-  title         = {{Advantages of using relative-phase Toffoli gates with an application to multiple control Toffoli optimization}},
-  journal       = {Physical Review A},
-  volume        = {93},
-  pages         = {022311},
-  year          = {2016},
-  eprint        = {1508.03273},
-  archiveprefix = {arXiv},
-  primaryclass  = {quant-ph}
 }
 
 @book{nielsenchuang2010,
@@ -526,28 +481,6 @@
 }
 
 % ---------------------------------------------------------------------------
-% Grover-Rudolph / state-preparation cluster
-% ---------------------------------------------------------------------------
-
-@misc{grover2002creating,
-  author        = {Grover, Lov and Rudolph, Terry},
-  title         = {{Creating superpositions that correspond to efficiently integrable probability distributions}},
-  year          = {2002},
-  eprint        = {quant-ph/0208112},
-  archiveprefix = {arXiv},
-  annotation          = {Cited in-repo only as ``Grover \& Rudolph (2002)'' with no arXiv ID; identity/eprint inferred, not stated in the citing text}
-}
-
-@misc{mottonen2004transformation,
-  author        = {M\"ott\"onen, Mikko and Vartiainen, Juha J. and Bergholm, Ville and Salomaa, Martti M.},
-  title         = {{Transformation of quantum states using uniformly controlled rotations}},
-  year          = {2004},
-  eprint        = {quant-ph/0407010},
-  archiveprefix = {arXiv},
-  annotation          = {Cited in-repo only as ``M\"ott\"onen et al. (2004)'' with no arXiv ID; identity/eprint inferred, not stated in the citing text}
-}
-
-% ---------------------------------------------------------------------------
 % Classical spectral-methods / numerical-analysis textbook cluster
 % ---------------------------------------------------------------------------
 
@@ -579,13 +512,6 @@
   year      = {2013}
 }
 
-@book{leveque2007finite,
-  author    = {LeVeque, Randall J.},
-  title     = {{Finite Difference Methods for Ordinary and Partial Differential Equations: Steady-State and Time-Dependent Problems}},
-  publisher = {SIAM},
-  year      = {2007}
-}
-
 @book{boyd2001Chebyshev,
 	author = {Boyd, John P.},
 	year = {2001},
@@ -595,21 +521,12 @@
 	title = {Chebyshev and fourier spectral methods: Second revised edition},
 }
 
-
 @book{canuto2006spectral,
   author    = {Canuto, Claudio and Hussaini, M. Yousuff and Quarteroni, Alfio and Zang, Thomas A.},
   title     = {{Spectral Methods: Fundamentals in Single Domains}},
   publisher = {Springer},
   year      = {2006},
   annotation      = {Used in this repo as the (independently consulted) stand-in for the source paper's own ``Voigt/Gottlieb/Hussaini'' citation -- see \texttt{voigtgottlieb1984spectral} and References.md item G31}
-}
-
-@book{voigtgottlieb1984spectral,
-  author  = {Voigt, Robert G. and Gottlieb, David and Hussaini, M. Yousuff},
-  title   = {{Spectral Methods for Partial Differential Equations}},
-  publisher = {SIAM},
-  year    = {1984},
-  annotation    = {Title/year as named by the source paper's (Wu et al. 2025, arXiv:2504.13174) own bibliography; not independently verified or consulted by this repo -- see References.md item G31}
 }
 
 @book{abramowitz1964handbook,
@@ -718,22 +635,15 @@
 % ---------------------------------------------------------------------------
 
 @misc{qiskit2024,
-  author       = {{Qiskit contributors}},
-  title        = {{Qiskit: An Open-source Framework for Quantum Computing}},
-  year         = {2024},
-  publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.2573505},
+  author        = {Javadi-Abhari, Ali and Treinish, Matthew and Krsulich, Kevin and Wood, Christopher J. and Lishman, Jake and Gacon, Julien and Martiel, Simon and Nation, Paul D. and Bishop, Lev S. and Cross, Andrew W. and Johnson, Blake R. and Gambetta, Jay M.},
+  title         = {{Quantum computing with Qiskit}},
+  year          = {2024},
+  eprint        = {2405.08810},
+  archiveprefix = {arXiv},
+  primaryclass  = {quant-ph},
   annotation         = {Primary quantum-circuit construction/simulation framework used throughout this repo; citation record added from the official Qiskit project, not transcribed from in-repo text}
 }
 
-@misc{pennylane2018,
-  author = {Bergholm, Ville and others},
-  title  = {{PennyLane: Automatic differentiation of hybrid quantum-classical computations}},
-  year   = {2018},
-  eprint = {1811.04968},
-  archiveprefix = {arXiv},
-  annotation   = {Used only in abandoned scratch experimentation (notebooks/scratch/ResearchPlayground.ipynb); not a live dependency of the canonical pipeline}
-}
 % ---------------------------------------------------------------------------
 % Citation pass on Chapters 3-6 (2026-10-12). Each entry's metadata was checked
 % against Crossref or arXiv; see the pass notes for what each source is cited for.
@@ -945,8 +855,8 @@
 }
 @misc{pawsey2023setonix,
   author    = {{Pawsey Supercomputing Research Centre}},
-  title     = {{Setonix Supercomputer}},
-  year      = {2023},
+  title     = {{Setonix}},
+  year      = {2022},
   address   = {Perth, Western Australia},
   doi       = {10.48569/18sb-8s43}
 }
@@ -960,6 +870,7 @@
 %   montanaro2016fem        at most polynomial speed-up at fixed dimension (abstract)
 %   leyton2008nonlinear     resources exponential in the integration time (abstract)
 %   mcclean2018barren       barren plateaus
+%   larocca2025barren       review: BP = loss exponentially concentrated; exponentially many shots to optimise (Loss concentration, p. 2)
 %   bravoprieto2023vqls     H_G = A^dag (1 - |b><b|) A, zero-energy ground state (Sec. 2.1.2)
 %   barison2022variational  Feynman--Kitaev clock: dynamics as a ground state (abstract)
 %   pool2024nonlinear       space and time in registers, Burgers, one ground state (abstract)
@@ -1039,6 +950,16 @@
   pages         = {4812},
   year          = {2018},
   doi           = {10.1038/s41467-018-07090-4}
+}
+
+@article{larocca2025barren,
+  author        = {Larocca, Martín and Thanasilp, Supanut and Wang, Samson and Sharma, Kunal and Biamonte, Jacob and Coles, Patrick J. and Cincio, Lukasz and McClean, Jarrod R. and Holmes, Zoë and Cerezo, M.},
+  title         = {{Barren plateaus in variational quantum computing}},
+  journal       = {Nature Reviews Physics},
+  volume        = {7},
+  pages         = {174--189},
+  year          = {2025},
+  doi           = {10.1038/s42254-025-00813-9}
 }
 
 @article{bravoprieto2023vqls,

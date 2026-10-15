@@ -17,7 +17,7 @@
 %             doubled space, only projects.
 % CRITERION   Formulation, "sufficient detail to permit readers to create
 %             equivalent models": the rows, the data and the circuits of a system
-%             and of a lift rebuildable from the body plus Appendix H.
+%             and of a lift rebuildable from the body plus Appendix E.
 % SOURCES     ThesisPlanning.md §5.6, §3.4, §8; pihm/docs/02_methods.md §3.2-3.5,
 %             §6.2; pihm/docs/companion/{21,51,55,60,61,62,63,64,65};
 %             pihm/docs/16_extensions.md; pihm/docs/17_navier_stokes.md;
@@ -111,7 +111,7 @@ The proof is given in \Cref{app:proof-no-penalty}. A filter returns the initial 
 % TRAPS: re-deriving the space-time rows (they are eq:system-rows with A -> A_K); the lift's
 %   preparation stated without the convergence caveat; rho < 1 as necessary.
 
-The Carleman lift of a polynomial system is a linear system on the system's monomials \cite{carleman1932,kowalskisteeb1991,liu2021carleman,krovi2023improved} (\Cref{sec:bg-de-nonlinear}), so everything in \Cref{sec:systems-fields,sec:systems-data} carries over: the components become monomials, the ratio rows carry the data's moments at $t=0$, and $\Acoup$ becomes the lifted generator $\Acoup_K$ in \Cref{eq:system-rows}, in either form. For $u\in\mathbb{R}^M$,
+The Carleman lift of a polynomial system is a linear system on the system's monomials \cite{carleman1932,kowalskisteeb1991,liu2021carleman,krovi2023improved} (\Cref{sec:bg-carleman}), so everything in \Cref{sec:systems-fields,sec:systems-data} carries over: the components become monomials, the ratio rows carry the data's moments at $t=0$, and $\Acoup$ becomes the lifted generator $\Acoup_K$ in \Cref{eq:system-rows}, in either form. For $u\in\mathbb{R}^M$,
 \begin{equation}
     \frac{du}{dt}=\sum_{p\ge1}F_p\,u^{\otimes p}
     \quad\longrightarrow\quad
@@ -139,7 +139,7 @@ with $z^{(K)}_1$ the first level of the truncated lift's exact solution. The lif
 % CUT-CANDIDATE (page pass 2026-10-14, about 0.5 pp; the author's call, not applied): keep one body
 %   paragraph (matchings encoded at the sum of their largest entries, the same factor in both forms;
 %   the tensor layout's 2K - 1 terms; the nodal fold exact at alpha = 2) and move the construction
-%   detail and the Ucg/DCT budgeting to App. H (app:matchings, app:systems).
+%   detail and the Ucg/DCT budgeting to App. E (app:matchings, app:systems).
 \subsection{Couplings and Products on a Circuit}
 \label{sec:ext-circuits}
 
@@ -205,7 +205,7 @@ For polynomial nonlinearities, then, a Hamiltonian with a unique ground state ex
 %   1. Is the scope gap stated from Wu et al.'s own words, and Q(iii) posed at the head?
 %   2. Is the thread (one state, a coupled linear system) visible in the opening and in
 %      sec:carleman's first sentence?
-%   3. Are systems and lifts rebuildable from body and Appendix H?
+%   3. Are systems and lifts rebuildable from body and Appendix E?
 %   4. Is the mass form applied, not redefined (sec:descriptor-layouts owns it)?
 %   5. Is realification stated as the route run, with R7 as its instance, and every complex-valued
 %      claim scoped (formulation; one encoding verified; preparation not built)?

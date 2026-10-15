@@ -1,0 +1,235 @@
+Every term of Wu et al.'s Hamiltonian has a circuit of polynomially many gates, so one application of it is cheap (\Cref{sec:pihm-encoding}). The filter applies the Hamiltonian as many times as its degree, and the degree depends on the circuit only through its subnormalisation $\alpha_H$, which no block encoding brings below $\|H\|$ (\Cref{eq:degree}). We call the ratio $\alpha_H/\|H\|\ge1$ the \emph{encoder's cost} and $\|H\|$ itself the \emph{Hamiltonian's cost}: the first belongs to the circuit, the second to the operator. The first question of the assessment asks how the query count grows with the resolution and how that growth divides between the two, and answering it needs an encoding tight enough that whatever growth remains cannot be the circuit's.
+
+The construction under examination is that of Wu et al.\ \cite{wu2025pihm}, built on the Chebyshev latent space and lifts of Paine et al.\ \cite{paine2023physicsinformed}. We call it the \emph{standard form}: the state holds the field alone, and every derivative is eliminated through the dense differentiation matrix $\G$, so that a term $f^{(j)}$ acts as $\G^j$ on the field's coefficients. Wu et al.'s Hamiltonian, a sum of Gram matrices (\Cref{eq:pihm-hamiltonian}), is the Gram matrix $H=R^\dagger R$ of one operator, the \emph{stacked residual} $R$, whose rows are the equation block followed by the constraint rows, so that a state's energy is $\|R\psi\|^2$. The thesis assembles, solves, encodes and reformulates $R$; $H$ is reached from it, and its eigenvalues are the squared singular values of $R$ (\Cref{sec:standard-form}). Where a printed choice would make a problem inaccurate, answer-dependent or ill posed, the standard form replaces it at the point where the construction meets it, and \Cref{tab:deviations} collects the departures.
+
+\subsection{The Model}
+\label{sec:standard-model}
+
+We use Wu et al.'s model, \Cref{eq:pihm-chebyshev-feature-map,eq:pihm-fq}, unchanged, and write it in the orthonormal basis that makes its scale explicit. The prefactors of the feature map define the basis functions $\varphi_0=T_0/\sqrt{N}$ and $\varphi_k=T_k/\sqrt{N/2}$ for $1\le k<N$, which are orthonormal under the discrete inner product on the $N$ Chebyshev nodes, and $\bra{\tau(x)}=(\varphi_0(x),\dots,\varphi_{N-1}(x))$ is the row of their values at $x$. A truncated solution $f_N=\sum_{k<N}b_k\varphi_k$ is then $f_N(x)=\braket{\tau(x)|b}=\|b\|\braket{\tau(x)|\psi_e}$ with $\ket{\psi_e}=b/\|b\|$, so the model $f_Q$ of \Cref{eq:pihm-fq} represents $f_N$ exactly at $\ket{\psi}=\ket{\psi_e}$ and $\eta=\eta_e$, where, by Parseval's identity under the Chebyshev weight (\Cref{app:eta-e}),
+\begin{equation}
+    \eta_e=\|b\|^2=\frac{N}{\pi}\int_{-1}^{1}\frac{f_N(x)^2}{\sqrt{1-x^2}}\,dx .
+    \label{eq:eta-e}
+\end{equation}
+The state carries the direction of $b$ and the scale its length, and $\eta_e$ is fixed by the solution and the resolution alone, growing with $N$ for a smooth solution. It describes representability only: the ground state $\ket{\psi_g}$ is set by the residual's kernel and approaches $\pm\ket{\psi_e}$ only as far as $f_N$ satisfies the constraints. The regular datum recovers the scale and its sign, $\sqrt\eta=y_s/\braket{\tau(x_s)|\psi_g}$, which is negative when the ground state, defined only up to sign, opposes the datum; Wu et al.'s positive root is therefore a convention, and the decoded field carries the sign.
+
+The feature vector is kept unnormalised, as Wu et al.'s derivation uses it, so every constraint row inherits its squared norm, which oscillates about one and reaches $(2N-1)/N$ at $x=\pm1$; normalising it point by point would reweight the least-squares problem and change its solution (\Cref{app:eta-e}). A function of several variables is carried on one register per axis, each with its own $n$, with the feature vector $\bra{\tau(x_1)}\otimes\bra{\tau(x_2)}\otimes\dots$ in Kronecker order. The running example of this chapter is Wu et al.'s Fig.~3b: the critically damped oscillator $f''+4f'+4f=0$ with $f(-1)=0$ and $f(0)=\tfrac12$, whose solution is $f=\tfrac12(1+x)e^{-2x}$. It is R2a in the benchmark problems of \Cref{tab:ladder}, which the rest of the thesis uses. They are ordered so that each adds one capability to those above it, and a failure therefore localises to the capability that introduced it; each label names the problem with the data of \Cref{sec:standard-constraints}, not the printed panel.
+
+\begin{table}[htbp]
+    \centering
+    \caption[The benchmark problems R1--R10]{\textbf{The benchmark problems R1--R10, each adding one capability to those above it.} R2--R6 are the examples of Wu et al.\ \cite{wu2025pihm} (their Figs~3--7) with our data; R7--R10 go beyond one real field. $\{a_2,a_1,a_0\}$, coefficients of $a_2f''+a_1f'+a_0f=0$; $l$, $m$, Legendre degree and order; $a/\nu$, initial amplitude over viscosity. Equations, data and references in full: \Cref{tab:catalogue-linear,tab:catalogue-nonlinear}.}
+    \label{tab:ladder}
+    \small
+    \begin{tabular}{@{}l p{0.48\linewidth} p{0.42\linewidth}@{}}
+        \toprule
+        & Problem & New capability \\
+        \midrule
+        R1 & $f' + 2f = 0$, $f(-1) = 1$ & the smallest end-to-end system \\
+        R2 & three second-order equations, $\{1,4,4\}$, $\{1,-2,-3\}$, $\{1,5,400\}$ & order two; Dirichlet and Neumann data; stiffness (R2c) \\
+        R3 & Legendre, $m=0$ ($l=4,5$), and associated Legendre, $m=1$ ($l=5,6$) & variable coefficients and lifts; an exact kernel; the substitution of \Cref{sec:standard-constraints} (R3c, R3d) \\
+        R4 & four inhomogeneous equations & sources by their Chebyshev coefficients \\
+        R5 & Laplace (two space axes), heat and wave (one space and one time axis) & two axes; initial and boundary functions as datum slices \\
+        R6 & $4f'' + 2f'^2 + f = 0$; $f'' - 2f^2 + x = 0$ & the doubled space (a degenerate kernel) \\
+        R7 & $u' = v$, $v' = -\pi^2 u$ & two coupled fields; ratio rows \\
+        R8 & $y' = -y + y^2$, $y(0) = \tfrac12$ & the Carleman lift on a time axis, both forms \\
+        R9 & viscous Burgers, periodic, $a/\nu=0.03$--$10$ on $4$--$16$ sine modes & a field-scale lift across its convergence boundary \\
+        R10 & two-dimensional Navier--Stokes in vorticity form, periodic, $12$--$80$ modes & incompressible flow; the tensor layout to $316$ modes \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Differentiation and Multiplication}
+\label{sec:standard-operators}
+
+In the normalised basis the differentiation matrix has the entries
+\begin{equation}
+    [\G]_{k,p} =
+    \begin{cases}
+        2p, & p > k \ge 1,\ p-k\ \text{odd}, \\
+        \sqrt{2}\,p, & k = 0,\ p\ \text{odd}, \\
+        0, & \text{otherwise},
+    \end{cases}
+    \label{eq:pihm-G-entries}
+\end{equation}
+and it is exact on the represented space, since the derivative of a polynomial of degree below $N$ stays in it \cite{olver2013}. $\G$ is strictly upper triangular, dense and nilpotent, and its norm grows as $N^2$: $\|\G\|_2/N^2$ converges to $1/(2j_{-3/4,1})\approx0.472$, with $j_{-3/4,1}$ the first positive zero of the Bessel function $J_{-3/4}$, and $\|\G^k\|_2/N^{2k}$ to a positive constant for every $k$. Because the basis is orthonormal at the Chebyshev nodes, $\G$ is orthogonally similar to the matrix that differentiates nodal values, so the growth is not an artefact of the normalisation; its order is the classical one for dense Chebyshev differentiation \cite{olver2013,canuto2006spectral}. The structure and the similarity are proved in \Cref{app:cheb-G-norm}, and the limits in \Cref{app:G-limits}.
+
+A polynomial coefficient $a(x)$ acts by the lift of Paine et al.\ \cite{paine2023physicsinformed}, $x^p\bra{\tau(x)}_n=\bra{\tau(x)}_{n+1}\M_{x^p}$ \cite{wu2025pihm}, extended by linearity to $\M_a=\sum_pa_p\M_{x^p}$. It is exact whenever $\deg a\le N$, a constant enters as $a_0\M_1=a_0\sqrt2\,[\,I;\,0\,]$, and $\|\M_a\|_2\le\sqrt2\sup|a|$ (\Cref{prop:lift}). The equation $\sum_ja_j(x)f^{(j)}=r(x)$ then has the equation block
+\begin{equation}
+    \Astd=\sum_{j}\M_{a_j}\G^{j}-\M_r\,\Dzero(x_s), \qquad \M_r\,\Dzero(x_s)=\frac{\ket{\hat r}\bra{\tau(x_s)}}{f(x_s)},
+    \label{eq:standard-equation}
+\end{equation}
+in which the source enters through the collapse row of \Cref{sec:standard-constraints}, with $\hat r$ the coefficients of $r$ on the lifted register. The subscript marks the standard form, defined in \Cref{def:standard-form}.
+
+Wu et al.'s truncated Maclaurin source (\Cref{sec:pihm-residual}) poses a different equation, whose solution the ground state then approximates, with an error floor that no increase in $n$ removes (\Cref{app:repro-triage}). The standard form loads the Chebyshev coefficients of the source instead, through the same collapse row, so the source is as accurate as the series that represents the solution, geometrically convergent for a source analytic on the interval \cite{trefethen2013approximation}.
+
+Wu et al.\ treat at most two variables. On any number of axes a term is the Kronecker product over the axes of $\M_{a}\G^{j_a}$, each axis lifted if any term on it needs the exact product, and every axis if the equation has a source, and a constant coefficient on a lifted axis enters through $\M_1$ (\Cref{app:pihm-multi-axis}). The benchmark problems use at most two.
+
+\subsection{Constraints and Data}
+\label{sec:standard-constraints}
+
+The constraints are built from Wu et al.'s rank-one rows \cite{wu2025pihm}. The zero row $\Brow(x)=\sqrt{N}\ket{0}\bra{\tau(x)}$ maps a series to the constant function $f_N(x)$, so $\Brow(x)\G^{j}$ annihilates exactly the series whose $j$-th derivative vanishes at $x$. The collapse row $\Dzero(x_s)=\Brow(x_s)/f(x_s)$ maps the solution to the constant $1$ whatever its scale, which is what lets a source enter \Cref{eq:standard-equation}.
+
+A zero row is exact only at a point where the solution's derivative of that order vanishes. Wu et al.'s rounded constraint points (\Cref{sec:pihm-residual}) demand a zero the solution lacks, least squares trades it against the equation, and the error floors at every $n$ (\Cref{app:repro-triage}). The standard form takes the exact point, the root of the solution's derivative nearest Wu et al.'s value. The root depends on the answer: we compute it from the reference solution, outside the method, so a new problem must supply its constraint points with its data (\Cref{app:exact-points}).
+
+For an ordinary equation of order $k$ whose leading coefficient has no zero on $[-1,1]$, the invariant constraints fix the solution up to its scale, which the regular datum then fixes, exactly when they have rank $k-1$ on the equation's $k$-dimensional solution space (\Cref{prop:uniqueness-count}). The rank is that on the solutions, not of the functionals, so $k-1$ constraints chosen without regard to the equation can fail. Where the count does not apply, for an inhomogeneous equation or a vanishing leading coefficient, and for the gap at a given $n$, the computed kernel decides. We call it \emph{trusted} when the residual's near-kernel is one-dimensional, its smallest singular value separated from the next by a ratio of at least $20$ (\Cref{sec:pipeline-reference}). Trust certifies that the residual singles out one state, not that the field it decodes to has converged, which is measured separately.
+
+A \gls{pde} has an infinite-dimensional solution space and no such count. Wu et al.'s invariant sets (\Cref{sec:pihm-residual}) omit the function that fixes the solution: on Laplace's equation (R5a) a whole family of modes satisfies the equation and its three homogeneous sides, only one of which matches the omitted top side, so the near-kernel grows once the truncation resolves the others (\Cref{app:uniqueness-count}); the sets of the heat equation (R5b) and the wave equation (R5c) fail in the same way. The standard form imposes the initial or boundary function $g$ itself, on its slice $x_a=x^*$, by the \emph{datum-slice} rows
+\begin{equation}
+    \Slice_a(x^*)-\frac{\hat g\,\bra{\tau(x_s)}}{f(x_s)},
+    \label{eq:datum-slice}
+\end{equation}
+with $\Slice_a(x^*)$ the zero row $\Brow(x^*)$ on axis $a$ and the identity on the others, $\hat g$ the coefficients of $g$ broadcast along axis $a$, and $x_s$ a datum point, where $f(x_s)\ne0$. They vanish on the solution and its multiples and leave the scale free (\Cref{prop:datum-slice}), take $g$ from the problem's statement, serve both forms, and on R5a leave a one-dimensional kernel that is trusted at every resolution computed from $n=(3,3)$ to $(6,6)$. The heat problem is the one exception: data at the printed $t=0$ would pose a backward heat problem on $[-1,0]$, so the standard form poses it forward from $t=-1$, with the known solution evaluated there as its initial function (\Cref{app:datum-slice}), an answer-dependent set-up like the exact constraint points.
+
+Wu et al.'s associated Legendre examples R3c and R3d (their Figs~4c and~4d, $l=5$ and $6$ with $m=1$) multiply the equation through by $1-x^2$, which leaves a double zero of the leading coefficient at each end and a solution $P_l^1=-\sqrt{1-x^2}\,P_l'$ \cite[\S14.6]{dlmf} with a branch point there, which a Chebyshev series approximates only algebraically, so that neither problem has a trusted ground state at the printed resolution (\Cref{app:legendre-substitution}). The standard form solves for $v=f/\sqrt{1-x^2}$ instead, whose equation has a leading coefficient with simple zeros and the polynomial solution $v=-P_l'$, represented exactly once $N>l-1$ (\Cref{prop:legendre-substitution}): the error on R3c is \res[2,sci]{build/R3c/standard/best}{field_err_linf} at $n=\res{build/R3c/standard/best}{n}$. It is also the form the descriptor can run (\Cref{sec:descriptor-rescaling}).
+
+\subsection{The Standard Form}
+\label{sec:standard-form}
+
+The equation block and the constraint rows are stacked into one residual,
+\begin{equation}
+    R_{\mathrm{std}}=\begin{pmatrix}\Astd\\ C_1\\ \vdots\\ C_L\end{pmatrix}, \qquad \Hstd=R_{\mathrm{std}}^{\dagger}R_{\mathrm{std}}=\Astd^{\dagger}\Astd+\sum_iC_i^{\dagger}C_i ,
+    \label{eq:standard-stacked}
+\end{equation}
+every block at weight one, so that $\Hstd$ is a sum of Gram matrices of Wu et al.'s form, \Cref{eq:pihm-hamiltonian}, with the datum slices among the $C_i$. The eigenvalues of $\Hstd$ are the squared singular values of $R_{\mathrm{std}}$, and its ground state is the smallest right singular vector. The classical reference computes that vector by a \gls{svd} of $R_{\mathrm{std}}$ or, beyond its reach, by Lanczos iteration, because an eigensolver on the formed $\Hstd$ would square the condition number that limits its accuracy (\Cref{sec:pipeline-reference}) \cite{trefethenbau1997}. The circuit block-encodes $R_{\mathrm{std}}$ at $\alpha_R$ and reaches $\Hstd$ by one reflection, which block-encodes $2\Hstd/\alpha_R^2-I$, so $\alpha_H=\alpha_R^2$ and the encoder's cost enters the degree as $\alpha_R/\|R_{\mathrm{std}}\|_2$ (\Cref{sec:pipeline-walk}). For a small ground value the degree's $\sqrt{\alpha_H/\Delta}$ is close to $\alpha_R/\sigma_1$, so the filter pays the conditioning of $R_{\mathrm{std}}$ unsquared, through any encoding (\Cref{eq:degree}). The reformulation of \Cref{sec:descriptor} also acts on the rows of $R$, and its kernel theorem is a statement about $\ker R$.
+
+$\Hstd$ is positive semi-definite, and singular in the very case the method aims at, a solution the truncation represents exactly, contrary to Wu et al.'s description (\Cref{sec:pihm-residual}). When the solution is a polynomial of degree below $N$, any source is represented exactly and every constraint holds exactly at its point, $\G$ differentiates the solution and the lifts multiply it exactly, so its coefficients are annihilated by $R_{\mathrm{std}}$ and give $\Hstd$ an exact zero eigenvalue; Legendre's equation $(1-x^2)f''-2xf'+20f=0$ (R3a, Wu et al.'s Fig.~4a), whose solution is $P_4$, has one from $n=3$. Otherwise the truncated solution leaves a residual, $\lambda_0>0$, and the ground state minimises the total squared residual: the construction is least squares. Nor need the bottom of the spectrum be distinct, as Wu et al.'s partial differential sets show (\Cref{sec:standard-constraints}). The thesis relies on neither property; it relies on an isolated ground state, measured as a trusted kernel (\Cref{sec:pipeline-reference}).
+
+\begin{definition}[The standard form]
+\label{def:standard-form}
+For a linear problem on one or more Chebyshev axes, the \emph{standard form} is the stacked residual $R_{\mathrm{std}}$ of \Cref{eq:standard-stacked}, whose equation block is \Cref{eq:standard-equation}, lifted on every axis where a coefficient or a source needs the exact product, and whose constraint rows, each at weight one, are built from four kinds of row: zero rows $\Brow(x^*)\G^{j}$, at a point or on a slice, for data that vanish; the collapse row $\Dzero(x_s)$, which carries a non-zero point datum $f^{(j)}(x^*)=y^*$ as the row $\Brow(x^*)\G^{j}-y^*\Dzero(x_s)$, as it carries a source into the equation block; ratio rows for vector data (\Cref{sec:systems-data}); and datum slices (\Cref{eq:datum-slice}) for initial and boundary functions. Its Hamiltonian is $\Hstd=R_{\mathrm{std}}^{\dagger}R_{\mathrm{std}}$, and its solution is the smallest right singular vector of $R_{\mathrm{std}}$, scaled by the regular datum $f(x_s)=y_s$.
+\end{definition}
+
+\Cref{tab:constraint-kinds} lists the four kinds as model inputs, and \Cref{tab:deviations} collects every departure from the printed method, the pipeline's included. The residual's departures change its data, never $\G$, the lifts or the Gram structure, so $\Hstd$ keeps Wu et al.'s norm to leading order, the constraint rows growing more slowly than the equation block (\Cref{app:G-limits}); R3c and R3d, whose substitution changes the equation, are costed in the form the standard form runs. Only the pipeline's departures change the cost, and they lower it, through the structured encoding of \Cref{sec:standard-factorisation}. The baseline therefore keeps Wu et al.'s Hamiltonian, with the cheapest exact encoding built and better accuracy; how each comparison with the descriptor accounts for the two forms' different encodings is set out with the experiment's design (\Cref{sec:pipeline-design}).
+
+\begin{table}[htbp]
+    \centering
+    \caption[Departures of the standard form and pipeline from the printed method]{\textbf{Every departure from the printed method removes a defect of the printed choice or extends what the residual can carry.} Our standard form and pipeline against the method of Wu et al.\ \cite{wu2025pihm}; only the pipeline rows change the cost. $\G$, Chebyshev differentiation matrix; $R_{\mathrm{std}}$ and $\Hstd=R_{\mathrm{std}}^\dagger R_{\mathrm{std}}$, the standard form's stacked residual and Hamiltonian; $\alpha_R$, the residual's subnormalisation; $\|H\|_F$, Frobenius norm; $\varepsilon$, target suppression; $p_G$, post-selection success probability; Where, the section that argues the row. Evidence for every row: \Cref{app:reproduction}.}
+    \label{tab:deviations}
+    \footnotesize
+    \begin{tabular}{@{}p{0.14\textwidth} p{0.34\textwidth} p{0.36\textwidth} p{0.10\textwidth}@{}}
+        \toprule
+        Choice & This thesis & Defect of the printed choice & Where \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textit{Data: what the residual carries}} \\
+        \addlinespace[2pt]
+        Constraint points & the exact point, set up from the reference solution & a rounded zero the solution lacks floors the error & \Cref{sec:standard-constraints} \\
+        Sources & Chebyshev coefficients on the lifted register & a truncated Maclaurin series poses a different equation & \Cref{sec:standard-operators} \\
+        PDE data & datum slices for initial and boundary functions; the heat data at $t=-1$ & hand-picked invariant sets let the near-kernel grow with $n$; data at $t=0$ pose a backward heat problem & \Cref{sec:standard-constraints} \\
+        Double zero & R3c and R3d solved for $v=f/\sqrt{1-x^2}$ & a branch point limits convergence to algebraic & \Cref{sec:standard-constraints} \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textit{Reach: what the residual can express}} \\
+        \addlinespace[2pt]
+        Axes & any number (two run) & a limit of scope: two axes & \Cref{app:pihm-multi-axis} \\
+        Fields & several fields on one state, ratio rows, realification & a limit of scope: one real scalar field & \Cref{sec:extensions} \\
+        Nonlinearity & the Carleman lift, in both forms; the doubled space kept in the standard form & the doubled space projects onto a kernel of dimension at least $2^{2n-1}$ & \Cref{sec:doubled-space,sec:carleman} \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textit{Pipeline: how the residual is encoded, filtered, solved and read}} \\
+        \addlinespace[2pt]
+        Hamiltonian & the stacked residual, solved and encoded from $R_{\mathrm{std}}$; $\Hstd$ never formed & forming $H$ squares the residual's conditioning & \Cref{sec:standard-form,sec:pipeline-reference} \\
+        Encoding of $\G$ & an exact factorisation, $\alpha$ within a factor $2.12$ of $\|\G\|_2$ & an approximate encoding, $\alpha$ looser than $\|\G\|_2$ by about $N^3$ & \Cref{sec:standard-factorisation} \\
+        Filter & the minimax edge filter, its degree set a priori & the time rule does not reach the suppression $\varepsilon$ & \Cref{sec:pipeline-filter} \\
+        Phases and scale & \gls{gqsp} phases from the target alone; scaled by $\alpha_R^2$ & fitted phases carry no guarantee; $\|H\|_F$ is not a subnormalisation & \Cref{sec:pipeline-walk,sec:pipeline-filter} \\
+        Initial state & the geometric product state; its overlap $\gamma$ reported & not specified & \Cref{sec:pipeline-filter} \\
+        Readout & the field decoded classically from the prepared state & the interferometric identity assumes $p_G=1$ & \Cref{sec:pipeline-readout} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The baseline is validated against Wu et al.'s printed results. With every printed choice restored, the rounded points, the Maclaurin sources and the hand-picked invariant sets, the same construction reproduces the matrices printed in Wu et al.'s supplementary material at $n=2$ entry by entry, which checks the operators. Its basis gives, for the exact solution, the printed scale factor of each of Wu et al.'s eleven ordinary examples to within one unit of the last printed digit, which checks the normalisation: for Fig.~3b, as printed at $n=3$, the exact solution gives $\eta_e=\res[places=5]{build/R2a/faithful/standard/n3}{eta_ideal}$ against the printed $1.29$. The printed scale factors of their three partial differential and two nonlinear examples are not reproduced, by the exact solution's $\eta_e$ or by any ground state we computed, and the cause is not settled. The record of every example, the triage of the printed choices and the verdict on each of Wu et al.'s claims are given in \Cref{app:reproduction}.
+
+\subsection{Encoding the Derivative}
+\label{sec:standard-factorisation}
+
+Every term of the standard form is a product of lifts, rank-one rows and powers of $\G$. The rank-one rows have exact circuits whose subnormalisation is fixed by their own norm, so the term whose encoding decides the encoder's cost is $\G$.
+
+\subsubsection{Wu et al.'s Encoding}
+\label{sec:standard-published}
+
+Wu et al.'s circuit for $\G$ (their Fig.~9; \Cref{sec:pihm-encoding}) loads the column value $2p$ of each entry as an amplitude through a ladder of small controlled rotations, and its claims about gates and entry errors hold. The claim that decides its cost is the prefactor of \Cref{eq:pihm-published-prefactor}, which is valid but not compared with $\|\G\|_2$: it grows as $N^5/2$ against $\|\G\|_2\sim N^2/(2j_{-3/4,1})$, so its looseness tends to $j_{-3/4,1}N^3$, and at $n=7$ it is \res[2,sci]{derivative/n7}{published_ratio} (exact classical computation, \Cref{app:alpha-G}). Rebuilt so that it can be costed beside the others, the circuit has a subnormalisation one third of the printed prefactor, so every cost quoted for Wu et al.'s encoding is the kinder reading. Its entries carry an error of order $N^{-5}$ (\Cref{prop:epsilon-G}), so it enters resource estimates only, inside the same stacked residual as the exact encoding below. The rebuild and the verdict on each of Wu et al.'s circuit claims are given in \Cref{app:published-build}.
+
+\subsubsection{An Exact Factorisation}
+\label{sec:standard-exact}
+
+Every non-zero entry of \Cref{eq:pihm-G-entries} is a product of three factors, each depending on one index alone: a row weight, equal to $1/\sqrt2$ in row~0 because of the normalisation of $T_0$ and to one elsewhere; a selector depending only on the offset $p-k$, non-zero when $p>k$ and $p-k$ is odd; and the column value $2p$, the weight with which differentiation passes $T_p$ to the lower polynomials. Each factor has an exact block encoding with no amplitude loaded by rotation.
+
+\begin{proposition}[Exact factorisation of the differentiation matrix]
+\label{prop:G-factorisation}
+For every $n \ge 1$ the differentiation matrix on the normalised Chebyshev coefficients factorises as
+\begin{equation}
+    \begin{gathered}
+        \G = R_0\,\bigl(2\Uodd\bigr)\,\Lambda, \\
+        R_0 = I - \Bigl(1 - \tfrac{1}{\sqrt2}\Bigr)\ket{0}\bra{0},
+        \qquad
+        \bigl(\Uodd\bigr)_{kp} = \bigl[\,p > k,\ p - k\ \text{odd}\,\bigr],
+        \qquad
+        \Lambda = \operatorname{diag}(p) ,
+    \end{gathered}
+    \label{eq:G-structured}
+\end{equation}
+where $\Uodd$ is the sum of the $N/2$ truncated shifts by odd offsets.
+\end{proposition}
+The proof compares the two sides entry by entry with \Cref{eq:pihm-G-entries} and is given in \Cref{app:proof-G-factorisation}.
+
+\subsubsection{Circuits and Cost}
+\label{sec:standard-cost}
+
+Each factor is encoded as a \gls{lcu} \cite{childs2012lcu} whose terms are unitary already, so no part of the encoding is approximate. The column index $\Lambda$ is a sum of $n+1$ Pauli-$Z$ strings, encoded at $\alpha_\Lambda=N-1=\|\Lambda\|_2$, and the row weight $R_0$ a positive combination of the identity and the reflection about $\ket{0}$, encoded at $\alpha_{R_0}=1=\|R_0\|_2$ (\Cref{app:proof-G-factorisation}). The sum of shifts is the one factor that needs arithmetic: a single ripple-carry subtraction \cite{cuccaro2004adder} serves all $N/2$ terms, and post-selecting its borrow flag removes exactly the terms that would wrap around, so $\Uodd$ is encoded exactly at $\alpha=N/2$ with $O(n)$ Toffoli gates (\Cref{fig:uodd-select}; \Cref{lem:uodd-select}).
+
+\begin{figure}[htbp]
+    \centering
+    \begin{quantikz}[row sep={0.72cm,between origins}, column sep=0.75cm, font=\small]
+        \lstick{offset $\ell_0$\quad$\ket{0}$} & & \gate{X}\gategroup[2,steps=1,style={dashed,rounded corners,inner xsep=3pt},label style={label position=above,anchor=south,yshift=0.05cm}]{PREPARE} & \gate[5]{p \leftarrow p-\ell}\gategroup[5,steps=1,style={dashed,rounded corners,inner xsep=3pt},label style={label position=below,anchor=north,yshift=-0.1cm}]{SELECT} & \gate{X}\gategroup[2,steps=1,style={dashed,rounded corners,inner xsep=3pt},label style={label position=above,anchor=south,yshift=0.05cm}]{PREPARE$^{\dagger}$} & \rstick{$\bra{0}$} \\
+        \lstick{offset $\ell_1,\dots,\ell_{n-1}$, $n-1$\quad$\ket{0}$} & \qwbundle{} & \gate{H^{\otimes(n-1)}} & & \gate{H^{\otimes(n-1)}} & \rstick{$\bra{0}$} \\
+        \lstick{system $p$, $n$} & \qwbundle{} & & & & \\
+        \lstick{carry\quad$\ket{0}$} & & & & & \rstick{$\bra{0}$} \\
+        \lstick{borrow\quad$\ket{0}$} & & & & & \rstick{$\bra{0}$}
+    \end{quantikz}
+    \caption[The odd-offset shifts of $\G$ as one subtraction]{\textbf{The odd-offset shifts are one subtraction.} PREPARE (left) puts the offset register $\ell$ in a uniform superposition over the $N/2$ odd offsets, by an $X$ on its lowest qubit and Hadamards on the rest. SELECT is a ripple-carry subtractor \cite{cuccaro2004adder} that replaces the system register $p$ by $p-\ell$ and sets the borrow flag when $p<\ell$. PREPARE$^\dagger$ (right), with post-selection of $\ell$ and the borrow flag on $\ket{0}$, keeps $\tfrac{2}{N}\ket{k}\!\bra{p}$ for every odd $\ell=p-k\ge1$, and the wrapped terms vanish exactly. The block is $\Uodd/(N/2)$, so $\alpha=N/2$, on $n$ system and $n+2$ ancilla qubits.}
+    \label{fig:uodd-select}
+\end{figure}
+
+The three encodings multiply, and so do their subnormalisations. Their product is an exact block encoding of $\G$ at $\alpha_{\G}=1\cdot N\cdot(N-1)$.
+
+\begin{proposition}[Cost of the structured encoding]
+\label{prop:standard-cost}
+The factorisation of \Cref{prop:G-factorisation} compiles to an exact block encoding of $\G$ on $n$ system qubits with
+\begin{equation}
+    \alpha_{\G} = N(N-1),
+    \qquad
+    \frac{\alpha_{\G}}{\|\G\|_2} \longrightarrow 2j_{-3/4,1} \approx 2.117,
+    \qquad
+    O(n^2)\ \text{gates},
+    \qquad
+    n + 4\ \text{ancilla} ,
+    \label{eq:standard-cost}
+\end{equation}
+of which $n-1$ ancilla are the selector of the $N/2$-term combination $\Uodd$.
+\end{proposition}
+The limit is that of $\|\G\|_2/N^2$ (\Cref{sec:standard-operators}). At the sizes reached the ratio $\alpha_{\G}/\|\G\|_2$ rises from $\res[3]{derivative/n2}{structured_ratio}$ at $n=2$ to $\res[3]{derivative/n10}{structured_ratio}$ at $n=10$ (\Cref{tab:alpha-G-full}), against a ratio for Wu et al.'s encoding that grows as $N^3$. The proofs, the ancilla accounting and the gate count under each synthesis of the multi-controlled gates are given in \Cref{app:proof-standard-cost}. The $n-1$ selector qubits are the price of writing $\Uodd$ as one combination of its $N/2$ shifts, which \Cref{sec:descriptor-cost} sets against the descriptor's ancilla.
+
+The remaining terms of the residual are built from the same pieces: a polynomial coefficient through its lift, a combination of truncated shifts built by the same post-selected subtraction (\Cref{app:lifts-folds}); the rank-one rows by Wu et al.'s exact circuits; a source by one rotation tree over its Chebyshev coefficients; and a power $\G^k$ as a product of encodings that share one ancilla register with one flag per product, at subnormalisation $\alpha_\G^k$ while $\|\G^k\|_2<\|\G\|_2^k$. The stacked residual is assembled into one reflection (\Cref{sec:pipeline-walk}) and verified against the independently assembled Hamiltonian (\Cref{sec:pipeline-verification}).
+
+\subsection{The Standard-Form Hamiltonian}
+\label{sec:standard-hamiltonian}
+
+For constant coefficients the structured encoding holds the encoder's cost of the whole residual, as well as that of $\G$, to a constant. On R2a at $n=8$ the stacked residual's encoding has $\alpha_R=\res[3,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_R}$ against $\|R_{\mathrm{std}}\|_2=\res[3,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{norm_R}$, both computed exactly from the built circuit and the assembled residual, a ratio of $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_ratio}$, levelling off towards the constant looseness of the residual's dominant term $\G^2$ (\Cref{app:G-limits}), though no limit is proved for the whole residual. Since the degree is linear in $\alpha_R$, this ratio is the whole of the encoder's cost in the degree; in $\alpha_H=\alpha_R^2$ it is squared, $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{hamiltonian_ratio}$ at $n=8$. With Wu et al.'s encoding the same ratio is $\res[2,sci]{looseness/stateprep/R2a/standard/n7/T3/filter=minimax/encoder=published}{alpha_ratio}$ at $n=7$ and $\res[2,sci]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax/encoder=published}{alpha_ratio}$ at $n=8$: it grows as $N^{3k}$, a factor $N^3$ for each of the $k$ factors of $\G$ in the leading term.
+
+For an equation of order $k$ with constant coefficients, $a_k\ne0$ and constraints of order below $k$, $\|\G^k\|_2/N^{2k}$ tends to a positive constant and the constraint rows grow more slowly, so $\|R_{\mathrm{std}}\|_2=\Theta(N^{2k})$ and $\|\Hstd\|=\|R_{\mathrm{std}}\|_2^2=\Theta(N^{4k})$ (\Cref{cor:std-norm}). The gap is bounded independently of $N$. On the coefficient vectors of the linear polynomials, $\G$ and the lifts act exactly and every row evaluates the function, so by Parseval's identity (\Cref{eq:eta-e}) the quotient $\|R_{\mathrm{std}}b\|^2/\|b\|^2$ on them is a ratio of integrals and point values that does not depend on $N$; by Courant--Fischer, $\Delta\le\lambda_1(\Hstd)\le C$, with $C$ fixed by the equation and its data, for any polynomial coefficients (\Cref{prop:std-gap-bound}). That the gap does not fall either is measured. On R2a it is $\res[3]{build/R2a/standard/n3}{gap}$ at $n=3$ and $\res[3]{build/R2a/standard/n10}{gap}$ at $n=10$, and on $f''-2f'-3f=0$ (R2b, Wu et al.'s Fig.~3c) it is $\res[3]{build/R2b/standard/n4}{gap}$ at $n=4$ and $\res[3]{build/R2b/standard/n10}{gap}$ at $n=10$, unchanged to the figures shown at every $n$ between, while $\|\Hstd\|$ on R2a grows from $\res[2,sci]{build/R2a/standard/n3}{hamiltonian_norm}$ to $\res[2,sci]{build/R2a/standard/n10}{hamiltonian_norm}$. The same holds on the stiff $f''+5f'+400f=0$ (R2c), $\res[3]{build/R2c/standard/n5}{gap}$ at $n=5$, its first trusted resolution, and $\res[3]{build/R2c/standard/n10}{gap}$ at $n=10$, and on the decay R1, $\res[3]{build/R1/standard/n3}{gap}$ and $\res[3]{build/R1/standard/n10}{gap}$. Because no block encoding has $\alpha_R$ below $\|R_{\mathrm{std}}\|_2$, the minimax edge filter's degree (\Cref{eq:minimax-degree}) then satisfies
+\begin{equation}
+    \begin{gathered}
+        \|\Hstd\| = \Theta\bigl(N^{4k}\bigr),
+        \quad
+        \Delta \le C
+        \quad\Longrightarrow\quad
+        d = \Omega\bigl(N^{2k}\log(1/\varepsilon)\bigr)\ \text{for every block encoding of } R_{\mathrm{std}},
+        \\
+        \text{(order } k\text{, constant coefficients, } a_k\ne0\text{, constraints of order below } k\text{)},
+    \end{gathered}
+    \label{eq:standard-wall}
+\end{equation}
+and $d=\Theta(N^{2k}\log(1/\varepsilon))$ for the structured encoding wherever the gap is also bounded below and $\alpha_R/\|R_{\mathrm{std}}\|_2$ stays bounded, as both are on R2a. At second order, the order of Wu et al.'s examples, $\|\Hstd\|=\Theta(N^8)$ and no block encoding brings the degree below order $N^4\log(1/\varepsilon)$. This is the Hamiltonian's cost, and its growth can be measured without any encoding. Every block encoding of $R_{\mathrm{std}}$ has $\alpha_R\ge\|R_{\mathrm{std}}\|_2$, and the minimax filter's degree does not increase as $\alpha_R$ falls, so the degree at $\alpha_R=\|R_{\mathrm{std}}\|_2$, which we call the \emph{ideal-encoding bound}, is the least this filter needs on this residual through any encoding of it (\Cref{prop:ideal-degree}). The floor is the minimax edge filter's, which prepares every state; for polynomial filters in general it holds only as far as the optimality of Lin and Tong's construction supports \cite{lintong2020groundstate}.
+
+The two costs predict different growth for the degree. With Wu et al.'s encoding the looseness, growing as $N^{3k}$, multiplies a degree that already grows as $N^{2k}$, so the degree grows as about $N^{5k}$; with the structured encoding, and at the ideal-encoding bound, it grows as $N^{2k}$. The difference between the first two is the encoder's cost and the common exponent the Hamiltonian's; \Cref{sec:results-scaling} measures all three. The conditioning of $R_{\mathrm{std}}$ that the filter pays (\Cref{sec:standard-form}) grows as $N^{2k}$ because each of the $k$ derivatives is eliminated through $\G$.
+
+The conclusion holds for constant coefficients only: there the structured encoding bounds $\alpha_H/\|\Hstd\|$, and for a lifted variable coefficient it is loose. On R3a the circuit pays for the product $\M_a\G^2$ as $\|\M_a\|\,\|\G^2\|\gg\|\M_a\G^2\|$, because the coefficient $1-x^2$ vanishes at the ends of the interval, where the derivatives of Chebyshev polynomials are largest. For the same reason the residual's norm is smaller than the constant-coefficient law gives: $\|\Hstd\|$ is $\res[3,sci]{build/R3a/standard/n7}{hamiltonian_norm}$ at $n=7$ and $\res[3,sci]{build/R3a/standard/n8}{hamiltonian_norm}$ at $n=8$, growing as $N^4$ where the constant-coefficient law gives $N^{4k}=N^8$. On such a problem the encoder's cost reappears, and only the ideal-encoding bound separates it from the Hamiltonian's; the convention of \Cref{sec:pipeline-design} therefore quotes every cost both as built and at that bound, and the comparison with the descriptor on this problem is reported in \Cref{sec:results-scaling}.
+
+For constant coefficients the query count therefore has two parts, and only one belongs to the circuit. The encoder's cost, a factor growing as $N^{3k}$ in the residual's subnormalisation under Wu et al.'s encoding, is held to a constant by the structured encoding. The Hamiltonian's cost, $\Omega(N^{2k}\log(1/\varepsilon))$ queries, remains under every encoding, a factor $N^2$ for each derivative eliminated through $\G$, and a gap bounded independently of $N$ cannot offset it. This is the cost of differentiation that Wu et al.'s Discussion raises, paid in the number of queries. Their polynomial gate count (\Cref{sec:pihm-encoding}), which the rebuilt circuits bear out (\Cref{app:published-build}), prices one query and so does not bound the method's cost, which grows exponentially in $n$. With the circuit already tight, the operator is what is left to change: \Cref{sec:descriptor} keeps the derivatives as unknowns instead of eliminating them into the dense $\G$.

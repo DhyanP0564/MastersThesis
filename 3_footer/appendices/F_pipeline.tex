@@ -1,5 +1,6 @@
 % =============================================================================
-% Appendix F  The Shared Pipeline: Identities and Formulas
+% Appendix F  The Shared Pipeline: Identities and Formulas  (letter unchanged by the
+% 2026-10-15 restructure)
 % Cited from sec:pipeline-walk, sec:pipeline-filter, sec:pipeline-design and
 % sec:pipeline-readout. Plan: ThesisPlanning.md §6 (F); supporting contribution
 % S3 (claims C-03, C-04, B-16, B-17, B-24).
@@ -16,6 +17,11 @@
 %          qsp/{minimax,filters,phases,nlft,prepare,initial,readout}.py.
 % FIRST PASS 2026-10-12, from the companion; every statement there carries its
 %          test.
+% RESTRUCTURE 2026-10-15: the filter study (app:filter-study, tab:filter-study) and the
+%   underestimated-edge study (app:edge-study), both exact emulation (T2), moved to Appendix H
+%   (app:filter-studies) so that this appendix holds identities and proofs only (T-20 at
+%   appendix level). The Bessel-overflow numerics and GQSP phase-finding steps 2-4 moved to the
+%   repository (_offload_to_pihm.tex, blocks F1, F2).
 % =============================================================================
 
 Throughout, $R=[R_1;\dots;R_L]$ is a stacked residual whose block $R_j$ has a block encoding $U_j$ at subnormalisation $\alpha_j$ on one system register with a shared ancilla register $a$, $H=R^\dagger R$, and $\sigma_0\le\sigma_1\le\dots\le\sigma_{\max}$ are the singular values of $R$.
@@ -46,9 +52,6 @@ by \Cref{lem:stack}. For the controlled version: where the controls hold, $U_R^\
 \end{proof}
 
 $U_R$'s own gates are never controlled, so controlling $V$ adds a control to one multi-controlled $Z$ and nothing wider than $U_R$'s widest gate. Since $H\succeq0$ and $\|H\|=\|R\|^2\le\alpha_R^2$, the spectrum of $H'$ lies in $[-1,1]$; a singular value $s$ of $R$ sits at $x=-1+2s^2/\alpha_R^2$, at the \emph{height} $h=1+x=2s^2/\alpha_R^2$ above the edge. The filters below work with heights, which keep their relative precision where $x$ itself would round to $-1$. Numerically, $V$ is verified exactly against $2H/\alpha_R^2-I$ on every exact-mode record, the worst entrywise error \res[2,sci]{encode/R6a/standard/n3}{verify_max_error}.
-% REVISE: the worst exact-mode error over all records (5.9e-15 in the claims register, C-03) is
-%   quoted here through the record that attains it in the pre-P8 export; check at results-v1 or
-%   export a derived key.
 
 \subsection{Qubitisation}
 \label{app:qubitisation}
@@ -136,7 +139,7 @@ which, multiplied by $e^{-\beta}$, gives the filter and its coefficients,
     \label{eq:qite-filter}
 \end{equation}
 
-\paragraph{Certified truncation.} Truncated at degree $d$, the series errs on $[-1,1]$ by at most its tail $\sum_{k>d}|q_k|$, since $|T_k|\le1$, and by \Cref{prop:filter-normalisation} the tail is $1-\sum_{k\le d}|q_k|$, computed without summing the infinite series. The degree used is the least whose tail is below the tolerance $\varepsilon_t=\varepsilon/10$: a certified degree. For large $\beta$ and $k=\mathcal{O}(\sqrt\beta)$, $e^{-\beta}I_k(\beta)\approx e^{-k^2/(2\beta)}/\sqrt{2\pi\beta}$, so the tail is about $\operatorname{erfc}(d/\sqrt{2\beta})$ and $d\approx\sqrt{2\beta\ln(2/\varepsilon_t)}$. Where the library Bessel function overflows, at $\beta$ of order $10^9$, the values come from $e^{-\beta}I_k(\beta)=\frac1\pi\int_0^\pi e^{-2\beta\sin^2(t/2)}\cos kt\,dt$ by the trapezoid rule, one real fast Fourier transform, spectrally accurate for this analytic periodic integrand.
+\paragraph{Certified truncation.} Truncated at degree $d$, the series errs on $[-1,1]$ by at most its tail $\sum_{k>d}|q_k|$, since $|T_k|\le1$, and by \Cref{prop:filter-normalisation} the tail is $1-\sum_{k\le d}|q_k|$, computed without summing the infinite series. The degree used is the least whose tail is below the tolerance $\varepsilon_t=\varepsilon/10$: a certified degree. For large $\beta$ and $k=\mathcal{O}(\sqrt\beta)$, $e^{-\beta}I_k(\beta)\approx e^{-k^2/(2\beta)}/\sqrt{2\pi\beta}$, so the tail is about $\operatorname{erfc}(d/\sqrt{2\beta})$ and $d\approx\sqrt{2\beta\ln(2/\varepsilon_t)}$.
 
 \paragraph{The time.} With $\Delta=\sigma_1^2-\sigma_0^2$ and
 \begin{equation}
@@ -153,46 +156,6 @@ the untruncated filter holds every excited state's amplitude to at most $\vareps
     \qquad f(s)=e^{-2\beta s^2/\alpha_R^2},
 \end{equation*}
 wherever the denominator is positive. The tail is absolute while the ground state's filtered value is $f(\sigma_0)=\varepsilon^{\sigma_0^2/\Delta}$ under the time rule, so where the residual has no near-kernel the tail can reach it and the bound certifies nothing. With a trusted kernel, $\sigma_1/\sigma_0\ge20$, $\sigma_0^2/\Delta<1/399$ and $f(\sigma_0)>\varepsilon^{1/399}$.
-
-\paragraph{Comparing the two filters at like error.}
-\label{app:filter-study}
-% Added 2026-10-12 for sec:results-faithful's tab:filter-study; definitions from pihm
-%   docs/15_filters.md ("Like error") and pihm.qsp.filter_comparison.
-A degree means something only at a stated error, so the filter study of \Cref{sec:results-faithful} holds both filters to the same one, at three strengths. \emph{Equal suppression} $\eta$ bounds the excited interval relative to the ground state, $\sup_{x\in[x_1,1]}|P(x)|/|P(x_0)|\le\eta$; it bounds every initial state's infidelity by $\eta^2(1-\gamma^2)/\gamma^2$, depends only on $x_0$ and $x_1$, and is the strength at which the minimax filter is optimal (\Cref{prop:minimax-optimal}). \emph{Equal certified infidelity} $\varepsilon$ is the same bound at the problem's own overlap, $\eta=\gamma\sqrt{\varepsilon/(1-\gamma^2)}$. \emph{Equal measured infidelity} $\varepsilon$ is reached on the problem's own spectrum and initial state, and a degree counts only if every larger degree up to the certified one also reaches $\varepsilon$, so that neither filter's oscillation lands on $\varepsilon$ by coincidence. Imaginary time's $\beta$ is free: each of its degrees is the least over $\beta$, found by a grid search refined about its best point, and so an upper bound on the true least to the refinement's spacing. Both filters are anchored at the spectrum's edge with unit weight (\Cref{prop:filter-normalisation}), so \gls{gqsp} realises either at the same rescaling, and a filter whose success probability falls below $10^{-12}$ is not counted.
-
-On synthetic spectra with the ground state at the edge, gaps from $10^{-8}$ to $10^{-1}$ on the scale of $H'$ and suppressions from $10^{-2}$ to $10^{-10}$, imaginary time needs $\res[3]{filters/synthetic/edge}{low}$--$\res[3]{filters/synthetic/edge}{high}$ times the minimax filter's degree at equal suppression, varying with the suppression and hardly with the gap; above the edge the ratio grows, since imaginary time's value on the ground state then falls with its time. \Cref{tab:filter-study} gives the study on the problems whose references both forms trust. At equal certified infidelity both filters' degrees come from the same worst-case bound, so the ratio is the equal-suppression ratio at the problem's own $\gamma$; every trusted reference has its ground state at the edge, and the ratio lies within the synthetic range in both forms.
-It does not change with the resolution: on R1 in the descriptor it is $\res{filters/R1/descriptor/n2}{e6_qite_worst}$ / $\res{filters/R1/descriptor/n2}{e6_minimax_certified}$ at $n=2$ and $\res{filters/R1/descriptor/n8}{e6_qite_worst}$ / $\res{filters/R1/descriptor/n8}{e6_minimax_certified}$ at $n=8$, so the filter changes the degree's constant and not its growth with $N$. At equal measured infidelity the ratio is smaller, because imaginary time suppresses each excited state more the higher it lies, while the bound holds every one at the equiripple level. At $\varepsilon=10^{-4}$ imaginary time needs fewer degrees on R1 in the standard form and on R3a and R5a in the descriptor, and the same on R1 in the descriptor; at $10^{-6}$ the minimax filter needs fewer on every case.
-
-\begin{table}[htbp]
-    \centering
-    \caption[Filter degree, imaginary time against minimax]{\textbf{The minimax edge filter needs a lower degree than imaginary time at equal error, except at loose $\varepsilon$ on some problems.} Each cell: imaginary-time (QITE) degree / minimax degree, both forms, at one resolution per problem ($n$ per axis on R5a) whose reference both forms trust. Three equal-error criteria: certified infidelity at $\varepsilon=10^{-6}$ (both degrees from the worst-case bound at the problem's own $\gamma$), and measured infidelity at $\varepsilon=10^{-6}$ and $10^{-4}$ on the problem's own spectrum from the geometric initial state. $\gamma^2$, that state's overlap with the ground state. Exact emulation (T2).}
-    \label{tab:filter-study}
-    \footnotesize
-    \setlength{\tabcolsep}{4pt}
-    \begin{tabular}{@{}l l r r r r@{}}
-        \toprule
-        Problem & Form & $\gamma^2$ & Certified, $10^{-6}$ & Measured, $10^{-6}$ & Measured, $10^{-4}$ \\
-        \midrule
-        R1, $n=4$ & standard & $\res[3]{filters/R1/standard/n4}{gamma2}$ & $\res{filters/R1/standard/n4}{e6_qite_worst}$ / $\res{filters/R1/standard/n4}{e6_minimax_certified}$ & $\res{filters/R1/standard/n4}{e6_qite_degree}$ / $\res{filters/R1/standard/n4}{e6_minimax_degree}$ & $\res{filters/R1/standard/n4}{e4_qite_degree}$ / $\res{filters/R1/standard/n4}{e4_minimax_degree}$ \\
-         & descriptor & $\res[3]{filters/R1/descriptor/n4}{gamma2}$ & $\res{filters/R1/descriptor/n4}{e6_qite_worst}$ / $\res{filters/R1/descriptor/n4}{e6_minimax_certified}$ & $\res{filters/R1/descriptor/n4}{e6_qite_degree}$ / $\res{filters/R1/descriptor/n4}{e6_minimax_degree}$ & $\res{filters/R1/descriptor/n4}{e4_qite_degree}$ / $\res{filters/R1/descriptor/n4}{e4_minimax_degree}$ \\
-        R2a, $n=3$ & standard & $\res[3]{filters/R2a/standard/n3}{gamma2}$ & $\res{filters/R2a/standard/n3}{e6_qite_worst}$ / $\res{filters/R2a/standard/n3}{e6_minimax_certified}$ & $\res{filters/R2a/standard/n3}{e6_qite_degree}$ / $\res{filters/R2a/standard/n3}{e6_minimax_degree}$ & $\res{filters/R2a/standard/n3}{e4_qite_degree}$ / $\res{filters/R2a/standard/n3}{e4_minimax_degree}$ \\
-         & descriptor & $\res[3]{filters/R2a/descriptor/n3}{gamma2}$ & $\res{filters/R2a/descriptor/n3}{e6_qite_worst}$ / $\res{filters/R2a/descriptor/n3}{e6_minimax_certified}$ & $\res{filters/R2a/descriptor/n3}{e6_qite_degree}$ / $\res{filters/R2a/descriptor/n3}{e6_minimax_degree}$ & $\res{filters/R2a/descriptor/n3}{e4_qite_degree}$ / $\res{filters/R2a/descriptor/n3}{e4_minimax_degree}$ \\
-        R3a, $n=3$ & standard & $\res[3]{filters/R3a/standard/n3}{gamma2}$ & $\res{filters/R3a/standard/n3}{e6_qite_worst}$ / $\res{filters/R3a/standard/n3}{e6_minimax_certified}$ & $\res{filters/R3a/standard/n3}{e6_qite_degree}$ / $\res{filters/R3a/standard/n3}{e6_minimax_degree}$ & $\res{filters/R3a/standard/n3}{e4_qite_degree}$ / $\res{filters/R3a/standard/n3}{e4_minimax_degree}$ \\
-         & descriptor & $\res[2,sci]{filters/R3a/descriptor/n3}{gamma2}$ & $\res{filters/R3a/descriptor/n3}{e6_qite_worst}$ / $\res{filters/R3a/descriptor/n3}{e6_minimax_certified}$ & $\res{filters/R3a/descriptor/n3}{e6_qite_degree}$ / $\res{filters/R3a/descriptor/n3}{e6_minimax_degree}$ & $\res{filters/R3a/descriptor/n3}{e4_qite_degree}$ / $\res{filters/R3a/descriptor/n3}{e4_minimax_degree}$ \\
-        R5a, $n=3$ & standard & $\res[3]{filters/R5a/standard/n3x3}{gamma2}$ & $\res{filters/R5a/standard/n3x3}{e6_qite_worst}$ / $\res{filters/R5a/standard/n3x3}{e6_minimax_certified}$ & $\res{filters/R5a/standard/n3x3}{e6_qite_degree}$ / $\res{filters/R5a/standard/n3x3}{e6_minimax_degree}$ & $\res{filters/R5a/standard/n3x3}{e4_qite_degree}$ / $\res{filters/R5a/standard/n3x3}{e4_minimax_degree}$ \\
-         & descriptor & $\res[3]{filters/R5a/descriptor/n3x3}{gamma2}$ & $\res{filters/R5a/descriptor/n3x3}{e6_qite_worst}$ / $\res{filters/R5a/descriptor/n3x3}{e6_minimax_certified}$ & $\res{filters/R5a/descriptor/n3x3}{e6_qite_degree}$ / $\res{filters/R5a/descriptor/n3x3}{e6_minimax_degree}$ & $\res{filters/R5a/descriptor/n3x3}{e4_qite_degree}$ / $\res{filters/R5a/descriptor/n3x3}{e4_minimax_degree}$ \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-% NOTE (2026-10-12 review of Ch. 8): the certified column quotes e6_qite_worst, QITE's least degree
-%   from the same worst-case bound as e6_minimax_certified (pihm.qsp.filter_comparison,
-%   StateComparison). The earlier draft quoted e6_qite_certified, QITE's degree certified on the
-%   actual spectrum and state, a different strength, which put R3a and R5a (descriptor) below
-%   the synthetic range.
-
-\paragraph{An underestimated edge.}
-\label{app:edge-study}
-The degree is set a priori from the spectral edge (\Cref{sec:pipeline-filter}), and a study on R2a at $n=3$ in the standard form measures what an underestimate of it costs, with the imaginary-time filter, whose time the gap sets directly (\Cref{eq:qite-parameters}). At the true gap the degree is $\res{protocol/R2a/standard/n3}{gap_degree}$ and the infidelity $\res[2,sci]{protocol/R2a/standard/n3}{gap_infidelity}$. With the gap halved the degree is $\res{protocol/R2a/standard/n3}{gap_half_degree}$, and with it divided by ten $\res{protocol/R2a/standard/n3}{gap_tenth_degree}$: the factors $\sqrt2$ and $\sqrt{10}$ of an inverse square root, with every preparation still within $\varepsilon$. Wu et al.'s own time rule, run in the same study, gives degree $\res{protocol/R2a/standard/n3}{paper_degree}$ and infidelity $\res[2]{protocol/R2a/standard/n3}{paper_infidelity}$: its time is shorter than the gap rule's and its state does not reach $\varepsilon=10^{-6}$. The time rule is examined with the rest of the reproduction in \Cref{app:reproduction}. Exact emulation (T2).
 
 \subsection{Unit Weight of Both Filters}
 \label{app:proof-filter-normalisation}
@@ -236,17 +199,9 @@ on the signal and $C_0W=\ket0\bra0\otimes W+\ket1\bra1\otimes I$, the circuit is
 \end{equation*}
 On an eigenvector of $W$ with eigenvalue $z$, $C_0W$ acts on the signal as $\operatorname{diag}(z,1)$. Motlagh and Wiebe \cite{motlagh2024gqsp} show that for every $P(z)=\sum_{k\le d}q_kz^k$ with $|P|\le1$ on the unit circle there are phases with $e^{\mathrm{i}\lambda}\bra0R(\theta_d,\phi_d)\operatorname{diag}(z,1)\cdots R(\theta_0,\phi_0)\ket0=P(z)$. $W$ is unitary, hence normal, so the signal's zero block of $U_\Phi$ is $P(W)$ on the walk's register, and restricting once by $\Pi_{\mathrm{in}}$ and applying \Cref{thm:qubitisation} gives \Cref{eq:gqsp-block}. The circuit is $d$ controlled walks and $d+1$ one-qubit rotations on one more qubit than the walk, uses $W$ but never $W^\dagger$, and needs no parity.
 
-The phases are found from the coefficients in four steps.
-\begin{enumerate}
-    \item \emph{Margin.} $P$ is divided by $\sup|P|/(1-\mu)$, $\mu=10^{-2}$, so that $1-|P|^2>0$ on the circle and its logarithm is finite. Both filters have $\sup|P|=1$, so the circuit realises $(1-\mu)P$ and succeeds with probability $(1-\mu)^2p_G=0.9801\,p_G$, a constant that the cost estimates leave out.
-    \item \emph{Weiss's complement.} The unique outer polynomial $Q$ of degree $d$ with $|P|^2+|Q|^2=1$ on the circle is obtained by spectral factorisation: $\tfrac12\log(1-|P|^2)$ is sampled on a fast-Fourier-transform grid, $\mathrm{i}$ times its Hilbert transform is added by doubling the causal half of its cepstrum, and the result is exponentiated; the grid grows fourfold until the coefficients beyond degree $d$ fall below $10^{-11}$ relative \cite{berntson2025complementary}. No root-finding is used, which is unstable well below the degrees needed here.
-    \item \emph{The inverse \gls{nlft}.} $(Q,P)$ is the SU(2) \gls{nlft} of a sequence $(F_k)$, and \gls{gqsp} is equivalent to it \cite{laneve2025gqspnlft}. The sequence is recovered by the fast divide-and-conquer inverse \cite{nlfft2025su2}, or by layer stripping, both stable because $Q$ is outer.
-    \item \emph{The angles.} $\theta_k=\arctan|F_k|$ for $k<d$ and $\theta_d=\pi/2-\arctan|F_d|$; $\phi_d=\arg F_d$, $\phi_{d-1}=\arg F_d-\arg F_{d-1}$ and $\phi_k=\arg F_{k+1}-\arg F_k-\pi$ otherwise; $\lambda$, a global phase, from the overlap of the $\lambda=0$ polynomial with $P$ at eight roots of unity, weighted by $|P|$.
-\end{enumerate}
-The polynomial the angles realise is rebuilt from them alone, in coefficient space, and compared with the target on $4(d+1)$ points of the circle. Acceptance is $10^{-12}$, in double precision throughout. The realised polynomials meet it to degrees of order $10^6$ in the standard form; in the descriptor's filter study two of the filters, at degrees of order $2\times10^5$, reach just over $10^{-12}$.
-% REVISE: the last sentence summarises claim B-16 (65/65 standard-form T2 records to degree
-%   9.5e5, worst 6.3e-13; 172/174 descriptor filters, the others 1.1e-12 and 1.3e-12) from the
-%   claims register, not a record; key it (phases_max_error over the records) or keep it qualitative.
+Before the phases are found, $P$ is divided by $\sup|P|/(1-\mu)$, $\mu=10^{-2}$, so that $1-|P|^2>0$ on the circle and its logarithm is finite. Both filters have $\sup|P|=1$, so the circuit realises $(1-\mu)P$ and succeeds with probability $(1-\mu)^2p_G=0.9801\,p_G$, a constant that the cost estimates leave out. The phases then follow without root-finding, which is unstable well below the degrees needed here: spectral factorisation of $\log(1-|P|^2)$ gives the outer polynomial $Q$ of degree $d$ with $|P|^2+|Q|^2=1$ on the circle \cite{berntson2025complementary}, the pair $(Q,P)$ is the SU(2) \gls{nlft} of a sequence $(F_k)$ that a fast inverse transform recovers stably because $Q$ is outer \cite{laneve2025gqspnlft,nlfft2025su2}, and the moduli and arguments of the $F_k$ give the angles $\theta_k$ and $\phi_k$.
+% LANDED 2026-10-15: steps 2-4 in one sentence; the recipe is block F2 of _offload_to_pihm.tex.
+The polynomial the angles realise is rebuilt from them alone, in coefficient space, and compared with the target on $4(d+1)$ points of the circle. Acceptance is $10^{-12}$, in double precision throughout. The realised polynomials meet it to degrees of order $10^6$ in the standard form; in the descriptor's filter study the two filters of R3c at $n=7$, at degrees of order $2\times10^5$, reach $\res[2,sci]{filters/R3c/descriptor/n7}{t2_minimax_phases_error}$ and $\res[2,sci]{filters/R3c/descriptor/n7}{t2_qite_phases_error}$.
 
 \subsection{Amplification, the Total Count and the Ideal-Encoding Degree}
 \label{app:amplification}

@@ -1,0 +1,204 @@
+\subsection{Linear problems}
+\label{app:catalogue-linear}
+
+\begin{table}[htbp]
+    \centering
+    \caption[The linear benchmark problems R1--R5]{\textbf{The linear benchmark problems R1--R5, as run.} Equation, constraint rows, datum point $x_s$ and reference solution. $x_z$, the root of the reference (or of its derivative) nearest the value Wu et al.\ print, set up from the reference; $P_l$, $P_l^m$, Legendre and associated Legendre functions; $v=f/\sqrt{1-x^2}$, the variable R3c and R3d are solved for. Every source enters by its Chebyshev coefficients; the heat equation's initial function is imposed at $t=-1$. Wu et al.'s printed rows, run only in the reproduction: \Cref{app:reproduction}.}
+    \label{tab:catalogue-linear}
+    \footnotesize
+    \begin{tabular}{@{}l p{0.26\linewidth} p{0.29\linewidth} l p{0.24\linewidth}@{}}
+        \toprule
+        & Equation & Constraint rows & $x_s$ & Reference \\
+        \midrule
+        R1  & $f' + 2f = 0$ & -- (regular datum $f(-1)=1$) & $-1$ & $e^{-2(x+1)}$ \\
+        R2a & $f'' + 4f' + 4f = 0$ & $f(-1) = 0$ & $0$ & $\tfrac12(1+x)e^{-2x}$ \\
+        R2b & $f'' - 2f' - 3f = 0$ & $f(0) = 0$ & $\tfrac12$ & $\tfrac14\bigl(e^{3x} - e^{-x}\bigr)$ \\
+        R2c & $f'' + 5f' + 400f = 0$ & $f'(0) = 0$ & $0$ & $e^{-5x/2}\bigl(\cos\omega x + \tfrac{\sqrt7}{21}\sin\omega x\bigr)$, $\omega = \tfrac{15\sqrt7}{2}$ \\
+        R3a & $(1-x^2)f'' - 2xf' + 20f = 0$ & $f'(0) = 0$ & $1$ & $P_4$ \\
+        R3b & $(1-x^2)f'' - 2xf' + 30f = 0$ & $f(0) = 0$ & $1$ & $P_5$ \\
+        R3c & $(1-x^2)v'' - 4xv' + 28v = 0$ & $v'(0) = 0$ & $\tfrac12$ & $f = P_5^1 = -\sqrt{1-x^2}\,P_5'$ \\
+        R3d & $(1-x^2)v'' - 4xv' + 40v = 0$ & $v(0) = 0$ & $\tfrac12$ & $f = P_6^1 = -\sqrt{1-x^2}\,P_6'$ \\
+        R4a & $(x-1)f'' - xf' + f = (x-1)^2$ & $f'(x_z) = 0$, $x_z = -0.19598$ & $0$ & $\tfrac32e^{x} - \tfrac18x(8x+13) - 1$ \\
+        R4b & $f'' + 4f' + 4f = e^{-2x}$ & $f(x_z) = 0$, $x_z = 1-\sqrt3$ & $0$ & $\tfrac12e^{-2x}(x^2 - 2x - 2)$ \\
+        R4c & $f'' - 5f' + 6f = xe^{2x}$ & $f(x_z) = 0$, $x_z = 0.90542$ & $0$ & $\tfrac16\bigl(4e^{3x} - e^{2x}(3x^2 + 6x + 2)\bigr)$ \\
+        R4d & $f'' + 4f' + 20f = xe^{-2x}\sin 4x$ & $f'(x_z) = 0$, $x_z = -0.74681$ & $0$ & $\tfrac1{64}e^{-2x}\bigl((x-48)\sin4x - 4(x^2+16)\cos4x\bigr)$ \\
+        R5a & Laplace, $f_{xx} + f_{yy} = 0$ & $f(\pm1, y) = f(x, -1) = 0$; datum slice $f(x,1) = \sin\tfrac{\pi(x+1)}{2}$ & $(0, 1)$ & $\cos\tfrac{\pi x}{2}\,\sinh\tfrac{\pi(y+1)}{2}/\sinh\pi$ \\
+        R5b & heat, $f_t = \tfrac{1}{25} f_{xx}$ & $f(t, \pm1) = 0$; datum slice $f(-1,x) = e^{4\pi^2/25}\sin2\pi x$ & $(-1, \tfrac14)$ & $e^{-4\pi^2 t/25}\sin 2\pi x$ \\
+        R5c & wave, $f_{tt} = 4 f_{xx}$ & $f(t, \pm1) = 0$; datum slice $f(0,x) = \sin2\pi x$; $\partial_tf(0,x) = 0$ & $(0, \tfrac14)$ & $\cos 4\pi t\,\sin 2\pi x$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Nonlinear and coupled problems}
+\label{app:catalogue-nonlinear}
+
+\begin{table}[htbp]
+    \centering
+    \caption[The nonlinear and coupled benchmark problems R6--R10]{\textbf{The nonlinear and coupled benchmark problems R6--R10.} Equation, data and reference. $x_s$, datum point; $x_z$, exact root nearest the printed value; $\rho$, Carleman ratio; $a$, initial amplitude; $\nu$, viscosity; $k\le M$, wavenumbers of the $M$ sine modes; $\omega_0$, initial vorticity; $J$, the advective nonlinearity; $w_0$, initial mode vector; \gls{ivp}, initial-value problem; \gls{dns}, direct numerical simulation; (truncation), the reference for the Galerkin truncation's error.}
+    \label{tab:catalogue-nonlinear}
+    \small
+    \begin{tabular}{@{}l p{0.34\linewidth} p{0.24\linewidth} p{0.28\linewidth}@{}}
+        \toprule
+        & Equation & Data & Reference \\
+        \midrule
+        R6a & $4f'' + 2f'^2 + f = 0$ (Wu et al.\ Eq.~29) & $f'(0) = 0$, $x_s = 0$ & $1 - x^2/8$ \\
+        R6b & $f'' - 2f^2 + x = 0$ (Wu et al.\ Eq.~34) & $f(x_z) = 0$, $x_z = 0.026147$ (printed $0.02615$) & boundary-value solve to $10^{-12}$ \\
+        R7  & $u' = v$, $v' = -\omega^2 u$, $\omega = \pi$ & $u(-1) = 0$, $v(-1) = \omega$ & $u = \sin\omega(x+1)$ \\
+        R8  & $y' = -y + y^2$, $t \in [0, 3]$ & $y(0) = \tfrac12$ ($\rho = 0.5$) & $1/(1 + e^{t})$ \\
+        R9  & viscous Burgers, periodic, $u_0 = a\sin x$ & sine modes $k \le M$, $M = 4, 8, 16$; $a/\nu = 0.03$--$10$ & Galerkin \gls{ivp}; Cole--Hopf (truncation); exact lift \\
+        R10a & 2-D vorticity Navier--Stokes, $\omega_0 = 2\sin x\sin y$ & $J \equiv 0$ (Taylor--Green) & exact viscous decay \\
+        R10b--d & 2-D vorticity Navier--Stokes, counter-rotating vortex pair & $\|w_0\| = a$, $a/\nu = 3, 10, 30$; active triads & Galerkin \gls{ivp}; \gls{dns} (truncation); exact lift \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Run Options}
+\label{app:run-options}
+
+A problem's data enter as the four kinds of row of \Cref{def:standard-form}, listed with the problems that use them in \Cref{tab:constraint-kinds}.
+
+\begin{table}[htbp]
+    \centering
+    \caption[The four kinds of constraint row]{\textbf{Every constraint row either leaves the solution's scale free or ties data to it.} The four rows that carry a problem's data, grouped by that role. Each enters the stacked residual at weight one, is the same in both forms, and acts on the block holding the quantity it constrains: a derivative's zero row is $\Brow(x^\ast)\G^{j}$ in the standard form and $\Brow(x^\ast)$ on the $j$-th derivative block of the descriptor's chain. $x^\ast$, the point or slice of the data; $x_s$, the datum point, where $f(x_s)\ne0$; $\tau(x)$, the Chebyshev polynomials evaluated at $x$; $\Slice_a$, slice along axis $a$; $\hat g$, coefficients of $g$; $a$, the anchor component of a vector datum $y$ and $y_\perp$ the rest; $\M_r$, multiplication by the source $r$; $\G$, differentiation matrix. Definitions: \Cref{sec:standard-constraints,sec:systems-data}.}
+    \label{tab:constraint-kinds}
+    \small
+    \begin{tabular}{@{}l p{0.27\linewidth} p{0.34\linewidth} p{0.17\linewidth}@{}}
+        \toprule
+        Row & Data it carries & Operator & Problems \\
+        \midrule
+        \multicolumn{4}{@{}l}{\textit{Vanishes on the solution and its multiples: fixes the shape, leaves the scale free}} \\[2pt]
+        Zero & $f^{(j)}(x^\ast)=0$ at a point: Dirichlet ($j=0$), Neumann ($j=1$), or the same on a boundary of a \gls{pde} & $\Brow(x^\ast)\G^{j}$, with $\Brow(x)=\sqrt{N}\ket{0}\bra{\tau(x)}$ & R2--R6 \\
+        Datum slice & an initial or boundary \emph{function} $g$ on the slice $x_a=x^\ast$ of a \gls{pde} & $\Slice_a(x^\ast)-\hat g\bra{\tau(x_s)}/f(x_s)$ & R5 \\
+        Ratio & a vector datum $y$ at $x^\ast$: the initial values of a coupled system or of a Carleman lift & $\bigl(\Frat/y_a\bigr)\otimes\Brow(x^\ast)$, with $\Frat=y_a(I-\ket{a}\bra{a})-y_\perp\bra{a}$ fixing the direction of $y$ & R7--R10 \\
+        \addlinespace
+        \multicolumn{4}{@{}l}{\textit{Maps the solution to a constant, whatever its scale: ties data to the scale}} \\[2pt]
+        Collapse & the regular datum $f(x_s)$, which fixes the scale after preparation; through it a source $r$, a non-zero point datum $y^\ast$, and the linear terms of the doubled space & $\Dzero(x_s)=\Brow(x_s)/f(x_s)$, entering as $-\M_r\Dzero(x_s)$ for a source and as $\Brow(x^\ast)\G^{j}-y^\ast\Dzero(x_s)$ for a datum & every problem (the scale); R4 (sources); R6 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Every run is a problem of \Cref{tab:ladder} at a resolution, with the options of \Cref{tab:run-inputs}. The defaults are the configuration every comparison of \Cref{sec:results} uses; the alternatives are controls, labelled ablations, or the printed choices kept to test the published method.
+
+\begin{table}[htbp]
+    \centering
+    \caption[The model's input options and the values used]{\textbf{The model's input options and the values used.} Every run is a problem of \Cref{tab:ladder} at a resolution with these options, at the default unless a result states otherwise. $n$, qubits per Chebyshev axis ($N=2^n$); $n_t$, qubits on a time axis; $M$, Galerkin modes; $\zeta$, block weight; $K$, Carleman order; $\varepsilon$, target suppression; $r$, ratio of the geometric product state.}
+    \label{tab:run-inputs}
+    \small
+    \begin{tabular}{@{}p{0.2\linewidth} p{0.38\linewidth} p{0.34\linewidth}@{}}
+        \toprule
+        Option & Values & Default and use \\
+        \midrule
+        Resolution & $n$ qubits per Chebyshev axis, $N=2^n$; $n_t$ on a time axis; modes $M$ (R9, R10) & swept per problem (\Cref{tab:catalogue-linear,tab:catalogue-nonlinear}) \\
+        Form & standard; descriptor & both, compared \\
+        Descriptor layout & chain (order $\ge2$); mass form (first order) & by the equation's order; the chain on a first-order system as an ablation \\
+        Block rescaling & $\zeta$ a priori (\Cref{eq:zeta-rule}); none & $\zeta$; unscaled as an ablation \\
+        Encoding of $\G$ & structured, exact; Wu et al.'s & structured; Wu et al.'s in resource estimates only \\
+        Nonlinearity & doubled space; Carleman order $K$, symmetric or tensor layout & as the problem requires; the doubled space in the standard form only \\
+        Filter & minimax edge filter; imaginary time & minimax; imaginary time in the filter study and the reproduction \\
+        Target $\varepsilon$ & suppression of the excited spectrum relative to the ground state & $10^{-6}$; also $10^{-4}$ and $10^{-8}$ in the filter study \\
+        Initial state & geometric product state, $r=\pm\tfrac12$; uniform; random & geometric; uniform and random as controls \\
+        Tier & circuit simulation (T1); exact emulation (T2); resource estimate (T3) & every tier the run's size allows (\Cref{sec:pipeline-verification}) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Results by problem}
+\label{app:catalogue-results}
+
+The linear benchmark problems and the coupled oscillator R7 in both forms, with the minimax edge filter at $\varepsilon=10^{-6}$ and the geometric initial state, under the conventions of \Cref{sec:pipeline-design}. \Cref{tab:catalogue-results} gives the largest resolution at which each form's reference is trusted and its preparation was emulated, with the prepared state's infidelity against the reference and the filter's degree. Every one of these preparations meets $\varepsilon$, its a priori bound and its field budget (\Cref{sec:results-faithful}). The standard form's emulations stop at smaller $n$ than the descriptor's because its degree grows as $N^{2k}$; a dash marks a problem with no trusted reference at the resolutions emulated, R2b and R2c in the standard form and the wave equation R5c in both, whose references are trusted only at larger $n$. Below $n=5$ per axis the wave equation's near-kernel is several-dimensional, $\res{build/R5c/descriptor/n4x4}{kernel_dimension}$ at $n=4$, consistent with a solution, $\cos4\pi t\,\sin2\pi x$, not yet resolved in $t$, and no preparation is claimed there. \Cref{tab:catalogue-t3} gives the resource estimates at the largest resolution estimated for every problem, as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$, and \Cref{tab:catalogue-growth} the growth of these degrees with $N$, of which \Cref{tab:growth} carries a representative of each class.
+
+\begin{table}[htbp]
+    \centering
+    \caption[Infidelity and degree of every trusted preparation]{\textbf{Every trusted preparation meets its target, in both forms.} Per problem and form: the largest resolution $n$ (per axis on R5) with a trusted reference and an exact emulation, the prepared state's infidelity against the reference, and the minimax filter's degree. --, no trusted reference at the resolutions emulated. Exact emulation (T2).}
+    \label{tab:catalogue-results}
+    \small
+    \begin{tabular}{@{}l r r r r r r@{}}
+        \toprule
+        & \multicolumn{3}{c}{Standard} & \multicolumn{3}{c}{Descriptor} \\
+        \cmidrule(lr){2-4}\cmidrule(lr){5-7}
+        Problem & $n$ & Infidelity & Degree & $n$ & Infidelity & Degree \\
+        \midrule
+        R1 & $5$ & $\res[2,sci]{stateprep/R1/standard/n5/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R1/standard/n5/T2/filter=minimax}{degree}$ & $8$ & $\res[2,sci]{stateprep/R1/descriptor/n8/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R1/descriptor/n8/T2/filter=minimax}{degree}$ \\
+        R2a & $3$ & $\res[2,sci]{stateprep/R2a/standard/n3/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R2a/standard/n3/T2/filter=minimax}{degree}$ & $8$ & $\res[2,sci]{stateprep/R2a/descriptor/n8/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R2a/descriptor/n8/T2/filter=minimax}{degree}$ \\
+        R2b & \multicolumn{3}{c}{--} & $8$ & $\res[2,sci]{stateprep/R2b/descriptor/n8/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R2b/descriptor/n8/T2/filter=minimax}{degree}$ \\
+        R2c & \multicolumn{3}{c}{--} & $8$ & $\res[2,sci]{stateprep/R2c/descriptor/n8/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R2c/descriptor/n8/T2/filter=minimax}{degree}$ \\
+        R3a & $4$ & $\res[2,sci]{stateprep/R3a/standard/n4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3a/standard/n4/T2/filter=minimax}{degree}$ & $7$ & $\res[2,sci]{stateprep/R3a/descriptor/n7/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3a/descriptor/n7/T2/filter=minimax}{degree}$ \\
+        R3b & $4$ & $\res[2,sci]{stateprep/R3b/standard/n4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3b/standard/n4/T2/filter=minimax}{degree}$ & $7$ & $\res[2,sci]{stateprep/R3b/descriptor/n7/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3b/descriptor/n7/T2/filter=minimax}{degree}$ \\
+        R3c & $4$ & $\res[2,sci]{stateprep/R3c/standard/n4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3c/standard/n4/T2/filter=minimax}{degree}$ & $7$ & $\res[2,sci]{stateprep/R3c/descriptor/n7/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3c/descriptor/n7/T2/filter=minimax}{degree}$ \\
+        R3d & $4$ & $\res[2,sci]{stateprep/R3d/standard/n4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3d/standard/n4/T2/filter=minimax}{degree}$ & $6$ & $\res[2,sci]{stateprep/R3d/descriptor/n6/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R3d/descriptor/n6/T2/filter=minimax}{degree}$ \\
+        R4a & $3$ & $\res[2,sci]{stateprep/R4a/standard/n3/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4a/standard/n3/T2/filter=minimax}{degree}$ & $7$ & $\res[2,sci]{stateprep/R4a/descriptor/n7/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4a/descriptor/n7/T2/filter=minimax}{degree}$ \\
+        R4b & $4$ & $\res[2,sci]{stateprep/R4b/standard/n4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4b/standard/n4/T2/filter=minimax}{degree}$ & $8$ & $\res[2,sci]{stateprep/R4b/descriptor/n8/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4b/descriptor/n8/T2/filter=minimax}{degree}$ \\
+        R4c & $4$ & $\res[2,sci]{stateprep/R4c/standard/n4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4c/standard/n4/T2/filter=minimax}{degree}$ & $8$ & $\res[2,sci]{stateprep/R4c/descriptor/n8/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4c/descriptor/n8/T2/filter=minimax}{degree}$ \\
+        R4d & $4$ & $\res[2,sci]{stateprep/R4d/standard/n4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4d/standard/n4/T2/filter=minimax}{degree}$ & $8$ & $\res[2,sci]{stateprep/R4d/descriptor/n8/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R4d/descriptor/n8/T2/filter=minimax}{degree}$ \\
+        R5a & $3$ & $\res[2,sci]{stateprep/R5a/standard/n3x3/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R5a/standard/n3x3/T2/filter=minimax}{degree}$ & $4$ & $\res[2,sci]{stateprep/R5a/descriptor/n4x4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R5a/descriptor/n4x4/T2/filter=minimax}{degree}$ \\
+        R5b & $4$ & $\res[2,sci]{stateprep/R5b/standard/n4x4/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R5b/standard/n4x4/T2/filter=minimax}{degree}$ & $5$ & $\res[2,sci]{stateprep/R5b/descriptor/n5x5/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R5b/descriptor/n5x5/T2/filter=minimax}{degree}$ \\
+        R5c & \multicolumn{3}{c}{--} & \multicolumn{3}{c}{--} \\
+        R7 & $7$ & $\res[2,sci]{stateprep/R7/standard/n7/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R7/standard/n7/T2/filter=minimax}{degree}$ & $9$ & $\res[2,sci]{stateprep/R7/descriptor/n9/T2/filter=minimax}{infidelity}$ & $\res{stateprep/R7/descriptor/n9/T2/filter=minimax}{degree}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption[Filter degree at the largest resolution estimated, every problem]{\textbf{As built the descriptor's degree is the lower on every problem; at the ideal-encoding bound the standard form's is the lower on R3.} Minimax edge filter degree at $\varepsilon=10^{-6}$, $n=8$ on one axis and $n=5$ per axis on R5, as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$ ($\alpha_R$, the residual's subnormalisation; $\|R\|_2$, its norm). At the ideal bound the standard form's degree is the lower on R3a--R3d and the two are close on R5b. Resource estimates (T3).}
+    \label{tab:catalogue-t3}
+    \small
+    \begin{tabular}{@{}l r r r r r@{}}
+        \toprule
+        & & \multicolumn{2}{c}{As built} & \multicolumn{2}{c}{$\alpha_R=\|R\|_2$} \\
+        \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+        Problem & $n$ & Standard & Descriptor & Standard & Descriptor \\
+        \midrule
+        R1 & $8$ & $\res[2,sci]{stateprep/R1/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R1/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R1/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R1/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R2a & $8$ & $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R2a/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R2a/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R2a/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R2b & $8$ & $\res[2,sci]{stateprep/R2b/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R2b/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R2b/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R2b/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R2c & $8$ & $\res[2,sci]{stateprep/R2c/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R2c/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R2c/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R2c/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R3a & $8$ & $\res[2,sci]{stateprep/R3a/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3a/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3a/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R3a/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R3b & $8$ & $\res[2,sci]{stateprep/R3b/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3b/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3b/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R3b/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R3c & $8$ & $\res[2,sci]{stateprep/R3c/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3c/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3c/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R3c/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R3d & $8$ & $\res[2,sci]{stateprep/R3d/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3d/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R3d/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R3d/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R4a & $8$ & $\res[2,sci]{stateprep/R4a/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4a/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4a/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R4a/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R4b & $8$ & $\res[2,sci]{stateprep/R4b/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4b/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4b/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R4b/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R4c & $8$ & $\res[2,sci]{stateprep/R4c/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4c/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4c/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R4c/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R4d & $8$ & $\res[2,sci]{stateprep/R4d/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4d/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R4d/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R4d/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        R5a & $5$ & $\res[2,sci]{stateprep/R5a/standard/n5x5/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R5a/descriptor/n5x5/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R5a/standard/n5x5/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R5a/descriptor/n5x5/T3/filter=minimax}{ideal_degree}$ \\
+        R5b & $5$ & $\res[2,sci]{stateprep/R5b/standard/n5x5/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R5b/descriptor/n5x5/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R5b/standard/n5x5/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R5b/descriptor/n5x5/T3/filter=minimax}{ideal_degree}$ \\
+        R5c & $5$ & $\res[2,sci]{stateprep/R5c/standard/n5x5/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R5c/descriptor/n5x5/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R5c/standard/n5x5/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R5c/descriptor/n5x5/T3/filter=minimax}{ideal_degree}$ \\
+        R7 & $8$ & $\res[2,sci]{stateprep/R7/standard/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R7/descriptor/n8/T3/filter=minimax}{degree}$ & $\res[2,sci]{stateprep/R7/standard/n8/T3/filter=minimax}{ideal_degree}$ & $\res[2,sci]{stateprep/R7/descriptor/n8/T3/filter=minimax}{ideal_degree}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption[Growth of the filter's degree with $N$, every problem]{\textbf{The degree's growth with $N$ on every linear problem and on R7.} Exponent of $N=2^n$ in the minimax filter's degree between the two largest resolutions estimated ($n=7\to8$ on one axis, $n=4\to5$ per axis on two), as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$, grouped by class: $k$, equation order; regular, singular: the leading coefficient without and with a zero on $[-1,1]$ (\Cref{def:regular}). $^\dagger$Reference not trusted at $n=4$ per axis; slope indicative only. Two-point slopes of a degree with logarithmic factors (\Cref{sec:results-scaling}). Resource estimates (T3).}
+    \label{tab:catalogue-growth}
+    \small
+    \begin{tabular}{@{}l l r r r r@{}}
+        \toprule
+        & & \multicolumn{2}{c}{Standard} & \multicolumn{2}{c}{Descriptor} \\
+        \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+        Class & Problem & As built & Ideal & As built & Ideal \\
+        \midrule
+        First order, $k=1$ & R1 & $\res[3]{stateprep/R1/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R1/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R1/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R1/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R7 & $\res[3]{stateprep/R7/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R7/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R7/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R7/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+        \addlinespace
+        Second order, regular & R2a & $\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R2a/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R2a/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R2a/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R2b & $\res[3]{stateprep/R2b/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R2b/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R2b/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R2b/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R2c & $\res[3]{stateprep/R2c/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R2c/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R2c/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R2c/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R4b & $\res[3]{stateprep/R4b/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4b/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R4b/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4b/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R4c & $\res[3]{stateprep/R4c/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4c/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R4c/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4c/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R4d & $\res[3]{stateprep/R4d/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4d/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R4d/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4d/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+        \addlinespace
+        Second order, singular & R3a & $\res[3]{stateprep/R3a/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3a/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R3a/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3a/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R3b & $\res[3]{stateprep/R3b/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3b/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R3b/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3b/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R3c & $\res[3]{stateprep/R3c/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3c/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R3c/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3c/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R3d & $\res[3]{stateprep/R3d/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3d/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R3d/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R3d/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R4a & $\res[3]{stateprep/R4a/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4a/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R4a/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R4a/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+        \addlinespace
+        Two axes, per axis & R5a & $\res[3]{stateprep/R5a/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R5a/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R5a/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R5a/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R5b & $\res[3]{stateprep/R5b/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R5b/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R5b/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R5b/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+         & R5c$^\dagger$ & $\res[3]{stateprep/R5c/standard/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R5c/standard/growth/T3/filter=minimax}{ideal_degree}$ & $\res[3]{stateprep/R5c/descriptor/growth/T3/filter=minimax}{degree}$ & $\res[3]{stateprep/R5c/descriptor/growth/T3/filter=minimax}{ideal_degree}$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}

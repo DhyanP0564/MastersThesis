@@ -13,9 +13,13 @@
 %             operator's norm against its gap). Spectral numerical analysis shows how a
 %             discretisation sets that ratio and how to lower it (banded bases; first-order least
 %             squares). The quantum primitives turn the ratio into a query count (eq:degree).
-% STRUCTURE   v3.5 (StructuralReview.md F4): opening; §2.1 preliminaries <= 1 pp of prose; §2.2
-%             the DE algorithms, history then judged, T1; §2.3 spectral methods and the two
-%             antecedents, with the increment; §2.4 block encodings, QSP/QSVT/GQSP and filtering,
+% STRUCTURE   v3.5 (StructuralReview.md F4), §2.2-2.3 revised 2026-10-15: opening; §2.1
+%             preliminaries <= 1 pp of prose; §2.2 the DE routes as titled paragraphs (linear
+%             systems; Hamiltonian simulation and Schroedingerisation; variational; ground-state
+%             preparation; critical assessment), each introduced, then strengths, then
+%             weaknesses, T1 one row per route (no PIHM or "this work" row); §2.3 classical
+%             discretisation and linearisation: spectral methods, the two antecedents with the
+%             increment, Fourier-Galerkin, Carleman; §2.4 block encodings, QSP/QSVT/GQSP and filtering,
 %             around eq:degree, readout a closing paragraph; §2.5 synthesis. Labels kept for every
 %             \Cref target outside this file.
 % BUDGET      7 pp. First pass 2026-10-12 measured about 10.7 pp; the density rewrite of
@@ -27,26 +31,26 @@
 % CITATIONS   Every source below was checked against its publisher/Crossref or arXiv record
 %   AND against the claim it is cited for (2026-10-12; notes in ref.bib above the Chapter 2
 %   block). Claims taken from abstracts only are marked in ref.bib; the Bochev-Gunzburger
-%   conditioning statement is from SIAM Rev. 40, §2.2-2.3 (pp. 801-802). paine2026concurrent:
-%   abstract checked; the "no general ordering", "no scaling", "lift polynomial-only" points
+%   conditioning statement is from SIAM Rev. 40, §2.2-2.3 (pp. 801-802). paine2026concurrent
+%   (now cited in sec:pihm-assessment, 2026-10-15): abstract checked; the "no general ordering", "no scaling", "lift polynomial-only" points
 %   are from the plan's full reading (2026-10-04).
 % CITE-NEEDED: none open.
 % =============================================================================
 
-Every quantum algorithm for a differential equation pays a ratio that its discretisation fixes before any circuit is built: the condition number of a linear system, the norm of a generator times the evolution time, the ratio of nonlinearity to dissipation in a lift, or the norm of an encoded Hamiltonian against its gap. An accurate discretisation can still make that ratio large, and it typically grows with the resolution. The review follows the ratio through three bodies of work: the quantum routes to differential equations, judged by what each assumes, which ratio it pays, what it returns and where it fails; the spectral methods on which the physics-informed construction rests, for which classical numerical analysis has already shown how the choice of basis and of unknowns sets the ratio and how it can be lowered; and the quantum primitives that turn a ratio into a count of queries, the filter degree of \Cref{eq:degree}. The \gls{pihm} itself is presented and judged separately, in \Cref{sec:pihm}.
+Every quantum algorithm for a differential equation pays a ratio that its discretisation fixes before any circuit is built: the condition number of a linear system, the norm of a generator times the evolution time, the ratio of nonlinearity to dissipation in a lift, or the norm of an encoded Hamiltonian against its gap. An accurate discretisation can still make that ratio large, and it typically grows with the resolution. The review follows the ratio through three bodies of work: the quantum routes to differential equations, judged by what each assumes, which ratio it pays, what it returns and where it fails; the classical methods the thesis adapts, the spectral discretisations on which the physics-informed construction rests, for which numerical analysis has already shown how the choice of basis and of unknowns sets the ratio and how it can be lowered, and Carleman's linearisation of a nonlinear equation; and the quantum primitives that turn a ratio into a count of queries, the filter degree of \Cref{eq:degree}. The \gls{pihm} itself is presented and judged separately, in \Cref{sec:pihm}.
 
 \subsection{Quantum Computation Preliminaries}
 \label{sec:bg-qc}
 % <= 1 pp of prose (StructuralReview.md F4). No numbered definitions here: the one object
-%   re-invoked later, the block encoding, is defined in sec:bg-block-encoding. The gate table
-%   is Appendix A (app:gates). Amplitudes are not named (alpha and beta are taken, plan §8.2).
+%   re-invoked later, the block encoding, is defined in sec:bg-block-encoding. No gate table:
+%   the gate-reference appendix was deleted 2026-10-15 (Nielsen and Chuang cover it). Amplitudes are not named (alpha and beta are taken, plan §8.2).
 % LAND: amplitude encoding (norm carried separately; access by measurement only); ancilla and
 %   post-selection; queries x gates per query, and qubits; the tilde convention; the
 %   fault-tolerant frame, NISQ in one sentence pair.
 % TRAPS  "encode both 0 and 1 simultaneously"; circuit diagrams as Feynman diagrams; a
 %   Hadamard-and-CNOT toy (STYLE_GUIDE §2.4).
 
-We use the circuit model of Nielsen and Chuang \cite{nielsenchuang2010}; the gates of the thesis's circuits are listed in \Cref{app:gates}. The state of $n$ qubits is a unit vector in $\mathbb{C}^N$, $N=2^n$, and a vector $v\in\mathbb{C}^N$ is \emph{amplitude-encoded} as $\ket{v}=v/\|v\|$. The encoding stores only the direction of $v$, so its length must be carried separately (for a differential equation, the scale $\eta$ of \Cref{sec:pihm-model}), and it gives access to $v$ only through measurement, which returns the index $j$ with probability $|v_j|^2/\|v\|^2$; recovering all $N$ entries takes at least of order $N$ repetitions (\Cref{sec:bg-filtering}). Circuits of unitary gates act on these states, and a non-unitary operation is applied by acting on the system together with \emph{ancilla} qubits prepared in $\ket{0}$ and keeping only the outcomes in which they are measured in $\ket{0}$ again. This \emph{post-selection} succeeds with a probability that enters the cost; every non-unitary matrix of the thesis, from a residual to a filter, acts on a state this way (\Cref{sec:bg-block-encoding}).
+We use the circuit model of Nielsen and Chuang \cite{nielsenchuang2010}. The state of $n$ qubits is a unit vector in $\mathbb{C}^N$, $N=2^n$, and a vector $v\in\mathbb{C}^N$ is \emph{amplitude-encoded} as $\ket{v}=v/\|v\|$. The encoding stores only the direction of $v$, so its length must be carried separately (for a differential equation, the scale $\eta$ of \Cref{sec:pihm-model}), and it gives access to $v$ only through measurement, which returns the index $j$ with probability $|v_j|^2/\|v\|^2$; recovering all $N$ entries takes at least of order $N$ repetitions (\Cref{sec:bg-filtering}). Circuits of unitary gates act on these states, and a non-unitary operation is applied by acting on the system together with \emph{ancilla} qubits prepared in $\ket{0}$ and keeping only the outcomes in which they are measured in $\ket{0}$ again. This \emph{post-selection} succeeds with a probability that enters the cost; every non-unitary matrix of the thesis, from a residual to a filter, acts on a state this way (\Cref{sec:bg-block-encoding}).
 
 An algorithm that accesses a matrix only through a circuit encoding it is costed in \emph{queries}, the uses of that circuit, and its gate count is the number of queries times the gates per query, on a register of system and ancilla qubits. The asymptotic results reviewed below, and the filter degree of \Cref{eq:degree}, count queries; the gates per query belong to the encoding circuit. \Cref{sec:standard} separates the two, and \Cref{sec:pipeline-design} fixes how gates are counted. A tilde on $\mathcal O$, $\Omega$ or $\Theta$ suppresses factors logarithmic in $N$ and in $1/\varepsilon$, and a cost polynomial in $n=\log_2N$ is called poly-logarithmic.
 
@@ -54,103 +58,96 @@ Every cost in the thesis is that of a fault-tolerant machine, whose logical qubi
 
 \subsection{Quantum Algorithms for Differential Equations}
 \label{sec:bg-de}
-% ~2.6 pp. A short history per family, then judged: each with what it assumes, what its cost
-%   depends on, what it returns and where it fails (the columns of T1).
+% ~2.4 pp. Restructured 2026-10-15 (the author's instruction): one titled \paragraph per route,
+%   each introducing the route, then its strengths, then its weaknesses; no subsubsections; a
+%   closing assessment. Carleman moved to sec:bg-carleman (a classical linearisation, not a
+%   route); the PIHM is not reviewed here (Ch. 3), only placed in the ground-state route in one
+%   sentence; Paine 2026 moved to sec:pihm-assessment; T1 has no PIHM or "this work" row.
+% TAB: tab:de-approaches (T1), one row per route, placed with the opening so it floats inside
+%   this section.
+% CHECKLIST  Every route has strengths and a failure mode; no row claims a measured number; the
+%   PIHM appears only as a member of the ground-state route.
 
 Aaronson's caveats on the linear-systems algorithm apply to every route below: the input must load efficiently, the operator must be well conditioned and efficiently accessible, and the output is a quantum state, useful only where a few properties of the solution suffice \cite{aaronson2015fineprint}. \Cref{tab:de-approaches} compares the routes under these headings.
 
-\subsubsection{Linear-Systems and Linear-Combination Routes}
+\begin{table}[tbp]
+    \centering
+    \caption[Quantum routes to differential equations and what sets their cost]{\textbf{Each quantum route's cost is set by a ratio its discretisation fixes.} Rows: the routes of \Cref{sec:bg-de}; columns: assumptions, cost driver, output, failure mode. $A$, the generator of a linear system; $\kappa$, its condition number; $T$, evolution time; $x(t)$, the solution at time $t$; $\alpha_H$, $\Delta$, subnormalisation and spectral gap of a block-encoded Hamiltonian $H$.}
+    \label{tab:de-approaches}
+    \footnotesize
+    \begin{tabular}{@{}p{0.16\linewidth}p{0.20\linewidth}p{0.19\linewidth}p{0.14\linewidth}p{0.21\linewidth}@{}}
+        \toprule
+        Route & Assumes & Cost depends on & Returns & Fails where \\
+        \midrule
+        Linear systems \cite{harrow2009hhl,berry2017linearode,childsliu2020spectral,costa2022optimal,jennings2023cost} & linear equation in first-order form; efficient access to $A$ and loading of the data & $\kappa$ of the discretised system, which grows with $T$ & the solution, or its history, as a state & $\kappa$ grows with the resolution; readout; at most polynomial gain at fixed dimension \\
+        \addlinespace
+        Hamiltonian simulation; linear combination of Hamiltonian simulations; Schrödingerisation \cite{lowchuang2019qubitization,anliulin2023lchs,jinliuyu2023schrodingerisation} & linear dynamics; for the linear combination, a positive semi-definite dissipative part & $\|A\|T$; the decay $\|x(0)\|/\|x(T)\|$ & the state at time $T$ & nonlinear dynamics; $\|A\|$ grows with the resolution; readout \\
+        \addlinespace
+        Variational \cite{lubasch2020variational,kyriienko2021differentiable,bravoprieto2023vqls,pool2024nonlinear} & a trainable parametrised circuit & optimisation steps times samples, unbounded & a trained circuit & no guarantee of convergence; barren plateaus \\
+        \addlinespace
+        Ground-state preparation \cite{subasi2019adiabatic,anlin2022timeoptimal,costa2022optimal,lintong2020filtering} & a positive semi-definite $H$ whose null vector is the solution; a known gap; an initial state of non-vanishing overlap & $\alpha_H/\Delta$, or its square root for a filter at the spectral edge; for a linear system, $\Delta$ of order $1/\kappa$ & the solution as a ground state & the gap closes as the problem's conditioning grows; readout \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\paragraph{Linear systems.}
 \label{sec:bg-de-linear}
-% LAND: HHL (cost, kappa lower bound) -> Berry 2014 (multistep, poly 1/eps) -> BCOW 2017
-%   (Taylor, polylog 1/eps) -> Childs-Liu 2020 (Chebyshev collocation in time: dense, kappa
-%   bounded by a degree-3.5 polynomial in the nodes) -> CLO 2021 (PDEs) -> Costa 2022 (optimal
-%   kappa) -> LCHS, Schroedingerisation -> Jennings et al. (explicit counts, fast-forwarding).
-%   The ODE solvers take first-order systems (the FOSLS point of sec:bg-fosls). Then judged:
-%   readout; Montanaro-Pallister; kappa grows with the resolution.
+% LAND: the route in one sentence; HHL (cost, kappa lower bound) -> Berry 2014 -> BCOW 2017 ->
+%   Childs-Liu 2020 -> CLO 2021 -> Costa 2022 -> Jennings et al.; the ODE solvers take
+%   first-order systems (the FOSLS point of sec:bg-fosls). Strengths: generality, proven costs,
+%   log N, log 1/eps. Weaknesses: kappa grows with resolution and T; readout; Montanaro-Pallister.
 
-The \gls{hhl} algorithm prepares a state proportional to $A^{-1}b$ for an $s$-sparse $N\times N$ matrix of condition number $\kappa$ in time $\tilde{\mathcal O}(s^2\kappa^2\log N/\varepsilon)$, and shows that time $\kappa^{1-\delta}$ for any $\delta>0$ would imply BQP $=$ PSPACE \cite{harrow2009hhl}. Discretising a differential equation into such a system gave the first solvers: Berry with a linear multistep method, at a cost polynomial in $1/\varepsilon$ \cite{berry2014highorder}; Berry, Childs, Ostrander and Wang with a truncated Taylor series, at a cost polynomial in $\log(1/\varepsilon)$ \cite{berry2017linearode}; and Childs and Liu with Chebyshev collocation in time, whose collocation matrix is dense and whose condition number they bound by a polynomial of degree $3.5$ in the number of nodes \cite{childsliu2020spectral}. Childs, Liu and Ostrander extended finite-difference and spectral discretisations to \glspl{pde} at the same dependence on precision \cite{childsliuostrander2021pde}, and Costa et al.\ brought the linear-systems solver to the optimal $\mathcal O(\kappa\log(1/\varepsilon))$ with a discrete adiabatic theorem \cite{costa2022optimal}. The ordinary-equation solvers take the equation as a first-order system $x'=Ax+b$, reducing any higher order before discretising, so the conditioning they pay is that of a first-order operator.
+The first route discretises the equation, in time and where needed in space, into one linear system whose solution holds the trajectory, and solves that system with a quantum linear-systems algorithm. The \gls{hhl} algorithm prepares a state proportional to $A^{-1}b$ for an $s$-sparse $N\times N$ matrix of condition number $\kappa$ in time $\tilde{\mathcal O}(s^2\kappa^2\log N/\varepsilon)$, and shows that time $\kappa^{1-\delta}$ for any $\delta>0$ would imply BQP $=$ PSPACE \cite{harrow2009hhl}. Discretising a differential equation into such a system gave the first solvers: Berry with a linear multistep method, at a cost polynomial in $1/\varepsilon$ \cite{berry2014highorder}; Berry, Childs, Ostrander and Wang with a truncated Taylor series, at a cost polynomial in $\log(1/\varepsilon)$ \cite{berry2017linearode}; and Childs and Liu with Chebyshev collocation in time, whose collocation matrix is dense and whose condition number they bound by a polynomial of degree $3.5$ in the number of nodes \cite{childsliu2020spectral}. Childs, Liu and Ostrander extended finite-difference and spectral discretisations to \glspl{pde} at the same dependence on precision \cite{childsliuostrander2021pde}, Costa et al.\ brought the linear-systems solver to the optimal $\mathcal O(\kappa\log(1/\varepsilon))$ with a discrete adiabatic theorem \cite{costa2022optimal}, and Jennings et al.\ gave the first non-asymptotic costs, constant factors included, preparing the history state of any stable linear system with complexity $\mathcal O(T^{1/2})$ in the evolution time, a fast-forwarding that classical stability permits \cite{jennings2023cost}. The ordinary-equation solvers take the equation as a first-order system $x'=Ax+b$, reducing any higher order before discretising, so the conditioning they pay is that of a first-order operator. The route's strength is its generality at a proven cost: any linear equation whose discretised operator can be accessed efficiently is solved at a cost logarithmic in $N$ and, from Berry et al.\ on, in $1/\varepsilon$. Its weakness is that the cost runs through $\kappa$, which the discretisation fixes and which grows with the resolution and with the evolution time, so the discretisation is part of the cost (\Cref{sec:bg-spectral}). Learning all $N$ amplitudes of the output takes at least of order $N$ repetitions, and for equations in a fixed number of dimensions with smooth solutions the advantage over the best classical methods is at most polynomial \cite{montanaro2016fem}.
 
-The linear combination of Hamiltonian simulations writes the propagator of a dissipative linear system as a weighted integral of unitary evolutions, implemented as a \gls{lcu} with optimal state-preparation cost \cite{anliulin2023lchs}; Schrödingerisation maps a linear evolution to a Schrödinger equation in one more dimension by a warped phase transformation \cite{jinliuyu2023schrodingerisation}. Neither solves a linear system. Jennings et al.\ give the first non-asymptotic costs, constant factors included, and prepare the history state of any stable linear system with complexity $\mathcal O(T^{1/2})$ in the evolution time, a fast-forwarding that classical stability permits \cite{jennings2023cost}.
+\paragraph{Hamiltonian simulation and Schrödingerisation.}
+\label{sec:bg-de-hamsim}
+% LAND: x' = -iHx is Hamiltonian simulation (qubitisation, O(alpha T + log 1/eps)); LCHS and
+%   Schroedingerisation extend it to non-unitary linear dynamics. Strengths: no linear system,
+%   no kappa; inherits an optimal primitive; LCHS's optimal state-preparation cost. Weaknesses:
+%   linear only; ||A|| grows with resolution; final state only; repetitions grow with the
+%   decay ||x(0)||/||x(T)||; LCHS needs a PSD dissipative part.
 
-These costs are proven, logarithmic in $N$ and at best in $1/\varepsilon$. Learning all $N$ amplitudes of the output takes at least of order $N$ repetitions, and for equations in a fixed number of dimensions with smooth solutions the advantage over the best classical methods is at most polynomial \cite{montanaro2016fem}. Both $\kappa$ and $\|A\|$ grow with the resolution, which makes the discretisation part of the cost (\Cref{sec:bg-spectral}).
+A linear equation $x'=-\mathrm{i}Hx$ with Hermitian $H$ is a Schrödinger equation, and integrating it to time $T$ is Hamiltonian simulation, which qubitisation performs with $\mathcal O(\alpha T+\log(1/\varepsilon))$ queries to a block encoding of $H$ at subnormalisation $\alpha$, an optimal dependence on both \cite{lowchuang2017qsp,lowchuang2019qubitization}. Two constructions carry non-unitary linear dynamics $x'=-Ax$ to this primitive. The linear combination of Hamiltonian simulations writes the propagator of a dissipative system as a weighted integral of unitary evolutions and implements it as a \gls{lcu}, without dilating the problem into a larger linear system and at optimal state-preparation cost \cite{anliulin2023lchs}. Schrödingerisation maps a linear ordinary or partial differential equation to a Schrödinger equation in one more dimension by a warped phase transformation, and recovers the solution from the auxiliary variable \cite{jinliuyu2023schrodingerisation}. Neither solves a linear system, so neither pays a condition number: the cost runs through $\|A\|T$, the norm of the generator times the evolution time. The route is linear, and its ratio also grows with the resolution, since the norm of a discretised spatial operator grows with the number of unknowns, as the square of the resolution for a second derivative. It returns the state at the final time only, and recovering it from a dissipative evolution needs a number of repetitions that grows with the decay $\|x(0)\|/\|x(T)\|$ of the solution's norm. The linear combination, as stated, also requires the dissipative part of $A$, its Hermitian part, to be positive semi-definite, which restricts it to stable dynamics.
 
-\subsubsection{Nonlinear Equations: Carleman and Related Linearisations}
-\label{sec:bg-de-nonlinear}
-% LAND: Leyton-Osborne (copies, exponential in time) -> Carleman (classical refs) -> Liu et al.
-%   (R < 1, T^2 q/eps, intractable for R >= sqrt 2) -> Krovi (log 1/eps; negative log-norm).
-%   R < 1 stated as the SUFFICIENT, worst-case condition it is (rho in sec:carleman), with the
-%   measurement as the thesis's answer; what remains: dissipation must dominate; lift size M^K.
-
-Leyton and Osborne's algorithm, the first for nonlinear equations, transforms the amplitudes of many copies of the state nonlinearly, at resources exponential in the integration time \cite{leyton2008nonlinear}. The route developed most since is Carleman linearisation \cite{carleman1932,kowalskisteeb1991}: a polynomial system such as $u'=F_1u+F_2u^{\otimes2}$ is embedded in an infinite linear system for the monomials $u,u^{\otimes2},u^{\otimes3},\dots$, truncated at order $K$ and solved as a linear system. Liu et al.\ treat dissipative quadratic equations in $M$ variables at cost $T^2q\,\mathrm{poly}(\log T,\log M,\log1/\varepsilon)/\varepsilon$, with $q$ the decay of the solution, when the ratio $R$ of nonlinearity and forcing to dissipation satisfies $R<1$, and prove the problem intractable in the worst case for $R\ge\sqrt2$ \cite{liu2021carleman}. Krovi makes the dependence on precision logarithmic and relaxes the normality of the linear part to a negative log-norm \cite{krovi2023improved}.
-
-The condition $R<1$ bounds the truncation error uniformly over states, so it is sufficient and not necessary: a lift may converge for $R>1$, which \Cref{sec:carleman} (writing the ratio $\rho$) measures and \Cref{sec:results-nonlinear} reports. Dissipation must still dominate. The lift has dimension of order $M^K$, and its truncation is controlled only where the nonlinearity is weak against the damping.
-
-\subsubsection{Variational Routes}
+\paragraph{Variational algorithms.}
 \label{sec:bg-de-variational}
 % LAND: Lubasch (copies; NLS); DQC (expectation-value model, derivatives by parameter shift on
 %   the feature map, PINN loss); ground states found variationally: VQLS's H_G (the same Gram
 %   structure as the PIHM), the Feynman-Kitaev clock (Barison) and space-time Burgers (Pool):
-%   antecedents of the time axis of sec:systems-fields. Judged: no guarantees; barren plateaus.
+%   antecedents of the time axis of sec:systems-fields. Strengths: shallow circuits, NISQ;
+%   nonlinearity handled directly. Weaknesses: no guarantees; barren plateaus; sampled costs.
 
-Lubasch et al.\ represent the solution by a parametrised circuit, evaluate a nonlinear cost on several copies of the state, and minimise it classically, as demonstrated on the nonlinear Schrödinger equation \cite{lubasch2020variational}. The differentiable quantum circuits of Kyriienko, Paine and Elfving represent the solution as the expectation value of a circuit with input $x$, differentiate it with respect to $x$ by parameter shifts on the feature map, and train it on the residual of the equation and its data \cite{kyriienko2021differentiable}, the loss of a \gls{pinn} \cite{raissi2019pinn}. The variational linear solver finds a ground state the same way, minimising $\braket{x|A^\dagger(I-\ket{b}\bra{b})A|x}$, whose zero-energy ground state solves $Ax\propto b$ \cite{bravoprieto2023vqls}; encoding time in a register, as the Feynman--Kitaev clock does, puts a whole trajectory in one ground state \cite{barison2022variational}, and a space--time encoding of this kind has given the evolution of Burgers' equation from a single ground-state computation \cite{pool2024nonlinear}. These circuits are shallow enough for NISQ devices, but nothing bounds the number of optimisation steps or guarantees the optimum: the gradients of a sufficiently random parametrised circuit vanish exponentially in the number of qubits, the barren plateau \cite{mcclean2018barren}, and each evaluation of the cost is a sampled expectation value.
+A variational algorithm represents the solution by a parametrised circuit and minimises a cost built from the equation with a classical optimiser. Lubasch et al.\ evaluate a nonlinear cost on several copies of the state, as demonstrated on the nonlinear Schrödinger equation \cite{lubasch2020variational}. The differentiable quantum circuits of Kyriienko, Paine and Elfving represent the solution as the expectation value of a circuit with input $x$, differentiate it with respect to $x$ by parameter shifts on the feature map, and train it on the residual of the equation and its data \cite{kyriienko2021differentiable}, the loss of a \gls{pinn} \cite{raissi2019pinn}. The variational linear solver finds a ground state the same way, minimising $\braket{x|A^\dagger(I-\ket{b}\bra{b})A|x}$, whose zero-energy ground state solves $Ax\propto b$ \cite{bravoprieto2023vqls}; encoding time in a register, as the Feynman--Kitaev clock does, puts a whole trajectory in one ground state \cite{barison2022variational}, and a space--time encoding of this kind has given the evolution of Burgers' equation from a single ground-state computation \cite{pool2024nonlinear}. The route's strengths are its circuits, shallow enough for NISQ devices, and its reach: a nonlinear term enters the cost directly, with no linearisation. Its weakness is that nothing bounds the number of optimisation steps or guarantees the optimum. The gradients of a sufficiently random parametrised circuit vanish exponentially in the number of qubits, the barren plateau \cite{mcclean2018barren}, and each evaluation of the cost is a sampled expectation value, so the cost of a solution is unknown before it is found.
 
-\subsubsection{Ground-State and Physics-Informed Routes}
+\paragraph{Ground-state preparation.}
 \label{sec:bg-de-ground}
-% LAND: the null vector of a PSD Hamiltonian is OLD in linear systems (Subasi-Somma-Orsucci;
-%   An-Lin; Costa; Lin-Tong's H_1 and its 1/kappa gap); then the physics-informed line: PINN ->
-%   DQC -> latent space (Paine et al. 2023) -> Wu et al. 2025 (examined in Ch. 3, not here) ->
-%   the concurrent Paine 2026 (what it does and does not do). Judged in sec:bg-de-assessment.
+% LAND: the null vector of a PSD Hamiltonian, prepared without optimisation (Subasi-Somma-
+%   Orsucci; An-Lin; Costa; Lin-Tong's H_1 and its 1/kappa gap; the Chebyshev filter).
+%   Strengths: proven cost, no training; the cost law separates encoding from spectrum
+%   (eq:degree); log 1/eps. Weaknesses: the gap carries the conditioning; a known gap and an
+%   initial overlap are assumed. Then ONE sentence: the PIHM belongs to this route (Ch. 3).
 
-Preparing the solution of a linear system as the null vector of a positive semi-definite Hamiltonian, without optimisation, predates the physics-informed work. Subaşı, Somma and Orsucci do so by randomised adiabatic evolution at cost $\mathcal O(\kappa\log\kappa/\varepsilon)$ \cite{subasi2019adiabatic}, An and Lin by a time-optimal adiabatic schedule \cite{anlin2022timeoptimal}, and Costa et al.\ by a discrete adiabatic walk \cite{costa2022optimal}. In Lin and Tong's form \cite{lintong2020filtering}, for positive-definite $A$ with $\|A\|=1$ and $Q_b=I-\ket{b}\bra{b}$, the Hamiltonian with off-diagonal blocks $AQ_b$ and $Q_bA$ has $\ket{0}\ket{x}$ in its null space beside $\ket{1}\ket{b}$, which a measurement of the first qubit removes; the rest of its spectrum lies at a distance of order $1/\kappa$ from zero, and an optimal Chebyshev filter projects onto the null space. The gap, and with it the filter's cost, is set by $\kappa$ (\Cref{sec:bg-filtering}).
+The last route builds a positive semi-definite Hamiltonian whose null vector is the solution and prepares that vector without optimisation. Subaşı, Somma and Orsucci do so for a linear system by randomised adiabatic evolution at cost $\mathcal O(\kappa\log\kappa/\varepsilon)$ \cite{subasi2019adiabatic}, An and Lin by a time-optimal adiabatic schedule \cite{anlin2022timeoptimal}, and Costa et al.\ by a discrete adiabatic walk \cite{costa2022optimal}. In Lin and Tong's form \cite{lintong2020filtering}, for positive-definite $A$ with $\|A\|=1$ and $Q_b=I-\ket{b}\bra{b}$, the Hamiltonian with off-diagonal blocks $AQ_b$ and $Q_bA$ has $\ket{0}\ket{x}$ in its null space beside $\ket{1}\ket{b}$, which a measurement of the first qubit removes; the rest of its spectrum lies at a distance of order $1/\kappa$ from zero, and an optimal Chebyshev filter projects onto the null space. The route's strength is a proven cost with nothing to train, in a form that separates the circuit from the spectrum: a filter's degree depends on the Hamiltonian only through the subnormalisation of its block encoding and its gap, and its error falls exponentially with the degree (\Cref{sec:bg-filtering}). Its weakness is that the gap carries the problem's conditioning, of order $1/\kappa$ for a linear system, so the route pays the ratio of the linear-systems route in another form. A filter also needs the gap, or a bound on it, in advance, and an initial state whose overlap with the solution does not vanish. The physics-informed effective Hamiltonian of Wu et al.\ belongs to this route: it builds the Hamiltonian from a Chebyshev discretisation of the equation and its data and prepares the ground state with a filter (\Cref{sec:pihm}).
 
-The physics-informed line arrived at the same object from machine learning. \Glspl{pinn} are trained on the residual of the equation at sample points and on its data \cite{raissi2019pinn}, and differentiable quantum circuits carried that loss to quantum models. Paine, Elfving and Kyriienko moved the model into a latent space in which the solution's Chebyshev coefficients are the amplitudes of a state, so that differentiation and multiplication by $x$ act as fixed matrices and the loss needs no evaluation on a grid \cite{paine2023physicsinformed}. Wu, Paine, Philip, Gentile and Kyriienko removed the training: the summed Gram matrices of those operators form an effective Hamiltonian whose ground state is the solution, prepared by a filter \cite{wu2025pihm}; \Cref{sec:pihm} presents and judges the method. In concurrent work, Paine compares Hamiltonian constructions and function encodings (grid values against spectral coefficients) on linear and nonlinear examples, and finds that both choices affect the recovery of the solution, the spectral gap, its degeneracy and the readout \cite{paine2026concurrent}. On the few small instances studied the normalised gap depends on both choices without a general ordering; no scaling with resolution or block-encoding circuit is given, and the lift for products is polynomial only, needing more registers as the degree grows.
-
-\subsubsection{Critical Assessment}
+\paragraph{Critical assessment.}
 \label{sec:bg-de-assessment}
-% LAND: the verdict across families, read off T1: (1) every route pays a ratio its
+% LAND: the verdict across routes, read off T1: (1) every route pays a ratio its
 %   discretisation and encoding fix; (2) output is a state, gains at most polynomial at fixed
 %   dimension, so the thesis compares quantum methods with one another and claims no classical
-%   advantage; (3) guarantees uneven. The PIHM's cost driver is THIS THESIS's reading.
-% TAB: tab:de-approaches (T1), with a "this work" row (first pass; recheck at W6 against Ch. 8).
-% CHECKLIST  Every family has a failure mode; no row claims a measured number.
+%   advantage; (3) guarantees uneven; (4) only the variational route is nonlinear without a
+%   linearisation (sec:bg-carleman).
 
-Each route in \Cref{tab:de-approaches} pays a ratio set by how the equation is discretised and encoded, which an accurate discretisation can still make large: the condition number of a linear system, the norm of a generator times the evolution time, the ratio of nonlinearity to dissipation in a lift, or the norm of an encoded Hamiltonian against its gap. Every route returns a quantum state, so its advantage holds only where a few properties of the solution suffice \cite{aaronson2015fineprint,williams2024readout}, and is at most polynomial in a fixed, low number of dimensions (\Cref{sec:bg-de-linear}). The thesis therefore compares quantum methods with one another, at equal accuracy, in queries and gates, and claims no advantage over classical solvers. The guarantees differ: the linear-systems and ground-state routes have proven costs, the variational routes none, and the Carleman route worst-case sufficient conditions that a given problem may beat. Wu et al.\ leave the cost driver of their method open; its entry in \Cref{tab:de-approaches} is our reading (\Cref{sec:pihm-assessment,sec:standard-hamiltonian}), and the descriptor form of the last row keeps that driver and changes the operator whose norm enters it.
+Each route in \Cref{tab:de-approaches} pays a ratio set by how the equation is discretised and encoded, which an accurate discretisation can still make large: the condition number of a linear system, the norm of a generator times the evolution time, or the norm of an encoded Hamiltonian against its gap. Every route returns a quantum state, so its advantage holds only where a few properties of the solution suffice \cite{aaronson2015fineprint,williams2024readout}, and is at most polynomial in a fixed, low number of dimensions \cite{montanaro2016fem}. The thesis therefore compares quantum methods with one another, at equal accuracy, in queries and gates, and claims no advantage over classical solvers. The guarantees differ: the linear-systems, Hamiltonian-simulation and ground-state routes have proven costs, and the variational route has none. Only the variational route takes a nonlinear equation as it stands; the others are linear and reach a nonlinear equation through a linearisation such as Carleman's, which adds a ratio of its own (\Cref{sec:bg-carleman}).
 
-\begin{table}[htbp]
-    \centering
-    \caption[Quantum routes to differential equations and what sets their cost]{\textbf{Each quantum route's cost is set by a ratio its discretisation fixes.} Rows: the families of \Cref{sec:bg-de} and this work; columns: assumptions, cost driver, output, failure mode. $A$, the generator of a linear system; $\kappa$, its condition number; $T$, evolution time; $R$, Carleman ratio of nonlinearity and forcing to dissipation; $K$, Carleman truncation order; $M$, number of unknowns; $N$, number of Chebyshev terms; $\G$, Chebyshev differentiation matrix; $\alpha_H$, $\Delta$, subnormalisation and spectral gap of a block-encoded Hamiltonian $H$. The physics-informed row's cost driver is our reading of Wu et al.; the last row's degree holds only for a regular problem: one axis, polynomial coefficients, a leading coefficient without zeros (\Cref{def:regular}).}
-    \label{tab:de-approaches}
-    \footnotesize
-    \begin{tabular}{@{}p{0.16\linewidth}p{0.18\linewidth}p{0.19\linewidth}p{0.14\linewidth}p{0.21\linewidth}@{}}
-        \toprule
-        Approach & Assumes & Cost depends on & Returns & Fails where \\
-        \midrule
-        Linear systems \cite{harrow2009hhl,berry2017linearode,childsliu2020spectral,costa2022optimal,lintong2020filtering} & linear equation in first-order form; efficient access to $A$ and loading of the data & $\kappa$ of the discretised system; $\|A\|T$ & the solution, or its history, as a state & $\kappa$ grows with the resolution; readout; at most polynomial gain at fixed dimension \\
-        \addlinespace
-        Linear combination of Hamiltonian simulations; Schrödingerisation \cite{anliulin2023lchs,jinliuyu2023schrodingerisation} & linear, stable dynamics & $\|A\|T$; the decay of the solution's norm & the state at time $T$ & nonlinear or unstable dynamics; readout \\
-        \addlinespace
-        Carleman linearisation \cite{liu2021carleman,krovi2023improved} & polynomial nonlinearity; dissipation dominating ($R<1$ sufficient) & the linear solver's cost on a lift truncated at order $K$ & the lifted state, whose first level is the solution & intractable in the worst case for $R\ge\sqrt2$; lift dimension of order $M^K$ \\
-        \addlinespace
-        Variational \cite{lubasch2020variational,kyriienko2021differentiable,bravoprieto2023vqls,pool2024nonlinear} & a trainable parametrised circuit & optimisation steps times samples, unbounded & a trained circuit & no guarantee of convergence; barren plateaus \\
-        \addlinespace
-        Physics-informed effective Hamiltonian \cite{wu2025pihm} & a solution well represented by $N$ Chebyshev terms; data rows that isolate it & not analysed by its authors; here, $\sqrt{\alpha_H/\Delta}$, with $\|H\|$ set by powers of the dense $\G$ & the solution's coefficients as a ground state; the field at any $x$ & the norm grows with each derivative eliminated; the nonlinear route projects (\Cref{sec:pihm-assessment}) \\
-        \addlinespace
-        This work: the descriptor form and the Carleman lift & as above; a regular problem for the best scaling; a known spectral edge & $\sqrt{\alpha_H/\Delta}$ with $\|\Hdesc\|=\Theta(N^2)$; degree $\tilde\Theta(N)$ on a regular problem & as above; decoded classically & the gap falls on two axes and on singular problems; not poly-logarithmic \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-% REVISE (W6): recheck the "this work" row against Ch. 8's findings (sec:results-summary) once
-%   the figures are exported; the row states formulation-level facts only (Standing Facts:
-%   Complexity, The descriptor's gap), no measured number.
-
-\subsection{Spectral Methods and Their Conditioning}
+\subsection{Classical Discretisation and Linearisation}
 \label{sec:bg-spectral}
-% ~1.5 pp. The antecedents of the headline, credited BEFORE Ch. 5 claims anything (T-26), and
-%   the increment stated precisely here.
+% ~1.8 pp. The antecedents of the headline, credited BEFORE Ch. 5 claims anything (T-26), and
+%   the increment stated precisely here. Carleman linearisation added 2026-10-15 (moved from
+%   sec:bg-de: a classical device that composes with a route, not a route; the author's call).
 
-The ratios of \Cref{tab:de-approaches} are set when the equation is discretised. For the Chebyshev discretisation on which the physics-informed construction is built, classical numerical analysis locates the source of the ratio, the density of differentiation in coefficient space, and two ways of lowering it: a basis in which differentiation is banded, and derivatives carried as unknowns.
+The ratios of \Cref{tab:de-approaches} are set when the equation is discretised. For the Chebyshev discretisation on which the physics-informed construction is built, classical numerical analysis locates the source of the ratio, the density of differentiation in coefficient space, and two ways of lowering it: a basis in which differentiation is banded, and derivatives carried as unknowns. A nonlinear equation reaches the linear routes only after a second classical step, Carleman's linearisation, which brings a ratio of its own.
 
-\subsubsection{Chebyshev Discretisation and Differentiation}
+\paragraph{Chebyshev discretisation and differentiation.}
 \label{sec:bg-chebyshev}
 % LAND: spectral accuracy; Galerkin, tau, collocation; the PIHM as a least-squares relative of
 %   the tau method (not "collocation", T-37); differentiation dense, strictly upper triangular,
@@ -160,11 +157,11 @@ A function analytic on $[-1,1]$ has a Chebyshev series $f=\sum_kb_kT_k$ with geo
 
 Differentiation in coefficient space is exact on polynomials of degree below $N$ and dense, because the derivative of $T_p$ contains every $T_k$ of the opposite parity below it: the matrix is strictly upper triangular, about a quarter of its entries are non-zero, and its norm grows as $N^2$ (\Cref{sec:standard-operators}). An operator of order $k$ built from its powers grows as $N^{2k}$, and so, typically, does the condition number of a tau or collocation discretisation \cite{olver2013,canuto2006spectral}.
 
-\subsubsection{The Ultraspherical Method}
+\paragraph{The ultraspherical method.}
 \label{sec:bg-ultraspherical}
 % LAND: T_k' = k C^(1)_{k-1}; D (one superdiagonal) and S (two diagonals); raising the basis
 %   per derivative; almost banded; kappa linear in the truncation, bounded after a diagonal
-%   preconditioner (2-norm for Dirichlet). The descriptor's Bt, Dt are its first pair (App. B);
+%   preconditioner (2-norm for Dirichlet). The descriptor's Bt, Dt are its first pair (App. A);
 %   block rescaling takes the preconditioner's place. VOLUNTEER: the full ultraspherical reduction
 %   (banded on N unknowns, no block register) is not built or compared (app:ultraspherical);
 %   it is the natural next comparison (sec:limitations).
@@ -173,7 +170,7 @@ Olver and Townsend make differentiation banded by letting the derivative live in
 
 Olver and Townsend eliminate the lower derivatives and solve one banded system for the solution's coefficients, whereas the descriptor keeps every derivative as an unknown in the Chebyshev basis, tied to the next by the same pair $(\Bt,\Dt)$ (\Cref{sec:bg-fosls}). The full reduction, banded on $N$ unknowns without a block register, is not compared here (\Cref{sec:limitations}).
 
-\subsubsection{First-Order System Least Squares}
+\paragraph{First-order system least squares.}
 \label{sec:bg-fosls}
 % LAND: LS of a 2nd-order operator: O(h^-4) against Galerkin's O(h^-2) (Bochev-Gunzburger 1998,
 %   §2.2); FOSLS (Cai et al. 1994): derivatives as unknowns, O(h^-2), nearly decoupled variables,
@@ -189,13 +186,26 @@ The physics-informed Hamiltonian is such a functional. Stacking the operators of
 
 \paragraph{What we add.} Both ideas are classical. The increment is their transfer to a block-encoded physics-informed Hamiltonian and its consequences for preparing the ground state: a proof that the reformulated residual has the standard form's kernel, so that the prepared state is the same solution (\Cref{sec:descriptor-layouts}); an encoding of the banded residual as one flat linear combination of unitaries with $\mathcal O(\log n)$ ancilla qubits (\Cref{sec:descriptor-block-encoding}); the finding that the carried derivatives erode the Hamiltonian's gap, with an a priori block rescaling, without ancilla, that restores it on one axis and not on two (\Cref{sec:descriptor-gap,sec:descriptor-rescaling}); and a measurement of what the reformulation does to the filter's degree, as built and at an ideal encoding (\Cref{sec:results-scaling,sec:results-gap}).
 
-\subsubsection{Fourier--Galerkin Truncation}
+\paragraph{Fourier--Galerkin truncation.}
 \label{sec:bg-fourier}
 % LAND: Fourier diagonalises differentiation; quadratic terms as convolutions; Galerkin
 %   truncation exact on the retained modes; pseudo-spectral evaluation aliases unless dealiased;
 %   the fluids (sec:fluids) use the Galerkin truncation on real modes, which the lift needs.
 
 On a periodic domain the Fourier basis diagonalises differentiation, $\partial_xe^{\mathrm{i}kx}=\mathrm{i}k\,e^{\mathrm{i}kx}$, so linear terms act mode by mode and a quadratic term becomes a convolution of coefficients \cite{canuto2006spectral}. A Galerkin truncation keeps exactly the convolution terms whose output lies in the retained set of modes; a pseudo-spectral evaluation on a grid aliases the discarded terms onto retained modes unless it is dealiased \cite{canuto2006spectral}. The fluids of \Cref{sec:fluids} use Galerkin truncations on real Fourier modes, so their quadratic coupling is a fixed matrix of exact coefficients, as the Carleman lift requires; a pseudo-spectral simulation serves only as the reference for the truncation's error.
+
+\paragraph{Carleman linearisation.}
+\label{sec:bg-carleman}
+% LAND: the classical embedding (Carleman; Kowalski-Steeb), truncated at K; its quantum use
+%   (Leyton-Osborne as the earlier alternative, exponential in time; Liu et al.: R < 1,
+%   T^2 q/eps, intractable for R >= sqrt 2; Krovi: log 1/eps, negative log-norm). Strength:
+%   linear and exact before truncation, so it composes with any linear route. Weaknesses: R < 1
+%   SUFFICIENT and worst-case (rho in sec:carleman, measured in sec:results-nonlinear);
+%   dissipation must dominate; lift dimension M^K.
+
+Carleman's embedding replaces a polynomial system of ordinary differential equations by an infinite linear system for the monomials of its unknowns \cite{carleman1932,kowalskisteeb1991}. For $u'=F_1u+F_2u^{\otimes2}$ the vector $(u,u^{\otimes2},u^{\otimes3},\dots)$ obeys a linear equation in which each level couples only to itself and to the next, and truncation at order $K$ leaves a finite linear system whose first level approximates $u$. Its use in quantum algorithms followed an earlier approach of Leyton and Osborne, which transforms the amplitudes of many copies of the state nonlinearly, at resources exponential in the integration time \cite{leyton2008nonlinear}. Liu et al.\ solve the truncated Carleman system with a quantum linear-systems algorithm for dissipative quadratic equations in $M$ variables, at cost $T^2q\,\mathrm{poly}(\log T,\log M,\log1/\varepsilon)/\varepsilon$, with $q$ the decay of the solution, when the ratio $R$ of nonlinearity and forcing to dissipation satisfies $R<1$, and prove the problem intractable in the worst case for $R\ge\sqrt2$ \cite{liu2021carleman}; Krovi makes the dependence on precision logarithmic and relaxes the normality of the linear part to a negative log-norm \cite{krovi2023improved}.
+
+The lift is linear and exact before truncation, so a nonlinear equation inherits the guarantees of whichever linear route solves the truncated system, and the dimension $M^K$ of the lift fits in about $K\log_2M$ qubits. Its weakness is the truncation. The condition $R<1$ bounds the truncation error uniformly over states, so it is sufficient and not necessary: a lift may converge for $R>1$, which \Cref{sec:carleman} (writing the ratio $\rho$) measures and \Cref{sec:results-nonlinear} reports. Dissipation must still dominate, since the truncation is controlled only where the nonlinearity is weak against the damping, and the lift's dimension, of order $M^K$, enters the cost of every route that solves it.
 
 \subsection{Block Encodings, Signal Processing and Filtering}
 \label{sec:bg-primitives}
@@ -207,7 +217,7 @@ On a periodic domain the Fourier basis diagonalises differentiation, $\partial_x
 
 A block encoding applies a non-unitary matrix on a quantum computer, a polynomial transformation of the block encoding builds a filter, and the filter's degree counts the queries that a prepared ground state costs.
 
-\subsubsection{Block Encodings and Linear Combinations of Unitaries}
+\paragraph{Block encodings and linear combinations of unitaries.}
 \label{sec:bg-block-encoding}
 % LAND: the (alpha, m, eps) definition (numbered: re-invoked throughout); alpha >= ||A||; LCU
 %   (PREPARE/SELECT, alpha = sum |c_t|); the ceil(log2 L) selector count (as Ch. 5 states it);
@@ -227,7 +237,7 @@ Applied to $\ket{0^m}\ket{\psi}$ and post-selected on the ancillas' zero, an exa
 
 If $U$ is Hermitian and block-encodes $H/\alpha$, the walk $W=(2\Pi-I)\,U$, with $\Pi=\ket{0^m}\bra{0^m}\otimes I$, satisfies $\Pi W^k\Pi=T_k(H/\alpha)$: its $k$-th power block-encodes the $k$-th Chebyshev polynomial of the encoded matrix at one query per power \cite{lowchuang2019qubitization}, so a polynomial of degree $d$ in $H/\alpha$ costs $d$ queries once its combination is formed.
 
-\subsubsection{Quantum Signal Processing}
+\paragraph{Quantum signal processing.}
 \label{sec:bg-qsp}
 % LAND: QSP -> QSVT (definite parity, |P| <= 1, one ancilla) -> the grand unification; the
 %   mixed-parity construction for indefinite parity (Wu et al.'s); GQSP (no parity, one signal
@@ -236,7 +246,7 @@ If $U$ is Hermitian and block-encodes $H/\alpha$, the walk $W=(2\Pi-I)\,U$, with
 
 Quantum signal processing interleaves a single-qubit signal rotation with fixed phase rotations to realise a polynomial of the signal \cite{lowchuang2017qsp}. The \gls{qsvt} lifts the construction to block encodings, applying a degree-$d$ polynomial $P$ to the singular values of the encoded matrix with $d$ queries and one further ancilla \cite{gilyen2019qsvt}, and places search, Hamiltonian simulation and linear systems in one framework \cite{martyn2021grand}. Its polynomials are bounded by one on $[-1,1]$ and of definite parity, so a function of indefinite parity, such as the imaginary-time filter $e^{-\beta x}$, is split into even and odd parts, each with its own phase sequence, and the two are summed by a further linear combination at a cost in subnormalisation; Wu et al.\ use this mixed-parity construction (\Cref{sec:pihm-encoding}). \Gls{gqsp} drops the parity constraint \cite{motlagh2024gqsp}. SU(2) rotations on one signal qubit, with the encoded unitary applied controlled on it, realise any $P(z)=\sum_{k\le d}q_kz^k$ with $|P|\le1$ on the unit circle at $d$ queries, and applied to the walk $W$ they give $\sum_kq_kT_k$ of the encoded matrix (\Cref{sec:pipeline-filter}). The phases follow from a complementary polynomial, computed by a fast-Fourier-transform formula with explicit error guarantees \cite{berntson2025complementary}, through the inverse of the \gls{nlft} to which GQSP is equivalent \cite{laneve2025gqspnlft,nlfft2025su2}.
 
-\subsubsection{Ground-State Preparation by Filtering}
+\paragraph{Ground-state preparation by filtering.}
 \label{sec:bg-filtering}
 % LAND: imaginary time and inverse iteration as filters; Lin-Tong's eigenstate filter (interior
 %   eigenvalue, degree O(alpha/Delta log 1/eps), optimal on [-1,-D] u [D,1]) and ground-state
@@ -274,11 +284,12 @@ The physics-informed effective Hamiltonian sits where the three strands meet. It
 
 % CHECKLIST (marker)
 %   1. Does every reviewed family carry an explicit weakness, not just a description?
-%   2. Is T1 (tab:de-approaches) present, with a "this work" row, scoped?
+%   2. Is T1 (tab:de-approaches) present, one row per route, with no PIHM or "this work" row
+%      (the PIHM is Ch. 3's; 2026-10-15)?
 %   3. Are ultraspherical and first-order least squares credited here, before Chapter 5 claims
 %      anything, with the increment stated, and the full ultraspherical reduction volunteered as
 %      not compared?
-%   4. Is the concurrent work (Paine 2026) cited, with what it does and does not do?
+%   4. (2026-10-15) The concurrent work (Paine 2026) is described in sec:pihm-assessment.
 %   5. Is sec:bg-qc <= 1 pp, prose only?
 %   6. Is eq:degree hedged: the square root from the edge (gap amplification), the floor a
 %      statement about polynomial filters only?

@@ -1,0 +1,166 @@
+\usepackage[utf8]{inputenc}
+\usepackage[x11names,dvipsnames,svgnames,table]{xcolor}
+
+\usepackage[export]{adjustbox}
+\usepackage{afterpage}
+
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{pdfpages}
+\usepackage{algorithm2e}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[most]{tcolorbox}
+\usepackage{calligra}
+\usepackage{caption}
+\captionsetup{font=footnotesize, labelfont=bf}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.8}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\usepackage{datetime}
+\usepackage{dirtytalk}
+\usepackage{dsfont}
+\usepackage{etex}
+\usepackage{fancyhdr}
+\usepackage{fix-cm}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp,gensymb}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{transparent}
+\usepackage[everyline=true,framemethod=tikz]{mdframed}
+\usepackage{mparhack}
+\usepackage{multicol}
+\usepackage{multirow}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}{1.5ex \@plus .5ex \@minus .2ex}{-1em}{\normalfont\normalsize\bfseries}}
+\makeatother
+\usepackage{lscape}
+\usepackage{pdflscape}
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage[document]{ragged2e}
+\setlength{\parindent}{1.5em}
+\setlength{\RaggedRightParindent}{\parindent}
+\setlength{\parskip}{0pt plus 1pt}
+\AddToHook{env/tabular/begin}{\setlength{\RaggedRightParindent}{0pt}}
+\AddToHook{env/longtable/begin}{\setlength{\RaggedRightParindent}{0pt}}
+\AddToHook{env/table/begin}{\setlength{\RaggedRightParindent}{0pt}}
+\AddToHook{env/table*/begin}{\setlength{\RaggedRightParindent}{0pt}}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{subcaption}
+\usepackage{threeparttable}
+\usepackage[normalem]{ulem}
+\usepackage{verbatim}
+\usepackage{soul}
+
+\usepackage[titletoc,title,header]{appendix}
+
+\usepackage[utf8]{inputenc}
+\usepackage[australian]{babel}
+\usepackage{csquotes}
+
+\usepackage[a4paper,margin=1.5cm]{geometry}
+\usepackage{lastpage}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+\crefname{section}{\S}{\S\S}
+\Crefname{section}{\S}{\S\S}
+\crefname{subsection}{\S}{\S\S}
+\Crefname{subsection}{\S}{\S\S}
+\crefname{subsubsection}{\S}{\S\S}
+\Crefname{subsubsection}{\S}{\S\S}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc,fit}
+\usepackage{quantikz}
+
+\NewDocumentCommand{\placeholderfigure}{O{6cm} o m m m}{%
+  \begin{figure}[htbp]
+    \centering
+    \fbox{%
+      \begin{minipage}[c][#1][c]{0.86\linewidth}
+        \centering\itshape\color{gray!60!black} #5
+      \end{minipage}%
+    }
+    \IfValueTF{#2}{\caption[#2]{#3}}{\caption{#3}}
+    \label{#4}
+  \end{figure}%
+}
+
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{braket}
+
+\usepackage{amsthm}
+\newtheoremstyle{boldnote}
+  {\topsep}
+  {\topsep}
+  {\normalfont}
+  {}
+  {\bfseries}
+  {:}
+  {.5em}
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+
+\theoremstyle{boldnote}
+\newtheorem{definition}{Definition}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\G}{G}
+\newcommand{\Bt}{\tilde{B}}
+\newcommand{\Dt}{\tilde{D}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\nfold}{\mathcal{N}}
+\newcommand{\Brow}{\mathbb{B}}
+\newcommand{\Dzero}{\mathbb{D}^{(0)}}
+\newcommand{\Frat}{\mathbb{F}}
+\newcommand{\Slice}{\mathbb{S}}
+\newcommand{\Acoup}{\Gamma}
+\newcommand{\Ucg}{U_{\mathrm{CG}}}
+\newcommand{\Uodd}{U_{\mathrm{odd}}}
+\newcommand{\Astd}{A_{\mathrm{std}}}
+\newcommand{\Adesc}{A_{\mathrm{desc}}}
+\newcommand{\Hstd}{H_{\mathrm{std}}}
+\newcommand{\Hdesc}{H_{\mathrm{desc}}}
+\newcommand{\fhat}[1]{\hat{f}^{(#1)}}
+
+\setcounter{secnumdepth}{3}
+
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+\usepackage{enumitem}
+
+\usepackage[backgroundcolor=yellow]{todonotes}
+
+\newcommand{\prov}[1]{\textcolor{BrickRed}{#1}}
+
+\usepackage[backend=biber,bibstyle=ieee,citestyle=numeric-comp]{biblatex}
+\addbibresource{3_footer/ref.bib}
+\AtEveryBibitem{\clearfield{note}}
+\usepackage{url}
+\urlstyle{same}
+
+\usepackage[acronym,nomain,nonumberlist]{glossaries}
+\makeglossaries
+\input{1_header/glossary}
+
+\linespread{1.15}
+\setstretch{1.05}

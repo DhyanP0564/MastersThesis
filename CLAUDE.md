@@ -5,7 +5,7 @@ physics-informed effective Hamiltonians for quantum differential-equation solver
 supervisor Jingbo Wang; working title in `1_header/1_title.tex`, final choice in
 ThesisPlanning.md §13.1).
 
-**Governing plan: `ThesisPlanning.md`** (version 3.13, 2026-10-14; ten chapters). It fixes the
+**Governing plan: `ThesisPlanning.md`** (version 3.14, 2026-10-15; ten chapters, eleven appendices A–K). It fixes the
 chapter structure and order, the contributions, the three questions the thesis answers, the page
 budget, the notation and the claims each chapter may make. Where it conflicts with
 `thesis_guides/`, the plan wins; where anything conflicts with the Standing Facts below on a
@@ -110,12 +110,12 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   hypotheses restated as a scope); prepared vs projected; trusted kernel vs converged lift;
   verified (exact / probe / IR) vs emulated vs estimated; minimax edge filter vs imaginary-time
   filter; benchmark problem R1–R10 (never "rung"); "as printed" and "paper-faithful" only in
-  Appendix K and §4.4's validation paragraph (never "corrected"); the encoder's cost vs the
+  Appendix I and §4.4's validation paragraph (never "corrected"); the encoder's cost vs the
   Hamiltonian's cost (never "wall"); realification vs native complex encoding; ratio rows; the
   coupling as a sum of matchings.
 - The critique stated once per layer: Ch. 3 names each weakness of the paper (§3.5); Ch. 4 makes
   each departure in one clause where the construction meets it and collects it in Table T10;
-  Appendices C and K hold the arguments, and Appendix K the
+  Appendices B and I hold the arguments, and Appendix I the
   reproduction, the derivations and the numbers. No body section re-derives or tabulates the
   audit. The standard form defined once (§4.4); the mass form defined once (§5.2), applied in
   Ch. 6.
@@ -128,12 +128,12 @@ Check across the whole manuscript, reporting only actual inconsistencies:
 
 ## Standing Facts (do not let drafts contradict these)
 
-Version 5.1 (2026-10-14; 5.1 adds the classes of problem), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
+Version 5.2 (2026-10-15; 5.2 scopes both norms and the floor, and the two-axis width is 26 qubits), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
 
 - **Framing.** The headline contribution is the **descriptor reformulation**. Four numbered
   supporting contributions: S1 the standard form, stated once (Ch. 4), each
   departure from the printed method made where it occurs and collected in Table T10, validated
-  against the paper's printed panels (the record is Appendix K); S2 an exact structured
+  against the paper's printed panels (the record is Appendix I); S2 an exact structured
   encoding of the standard form, which isolates its cost in the Hamiltonian; S3 a
   regime-independent verified preparation pipeline; S4 beyond a single real field: coupled
   systems, complex-valued fields by realification, and Carleman preparation versus doubled-space
@@ -147,7 +147,7 @@ Version 5.1 (2026-10-14; 5.1 adds the classes of problem), from ThesisPlanning.m
   it states no result of ours. Ch. 4 states the construction once, as the standard form, citing
   each restated piece (Paine et al.: latent space and lifts; Wu et al.: residual and Gram sum;
   Olver: G's density), "we" only for departures and our own results, then answers Q(i). The
-  reproduction and the audit of the paper's claims are Appendix K's.
+  reproduction and the audit of the paper's claims are Appendix I's.
 - **Antecedents.** The descriptor's banded factors are the discrete shadow of the
   **ultraspherical spectral method** (Olver & Townsend 2013), and carrying derivatives as
   unknowns to avoid a squared condition number is the idea of **first-order-system least
@@ -182,7 +182,7 @@ Version 5.1 (2026-10-14; 5.1 adds the classes of problem), from ThesisPlanning.m
   verified only at small n (R1, R2a, R5a), with our correction for p_G < 1; it is further work,
   never the method's readout. Nothing ran on hardware.
 - **Tiers.** All results are classical computations. Circuit simulation (T1) reaches 20 qubits
-  (the widest simulated, R4a and R4d at n = 3); the two-axis descriptor circuits, from 28 qubits,
+  (the widest simulated, R4a and R4d at n = 3); the two-axis descriptor circuits, from 26 qubits,
   are beyond the simulation budget, where its estimate is quoted, and none was attempted on R10. Exact emulation (T2) is provably equal to the circuit's post-selected
   output and reaches filter degrees of 2²⁰. Beyond that only resource estimates (T3) are
   quoted. Always name the tier. "Could not simulate" is never "cannot reach".
@@ -190,20 +190,21 @@ Version 5.1 (2026-10-14; 5.1 adds the classes of problem), from ThesisPlanning.m
   **exactly** to 25 qubits; every construction-only circuit of ≤ 24 qubits by probe; lifts and
   couplings by IR at any size. T1 = T2 to ≤ 1e-10 before normalising on every minimax record; the
   QITE T1 records (the reproduction's and the filter study's) that miss the bar (3 of 46, at
-  degrees of order 10⁵) are reported in Appendix K with their degree, never re-judged.
+  degrees of order 10⁵) are reported in Appendix I with their degree, never re-judged.
 - **Filter.** The **minimax edge filter** prepares every comparison and extension, at the least
   degree that suppresses the excited spectrum to ε relative to the ground value. The
-  imaginary-time (QITE) filter is the paper's: it runs in the reproduction (Appendix K) and in the
+  imaginary-time (QITE) filter is the paper's: it runs in the reproduction (Appendix I) and in the
   filter study (imaginary time needs 1.67–1.92× the minimax degree at equal suppression on synthetic
   spectra, and 1.75–1.82× on the study's records at ε = 10⁻⁶, inside that range; less at equal
   measured infidelity).
 - **Complexity.** Neither form is poly-log. The degree is d = Θ(√(α_H/Δ) log 1/ε), with
   α_H ≥ ‖H‖ for any block encoding: the residual's effective condition number. Standard form:
-  ‖H_std‖ = Θ(N^{4k}) for order k, so d = Θ̃(N^{2k}) (Θ̃(N⁴) at second order) even with the best
-  exact encoding. Descriptor: ‖H_desc‖ = Θ(N²); d = Θ̃(N) **on a regular problem**, about Θ̃(N²) or
-  faster on singular problems or on two axes. Never state a descriptor degree, gap or α claim
-  without its class. A floor "for any filter" is
-  hedged to what Lin & Tong support.
+  ‖H_std‖ = Θ(N^{4k}) for order k **with constant coefficients** (every regular problem run), so
+  d = Θ̃(N^{2k}) (Θ̃(N⁴) at second order) even with the best exact encoding. Descriptor:
+  ‖H_desc‖ = Θ(N²) at fixed block weights (Θ(N⁴) with ζ ∝ N); d = Θ̃(N) **on a regular problem**,
+  about Θ̃(N²) or faster on singular problems or on two axes. Never state a descriptor norm,
+  degree, gap or α claim without its class. The floor holds for every polynomial filter of the
+  walk (Chebyshev optimality, App. F); over all algorithms it is hedged to what Lin & Tong support.
 - **Classes of problem.** `def:regular` (§5.3, before `thm:flat-gap`): a linear problem on one
   axis (an equation, or a first-order system z′ = Γz with constant Γ) is **regular** if its
   coefficients are polynomials and its leading coefficient has no zero on [−1, 1], its source and
@@ -217,7 +218,7 @@ Version 5.1 (2026-10-14; 5.1 adds the classes of problem), from ThesisPlanning.m
 - **The descriptor's gap.** Its norm carries every derivative it carries, so its gap is flat
   only where the equation controls each of them. On a regular problem the
   gap is **proved Θ(1)**, in the chain unscaled or at a fixed ζ, and in the mass form (which has
-  no derivative block, so nothing to rescale) (`thm:flat-gap`, App. G,
+  no derivative block, so nothing to rescale) (`thm:flat-gap`, App. D,
   by compactness: no explicit constant, its value is measured). **Block rescaling** (an a priori
   ζ from the equation and the resolution, never fitted) restores an O(1) gap on one axis
   (measured on singular problems) and **adds no ancilla**. It is **not free in
@@ -258,7 +259,7 @@ Version 5.1 (2026-10-14; 5.1 adds the classes of problem), from ThesisPlanning.m
   α = 2, within 1.27 of ‖𝒩₁‖₂ at n = 2, the ratio falling to 1.20 by n = 12 (`fold/n<n>` keys): tight,
   not optimal.
 - **Variants.** The problem is unnamed ("R2a"); the paper's panel as printed is "R2a as
-  printed" and appears only in Appendix K and in §4.4's validation paragraph. Never "corrected".
+  printed" and appears only in Appendix I and in §4.4's validation paragraph. Never "corrected".
   The exact constraint points are roots of the reference solution's derivative nearest the paper's
   rounded value, resolved when the problem is built: answer-dependent set-up, not answer-independent.
 - Legacy results (`Setonix/`, legacy notebooks, old `docs/`) are never cited; every number

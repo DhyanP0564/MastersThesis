@@ -19,7 +19,7 @@
 % SOURCES     pihm/docs/02_methods.md (all sections; this chapter's source of
 %             truth); pihm/docs/companion/40-47 and 70-76; pihm/docs/15_filters.md;
 %             claims C-03, C-04, C-08, B-13, B-16, B-17, B-24; ThesisPlanning.md
-%             §3.4-3.5, §5.7, §6 (F, I).
+%             §3.4-3.5, §5.7, §6 (F, G).
 % NUMBERING   The opening has no heading (no stacked headings), so the plan's
 %             §7.2-7.9 are this file's 7.1-7.8. Every pointer is a \Cref.
 % Bare H, A and R are correct in this chapter only: its statements are
@@ -31,20 +31,20 @@
 %             Hamiltonian); antecedent credit for the reflection; the filter
 %             study's and the verification's numbers moved to sec:results-faithful
 %             (see the NOTE there); trim candidates 1-3 executed: F2 dropped,
-%             tab:run-inputs -> App. J, the iterative reference and the T1 cost
-%             model -> App. I; tab:acceptance -> App. I; eq:qite-filter and the
+%             tab:run-inputs -> App. H, the iterative reference and the T1 cost
+%             model -> App. G; tab:acceptance -> App. G; eq:qite-filter and the
 %             readout identity -> App. F; the ladder's reference column dropped.
-% v3.4        StructuralReview.md F3 (11 pp -> about 6): tab:constraint-kinds -> App. J;
+% v3.4        StructuralReview.md F3 (11 pp -> about 6): tab:constraint-kinds -> App. H;
 %             prop:filter-normalisation (statement) and the imaginary-time detail -> App. F;
 %             the verification modes' protocols to three sentences (tab:verification-modes in
-%             App. I); the trust threshold's rationale, the controlled walk's detail and the
+%             App. G); the trust threshold's rationale, the controlled walk's detail and the
 %             GQSP phase method to one clause each; the readout to one paragraph. F1: no
 %             result here (the T1 frontier and the fairness numbers are §8.1's and §8.2's).
 % REVIEW 2    2026-10-13 (Review Mode, 8.3 pp measured -> about 6): the Lin--Tong attribution
 %             corrected (sec:bg-filtering); R2a's relative gap -> sec:descriptor-spectrum and the
 %             iterative reference's reach -> app:iterative-reference (evidence rule); GQSP and the
 %             filter's optimality left to sec:bg-qsp and sec:bg-filtering; the heights, the
-%             amplification footnote and eq:error-budget -> App. F and I; the Gram-sum aside cut;
+%             amplification footnote and eq:error-budget -> App. F and G; the Gram-sum aside cut;
 %             the probe mode's claim narrowed to an estimate; a closing hand-off added.
 % =============================================================================
 
@@ -94,9 +94,9 @@
 \label{sec:pipeline-inputs}
 % ~0.75 pp. LAND: the ladder by pointer (tab:ladder, T3, moved to sec:standard-model by
 %   StructuralReview.md F7); the constraint kinds named (def:standard-form),
-%   the rubric's "boundary conditions", tabulated in App. J (tab:constraint-kinds, T2; v3.4);
-%   a problem is data; the printed panels only in App. K (T-27); the run options, named here,
-%   tabulated in App. J (tab:run-inputs).
+%   the rubric's "boundary conditions", tabulated in App. H (tab:constraint-kinds, T2; v3.4);
+%   a problem is data; the printed panels only in App. I (T-27); the run options, named here,
+%   tabulated in App. H (tab:run-inputs).
 
 A problem is data: its fields and axes; its equation, as a sum of terms, each a coefficient function, a derivative order on an axis, a field and possibly a source; its constraint rows; its regular datum; and its reference solution. Nothing downstream depends on a problem except through these. The benchmark problems R1--R10 of \Cref{tab:ladder} are given in this way, each with its equation, reference, constraint rows, resolutions and parameters in \Cref{app:catalogue}; the panels as printed are run only to test the published method (\Cref{app:reproduction}). The data enter as rows of the four kinds of \Cref{def:standard-form}, the model's boundary and initial conditions, each the same in both forms and listed with the problems that use them in \Cref{tab:constraint-kinds}. Two kinds of datum are set up from the reference solution when the problem is built, for the reasons of \Cref{sec:standard-constraints}: the exact constraint points of R4 and R6b, and the heat equation's initial function at $t=-1$. Every other datum is the problem's statement.
 
@@ -123,8 +123,8 @@ A computed spectrum always has a smallest value, and the reference must decide w
 %   proposition (C-03; the construction credited to qubitisation/QSVT), proof ->
 %   app:proof-stacked-reflection; the walk (eq:walk); the spectrum on [-1, 1] and the gap divided by
 %   alpha_R; controlled V from controlled reflections.
-% CUT 2026-10-13 (review 2): the hedged comparison with a Gram-term combination (App. D does not
-%   record Wu et al.'s); the padding sentence (sec:pipeline-reference and App. G carry it).
+% CUT 2026-10-13 (review 2): the hedged comparison with a Gram-term combination (App. I does not
+%   record Wu et al.'s); the padding sentence (sec:pipeline-reference and App. D carry it).
 
 Each block $R_j$ of the residual, the equation's rows and each constraint's, is block-encoded by its form's circuits at a subnormalisation $\alpha_j$ (\Cref{sec:standard-cost,sec:descriptor-block-encoding,sec:ext-circuits}). The blocks are stacked rather than summed: a row-select register of $\lceil\log_2L\rceil$ qubits is prepared in $\sum_j(\alpha_j/\alpha_R)\ket{j}$ and $U_j$ is applied when it holds $j$, and unlike the selector of a \gls{lcu} the register is never returned by an inverse preparation, so that
 \begin{equation}
@@ -233,7 +233,7 @@ linear in $1/\gamma$ for small $\gamma$. The count takes $\gamma$ from the class
 \subsection{Verification and the Error Budget}
 \label{sec:pipeline-verification}
 % ~0.75 pp. LAND: operator verification in three modes (protocols and tab:verification-modes,
-%   T4, in App. I; v3.4), why IR is not a tautology; the tiers and the T2 = T1 argument BEFORE
+%   T4, in App. G; v3.4), why IR is not a tautology; the tiers and the T2 = T1 argument BEFORE
 %   any T2 number; the pre-run estimate (-> app:t1-model), the frontier itself §8.1's;
 %   acceptance (tab:acceptance -> app:error-budget); the error budget (eq:error-budget, moved to
 %   app:error-budget 2026-10-13, review 2), eps_BE = eps_sample = 0. The verification outcomes
@@ -291,7 +291,7 @@ Within this pipeline the forms differ in their residual alone, and a comparison 
 
 % CHECKLIST (marker)
 %   1. Is there a configuration diagram (fig:pipeline), with a caption that stands alone?
-%   2. Is every input option named, with its value (tab:run-inputs in App. J, tab:constraint-kinds)?
+%   2. Is every input option named, with its value (tab:run-inputs in App. H, tab:constraint-kinds)?
 %   3. Is the software described (sec:pipeline-software)?
 %   4. Is the experiment's design and fairness justified, with its true bias (sec:pipeline-design)?
 %   5. Are the deviations from Wu et al.\ pointed to tab:deviations (§7.2, §7.4, §7.6)?

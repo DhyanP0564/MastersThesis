@@ -9,7 +9,7 @@
 % CRITERION   Formulation, band 4, "warranting publication". The body carries
 %             the idea, the object (stated once), the cost (a formal result),
 %             the challenge and the interpretation; entries, constructions and
-%             proofs go to Appendices B and G.
+%             proofs go to Appendices A and D.
 % SOURCES     ThesisPlanning.md §3.4, §3.7, §6.4; pihm/docs/02_methods.md §3.2;
 %             pihm/docs/13_descriptor.md; pihm/docs/14_descriptor_gap.md (the
 %             challenge); companion 12, 13, 50-57; claims B-01-B-07, B-14, B-20,
@@ -64,8 +64,6 @@ The descriptor form keeps \Cref{eq:banded-factorisation} as a row and never form
   \caption[Sparsity of the standard and descriptor residuals]{\textbf{Dense against banded: the two residuals of the same equation.} Sparsity of the stacked residuals of $f''+4f'+4f=0$ (R2a) at $n=4$, constraint row included; the two panels share a scale, so each square is one non-zero entry. Left, the standard form's $R_{\mathrm{std}}$, whose equation block $\Astd=\G^2+4\G+4I$ has a full upper triangle. Right, the descriptor's $R_{\mathrm{desc}}$, whose recurrence blocks, equation rows and padding are banded; the only dense row is the constraint row $f(-1)=0$, which both forms share.}
   \label{fig:sparsity}
 \end{figure}
-% REVISE: "six times fewer" is 8384/1402 = 5.98 from the n7 keys above; if the
-%   exporter's values move, recheck (or replace by a derived ratio key).
 
 \subsection{The Descriptor Residual and Its Kernel}
 \label{sec:descriptor-layouts}
@@ -149,7 +147,7 @@ because the recurrence and padding rows vanish on $Ep$ and the remaining rows ac
 \label{def:regular}
 A linear problem on one axis, an equation of order $k$ or a first-order system $z'=\Acoup z$ with a constant coupling matrix, is \emph{regular} if its coefficients are polynomials and its leading coefficient ($a_k$, or the identity for a system) has no zero on $[-1,1]$; its source and its solution $f$ are analytic on $[-1,1]$; and its constraint rows read $f,\dots,f^{(k-1)}$ at fixed points, every $g\in C^k[-1,1]$ on which its equation and constraint rows vanish being a multiple of $f$. An equation on one axis whose $a_k$ has a zero on $[-1,1]$ is \emph{singular}.
 \end{definition}
-Of the benchmark problems, R1, R2 and R4b--d are regular, and R3 and R4a singular.
+Of the benchmark problems, R1, R2, R4b--d, R7 and the truncated Carleman lifts (\Cref{sec:carleman}) are regular, and R3 and R4a singular.
 \begin{theorem}[Single-axis gap]
 \label{thm:flat-gap}
 The gap of the descriptor residual of a regular problem, in the chain unscaled or block-rescaled at a fixed $\zeta$, or in the mass form for a first-order equation or system, is $\Theta(1)$ as $N\to\infty$.
@@ -176,9 +174,6 @@ In the circuit the weights multiply the bands before the block register's patter
     \label{eq:zeta-rule}
 \end{equation}
 with $j<k$ the lowest order present and $\bar a$ the mean of $|a|$ over the interval. Half of $\zeta$ is the equation's own scale: for constant coefficients and $j=0$ it is the geometric mean $\rho$ of the characteristic roots' magnitudes, a solution's derivatives grow as $\|f^{(m)}\|\approx\rho^m\|f\|$, and dividing block $m$ by $\zeta^m$ keeps every block at the field block's order. For a singular one, $\zeta=N/2$, which raises the quotient of the concentrated states of \Cref{sec:descriptor-gap} to order one. On several axes $\zeta_a=N_a$, weighted on an axis of second order so that the top-order terms balance, as $(cN,N)$ for the wave equation $f_{tt}=c^2f_{xx}$. The two constants, the $2$ and the $\tfrac12$, were set once by a sweep of $\zeta$ over the benchmark problems and are never refitted, so the rule's check against the best $\zeta$ on a grid is in-sample and says nothing of a class of equation the set lacks. The cost stays within twice its least over a window of $\zeta$, so $\zeta$ need only be right to about a factor of two (\Cref{app:block-rescaling}).
-% REVISE: the four \prov values are planning probes (pihm docs/14_descriptor_gap.md §5.2, §5.7;
-%   tools/probes/p20, p21), not P8 records. Export them as derived keys, or keep them as \prov
-%   with App. G's tables and say there that they are pre-P8 probes.
 
 On every one-axis problem the descriptor runs, the rescaled gap no longer falls with $N$, and the field block regains its weight. The gap is the physical subspace's, the one the filter meets, since the padding alone caps the whole spectrum's gap at one. At $n=7$ on R2c the gap rises from $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{gap}$ to $\res[3]{build/R2c/descriptor/n7}{gap}$ and $w_f$ from $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{field_weight}$ to $\res[3]{build/R2c/descriptor/n7}{field_weight}$. On R3a the rescaled gap rises from $\res[3]{build/R3a/descriptor/n5}{gap}$ at $n=5$ to $\res[3]{build/R3a/descriptor/n7}{gap}$ at $n=7$ and levels off, $\res[3]{build/R3a/descriptor/n10}{gap}$ at $n=10$, against $\res[2,sci]{build/R3a/descriptor/n10/unscaled}{gap}$ unscaled.
 
@@ -262,7 +257,7 @@ Every block of the rescaled descriptor is $\mathcal{O}(N)$ at fixed $\zeta$, the
     d = \tilde\Theta(N),
     \label{eq:descriptor-degree}
 \end{equation}
-against $\tilde\Theta(N^{2k})$ for the standard form with the best exact encoding (\Cref{eq:standard-wall}). On a singular problem and on two axes the rescaling's weights raise the norm, and the degree is about $\tilde\Theta(N^2)$ or grows more steeply; for a double zero no claim is made (\Cref{tab:descriptor-regimes}). Neither form is polylogarithmic in $N$: $\tilde\Theta(N)$ is exponential in $n$, and the claim is a lower exponent only. The degrees are the minimax edge filter's, with the hedge of \Cref{sec:standard-hamiltonian} for polynomial filters in general; \Cref{sec:results-scaling} measures them, as built and at the ideal-encoding bound, and \Cref{sec:results-gap} the gaps.
+against $\tilde\Theta(N^{2k})$ for the standard form with the best exact encoding (\Cref{eq:standard-wall}). On a singular problem and on two axes the rescaling's weights raise the norm, and the degree is about $\tilde\Theta(N^2)$ or grows more steeply; for a double zero no claim is made (\Cref{tab:descriptor-regimes}). Neither form is polylogarithmic in $N$: $\tilde\Theta(N)$ is exponential in $n$, and the claim is a lower exponent only. The degrees are the minimax edge filter's, the least of any polynomial filter of the walk, with the hedge of \Cref{sec:standard-hamiltonian} for other algorithms; \Cref{sec:results-scaling} measures them, as built and at the ideal-encoding bound, and \Cref{sec:results-gap} the gaps.
 
 \begin{table}[htbp]
     \centering
@@ -290,14 +285,14 @@ On a regular problem the relative gap $\Delta/\|H\|$ is $\Theta(N^{-2})$ in the 
 Carrying the derivatives instead of eliminating them makes the residual banded with its solution unchanged, at a price.
 \begin{enumerate}
     \item The chain, for order two and above, and the mass form, for first-order equations and systems, keep the banded factors of $\G$; the residual is banded apart from the rank-one constraint rows, and its kernel is the standard form's (\Cref{thm:kernel-equivalence}).
-    \item Its block encoding is one flat \gls{lcu} with $\lceil\log_2(n+4)\rceil+8$ ancilla for R2's system rows, of the least order for an exact \gls{lcu} that expands its diagonals in Pauli strings, with $\alpha_A/\|\Adesc\|_2\to1$ on regular problems (\Cref{prop:descriptor-cost}). It pays with the chain's block register and, expected on constant-coefficient problems, more gates per query.
-    \item $\|\Hdesc\|=\Theta(N^2)$ and, for a regular problem, $\Delta=\Theta(1)$ (\Cref{thm:flat-gap}), so the filter's degree is $\tilde\Theta(N)$ against the standard form's $\tilde\Theta(N^{2k})$. Neither is polylogarithmic.
+    \item Its block encoding is one flat \gls{lcu} with $\lceil\log_2(n+4)\rceil+8$ ancilla for R2's system rows, of the least order for an exact \gls{lcu} that expands its diagonals in Pauli strings, with $\alpha_A/\|\Adesc\|_2\to1$ on regular scalar problems of order one and two (\Cref{prop:descriptor-cost}). It pays with the chain's block register and, expected on constant-coefficient problems, more gates per query.
+    \item For a regular problem, $\|\Hdesc\|=\Theta(N^2)$ and $\Delta=\Theta(1)$ (\Cref{thm:flat-gap}), so the filter's degree is $\tilde\Theta(N)$ against the standard form's $\tilde\Theta(N^{2k})$ for constant coefficients. Neither is polylogarithmic.
     \item \emph{The limit.} The carried derivatives shrink the gap where the solution's derivatives are large, and make it fall with $N$ on singular problems and on two axes. An a priori block rescaling restores it on one axis without ancilla, at the price of a larger norm on a singular problem; on two axes the gap still falls, and a double zero is beyond any block rescaling.
 \end{enumerate}
 All of this concerns one real scalar field and a linear equation, the scope of Wu et al.'s construction. Coupled fields, complex-valued fields and nonlinear terms each change what the residual must carry, and the nonlinear route Wu et al.\ propose gives the filter no unique ground state to find. \Cref{sec:extensions} takes the reformulation there; \Cref{sec:results-scaling,sec:results-gap} test the cost and the gap on the benchmark problems.
 
 % CHECKLIST (marker)
-%   1. Could a referee re-derive A_desc from the body plus Appendices B and G?
+%   1. Could a referee re-derive A_desc from the body plus Appendices A and D?
 %   2. Is the Hilbert-space and per-query cost volunteered alongside the gains?
 %   3. Are ultraspherical and first-order least squares credited at sec:bg-spectral
 %      and sec:descriptor-construction?

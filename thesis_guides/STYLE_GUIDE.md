@@ -40,12 +40,12 @@ class of problems, and stating it without the class is an over-claim a referee w
 | ⌈log₂(n+4)⌉ + 8 ancilla for R2's system rows, O(log n) | **Assert**, gate-level and verified; optimal only among exact LCU encodings |
 | α/‖A_desc‖ → 1 | **Assert, scoped**: regular problems; about 2 on singular ones, 2.3–4.1 on PDEs |
 | d = Θ̃(N) for the descriptor | **Assert, scoped**: a regular problem (`def:regular`: one axis, polynomial coefficients, a leading coefficient without zeros, analytic data, a solution unique up to scale); about Θ̃(N²) or faster on singular problems or on two axes |
-| d = Θ̃(N^{2k}) for the standard form | **Assert**, even with the best exact encoding, since α_H ≥ ‖H‖ for any block encoding |
+| d = Θ̃(N^{2k}) for the standard form | **Assert, scoped**: constant coefficients, even with the best exact encoding, since α_H ≥ ‖H‖ for any block encoding |
 | the relative gap at n = 8 | **Assert, with the distinction**: the standard form's ground state is below double-precision resolution by `eigh` from n = 8, not by SVD; the consequence is the degree, not unresolvability |
-| correctness of the composed H | **Assert what is verified**: V exact to 25 qubits, probe on every construction-only circuit ≤ 24 qubits, IR at any size; T1 = T2 to ≤ 1e-10 where both run |
+| correctness of the composed H | **Assert what is verified**: V exact to 25 qubits, probe on every construction-only circuit ≤ 24 qubits, IR at any size; T1 = T2 to ≤ 1e-10 on every minimax run (3 of 46 QITE runs miss) |
 | "a ground state has been prepared" | **Assert only for a one-dimensional (near-)kernel, with its tier**: circuit simulation (T1), exact emulation (T2, provably equal to T1) or resource estimate (T3). Never "on hardware"; never for the doubled space (it projects) |
 | a Carleman lift's solution | **Assert the kernel's uniqueness; measure the convergence separately.** A trusted kernel is not a converged lift |
-| end-to-end poly-log speed-up | **Deny it yourself, first.** d = Θ(√(α_H/Δ) log 1/ε) with α_H ≥ ‖H‖; hedge any "for every filter" floor to what Lin & Tong support |
+| end-to-end poly-log speed-up | **Deny it yourself, first.** d = Θ(√(α_H/Δ) log 1/ε) with α_H ≥ ‖H‖; the floor holds for every polynomial filter of the walk; hedge it over all algorithms to what Lin & Tong support |
 | the physics-informed effective Hamiltonian framework | **Attribute, then judge.** It is Wu et al.'s (`wu2025pihm`). Describe it in Chapter 3 as reported prior art; reserve the verdict for §3.5. Chapter 4 restates it once as the standard form, citing each piece it restates |
 | the standard form | **Specify, and say what differs.** Define it by its state (the field alone, every derivative eliminated through G), in full at the first use in a chapter and by name afterwards, never as "the paper's regime" or "the paper's method": each departure argued where it occurs (a defect and the property gained), collected in Table T10; the data change, G and the Gram structure do not. Never "we fixed", never "corrected" |
 | the descriptor's novelty | **Credit, then claim the increment.** The ultraspherical method and first-order-system least squares came first; the increment is the transfer to a block-encoded physics-informed Hamiltonian and its measured consequences |
@@ -139,7 +139,7 @@ blocks erode.* Then the algebra. Then the cost.
 Green's algorithms are terse Require/Ensure blocks. Snow follows each listing with a
 **line-referenced walkthrough** under sub-headings ("Inputs and outputs", "The first factorisation
 (lines 1–5)", "The sweep (lines 6–10)"). Use Snow's model for the descriptor's term IR → circuit
-compilation (the listing and its walkthrough together in Appendix G; §5.5 keeps the circuit).
+compilation (the listing and its walkthrough together in Appendix D; §5.5 keeps the circuit).
 
 ### 2.4 Figures and circuit diagrams
 
@@ -193,8 +193,8 @@ the recurrence that generates B̃'s entries.
 **The figure test.** Every body figure is interpreted in at least one paragraph. If you cannot
 write that paragraph, the figure belongs in an appendix or nowhere.
 
-**The pointer rule.** Never "see Appendix G"; write *"the kernel-equivalence proof and the
-mass-form rows are given in Appendix G."*
+**The pointer rule.** Never "see Appendix D"; write *"the kernel-equivalence proof and the
+mass-form rows are given in Appendix D."*
 
 **What this does not license.** Results must be understandable "without reference to any other
 documents". Every number in the body is derivable from the body or an appendix, never from the
@@ -205,7 +205,7 @@ repository, a notebook or a README.
 The project was built as software; the thesis is not about the software. ThesisPlanning.md §3.5's
 rules, in brief: every chapter arrives at its question and closes on a hand-off (§4.2); constructions
 are stated as mathematics, never as function names; findings are stated as findings, never as the
-history of the issue that found them; records, campaigns, hashes and Slurm live in Appendix L; each
+history of the issue that found them; records, campaigns, hashes and Slurm live in Appendix J; each
 benchmark problem is introduced by the physics it carries.
 
 ---
@@ -372,8 +372,8 @@ Name them in the chapter's own terms ("the numerator", "the gap above the ground
 
 | # | trap | why it is penalised | fix |
 | :-- | :-- | :-- | :-- |
-| 1 | **Textbook background** | "the bulk of the report should be aimed at the professional physicist"; background brief, "the bulk… dealing with results and discussion" | prose citing Nielsen & Chuang; gate table to Appendix A; §2.1 ≤ 1.5 pp |
-| 2 | **Catalogue results** | "clear focus… capacity to avoid the intrusion of less relevant detail" | one section per question; three representative problems in depth; the rest in Appendix J |
+| 1 | **Textbook background** | "the bulk of the report should be aimed at the professional physicist"; background brief, "the bulk… dealing with results and discussion" | prose citing Nielsen & Chuang; no gate table (its appendix deleted 2026-10-15); §2.1 ≤ 1.5 pp |
+| 2 | **Catalogue results** | "clear focus… capacity to avoid the intrusion of less relevant detail" | one section per question; three representative problems in depth; the rest in Appendix H |
 | 3 | **Page overrun** | an explicit penalty beyond 60 pages | the budget and trim order of ThesisPlanning.md §4.1 |
 | 4 | **Uncredited antecedents** | "usual conventions… particularly as to references" | credit the ultraspherical method and first-order-system least squares where the headline is claimed; cite the concurrent Paine 2026 |
 | 5 | **Colloquial register** | "avoiding colloquial language" | no "a bit", "huge", "we tried", rhetorical questions or exclamation marks |
@@ -386,13 +386,13 @@ Name them in the chapter's own terms ("the numerator", "the gap above the ground
 | 12 | **A thin Discussion** | significance is weighted heavily | why the trade-off exists, where it fails, what a practitioner should choose, what it means for the field |
 | 13 | **Blurring prior art into contribution** | the fastest route to an academic-integrity conversation | attribute Wu et al. at the head of Chapter 3 and at each construction; Chapter 4 restates the construction with a citation at every piece and an attribution sentence in its opening; "we" only for departures and results that are ours |
 | 14 | **The paper's route as a rival you also built** | halves the apparent focus; invites "so what is new?" | the paper's encoding is costed at its own α *to separate the encoder's cost*; the structured encoding (S2) is ours, framed as isolating the Hamiltonian's cost |
-| 15 | **Body pages spent on derivation** | buries the narrative | the equation test (§2.6); derivations in Appendices B, E–H |
+| 15 | **Body pages spent on derivation** | buries the narrative | the equation test (§2.6); derivations in Appendices A, C–F |
 | 16 | **Implying the readout was performed on hardware, or is the method's** | a QC-literate marker will ask | "decoded classically from the prepared state"; the interferometric protocol is the paper's, built at small n, further work |
 | 17 | **An unscoped descriptor claim** | the claim is false for part of the ladder, and a referee will find the part | every degree, gap and α claim names its class (regular, singular, two-axis), defined once in `def:regular`; never restate the hypotheses in place of the name |
 | 18 | **Code-map drift** | the rubric scores a model, not a tour of the software | function names, records and campaigns out of the body (ThesisPlanning.md §3.5) |
 | 19 | **Trust read as convergence** | a trusted kernel certifies the lifted linear problem, not the lift | quote the lift's measured error beside every Carleman preparation |
 | 20 | **Hiding a reversal** | the fairness device exists to show it | report the ideal-bound comparison everywhere, and number the reversals among the findings |
-| 21 | **The audit in the body** | an audit of the source paper is evidence about the paper, not about the thesis's questions; it buries the argument and the page budget | Chapter 3 names each weakness; Chapter 4 argues a departure only where its construction meets it; derivations, tables and numbers of the reproduction live in Appendix K |
+| 21 | **The audit in the body** | an audit of the source paper is evidence about the paper, not about the thesis's questions; it buries the argument and the page budget | Chapter 3 names each weakness; Chapter 4 argues a departure only where its construction meets it; derivations, tables and numbers of the reproduction live in Appendix I |
 | 22 | **A changelog of departures** | reads as a lab diary and as "fixing" the paper | each departure is a defect and the property gained, inline and in Table T10; no "we then", no dates, no issue numbers |
 
 ---

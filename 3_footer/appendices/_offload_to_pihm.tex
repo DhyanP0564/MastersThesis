@@ -1,0 +1,155 @@
+% =============================================================================
+% NOT INPUT ANYWHERE. Material removed from the appendices in the 2026-10-15 restructure, verbatim,
+% for porting into the pihm repository's docs (the thesis's "accompanying document"). Each block
+% names its suggested destination. Delete this file once every block is ported (or deliberately
+% dropped). The empty gate table of the former Appendix A was deleted outright (no content).
+% =============================================================================
+
+% =============================================================================
+% BLOCK B1  ->  pihm docs/companion/22_standard_residual.md (worked multi-axis bookkeeping)
+% =============================================================================
+\paragraph{A three-variable example.} The heat equation on a square, $\partial_tf=\kappa(\partial_x^2f+\partial_y^2f)$ on $[-1,1]^3$ with $f=0$ on the four walls $x=\pm1$, $y=\pm1$ and the initial function $g(x,y)$ given at $t=-1$, has $\omega=3$, constant coefficients and no source, so no axis is lifted. With $n$ qubits on each axis, the state has $3n$ qubits and
+\begin{equation*}
+    \Astd=\G\otimes I\otimes I-\kappa\bigl(I\otimes\G^2\otimes I+I\otimes I\otimes\G^2\bigr),
+\end{equation*}
+square of size $N^3$, with the axes in the order $(t,x,y)$. Each wall is the block $I\otimes\Brow_n(\pm1)\otimes I$ or $I\otimes I\otimes\Brow_n(\pm1)$, of $N^2$ rows, and the initial function is a datum slice on the $t$ axis, of $N^2$ non-zero rows, so $R_{\mathrm{std}}$ stacks $N^3$ equation rows and $5N^2$ constraint rows on $N^3$ columns. Give the diffusion along $x$ a variable coefficient, $\kappa(1+\tfrac x2)\partial_x^2f$, and axis $x$ is lifted: the $x$ term becomes $I\otimes\M_{1+x/2}\G^2\otimes I$, the other two terms take $\M_1$ on that axis, $\G\otimes\M_1\otimes I$ and $I\otimes\M_1\otimes\G^2$, the output register grows to $3n+1$ qubits, and the walls on $x$ become $I\otimes\Brow_{n+1}(\pm1)\M_1\otimes I$. A source $r(t,x,y)$ would lift all three axes, to $3n+3$ output qubits. The example illustrates the bookkeeping; it is not one of the benchmark problems.
+
+% =============================================================================
+% BLOCK D1  ->  pihm docs/companion (term IR, 55) -- restates alg:ir-to-lcu line by line
+% =============================================================================
+\paragraph{The compilation, line by line.} \Cref{alg:ir-to-lcu}'s lines 1 and 2 are the decomposition of each block into bands and of each diagonal into an affine part and its exceptions (\Cref{lem:affine-band}). Line 3 applies the block rescaling to the bands. Line 4 gathers bands whose axis factors agree across the rows and columns they join, so that the block register carries their pattern once, as a small matrix expanded in Pauli words, and the recurrences' common $\Dt$ is paid for once and not $k$ times; the rescaling must precede this step, because after it a Pauli word acts on every column block and has no single weight. In lines 5 and 6 the two preparations differ only in the signs, so that $\bra{0}\mathrm{PREPARE}_L^\dagger\,\mathrm{SELECT}\,\mathrm{PREPARE}_R\ket{0}=\sum_tc_tU_t/\alpha_A$; one preparation and its own inverse would give $\sum_t|c_t|U_t/\alpha_A$ instead. The selectors are factored, each only as wide as the number of distinct values its terms use, and SELECT applies each distinct operation once, controlled on its own register.
+
+% =============================================================================
+% BLOCK E1  ->  pihm docs/17_navier_stokes.md (a check on the truncation, not used by any argument)
+% =============================================================================
+\emph{Without viscosity the truncation conserves the energy and the enstrophy exactly,}
+\begin{equation}
+    E=\tfrac14\textstyle\sum_mw_m^2/|\mathbf k_m|^2,
+    \qquad
+    Z=\tfrac14\textstyle\sum_mw_m^2 .
+\end{equation}
+With $P$ the projection onto the kept modes, $Z'\propto\langle\omega,PJ(\psi,\omega)\rangle=\int J(\psi,\omega^2/2)=0$ and $E'\propto\langle\psi,PJ(\psi,\omega)\rangle=\int J(\psi^2/2,\omega)=0$, because $J(f,g)=\partial_x(fg_y)-\partial_y(fg_x)$ is a divergence, whose integral over the periodic square vanishes.
+
+% =============================================================================
+% BLOCK F1  ->  pihm docs/15_filters.md (numerics of the imaginary-time coefficients)
+% =============================================================================
+Where the library Bessel function overflows, at $\beta$ of order $10^9$, the values come from $e^{-\beta}I_k(\beta)=\frac1\pi\int_0^\pi e^{-2\beta\sin^2(t/2)}\cos kt\,dt$ by the trapezoid rule, one real fast Fourier transform, spectrally accurate for this analytic periodic integrand.
+
+% =============================================================================
+% BLOCK F2  ->  pihm docs/15_filters.md or companion 4x (the phase-finding recipe, steps 2-4)
+% =============================================================================
+    \item \emph{Weiss's complement.} The unique outer polynomial $Q$ of degree $d$ with $|P|^2+|Q|^2=1$ on the circle is obtained by spectral factorisation: $\tfrac12\log(1-|P|^2)$ is sampled on a fast-Fourier-transform grid, $\mathrm{i}$ times its Hilbert transform is added by doubling the causal half of its cepstrum, and the result is exponentiated; the grid grows fourfold until the coefficients beyond degree $d$ fall below $10^{-11}$ relative \cite{berntson2025complementary}. No root-finding is used, which is unstable well below the degrees needed here.
+    \item \emph{The inverse \gls{nlft}.} $(Q,P)$ is the SU(2) \gls{nlft} of a sequence $(F_k)$, and \gls{gqsp} is equivalent to it \cite{laneve2025gqspnlft}. The sequence is recovered by the fast divide-and-conquer inverse \cite{nlfft2025su2}, or by layer stripping, both stable because $Q$ is outer.
+    \item \emph{The angles.} $\theta_k=\arctan|F_k|$ for $k<d$ and $\theta_d=\pi/2-\arctan|F_d|$; $\phi_d=\arg F_d$, $\phi_{d-1}=\arg F_d-\arg F_{d-1}$ and $\phi_k=\arg F_{k+1}-\arg F_k-\pi$ otherwise; $\lambda$, a global phase, from the overlap of the $\lambda=0$ polynomial with $P$ at eight roots of unity, weighted by $|P|$.
+
+% =============================================================================
+% BLOCK G1  ->  pihm docs/04_software.md (verification: structured probes and per-atom checks)
+% =============================================================================
+\subsection{Structured Probes}
+\label{app:structured-probes}
+
+The four structured probes target errors that random vectors dilute. A defect that lives in one column is seen at full strength by the basis vector that selects it and at about $\delta/\sqrt D$ by any other. The first basis vector is the $T_0$ mode and the start of every chain of shifts; the last is where a truncated shift must not wrap round to the start of the register; the middle one, index $D/2$, sets only the most significant qubit, the edge between the two halves of a register and between the blocks of a padded state, where block offsets and axis orders go wrong; the uniform vector tests the sum of all columns at once. A defect confined to columns that no structured probe selects is caught only by the random probes, with the sensitivity of \Cref{prop:haar-probes}. The unit tests of each atom complement them by checking it exactly at small $n$.
+
+\subsection{Per-Atom Checks}
+\label{app:atom-residuals}
+
+Every atom is verified on its own before it is composed: the structured factorisation of $\G$ (\Cref{app:structured}), the lifts and folds (\Cref{app:lifts-folds}), the feature-map rows and the collapse row, each band of the descriptor (\Cref{app:term-ir}), the matchings and the tensor layout (\Cref{app:matchings}), each exactly at small $n$ and by probe or \gls{ir} beyond. The banded factorisation $\Bt\G=\Dt$ holds to rounding at $n=1$ to $10$. The composed reflection is then verified whole, so an error in the composition, a block offset or a mis-ordered register, is not hidden by correct atoms.
+
+% =============================================================================
+% BLOCK G2  ->  pihm docs (classical reference: Lanczos parameters)
+% =============================================================================
+The shift $\mu=(10^{-9}\sigma_{\max})^2$ keeps the augmented matrix non-singular where $R$ has an exact kernel and orders the iteration; it does not enter the values, since a Rayleigh--Ritz step on $R$ itself follows. The Lanczos window holds $34$ eigenvalues, twice the seventeen singular values kept, so that a degenerate cluster cut by the window's edge, which a single start vector meets only through rounding, is still found whole. $\sigma_{\max}$ comes from Lanczos iteration on $R^\dagger R$, where squaring loses nothing at the top of the spectrum.
+
+% =============================================================================
+% BLOCK I1  ->  none: duplicate of tab:paper-claims rows A-06 to A-08 (kept for the record)
+% =============================================================================
+\begin{table}[htbp]
+    \centering
+    \caption[Wu et al.'s encodings against their printed claims]{\textbf{Wu et al.'s encodings hold their gate and error claims but not their efficiency.} Each claim of Wu et al.\ \cite{wu2025pihm} for their block encodings (their Figs~2, 8 and 9), as printed and as measured on the rebuilt circuits. $\Brow(x)$, rank-one zero-constraint row; $\Dzero(x_s)$, rank-one collapse row at the datum point $x_s$; $\|\G\|_S=\|\G^\top\G\|_1$, Wu et al.'s norm of the differentiation matrix; $j_{-3/4,1}$, first positive zero of $J_{-3/4}$. The error is to leading order in the ladder coefficient $\mu=2/\|\G\|_S$.}
+    \label{tab:published-verdicts}
+    \small
+    \begin{tabular}{@{}l l l l@{}}
+        \toprule
+        Circuit and claim & Printed & As rebuilt & Verdict \\
+        \midrule
+        Fig.~2, $\Brow(x)$ & $n+2$ qubits, $\sqrt{2^{n+1}}$ & the same, exact & holds \\
+        Fig.~8, $\Dzero(x_s)$ & $\sqrt{2^{n+1}}/f(x_s)$ & the same, exact & holds \\
+        Fig.~9, qubits & $2n+3$ & $2n+5$ (own registers) & not testable \\
+        Fig.~9, gates & $O(n^3)$ & $O(n^2)$ & holds (as a bound) \\
+        Fig.~9, error & decreases exponentially & $O(N^{-5})$, bound derived & holds (leading order) \\
+        Fig.~9, prefactor & $(2^{n-1}+2^n)\|\G\|_S$ & valid, $\sim j_{-3/4,1}N^3\|\G\|_2$ & loose \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% =============================================================================
+% BLOCK J1  ->  pihm README.md / docs/04_software.md (the architecture diagram; a code map, plan §3.5)
+% =============================================================================
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        unit/.style={draw, thick, rounded corners=2pt, fill=gray!7, minimum width=1.55cm, minimum height=0.55cm, inner sep=2pt, font=\scriptsize\ttfamily},
+        flow/.style={-{Stealth[length=1.6mm]}, thick},
+        link/.style={-{Stealth[length=1.4mm]}, densely dashed},
+    ]
+        \foreach \name/\x/\y in {basis/0/0, operators/1.95/0, problems/3.9/0.45, carleman/3.9/-0.45, assemble/5.85/0.45, ir/5.85/-0.45, classical/7.8/0.45, circuits/7.8/-0.45, verify/9.75/0.45, resources/9.75/-0.45, qsp/11.7/0, pipeline/13.65/0, plotting/15.6/0}
+            \node[unit] (\name) at (\x,\y) {\name};
+        \foreach \x [count=\k from 0] in {0,1.95,3.9,5.85,7.8,9.75,11.7,13.65,15.6}
+            \node[font=\scriptsize, text=gray] at (\x,-1.05) {\k};
+        \foreach \x in {0,1.95,3.9,5.85,7.8,9.75,11.7,13.65}
+            \draw[flow] (\x+0.82,0) -- (\x+1.95-0.82,0);
+        \draw[flow] (assemble.south) -- (ir.north);
+        \node[draw, densely dashed, rounded corners=3pt, inner sep=5pt, fit=(basis)(problems)(carleman)(plotting), label={[font=\scriptsize\ttfamily, anchor=south west]north west:src/pihm}] (pkg) {};
+        \node[draw, densely dashed, rounded corners=2pt, font=\scriptsize, align=center, inner sep=3pt] (tools) at (13.6,-1.95) {\texttt{tools/} (\texttt{run\_campaign.py}, \texttt{export\_numbers.py}),\\ the notebooks and this thesis's figure scripts};
+        \draw[link] ([xshift=4mm]pipeline.south) -- ([xshift=4mm]pipeline.south |- tools.north);
+        \draw[link] ([xshift=4mm]plotting.south) -- ([xshift=4mm]plotting.south |- tools.north);
+        \node[font=\scriptsize, anchor=west, align=left] at (-0.85,-1.95) {layer \textcolor{gray}{$0$--$8$};\ an arrow points from a unit to the units that may import it,\\ and \texttt{tests/test\_architecture.py} fails on any import against the arrows.};
+    \end{tikzpicture}
+    \caption[The layers of the \texttt{pihm} package]{\textbf{The \texttt{pihm} package imports in one direction only.} Each unit of \texttt{src/pihm} by its layer, from the Chebyshev basis (0) to plotting (8), with an arrow from a unit to the units that may import it; an architecture test fails on any import against the arrows. The package has no command line: campaigns are run, their summaries collected and the generated numbers exported by the scripts in \texttt{tools/}, outside the package, beside the notebooks and this thesis's figure scripts.}
+    \label{fig:pihm-architecture}
+\end{figure}
+
+% =============================================================================
+% BLOCK J2  ->  pihm docs/05_production.md (Setonix resource classes)
+% =============================================================================
+\begin{table}[htbp]
+    \centering
+    \caption[Resource requests of the Setonix campaigns]{\textbf{Resource requests of the Setonix campaigns.} Every request is one node of the \texttt{work} partition with 16 CPUs. A campaign of many short runs is one job, its runs in sequence, for 2 to 18 hours; a campaign of long or large runs is a Slurm array, one task per run, each group of runs asking for the memory and time below. A run that its own resource estimate shows cannot fit its allocation is recorded as infeasible, with the estimate.}
+    \label{tab:resource-classes}
+    \small
+    \begin{tabular}{@{}l l p{0.5\linewidth}@{}}
+        \toprule
+        Memory & Time & Runs \\
+        \midrule
+        64 GB & 12 h & the default: every build, verification, preparation and resource estimate not listed below \\
+        32 GB & 4--24 h & the circuit simulations (T1) of the linear problems, systems and lifts \\
+        64 GB & 24 h & the longest circuit simulations of the descriptor \\
+        128 GB & 6--12 h & the larger Navier--Stokes builds and preparations \\
+        230 GB & 12 h & the largest Navier--Stokes builds and resource estimates \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% =============================================================================
+% BLOCK J3  ->  pihm docs/04_software.md (test tiers)
+% =============================================================================
+\begin{table}[htbp]
+    \centering
+    \caption[The test tiers of the \texttt{pihm} package]{\textbf{The test tiers of the \texttt{pihm} package.} What each tier tests and when it runs.}
+    \label{tab:test-tiers}
+    \small
+    \begin{tabular}{@{}l p{0.48\linewidth} p{0.26\linewidth}@{}}
+        \toprule
+        Tier & Content & Run \\
+        \midrule
+        Unit and property & operator identities over random $n$ and $x$; primitives; arithmetic; IR; filters; phases & every commit \\
+        Golden & fixtures from the frozen legacy code and Wu et al.'s printed $n = 2$ matrices & every commit \\
+        Reproduction & Wu et al.'s targets, both variants & every commit \\
+        Integration & every problem, both forms, smallest $n$, all stages & every commit \\
+        Documentation & Sphinx build, doctests, spelling & every commit \\
+        Claims & one test per claim; writes the claims report & at gates \\
+        Slow & larger-$n$ verification; circuit-simulation ceilings & at gates, on Setonix \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+

@@ -1,0 +1,61 @@
+% =============================================================================
+% Appendix J  Software and Reproducibility  --  cited from sec:pipeline-software and
+% sec:results-design (app:software-campaigns).
+% Plan: ThesisPlanning.md §6 (J; was L before the 2026-10-15 restructure). The one appendix a marker may never read: it
+% exists for the Modelling rubric ("software tools used and/or created") and the
+% guidelines' "laboratory handbook" role. Factual and short: ONE page (restructure 2026-10-15),
+% the detail in the repository.
+%
+% CONTENT  The pihm architecture; records and provenance; campaigns and the
+%          Setonix resource classes; the test tiers; how to regenerate every
+%          figure from results-v1; the environment.
+% SOURCES  Planning.md §10 (architecture, data model, standards, testing), §11
+%          (HPC); pihm/README.md, pyproject.toml, configs/, slurm/.
+% FIRST PASS 2026-10-15, from pihm/README.md, docs/04_software.md, docs/05_production.md,
+%   pyproject.toml, configs/production.yaml and the campaign files (checked at HEAD 845d18f and at
+%   tag results-v1).
+% =============================================================================
+
+% REVISE (restructure 2026-10-15; first pass 2026-10-15): LANDED (2) and (3). STILL OPEN for (1):
+%   - the frozen reference. At tag results-v1 (35fd611) the docs carry their old names (METHODS.md,
+%     no docs/companion/), so the paths cited below exist only from the later commits, whose source
+%     differs from the tag's by docstrings alone. Tag the commit of the final export (or move a
+%     thesis tag there) and give its hash; ideally a Zenodo DOI that archives it.
+%   - the repository (github.com/DhyanP0564/Research) is PRIVATE: make it public, or deposit the
+%     archive, before submission, or the marker cannot open it.
+%   - the records are gitignored (pihm/results/), so the repository does not hold them: deposit
+%     them with the archive and say where.
+%   The architecture figure, the resource-class table and the test-tier table moved to the
+%   repository (_offload_to_pihm.tex, blocks J1-J3); port them to pihm's docs before citing them.
+
+The software behind every result is \texttt{pihm}, a Python package written for this thesis, in the \texttt{pihm} directory of the repository \url{https://github.com/DhyanP0564/Research}. Production ran at the commit tagged \texttt{results-v1}; the thesis cites the repository at the commit of its final export of numbers\todo{tag and hash of the final-export commit; archive DOI}, whose source differs from the tag's in documentation alone, and never at its main branch, which may change after submission. The repository holds what the thesis leaves out: the method as built (\texttt{docs/02\_methods.md}) and the derivations from which the appendices are drawn (\texttt{docs/companion/}), the campaign files that define every run (\texttt{configs/campaigns/}), the tests, and the reports and notebooks generated from the records. The production's records themselves are not under version control.\todo{where the records are deposited}
+
+\paragraph{Architecture.}
+\label{app:software-architecture}
+The package is ordered in layers, from the Chebyshev basis and the operators through the assembly of a residual, the circuits, their verification and state preparation to the pipeline and the plotting, and a unit imports only from the layers below it, which an architecture test enforces. Each concept has one implementation, its modes typed parameters resolved through a dispatch table, so both forms and every problem share the code of every step they have in common.
+
+\paragraph{Records and provenance.}
+\label{app:software-records}
+A problem is frozen, declarative data with a stable hash of what defines it; a constraint at a root of the reference is stored as its recipe and resolved when the problem is built. A run is specified by its problem, form, resolution, stage and the stage's options, and the hash of that specification names its record: the specification, its status (ok, failed, infeasible or skipped) and its provenance, the scalar metrics in strict JSON, the arrays and the log. The provenance holds the git commit, the versions of the package and of every dependency, the host, the Slurm job and a source digest, a hash of every module the run imports. A record made by a source the thesis's configuration does not accept is flagged for rerun, and each campaign's records are collected into one summary table (\texttt{tools/run\_campaign.py --collect}).
+
+\paragraph{Campaigns and computational resources.}
+\label{app:software-campaigns}
+% CHECKED 2026-10-14 against tools/slurm/campaign.slurm (the job's defaults), configs/production.yaml
+%   (one job or one array per campaign, a job's hours) and the campaign files' group allocations
+%   (pihm.pipeline.campaign.classes): every request is on the work partition, 16 CPUs; no highmem
+%   class was used.
+% CHECKED 2026-10-15: the campaign files also request 32 GB (the T1 groups), and whole-campaign
+%   jobs ask for 2-18 h, so the range is 32-230 GB and 2-24 h, not 64-230 GB and 4-24 h.
+A campaign is a list of groups, each a grid of problems, resolutions and options for one stage, which expands into run specifications. Execution is idempotent, a run with a completed record being skipped, and each stage rebuilds its own residual, so that no run waits on another's files. Production ran all $\res{production}{campaigns}$ campaigns, $\res{production}{runs}$ runs and $\res{production}{hours}$ hours of computation, on Setonix \cite{pawsey2023setonix}: a campaign of many short runs as one Slurm job, and one of long or large runs as Slurm arrays of one task per run, grouped by allocation. Every request was one node of the work partition with 16 CPUs, between 32 and 230\,GB of memory and between 2 and 24 hours. Every circuit simulation first estimated its own memory and time against its allocation, and a run that would have exceeded it was recorded as infeasible with its estimate (\Cref{app:t1-model}).
+
+\paragraph{Tests.}
+\label{app:software-tests}
+Every commit is gated by lint, strict type checking, an Australian-English spelling check, the test suite and a documentation build. The suite's tiers are unit and property tests of each module and of the operator identities over random $n$ and $x$; golden tests against Wu et al.'s printed $n=2$ matrices and fixtures of the earlier code; the reproduction of Wu et al.'s panels; every problem built end to end at its smallest resolution; documentation tests that every report and notebook is current against the records; the architecture test; and the claims tier, one test per checkable claim, which writes the claims report (\texttt{docs/18\_claims.md}). Larger-$n$ verifications and the circuit-simulation ceilings are marked slow and run at the project's gates.
+
+\paragraph{Regenerating the results.}
+\label{app:software-regenerate}
+From the cited commit, production is rerun by submitting \texttt{configs/production.yaml} on Setonix and collecting each campaign, as \texttt{docs/05\_production.md} sets out. The report scripts and \texttt{tools/notebooks/make\_notebooks.py --all} then regenerate the reports and notebooks from the records, the scripts in the thesis's \texttt{Figs/scripts/} draw its figures from the same records, and \texttt{tools/thesis/export\_numbers.py --final} writes every number the thesis quotes into its \texttt{0\_results/generated/numbers.tex}, refusing unless each one is current and was made by an accepted source.
+
+\paragraph{Environment.}
+\label{app:software-environment}
+The package runs on Python 3.11 with NumPy 2.4.6 \cite{harris2020numpy}, SciPy 1.17.1 \cite{virtanen2020scipy}, Qiskit 2.1.2 and Qiskit Aer 0.17.2 \cite{qiskit2024} pinned exactly, and the full dependency closure locked in \texttt{requirements.txt}. The laptop installs that file into a conda environment that supplies only the interpreter, and Setonix into a virtual environment, so the two differ only in the platform's linear-algebra library (Accelerate against OpenBLAS); tolerances at the \gls{svd}'s noise floor are therefore absolute.

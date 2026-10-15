@@ -1,0 +1,171 @@
+--- a/3_footer/ref.bib
++++ b/3_footer/ref.bib
+@@ -224,17 +224,22 @@
+   primaryclass  = {quant-ph}
+ }
+ 
+-@misc{scali2023topological,
++@article{scali2023topological,
+   author        = {Scali, Stefano and Umeano, Chukwudubem and Kyriienko, Oleksandr},
+   title         = {{Quantum topological data analysis via the estimation of the density of states}},
+-  year          = {2023},
++  journal       = {Physical Review A},
++  volume        = {110},
++  number        = {4},
++  pages         = {042616},
++  year          = {2024},
++  doi           = {10.1103/PhysRevA.110.042616},
+   eprint        = {2312.07115},
+   archiveprefix = {arXiv},
+   primaryclass  = {quant-ph}
+ }
+ 
+ @misc{williams2024readout,
+-  author        = {Williams, Chelsea A. and Scali, Stefano and Gentile, Antonio Anna and Berger, Dorian and Kyriienko, Oleksandr},
++  author        = {Williams, Chelsea A. and Scali, Stefano and Gentile, Antonio A. and Berger, Daniel and Kyriienko, Oleksandr},
+   title         = {{Addressing the Readout Problem in Quantum Differential Equation Algorithms with Quantum Scientific Machine Learning}},
+   year          = {2024},
+   eprint        = {2411.14259},
+@@ -243,10 +248,18 @@
+   annotation          = {Related work distinguished from this repo's readout approach; not a competing technique}
+ }
+ 
+-@misc{brassard2000amplitude,
++@incollection{brassard2000amplitude,
+   author        = {Brassard, Gilles and H{\o}yer, Peter and Mosca, Michele and Tapp, Alain},
+   title         = {{Quantum Amplitude Amplification and Estimation}},
+-  year          = {2000},
++  editor        = {Lomonaco, Jr., Samuel J. and Brandt, Howard E.},
++  booktitle     = {{Quantum Computation and Information}},
++  series        = {Contemporary Mathematics},
++  volume        = {305},
++  publisher     = {American Mathematical Society},
++  address       = {Providence, RI},
++  pages         = {53--74},
++  year          = {2002},
++  doi           = {10.1090/conm/305/05215},
+   eprint        = {quant-ph/0005055},
+   archiveprefix = {arXiv}
+ }
+@@ -287,10 +300,15 @@
+   primaryclass  = {quant-ph}
+ }
+ 
+-@misc{nishi2025overlap,
+-  author        = {Nishi, Hirofumi and Kosugi, Taichi and Huang, Yifan and Hirose, Kenta and Okayama, Yuta and Matsushita, Yu-ichiro},
++@article{nishi2025overlap,
++  author        = {Nishi, Hirofumi and Kosugi, Taichi and Huang, Xinchi and Hirose, Satoshi and Okayama, Tatsuya and Matsushita, Yu-ichiro},
+   title         = {{Quantum State Readout via Overlap-Based Feature Extraction}},
+-  year          = {2025},
++  journal       = {Physical Review A},
++  volume        = {114},
++  number        = {3},
++  pages         = {032459},
++  year          = {2026},
++  doi           = {10.1103/3l9h-c367},
+   eprint        = {2505.08613},
+   archiveprefix = {arXiv},
+   primaryclass  = {quant-ph},
+@@ -302,7 +320,7 @@
+ % ---------------------------------------------------------------------------
+ 
+ @article{camps2024explicit,
+-  author        = {Camps, Daan and Van Beeumen, Roel and Lin, Lin and Yang, Chao},
++  author        = {Camps, Daan and Lin, Lin and Van Beeumen, Roel and Yang, Chao},
+   title         = {{Explicit Quantum Circuits for Block Encodings of Certain Sparse Matrices}},
+   journal       = {SIAM Journal on Matrix Analysis and Applications},
+   volume        = {45},
+@@ -315,7 +333,7 @@
+ }
+ 
+ @article{sunderhauf2024blockencoding,
+-  author        = {S\"underhauf, Christoph and Campbell, Earl and Camps, Daan},
++  author        = {S\"underhauf, Christoph and Campbell, Earl and Camps, Joan},
+   title         = {{Block-encoding structured matrices for data input in quantum computing}},
+   journal       = {Quantum},
+   volume        = {8},
+@@ -327,7 +345,7 @@
+ }
+ 
+ @misc{chakraborty2025qsvt,
+-  author        = {Chakraborty, Shantanav and Hazra, Rishav and Li, Xin and Shao, Changpeng and Wang, Qisheng and Zhang, Zhicheng},
++  author        = {Chakraborty, Shantanav and Hazra, Soumyabrata and Li, Tongyang and Shao, Changpeng and Wang, Xinzhao and Zhang, Yuxin},
+   title         = {{Quantum singular value transformation without block encodings: near-optimal complexity with minimal ancilla}},
+   year          = {2025},
+   eprint        = {2504.02385},
+@@ -337,8 +355,8 @@
+ }
+ 
+ @misc{zhang2026lowancilla,
+-  author        = {Zhang, Zhicheng and Shao, Changpeng},
+-  title         = {{Low-ancilla block encodings via Hamiltonian simulation}},
++  author        = {Zhang, Yuxin and Shao, Changpeng},
++  title         = {{Quantum space-depth tradeoffs for coherent block encodings}},
+   year          = {2026},
+   eprint        = {2607.01843},
+   archiveprefix = {arXiv},
+@@ -371,7 +389,7 @@
+ }
+ 
+ @misc{qrtlib2025,
+-  title         = {{QRTlib}},
++  title         = {{QRTlib: A Library for Fast Quantum Real Transforms}},
+   year          = {2025},
+   eprint        = {2510.16625},
+   archiveprefix = {arXiv},
+@@ -380,7 +398,7 @@
+ }
+ 
+ @misc{dyadic2026fractional,
+-  title         = {{Dyadic-Order Quantum Fractional Transforms}},
++  title         = {{Dyadic-Order Quantum Fractional Transforms: Circuit Constructions and Applications to Hartley and Cosine Transform Families}},
+   year          = {2026},
+   eprint        = {2604.09295},
+   archiveprefix = {arXiv},
+@@ -538,10 +556,15 @@
+   annotation          = {Cited in-repo only as ``Grover \& Rudolph (2002)'' with no arXiv ID; identity/eprint inferred, not stated in the citing text}
+ }
+ 
+-@misc{mottonen2004transformation,
++@article{mottonen2004transformation,
+   author        = {M\"ott\"onen, Mikko and Vartiainen, Juha J. and Bergholm, Ville and Salomaa, Martti M.},
+   title         = {{Transformation of quantum states using uniformly controlled rotations}},
+-  year          = {2004},
++  journal       = {Quantum Information and Computation},
++  volume        = {5},
++  number        = {6},
++  pages         = {467--473},
++  year          = {2005},
++  doi           = {10.26421/QIC5.6-5},
+   eprint        = {quant-ph/0407010},
+   archiveprefix = {arXiv},
+   annotation          = {Cited in-repo only as ``M\"ott\"onen et al. (2004)'' with no arXiv ID; identity/eprint inferred, not stated in the citing text}
+@@ -718,11 +741,12 @@
+ % ---------------------------------------------------------------------------
+ 
+ @misc{qiskit2024,
+-  author       = {{Qiskit contributors}},
+-  title        = {{Qiskit: An Open-source Framework for Quantum Computing}},
+-  year         = {2024},
+-  publisher    = {Zenodo},
+-  doi          = {10.5281/zenodo.2573505},
++  author        = {Javadi-Abhari, Ali and Treinish, Matthew and Krsulich, Kevin and Wood, Christopher J. and Lishman, Jake and Gacon, Julien and Martiel, Simon and Nation, Paul D. and Bishop, Lev S. and Cross, Andrew W. and Johnson, Blake R. and Gambetta, Jay M.},
++  title         = {{Quantum computing with Qiskit}},
++  year          = {2024},
++  eprint        = {2405.08810},
++  archiveprefix = {arXiv},
++  primaryclass  = {quant-ph},
+   annotation         = {Primary quantum-circuit construction/simulation framework used throughout this repo; citation record added from the official Qiskit project, not transcribed from in-repo text}
+ }
+ 
+@@ -945,8 +969,8 @@
+ }
+ @misc{pawsey2023setonix,
+   author    = {{Pawsey Supercomputing Research Centre}},
+-  title     = {{Setonix Supercomputer}},
+-  year      = {2023},
++  title     = {{Setonix}},
++  year      = {2022},
+   address   = {Perth, Western Australia},
+   doi       = {10.48569/18sb-8s43}
+ }

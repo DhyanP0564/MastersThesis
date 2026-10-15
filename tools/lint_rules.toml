@@ -1,0 +1,631 @@
+# lint_rules.toml: the rules tools/thesis_lint.py enforces (sources: CLAUDE.md Standing Facts,
+# ThesisPlanning.md §3.4, §3.5, §8, §14.2, thesis_guides/STYLE_GUIDE.md).
+#
+# Each [[rule]] has
+#   id          kebab-case, unique; what --rule and `% lint-allow:` name
+#   regex       Python regex (re.M); write it as a 'literal' or '''literal''' string so backslashes
+#               stay single; <<name>> splices a pattern from [defs]; (?i) for case-insensitive
+#   severity    error | warn | info  (errors fail the run; warnings fail it under --strict)
+#   message     the fact or rule enforced, quoted from its source
+# and optionally
+#   view        what the regex sees, every view with comments stripped and offsets kept:
+#                 raw   - the source as written
+#                 text  - raw with [mask.keys] arguments (labels, refs, cites, \res keys, paths)
+#                         and [mask].code_envs (TikZ, quantikz) masked
+#                 prose - text with maths, \texttt, \SI-style and \prov arguments also masked (default)
+#   scope       sentence (default) | line: the region `also` and `unless` search (on the raw source)
+#   also        regex that must also occur in the scope
+#   unless      regex that suppresses the hit when it occurs in the scope (negations, attributions)
+#   exclude     regex; a hit whose whole text matches it is dropped
+#   not_after   regex; a hit whose line text just before it ends with a match is dropped
+#   files       globs the rule is limited to (paths relative to the repository root)
+#   allow_files globs where the phrase is permitted
+#   allow_scopes [{ files = glob, section = "<\label of an enclosing section>",
+#                  paragraph = "<regex the hit's line must match>" }]: each key optional, all must hold
+#
+# Severity policy: error = a Standing Fact or a §3.4 "never"; warn = a heuristic that needs a human
+# eye (scope, typed numbers, spelling, hygiene); info = a style hint, shown with --severity info.
+
+[settings]
+files = ["1_header/*.tex", "2_body/*.tex", "3_footer/*.tex", "3_footer/appendices/*.tex"]
+exclude = ["1_header/0_packages.tex"]
+excerpt = 80
+
+[mask]
+# macro = number of mandatory arguments masked (from the first); optional [..] arguments are always
+# masked. `keys` apply to the text and prose views; `prose` to the prose view only.
+keys = { label = 1, ref = 1, Cref = 1, cref = 1, Crefrange = 2, crefrange = 2, eqref = 1, autoref = 1, pageref = 1, nameref = 1, hyperref = 0, cite = 1, citet = 1, citep = 1, citeauthor = 1, citeyear = 1, textcite = 1, parencite = 1, autocite = 1, nocite = 1, gls = 1, Gls = 1, glspl = 1, Glspl = 1, glsentryshort = 1, acrshort = 1, acrlong = 1, newacronym = 1, url = 1, href = 1, includegraphics = 1, input = 1, include = 1, res = 2, resflag = 2, begin = 1, end = 1, multicolumn = 2, multirow = 2, color = 1, textcolor = 1, vspace = 1, hspace = 1, setlength = 2, renewcommand = 2, newcommand = 2, resizebox = 2, scalebox = 1, raisebox = 1, rule = 2, addlinespace = 0, phantom = 1, hphantom = 1, vphantom = 1, bibliography = 1, includepdf = 1, thispagestyle = 1, pagestyle = 1, bibliographystyle = 1, caption = 0, item = 0, path = 1, cmidrule = 0, gategroup = 1 }
+prose = { texttt = 1, verb = 1, lstinline = 1, code = 1, SI = 2, si = 1, num = 1, qty = 2, unit = 1, ang = 1, prov = 1 }
+# extra mandatory arguments of \begin{env} masked with it (column specs, widths)
+env_args = { tabular = 1, "tabular*" = 2, tabularx = 2, array = 1, longtable = 1, minipage = 1, wrapfigure = 2 }
+code_envs = ["tikzpicture", "quantikz", "lstlisting", "verbatim", "minted", "algorithmic"]
+math_envs = ["equation", "equation*", "align", "align*", "alignat", "alignat*", "gather", "gather*", "multline", "multline*", "flalign", "flalign*", "eqnarray", "eqnarray*", "displaymath", "math"]
+
+[defs]
+# a negation in the same sentence
+neg = '''(?i:\b(?:neither|nor|not|no|never|nothing|none|without|cannot|can['’]t|isn['’]t|aren['’]t|doesn['’]t|does not|did not)\b)'''
+# the class a descriptor degree, gap or alpha claim must name (§3.4 "Naming the class of problem")
+class = '''(?i:\b(?:regular(?!\s+datum)|singular|def:regular|R(?:10|[1-9])[a-e]?\b|two[- ]ax(?:es|is)|one axis|PDEs?|\\gls\{pde\}|leading coefficient|class(?:es)?\b|(?:simple|double)\s+zeros?|(?:several|multiple|two)\s+axes|two-dimensional))'''
+apos = '''['’]'''
+
+# ================================================================ Standing Facts: vocabulary
+
+[[rule]]
+id = "corrected"
+severity = "error"
+view = "text"
+regex = '''(?i)(?<![-\w])corrected\b'''
+message = '''Variants: "The problem is unnamed ("R2a"); the paper's panel as printed is "R2a as printed" ... Never "corrected"."'''
+
+[[rule]]
+id = "corrections"
+severity = "warn"
+view = "text"
+regex = '''(?i)\bcorrections?\b'''
+unless = '''(?i)error[- ]correct|p_\{?G|p_\\mathrm|readout|interferometric|success probability'''
+message = '''§3.4: "the standard form takes / replaces / imposes ..." - never "we fixed", "corrections", "bug"; each departure is named by the defect it removes and the property it gains.'''
+
+[[rule]]
+id = "fixed-bug"
+severity = "error"
+view = "text"
+regex = '''(?i)\bwe\s+(?:fixed|fix|repaired|patched)\b|\bbugs?\b|\b(?:wrong|fixed|buggy)\s+(?:version|variant)\b'''
+message = '''§3.4 / STYLE_GUIDE §5 trap 22: never "we fixed", "bug", "wrong/fixed version"; a departure is a defect and the property gained.'''
+
+[[rule]]
+id = "rung"
+severity = "error"
+regex = '''(?i)\brungs?\b'''
+message = '''Terminology: "benchmark problem R1-R10 (never "rung")".'''
+
+[[rule]]
+id = "case-n"
+severity = "warn"
+regex = '''(?i)\bcase\s+(?:N|\d+)\b(?!\s*[,)]?\s*(?:of|in) the proof)'''
+message = '''§3.4: benchmark problem R1-R10, never "rung" or "case N".'''
+
+[[rule]]
+id = "collocation"
+severity = "error"
+regex = '''(?i)\bcollocation\b'''
+unless = '''(?i)\\cite|\bChilds\b|\btau\b'''
+allow_files = ["2_body/2_literature.tex"]
+message = '''Terminology: never "collocation" for the standard form; "collocation" stays for the classical method (§2.3) and Childs & Liu (§3.4).'''
+
+[[rule]]
+id = "state-space"
+severity = "warn"
+regex = '''(?i)\bstate-space\b'''
+message = '''§3.4: never "collocation" or "state-space" for the standard form.'''
+
+[[rule]]
+id = "papers-regime"
+severity = "error"
+regex = '''(?i)\bthe\s+paper<<apos>>s\s+regime\b'''
+message = '''Terminology: never "the paper's regime" for the standard form; scope a claim by a mathematical condition (§3.4 T-37).'''
+
+[[rule]]
+id = "papers-method"
+severity = "error"
+regex = '''(?i)\bthe\s+paper<<apos>>s\s+method\b'''
+message = '''Terminology: never a bare "the paper's method" for the standard form; it is defined by its state (the field alone, every derivative eliminated through G).'''
+
+[[rule]]
+id = "our-method"
+severity = "warn"
+regex = '''(?i)\bour\s+(?:method|approach|solver)\b'''
+message = '''§3.4: the descriptor form (its chain and mass form), never "our method" alone.'''
+
+[[rule]]
+id = "rival-names"
+severity = "error"
+regex = '''(?i)\bour\s+standard[- ]form\s+(?:solver|method)\b|\bimproved\s+Wu\b|\bsparse\s+method\b|\bmulti-field\s+method\b|\bvector-valued\s+solver\b|\bcomplex\s+solver\b|\bhandles\s+complex\s+equations\b|\bvector\s+boundary\s+conditions?\b|\bsparse\s+oracles?\b'''
+message = '''§3.4 never-list: "our standard-form solver/method", "improved Wu", "sparse method", "multi-field method", "vector-valued solver", "complex solver", "vector boundary condition" (ratio row), "sparse oracle" (sum of matchings). S2 "is never a rival solver".'''
+
+[[rule]]
+id = "wall"
+severity = "error"
+regex = '''(?i)\bwalls?\b(?![- ]?(?:clock|time))'''
+message = '''Terminology: "the encoder's cost vs the Hamiltonian's cost (never "wall")".'''
+
+[[rule]]
+id = "fable"
+severity = "error"
+view = "text"
+regex = '''(?i)\bFABLE\b'''
+message = '''Framing: "FABLE appears nowhere."'''
+
+[[rule]]
+id = "desolverlib"
+severity = "error"
+view = "raw"
+regex = '''(?i)DESolverLib'''
+message = '''Complex-valued fields: "The legacy DESolverLib's complex code is never cited."'''
+
+[[rule]]
+id = "legacy-source"
+severity = "error"
+view = "text"
+regex = '''(?i)\bSetonix/|\blegacy\s+(?:notebooks?|results|docs|numbers)\b|\bJournal\.md\b|\bPlanning\.md\b'''
+message = '''Variants: "Legacy results (Setonix/, legacy notebooks, old docs/) are never cited; every number comes from pihm's P8 records (results-v1)." Journal.md is "history, never cited".'''
+
+[[rule]]
+id = "legacy-code"
+severity = "warn"
+view = "text"
+regex = '''(?i)\blegacy\s+(?:code|software|package|library|implementation)\b'''
+allow_files = ["3_footer/appendices/L_software.tex"]
+message = '''Variants: "Legacy results (Setonix/, legacy notebooks, old docs/) are never cited." Software provenance (test fixtures) belongs to Appendix L only.'''
+
+[[rule]]
+id = "setonix"
+severity = "warn"
+view = "text"
+regex = '''\bSetonix\b(?!/)'''
+allow_files = ["1_header/2_acknowledgments.tex", "3_footer/appendices/L_software.tex"]
+allow_scopes = [{ section = "sec:pipeline-software" }]
+message = '''The machine is named in the acknowledgements, §7.9 and Appendix L only; legacy results (Setonix/) are never cited, and records and campaigns live in Appendix L (§3.5 rule 4).'''
+
+[[rule]]
+id = "eigh"
+severity = "error"
+regex = '''\beigh\b'''
+unless = '''(?i)\bsvd\b|singular value'''
+allow_files = ["3_footer/appendices/I_verification.tex"]
+message = '''Classical reference: "The smallest right singular vector of the stacked residual ... Never eigh(RᵀR)." eigh is named only against the SVD (App. I).'''
+
+[[rule]]
+id = "regular-point"
+severity = "error"
+regex = '''(?i)\bregular\s+points?\b'''
+message = '''Classes: "x_s is the datum point, never "regular point" (an ODE regular point has a_k ≠ 0; R3's x_s = 1 is a singular point)."'''
+
+[[rule]]
+id = "rescaling-gates"
+severity = "error"
+regex = '''(?i)\bno\s+(?:extra\s+|additional\s+)?gate\s+(?:cost|overhead|count)\b|\bno\s+(?:extra\s+|additional\s+)?gates\b|\bgate-?free\b|\bfree\s+in\s+gates\b|\bcosts?\s+(?:no|nothing\s+in)\s+gates\b|\bwithout\s+(?:any\s+)?(?:extra\s+|additional\s+)?gates\b'''
+also = '''(?i)rescal|\\zeta|\bweights?\b'''
+message = '''The descriptor's gap: block rescaling "adds no ancilla. It is not free in gates ... Never "no gates" or "no gate cost"; write "without ancilla"."'''
+
+[[rule]]
+id = "cannot-reach"
+severity = "error"
+regex = '''(?i)\b(?:cannot|can\s?not|can<<apos>>t)\s+(?:be\s+)?(?:reach|reached|prepare|prepared|run|scale\s+to)\b|\bout\s+of\s+reach\b|\bunreachable\b'''
+also = '''(?i)simulat|emulat|budget|qubits?\b|estimat'''
+message = '''Tiers: ""Could not simulate" is never "cannot reach"." Name the tier and quote the estimate that refused the run.'''
+
+[[rule]]
+id = "as-printed"
+severity = "error"
+view = "text"
+regex = '''(?i)\bas[\s~]+printed\b|\bpaper-faithful\b'''
+allow_files = ["3_footer/appendices/K_reproduction.tex"]
+allow_scopes = [{ files = "2_body/4_standard.tex", section = "sec:standard-form", paragraph = '(?i)\bvalidat' }]
+message = '''Variants (T-27): ""as printed" and "paper-faithful" only in Appendix K and §4.4's validation paragraph."'''
+
+[[rule]]
+id = "published"
+severity = "error"
+view = "text"
+regex = '''(?i)\bpublished\b'''
+unless = '''(?i)Olver|Townsend|\bCai\b|Lazarov|Manteuffel|McCormick'''
+message = '''§14.2 item 8 / §3.4: wu2025pihm is a pre-print, so no visible prose, caption, table cell or section title calls it, its encoding, prefactor or claims "published" ("the paper's", "the printed"). Labels and keys may stay.'''
+
+[[rule]]
+id = "tier-vocab"
+severity = "error"
+regex = '''(?i)\b(?:run|ran|executed)\s+on\s+(?:a\s+)?quantum\s+(?:computers?|devices?|processors?)\b|\bpredicted\s+to\s+work\b'''
+unless = '<<neg>>'
+message = '''Tiers (§3.4): circuit simulation (T1), never "run on a quantum computer" or "executed"; resource estimate (T3), never "predicted to work". Nothing ran on hardware.'''
+
+[[rule]]
+id = "infeasible"
+severity = "warn"
+regex = '''(?i)\binfeasible\b|\btoo\s+(?:big|large)\s+to\b'''
+unless = '''(?i)estimat'''
+message = '''§3.4: "beyond the simulation budget (estimate quoted)", never "failed", "too big" or "infeasible" alone.'''
+
+[[rule]]
+id = "best-possible"
+severity = "warn"
+regex = '''(?i)\bbest\s+possible\b'''
+message = '''§3.4: the ideal-encoding bound (α = ‖R‖), never "best possible" (T-25).'''
+
+[[rule]]
+id = "equilibration"
+severity = "warn"
+regex = '''(?i)\bequilibrat\w*|\bprecondition\w*'''
+also = '''(?i)rescal|\\zeta|\bblock\b'''
+unless = '''(?i)general\s+equilibration|excluded|\\Theta\s*\(\s*P|\\cite|place\s+of|role\s+of|the\s+role'''
+message = '''§3.4: block rescaling, never "equilibration" or "preconditioning" (of the circuit); general equilibration costs Θ(P) gates and is excluded.'''
+
+[[rule]]
+id = "found-solved"
+severity = "warn"
+regex = '''(?i)\b(?:ground\s+state|kernel|near-kernel|solution)\s+(?:is|was|are|were|has\s+been|have\s+been)\s+(?:found|solved)\b'''
+message = '''§3.4: "prepared" (only for a one-dimensional (near-)kernel), never "found" or "solved" for a filter's output.'''
+
+[[rule]]
+id = "doubled-prepared"
+severity = "warn"
+regex = '''(?i)\bprepar(?:e|es|ed|ing|ation)\b'''
+also = '''(?i)\bdoubled\b'''
+unless = '''(?i)project|<<neg>>|Carleman|\blift|(?<!\\)&'''
+message = '''Nonlinearity: "The doubled space ... encodes exactly and projects: its kernel has dimension at least 2^{2n-1}." Never "prepared" for it.'''
+
+[[rule]]
+id = "trusted-converged"
+severity = "warn"
+regex = '''(?i)\btrusted\b[^.]{0,80}?\b(?:converged|correct|accurate)\b'''
+unless = '''<<neg>>|separate|whether|certif'''
+message = '''Nonlinearity: "A trusted kernel does not certify a converged lift"; trust is the kernel's isolation, not the lift's convergence.'''
+
+[[rule]]
+id = "verified-vocab"
+severity = "info"
+regex = '''(?i)\b(?:checked|passes|passed)\b'''
+message = '''§3.4: verified (exact / probe / IR), never "checked", "tested" or "passes"; name the mode and the tolerance.'''
+
+[[rule]]
+id = "tuned"
+severity = "warn"
+regex = '''(?i)\b(?:hand-?)?tuned\b|\bfine-?tun\w*'''
+unless = '<<neg>>'
+message = '''Parameters: a priori parameters, "never against the answer"; never "tuned" (§3.4).'''
+
+[[rule]]
+id = "well-behaved"
+severity = "warn"
+regex = '''(?i)\bwell-behaved\b|\bnice\b'''
+message = '''§3.4: regular problem / singular problem (def:regular), never "well-behaved" or "nice".'''
+
+[[rule]]
+id = "internal-ids"
+severity = "error"
+view = "text"
+regex = '''\bPillar\s*[12]\b|\bISSUE-\d+|\bD-0\d\d\b|\bE0\d\d\b|(?i:\bdecision\s+\d+\b)|\bT-\d{2}\b'''
+message = '''§3.5 rule 3 / §10.4: decisions, issues, Journal entries, probes and plan T-numbers are never cited; Pillar 1/2 are operator / state-preparation verification.'''
+
+[[rule]]
+id = "code-names"
+severity = "warn"
+view = "text"
+regex = '''\b(?:assemble|stacked_reflection|compile_system|export_numbers|real_embedding|fourier_field|matching_terms|ratio_rows|datum_rows|NotImplementedError|ideal_degree)\b|\b(?:regime|layout|encoder|rescale|filter|variant|verify|lift|carleman|status)=\S'''
+files = ["2_body/*", "1_header/5_abstract.tex"]
+allow_scopes = [{ section = "sec:pipeline-software" }]
+message = '''§3.5 rule 2: "assemble, stacked_reflection, t2 and their relatives appear in the body only in §7.9"; elsewhere they are the residual, the reflection V, the exact emulation.'''
+
+[[rule]]
+id = "records-in-body"
+severity = "warn"
+regex = '''(?i)(?<!measurement )\bcampaigns?\b|\bSlurm\b|\bhash(?:es)?\b|\bdigests?\b'''
+files = ["2_body/*", "1_header/5_abstract.tex"]
+allow_scopes = [{ section = "sec:pipeline-software" }]
+message = '''§3.5 rule 4: "Records, hashes, campaigns, digests and Slurm live in Appendix L."'''
+
+[[rule]]
+id = "answer-independent-points"
+severity = "error"
+regex = '''(?i)\banswer-independent\b'''
+also = '''(?i)constraint\s+points?|exact\s+points?|x_\{?[zms]\b|\broots?\b'''
+unless = '<<neg>>'
+message = '''The standard form: the exact constraint points are computed from the reference solution, "answer-dependent set-up, not answer-independent".'''
+
+[[rule]]
+id = "warm-start"
+severity = "warn"
+regex = '''(?i)\bwarm[- ]start'''
+unless = '<<neg>>'
+message = '''Parameters: "Initial states are answer-independent ... no warm start."'''
+
+[[rule]]
+id = "table-t10"
+severity = "warn"
+view = "text"
+regex = '''\bT10\b'''
+message = '''§8.2: T10 is a plan label, "written \Cref{tab:deviations} in the thesis".'''
+
+# ================================================================ overclaims
+
+[[rule]]
+id = "polylog"
+severity = "error"
+view = "text"
+regex = '''(?i)\bpoly-?log(?:arithmic(?:ally)?)?\b'''
+unless = '''<<neg>>|Wu\s+et\s+al|\bexpect|\bclaim|\breport|\bcalled\b|\\cite'''
+message = '''Complexity: "Neither form is poly-log." STYLE_GUIDE: deny an end-to-end poly-log speed-up yourself, first.'''
+
+[[rule]]
+id = "exponential-speedup"
+severity = "error"
+regex = '''(?i)\bexponential(?:ly)?\s+(?:quantum\s+)?(?:speed-?ups?|advantages?|faster|better|cheaper)\b'''
+unless = '<<neg>>'
+message = '''Complexity: "Neither form is poly-log"; STYLE_GUIDE §5 trap 9: over-claiming a speed-up is fatal with a QC-literate marker.'''
+
+[[rule]]
+id = "hardware"
+severity = "error"
+regex = '''(?i)\b(?:on|in)\s+(?:(?:real|quantum|noisy|current|near-term|NISQ)\s+)*hardware\b|\bhardware\s+(?:runs?|experiments?|demonstrations?|executions?|results?)\b'''
+unless = '''<<neg>>|out\s+of\s+scope|further|future|\bwould\b'''
+message = '''Readout / Tiers: "All results are classical computations ... Nothing ran on hardware."'''
+
+[[rule]]
+id = "complex-prepared"
+severity = "error"
+regex = '''(?i)\bcomplex(?:-valued)?\s+(?:fields?|residuals?|equations?|solutions?|sources?|data|problems?|states?)\b'''
+also = '''(?i)\bprepar\w*|\bsolved?\b'''
+unless = '''<<neg>>|\balone\b|\bonly\b|realifi'''
+message = '''Complex-valued fields: "Native complex preparation is not built: never write that a complex-valued field was prepared or solved." They are carried by realification.'''
+
+[[rule]]
+id = "filter-floor"
+severity = "warn"
+regex = '''(?i)\bfor\s+(?:any|every|all)\s+(?:polynomial\s+)?filters?\b'''
+also = '''(?i)floor|lower\s+bound|at\s+least|\\Omega|optimal|cannot\s+(?:beat|improve)'''
+unless = '''(?i)\bLin\b|\bTong\b|lintong|suggest|support|conjectur|\blikely\b|\bmay\b'''
+message = '''Complexity: "A floor "for any filter" is hedged to what Lin & Tong support."'''
+
+[[rule]]
+id = "readout-method"
+severity = "warn"
+regex = '''(?i)\binterferometric\b'''
+unless = '''(?i)further|future|\bpaper|Wu\s+et\s+al|\bsmall\b|<<neg>>|\bbuilt\b|verified|\btheir\b|correction|p_\{?G|\bomit'''
+message = '''Readout: "The field is read out classically ... The paper's interferometric protocol is built and verified only at small n ... further work, never the method's readout."'''
+
+# ================================================================ scope (§3.4, Classes of problem)
+
+[[rule]]
+id = "unscoped-degree"
+severity = "warn"
+view = "text"
+regex = '''\\tilde\s*\{?\\Theta\}?\s*(?:\\(?:big|Big)l?)?\(\s*N\s*(?:\\(?:big|Big)r?)?\)'''
+unless = '''<<class>>|(?<!\\)&'''
+message = '''Classes: "Descriptor: d = Θ̃(N) on a regular problem, about Θ̃(N²) or faster on singular problems or on two axes"; α/‖A_desc‖ → 1 on regular problems only. Never state a descriptor degree, gap or α claim without its class.'''
+
+[[rule]]
+id = "unscoped-alpha"
+severity = "warn"
+view = "text"
+regex = '''\\alpha[^.$]{0,60}?(?:\\to|\\rightarrow|→)\s*1\b'''
+also = '''(?i)descriptor|\\Adesc|\\Hdesc|_\{?\\mathrm\{desc'''
+unless = '''<<class>>|(?<!\\)&'''
+message = '''Encoding costs: "α/‖A_desc‖ → 1 on regular problems only (about 2 singular, 2.3–4.1 on PDEs)."'''
+
+[[rule]]
+id = "unscoped-gap"
+severity = "warn"
+view = "text"
+regex = '''\\Theta\s*(?:\\(?:big|Big)l?)?\(\s*1\s*(?:\\(?:big|Big)r?)?\)|(?i:\bflat\b|\bbounded\s+below\b)'''
+also = '''(?i)\bgaps?\b[\s\S]*(?:descriptor|\\Hdesc|\\Adesc|\bchain\b|mass\s+form|rescal)|(?:descriptor|\\Hdesc|\\Adesc|\bchain\b|mass\s+form|rescal)[\s\S]*\bgaps?\b'''
+unless = '''<<class>>|(?<!\\)&'''
+message = '''The descriptor's gap: "On a regular problem the gap is proved Θ(1) ... On two axes the gap still falls with N." Name the class (def:regular).'''
+
+[[rule]]
+id = "unscoped-descriptor-claim"
+severity = "warn"
+view = "text"
+regex = '''(?i)\bdescriptor(?:<<apos>>s)?\s+(?:form<<apos>>s\s+)?(?:(?:filter|spectral)\s+)?(?:degrees?|gaps?|subnormali[sz]ations?)\b'''
+unless = '''<<class>>|(?<!\\)&|\\(?:sub)*section\*?\s*\{|\\paragraph\s*\{'''
+message = '''Classes: "Never state a descriptor degree, gap or α claim without its class" (regular, singular, two axes; def:regular, cited by name).'''
+
+# ================================================================ numbers by key
+
+[[rule]]
+id = "typed-number"
+severity = "warn"
+regex = '''(?<![\w.\-/\\])(?:\d+\.\d+(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+|\d+(?:\.\d+)?\s*(?:\\%|per\s?cent\b))(?![\w.]|\s*(?:pt|em|ex|cm|mm|bp)\b)'''
+allow_scopes = [{ files = "3_footer/appendices/K_reproduction.tex", paragraph = '^\s*\d+[a-f]\s*&\s*R\d' }]
+not_after = '''(?i)(?:version|\bv|Python|Qiskit|Aer|NumPy|SciPy|§|Fig\.|Figs\.|Eq\.|Section|Sec\.|Table|Appendix|arXiv:?)\s*~?'''
+message = '''Drafting: "Every pihm number is quoted by key, \res{<run>}{<metric>}, never typed"; \prov{...} only for a number pihm does not produce.'''
+
+[[rule]]
+id = "typed-number-math"
+severity = "info"
+view = "text"
+regex = '''\$\s*(?:\d+\.\d+|\d+(?:\.\d+)?\s*\\times\s*10\^\{?-?\d+\}?|\d+(?:\.\d+)?\s*\\%)\s*\$'''
+message = '''A number typed in maths: quote a pihm number by \res; a fixed threshold (the 1e-10 bar) or a proved constant may stay.'''
+
+[[rule]]
+id = "tier-number-in-formulation"
+severity = "warn"
+view = "raw"
+regex = '''\\res(?:\[[^\]]*\])?\{[^}]*/T[123](?:/[^}]*)?\}\{(?!alpha|norm|n_qubits|[a-z_]*ratio\})[^}]*\}'''
+files = ["2_body/4_standard.tex", "2_body/5_descriptor.tex", "2_body/6_extensions.tex"]
+message = '''Evidence rule (T-20): Chapters 4-6 quote proofs and exact classical computations only; "every filter degree, preparation, gate count and tier-labelled number lives in Chapter 8".'''
+
+# ================================================================ Australian spelling (prose view: \texttt, \verb, keys masked)
+
+[[rule]]
+id = "spell-ize"
+severity = "warn"
+regex = '''(?i)\b[a-z]*[a-z]iz(?:e|es|ed|ing|ation|ations|er|ers|able)\b'''
+exclude = '''(?i)(?:re|down|over|under|up)?siz(?:e|es|ed|ing|able)|seiz(?:e|es|ed|ing)|priz(?:e|es|ed)|capsiz\w*|maiz\w*|baiz\w*'''
+message = '''Australian spelling (-ise): "[australian]{babel} ... normalise, parameterise, discretise, generalise"; API names stay verbatim in \texttt.'''
+
+[[rule]]
+id = "spell-yze"
+severity = "warn"
+regex = '''(?i)\b[a-z]+yz(?:e|es|ed|ing|er|ers)\b'''
+message = '''Australian spelling: analyse, catalyse, paralyse.'''
+
+[[rule]]
+id = "spell-our"
+severity = "warn"
+regex = '''(?i)\b(?:behavior|color|favor|flavor|honor|humor|labor|neighbor|rumor|vapor|harbor|odor|endeavor|armor|vigor|rigor|valor|savior|tumor|parlor)(?:s|ed|ing|al|ally|able|ful|ist|ists|hood|hoods|less|ization)?\b|\bfavorite\b'''
+message = '''Australian spelling: behaviour, colour, neighbour, rigour (rigorous unchanged).'''
+
+[[rule]]
+id = "spell-re"
+severity = "warn"
+regex = '''(?i)\b(?:center|centered|centers|centering|fiber|fibers|liter|liters|meter|meters|theater|caliber|somber|luster)\b'''
+message = '''Australian spelling: centre, fibre, metre, theatre.'''
+
+[[rule]]
+id = "spell-ll"
+severity = "warn"
+regex = '''(?i)\b(?:modeled|modeling|modeler|labeled|labeling|traveled|traveling|canceled|canceling|signaled|signaling|tunneled|tunneling|leveled|leveling|channeled|channeling|fueled|fueling|totaled|totaling|equaled|equaling|funneled|rivaled|dialed|dialing|marveled|counseled)\b'''
+message = '''Australian spelling: modelling, labelled, tunnelling, signalling, equalled.'''
+
+[[rule]]
+id = "spell-misc"
+severity = "warn"
+regex = '''(?i)\b(?:analogs?|catalogs?|dialogs?|gray|artifacts?|aging|acknowledgments?|judgment|defense|offense|fulfill|fulfills|enrollment|skillful|maneuvers?|toward|afterward|percent)\b'''
+message = '''Australian spelling: analogue, catalogue, grey, artefact, ageing, acknowledgement, judgement, defence, fulfil, towards, per cent.'''
+
+# ================================================================ register (STYLE_GUIDE §1.3, §4.3, §5)
+
+[[rule]]
+id = "boilerplate"
+severity = "warn"
+regex = '''(?i)\bit\s+is\s+(?:important|worth)\s+(?:to\s+note|noting)\b|\bin\s+this\s+(?:section|chapter),?\s+we\s+(?:will\s+)?(?:discuss|describe|present|introduce)\b|\bas\s+(?:mentioned|discussed|stated|noted)\s+(?:previously|earlier|above|before)\b'''
+message = '''STYLE_GUIDE §1.3: "It is important to note", "In this section, we will discuss", "As mentioned previously" - delete, state the thing, or \Cref.'''
+
+[[rule]]
+id = "colloquial"
+severity = "warn"
+regex = '''(?i)\ba\s+bit\b|\bhuge\b|\bwe\s+tried\b|\blots\s+of\b|\ba\s+lot\s+of\b|\bkind\s+of\b|\bsort\s+of\b'''
+message = '''STYLE_GUIDE §5 trap 5: no "a bit", "huge", "we tried".'''
+
+[[rule]]
+id = "history"
+severity = "warn"
+regex = '''(?i)\bwe\s+(?:decided|then|first\s+tried|initially)\b|\bit\s+was\s+decided\b'''
+message = '''§3.5 rule 3: findings, not history; "a design choice is justified by its reason, never by "we decided"" (no "we then").'''
+
+[[rule]]
+id = "intensifier"
+severity = "info"
+regex = '''(?i)\b(?:very|quite|extremely|obviously|clearly|exceptionally|tremendous(?:ly)?|crucial(?:ly)?|really)\b'''
+message = '''STYLE_GUIDE §1.3, §4.2: "very", "quite", "extremely", "obviously", "clearly" - delete or quantify; no "exceptionally", "tremendous", "crucial".'''
+
+[[rule]]
+id = "exclamation"
+severity = "warn"
+regex = '''(?<![\\!])!(?!=)'''
+message = '''STYLE_GUIDE §5 trap 5: no exclamation marks.'''
+
+[[rule]]
+id = "straight-quotes"
+severity = "warn"
+regex = '''(?<!\\)"'''
+message = '''LaTeX: a straight " renders as a closing quote; use ``...' for quotations.'''
+
+[[rule]]
+id = "see-pointer"
+severity = "warn"
+view = "text"
+regex = '''(?i)\bsee\s+(?:also\s+)?(?:\\[Cc]ref|Appendix|Section|Chapter|Figure|Table)\b'''
+message = '''STYLE_GUIDE §2.6 pointer rule: never "see Appendix G"; "the kernel-equivalence proof ... are given in Appendix G" - a reference carries its reason (§4.3).'''
+
+[[rule]]
+id = "we-in-ch3"
+severity = "warn"
+regex = '''(?i)\b(?:we|our|ours|us)\b'''
+files = ["2_body/3_pihm.tex"]
+unless = '''(?i)\bwe\s+(?:first\s+|then\s+)?(?:write|present|denote|follow|use|call|adopt|keep|quote|restate|name|state|describe|refer)\b'''
+message = '''Chapters 3 and 4: "Ch. 3 presents Wu et al.'s method as prior art ... it states no result of ours."'''
+
+# ================================================================ notation (§8)
+
+[[rule]]
+id = "mathbb-collision"
+severity = "error"
+view = "text"
+regex = '''\\mathbb\s*\{\s*(?:G|A|M|U|n)\s*\}|[𝔾𝔸𝕄𝕌]'''
+unless = '''(?i)Wu\s+et\s+al|\bprint|the\s+paper'''
+message = '''§8.2 (T-06): the paper's blackboard bold 𝔾, 𝔸, 𝕄, 𝕟₁, 𝕌 become G, Γ, ℳ, 𝒩₁, U_CG.'''
+
+[[rule]]
+id = "g-transpose"
+severity = "warn"
+view = "text"
+regex = '''(?:\\G|\bG)\s*\^\s*\{?\s*(?:T|\\top|\\intercal|\\mathsf\{T\}|\\mathrm\{T\})\s*\}?\s*(?:\\psi|\\ket|\|)'''
+message = '''§8.2 (T-16): Gᵀ applied to ψ is the paper's print; the thesis writes G (upper triangular), no transpose.'''
+
+[[rule]]
+id = "kappa-cond"
+severity = "warn"
+view = "text"
+regex = '''\\kappa\b'''
+also = '''(?i)condition'''
+message = '''§8.2 (T-19): a condition number is cond(·), never κ.'''
+
+[[rule]]
+id = "b-std"
+severity = "error"
+view = "text"
+regex = '''(?:\\Bt|\\tilde\s*\{?\s*B\s*\}?)\s*_\s*\{?\s*\\mathrm\s*\{\s*std\s*\}'''
+message = '''§8.2 (T-19): the raw-basis factor is B̃_raw; std means the standard form.'''
+
+[[rule]]
+id = "tau-imaginary-time"
+severity = "warn"
+view = "text"
+regex = '''\\tau\b(?!\s*\(\s*x|\s*\\?\()'''
+also = '''(?i)imaginary[- ]time|\\gls\{qite\}|\bQITE\b'''
+message = '''§8.2 (T-08): imaginary time is β (QITE only); τ(x) is the feature state.'''
+
+[[rule]]
+id = "lambda-rescaling"
+severity = "info"
+view = "text"
+regex = '''\\lambda\b(?!\s*_)'''
+also = '''(?i)rescal'''
+message = '''§8.2 (T-19): the rescaling constant is ζ; λ₀, λ₁ are eigenvalues.'''
+
+# ================================================================ LaTeX hygiene
+
+[[rule]]
+id = "ref-not-cref"
+severity = "warn"
+view = "text"
+regex = '''\\(?:ref|cref|autoref|eqref|vref|pageref)\s*\{'''
+message = '''STYLE_GUIDE §4.3: "Use \Cref{sec:...} throughout; never hard-code a number."'''
+
+[[rule]]
+id = "name-before-cref"
+severity = "warn"
+view = "text"
+regex = '''(?i)\b(?:sections?|sec\.|chapters?|ch\.|appendix|appendices|app\.|figures?|figs?\.|tables?|tab\.|equations?|eqs?\.|theorems?|lemmas?|propositions?|definitions?|corollar(?:y|ies))[~\s]+\\[Cc]ref\b'''
+message = '''\Cref prints the name itself ("Section Section 4.4").'''
+
+[[rule]]
+id = "hardcoded-ref"
+severity = "warn"
+view = "text"
+regex = '''\b(?:Section|Sec\.|Chapter|Ch\.|Appendix|App\.)[~\s]+(?:\d+(?:\.\d+)*|[A-M])\b|§\s*~?\d'''
+message = '''STYLE_GUIDE §4.3: "Use \Cref{...} throughout; never hard-code a number."'''
+
+[[rule]]
+id = "todo"
+severity = "warn"
+view = "raw"
+regex = '''\\todo\b'''
+message = '''§14.2 item 1 / STYLE_GUIDE trap 8: zero \todo at submission.'''
+
+[[rule]]
+id = "submission-markers"
+severity = "info"
+view = "raw"
+regex = '''\\prov\s*\{|\\placeholderfigure\b|\\nocite\s*\{\s*\*\s*\}'''
+message = '''§14.2 item 1: zero \prov, \placeholderfigure and \nocite{*} at submission.'''
+
+[[rule]]
+id = "doubled-word"
+severity = "warn"
+regex = '''(?i)(?<![\\\w])([a-z]+)[ \t~]+\1\b'''
+message = '''A doubled word.'''
+
+[[rule]]
+id = "eg-ie-comma"
+severity = "warn"
+view = "text"
+regex = '''\b(?:e\.g|i\.e)\.(?!,)'''
+message = '''"e.g." and "i.e." take a comma (STYLE_GUIDE is silent; without it LaTeX also sets a sentence space).'''
+
+[[rule]]
+id = "et-al-space"
+severity = "warn"
+view = "text"
+regex = '''\bet\s+al\.[ \t]+(?=[a-z])'''
+message = '''LaTeX spacing: "et al.\ " (or ~) mid-sentence; a bare space after the full stop sets a sentence space.'''
