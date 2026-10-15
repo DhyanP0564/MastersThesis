@@ -17,8 +17,8 @@ $n$ & Qubits per Chebyshev axis (the resolution). & \Cref{sec:pihm-model} \\
 $N = 2^n$ & Truncation dimension of one Chebyshev axis. & \Cref{sec:pihm-model} \\
 $k$ & Order of an \gls{ode}. & \Cref{sec:pihm-residual} \\
 $p$ & Degree of a polynomial nonlinearity. & \Cref{sec:carleman} \\
-$n_f$ & Qubits in the field (block) register of the descriptor form. & \Cref{sec:descriptor-layouts} \\
-$\dim w$ & Padded descriptor state dimension, $2^{\lceil\log_2K\rceil}\prod_aN_a$ with $K$ physical blocks ($2^{\lceil\log_2(k+1)\rceil}N$ on one axis). & \Cref{sec:app-variable-coeff} \\
+$n_f$ & Qubits in the field (block) register of the descriptor form; for a chain, $\lceil\log_2(1+\sum_ak_a)\rceil$ with $k_a$ the order along axis $a$ ($\lceil\log_2(k+1)\rceil$ on one axis). & \Cref{sec:descriptor-layouts} \\
+$\dim w$ & Padded descriptor state dimension, $2^{n_f}\prod_aN_a$ ($2^{n_f}N$ on one axis). & \Cref{sec:app-variable-coeff} \\
 \bottomrule
 \end{tabularx}
 

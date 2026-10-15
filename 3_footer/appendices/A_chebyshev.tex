@@ -19,6 +19,8 @@
 % OPTIONAL CUT (restructure 2026-10-15): the 8 x 8 chain for R1 (eq:app-descriptor-8x8) is
 %   uncited and shows a layout first-order equations never run in; it could move to
 %   pihm docs/companion/14_worked_n4.md. Left in place: the author's call.
+% 2026-10-16 (GeminiReviewPlan.md row 2, Prompt 4): the unbuilt reduction's paragraph now points
+%   to §9.5's hedged expectation (reaches the descriptor's degree on a regular problem; untested).
 % =============================================================================
 
 This appendix records the recurrence that defines the banded factors $\Bt$ and $\Dt$ of \Cref{sec:descriptor-construction}, their entries, the exact factorisation $\G = \Bt^{-1}\Dt$, its connection with the ultraspherical method, and the fully populated $N = 4$ instance of the first-order descriptor operator.
@@ -204,7 +206,7 @@ Hamiltonian of \cite{wu2025pihm}, whose block structure is exactly what
 
 For a first-order equation the two coincide. The descriptor's mass form multiplies the standard rows by $\Bt$ (\Cref{eq:mass-form}), and for $f'=af$ with $a$ a number, $\Bt(\G-aI)=\Dt-a\Bt$, which in the raw basis is $2(\mathcal{D}_0-a\mathcal{S}_0)$: the ultraspherical method's own operator in the basis $C^{(1)}$, on $N$ unknowns with no derivative block.
 
-\paragraph{A reduction the descriptor does not build.} For $k\ge2$ the same left factor exists. In the raw basis $\mathcal{S}_1\mathcal{S}_0\G^2=\mathcal{D}_1\mathcal{D}_0$ exactly, so $\mathcal{S}_{k-1}\cdots\mathcal{S}_0\,\Astd$ is the ultraspherical method's operator for a constant-coefficient equation: banded, with a bandwidth independent of $N$, on the $N$ coefficients of $f$, and, since the conversions are invertible, with the standard form's kernel, as in \Cref{thm:kernel-equivalence}. It would remove the chain's block register and its recurrence and padding rows. It would also change three things we measure: the residual's rows are weighted by the conversions, so its least-squares ground state is that of a differently weighted problem; the conversions' entries would have to be encoded; and the gap mechanism of \Cref{sec:descriptor-gap} does not carry over without a measurement. This reduction was not built into the pipeline, and the thesis's descriptor is not compared against it.
+\paragraph{A reduction the descriptor does not build.} For $k\ge2$ the same left factor exists. In the raw basis $\mathcal{S}_1\mathcal{S}_0\G^2=\mathcal{D}_1\mathcal{D}_0$ exactly, so $\mathcal{S}_{k-1}\cdots\mathcal{S}_0\,\Astd$ is the ultraspherical method's operator for a constant-coefficient equation: banded, with a bandwidth independent of $N$, on the $N$ coefficients of $f$, and, since the conversions are invertible, with the standard form's kernel, as in \Cref{thm:kernel-equivalence}. It would remove the chain's block register and its recurrence and padding rows. It would also change three things we measure: the residual's rows are weighted by the conversions, so its least-squares ground state is that of a differently weighted problem; the conversions' entries would have to be encoded; and the gap mechanism of \Cref{sec:descriptor-gap} does not carry over without a measurement. This reduction was not built into the pipeline, and the thesis's descriptor is not compared against it, although Olver and Townsend's conditioning bound suggests that on a regular problem it would reach the descriptor's degree (\Cref{sec:limitations}).
 
 \subsection{The \texorpdfstring{$N = 4$}{N = 4} instance}
 

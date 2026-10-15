@@ -1,0 +1,13 @@
+My research was an individual project, outside the main focus of the QUISA group, although a subgroup working on quantum linear algebra (QLA) has since formed.
+
+The year began with an idea my supervisor put to me: that the quantum singular value transformation (QSVT) is a ``grand unification'' of quantum algorithms, and that its reach had not yet been fully mapped. I set out to find new applications for it and for the newer QLA methods, GQSP and GQSVT. I was first introduced to differential equations in my Bachelor's degree and studied their numerical solution in my first postgraduate semester, so a quantum solver was where I most wanted to focus.
+
+I found the preprint of Wu et al., which told a compelling story. A single physics-informed Hamiltonian whose ground state is the solution, for linear and nonlinear equations alike. It was close to what I had hoped to find, one unified quantum method for differential equations. I first rebuilt quantum signal processing, QSVT and GQSP for myself. GQSP is enough for a Hermitian Hamiltonian, so I set GQSVT aside.
+
+The preprint had not been peer reviewed, so I reproduced it before building on it, and the reproduction changed the course of the project. Its error bounds were not stated precisely, it didn't discuss post-selection probability, and its treatment of nonlinear equations turned out to produce degenerate kernels. The paper was less substantial than I had first thought, so I rebuilt the method with its printed defects removed as the standard form, and wrote an exact structured encoding of its differentiation operator, for which the paper gives only an approximate form.
+
+The dense differentiation operator was expensive to encode. Building the exact encoding showed me that the real cost sits in the Hamiltonian itself, whose norm grew so quickly that the filter degree grows as a power of the resolution, however good the circuit. That realisation led me to the descriptor form.
+
+I wrote a python package, \texttt{pihm}, which reproduces my method generally for (almost) any differential equation we claim to be able to solve. Generality was the principle that had drawn me to the paper, so I kept it through the model and code design.
+
+I then extended the method's generality to coupled systems, and explored non-degenerate treatments for nonlinearity. This solved two things at once, since we can carry complex-valued equations as coupled real systems. For nonlinear equations I replaced the doubled space with a Carleman lift. On my supervisor's advice I then pushed the method onto harder problems, ending with two-dimensional Navier--Stokes, and ran the production campaigns on Setonix at the Pawsey Supercomputing Research Centre.

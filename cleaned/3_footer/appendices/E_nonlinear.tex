@@ -168,7 +168,7 @@ If the data lie in a subspace $S$ that $F_1$ maps into itself and on which $F_2(
 \begin{proof}
 The solution is $u(t)=e^{F_1t}u_0\in S$, with $F_2(u\otimes u)=0$ throughout. In the tensor layout, which embeds the symmetric one (\Cref{prop:tensor-terms}), the top level evolves by the Kronecker sum of $F_1$ alone, so from $u_0^{\otimes K}$ it is $u(t)^{\otimes K}$. If level $k+1$ is $u(t)^{\otimes(k+1)}$, the $F_2$ terms feeding level $k$ apply $F_2$ to $u\otimes u$ in two adjacent slots, which is zero, so level $k$ evolves by $F_1$'s Kronecker sum and is $u(t)^{\otimes k}$. Down to the first level, $z_1=u(t)$.
 \end{proof}
-The Taylor--Green vortex is this case (\Cref{app:fluids}).
+The Taylor--Green vortex is this case (\Cref{app:fluid-data}).
 
 \subsection{The Time Axis, Uniqueness and the Error}
 \label{app:carleman-spacetime}
@@ -227,7 +227,7 @@ So $F_1=\operatorname{diag}(-\nu k^2)$ and $F_2$ is the bracket, each times $T/2
 \begin{equation}
     u(x,t)=\frac{4\nu\sum_{m\ge1}m\,I_m(\beta_B)\,e^{-\nu m^2t}\sin mx}{I_0(\beta_B)+2\sum_{m\ge1}I_m(\beta_B)\,e^{-\nu m^2t}\cos mx},
 \end{equation}
-from $u=-2\nu\,\partial_x\ln\varphi$, which turns Burgers' equation into the heat equation with $\varphi(x,0)=e^{-\beta_B}e^{\beta_B\cos x}$. The runs, all over $T=1$, are R9a to R9e at $a/\nu=0.03$, $0.3$, $1$, $3$ and $10$, each on $M=4$, $8$ and $16$ modes.
+from $u=-2\nu\,\partial_x\ln\varphi$, which turns Burgers' equation into the heat equation with $\varphi(x,0)=e^{-\beta_B}e^{\beta_B\cos x}$.
 
 \paragraph{Navier--Stokes.} \Cref{eq:navier-stokes} is carried on $\cos(\mathbf k\cdot\mathbf x)$ and $\sin(\mathbf k\cdot\mathbf x)$ over the half-plane $k_x>0$, or $k_x=0<k_y$, with $0<|\mathbf k|^2\le k_c^2$: $k_c^2=4$, $5$, $9$, $16$ and $25$ keep $M=12$, $20$, $28$, $48$ and $80$ modes, and $49$ and $100$, used for the tensor layout's coupling alone, keep $148$ and $316$. The mean vorticity is invariant and zero, and the stream function is eliminated, $\hat\psi_{\mathbf k}=\hat\omega_{\mathbf k}/|\mathbf k|^2$. With $\varphi_a$ a basis function of wavevector $\mathbf p$, $\varphi_b$ one of $\mathbf q$, and $\mathbf p\times\mathbf q=p_xq_y-p_yq_x$,
 \begin{equation}
@@ -235,16 +235,8 @@ from $u=-2\nu\,\partial_x\ln\varphi$, which turns Burgers' equation into the hea
 \end{equation}
 with $\sigma=-1$, $h=\sin$ for a cosine and $\sigma=1$, $h=\cos$ for a sine, since $\nabla\varphi_a=\sigma_a\mathbf p\,h_a$ and $J(f,g)=\nabla f\times\nabla g$. The product $h_ah_b$ is a sum of the modes $\mathbf p\pm\mathbf q$, each folded into the half-plane, and the truncation keeps those in the set; every coefficient is rational and computed in exact arithmetic. Mode $c$'s equation is $w_c'=-\nu|\mathbf k_c|^2w_c+\sum_{a\le b}c_{cab}w_aw_b$, each coefficient times $T/2$, with $\nu=1$; the data enter as ratio rows anchored on the mode with the largest datum, which carries the regular datum.
 
-Two properties follow. \emph{Modes of equal $|\mathbf k|$ do not interact.} In the complex basis the Jacobian's coefficients are $\widehat J_{\mathbf k}=-\sum_{\mathbf p+\mathbf q=\mathbf k}(\mathbf p\times\mathbf q)\,\hat\psi_{\mathbf p}\hat\omega_{\mathbf q}$, and with $\hat\psi_{\mathbf p}=\hat\omega_{\mathbf p}/|\mathbf p|^2$, symmetrised over $\mathbf p\leftrightarrow\mathbf q$,
+One property follows. \emph{Modes of equal $|\mathbf k|$ do not interact.} In the complex basis the Jacobian's coefficients are $\widehat J_{\mathbf k}=-\sum_{\mathbf p+\mathbf q=\mathbf k}(\mathbf p\times\mathbf q)\,\hat\psi_{\mathbf p}\hat\omega_{\mathbf q}$, and with $\hat\psi_{\mathbf p}=\hat\omega_{\mathbf p}/|\mathbf p|^2$, symmetrised over $\mathbf p\leftrightarrow\mathbf q$,
 \begin{equation}
     \widehat J_{\mathbf k}=-\frac12\sum_{\mathbf p+\mathbf q=\mathbf k}(\mathbf p\times\mathbf q)\bigl(|\mathbf p|^{-2}-|\mathbf q|^{-2}\bigr)\hat\omega_{\mathbf p}\hat\omega_{\mathbf q},
 \end{equation}
-which vanishes for $|\mathbf p|=|\mathbf q|$; the real basis is a unitary change of the complex one. \emph{Without viscosity the truncation conserves the energy and the enstrophy exactly,}
-\begin{equation}
-    E=\tfrac14\textstyle\sum_mw_m^2/|\mathbf k_m|^2,
-    \qquad
-    Z=\tfrac14\textstyle\sum_mw_m^2 .
-\end{equation}
-With $P$ the projection onto the kept modes, $Z'\propto\langle\omega,PJ(\psi,\omega)\rangle=\int J(\psi,\omega^2/2)=0$ and $E'\propto\langle\psi,PJ(\psi,\omega)\rangle=\int J(\psi^2/2,\omega)=0$, because $J(f,g)=\partial_x(fg_y)-\partial_y(fg_x)$ is a divergence, whose integral over the periodic square vanishes.
-
-\paragraph{Initial conditions.} The Taylor--Green vortex $\omega_0=2\sin x\sin y=\cos(x-y)-\cos(x+y)$ occupies two modes with $|\mathbf k|^2=2$, whose coupling vanishes, so $\omega=\omega_0e^{-2\nu t}$ exactly in any truncation that holds them, and in the equation itself. Its data lie in a subspace that $F_1$ preserves and on which $F_2$ vanishes, so its lift is exact at every order (\Cref{prop:exact-lift}): R10a validates the lift, the time axis and the preparation at a known answer. The counter-rotating pair is $\pm e^{-|\mathbf x-\mathbf c|^2/(2\sigma^2)}$ with $\sigma^2=\tfrac14$ at $\mathbf c=(3\pi/4,\pi)$ and $(5\pi/4,\pi)$, periodised and projected exactly onto the modes: it has no cosine part, and its sine coefficients are proportional to $(-1)^{k_x+k_y+1}\sin(\pi k_x/4)\,e^{-|\mathbf k|^2/8}$, so modes with $k_x\equiv0\pmod4$ have zero datum. It spans several $|\mathbf k|$, so its triads are active. It is scaled to $\|w_0\|=a$ and run at $a/\nu=3$, $10$ and $30$ (R10b to R10d) over $T=1$, and at $a/\nu=30$ also over $T=1/8$. The reference for the lift and the time axis is the Galerkin system's \gls{ivp}, with its exact sparse Jacobian; the truncation's own error is measured against a pseudo-spectral \gls{dns} of \Cref{eq:navier-stokes} from the same data, whose slope inside the truncation is the Galerkin system's.
+which vanishes for $|\mathbf p|=|\mathbf q|$; the real basis is a unitary change of the complex one.

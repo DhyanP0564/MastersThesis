@@ -5,7 +5,7 @@ physics-informed effective Hamiltonians for quantum differential-equation solver
 supervisor Jingbo Wang; working title in `1_header/1_title.tex`, final choice in
 ThesisPlanning.md §13.1).
 
-**Governing plan: `ThesisPlanning.md`** (version 3.14, 2026-10-15; ten chapters, eleven appendices A–K). It fixes the
+**Governing plan: `ThesisPlanning.md`** (version 3.17, 2026-10-16; ten chapters, eleven appendices A–K). It fixes the
 chapter structure and order, the contributions, the three questions the thesis answers, the page
 budget, the notation and the claims each chapter may make. Where it conflicts with
 `thesis_guides/`, the plan wins; where anything conflicts with the Standing Facts below on a
@@ -121,14 +121,15 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   Ch. 6.
 - Chapter and section numbers as the plan fixes them (systems and nonlinearity one chapter,
   Ch. 6, "Systems and Nonlinearity", with eight sections; pipeline Ch. 7, Numerical Study Ch. 8 with
-  six sections, Discussion Ch. 9 with five, Conclusions Ch. 10; the critical assessment §3.5; the
+  six sections, Discussion Ch. 9 with five, Conclusions Ch. 10 with two sections (§10.1
+  Conclusions, §10.2 Future Work, which holds `sec:future-work`); the critical assessment §3.5; the
   standard form §4.4) in prose and header comments.
 - Acronyms defined at first use; `glossaries` entries present.
 - Australian spelling (`-ise`), except verbatim API names.
 
 ## Standing Facts (do not let drafts contradict these)
 
-Version 5.2 (2026-10-15; 5.2 scopes both norms and the floor, and the two-axis width is 26 qubits), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
+Version 5.3 (2026-10-16; 5.3: the ζ rule takes no term and its two constants are stated as calibrated; 5.2 scoped both norms and the floor, and the two-axis width is 26 qubits), from ThesisPlanning.md §0.1, §1, §3.1 and `pihm/docs/02_methods.md`.
 
 - **Framing.** The headline contribution is the **descriptor reformulation**. Four numbered
   supporting contributions: S1 the standard form, stated once (Ch. 4), each
@@ -219,8 +220,11 @@ Version 5.2 (2026-10-15; 5.2 scopes both norms and the floor, and the two-axis w
   only where the equation controls each of them. On a regular problem the
   gap is **proved Θ(1)**, in the chain unscaled or at a fixed ζ, and in the mass form (which has
   no derivative block, so nothing to rescale) (`thm:flat-gap`, App. D,
-  by compactness: no explicit constant, its value is measured). **Block rescaling** (an a priori
-  ζ from the equation and the resolution, never fitted) restores an O(1) gap on one axis
+  by compactness: no explicit constant, its value is measured). **Block rescaling** (a weight ζ
+  per block from the equation's coefficients and the resolution; its two constants, the 2 and
+  the ½, were selected by calibration on the benchmark problems and then held fixed, never
+  refitted, so its check is in-sample; the rule takes no name or term, never "a priori" or
+  "calibrated rule"; deriving ζ from the equation is further work) restores an O(1) gap on one axis
   (measured on singular problems) and **adds no ancilla**. It is **not free in
   gates**: the weights enter the block register's patterns before their Pauli expansion, so a
   pattern equal across its blocks gains words (diag(1,1,0,0) two, diag(1,ζ,0,0) four); the terms

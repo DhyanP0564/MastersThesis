@@ -2,7 +2,7 @@
 
 ## Turning the `pihm` rebuild into a submittable (and publishable) Master's thesis
 
-*Version 3.14, 2026-10-15 (v3.14: the appendices restructured, 13 → 11, in chapter order: the gate reference deleted, every test of the paper gathered in Appendix I, every tier-labelled number outside Chapter 8 in Appendix H, Appendix J cut to one page that cites the repository at a frozen tag, and the material moved to the repository staged in `3_footer/appendices/_offload_to_pihm.tex`; every appendix letter in this plan updated, the old → new map in §6. v3.13: Chapter 1 re-planned against the drafted chapters to an unheaded opening (target, method, the cost left open, the number, quoted as built and at the ideal bound) and two subsections, Contributions and Scope (§1.1) and Outline (§1.2); the survey of algorithm families and concept figure F0 dropped, the contributions listed without labels; every §1.x pointer in this plan and the style guide retargeted (§5.1, §4.2). v3.12: Chapter 10 written as one continuous chapter, its two subsections merged: the verdicts in the order of the questions, without contribution labels or section pointers, and the further work grown out of the two limits that bound the result (§5.10, §4.2). v3.11: the class of problem named once. `def:regular` (§5.3, before `thm:flat-gap`) defines a *regular* problem, one axis, polynomial coefficients, a leading coefficient without zeros on [−1, 1], analytic data and a solution unique up to scale, which are `thm:flat-gap`'s hypotheses, and a *singular* one, whose leading coefficient has a zero; every later degree, gap and α scope cites the class by name (§3.4) instead of restating the condition, and the restatements that dropped part of the hypotheses are gone. v3.10: Chapter 5's "Constraints and Partial Differential Equations" merged into §5.2, renamed "The Descriptor Residual and Its Kernel", the constraints stated before the kernel theorem that assumes them and the several axes after it; §5.4–5.9 renumbered §5.3–5.8 throughout. v3.9: Chapter 5's opening, "The Idea" and "The Banded Factorisation" merged into one §5.1, the factorisation being the idea; §5.3–5.10 renumbered §5.2–5.9 throughout. v3.8: Chapter 5's review pass: block rescaling adds no ancilla but is not free in gates, so "no gate cost" is withdrawn everywhere; the regular one-axis gap proved Θ(1) (`thm:flat-gap`, App. D); Algorithm 5.1 moved to App. D beside its walkthrough. v3.7: the typeface, T-06: matrices italic, register-changing maps calligraphic, blackboard bold only for number sets, expectation and, pending, the constraint rows. v3.6: the opening and closing convention, §3.5 rule 1, and the narrative threads, §3.2, after Green's exemplar: a chapter arrives at its question from the tension the previous chapter left, carries no section roadmap, and closes on a hand-off; the chapter entries of §4.2 and §5 amended to match. v3.5: `StructuralReview.md` F4, F5 and F7 applied: Chapter 2 restructured and drafted (§5.2), Q(iii) given its second half (§3.2), the ladder moved to §4.1 and "trusted" defined at its first use in §4.3. v3.4: the structural pass F1–F3 of `StructuralReview.md` applied: the evidence rule in T-20, the departures compressed (T-30, T-34), Chapter 7 compressed, the budget of §4.1 revised. v3.3: Chapter 8 drafted against the results-v1 records; its deviations from §5.8 and the corrections they forced are marked "v3.3" in place. v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
+*Version 3.17, 2026-10-16 (v3.17: Chapter 10 split into two subsections, after Gemini's point 10 (`GeminiReviewPlan.md` row 10, Prompt 5). §10.1 Conclusions answers Q(i)–(iii) in turn, naming them, then the thesis statement, the implications beyond the method and the two boundaries, one sentence for each point Ch. 9 proves and no mechanism retold; §10.2 Future Work carries bold run-in leads and gains the measured datum-row weights recast as a question, the ultraspherical expectation of §9.5 and the derivation of ζ from the equation. The no-results rule stands (§5.10, §4.2). v3.16: the ζ rule takes no name or term, never "a priori" (which stays for the filter's parameters) and never "calibrated rule"; §5.4 states that its two constants were selected by calibration on the benchmark problems and held fixed, why a simple zero needs ζ ∝ N, that a coefficient dipping near zero defeats the regular weight, and that deriving ζ from the equation is further work (GeminiReviewPlan.md rows 5a–5c). v3.15: Chapter 10 re-planned as four movements, the so-what (one thesis statement answering the three questions in words), implications beyond the method, limitations as boundaries with their barriers, and a forward horizon of three open questions; the verdict for each contribution is dropped as a restatement of Chs 8–9, and Ch. 10 now reframes Ch. 9 without re-deriving it (§5.10, §3.1). v3.14: the appendices restructured, 13 → 11, in chapter order: the gate reference deleted, every test of the paper gathered in Appendix I, every tier-labelled number outside Chapter 8 in Appendix H, Appendix J cut to one page that cites the repository at a frozen tag, and the material moved to the repository staged in `3_footer/appendices/_offload_to_pihm.tex`; every appendix letter in this plan updated, the old → new map in §6. v3.13: Chapter 1 re-planned against the drafted chapters to an unheaded opening (target, method, the cost left open, the number, quoted as built and at the ideal bound) and two subsections, Contributions and Scope (§1.1) and Outline (§1.2); the survey of algorithm families and concept figure F0 dropped, the contributions listed without labels; every §1.x pointer in this plan and the style guide retargeted (§5.1, §4.2). v3.12: Chapter 10 written as one continuous chapter, its two subsections merged: the verdicts in the order of the questions, without contribution labels or section pointers, and the further work grown out of the two limits that bound the result (§5.10, §4.2). v3.11: the class of problem named once. `def:regular` (§5.3, before `thm:flat-gap`) defines a *regular* problem, one axis, polynomial coefficients, a leading coefficient without zeros on [−1, 1], analytic data and a solution unique up to scale, which are `thm:flat-gap`'s hypotheses, and a *singular* one, whose leading coefficient has a zero; every later degree, gap and α scope cites the class by name (§3.4) instead of restating the condition, and the restatements that dropped part of the hypotheses are gone. v3.10: Chapter 5's "Constraints and Partial Differential Equations" merged into §5.2, renamed "The Descriptor Residual and Its Kernel", the constraints stated before the kernel theorem that assumes them and the several axes after it; §5.4–5.9 renumbered §5.3–5.8 throughout. v3.9: Chapter 5's opening, "The Idea" and "The Banded Factorisation" merged into one §5.1, the factorisation being the idea; §5.3–5.10 renumbered §5.2–5.9 throughout. v3.8: Chapter 5's review pass: block rescaling adds no ancilla but is not free in gates, so "no gate cost" is withdrawn everywhere; the regular one-axis gap proved Θ(1) (`thm:flat-gap`, App. D); Algorithm 5.1 moved to App. D beside its walkthrough. v3.7: the typeface, T-06: matrices italic, register-changing maps calligraphic, blackboard bold only for number sets, expectation and, pending, the constraint rows. v3.6: the opening and closing convention, §3.5 rule 1, and the narrative threads, §3.2, after Green's exemplar: a chapter arrives at its question from the tension the previous chapter left, carries no section roadmap, and closes on a hand-off; the chapter entries of §4.2 and §5 amended to match. v3.5: `StructuralReview.md` F4, F5 and F7 applied: Chapter 2 restructured and drafted (§5.2), Q(iii) given its second half (§3.2), the ladder moved to §4.1 and "trusted" defined at its first use in §4.3. v3.4: the structural pass F1–F3 of `StructuralReview.md` applied: the evidence rule in T-20, the departures compressed (T-30, T-34), Chapter 7 compressed, the budget of §4.1 revised. v3.3: Chapter 8 drafted against the results-v1 records; its deviations from §5.8 and the corrections they forced are marked "v3.3" in place. v3.2: plan §5.6 checked against `pihm`'s companion, reports and code; its corrections are marked "v3.2" in place). Ten chapters. Chapter 3 presents and judges Wu et al.'s method as
 prior art; Chapter 4 states the construction once, in the form this thesis runs (the standard
 form), and answers the first question; the reproduction and audit of the paper live in Appendix I.
 v3.1 merges v3.0's Chapters 6 (systems and complex-valued fields) and 7 (nonlinearity) into one
@@ -69,7 +69,7 @@ costs. This thesis answers both, in seven steps (steps 6 and 7 are one chapter, 
 4. **Its challenge.** The descriptor's norm carries every derivative it carries. Its gap is flat
    only where the equation controls each of them: a *regular* problem (one axis, a leading
    coefficient without zeros; `def:regular`). On a *singular* problem, and on two axes, the gap closes with N, and the derivative blocks
-   crowd the field block out of the ground state. An a priori block rescaling, folded into the LCU
+   crowd the field block out of the ground state. Block rescaling, one weight per block folded into the LCU
    coefficients without ancilla, restores an O(1) gap on one axis. On two axes the gap still falls,
    and a double zero is beyond any rescaling. Measured as built and at an ideal encoding, the
    descriptor needs far fewer queries on one-axis problems, modestly fewer on most PDEs, and more
@@ -135,7 +135,7 @@ Columns: **S** = scaffolded to this plan, **D** = drafted, **N** = numbers curre
 | 7 Pipeline, `7_pipeline.tex` | ☑ | ◐ | ☐ | ◐ | ☐ | first-pass prose to plan §5.7 (2026-10-12); reviewed 2026-10-12 and fixes applied: the fairness declaration corrected (as built favours the descriptor; also Ch. 4 §4.4, this plan, STYLE_GUIDE, CLAUDE.md); reflection credited to qubitisation/QSVT; trim candidates executed (F2 dropped; `tab:run-inputs` → App. H; iterative reference, T1 cost model and `tab:acceptance` → App. G; `eq:qite-filter` and `eq:readout-identity` → App. F); verification and filter-study numbers → §8.1's NOTE. v3.4 pass (F3): `tab:constraint-kinds` → App. H; `prop:filter-normalisation` and the imaginary-time detail → App. F; `tab:verification-modes` → App. G; the T1 frontier and the fairness numbers → §8.1–8.2; 5,147 → 4,223 words, about 9 pp against 6 (F3's estimate was optimistic: the next cuts are Review Mode's). Review 2 (2026-10-13): Lin–Tong attribution corrected; R2a's relative gap → §5.8, the iterative reference's reach → App. G (evidence rule); GQSP and the filter's optimality left to §2.4; heights, amplification footnote and `eq:error-budget` → App. F, G; probe claim narrowed; closing hand-off added; 8.3 → 7.5 pp measured. Open: plan §2.2 TODO |
 | 8 Numerical Study, `8_results.tex` | ☑ | ◐ | ◐ | ☐ | ☐ | first pass 2026-10-12 against the results-v1 records (every key resolves; rerun the exporter `--used-only` to refresh the committed `numbers.tex`); deviations from §5.8 marked v3.3 (F10 → `tab:growth`; R10 scope 12–48 prepared, 80 built; no T1 on R10). Review pass 2 (2026-10-13): 13.3 → 10.9 pp measured against 10 (F7, F8 → App. G; F12 now the reversals figure in §8.2; three-problem list cut per §4.1's trim order; ideal-bound degrees added on R7, R8, Burgers; heat reversal scoped to R5b at the ideal bound; Burgers' time-axis advantage scoped to n_t ≥ 4). Figures F7–F9, F11–F14 are placeholders (notebooks not exported). Open: the `\prov` items of plan §2.1 |
 | 9 Discussion, `9_discussion.tex` | ☐ | ☐ | ☐ | ☐ | ☐ | scaffold aligned 2026-10-12: "What the Reproduction Says About the Published Method" removed. Open: T9 gains two rows |
-| 10 Conclusions, `10_conclusions.tex` | ☑ | ☑ | ☑ | ◐ | ☐ | v3.12 (2026-10-14): drafted, reviewed and rewritten as one continuous chapter (no subsections, no contribution labels); every key current; about 2.9 pp against 2. Open: the verdicts to be checked against §1.1 once it is drafted |
+| 10 Conclusions, `10_conclusions.tex` | ☑ | ☑ | ☑ | ☐ | ☐ | v3.17 (2026-10-16): split into §10.1 Conclusions and §10.2 Future Work (§5.10), redrafted by Claude for the author to rewrite; no result quoted; 3.05 pp before the split, 2.4 pp after (§10.1 ≈ 1.25, §10.2 ≈ 1.15), measured in a scratch build, 0.4 pp over budget. Open: the author's rewrite; a Review Mode pass; the FOSLS CITE-NEEDED in §10.2 |
 | Appendices A–K | ◐ | ☐ | ☐ | ☐ | ☐ | restructured 2026-10-15 (plan §6); A–H drafted (small REVISEs in F, G, H); I drafted except the hypotheses for Figs 6–7, the claims' derivations and the paper-faithful conventions; J to write (one page); the writing order is in §6 |
 | `ref.bib` audit (T-29) | – | ☐ | – | – | ☐ | before W1 drafting ends |
 | Verification Mode pass | | | | ◐ | | §14. Chs 3–7 against the appendices and the code, 2026-10-12: findings A1–A9, B1–B12, C applied |
@@ -173,7 +173,7 @@ their subjects are held by T-20 and T-31, T-24, T-27 and T-30.
 | T-18 | appendix files | **one file per appendix** under `3_footer/appendices/`; the proposal PDF included with `pdfpages` | |
 | T-19 | notation collisions | raw basis subscript **raw**; block-rescaling constant **ζ**; the paper's ladder coefficient **μ**; condition number **cond(·)**; doubled-space Hamiltonian **H_⊗** | plan §8.2 |
 | T-20 | chapter order | **Story first.** After the paper's critical assessment (Ch. 3) come the three answers in order: the standard form and its cost (Ch. 4, Q(i)); the descriptor (Ch. 5, Q(ii)); the extensions beyond one real field (Ch. 6, Q(iii)), coupled systems first, as the prerequisite of nonlinearity. The shared pipeline and the design of the numerical experiment follow as Ch. 7, immediately before the evidence (Ch. 8). The degree formula for filtering an edge ground state is in the background (§2.4, v3.5), so Chs 4–6 can argue costs. Ch. 8 has one section per question or contribution. **Evidence rule (v3.4, `StructuralReview.md` F1):** Chs 4–6 quote proofs and exact classical computations on the assembled operators only (norms, gaps, kernel dimensions, field weights, α/‖·‖ of built encodings); every filter degree, preparation, gate count and tier-labelled number lives in Ch. 8. A formulation chapter derives its law through `eq:degree` and names the results section that measures it; Ch. 7 states no result | the reader meets the tension (the Hamiltonian's cost) before the machinery; the pipeline, placed before Ch. 8, reads as the method of a numerical study, where the rubric's "design of numerical experiment" belongs |
-| T-21 | the descriptor's challenge | **Its own body subsection** (§5.3, the gap of a carried derivative) before the cure (§5.4, block rescaling), and its own results section (§8.3) | a genuine failure of the naive reformulation, diagnosed, cured a priori and bounded: what the top band calls insight |
+| T-21 | the descriptor's challenge | **Its own body subsection** (§5.3, the gap of a carried derivative) before the cure (§5.4, block rescaling), and its own results section (§8.3) | a genuine failure of the naive reformulation, diagnosed, cured without fitting to any solution and bounded: what the top band calls insight |
 | T-22 | first-order equations and systems | **The descriptor has two layouts**, named in the body: the chain (order ≥ 2) and the mass form (first-order equations and systems: I⊗D̃ − Γ⊗B̃, the standard rows times I⊗B̃). The kernel-equivalence theorem covers both; systems themselves are Ch. 6's | the mass form is the descriptor of R1 and R7–R10 |
 | T-23 | the preparation filter | **The minimax edge filter** prepares every comparison and extension; QITE is the paper's filter, run in the reproduction (App. I) and in the filter study (§8.1). β, the Bessel coefficients and Σ\|q_k\| = 1 stay, as the studied filter's | P8 runs the R1–R5 comparison under minimax in both forms |
 | T-24 | readout | **Classical.** The field is decoded from the prepared state; η from the regular datum. The paper's interferometric protocol, built and verified at small n with our correction for p_G < 1, is one paragraph in §7.7, its identity in Appendix F, and future work | `pihm` decision 27 |
@@ -318,7 +318,7 @@ the reference's accuracy, and App. D's probes (p9b–p22) ported as code-only ke
 
 ## 3. Contributions, questions, spine and vocabulary
 
-### 3.1 The contributions (each gets a verdict in Ch. 10, without its label)
+### 3.1 The contributions (answered through the three questions in §10.1, without contribution labels; v3.15: no verdict for each contribution)
 
 **Headline.**
 
@@ -328,7 +328,7 @@ the reference's accuracy, and App. D's probes (p9b–p22) ported as code-only ke
 > exactly the same kernel*. Its Hamiltonian has ‖H_desc‖ = Θ(N²) against the standard form's
 > Θ(N^{4k}); its block encoding is one flat LCU with ⌈log₂(n+4)⌉ + 8 ancilla for R2's system rows and
 > α/‖A_desc‖ → 1 on regular problems. The gap the derivative blocks erode is restored on
-> one axis by an a priori block rescaling without ancilla, so the filter degree is Θ̃(N) for a
+> one axis by block rescaling without ancilla, so the filter degree is Θ̃(N) for a
 > regular problem, against Θ̃(N^{2k}) for the standard form's best exact encoding. *Costs,
 > volunteered:* the block register, a higher gate count per query at small n on constant-coefficient problems, a gap that still falls
 > on two axes, and no remedy for a double zero. *Antecedents:* ultraspherical; first-order-system
@@ -423,7 +423,7 @@ chapter's own terms rather than by question number.
 > *Carrying the intermediate derivatives instead of eliminating them turns the physics-informed
 > residual from dense to banded with its kernel unchanged, so the Hamiltonian's norm falls from
 > Θ(N⁸) to Θ(N²) for a second-order equation; the price is a block register and a gap the
-> derivative blocks erode, which an a priori rescaling restores on one axis without ancilla.*
+> derivative blocks erode, which block rescaling restores on one axis without ancilla.*
 
 Place it, lightly reworded each time, in: the Abstract; the close of §1.1's first paragraph (the principal contribution); the close of §3.5 (as the
 question it answers); §5.1; §5.8; §8.6; Ch. 10's close.
@@ -455,7 +455,8 @@ question it answers); §5.1; §5.8; §8.6; Ch. 10's close.
 | sum of matchings | "sparse oracle" | Γ split by edge colouring (Ch. 6) |
 | realification; complex-valued field | "complex solver", "handles complex equations" (unscoped) | T-32: native complex preparation is not built |
 | benchmark problem R1–R10 | rung, case N | T-10 |
-| a priori parameters | "tuned", "chosen" | never against the answer |
+| a priori parameters | "tuned", "chosen" | never against the answer; only the filter's parameters (edge, α_R, ε) and the infidelity bound they give |
+| block rescaling; the block weight ζ (`eq:zeta-rule`) | "a priori rule", "calibrated rule", any other name for the ζ rule | v3.16: the rule takes no term; its two constants were selected by calibration on the benchmark problems and held fixed (§5.4, App. D) |
 | regular problem; singular problem (`def:regular`) | "a one-axis ODE whose leading coefficient does not vanish" restated as a scope; "well-behaved", "nice"; "regular" for a two-axis problem or for a coefficient condition alone | one axis only; regular bundles all of `thm:flat-gap`'s hypotheses; "regular datum" (the collapse row's value) is unrelated and keeps its name; x_s is the *datum point*, never "regular point", which in ODE theory means a_k(x) ≠ 0 (R3's x_s = 1 is a singular point of Legendre's equation) |
 
 **Naming the forms (T-37).** The standard form is defined by its own construction, never by the
@@ -479,7 +480,7 @@ nothing on the data). After Chapter 5, the first use in a chapter carries a `\Cr
 caption that names a class glosses it ("one axis, the leading coefficient without and with a zero on
 [−1, 1]"); the Abstract, §1 and §10 gloss it in a clause. Describing a particular equation's
 coefficient ("R3a, whose leading coefficient vanishes at both ends"), a mechanism ("where a_k vanishes
-the recovery of the top block fails") or the a priori rule's implemented test is not a scope and keeps
+the recovery of the top block fails") or the ζ rule's implemented test is not a scope and keeps
 its words.
 
 ### 3.5 A scientific argument, not a code map
@@ -661,7 +662,8 @@ enforced in Review Mode only (`CLAUDE.md`).
 
 % 2_body/10_conclusions.tex  (~2 pp)
 \section{Conclusions and Future Work}                         % sec:conclusions
-  % no subsections (v3.12); sec:future-work labels the hinge paragraph
+  \subsection{Conclusions}                                     % sec:conclusions-answers (v3.17)
+  \subsection{Future Work}                                     % sec:future-work; bold run-in leads
 ```
 
 ### 4.3 Scaffold conventions
@@ -719,12 +721,12 @@ introduction (motivation, contributions, outline) and Green's unheaded first pag
 opening convention of §3.5 rule 1. v3.12's four subsections are reduced to two because their
 first two were one argument split in half: §1.1 surveyed the algorithm families that Ch. 2 already
 judges, and §1.2 then had to restart from Wu et al. The opening now runs target → method → the cost
-left open → the number without a break, and mirrors Ch. 10's first paragraph, so the thesis opens
-and closes on the same tension. Dropped: the family-by-family sentences (Ch. 2's job; one sentence
+left open → the number without a break, and §10.1 answers it (v3.17), so the
+thesis opens on the tension and closes on its resolution. Dropped: the family-by-family sentences (Ch. 2's job; one sentence
 of its thread stays), concept figure F0 (the number does its work, and `tab:headline` carries it in
 Ch. 8), and an italic list of the three questions (stated formally once, in §3.5; the opening
 names them in one prose sentence). The prose carries no internal labels (C, S1–S4, Q(i)–(iii)) and
-no run-in headings (as Ch. 10).
+no run-in headings.
 
 **Scaffold.**
 
@@ -740,7 +742,7 @@ no run-in headings (as Ch. 10).
    - *The cost left open (0.45 p).* One query against the number of queries; the degree law inline
      (the labelled `eq:degree` is Ch. 2's); Wu et al.'s two open problems quoted, as the degree's
      denominator and, on our reading, its numerator; the thesis's questions in one prose sentence,
-     worded as Ch. 10's opening (what sets the number of queries; whether changing the residual
+     worded as §10.1's answers (what sets the number of queries; whether changing the residual
      rather than the circuit lowers it without changing the solution; whether that survives
      nonlinear equations, where the paper's construction projects).
    - *The number (0.4 p; before the end of page 2).* R2a at n = 8, minimax edge filter, resource
@@ -781,8 +783,8 @@ no run-in headings (as Ch. 10).
 **Marker checklist.** A non-specialist physicist can state the problem after the opening; a number
 on or before page 2, as built and at the ideal bound; every contribution falsifiable with its
 evidence; the scope explicit, tiers and "no hardware" included; Wu et al. attributed at first
-mention; the outline matches the headings verbatim; every promise has a verdict in Ch. 10, and
-nothing more.
+mention; the outline matches the headings verbatim; every promise is answered in §10.1, and nothing
+more is promised.
 
 **Traps.** A survey of algorithm families; leading with the descriptor before the reader knows the
 baseline; claiming a speed-up; listing S2 as a rival method; an unscoped descriptor claim; "the
@@ -863,7 +865,7 @@ count (`eq:degree`). The PIHM sits where the three meet, and its authors left it
    §2.2); first-order decomposition restores O(h⁻²) and decouples the unknowns (§2.3); the standard
    form is the high-order least-squares method, the descriptor FOSLS in a spectral basis; the filter
    pays R's conditioning, not R†R's. **The increment** (kernel proof; flat LCU, O(log n) ancilla;
-   the gap's erosion and a priori rescaling; the measured degree). Fourier–Galerkin in one
+   the gap's erosion and block rescaling; the measured degree). Fourier–Galerkin in one
    paragraph.
 4. **§2.4 Block encodings, signal processing and filtering (1.8 p; `sec:bg-primitives`).** The
    (α, m, ε) definition (`def:block-encoding`), α ≥ ‖A‖, LCU, ⌈log₂ L⌉ selectors, qubitisation;
@@ -1332,9 +1334,15 @@ challenge); companion 12–13, 50–57; claims B-01–B-07, B-14, B-20, B-21, C-
      register's patterns are expanded in Pauli words: no ancilla, but a pattern equal across its
      blocks gains words, so terms and gates per query grow by at most 4^{n_f}, fixed by the
      equation, not by n** (v3.8, 2026-10-13; the old "no gates" was false as built).
-   - **The a priori rule** (never fitted): ζ = 2|ā₀/ā_k|^{1/k} for a regular problem; N/2 for a
+   - **The weight** (no name or term, v3.16): ζ = 2|ā₀/ā_k|^{1/k} for a regular problem; N/2 for a
      singular one; N per PDE axis, balanced by the
-     top-order coefficients (the wave's (cN, N)). Padding decouples; c_pad = 1.
+     top-order coefficients (the wave's (cN, N)). Padding decouples; c_pad = 1. Why ζ ∝ N at a
+     simple zero: the concentrated states' quotient is O(N⁻⁴ζ^{2k}) (App. D), so ζ ∝ N^{2/k}, N at
+     second order; a double zero needs N^{4/k}. The two constants (the 2 and the ½) were selected
+     by calibration on the benchmark problems and held fixed, never refitted; the check is
+     in-sample. The classes are asymptotic: a regular coefficient dipping near zero behaves as
+     singular once resolved, where the regular weight loses (`zeta-dip` keys, App. D). Deriving ζ
+     from the equation is further work (`sec:future-work`).
    - What it restores: an O(1) gap on every one-axis panel the descriptor runs, and γ² of order
      0.01–0.76 against as little as 1e-19 unscaled (§8.3 has P8's).
    - **What it does not:** on a singular problem ‖H‖ grows as ζ^{2k}, so the
@@ -1393,7 +1401,7 @@ the gap's failure owned with its mechanism; the rescaling's limits stated; every
 passes the equation test.
 
 **Traps.** "O(1) ancilla"; "+ 6 ancilla"; "bit-identical a-block"; "the gap is Θ(1)" unscoped;
-"rescaling costs Θ(n_f) gates"; "ζ fitted"; "only the descriptor can prepare nonlinear solutions".
+"rescaling costs Θ(n_f) gates"; "ζ fitted" per problem (two constants calibrated once, held fixed); "a priori" for the ζ rule; "only the descriptor can prepare nonlinear solutions".
 
 ---
 
@@ -1745,7 +1753,7 @@ sentence; the full per-problem results → Appendix H; the reproduction of the p
    not reverse; the heat panel → §8.3). Interpretation: the encoder's cost (the paper's to
    structured) and the Hamiltonian's cost (structured to descriptor) as two gaps on one plot.
 3. **§8.3 The descriptor's gap and its rescaling (1.5 p; the challenge; `sec:results-gap`).**
-   **Figure F11** (nb 42): the gap and γ² unscaled against rescaled, every panel; the a priori rule
+   **Figure F11** (nb 42): the gap and γ² unscaled against rescaled, every panel; the ζ rule
    against the best ζ on a grid; where it stops (two axes, the singular ‖H‖ growth). **Figure F12**
    (nb 43): three representative problems in both forms, each with its solution and cost: R2c
    (stiff: rescaling's biggest gain), R3a (a leading coefficient with zeros: where the ideal-bound
@@ -1834,40 +1842,89 @@ band-4 separator.
 
 ### 5.10 Chapter 10: Conclusions and Future Work (2 pp; Conclusions /10)
 
-**Form (v3.12).** One continuous chapter with no subsections and no run-in headings, after Snow's
-§8.1: it reads on its own, as a scientific argument rather than a list of verdicts. Contribution
-labels (C, S1–S4), question numbers and section pointers stay out of the prose; problems are named
-by their physics with their R-label beside it. The order:
+**Form (v3.17).** Two subsections, **§10.1 Conclusions** (about 1 p) and **§10.2 Future Work**
+(about 1 p), after Gemini's point 10 (`GeminiReviewPlan.md` row 10): the v3.15 chapter's first five
+paragraphs restated §§9.1–9.4 paragraph by paragraph and buried the further work, which the rubric
+marks as half the criterion. **Ch. 10 reframes Ch. 9 and never re-derives, re-lists or re-numbers
+it**: §9.1–9.5 hold the mechanisms and the inventory of limits, Ch. 10 what they mean, one sentence
+for each point Ch. 9 proves and no mechanism retold. §10.1 is structured around the three questions
+of §3.5 and may name them, (i)–(iii), with one pointer to §3.5; contribution labels (C, S1–S4) and
+other section pointers stay out of the prose. §10.2's paragraphs carry bold run-in leads
+(`\paragraph{…}`, as §3.5's), one open question each, with its motivation and one concrete first
+step. **No results (author's rule, 2026-10-15):** Ch. 10 quotes no `\res`, no measured number and
+discusses no result. Every point it uses is already proven by Ch. 9 from Ch. 8's results and
+Ch. 7's method, and is stated as established; a point that needs a result is moved into Ch. 9 first
+(the R2a division of the degree and the as-built bias went to §9.2, the R1 depth to §9.4). Problem
+labels appear only in §10.2, to name where a first step would run. No new citations (works cited
+elsewhere may be re-cited: `wu2025pihm`, `olver2013`, `cai1994fosls`, `liu2021carleman`); a claim
+that needs a new source goes into Ch. 9 first. The v3.15 form (four movements, no subsections, no
+run-in headings, no question numbers) and the v3.12 form before it are superseded.
 
-1. **The tension (one paragraph).** A polynomial gate count prices one query, not the number of
-   queries; that number is the filter's degree, whose two terms are Wu et al.'s two open problems;
-   the three questions in words.
-2. **The verdicts, in the order of the questions**, each with its headline number by `\res` and its
-   tier: the standard form and the encoder's cost against the Hamiltonian's (S1, S2); the
-   descriptor, credited to its antecedents, and its price, the norm moved into the gap (C);
-   nonlinearity, projection against preparation, and the negative finding that a trusted kernel can
-   hide a diverging lift (S4); the pipeline and the tiers, then "neither form is poly-log" and the
-   one-axis comparison with a classical spectral solver (S3).
-3. **The hinge (label `sec:future-work`).** What bounds the answers: the gap on several axes and the
-   edge taken from the reference. The further work grows out of these two, at length, then the
-   narrower directions in less space:
-   1. the gap on several axes: datum rows weighted towards high frequency (the fractional norms of
-      first-order-system least squares) on R5a; then the full ultraspherical reduction;
-   2. the edge without the reference: a quantitative `thm:flat-gap` for constant coefficients
-      (the explicit solution operator in place of compactness); on-circuit estimation elsewhere;
-   3. a reference-free test of the lift's convergence (consecutive Carleman orders), checked on the
-      existing references; Burgers' boundary between a/ν = 3 and 10;
-   4. native complex preparation (complex loaders; z′ = −iπz against R7) and data-informed rows
-      (an observation as a ratio-type row against the regular datum; formulation only);
-   5. the output as a state: a shot-count study of the interferometric readout on R2a; hardware,
-      with R1 at n = 2 as the scale (minimax descriptor: 9 qubits, degree 24, 1,898 two-qubit gates
-      per query, keys `stateprep/R1/descriptor/n2/T1/filter=minimax`, `encode/R1/descriptor/n2`;
-      the earlier "11 qubits, d = 89" was the QITE record).
-   Dropped: the gate-level DCT, which serves only the doubled space, a route that prepares nothing.
-4. **The transferable principle, last:** *condition the residual before encoding it*, with its
-   limit (the conditioning moves from the norm to the gap).
+**§10.1 Conclusions** (`sec:conclusions-answers`), in this order:
 
-No new results and no new citations in this chapter.
+1. **Q(i).** Wu et al. priced one query and left the gap and the cost of differentiation open. The
+   query count is the filter's degree; in their circuits its larger factor is the encoder's, which
+   an exact structured encoding removes; the Hamiltonian's remainder is Θ̃(N^{2k}) for constant
+   coefficients under every block encoding and every polynomial filter of the walk, so the cost of
+   differentiation returns in the number of queries (§9.2).
+2. **Q(ii).** Yes, with the same kernel: the banded factors kept apart (chain; mass form), Θ̃(N) on
+   a regular problem (glossed in a clause); the price is the gap: block rescaling (no term for its
+   rule, v3.16) restores it on one axis without ancilla at a gate cost fixed by the equation, about
+   Θ̃(N²) on singular problems; on two axes it falls whatever the weights; the remaining prices are
+   constants, so the advantage lies in the degree (§9.1).
+3. **Q(iii).** Projection against preparation; the Carleman lift prepared in both forms to 2-D
+   Navier–Stokes (T2, T3, named as exact emulation and resource estimate); the advantage survives
+   through the time axis; uniqueness certifies the truncation only; ρ < 1 a worst case (§9.3).
+4. **The thesis statement** and its implications: *ground-state preparation of a differential
+   equation costs what its residual's conditioning costs, and conditioning is fixed by the
+   formulation*; the filter, the encoder and the circuit change constants; neither form poly-log.
+   (a) The encoder/Hamiltonian audit applies to any filter-based block-encoded algorithm, and a
+   comparison speaks about Hamiltonians only at the ideal bound, as built favouring the tighter
+   encoding (§9.2). (b) The degree has the linear-systems κ form; classical conditioning theory is the
+   design toolkit (two pieces transferred); the classical solve already shows the conditioning
+   (§9.2). (c) No speed-up over classical solvers claimed: log(1/δ) resolution, O(N) ultraspherical on
+   one axis, an advantage possible only on several axes, where the gap is least secure; what is
+   possible is a degree that tracks the classical cost in order on a regular problem, and nonlinear
+   flows prepared as unique ground states.
+5. **Two boundaries.** (a) The gap on several axes: a discrete coercivity that fails on two axes
+   (an inference; the repairs tried, block rescaling and reweighting the datum rows, are stated in
+   §10.2 and not repeated) (§9.1); the boundary lies where an advantage could exist. (b) The prepared state against the answer: edge,
+   lift convergence and readout supplied classically, references that do not exist where the method
+   would matter; depth, not width, places every preparation on error-corrected hardware (§9.4–9.5).
+
+**§10.2 Future Work** (`sec:future-work` on its heading), four paragraphs with bold leads:
+
+1. **A gap on several axes.** The question that decides whether the route competes with classical
+   spectral solvers. Power weights on the datum rows were measured (§9.1, App. D): they raise the gap
+   more than the norm and lower the cost modestly, but the weighted gap still falls with every qubit
+   (never "the norm rises as fast", docs/14's claim, which the export did not bear out). The next
+   question is whether any reweighting (alone or with block rescaling, untested), or added rows of
+   the kind first-order-system least squares uses to make its functional coercive, supplies the
+   coercivity (hedged; a specific FOSLS device needs a source, which goes into Ch. 9 first). First step: datum rows on the carried derivative blocks of Laplace's equation (R5a),
+   which leave an exact kernel unchanged. Then the full ultraspherical reduction, with §9.5's
+   expectation (Θ̃(N) on a regular problem, suggested, untested): build it and measure R2a, R3 and
+   R5b.
+2. **Deriving the block weight.** The two constants of ζ's rule were selected by calibration and
+   held fixed; the concentrated states' quotient already fixes ζ's growth with N, so derive the
+   weight, constants and crossover between the classes included, from the equation (the item §5.4
+   points to); first step: the regular coefficient that dips towards zero (App. D). The floor
+   beneath it: whether a diagonal structured in the Chebyshev index, cheap to encode, does for the
+   degree what diagonal preconditioning does for the ultraspherical method, or whether N is the
+   least on one axis.
+3. **Self-certification.** A quantitative `thm:flat-gap` for constant coefficients (the explicit
+   solution operator in place of compactness), checked on R1 and R2; on-circuit edge estimation from
+   the walk's eigenphases elsewhere; consecutive Carleman orders as a reference-free convergence
+   test, checked on existing references (Burgers between a/ν = 3 and 10, R9); a shot-count study of
+   the interferometric readout on R2a.
+4. **What the residual carries.** The residual as an interface (rows for fields, realified complex
+   equations, in principle data); native complex preparation (complex loaders, no new filter;
+   z′ = −iπz natively against R7); noisy data rows, whose least-squares fit may lose the gap (first
+   step: noisy observations added to a regular problem). Close on the shift in one sentence: the
+   route was built from its circuits outward; its cost is decided by the residual, best conditioned
+   before it is encoded.
+
+The live `\Cref{sec:future-work}` (§5.4 deriving ζ; Ch. 6 native complex; Ch. 7 readout; App. K
+data rows) all land in §10.2, and Ch. 9's closing hands off to it. Dropped: the gate-level DCT.
 
 ---
 
@@ -2207,7 +2264,7 @@ draft).
 | TR-5 | "isn't this ultraspherical, or FOSLS?" | high | credited first (T-26), with the increment stated in §2.3 and §5.1 |
 | TR-6 | the concurrent sibling (Paine 2026) is read as pre-empting | low | cite it in §2.2 and §3.5 with what it does and does not do: alternative constructions and encodings, but no gap scaling in resolution, no circuits and no banded reformulation |
 | TR-7 | a marker reads the reversals (R3 at the ideal bound; the heat panel) as weakness | medium | they are numbered findings with their mechanism, and Table T9 turns them into guidance |
-| TR-8 | the known-edge assumption is attacked | medium | own it in §7.5 and §9.5; the edge without the reference is Ch. 10's second further direction |
+| TR-8 | the known-edge assumption is attacked | medium | own it in §7.5 and §9.5; the edge without the reference is §10.2's self-certification item |
 | TR-9 | page overrun | high | plan §4.1's trim order; Review Mode's per-chapter estimate; Ch. 3 and Ch. 4 drafted against 4 and 7.5 pp |
 | TR-10 | the marker ticks Theoretical | low | the formulation chapters already read as journal methods; move 2 pp from Ch. 8 into Chs 4–5 |
 | TR-11 | bibliography errors (wu2025pihm's authors) reach submission | certain unless fixed | T-29; §14.2 item 1 |
@@ -2280,7 +2337,7 @@ The seminar (25 minutes plus questions) is outside the document; F0 or F1, F9 an
 
 ### 14.1 Content
 
-1. Every §1.1 contribution has a verdict in Ch. 10 and evidence in Ch. 8 or Appendix I.
+1. Every §1.1 contribution is answered, through its question, in §10.1, and has evidence in Ch. 8 or Appendix I.
 2. Every Abstract number has a `\res` key and a Ch. 8 location.
 3. Every claim ID cited in prose reads ✅ or ⚠️-as-restated in the register at `results-v1` (§9).
 4. `grep` finds none of: "collocation" or "the paper's regime" naming the standard form; "O(1) ancilla"; "+ 6" ancilla;
