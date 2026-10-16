@@ -1,30 +1,6 @@
 \subsection{Modes, Sizes and Tolerances}
 \label{app:verification-modes}
 
-\begin{table}[htbp]
-    \centering
-    \caption[Operator verification modes and their tolerances]{\textbf{Every circuit is compared with an independently assembled operator.} Each verification mode by what it compares, where it is used and its tolerance. $X$, the target: the reflection's block $2H/\alpha_R^2-I$ or an atom's operator; $\alpha$, the circuit's subnormalisation; $\psi$, an input state; \gls{ir}, the compiled term list. The approximation mode applies only to Wu et al.'s approximate encoding of $\G$, which enters resource estimates alone.}
-    \label{tab:verification-modes}
-    \small
-    \begin{tabular}{@{}l p{0.37\linewidth} p{0.22\linewidth} p{0.19\linewidth}@{}}
-        \toprule
-        Mode & Comparison & Used on & Tolerance \\
-        \midrule
-        Exact & the whole block, one statevector evolution per input column, entry by entry & circuits whose input columns it can afford, to 25 qubits & max-abs $\le10^{-10}\|X\|_2$ \\
-        Probe & $4$ structured and $16$ Haar-random inputs against sparse products $X\psi/\alpha$ & every other circuit of at most 24 qubits & relative $\le10^{-9}$ per input \\
-        \gls{ir} & the compiled terms, summed to a sparse matrix, against the assembled operator & lifts and couplings at any size & relative max-abs $\le10^{-10}$ \\
-        Approx. & Wu et al.'s $\G$: entry error against its bound & the sizes the exact mode reaches & reported, not gated \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\linewidth]{Figs/verification_accuracy.pdf}
-    \caption[Verification error of every circuit, by mode]{\textbf{Every verified circuit encodes its operator to rounding, in every verification mode.} (a) Largest error of each verified circuit against its independently assembled operator, against the circuit's width in qubits: exact mode (filled markers; the reflection's whole block $2H/\alpha_R^2-I$, entrywise), probe mode (open markers; twenty structured and Haar-random inputs) and \gls{ir} mode (crosses; a lift's or coupling's compiled terms), for the structured standard-form and descriptor encodings and the Carleman lifts' couplings, with each mode's tolerance dashed (\Cref{tab:verification-modes}). Wu et al.'s encoding, approximate by construction, is not shown: only its encoding of $\G$ is compared, against its error bound, and it enters resource estimates alone. (b) Transpiled two-qubit gates per query of the reflection against $n$ on R2a, structured standard and descriptor forms. Every error lies at least four orders of magnitude below its tolerance; the widest exact verification, $\res{encode/R4d/faithful/standard/n3}{n_qubits_total}$ qubits, is from the reproduction. Exact classical computation from the built circuits.}
-    \label{fig:verification-accuracy}
-\end{figure}
-
 A block encoding $(U,\alpha)$ of an operator $X$ is exact when $\alpha\,\Pi_{\mathrm{out}}U\Pi_{\mathrm{in}}=X$, the projectors fixing the ancilla at zero. Every mode of \Cref{tab:verification-modes} compares that block, or its action on vectors, with a target built from the problem by the operator library and the residual's assembly, never from the compiler that produced the circuit; a target rebuilt from the circuit's own parts would check the compiler against itself. The pipeline's usual target is the stacked reflection's block $2H/\alpha_R^2-I$ with $H$ formed from the assembled residual; the atoms (the derivative, a lift, a feature-map row) are compared with their operators in the same way.
 
 \paragraph{Exact.} The whole block is reconstructed, one statevector evolution per input basis vector, and its largest entrywise error $\|E\|_{\max}$ is compared with $10^{-10}\|X\|_2$. An $r\times c$ block within that tolerance entry by entry has $\|E\|_2\le\sqrt{rc}\,\|E\|_{\max}$, so the mode certifies the circuit completely at that size. Its cost is $c$ evolutions of $2^q$ amplitudes.
@@ -173,7 +149,7 @@ The circuit's output has norm $\sqrt{p_G}$, so a rounding error of about $10^{-1
 
 \paragraph{The state metric.} For unit vectors the distance between states, $d(a,b)=\min_\phi\|a-e^{\mathrm{i}\phi}b\|=\sqrt{2-2|\braket{a|b}|}$, is a metric, and it is related to the infidelity $\epsilon=1-|\braket{a|b}|^2$ exactly by $\epsilon=d^2(1-d^2/4)$; so $d\approx\sqrt\epsilon$, and distances add by the triangle inequality where infidelities do not. Each distance is computed as the norm of a difference of phase-aligned vectors, never by the overlap formula, which cancels and cannot resolve distances below about $10^{-8}$, the size of the terms themselves.
 
-\paragraph{The chain.} A prepared state passes through three states on its way from the target, the ground state: the untruncated filter's output $\psi_0$, T2's state $\psi_2$, and the circuit's state $\psi_c$, which the realised phases prepare. The filter term $d(\text{target},\psi_0)$ is computed exactly from the physical subspace's \gls{svd}: with $c_i=\braket{v_i|\psi_{\mathrm{init}}}$ and $w_i$ the filter's value on the $i$-th singular value,
+\paragraph{The chain.} A prepared state passes through three states on its way from the target, the ground state: the untruncated filter's output $\psi_0$, the emulated state $\psi_2$, and the circuit's state $\psi_c$, which the realised phases prepare. The filter term $d(\text{target},\psi_0)$ is computed exactly from the physical subspace's \gls{svd}: with $c_i=\braket{v_i|\psi_{\mathrm{init}}}$ and $w_i$ the filter's value on the $i$-th singular value,
 \begin{equation*}
     \epsilon_{\mathrm{filter}}=\frac{\sum_{i\ge1}w_i^2|c_i|^2}{\sum_{i\ge0}w_i^2|c_i|^2},
     \qquad
@@ -208,6 +184,6 @@ where $f_{\mathrm{ref}}$ is the classical reference's own field, so that $\varep
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.72\linewidth]{Figs/decoded_field.pdf}
-    \caption[Field error of the prepared state against its budget]{\textbf{From $n=4$ the filter, not the resolution, sets the prepared field's error, and the error budget bounds it with a margin that widens with $n$.} Against $n$ for R2a in the descriptor: the $L^\infty$ error of the field decoded classically from the prepared state, the discretisation's error $\varepsilon_{\mathrm{disc}}$, and the budget of \Cref{eq:error-budget}, whole (with $\varepsilon_{\mathrm{disc}}$) and as its filter, truncation and phase terms, each carried to the field by the readout bound (\Cref{prop:readout-bound}); minimax filter, $\varepsilon=10^{-6}$. The error follows $\varepsilon_{\mathrm{disc}}$ to $n=3$; from $n=4$ it holds at $\res[2,sci]{stateprep/R2a/descriptor/n8/T2/filter=minimax}{field_err_linf}$, because the filter leaves the same infidelity at every $n$, while $\varepsilon_{\mathrm{disc}}$ falls to rounding. The filter term, which carries that infidelity through the bound's worst direction, lies above the error and grows with $n$ as the bound's amplification $K$ does, from $\res[3]{stateprep/R2a/descriptor/n4/T2/filter=minimax}{kappa_read}$ at $n=4$ to $\res[3]{stateprep/R2a/descriptor/n8/T2/filter=minimax}{kappa_read}$ at $n=8$; the truncation and phase terms are negligible. Exact emulation (T2).}
+    \caption[Field error of the prepared state against its budget]{\textbf{From $n=4$ the filter, not the resolution, sets the prepared field's error, and the error budget bounds it with a margin that widens with $n$.} Against $n$ for R2a in the descriptor: the $L^\infty$ error of the field decoded classically from the prepared state, the discretisation's error $\varepsilon_{\mathrm{disc}}$, and the budget of \Cref{eq:error-budget}, whole (with $\varepsilon_{\mathrm{disc}}$) and as its filter, truncation and phase terms, each carried to the field by the readout bound (\Cref{prop:readout-bound}); minimax filter, $\varepsilon=10^{-6}$. The error follows $\varepsilon_{\mathrm{disc}}$ to $n=3$; from $n=4$ it holds at $\res[2,sci]{stateprep/R2a/descriptor/n8/T2/filter=minimax}{field_err_linf}$, because the filter leaves the same infidelity at every $n$, while $\varepsilon_{\mathrm{disc}}$ falls to rounding. The filter term, which carries that infidelity through the bound's worst direction, lies above the error and grows with $n$ as the bound's amplification $K$ does, from $\res[3]{stateprep/R2a/descriptor/n4/T2/filter=minimax}{kappa_read}$ at $n=4$ to $\res[3]{stateprep/R2a/descriptor/n8/T2/filter=minimax}{kappa_read}$ at $n=8$; the truncation and phase terms are negligible. Exact emulation.}
     \label{fig:decoded-field}
 \end{figure}

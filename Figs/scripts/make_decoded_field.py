@@ -2,7 +2,7 @@
 
 The L-infinity error of the field decoded classically from the prepared state, the
 discretisation's error eps_disc, and the budget of eq:error-budget split into its filter,
-truncation and phase terms; minimax filter, eps = 1e-6, exact emulation (T2). The primary
+truncation and phase terms; minimax filter, eps = 1e-6, exact emulation. The primary
 preparations, as notebook 32_field_and_budget selects them.
 
 Run with the pihm environment:  /opt/miniconda3/envs/pihm/bin/python Figs/scripts/make_decoded_field.py
@@ -35,7 +35,7 @@ for column, text, colour, marker in (
 axis.plot(n, [r["eps_disc"] for r in rows], color=fs.MUTED, linewidth=1.1, marker="D", markersize=3.5,
           label=r"discretisation $\varepsilon_{\mathrm{disc}}$")
 axis.plot(n, [r["field_err_linf"] for r in rows], color=fs.INK, linewidth=1.5, marker="o",
-          label=r"field error ($L^\infty$, T2)", zorder=5)
+          label=r"field error ($L^\infty$, emulated)", zorder=5)
 axis.set_yscale("log")
 axis.set_xlabel("$n$")
 axis.set_ylabel("error in the field")

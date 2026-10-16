@@ -103,7 +103,7 @@ Every run is a problem of \Cref{tab:ladder} at a resolution, with the options of
         Filter & minimax edge filter; imaginary time & minimax; imaginary time in the filter study and the reproduction \\
         Target $\varepsilon$ & suppression of the excited spectrum relative to the ground state & $10^{-6}$; also $10^{-4}$ and $10^{-8}$ in the filter study \\
         Initial state & geometric product state, $r=\pm\tfrac12$; uniform; random & geometric; uniform and random as controls \\
-        Tier & circuit simulation (T1); exact emulation (T2); resource estimate (T3) & every tier the run's size allows (\Cref{sec:pipeline-verification}) \\
+        Tier & circuit simulation; exact emulation; resource estimate & every tier the run's size allows (\Cref{sec:pipeline-verification}) \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -115,7 +115,7 @@ The linear benchmark problems and the coupled oscillator R7 in both forms, with 
 
 \begin{table}[htbp]
     \centering
-    \caption[Infidelity and degree of every trusted preparation]{\textbf{Every trusted preparation meets its target, in both forms.} Per problem and form: the largest resolution $n$ (per axis on R5) with a trusted reference and an exact emulation, the prepared state's infidelity against the reference, and the minimax filter's degree. --, no trusted reference at the resolutions emulated. Exact emulation (T2).}
+    \caption[Infidelity and degree of every trusted preparation]{\textbf{Every trusted preparation meets its target, in both forms.} Per problem and form: the largest resolution $n$ (per axis on R5) with a trusted reference and an exact emulation, the prepared state's infidelity against the reference, and the minimax filter's degree. --, no trusted reference at the resolutions emulated. Exact emulation.}
     \label{tab:catalogue-results}
     \small
     \begin{tabular}{@{}l r r r r r r@{}}
@@ -146,7 +146,7 @@ The linear benchmark problems and the coupled oscillator R7 in both forms, with 
 
 \begin{table}[htbp]
     \centering
-    \caption[Filter degree at the largest resolution estimated, every problem]{\textbf{As built the descriptor's degree is the lower on every problem; at the ideal-encoding bound the standard form's is the lower on R3.} Minimax edge filter degree at $\varepsilon=10^{-6}$, $n=8$ on one axis and $n=5$ per axis on R5, as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$ ($\alpha_R$, the residual's subnormalisation; $\|R\|_2$, its norm). At the ideal bound the standard form's degree is the lower on R3a--R3d and the two are close on R5b. Resource estimates (T3).}
+    \caption[Filter degree at the largest resolution estimated, every problem]{\textbf{As built the descriptor's degree is the lower on every problem; at the ideal-encoding bound the standard form's is the lower on R3.} Minimax edge filter degree at $\varepsilon=10^{-6}$, $n=8$ on one axis and $n=5$ per axis on R5, as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$ ($\alpha_R$, the residual's subnormalisation; $\|R\|_2$, its norm). At the ideal bound the standard form's degree is the lower on R3a--R3d and the two are close on R5b. Resource estimates.}
     \label{tab:catalogue-t3}
     \small
     \begin{tabular}{@{}l r r r r r@{}}
@@ -177,7 +177,7 @@ The linear benchmark problems and the coupled oscillator R7 in both forms, with 
 
 \begin{table}[htbp]
     \centering
-    \caption[Growth of the filter's degree with $N$, every problem]{\textbf{The degree's growth with $N$ on every linear problem and on R7.} Exponent of $N=2^n$ in the minimax filter's degree between the two largest resolutions estimated ($n=7\to8$ on one axis, $n=4\to5$ per axis on two), as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$, grouped by class: $k$, equation order; regular, singular: the leading coefficient without and with a zero on $[-1,1]$ (\Cref{def:regular}). $^\dagger$Reference not trusted at $n=4$ per axis; slope indicative only. Two-point slopes of a degree with logarithmic factors (\Cref{sec:results-scaling}). Resource estimates (T3).}
+    \caption[Growth of the filter's degree with $N$, every problem]{\textbf{The degree's growth with $N$ on every linear problem and on R7.} Exponent of $N=2^n$ in the minimax filter's degree between the two largest resolutions estimated ($n=7\to8$ on one axis, $n=4\to5$ per axis on two), as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$, grouped by class: $k$, equation order; regular, singular: the leading coefficient without and with a zero on $[-1,1]$ (\Cref{def:regular}). $^\dagger$Reference not trusted at $n=4$ per axis; slope indicative only. Two-point slopes of a degree with logarithmic factors (\Cref{sec:results-scaling}). Resource estimates.}
     \label{tab:catalogue-growth}
     \small
     \begin{tabular}{@{}l l r r r r@{}}
@@ -221,7 +221,7 @@ It does not change with the resolution: on R1 in the descriptor it is $\res{filt
 
 \begin{table}[htbp]
     \centering
-    \caption[Filter degree, imaginary time against minimax]{\textbf{The minimax edge filter needs a lower degree than imaginary time at equal error, except at loose $\varepsilon$ on some problems.} Each cell: imaginary-time (QITE) degree / minimax degree, both forms, at one resolution per problem ($n$ per axis on R5a) whose reference both forms trust. Three equal-error criteria: certified infidelity at $\varepsilon=10^{-6}$ (both degrees from the worst-case bound at the problem's own $\gamma$), and measured infidelity at $\varepsilon=10^{-6}$ and $10^{-4}$ on the problem's own spectrum from the geometric initial state. $\gamma^2$, that state's overlap with the ground state. Exact emulation (T2).}
+    \caption[Filter degree, imaginary time against minimax]{\textbf{The minimax edge filter needs a lower degree than imaginary time at equal error, except at loose $\varepsilon$ on some problems.} Each cell: imaginary-time (QITE) degree / minimax degree, both forms, at one resolution per problem ($n$ per axis on R5a) whose reference both forms trust. Three equal-error criteria: certified infidelity at $\varepsilon=10^{-6}$ (both degrees from the worst-case bound at the problem's own $\gamma$), and measured infidelity at $\varepsilon=10^{-6}$ and $10^{-4}$ on the problem's own spectrum from the geometric initial state. $\gamma^2$, that state's overlap with the ground state. Exact emulation.}
     \label{tab:filter-study}
     \footnotesize
     \setlength{\tabcolsep}{4pt}
@@ -243,4 +243,4 @@ It does not change with the resolution: on R1 in the descriptor it is $\res{filt
 
 \paragraph{An underestimated edge.}
 \label{app:edge-study}
-The degree is set a priori from the spectral edge (\Cref{sec:pipeline-filter}), and a study on R2a at $n=3$ in the standard form measures what an underestimate of it costs, with the imaginary-time filter, whose time the gap sets directly (\Cref{eq:qite-parameters}). At the true gap the degree is $\res{protocol/R2a/standard/n3}{gap_degree}$ and the infidelity $\res[2,sci]{protocol/R2a/standard/n3}{gap_infidelity}$. With the gap halved the degree is $\res{protocol/R2a/standard/n3}{gap_half_degree}$, and with it divided by ten $\res{protocol/R2a/standard/n3}{gap_tenth_degree}$: the factors $\sqrt2$ and $\sqrt{10}$ of an inverse square root, with every preparation still within $\varepsilon$. Wu et al.'s own time rule, run in the same study, gives degree $\res{protocol/R2a/standard/n3}{paper_degree}$ and infidelity $\res[2]{protocol/R2a/standard/n3}{paper_infidelity}$: its time is shorter than the gap rule's and its state does not reach $\varepsilon=10^{-6}$. The time rule is examined with the rest of the reproduction in \Cref{app:reproduction}. Exact emulation (T2).
+The degree is set a priori from the spectral edge (\Cref{sec:pipeline-filter}), and a study on R2a at $n=3$ in the standard form measures what an underestimate of it costs, with the imaginary-time filter, whose time the gap sets directly (\Cref{eq:qite-parameters}). At the true gap the degree is $\res{protocol/R2a/standard/n3}{gap_degree}$ and the infidelity $\res[2,sci]{protocol/R2a/standard/n3}{gap_infidelity}$. With the gap halved the degree is $\res{protocol/R2a/standard/n3}{gap_half_degree}$, and with it divided by ten $\res{protocol/R2a/standard/n3}{gap_tenth_degree}$: the factors $\sqrt2$ and $\sqrt{10}$ of an inverse square root, with every preparation still within $\varepsilon$. Wu et al.'s own time rule, run in the same study, gives degree $\res{protocol/R2a/standard/n3}{paper_degree}$ and infidelity $\res[2]{protocol/R2a/standard/n3}{paper_infidelity}$: its time is shorter than the gap rule's and its state does not reach $\varepsilon=10^{-6}$. The time rule is examined with the rest of the reproduction in \Cref{app:reproduction}. Exact emulation.

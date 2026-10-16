@@ -48,6 +48,10 @@
 \usepackage[document]{ragged2e}
 \setlength{\parindent}{1.5em}
 \setlength{\RaggedRightParindent}{\parindent}
+
+\tolerance=1000
+\setlength{\emergencystretch}{3em}
+
 \setlength{\parskip}{0pt plus 1pt}
 \AddToHook{env/tabular/begin}{\setlength{\RaggedRightParindent}{0pt}}
 \AddToHook{env/tabularx/begin}{\setlength{\RaggedRightParindent}{0pt}}

@@ -1,8 +1,8 @@
 """fig:navier-stokes -- two-dimensional Navier-Stokes (R10).
 
-(a) Vorticity at t = T decoded from the prepared state (descriptor, T2) for the Taylor-Green
+(a) Vorticity at t = T decoded from the prepared state (descriptor, exact emulation) for the Taylor-Green
 vortex (R10a) and the vortex pair at a/nu = 10 (R10c), twelve modes, K = 3, n_t = 4, with its
-departure from the Galerkin reference. (b) The minimax degree (T3) against the modes M at K = 2,
+departure from the Galerkin reference. (b) The minimax degree (resource estimate) against the modes M at K = 2,
 n_t = 4, both forms, as built (solid) and at alpha_R = ||R|| (dashed): R10c and R10a over M,
 a/nu = 3 and 30 at M = 12, where alone they were estimated. (c) The lift's per-order error ratio
 against M. Data as notebook 70_navier_stokes selects it; (a) through pihm.pipeline.solutions.
@@ -52,7 +52,7 @@ for pair, (problem, title) in enumerate((("R10a-M12", "R10a, Taylor–Green"), (
     field.contour(side, side, space.stream(prepared.field[:, last], X, Y), levels=8,
                   colors=fs.INK_SECONDARY, linewidths=0.5)
     maps_fig.colorbar(image, ax=field, fraction=0.08, pad=0.03).ax.tick_params(labelsize=6.5)
-    field.set_title(f"{title}\n" + rf"$\omega$ at $s={sol.seconds[last]:g}$ (T2)", fontsize=7)
+    field.set_title(f"{title}\n" + rf"$\omega$ at $s={sol.seconds[last]:g}$ (emulated)", fontsize=7)
     bound = np.abs(departure).max()
     image = error.pcolormesh(side, side, departure, cmap=diverging, norm=TwoSlopeNorm(0, -bound, bound),
                              shading="gouraud", rasterized=True)
@@ -105,7 +105,7 @@ degree.set_xticks([12, 20, 28, 48], ["12", "20", "28", "48"])
 degree.minorticks_off()
 degree.set_xlim(10, 80)
 degree.set_xlabel("modes $M$")
-degree.set_ylabel(r"filter degree $d$ (T3)")
+degree.set_ylabel(r"filter degree $d$ (estimated)")
 degree.legend(handles=[
     Line2D([], [], color=fs.STD, label="standard form"),
     Line2D([], [], color=fs.DESC, label="descriptor"),

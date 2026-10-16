@@ -2,7 +2,7 @@
 
 (a) The gap against N, unscaled (open) and block-rescaled (filled), a panel per problem, at the
 resolutions whose reference is trusted. (b) The field block's weight w_f in the ground state at
-n = 8 (n = 5 per axis on R5), unscaled against rescaled, with gamma^2 from exact emulation (T2)
+n = 8 (n = 5 per axis on R5), unscaled against rescaled, with gamma^2 from exact emulation
 marked where a preparation ran at that n. Data as notebook 42_block_rescaling selects it.
 
 Run with the pihm environment:  /opt/miniconda3/envs/pihm/bin/python Figs/scripts/make_gap_rescaling.py
@@ -78,7 +78,7 @@ fs.label(dots, "(b)")
 handles = [
     Line2D([], [], color=UNSCALED, marker="o", markerfacecolor="white", label="unscaled"),
     Line2D([], [], color=RESCALED, marker="o", label="block-rescaled"),
-    Line2D([], [], color=fs.INK, marker="x", linestyle="none", label=r"$\gamma^2$ (T2)"),
+    Line2D([], [], color=fs.INK, marker="x", linestyle="none", label=r"$\gamma^2$ (emulated)"),
 ]
 figure.legend(handles=handles, loc="outside upper center", ncols=3)
 fs.save(figure, "gap_rescaling")

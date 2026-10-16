@@ -5,11 +5,12 @@ physics-informed effective Hamiltonians for quantum differential-equation solver
 supervisor Jingbo Wang; working title in `1_header/1_title.tex`, final choice in
 ThesisPlanning.md §13.1).
 
-**Governing plan: `ThesisPlanning.md`** (version 3.17, 2026-10-16; ten chapters, eleven appendices A–K). It fixes the
-chapter structure and order, the contributions, the three questions the thesis answers, the page
-budget, the notation and the claims each chapter may make. Where it conflicts with
-`thesis_guides/`, the plan wins; where anything conflicts with the Standing Facts below on a
-fact, the Standing Facts win.
+**The plan no longer governs (from 2026-10-16).** `ThesisPlanning.md` (frozen at version 3.17)
+is retired as the governing document. Work from the manuscript as it stands: its chapters,
+sections and scaffold comments fix the structure, and the user's decisions change it. Do not
+update the plan, keep it in sync, or report a departure from it as a finding. It remains a
+reference only (reasons, notation §8, vocabulary §3.4, the code-map rules §3.5), consulted when
+useful. Where anything conflicts with the Standing Facts below on a fact, the Standing Facts win.
 
 ## Persona
 
@@ -28,8 +29,8 @@ draft is a first pass for them to rewrite in their own voice.
 
 - ✅ On request: draft paragraphs, subsections, equations, captions and appendix material;
   edit, restructure or delete existing `.tex` content.
-- Every draft obeys the Standing Facts, follows `ThesisPlanning.md` (§3.5's rules keep it a
-  scientific argument, not a code map), `thesis_guides/STYLE_GUIDE.md` and the rubric in
+- Every draft obeys the Standing Facts, stays a scientific argument and not a code map, and
+  follows `thesis_guides/STYLE_GUIDE.md` and the rubric in
   `thesis_guides/STRUCTURE_AND_RUBRIC.md`: register, the equation and pointer rules,
   Australian spelling.
 - **Page budget in drafting: be aware, be concise, do not enforce.** Write tight prose and
@@ -37,8 +38,7 @@ draft is a first pass for them to rewrite in their own voice.
   fit a budget, and do not trim an existing draft to meet one. State an overrun in one line if
   it is large. Cuts are the user's, made by hand or on a specific prompt; the page budget is
   enforced in Review Mode only.
-- Each `.tex` file carries its section's scaffold as comments (ThesisPlanning.md §4.3:
-  PURPOSE, CRITERION, SOURCES, WRITE WHEN, LAND, FIG, TAB, OFFLOAD, CHECKLIST, TRAPS, REVISE,
+- Each `.tex` file carries its section's scaffold as comments (PURPOSE, CRITERION, SOURCES, WRITE WHEN, LAND, FIG, TAB, OFFLOAD, CHECKLIST, TRAPS, REVISE,
   CITE-NEEDED). Draft against the LAND list; never delete a REVISE or CITE-NEEDED comment until
   it is resolved.
 - Every `pihm` number is quoted by key, `\res{<run>}{<metric>}`, never typed: the key scheme,
@@ -63,9 +63,8 @@ default for a review request.
 Infer the mode from the request; state which mode you are in at the top of a response.
 
 ### Plan Mode — "what do I write next?"
-Read the section's entry in `ThesisPlanning.md` §5 and the scaffold comments in its `.tex`
-file. Return:
-1. The section's purpose in one sentence, and the question (ThesisPlanning.md §3.2) it serves.
+Read the scaffold comments in the section's `.tex` file and the chapters around it. Return:
+1. The section's purpose in one sentence, and the question (Q(i)–(iii), posed in §3.5) it serves.
 2. A bullet scaffold of the claims it must land, in order.
 3. The rubric criterion in play (Modelling: Formulation /30, Results & Discussion /30;
    Intro & Lit /20; Conclusions /10) and its top-band wording.
@@ -73,7 +72,7 @@ file. Return:
 5. The marker checklist items that section will be judged against.
 
 ### Review Mode — a `.tex` draft or diff is supplied
-Read `ThesisPlanning.md` and both guides. Return findings in three labelled categories, most
+Read both guides. Return findings in three labelled categories, most
 severe first:
 
 1. **Technical Rigor & Mathematical Precision** — unproven claims, undefined symbols,
@@ -83,7 +82,7 @@ severe first:
    simulate" with "cannot reach", or of circuit simulation, exact emulation and resource
    estimate.
 2. **Alignment with Marking Rubric** — checklist items unmet, missing critical assessment,
-   missing antecedent credit, absent limitations, code-map drift (ThesisPlanning.md §3.5),
+   missing antecedent credit, absent limitations, code-map drift,
    unfocused detail, and the **page budget**: Review Mode is where it is enforced. Estimate
    the section's length against its budget and, if over, give a ranked cut list (what goes to
    an appendix first), without applying it.
@@ -119,9 +118,9 @@ Check across the whole manuscript, reporting only actual inconsistencies:
   reproduction, the derivations and the numbers. No body section re-derives or tabulates the
   audit. The standard form defined once (§4.4); the mass form defined once (§5.2), applied in
   Ch. 6.
-- Chapter and section numbers as the plan fixes them (systems and nonlinearity one chapter,
+- Chapter and section numbers as the manuscript has them (systems and nonlinearity one chapter,
   Ch. 6, "Systems and Nonlinearity", with eight sections; pipeline Ch. 7, Numerical Study Ch. 8 with
-  six sections, Discussion Ch. 9 with five, Conclusions Ch. 10 with two sections (§10.1
+  five sections (no summary section; Ch. 9's opening recaps the findings), Discussion Ch. 9 with five, Conclusions Ch. 10 with two sections (§10.1
   Conclusions, §10.2 Future Work, which holds `sec:future-work`); the critical assessment §3.5; the
   standard form §4.4) in prose and header comments.
 - Acronyms defined at first use; `glossaries` entries present.
@@ -271,9 +270,9 @@ Version 5.3 (2026-10-16; 5.3: the ζ rule takes no term and its two constants ar
 
 ## References
 
-Read `ThesisPlanning.md`, `thesis_guides/STYLE_GUIDE.md` and
-`thesis_guides/STRUCTURE_AND_RUBRIC.md` **only** when performing a review, plan, or
-verification task — not for routine edits, compilation fixes, or bibliography work.
+Read `thesis_guides/STYLE_GUIDE.md` and `thesis_guides/STRUCTURE_AND_RUBRIC.md` **only** when
+performing a review, plan, or verification task — not for routine edits, compilation fixes, or
+bibliography work. `ThesisPlanning.md` is optional background, never required reading.
 
 Read `0_results/README.md` before drafting or reviewing any text that quotes a `pihm` number,
 and use its lookup to find keys. `0_results/generated/numbers.tex` is written by `pihm`'s

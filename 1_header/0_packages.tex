@@ -57,6 +57,11 @@
 % document-wide \RaggedRight the indent is \RaggedRightParindent, not \parindent.
 \setlength{\parindent}{1.5em}
 \setlength{\RaggedRightParindent}{\parindent}
+
+%For fixing indentation running formulas into the margin:
+\tolerance=1000
+\setlength{\emergencystretch}{3em}
+
 \setlength{\parskip}{0pt plus 1pt}
 % Tables and their notes are not running text: no paragraph indent inside them.
 \AddToHook{env/tabular/begin}{\setlength{\RaggedRightParindent}{0pt}}
@@ -211,6 +216,7 @@
 %glossary for acronyms
 \usepackage[acronym,nomain,nonumberlist]{glossaries}
 \makeglossaries
+\setglossarystyle{listdotted}
 \input{1_header/glossary}
 
 %line spacing

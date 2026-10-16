@@ -1,8 +1,8 @@
 """fig:scaling-headline -- looseness, relative gap and filter degree against N on R2a.
 
 (a) alpha_H/||H|| per encoding, (b) Delta/||H|| per Hamiltonian, (c) the minimax filter's degree
-as built (solid) and at the ideal-encoding bound alpha_R = ||R|| (dashed); T2 filled where the
-preparation was emulated, T3 open beyond. Data as notebook 40_where_the_cost_lies selects it.
+as built (solid) and at the ideal-encoding bound alpha_R = ||R|| (dashed); exact emulation filled
+where the preparation was emulated, resource estimates open beyond. Data as notebook 40_where_the_cost_lies selects it.
 
 Run with the pihm environment:  /opt/miniconda3/envs/pihm/bin/python Figs/scripts/make_scaling_headline.py
 """
@@ -99,8 +99,8 @@ handles = [Line2D([], [], color=fs.COLOUR[k], marker=fs.MARKER[k], label=fs.NAME
 handles += [
     Line2D([], [], color=fs.INK_SECONDARY, label="as built"),
     Line2D([], [], color=fs.INK_SECONDARY, linestyle=(0, (4, 2)), linewidth=1.0, label=r"ideal bound $\alpha_R=\|R\|_2$"),
-    Line2D([], [], color=fs.INK_SECONDARY, marker="o", linestyle="none", label="T2 (emulated)"),
-    Line2D([], [], color=fs.INK_SECONDARY, marker="o", markerfacecolor="white", linestyle="none", label="T3 (estimated)"),
+    Line2D([], [], color=fs.INK_SECONDARY, marker="o", linestyle="none", label="exact emulation"),
+    Line2D([], [], color=fs.INK_SECONDARY, marker="o", markerfacecolor="white", linestyle="none", label="resource estimate"),
 ]
 figure.legend(handles=handles, loc="outside upper center", ncols=4)
 fs.save(figure, "scaling_headline")

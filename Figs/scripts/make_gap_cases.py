@@ -1,8 +1,8 @@
 """fig:gap-cases -- the ideal-bound reversals: degree against N on R3a, R5b and R5a.
 
 Both forms' minimax degree as built (solid) and at alpha_R = ||R|| (dashed), at the resolutions
-whose reference is trusted in both forms; T2 filled where the preparation was emulated, T3 open
-beyond. Data as notebook 43_representative_problems selects it.
+whose reference is trusted in both forms; exact emulation filled where the preparation was emulated,
+resource estimates open beyond. Data as notebook 43_representative_problems selects it.
 
 Run with the pihm environment:  /opt/miniconda3/envs/pihm/bin/python Figs/scripts/make_gap_cases.py
 """
@@ -55,8 +55,8 @@ handles = [Line2D([], [], color=fs.COLOUR[f], marker=fs.MARKER[f], label=fs.NAME
 handles += [
     Line2D([], [], color=fs.INK_SECONDARY, label="as built"),
     Line2D([], [], color=fs.INK_SECONDARY, linestyle=(0, (4, 2)), linewidth=1.0, label=r"ideal bound $\alpha_R=\|R\|_2$"),
-    Line2D([], [], color=fs.INK_SECONDARY, marker="o", linestyle="none", label="T2 (emulated)"),
-    Line2D([], [], color=fs.INK_SECONDARY, marker="o", markerfacecolor="white", linestyle="none", label="T3 (estimated)"),
+    Line2D([], [], color=fs.INK_SECONDARY, marker="o", linestyle="none", label="exact emulation"),
+    Line2D([], [], color=fs.INK_SECONDARY, marker="o", markerfacecolor="white", linestyle="none", label="resource estimate"),
 ]
 figure.legend(handles=handles, loc="outside upper center", ncols=6, columnspacing=1.2, handlelength=1.8)
 fs.save(figure, "gap_cases")

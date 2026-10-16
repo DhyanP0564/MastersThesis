@@ -229,7 +229,7 @@ Rows A-01, A-02, A-05 and A-13 are settled by the panels above, A-03 and A-04 by
     \frac{\beta_\varepsilon}{\beta_{\mathrm{rule}}}=\frac{(n-1)\ln(1/\varepsilon)\,\tilde\lambda_2}{(\tilde\lambda_2-\tilde\lambda_{\min})\,\tilde\lambda_{\max}}\ \ge\ (n-1)\ln\frac1\varepsilon ,
     \label{eq:time-rule-shortfall}
 \end{equation}
-with $\beta_{\mathrm{rule}}$ the rule's least time. The rule permits longer times without saying how much longer, and at its least time the excited weight left is set by the initial state's overlap with the low excited states, not by $\varepsilon$. In exact emulation (T2) from the geometric product state at $\varepsilon=10^{-6}$, the rule's state misses $\varepsilon$ on every protocol record whose reference is trusted, all at $n\le4$, with infidelity from \res[2]{protocol/R1/standard/n3}{paper_infidelity} (R1, $n=3$) to \res[2]{protocol/R3b/standard/n3}{paper_infidelity} (R3b, $n=3$), where the gap's own time reaches $\varepsilon$ on every one (R2a's record is given in \Cref{app:edge-study}). The rule estimates the scale of the time and certifies no accuracy, which Wu et al.\ do not claim for it.
+with $\beta_{\mathrm{rule}}$ the rule's least time. The rule permits longer times without saying how much longer, and at its least time the excited weight left is set by the initial state's overlap with the low excited states, not by $\varepsilon$. In exact emulation from the geometric product state at $\varepsilon=10^{-6}$, the rule's state misses $\varepsilon$ on every protocol record whose reference is trusted, all at $n\le4$, with infidelity from \res[2]{protocol/R1/standard/n3}{paper_infidelity} (R1, $n=3$) to \res[2]{protocol/R3b/standard/n3}{paper_infidelity} (R3b, $n=3$), where the gap's own time reaches $\varepsilon$ on every one (R2a's record is given in \Cref{app:edge-study}). The rule estimates the scale of the time and certifies no accuracy, which Wu et al.\ do not claim for it.
 
 \paragraph{The readout identity.} Wu et al.'s interferometric identity takes the preparation to succeed with certainty. Post-selected with probability $p_G<1$, the system part on the all-zero ancilla is $\sqrt{p_G}\,\psi_g$, and the identity acquires that factor (\Cref{eq:readout-identity}, derived in \Cref{app:readout-identity}). The field, a ratio against the regular datum, is unchanged, but $\eta_e$ computed by the printed identity comes out larger by $1/p_G$ (\Cref{eq:readout-field}). The protocol was built and verified at small $n$ only, and it is not the thesis's readout (\Cref{sec:pipeline-readout}).
 
@@ -397,12 +397,12 @@ The reproduction runs Wu et al.'s imaginary-time filter in the standard form, by
 
 \begin{table}[htbp]
     \centering
-    \caption[Imaginary-time circuit simulations against exact emulation]{\textbf{Three imaginary-time circuit simulations miss the $10^{-10}$ bar at degrees of order $10^5$; others at comparable or higher degrees pass.} Largest difference between circuit simulation (T1) and exact emulation (T2), before normalising, from a unit input. Below the rule, passing records for comparison: the largest passing difference (R4a) and the highest degree run (R5c). R6b is the doubled space, whose filter output is a projection.}
+    \caption[Imaginary-time circuit simulations against exact emulation]{\textbf{Three imaginary-time circuit simulations miss the $10^{-10}$ bar at degrees of order $10^5$; others at comparable or higher degrees pass.} Largest difference between circuit simulation and exact emulation, before normalising, from a unit input. Below the rule, passing records for comparison: the largest passing difference (R4a) and the highest degree run (R5c). R6b is the doubled space, whose filter output is a projection.}
     \label{tab:app-qite-t1}
     \small
     \begin{tabular}{@{}l r r r r@{}}
         \toprule
-        Problem & $n$ & Qubits & Degree & T1 against T2 \\
+        Problem & $n$ & Qubits & Degree & Difference \\
         \midrule
         R6b & 2 & \res{stateprep/R6b/standard/n2/T1}{n_qubits} & \res{stateprep/R6b/standard/n2/T1}{degree} & \res[2,sci]{stateprep/R6b/standard/n2/T1}{filtered_agreement} \\
         R6b as printed & 2 & \res{stateprep/R6b/faithful/standard/n2/T1}{n_qubits} & \res{stateprep/R6b/faithful/standard/n2/T1}{degree} & \res[2,sci]{stateprep/R6b/faithful/standard/n2/T1}{filtered_agreement} \\

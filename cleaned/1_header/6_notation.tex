@@ -1,11 +1,7 @@
-A quick reference for symbols used across the thesis; each is properly
-introduced at its first use in the text below.
+A quick reference for symbols used across the thesis.
 
 \medskip
-\noindent\textbf{Typeface.} Matrices are italic. Calligraphic letters are the maps that change the register, the lifts $\M$ and the folds $\nfold$, and also $\mathcal{T}$ (Gram map), $\mathcal{H}$ (Hilbert space) and $\mathcal{O}$ (order symbol). The constraint rows $\Brow$, $\Dzero$, $\Slice$ and $\Frat$ are blackboard bold; otherwise blackboard bold is kept for $\mathbb{R}$, $\mathbb{C}$ and the expectation $\mathbb{E}$. Wu et al.\ print every non-unitary matrix in blackboard bold (\Cref{sec:pihm-residual}). The subscripts $\mathrm{std}$ and $\mathrm{desc}$ name the two forms (\Cref{sec:standard-operators}); bare $A$, $H$ and $R$ appear only in statements true of both forms and in \Cref{sec:pihm}, where they are Wu et al.'s own.
-
-\medskip
-\noindent\textbf{Classes of problem.} A linear problem on one axis is \emph{regular} when its coefficients are polynomials, its leading coefficient has no zero on $[-1,1]$, its data are analytic and its solution is unique up to scale, and \emph{singular} when its leading coefficient has a zero there (\Cref{def:regular}). Every degree, gap and subnormalisation claim of the descriptor names its class.
+\noindent\textbf{Typeface.} Matrices are italic. Calligraphic letters are maps that change the register, the lifts $\M$ and the folds $\nfold$, and also $\mathcal{T}$ (Gram map), $\mathcal{H}$ (Hilbert space) and $\mathcal{O}$ (order symbol). The constraint rows $\Brow$, $\Dzero$, $\Slice$ and $\Frat$ are blackboard bold; otherwise blackboard bold is kept for $\mathbb{R}$, $\mathbb{C}$ and the expectation $\mathbb{E}$. Wu et al.\ print every non-unitary matrix in blackboard bold (\Cref{sec:pihm-residual}).
 
 \bigskip
 \noindent\textbf{Discretisation}\par\nopagebreak\smallskip
@@ -17,7 +13,7 @@ $n$ & Qubits per Chebyshev axis (the resolution). & \Cref{sec:pihm-model} \\
 $N = 2^n$ & Truncation dimension of one Chebyshev axis. & \Cref{sec:pihm-model} \\
 $k$ & Order of an \gls{ode}. & \Cref{sec:pihm-residual} \\
 $p$ & Degree of a polynomial nonlinearity. & \Cref{sec:carleman} \\
-$n_f$ & Qubits in the field (block) register of the descriptor form; for a chain, $\lceil\log_2(1+\sum_ak_a)\rceil$ with $k_a$ the order along axis $a$ ($\lceil\log_2(k+1)\rceil$ on one axis). & \Cref{sec:descriptor-layouts} \\
+$n_f$ & Qubits in the field (block) register of the descriptor form; for a chain, $\lceil\log_2(1+\sum_ak_a)\rceil$ with order $k_a$ along axis $a$ ($\lceil\log_2(k+1)\rceil$ on one axis). & \Cref{sec:descriptor-layouts} \\
 $\dim w$ & Padded descriptor state dimension, $2^{n_f}\prod_aN_a$ ($2^{n_f}N$ on one axis). & \Cref{sec:app-variable-coeff} \\
 \bottomrule
 \end{tabularx}
@@ -29,11 +25,11 @@ $\dim w$ & Padded descriptor state dimension, $2^{n_f}\prod_aN_a$ ($2^{n_f}N$ on
 Symbol & Meaning & Introduced \\
 \midrule
 $T_\ell$ & Chebyshev polynomial of the first kind, degree $\ell$. & \Cref{sec:pihm-model} \\
-$\ket{\tau(x)}$ & The raw Chebyshev feature state. & \Cref{sec:pihm-model} \\
+$\ket{\tau(x)}$ & The Chebyshev feature state. & \Cref{sec:pihm-model} \\
 $\varphi_k$ & Normalised Chebyshev basis functions, $\varphi_0 = T_0/\sqrt{N}$, $\varphi_k = T_k/\sqrt{N/2}$; $\ket{\tau(x)}$ holds their values at $x$. & \Cref{sec:standard-model} \\
-$\psi$, $\eta$, $\eta_e$ & Normalised coefficient state; its scale; $\eta_e = \|b\|^2$. & \Cref{sec:pihm-model} \\
+$\psi$, $\eta$, $\eta_e$ & Normalised coefficient state; its scale; the ideal $\eta_e = \|b\|^2$. & \Cref{sec:pihm-model} \\
 $\psi_e$ & The ideal state $b/\|b\|$ of a truncated solution $f_N$ with coefficients $b$; the model represents $f_N$ exactly at $(\psi_e, \eta_e)$. & \Cref{sec:standard-model} \\
-$\fhat{j}$ & Coefficients of $f^{(j)}$: one block of the descriptor state. & \Cref{sec:descriptor-layouts} \\
+$\fhat{j}$ & Coefficients of $f^{(j)}$, the $j^{\text{th}}$ derivative of $f$: one block of the descriptor state. & \Cref{sec:descriptor-layouts} \\
 $w$, $E$ & The descriptor state $(\fhat{0}; \dots; \fhat{k})$; the map from a field's coefficients to the descriptor state that represents it. & \Cref{sec:descriptor-layouts} \\
 \bottomrule
 \end{tabularx}
