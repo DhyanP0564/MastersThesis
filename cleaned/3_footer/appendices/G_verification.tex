@@ -1,3 +1,5 @@
+This appendix specifies how the circuits, the classical reference and the error budget are verified.
+
 \subsection{Modes, Sizes and Tolerances}
 \label{app:verification-modes}
 
@@ -29,7 +31,7 @@ Circuits wider than the probe ceiling are construction-only records: their subno
 
 The four structured inputs of the probe mode are placed where a defect confined to one column arises, because a random input sees such a defect only at about $\delta/\sqrt D$ (\Cref{prop:haar-probes}), while the basis vector that selects its column sees it at full strength. The first basis vector is the $T_0$ mode and the start of every chain of shifts, and the last is where a truncated shift must not wrap round to the start of the register. The middle one, index $D/2$, sets only the most significant qubit, so it sits on the edge between the two halves of a register and between the blocks of a padded state, where block offsets and axis orders go wrong; the uniform vector tests the sum of all columns at once. A defect in a column that none of them selects is left to the random probes. Every atom is also verified alone before it is composed: the structured factorisation of $\G$ (\Cref{app:structured}), the lifts and folds, the feature-map rows, each band of the descriptor (\Cref{app:term-ir}) and the matchings of a coupling, each exactly at small $n$ and by probe or \gls{ir} beyond; the banded factorisation $\Bt\G=\Dt$ holds to rounding for $n=1$ to $10$. The composed reflection is then verified whole, so that correct atoms cannot hide an error made in composing them, such as a wrong block offset or a mis-ordered register.
 
-\subsection{The Classical Reference: Eigensolver Against SVD}
+\subsection{Classical Reference: Eigensolver Versus SVD}
 \label{app:eigh-vs-svd}
 
 The reference is the smallest right singular vector of $R$, computed by a backward-stable \gls{svd} (LAPACK's divide-and-conquer driver, with the QR-based driver where it fails to converge), in double precision only; $H$ is never formed.
@@ -52,7 +54,7 @@ The first is Wedin's $\sin\Theta$ theorem for singular subspaces \cite{wedin1972
 
 The ratio of the two is $\sigma_{\max}/(\sigma_1+\sigma_0)$, the residual's condition number on the complement of its near-kernel: the eigensolver loses that factor. When $\sigma_0\ll\sigma_1$ the SVD's bound is about $\epsilon_{\mathrm{mach}}\sqrt{\|H\|/\Delta}$, the square root of the eigensolver's. Both require $\sigma_0$ to be isolated, the trusted-kernel condition of \Cref{app:trust-threshold}. On the standard form the eigensolver's bound grows with $n$ by the factor that $\sigma_{\max}/\sigma_1$ grows, $2^{2k}$ per qubit at order $k$, until it saturates, and Wedin's, smaller by that factor, stays below one; on R2a the eigensolver's angle reaches order one by $n=8$, where the SVD's is still small (\Cref{tab:eigh-vs-svd}). The bounds are what a backward-stable algorithm can promise: on the standard form the smallest singular value is returned at the floor $\epsilon_{\mathrm{mach}}\sigma_{\max}$ rather than at its true, smaller value, which is why the kernel is detected by a ratio against that floor. A single-precision residual has $\epsilon_{32}\sigma_{\max}/(\sigma_1-\sigma_0)>10^{-3}$ on R2a from $n=5$, and is refused.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
     \centering
     \caption[Accuracy of the classical reference: eigensolver against SVD]{\textbf{The eigensolver loses the residual's condition number; the SVD does not.} Sine of the angle between the classical reference and the state of the exact coefficients on R2a ($f''+4f'+4f=0$): the standard form by a symmetric eigensolver on $R_{\mathrm{std}}^{\top}R_{\mathrm{std}}$ and by \gls{svd} of $R_{\mathrm{std}}$, and the descriptor by \gls{svd}, on its physical columns. At $n=2$ and $3$ the truncation dominates both routes; from $n=4$ the angle is the solver's. Classical computation.}
     \label{tab:eigh-vs-svd}
@@ -72,7 +74,7 @@ The ratio of the two is $\sigma_{\max}/(\sigma_1+\sigma_0)$, the residual's cond
     \end{tabular}
 \end{table}
 
-\subsection{The Iterative Reference}
+\subsection{Iterative Reference}
 \label{app:iterative-reference}
 
 Beyond $8{,}192$ physical columns the dense \gls{svd} takes too long and too much memory, and the smallest singular triplets are found iteratively. Lanczos iteration finds the largest eigenvalues of a symmetric operator, and the smallest singular values of $R$ are the largest eigenvalues of $(R^\dagger R+\mu I)^{-1}$, which is applied without forming $R^\dagger R$.
@@ -86,22 +88,22 @@ The first row gives $r=-Rx$; substituting, $-R^\dagger Rx-\mu x=c$.
 
 One sparse LU factorisation of the augmented matrix serves every Lanczos step. It does not fill as the normal matrix does: a dense constraint row of $R$, with $N$ entries, appears once in $R$ and once in $R^\dagger$, where it would put a dense $N\times N$ block into $R^\dagger R$.
 
-\paragraph{Upper bounds and the a posteriori estimate.} For $V$ with orthonormal columns, the $j$-th smallest singular value of $RV$ is at least the $j$-th smallest of $R$ (Cauchy interlacing), so the computed $\tilde\sigma_0$ and $\tilde\sigma_1$ never fall below the true ones. For the returned $v$, with $r=\|Rv\|\ge\sigma_0$, the infidelity against the true ground state $v_\star$ satisfies $1-|\braket{v|v_\star}|^2\le(r^2-\sigma_0^2)/(\sigma_1^2-\sigma_0^2)\le r^2/\sigma_1^2$, and the reported bound is $r^2/(\tilde\sigma_1^2-r^2)$, which is at least $r^2/\sigma_1^2$ when no singular value below $\tilde\sigma_1$ is missed. It is therefore an estimate, exact to rounding once the iteration has converged and nothing below $\tilde\sigma_1$ is missing; it floors at about $(\sigma_0/\sigma_1)^2$ where $R$ has no kernel, and is sharp where it has one.
+\paragraph{Upper Bounds and A Posteriori Estimate.} For $V$ with orthonormal columns, the $j$-th smallest singular value of $RV$ is at least the $j$-th smallest of $R$ (Cauchy interlacing), so the computed $\tilde\sigma_0$ and $\tilde\sigma_1$ never fall below the true ones. For the returned $v$, with $r=\|Rv\|\ge\sigma_0$, the infidelity against the true ground state $v_\star$ satisfies $1-|\braket{v|v_\star}|^2\le(r^2-\sigma_0^2)/(\sigma_1^2-\sigma_0^2)\le r^2/\sigma_1^2$, and the reported bound is $r^2/(\tilde\sigma_1^2-r^2)$, which is at least $r^2/\sigma_1^2$ when no singular value below $\tilde\sigma_1$ is missed. It is therefore an estimate, exact to rounding once the iteration has converged and nothing below $\tilde\sigma_1$ is missing; it floors at about $(\sigma_0/\sigma_1)^2$ where $R$ has no kernel, and is sharp where it has one.
 
-\paragraph{The start vector.} Both Lanczos runs start from a Gaussian vector of fixed seed: deterministic, answer-independent and with a component on every singular vector. A uniform start would not do: if a permutation $P$ of the columns commutes with $R^\dagger R$ and $Pu=u$, every Krylov vector is $P$-fixed, so the iteration never meets a singular vector of another symmetry sector. On the Taylor--Green vortex, whose residual has such a symmetry, a uniform start misses most of the lowest singular values.
+\paragraph{Start Vector.} Both Lanczos runs start from a Gaussian vector of fixed seed: deterministic, answer-independent and with a component on every singular vector. A uniform start would not do: if a permutation $P$ of the columns commutes with $R^\dagger R$ and $Pu=u$, every Krylov vector is $P$-fixed, so the iteration never meets a singular vector of another symmetry sector. On the Taylor--Green vortex, whose residual has such a symmetry, a uniform start misses most of the lowest singular values.
 
 \paragraph{Checks.} The iterative reference reaches residuals of \res{build/R10d-M48/descriptor/n4/carleman=3}{dimension} columns, on the Navier--Stokes lifts. Where both run, it reproduces the dense one's ground state to the dense one's own error. Past the standard form's moderate $n$, where the dense \gls{svd}'s backward error $\epsilon_{\mathrm{mach}}\sigma_{\max}$ is no longer small against $\sigma_1$, the iterative reference is the more accurate: on R2a from $n=8$ to $10$ its $\sigma_1$ varies by $\res[1,sci]{iterative/R2a/standard/drift}{iterative_spread}$ relative, where the dense value varies by $\res[1,sci]{iterative/R2a/standard/drift}{dense_spread}$, and on the descriptor there the two agree to $\res[2]{iterative/R2a/descriptor/range}{high}\,\epsilon_{\mathrm{mach}}\sigma_{\max}$.
 
-\subsection{The Trust Threshold}
+\subsection{Trust Threshold}
 \label{app:trust-threshold}
 
 The ascending singular values are floored at $10^{-300}$, so that an exact zero gives a finite ratio, and the ratios $\sigma_k/\sigma_{k-1}$ are formed for $k=1,\dots,16$. The kernel's dimension is the $k$ of the largest ratio, the \emph{gap ratio} is that ratio, and the reference is trusted when the dimension is one and the gap ratio at least $20$. An exact kernel of dimension $k$ is found because its computed values are at most $c\,\epsilon_{\mathrm{mach}}\sigma_{\max}$ by Weyl's inequality, so its ratio exceeds $20$ whenever $\sigma_k/\sigma_{\max}$ exceeds about $4\times10^{-15}$; beyond that the floor is the gap's own size and nothing in the computed spectrum separates them. For a near-kernel, if the truncated solution $\hat b$ nearly minimises the residual, $\|R\hat b\|\approx\sigma_0$, its angle to the ground state is at most about $\sigma_0/\sigma_1$: a gap ratio of $20$ puts the ground state within $0.05$ of it in sine.
 
-\paragraph{Why $20$.} A spectrum with no kernel still has ratios, and the detector reports the largest as a kernel's. The threshold must exceed the largest ordinary spacing in the benchmark problems' singular spectra, so that a ratio above it cannot come from spacing alone. Over the classical builds of R1 to R8 the largest such spacing is the stiff R2c's structural $\sigma_2/\sigma_1$, just under $20$, with the median far below; the only larger ratios are those of three of the reproduction's panels (\Cref{app:reproduction}), whose second near-kernel is not a spacing. The value is empirical, a property of these spectra and not a theorem.
+\paragraph{Choice of $20$.} A spectrum with no kernel still has ratios, and the detector reports the largest as a kernel's. The threshold must exceed the largest ordinary spacing in the benchmark problems' singular spectra, so that a ratio above it cannot come from spacing alone. Over the classical builds of R1 to R8 the largest such spacing is the stiff R2c's structural $\sigma_2/\sigma_1$, just under $20$, with the median far below; the only larger ratios are those of three of the reproduction's panels (\Cref{app:reproduction}), whose second near-kernel is not a spacing. The value is empirical, a property of these spectra and not a theorem.
 
-\paragraph{What it does not decide.} A kernel of dimension above one is never trusted; the doubled space's is the example (\Cref{sec:doubled-space}). A second near-kernel higher up, with a larger ratio, moves the reported dimension above one and is untrusted, which is conservative. A one-dimensional kernel with a modest gap ratio, an under-resolved problem found by luck, is not trusted. An iterative reference counts among its smallest seventeen values with the Ritz upper bounds above, and can report a ratio too small by their overestimate. Trust means that a kernel is detected, not that the field has converged; the convergence in $n$ is measured separately.
+\paragraph{Limits of the Threshold.} A kernel of dimension above one is never trusted; the doubled space's is the example (\Cref{sec:doubled-space}). A second near-kernel higher up, with a larger ratio, moves the reported dimension above one and is untrusted, which is conservative. A one-dimensional kernel with a modest gap ratio, an under-resolved problem found by luck, is not trusted. An iterative reference counts among its smallest seventeen values with the Ritz upper bounds above, and can report a ratio too small by their overestimate. Trust means that a kernel is detected, not that the field has converged; the convergence in $n$ is measured separately.
 
-\subsection{The Circuit-Simulation Memory and Time Model}
+\subsection{Circuit-Simulation Memory and Time Model}
 \label{app:t1-model}
 
 A circuit simulation applies the \gls{gqsp} circuit one controlled walk at a time on a statevector simulator \cite{qiskit2024}, with gate fusion off, on the walk's qubits and the signal, $q=q_W+1$; it holds a statevector, never an operator, so its memory grows as $2^q$ and not $4^q$ (\Cref{app:controlled-walk}).
@@ -116,10 +118,10 @@ with $M_0$ the interpreter and libraries, eight statevector-sized buffers at the
 
 \paragraph{Refusal.} The budget is the job's allocation of memory and time. The estimate is logged against it whatever the verdict, and a run that exceeds either is refused and recorded as beyond the simulation budget, with the estimate and the resource estimate's numbers beside it; if the memory does not fit, the step is never timed.
 
-\subsection{Acceptance and the Error Budget}
+\subsection{Acceptance and Error Budget}
 \label{app:error-budget}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
     \centering
     \caption[Acceptance criteria for a state preparation]{\textbf{Every preparation is judged at five levels, each against a bar it can be measured to.} Applied to every preparation whose reference is trusted; a run that fails a bar is reported as a finding, never re-judged. $\psi$, $\psi_{\mathrm{ref}}$, prepared and reference states; $\varepsilon$, target suppression; $p_G$, post-selection success probability; $d$, filter degree; $\varepsilon_{\mathrm{disc}}$, discretisation error; $B(d_{\mathrm{total}})$, the error budget. The state bar's a priori bound follows from the spectral edge, $\gamma$ and the filter (\Cref{prop:minimax-guarantee}); the circuit bar is judged before normalising, which divides rounding by $\sqrt{p_G}$, and on normalised states only where $p_G\ge10^{-12}$ (\Cref{lem:normalising}).}
     \label{tab:acceptance}
@@ -147,9 +149,9 @@ $\bigl\|x/\|x\|-y/\|y\|\bigr\|\le\|x-y\|/\|x\|+\|y\|\,\bigl|1/\|x\|-1/\|y\|\bigr
 
 The circuit's output has norm $\sqrt{p_G}$, so a rounding error of about $10^{-16}$ in the unnormalised output becomes about $10^{-16}/\sqrt{p_G}$ in the normalised state; at $p_G=10^{-12}$ that is the bar of $10^{-10}$. The circuit and its emulation are therefore compared before normalising, from a unit input, and the normalised states only where $p_G\ge10^{-12}$; below it the comparison would measure rounding, not the circuit. The probability bar follows from the circuit bar by the lemma's second part only for $p_G\gtrsim4\times10^{-4}$, and is a separate measurement below. A run that fails a bar is reported as a finding, with its degree and the growth of the difference, and never re-judged against an adjusted bar.
 
-\paragraph{The state metric.} For unit vectors the distance between states, $d(a,b)=\min_\phi\|a-e^{\mathrm{i}\phi}b\|=\sqrt{2-2|\braket{a|b}|}$, is a metric, and it is related to the infidelity $\epsilon=1-|\braket{a|b}|^2$ exactly by $\epsilon=d^2(1-d^2/4)$; so $d\approx\sqrt\epsilon$, and distances add by the triangle inequality where infidelities do not. Each distance is computed as the norm of a difference of phase-aligned vectors, never by the overlap formula, which cancels and cannot resolve distances below about $10^{-8}$, the size of the terms themselves.
+\paragraph{State Metric.} For unit vectors the distance between states, $d(a,b)=\min_\phi\|a-e^{\mathrm{i}\phi}b\|=\sqrt{2-2|\braket{a|b}|}$, is a metric, and it is related to the infidelity $\epsilon=1-|\braket{a|b}|^2$ exactly by $\epsilon=d^2(1-d^2/4)$; so $d\approx\sqrt\epsilon$, and distances add by the triangle inequality where infidelities do not. Each distance is computed as the norm of a difference of phase-aligned vectors, never by the overlap formula, which cancels and cannot resolve distances below about $10^{-8}$, the size of the terms themselves.
 
-\paragraph{The chain.} A prepared state passes through three states on its way from the target, the ground state: the untruncated filter's output $\psi_0$, the emulated state $\psi_2$, and the circuit's state $\psi_c$, which the realised phases prepare. The filter term $d(\text{target},\psi_0)$ is computed exactly from the physical subspace's \gls{svd}: with $c_i=\braket{v_i|\psi_{\mathrm{init}}}$ and $w_i$ the filter's value on the $i$-th singular value,
+\paragraph{Chain.} A prepared state passes through three states on its way from the target, the ground state: the untruncated filter's output $\psi_0$, the emulated state $\psi_2$, and the circuit's state $\psi_c$, which the realised phases prepare. The filter term $d(\text{target},\psi_0)$ is computed exactly from the physical subspace's \gls{svd}: with $c_i=\braket{v_i|\psi_{\mathrm{init}}}$ and $w_i$ the filter's value on the $i$-th singular value,
 \begin{equation*}
     \epsilon_{\mathrm{filter}}=\frac{\sum_{i\ge1}w_i^2|c_i|^2}{\sum_{i\ge0}w_i^2|c_i|^2},
     \qquad
@@ -169,7 +171,7 @@ With $a=\ell_x(\psi_{\mathrm{ref}})$ and $a_s=\ell_s(\psi_{\mathrm{ref}})$, $u_{
 \begin{equation*}
     u-u_{\mathrm{ref}}=s\,\frac{\ell_x\delta-(u_{\mathrm{ref}}/u_s)\,\ell_s\delta}{1+\ell_s\delta/a_s}.
 \end{equation*}
-$|s\,\ell_x\delta|\le Kd$, and $|s\,\ell_s\delta|\le Kd$ because the datum point's functional is no larger than the grid's largest (on one axis it is a grid point, and on two axes the functional's norm is largest at the corners, which are). The numerator is therefore at most $Kd(1+U/|u_s|)$ and the denominator at least $1-Kd/|u_s|$; the weight multiplies by at most $W$.
+$|s\,\ell_x\delta|\le Kd$, and $|s\,\ell_s\delta|\le Kd$ because the datum point's functional is no larger than the grid's largest (on one axis it is a grid point, and on two axes the feature vector's norm is the product of the axes' norms, each largest at the ends of its interval by \Cref{prop:tau-norm}, so the largest is at the corners, which are). The numerator is therefore at most $Kd(1+U/|u_s|)$ and the denominator at least $1-Kd/|u_s|$; the weight multiplies by at most $W$.
 \end{proof}
 
 The bound is an inequality, not a first-order estimate, and it holds on states from $10^{-8}$ to $10^{-1}$ from the reference with random phases. The field's error is then bounded by the error budget
@@ -181,7 +183,7 @@ The bound is an inequality, not a first-order estimate, and it holds on states f
 \end{equation}
 where $f_{\mathrm{ref}}$ is the classical reference's own field, so that $\varepsilon_{\mathrm{disc}}$ is the discretisation's error, and $B(d)$ is linear in $d$ for small $d$. The budget is taken on the physical columns, since the descriptor's padding decouples and every state is zero on it.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.72\linewidth]{Figs/decoded_field.pdf}
     \caption[Field error of the prepared state against its budget]{\textbf{From $n=4$ the filter, not the resolution, sets the prepared field's error, and the error budget bounds it with a margin that widens with $n$.} Against $n$ for R2a in the descriptor: the $L^\infty$ error of the field decoded classically from the prepared state, the discretisation's error $\varepsilon_{\mathrm{disc}}$, and the budget of \Cref{eq:error-budget}, whole (with $\varepsilon_{\mathrm{disc}}$) and as its filter, truncation and phase terms, each carried to the field by the readout bound (\Cref{prop:readout-bound}); minimax filter, $\varepsilon=10^{-6}$. The error follows $\varepsilon_{\mathrm{disc}}$ to $n=3$; from $n=4$ it holds at $\res[2,sci]{stateprep/R2a/descriptor/n8/T2/filter=minimax}{field_err_linf}$, because the filter leaves the same infidelity at every $n$, while $\varepsilon_{\mathrm{disc}}$ falls to rounding. The filter term, which carries that infidelity through the bound's worst direction, lies above the error and grows with $n$ as the bound's amplification $K$ does, from $\res[3]{stateprep/R2a/descriptor/n4/T2/filter=minimax}{kappa_read}$ at $n=4$ to $\res[3]{stateprep/R2a/descriptor/n8/T2/filter=minimax}{kappa_read}$ at $n=8$; the truncation and phase terms are negligible. Exact emulation.}

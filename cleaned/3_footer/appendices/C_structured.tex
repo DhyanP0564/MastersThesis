@@ -1,4 +1,6 @@
-\subsection{Proof of \texorpdfstring{\Cref{prop:G-factorisation}}{the factorisation}, and the two diagonal factors}
+This appendix proves the exact factorisation of the differentiation matrix and costs its encoding.
+
+\subsection{Proof of \texorpdfstring{\Cref{prop:G-factorisation}}{the factorisation} and the Diagonal Factors}
 \label{app:proof-G-factorisation}
 
 \begin{proof}[Proof of \Cref{prop:G-factorisation}]
@@ -23,7 +25,7 @@ $R_0=a\,I+b\,(I-2\ket{0}\!\bra{0})$ with $a=\tfrac12(1+1/\sqrt2)$ and $b=\tfrac1
 On $\ket0$ the right side is $a-b=1/\sqrt2$; on every other basis state it is $a+b=1$.
 \end{proof}
 
-\subsection{The arithmetic SELECT}
+\subsection{Arithmetic SELECT}
 \label{app:uodd-select-detail}
 
 The ripple-carry adder of Cuccaro et al.\ \cite{cuccaro2004adder}, on registers $a$ and $b$ of $n$ qubits with a carry-in $c$ and an overflow $z$, acts as $(c,a,b,z)\mapsto\bigl(c,a,(a+b+c)\bmod2^n,z\oplus[a+b+c\ge2^n]\bigr)$ on every input, since its MAJ and UMA identities do not use $c=0$. Its inverse therefore maps $b$ to $(b-a-c)\bmod2^n$ and flips $z$ exactly when $b<a+c$: with $c=z=0$ it is the in-place subtraction $b\leftarrow(b-a)\bmod2^n$ with the borrow $z=[\,b<a\,]$. The circuit of \Cref{fig:uodd-select} uses an offset register $d$ of $n$ qubits, the carry and the borrow, $n+2$ ancilla in all: PREPARE applies $X$ to the lowest qubit of $d$ and Hadamards to the others, SELECT is the subtraction with $a=d$ and $b$ the system register, and PREPARE$^\dagger$ follows.
@@ -60,7 +62,7 @@ Ordering rows and columns by parity, $\Uodd$ maps odd columns to even rows and e
 
 $R_0$ and $\Lambda$ are encoded at their norms, so of the limiting ratio $2j_{-3/4,1}$ the factor $\pi/2$ is $\Uodd$'s and the remaining $4j_{-3/4,1}/\pi\approx1.35$ is the product's: $\|R_0(2\Uodd)\Lambda\|_2<\|R_0\|_2\,\|2\Uodd\|_2\,\|\Lambda\|_2$, because $\Lambda$ is largest on the last columns while the leading singular vectors of $\Uodd$ are spread over all of them.
 
-\subsection{The norms of the derivative and its powers}
+\subsection{Norms of the Derivative and Its Powers}
 \label{app:G-limits}
 
 \begin{theorem}[The norm of $\G$ in the limit]
@@ -99,7 +101,7 @@ The equation block $\sum_ja_j\G^j$ has norm $|a_k|\,\|K^k\|\,N^{2k}(1+o(1))$ by 
 
 The same limits fix the looseness of a power encoded as a product: $\alpha_{\G^k}=\alpha_\G^k=(N(N-1))^k$, so $\alpha_{\G^k}/\|\G^k\|_2\to1/\|K^k\|$, a constant for each $k$, equal to $2j_{-3/4,1}$ at $k=1$. For R2a, whose equation block is $\G^2$ to leading order, this is the constant towards which the measured $\alpha_R/\|R_{\mathrm{std}}\|_2$ of \Cref{sec:standard-hamiltonian} levels off, from $\res[3]{looseness/stateprep/R2a/standard/n2/T3/filter=minimax}{alpha_ratio}$ at $n=2$ to $\res[3]{looseness/stateprep/R2a/standard/n6/T3/filter=minimax}{alpha_ratio}$ at $n=6$ and $\res[3]{looseness/stateprep/R2a/standard/n8/T3/filter=minimax}{alpha_ratio}$ at $n=8$; the theorem does not by itself bound the whole residual's ratio.
 
-\subsection{The standard form's gap and the degree it implies}
+\subsection{Standard-Form Gap and Implied Degree}
 \label{app:std-gap}
 
 Write $\|g\|_w^2=\int_{-1}^{1}g(x)^2(1-x^2)^{-1/2}\,dx$. On a register of $N'$ terms, a polynomial $g$ of degree below $N'$ has a coefficient vector $\hat g$ in the normalised basis with $\braket{\tau(x)|\hat g}=g(x)$ and, by the Parseval identity of \Cref{eq:eta-e}, $\|\hat g\|^2=(N'/\pi)\|g\|_w^2$.
@@ -132,10 +134,10 @@ Let $P_1$ be the polynomials of degree at most one and $b(p)$ the coefficient ve
 
 The bound uses nothing about the solution and holds for variable coefficients, R3's included: two smooth trial functions, on which the residual is $O(1)$ at every resolution, already bound the first excited value. It is an upper bound only. The matching lower bound on $\Delta$, which the degree's upper bound $O(N^{2k}\log(1/\varepsilon))$ for the structured encoding needs, is not proved; it is measured on R2a and R2b (\Cref{sec:standard-hamiltonian}). The degree bound is the minimax edge filter's; for polynomial filters in general it holds as far as Lin and Tong's optimality supports \cite{lintong2020groundstate}.
 
-\subsection{Subnormalisation across \texorpdfstring{$n$}{n}}
+\subsection{Subnormalisation Across \texorpdfstring{$n$}{n}}
 \label{app:alpha-G}
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
     \centering
     \caption[Subnormalisation of the two encodings of $\G$, $n=2$--$10$]{\textbf{The structured encoding rises to $2j_{-3/4,1}\approx2.117$ times $\|\G\|_2$; Wu et al.'s prefactor grows as $j_{-3/4,1}N^3$.} Subnormalisation over $\|\G\|_2$ of the structured encoding (\Cref{prop:standard-cost}) and of Wu et al.'s prefactor (\Cref{eq:pihm-published-prefactor}) for the differentiation matrix $\G$, $n=2$--$10$, $N=2^n$. $j_{-3/4,1}$, first positive zero of the Bessel function $J_{-3/4}$. Exact classical computation.}
     \label{tab:alpha-G-full}

@@ -1,7 +1,9 @@
-\subsection{Systems in Full}
+This appendix gives coupled systems, the doubled space and the Carleman lift in full.
+
+\subsection{Systems}
 \label{app:systems}
 
-\paragraph{The rows of R7.} R7 is $u'=v$, $v'=-\pi^2u$ on $x\in[-1,1]$ with $(u,v)(-1)=(0,\pi)$, so $C=2$, $\Acoup=\bigl(\begin{smallmatrix}0&1\\-\pi^2&0\end{smallmatrix}\bigr)$ and the interval needs no rescaling ($T/2=1$). With the field index the most significant, the equation rows of \Cref{eq:system-rows} are
+\paragraph{Rows of R7.} R7 is $u'=v$, $v'=-\pi^2u$ on $x\in[-1,1]$ with $(u,v)(-1)=(0,\pi)$, so $C=2$, $\Acoup=\bigl(\begin{smallmatrix}0&1\\-\pi^2&0\end{smallmatrix}\bigr)$ and the interval needs no rescaling ($T/2=1$). With the field index the most significant, the equation rows of \Cref{eq:system-rows} are
 \begin{equation}
     \begin{pmatrix}\G & -I\\ \pi^2 I & \G\end{pmatrix}\ \text{(standard form)},
     \qquad
@@ -9,9 +11,9 @@
 \end{equation}
 the second being the first multiplied on the left by $I_2\otimes\Bt$. Two fields fill the one-qubit field register, so there is no padding. In general a padding block $b\ge C$ carries the row $\fhat{b}=0$ of weight one and no other row reads it, so the Hamiltonian is block diagonal between the physical and the padding blocks; the padding's eigenvalue is one, and the gap, the reference and the initial state are those of the physical blocks.
 
-\paragraph{R7's data.} The anchor is $v$, with $y_v=\pi$, and $y_\perp=0$ because $u(-1)=0$, so the ratio row divided by $y_a$ is $\ket{u}\bra{u}\otimes\Brow(-1)$: the zero datum holds $u(-1)$ to zero exactly. The regular datum is $v(-1)=\pi$, a collapse row on the $v$ block at $x_s=-1$, which fixes the scale and the readout.
+\paragraph{R7's Data.} The anchor is $v$, with $y_v=\pi$, and $y_\perp=0$ because $u(-1)=0$, so the ratio row divided by $y_a$ is $\ket{u}\bra{u}\otimes\Brow(-1)$: the zero datum holds $u(-1)$ to zero exactly. The regular datum is $v(-1)=\pi$, a collapse row on the $v$ block at $x_s=-1$, which fixes the scale and the readout.
 
-\paragraph{The ratio rows' spectrum.} For $C$ components and $\Frat$ of \Cref{eq:ratio-row}:
+\paragraph{Spectrum of the Ratio Rows.} For $C$ components and $\Frat$ of \Cref{eq:ratio-row}:
 
 \begin{proposition}[Ratio rows]
 \label{prop:ratio-rows}
@@ -22,7 +24,7 @@ If $\Frat v=0$ then $v_c=(v_a/y_a)y_c$ for every $c\ne a$, and trivially for $c=
 \end{proof}
 The rows therefore fix the ratios of the components and leave the scale free, as a zero row does, and their weight against the equation is set by the data: the largest singular value is $\|y\|$ and the smallest non-zero one $|y_a|$, so the anchor with the largest $|y_a|$ conditions them best. For a Carleman lift $y$ is the vector of the data's scaled moments (\Cref{app:carleman-spacetime}).
 
-\paragraph{The ratio rows' circuit.} Divided by $y_a$, the rows are
+\paragraph{Circuit for the Ratio Rows.} Divided by $y_a$, the rows are
 \begin{equation}
     \frac{\Frat}{y_a}\otimes\Brow(x^*)
     =\Bigl(I-\ket{a}\bra{a}-\frac{\|y_\perp\|}{y_a}\,\ket{\hat y_\perp}\bra{a}\Bigr)\otimes\Brow(x^*),
@@ -30,16 +32,16 @@ The rows therefore fix the ratios of the components and leave the scale free, as
 \end{equation}
 three \gls{lcu} terms, each a field-register operation times the zero row's encoding: the identity; the projector $\ket{a}\bra{a}$, a matrix unit placed by $X$ gates around the zero projector; and the rank-one term, the matrix unit $\ket{0}\bra{a}$ followed by a rotation tree that prepares $\hat y_\perp$ from $\ket{0}$. The subnormalisation is $(2+\|y_\perp\|/|y_a|)$ times the zero row's, and a datum with $y_\perp=0$ drops the third term.
 
-\subsubsection{The coupling as a sum of matchings}
+\subsubsection{Coupling as a Sum of Matchings}
 \label{app:matchings}
 
 \paragraph{Construction.} A matching $\mathcal{P}$ is a set of entries of $\Acoup$ with at most one in each row and column. It acts as a partial permutation of the field register's basis states followed by a diagonal: column $c$ goes to row $\pi(c)$ with weight $v_{\pi(c)}$. The permutation is completed to a permutation of all basis states and built from transpositions, each a cascade of CNOTs around one \gls{mcx}, the only gate that takes the selector's control. The weights, divided by the matching's largest magnitude $\alpha_{\mathcal P}$, lie in $[-1,1]$ and are applied as $R_Y(2\arccos v_r)$ on a flag qubit, whose zero then carries $v_r$, with weight zero on a row the matching does not reach. The rotations of every matching form one uniformly controlled $R_Y$ on the field register and the matching selector, $2^{n_f+w}$ CNOTs for all of them, $w$ the selector's width. A matching whose weights share one value is a bare permutation, its sign moved into the coefficient. The coupling is $\sum_{\mathcal P}\alpha_{\mathcal P}U_{\mathcal P}$, block-encoded at $\alpha=\sum_{\mathcal P}\alpha_{\mathcal P}$.
 
-\paragraph{How many.} The matchings are the colour classes of an edge colouring of the bipartite graph whose two sides are $\Acoup$'s rows and columns and whose edges are its non-zero entries. The greedy colouring takes the entries in row order and gives each the least colour that its row and its column do not yet hold. Let $\delta$ be the largest number of entries in a row or column. An entry meets at most $\delta-1$ others in its row and $\delta-1$ in its column, so at most $2\delta-1$ colours are used. $\delta$ is the least possible, since the entries of one row need distinct colours, and it suffices for a bipartite graph by K\"onig's theorem \cite{konig1916graphen}; on every Carleman lift built, the greedy colouring reached $\delta$. A Pauli-word expansion of the same coupling, $\Acoup=\sum_{x,z}f_{xz}X^xZ^z$, pays for every word with a non-zero coefficient, and on a Carleman lift these are a sizeable fraction of the $4^{n_f}$ words, against $\delta$ matchings.
+\paragraph{Number of Matchings.} The matchings are the colour classes of an edge colouring of the bipartite graph whose two sides are $\Acoup$'s rows and columns and whose edges are its non-zero entries. The greedy colouring takes the entries in row order and gives each the least colour that its row and its column do not yet hold. Let $\delta$ be the largest number of entries in a row or column. An entry meets at most $\delta-1$ others in its row and $\delta-1$ in its column, so at most $2\delta-1$ colours are used. $\delta$ is the least possible, since the entries of one row need distinct colours, and it suffices for a bipartite graph by K\"onig's theorem \cite{konig1916graphen}; on every Carleman lift built, the greedy colouring reached $\delta$. A Pauli-word expansion of the same coupling, $\Acoup=\sum_{x,z}f_{xz}X^xZ^z$, needs a term for every word with a non-zero coefficient, and on a Carleman lift these are a sizeable fraction of the $4^{n_f}$ words, against $\delta$ matchings.
 
 \Cref{tab:lift-circuits} sets the matchings against the tensor layout of \Cref{app:carleman-layouts} on the lifts of Burgers' and Navier--Stokes' couplings, each encoded alone.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
     \centering
     \caption[Encodings of the Carleman coupling: symmetric and tensor layouts]{\textbf{The matchings are cheaper only on small lifts; the tensor layout's term count does not grow.} The Carleman lift's coupling $\Acoup_K$, encoded alone, for Burgers (R9c, $a/\nu=1$) and the Navier--Stokes vortex pair (R10c, $a/\nu=10$): in the symmetric layout as a sum of matchings, in the tensor layout as $2K-1$ terms on its physical states. $M$, Galerkin modes; $K$, Carleman order; $\alpha/\|\Acoup_K\|$, subnormalisation over the coupling's norm; CNOTs, per query; --, symmetric layout not built. Every entry verified by \gls{ir} to $10^{-10}$. Classical construction and verification.}
     \label{tab:lift-circuits}
@@ -64,7 +66,7 @@ three \gls{lcu} terms, each a field-register operation times the zero row's enco
 
 The matchings' count and cost grow with the entries of $\Acoup_K$, the tensor layout's term count stays at $2K-1$ and its CNOTs grow slowly with $M$, so the matchings are cheaper per query only on the smallest lifts. The tensor layout's subnormalisation is close to the norm on Burgers and loose in two dimensions, where the Fourier fold's $\alpha$ is $N$.
 
-\subsubsection{Realification and the real embedding}
+\subsubsection{Realification and Real Embedding}
 \label{app:realification}
 
 \paragraph{Realification.} Let $\iota:\mathbb{C}^m\to\mathbb{R}^{2m}$, $z\mapsto(\operatorname{Re}z,\operatorname{Im}z)$, a real-linear isomorphism, and let a complex residual be $R=R_r+\mathrm{i}R_i$ with $R_r$, $R_i$ real. Then $\iota(Rz)=R_\iota\,\iota(z)$ with
@@ -73,16 +75,16 @@ The matchings' count and cost grow with the entries of $\Acoup_K$, the tensor la
 \end{equation}
 so $Rz=0$ if and only if $R_\iota\iota(z)=0$, and $\ker R_\iota=\iota(\ker R)$, of real dimension twice the complex one: the solution's real scale and its phase. The data close both. Imposed as real ratio rows on the realified components (\Cref{eq:ratio-row}), they fix the direction of $\iota(z(x^*))$ in $\mathbb{R}^{2m}$, which fixes the phase as well as the ratios, so an \gls{ivp} has a one-dimensional real near-kernel, as a real system does. For one mode, $z'=cz$ realifies to \Cref{eq:realification}. R7 is $z'=-\mathrm{i}\pi z$ with $z=\pi u+\mathrm{i}v$: the realified state is $(\pi u,v)$, and R7 carries $(u,v)=D^{-1}(\pi u,v)$ with $D=\operatorname{diag}(\pi,1)$, so its coupling $\bigl(\begin{smallmatrix}0&1\\-\pi^2&0\end{smallmatrix}\bigr)=D^{-1}\bigl(\begin{smallmatrix}0&\pi\\-\pi&0\end{smallmatrix}\bigr)D$ is the realification's under a diagonal change of variables, and its kernel the image of the realification's under $D^{-1}\otimes I$.
 
-\paragraph{The real embedding of the Fourier variables.} For the fluids, with $\hat u_{\pm\mathbf k}=(a\mp\mathrm{i}b)/2$ the complex coefficients of $a\cos(\mathbf k\cdot\mathbf x)+b\sin(\mathbf k\cdot\mathbf x)$, the variables $v=\sqrt2\,\hat u$ on the wavevectors of both signs are $v=Ew$, with $w$ the real coefficients and $E$ putting $1/\sqrt2$ on $\pm\mathbf k$ for a cosine and $\mp\mathrm{i}/\sqrt2$ for a sine. $E$ is an isometry, $E^\dagger E=I$, and unitary when the real basis holds every kept wavevector, so the complex Fourier--Galerkin operators act on real data through $E$, and the real system's coupling is $E^\dagger(\cdot)E$. Burgers' sine modes are the case of one axis and sines only.
+\paragraph{Real Embedding of the Fourier Variables.} For the fluids, with $\hat u_{\pm\mathbf k}=(a\mp\mathrm{i}b)/2$ the complex coefficients of $a\cos(\mathbf k\cdot\mathbf x)+b\sin(\mathbf k\cdot\mathbf x)$, the variables $v=\sqrt2\,\hat u$ on the wavevectors of both signs are $v=Ew$, with $w$ the real coefficients and $E$ putting $1/\sqrt2$ on $\pm\mathbf k$ for a cosine and $\mp\mathrm{i}/\sqrt2$ for a sine. $E$ is an isometry, $E^\dagger E=I$, and unitary when the real basis holds every kept wavevector, so the complex Fourier--Galerkin operators act on real data through $E$, and the real system's coupling is $E^\dagger(\cdot)E$. Burgers' sine modes are the case of one axis and sines only.
 
-\subsection{The Doubled Space}
+\subsection{Doubled Space}
 \label{app:doubled-space}
 
-\paragraph{The doubled residual.} On $\ket{\Psi}=\ket{\psi}\otimes\ket{\psi}$, let a term have coefficient $c$ and $k\le2$ field factors, the $i$-th carrying the derivative $\G^{j_i}$, and a multiplier of degree at most one; it becomes $c\,\nfold_1\bigl(\Dzero(x_s)^{\otimes(2-k)}\otimes\G^{j_1}\otimes\cdots\bigr)$ for a constant multiplier and the same with $\nfold_x$ for the multiplier $x$. A linear term is thereby carried by one copy of the collapse row, which on $\psi$ is the constant $f_q(x_s)/f(x_s)$, and a source by two. An invariant constraint becomes $\nfold_1\bigl(\Dzero(x_s)\otimes\Brow(x^*)\G^j\bigr)$, and the readout is $\nfold_1(\Dzero\otimes I)$, with $f_Q=\eta f_q$ ($p=1$ in $f_Q=\eta^{1/p}f_q$). The equation block maps the $N^2$ amplitudes of $\Psi$ to the $2N$ coefficients of the folded register on $n+1$ qubits.
+\paragraph{Doubled Residual.} On $\ket{\Psi}=\ket{\psi}\otimes\ket{\psi}$, let a term have coefficient $c$ and $k\le2$ field factors, the $i$-th carrying the derivative $\G^{j_i}$, and a multiplier of degree at most one; it becomes $c\,\nfold_1\bigl(\Dzero(x_s)^{\otimes(2-k)}\otimes\G^{j_1}\otimes\cdots\bigr)$ for a constant multiplier and the same with $\nfold_x$ for the multiplier $x$. A linear term is thereby carried by one copy of the collapse row, which on $\psi$ is the constant $f_q(x_s)/f(x_s)$, and a source by two. An invariant constraint becomes $\nfold_1\bigl(\Dzero(x_s)\otimes\Brow(x^*)\G^j\bigr)$, and the readout is $\nfold_1(\Dzero\otimes I)$, with $f_Q=\eta f_q$ ($p=1$ in $f_Q=\eta^{1/p}f_q$). The equation block maps the $N^2$ amplitudes of $\Psi$ to the $2N$ coefficients of the folded register on $n+1$ qubits.
 
-\paragraph{The kernel bound.} The equation block has $2N$ rows, so rank at most $2N$, and each constraint block is a fold of a Kronecker product of two rank-one rows, so rank at most one. With $m$ invariant constraints, $\operatorname{rank}R\le2N+m$ and $\dim\ker H_\otimes=\dim\ker R\ge N^2-2N-m$, which is at least $N^2/2=2^{2n-1}$ once $N\ge8$ for $m\le2$. At $n=2$ the bound is weaker than Wu et al.'s count, which the records meet there by measurement. \Cref{tab:doubled-kernel} gives the measured dimensions; at $n=2$ to $4$ the equation blocks have rank $2N-3$ (R6a) and $2N-1$ (R6b), each problem with one constraint.
+\paragraph{Kernel Bound.} The equation block has $2N$ rows, so rank at most $2N$, and each constraint block is a fold of a Kronecker product of two rank-one rows, so rank at most one. With $m$ invariant constraints, $\operatorname{rank}R\le2N+m$ and $\dim\ker H_\otimes=\dim\ker R\ge N^2-2N-m$, which is at least $N^2/2=2^{2n-1}$ once $N\ge8$ for $m\le2$. At $n=2$ the bound is weaker than Wu et al.'s count, which the records meet there by measurement. \Cref{tab:doubled-kernel} gives the measured dimensions; at $n=2$ to $4$ the equation blocks have rank $2N-3$ (R6a) and $2N-1$ (R6b), each problem with one constraint.
 
-\begin{table}[htbp]
+\begin{table}[!htbp]
     \centering
     \caption[Kernel dimension of the doubled space]{\textbf{The doubled space's kernel grows as $N^2$.} Kernel dimension of the doubled-space Hamiltonian $H_\otimes$ for R6a ($4f''+2(f')^2+f=0$) and R6b ($f''-2f^2+x=0$), against the doubled state's dimension $N^2$ and Wu et al.'s lower bound $2^{2n-1}$; $N=2^n$. Classical computation (\gls{svd} of the stacked residual).}
     \label{tab:doubled-kernel}
@@ -99,7 +101,7 @@ so $Rz=0$ if and only if $R_\iota\iota(z)=0$, and $\ker R_\iota=\iota(\ker R)$, 
     \end{tabular}
 \end{table}
 
-\paragraph{Higher degree.} \Cref{sec:pihm-doubled} states the published construction as quadratic only. A term of degree $p$ in the unknown needs $p$ copies, $\ket{\Psi}=\ket{\psi}^{\otimes p}$, of dimension $N^p$, its factors folded back into one Chebyshev series by the $p$-fold product of \Cref{prop:fold-optimal} (a cubic term by a tripled space, a quartic by a quadrupled one). The register therefore grows with the degree, a limitation also noted in the concurrent work of Paine \cite{paine2026concurrent}. The argument of \Cref{prop:no-penalty} should carry over, since the corresponding kernel is again a subspace and the $p$-fold product states are not; we do not use the doubled space beyond $p=2$. Our alternative for every degree is the Carleman lift of \Cref{sec:carleman}.
+\paragraph{Higher Degree.} \Cref{sec:pihm-doubled} states the published construction as quadratic only. A term of degree $p$ in the unknown needs $p$ copies, $\ket{\Psi}=\ket{\psi}^{\otimes p}$, of dimension $N^p$, its factors folded back into one Chebyshev series by the $p$-fold product of \Cref{prop:fold-exact} (a cubic term by a tripled space, a quartic by a quadrupled one). The register therefore grows with the degree, a limitation also noted in the concurrent work of Paine \cite{paine2026concurrent}. The argument of \Cref{prop:no-penalty} should carry over, since the corresponding kernel is again a subspace and the $p$-fold product states are not; we do not use the doubled space beyond $p=2$. Our alternative for every degree is the Carleman lift of \Cref{sec:carleman}.
 
 \subsection{Proof of \texorpdfstring{\Cref{prop:no-penalty}}{the projection statement}}
 \label{app:proof-no-penalty}
@@ -109,14 +111,14 @@ so $Rz=0$ if and only if $R_\iota\iota(z)=0$, and $\ker R_\iota=\iota(\ker R)$, 
 
 (2) Write $H_\otimes=\sum_\lambda\lambda\Pi_\lambda$ with $\Pi_0=\Pi$. Then $P_d(H_\otimes)\psi_{\mathrm{init}}=\Pi\psi_{\mathrm{init}}+\sum_{\lambda>0}P_d(\lambda)\Pi_\lambda\psi_{\mathrm{init}}$, and the second term has norm at most $\max_{\lambda>0}|P_d(\lambda)|\,\|\psi_{\mathrm{init}}\|\to0$. Since $\Pi\psi_{\mathrm{init}}\ne0$, normalising gives \Cref{eq:doubled-projection}. The imaginary-time filter has $P(0)=1$ and $\max_{\lambda>0}e^{-\beta\lambda}=e^{-\beta\lambda_1}\to0$; the minimax filter takes the value one at the ground state and at most $\varepsilon$ on the excited spectrum, and $\varepsilon\to0$ as its degree grows at a fixed edge.
 
-(3) For $H_\otimes,P\succeq0$, $\langle\phi,(H_\otimes+P)\phi\rangle=0$ if and only if $\langle\phi,H_\otimes\phi\rangle=\langle\phi,P\phi\rangle=0$, so $\ker(H_\otimes+P)=\ker H_\otimes\cap\ker P$. For this to be $\operatorname{span}\{\psi_*\otimes\psi_*\}$, $P$ must vanish on $\psi_*\otimes\psi_*$ and on no other direction of $\ker H_\otimes$, a condition that refers to $\psi_*$.
+(3) For $H_\otimes,P\succeq0$, $\langle\phi,(H_\otimes+P)\phi\rangle=0$ if and only if $\langle\phi,H_\otimes\phi\rangle=\langle\phi,P\phi\rangle=0$, so $\ker(H_\otimes+P)=\ker H_\otimes\cap\ker P$. For this to be $\operatorname{span}\{\psi_*\otimes\psi_*\}$, $P$ must vanish on $\psi_*\otimes\psi_*$ and on no other direction of $\ker H_\otimes$. That is a condition on $\psi_*$, and it is what the thesis calls answer-dependent: a definition of the scope, not a proof that the condition cannot be met from the problem's data alone.
 \end{proof}
-The scope is the one stated: a penalty built without knowledge of the solution. A penalty that knows the solution isolates it, and is answer-dependent.
+Part (3) fixes the scope and proves no impossibility. A penalty that is given the solution isolates it, and is answer-dependent by the condition above; whether a penalty built from the problem's data alone can satisfy the condition is not decided here, and none is built.
 
-\subsection{The Carleman Lift}
+\subsection{Carleman Lift}
 \label{app:carleman-layouts}
 
-\paragraph{The symmetric layout.} A polynomial system $u'=\sum_{p\ge1}F_pu^{\otimes p}$ on $M$ components, $F_p$ of shape $M\times M^p$, is carried on the monomials $z_\alpha=\prod_iu_i^{\alpha_i}$ with $1\le|\alpha|\le K$, once each: $\sum_{k=1}^K\binom{M+k-1}{k}$ components, level by level, the fields first. Differentiating a monomial,
+\paragraph{Symmetric Layout.} A polynomial system $u'=\sum_{p\ge1}F_pu^{\otimes p}$ on $M$ components, $F_p$ of shape $M\times M^p$, is carried on the monomials $z_\alpha=\prod_iu_i^{\alpha_i}$ with $1\le|\alpha|\le K$, once each: $\sum_{k=1}^K\binom{M+k-1}{k}$ components, level by level, the fields first. Differentiating a monomial,
 \begin{equation}
     z_\alpha'=\sum_i\alpha_iu^{\alpha-e_i}u_i'
     =\sum_i\alpha_i\sum_p\sum_{j_1,\dots,j_p}(F_p)_{i,j_1\dots j_p}\,z_{\alpha-e_i+e_{j_1}+\dots+e_{j_p}},
@@ -143,7 +145,7 @@ $z(u)=Dz(w)$, so $z(w)'=D^{-1}\Acoup_KDz(w)$, whose entry $(\alpha,\beta)$ is mu
 \end{proof}
 With $s=\max(\|u_0\|,1)$, level $k$ of the data's moments has norm $(\|u_0\|/s)^k\le1$. Unscaled, data of norm above one grow as $\|u_0\|^k$ with the level, the ground state's weight moves from the fields to the top level, where no initial state independent of the answer reaches it, and the moments inflate the ratio rows' subnormalisation. The readout is scaled back to the physical datum.
 
-\paragraph{The tensor layout.} Level $k$ is carried as the whole tensor $u^{\otimes k}$, $M^k$ components in $k$ slots, slot $0$ the most significant.
+\paragraph{Tensor Layout.} Level $k$ is carried as the whole tensor $u^{\otimes k}$, $M^k$ components in $k$ slots, slot $0$ the most significant.
 
 \begin{proposition}[The tensor layout's terms]
 \label{prop:tensor-terms}
@@ -158,9 +160,9 @@ $\frac{d}{dt}u^{\otimes k}=\sum_ju^{\otimes j}\otimes u'\otimes u^{\otimes(k-1-j
 \end{proof}
 The individual terms are not equal on symmetric tensors; only their sum is the symmetric layout's. A native complex preparation in this layout would also need a phase on the collapse row and a complex state loader for the data's moments, neither of which is built.
 
-\paragraph{The tensor layout's circuit.} It is built for a Fourier--Galerkin equation in structured form, $u'=L_1u+\sum\mathrm{out}\bigl((\mathrm{left}\,u)\cdot(\mathrm{right}\,u)\bigr)$, every operator a Fourier multiplier, in the variables $v=\sqrt2\,\hat u$ of \Cref{app:realification}. The register is $K$ slots of $d\,m$ qubits, each holding a wavevector's components in two's complement with $2^m\ge3\max|k_d|+1$, so that the product of two kept modes never aliases onto a kept mode, and a level register of $\lceil\log_2(K+1)\rceil$ qubits. A level-$k$ state occupies slots $0$ to $k-1$ with kept wavevectors and leaves the others at the zero wavevector, which no truncation keeps: these are the physical states. $F_1$ on slot $j$ is its multiplier's magnitudes on the kept wavevectors, as one uniformly controlled $R_Y$ on a flag ($\alpha$ the largest magnitude), times the projector onto the levels above $j$; a symbol $c\prod_dk_d^{a_d}|\mathbf k|^{2e}$ has the phase $\mathrm{i}^{\sum_da_d}$, which joins the term's weight. $F_2$ on slots $j$ and $j+1$ is the projector onto the levels from $j+2$, the Fourier fold of its input multipliers (\Cref{app:proof-fold-optimal}), the output multiplier, which is the Galerkin truncation, and a cyclic shift of the slots above $j$ with the level lowered by one. The terms are combined with weights $T/2$ and, for $F_2$, $s/\sqrt2$. The multipliers vanish off the truncation, so the encoding maps physical states to physical states only, with no leakage. It is verified exactly on Burgers' lift on four modes at $K=2$, to $\res[2,sci]{lift/R9c-M4/standard/n0/carleman=2/lift=tensor}{verify_max_error}$ with leakage $\res[2,sci]{lift/R9c-M4/standard/n0/carleman=2/lift=tensor}{leak}$, and by \gls{ir} on every truncation where \gls{ir} was run, to $\res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{modes}$ modes at $K=2$ on $\res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{components}$ physical states; at $K=3$ on $148$ and $316$ modes it is a construction record only.
+\paragraph{Tensor Layout Circuit.} It is built for a Fourier--Galerkin equation in structured form, $u'=L_1u+\sum\mathrm{out}\bigl((\mathrm{left}\,u)\cdot(\mathrm{right}\,u)\bigr)$, every operator a Fourier multiplier, in the variables $v=\sqrt2\,\hat u$ of \Cref{app:realification}. The register is $K$ slots of $d\,m$ qubits, each holding a wavevector's components in two's complement with $2^m\ge3\max|k_d|+1$, so that the product of two kept modes never aliases onto a kept mode, and a level register of $\lceil\log_2(K+1)\rceil$ qubits. A level-$k$ state occupies slots $0$ to $k-1$ with kept wavevectors and leaves the others at the zero wavevector, which no truncation keeps: these are the physical states. $F_1$ on slot $j$ is its multiplier's magnitudes on the kept wavevectors, as one uniformly controlled $R_Y$ on a flag ($\alpha$ the largest magnitude), times the projector onto the levels above $j$; a symbol $c\prod_dk_d^{a_d}|\mathbf k|^{2e}$ has the phase $\mathrm{i}^{\sum_da_d}$, which joins the term's weight. $F_2$ on slots $j$ and $j+1$ is the projector onto the levels from $j+2$, the Fourier fold of its input multipliers (\Cref{app:proof-fold}), the output multiplier, which is the Galerkin truncation, and a cyclic shift of the slots above $j$ with the level lowered by one. The terms are combined with weights $T/2$ and, for $F_2$, $s/\sqrt2$. The multipliers vanish off the truncation, so the encoding maps physical states to physical states only, with no leakage. It is verified exactly on Burgers' lift on four modes at $K=2$, to $\res[2,sci]{lift/R9c-M4/standard/n0/carleman=2/lift=tensor}{verify_max_error}$ with leakage $\res[2,sci]{lift/R9c-M4/standard/n0/carleman=2/lift=tensor}{leak}$, and by \gls{ir} on every truncation where \gls{ir} was run, to $\res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{modes}$ modes at $K=2$ on $\res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{components}$ physical states; at $K=3$ on $148$ and $316$ modes it is a construction record only.
 
-\paragraph{Where the lift is exact.}
+\paragraph{Exactness of the Lift.}
 \begin{proposition}[An exact lift]
 \label{prop:exact-lift}
 If the data lie in a subspace $S$ that $F_1$ maps into itself and on which $F_2(u\otimes u)=0$, the truncated lift's first level is the solution exactly, at every $K$.
@@ -170,10 +172,10 @@ The solution is $u(t)=e^{F_1t}u_0\in S$, with $F_2(u\otimes u)=0$ throughout. In
 \end{proof}
 The Taylor--Green vortex is this case (\Cref{app:fluid-data}).
 
-\subsection{The Time Axis, Uniqueness and the Error}
+\subsection{Time Axis, Uniqueness and Error}
 \label{app:carleman-spacetime}
 
-\paragraph{Rows and data.} A system or a lift on $t\in[0,T]$ is carried on $\xi=2t/T-1$, and its equation rows are \Cref{eq:system-rows} with $\Acoup$, or $\Acoup_K$, holding the factor $T/2$. Its data are the ratio rows $(\Frat/y_a)\otimes\Brow(-1)$ at $\xi=-1$ with $y$ the scaled moments $z(u_0/s)$, imposing $z_c(-1)=(y_c/y_a)\,z_a(-1)$. On a padding block $\Frat/y_a$ is the identity, whose rows meet only that block, so the padding still decouples. The two forms share these rows and differ by the invertible $I\otimes\Bt_\xi$ on the equation rows, so they share their kernel (\Cref{thm:kernel-equivalence}).
+\paragraph{Rows and Data.} A system or a lift on $t\in[0,T]$ is carried on $\xi=2t/T-1$, and its equation rows are \Cref{eq:system-rows} with $\Acoup$, or $\Acoup_K$, holding the factor $T/2$. Its data are the ratio rows $(\Frat/y_a)\otimes\Brow(-1)$ at $\xi=-1$ with $y$ the scaled moments $z(u_0/s)$, imposing $z_c(-1)=(y_c/y_a)\,z_a(-1)$. On a padding block $\Frat/y_a$ is the identity, whose rows meet only that block, so the padding still decouples. The two forms share these rows and differ by the invertible $I\otimes\Bt_\xi$ on the equation rows, so they share their kernel (\Cref{thm:kernel-equivalence}).
 
 \begin{proposition}[A one-dimensional near-kernel]
 \label{prop:ivp-uniqueness}
@@ -182,17 +184,17 @@ On $C^1([-1,1])^C$ the solutions of $z'=\Acoup z$ with $z(-1)\in\operatorname{sp
 \begin{proof}
 A linear \gls{ivp} has exactly one solution for each initial value, and the ratio rows leave the initial value one degree of freedom.
 \end{proof}
-The residual is this operator restricted to polynomials of degree below $N_t$. Its smallest singular value is the polynomial residual of the true solution, which falls spectrally in $N_t$ for an analytic solution, and the rest of its spectrum approximates the continuum operator's, which has no other kernel. The near-kernel is therefore one-dimensional in both forms and for every $\Acoup$, including a lift whose truncation does not converge: the uniqueness is the \gls{ivp}'s, which the lift carries. Every Carleman build in the records has a one-dimensional kernel; the few not trusted lie at $n_t=3$, where the time axis does not yet resolve the solution.
+The residual is this operator restricted to polynomials of degree below $N_t$, and the proposition fixes the continuum operator's kernel, not the assembled one's. The gap bound of \Cref{sec:systems-fields} applies to the descriptor residual of a truncated lift, with the ratio rows as its constraint rows at $\xi=-1$, for every $\Acoup$, including a lift whose truncation does not converge: the uniqueness is the \gls{ivp}'s, which the lift carries. The standard form's gap is bounded above (\Cref{prop:std-gap-bound}) and its isolation here is measured. At a finite $n_t$ the near-kernel is judged by the computed gap ratio: every Carleman build in the records has a one-dimensional kernel, and the few not trusted lie at $n_t=3$, where the time axis does not yet resolve the solution.
 
-\paragraph{The error in two parts.} With $u$ the reference, $z^{(K)}$ the exact solution of the truncated lift from the data's moments, and $\hat u$ the field decoded from the prepared state, the triangle inequality gives \Cref{eq:carleman-error}, both terms on the comparison grid. The lift's term is computed by exponentiating $\Acoup_K$ and does not depend on $n_t$; the time axis's falls spectrally with $n_t$. The field's error therefore falls with $n_t$ until the lift's floor and then holds.
+\paragraph{Error Components.} With $u$ the reference, $z^{(K)}$ the exact solution of the truncated lift from the data's moments, and $\hat u$ the field decoded from the prepared state, the triangle inequality gives \Cref{eq:carleman-error}, both terms on the comparison grid. The lift's term is computed by exponentiating $\Acoup_K$ and does not depend on $n_t$; the time axis's falls spectrally with $n_t$. The field's error therefore falls with $n_t$ until the lift's floor and then holds.
 
 \subsection{Product Folds}
-\label{app:proof-fold-optimal}
+\label{app:proof-fold}
 
 A product of $p$ fields on $n$ qubits has degree at most $p(N-1)<2^\ell N$, $\ell=\lceil\log_2p\rceil$, so it is represented exactly on $n+\ell$ qubits, where it is the pointwise product of the fields' values at the nodes. Let $\Ucg$ be the Chebyshev--Gauss transform on $n+\ell$ qubits (coefficients to node values, orthogonal), $E$ the zero-padding from $n$ to $n+\ell$ qubits, and $\mathcal{D}_p=\sum_i\bra{i}^{\otimes p}$ the map that keeps the diagonal.
 
-\begin{proposition}[The nodal fold is exact and tight]
-\label{prop:fold-optimal}
+\begin{proposition}[The nodal fold is exact, within a constant of its norm]
+\label{prop:fold-exact}
 The fold
 \begin{equation}
     \nfold_1^{(p)}=2^{p\ell/2}\,\Ucg^{\top}\mathcal{D}_p\,\bigl(\Ucg E\bigr)^{\otimes p}
@@ -205,7 +207,7 @@ The normalised bases on $n$ and $n+\ell$ qubits differ by $\varphi_k^{(n)}=2^{\e
 \end{proof}
 The norm rises with $n$, from $\res[3]{fold/n2}{norm}$ at $n=2$ to $\res[4]{fold/n12}{norm}$ at $n=12$, so $\alpha=2$ exceeds it by a factor that falls from $\res[3]{fold/n2}{alpha_ratio}$ to $\res[3]{fold/n12}{alpha_ratio}$: the encoding is tight to a constant and not optimal. $\nfold_x$, the fold with the multiplier $x$, multiplies by the node values $\bar x_m=\cos\theta_m$ before $\Ucg^\top$; since $\theta_m$ is linear in $m$, $\operatorname{diag}(\bar x)=(D+D^\dagger)/2$ for the diagonal phase $D=\operatorname{diag}(e^{\mathrm{i}\theta_m})$, one phase gate per qubit combined on one ancilla, and $\alpha$ stays $2$. The circuit's ancillas are the two padding qubits and $n-1$ spare qubits that return the register to zero for stacking. $\Ucg$ is the \gls{dct}, a dense gate counted apart and budgeted as a cited primitive \cite{klappenecker2001dct}; it is not built gate by gate.
 
-\paragraph{The Fourier fold.} The tensor layout's fold is the circular convolution $(u*v)_{\mathbf k}=\sum_{\mathbf p+\mathbf q\equiv\mathbf k}u_{\mathbf p}v_{\mathbf q}$, which is $\mathrm{QFT}^\dagger\mathcal{D}_2(\mathrm{QFT}\otimes\mathrm{QFT})$ times $N^{1/2}$ for each axis: the \gls{qft} takes both copies to grid values, a CNOT from each qubit of the first copy to the second leaves the second at zero exactly where the grid points agree, the second copy is post-selected, and the inverse \gls{qft} returns the first to coefficients. Its $\alpha$, $N^{1/2}$ per axis, is the convolution's own norm on the register, since nothing restricts its input. The \gls{qft} is built.
+\paragraph{Fourier Fold.} The tensor layout's fold is the circular convolution $(u*v)_{\mathbf k}=\sum_{\mathbf p+\mathbf q\equiv\mathbf k}u_{\mathbf p}v_{\mathbf q}$, which is $\mathrm{QFT}^\dagger\mathcal{D}_2(\mathrm{QFT}\otimes\mathrm{QFT})$ times $N^{1/2}$ for each axis: the \gls{qft} takes both copies to grid values, a CNOT from each qubit of the first copy to the second leaves the second at zero exactly where the grid points agree, the second copy is post-selected, and the inverse \gls{qft} returns the first to coefficients. Its $\alpha$, $N^{1/2}$ per axis, is the convolution's own norm on the register, since nothing restricts its input. The \gls{qft} is built.
 
 \subsection{Fourier--Galerkin Operators}
 \label{app:fluids}

@@ -52,7 +52,7 @@
 
 % FIG: fig:pipeline (F1), the most important figure in the thesis: its caption must stand alone as
 %   a summary of the model. Check the boxes against pihm's stages at results-v1.
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
     \centering
     \begin{tikzpicture}[
         font=\footnotesize,
@@ -103,7 +103,7 @@ A problem is data: its fields and axes; its equation, as a sum of terms, each a 
 
 A run is a problem at a resolution with a set of options: the form and, for the descriptor, its layout and block rescaling; the encoding of $\G$; the treatment of a nonlinearity; the filter; the target $\varepsilon=10^{-6}$; and the initial state. Their values and defaults are listed in \Cref{tab:run-inputs} (\Cref{app:run-options}). The defaults are the configuration every comparison of \Cref{sec:results} uses; the alternatives are controls, labelled ablations, or the printed choices kept to test the published method.
 
-\subsection{The Classical Reference}
+\subsection{Classical Reference}
 \label{sec:pipeline-reference}
 % ~0.5 pp. LAND: the smallest right singular vector; Wedin's bound against the eigensolver's (the
 %   bounds and the table -> app:eigh-vs-svd; R2a's relative gap is sec:descriptor-spectrum's); the
@@ -157,7 +157,7 @@ The proof is given in \Cref{app:proof-stacked-reflection}. The reflection block-
 \end{equation}
 for one power of $W$ followed by one projection; controlling $W$ controls only its two reflections (\Cref{app:controlled-walk}).
 
-\subsection{The Filter and Its Parameters}
+\subsection{Filter and Parameters}
 \label{sec:pipeline-filter}
 % ~1 pp. LAND (T-23: MINIMAX IS PRIMARY): GQSP (eq:gqsp-block); the minimax edge filter and its
 %   degree (eq:minimax-filter, eq:minimax-degree); a priori parameters and the known-edge
@@ -185,7 +185,7 @@ A filter is a polynomial $P$ of $H'$. \Gls{gqsp} \cite{motlagh2024gqsp} applies 
 \end{equation}
 by \Cref{eq:walk}, so a filter given by its Chebyshev coefficients $q_k$ is realised by the analytic polynomial with the same coefficients. The phases are computed from $P$ alone, and the polynomial they realise is checked against $P$ (\Cref{app:gqsp-phases}).
 
-\paragraph{The minimax edge filter.} The filter that prepares every comparison and extension is the polynomial of degree $d$ that is smallest on the excited spectrum relative to its value at the ground state: the Chebyshev polynomial of that spectrum, optimal by Chebyshev's inequality (\Cref{sec:bg-filtering}). With $x_1$ the first excited value of $H'$ and $w$ the affine map of $[x_1,1]$ onto $[-1,1]$,
+\paragraph{Minimax Edge Filter.} The filter that prepares every comparison and extension is the polynomial of degree $d$ that is smallest on the excited spectrum relative to its value at the ground state: the Chebyshev polynomial of that spectrum, optimal by Chebyshev's inequality (\Cref{sec:bg-filtering}). With $x_1$ the first excited value of $H'$ and $w$ the affine map of $[x_1,1]$ onto $[-1,1]$,
 \begin{equation}
     \begin{gathered}
         P_d(x)=\frac{T_d\bigl(w(x)\bigr)}{T_d\bigl(w(-1)\bigr)},
@@ -206,11 +206,11 @@ Its Chebyshev coefficients alternate in sign and sum in magnitude to one, so \Cr
 \end{equation}
 an instance of \Cref{eq:degree}. The approximation holds for $\sigma_1\ll\alpha_R$, where $x_0$ and $x_1$ round to $-1$ in floating point, so $\theta_0$ is evaluated from the heights $1+x_j=2\sigma_j^2/\alpha_R^2$ above the edge (\Cref{app:minimax-filter}). For an initial state of overlap $\gamma$ with a one-dimensional target, the prepared state's infidelity is at most $(1-\gamma^2)\varepsilon^2/\gamma^2$ (\Cref{prop:minimax-guarantee}).
 
-\paragraph{The parameters are a priori.} The degree needs $\varepsilon$, the circuit's own $\alpha_R$ and the spectrum's edge, $\sigma_0$ and $\sigma_1$ from the classical reference; it never reads the solution. The edge is assumed known, the standard assumption of filtering methods (\Cref{sec:bg-filtering}), and is given exactly to both forms; finding it on the circuit, or replacing it by a lower bound on the gap at a degree proportional to the bound's inverse square root, is beyond our scope (\Cref{sec:limitations}). Wu et al.'s time rule, \Cref{eq:pihm-time-rule}, contains no $\varepsilon$ and falls short of it (\Cref{tab:deviations}); it is kept only as a tested variant (\Cref{app:paper-claims}).
+\paragraph{A Priori Parameters.} The degree needs $\varepsilon$, the circuit's own $\alpha_R$ and the spectrum's edge, $\sigma_0$ and $\sigma_1$ from the classical reference; it never reads the solution. The edge is assumed known, the standard assumption of filtering methods (\Cref{sec:bg-filtering}), and is given exactly to both forms; finding it on the circuit, or replacing it by a lower bound on the gap at a degree proportional to the bound's inverse square root, is beyond our scope (\Cref{sec:limitations}). Wu et al.'s time rule, \Cref{eq:pihm-time-rule}, contains no $\varepsilon$ and falls short of it (\Cref{tab:deviations}); it is kept only as a tested variant (\Cref{app:paper-claims}).
 
-\paragraph{Imaginary time.} Wu et al.'s filter, imaginary time $e^{-\beta(1+x)}$ in the variable of $H'$, has modified Bessel functions for its Chebyshev coefficients, which also sum in magnitude to one, and a degree with the same factor $\alpha_R/\sqrt\Delta$, larger than the minimax filter's by a constant factor at equal suppression (\Cref{app:qite-filter,prop:filter-normalisation}). It runs only in the filter study, which measures that factor in both forms (\Cref{sec:results-faithful}), and in the reproduction of Wu et al.\ (\Cref{app:reproduction}).
+\paragraph{Imaginary Time.} Wu et al.'s filter, imaginary time $e^{-\beta(1+x)}$ in the variable of $H'$, has modified Bessel functions for its Chebyshev coefficients, which also sum in magnitude to one, and a degree with the same factor $\alpha_R/\sqrt\Delta$, larger than the minimax filter's by a constant factor at equal suppression (\Cref{app:qite-filter,prop:filter-normalisation}). It runs only in the filter study, which measures that factor in both forms (\Cref{sec:results-faithful}), and in the reproduction of Wu et al.\ (\Cref{app:reproduction}).
 
-\paragraph{The initial state.} The filter acts on the geometric product state,
+\paragraph{Initial State.} The filter acts on the geometric product state,
 \begin{equation}
     \ket{\psi_{\mathrm{init}}}\propto\bigotimes_{j=0}^{n-1}\Bigl(\ket{0}+r^{2^j}\ket{1}\Bigr)=\sum_{k=0}^{N-1}r^k\ket{k},
     \qquad
@@ -221,7 +221,7 @@ an instance of \Cref{eq:degree}. The approximation holds for $\sigma_1\ll\alpha_
 \end{equation}
 on the field block and zero on every other block: $n$ single-qubit rotations and no entangling gate. Its rate and sign pattern guess the geometric decay of a smooth function's Chebyshev coefficients; neither is fitted. Both signs of $r$ are run and the one with the larger measured success probability is kept, a rule that needs only what a quantum computer observes. A system's fields each carry the state weighted by the problem's stated initial data, $w_0/\|w_0\|$ (\Cref{sec:systems-data}). In a Carleman lift the fields are the level-one blocks, so the state sits there, and every higher level starts at zero, as the descriptor's derivative blocks and padding do. The uniform state and a seeded random state are controls, and $\gamma$ is reported for every run. Where the ground state has weight outside the field block, in the descriptor's derivative blocks or a lift's higher levels, $\gamma$ is at most the square root of the field block's weight (\Cref{sec:descriptor-gap}).
 
-\paragraph{Success and total cost.} The post-selection succeeds with probability $p_G=\|P_d(H')\psi_{\mathrm{init}}\|^2\ge\gamma^2P_d(x_0)^2$, which tends to $\gamma^2$ as the ground value approaches the edge. Amplitude amplification \cite{brassard2000amplitude} with $\lfloor\pi/(4\arcsin\gamma)\rfloor$ rounds raises it to at least one half, so with $g(W)$ the two-qubit gate count of one walk a preparation costs
+\paragraph{Success and Total Cost.} The post-selection succeeds with probability $p_G=\|P_d(H')\psi_{\mathrm{init}}\|^2\ge\gamma^2P_d(x_0)^2$, which tends to $\gamma^2$ as the ground value approaches the edge. Amplitude amplification \cite{brassard2000amplitude} with $\lfloor\pi/(4\arcsin\gamma)\rfloor$ rounds raises it to at least one half, so with $g(W)$ the two-qubit gate count of one walk a preparation costs
 \begin{equation}
     \text{queries}=(2k_{\mathrm{aa}}+1)\,d,
     \qquad
@@ -251,7 +251,7 @@ By \Cref{prop:stacked-reflection}, \Cref{eq:walk} and \Cref{eq:gqsp-block}, the 
 
 Each preparation is accepted against bars at every level (\Cref{tab:acceptance}): the state's infidelity at most $\varepsilon$ and within ten times its a priori bound, the circuit against its emulation within $10^{-10}$ before normalising, and the decoded field within the reference's own field error plus a budget for the prepared state's. The budget splits the state's distance from the reference into the filter's, the truncation's and the realised phases' terms, and carries their sum to the field by an exact readout bound (\Cref{eq:error-budget}). Every encoding is exact and the field is decoded classically, so no block-encoding or sampling term enters.
 
-\subsection{Reading Out the Solution}
+\subsection{Readout}
 \label{sec:pipeline-readout}
 % ~0.25 pp (plan §5.7 item 7: ONE PARAGRAPH, T-24). Classical decoding first; Wu et al.'s protocol
 %   attributed, built and verified at small n, its correction for p_G < 1 (eq:readout-identity and
@@ -266,7 +266,7 @@ The field is read out classically: it is decoded from the prepared state's field
 \end{equation}
 so the state's global phase and norm cancel and the decoded field carries the sign of the datum; $\eta$ is the linear model's scale of \Cref{sec:standard-model}. Wu et al.\ read the field out point by point instead, by an interferometric measurement (\Cref{sec:pihm-encoding}) whose identity assumes a deterministic preparation: after post-selection with probability $p_G<1$ the field, a ratio, is unaffected and the scale is wrong by the factor $p_G$ (\Cref{eq:readout-identity}). The protocol is built and verified with this correction on R1, R2a and R5a at small $n$; its study at scale is further work (\Cref{sec:future-work}), not the method's readout.
 
-\subsection{Design of the Numerical Experiment}
+\subsection{Experimental Design}
 \label{sec:pipeline-design}
 % ~0.5 pp. LAND: what varies and what is fixed; what counts as a gate and an ancilla; FAIRNESS,
 %   DECLARED, with its true bias: as built favours the descriptor (its encoder is the tighter); the
@@ -274,11 +274,11 @@ so the state's global phase and norm cancel and the decoded field carries the si
 
 The study varies the resolution ($n$ per axis, $n_t$, the modes $M$ and the Carleman order $K$), the form, the encoding of $\G$, the filter, the target $\varepsilon$ and the initial state, one at a time from the defaults of \Cref{tab:run-inputs}. Within a comparison of the forms everything else is fixed: the problem and its constraint rows, $\varepsilon=10^{-6}$, the minimax filter, the geometric initial state on the field block and the readout.
 
-\paragraph{Cost conventions.} A query is one application of the walk $W$; a preparation costs $d$ queries and an amplified one $(2k_{\mathrm{aa}}+1)d$ (\Cref{eq:total-cost}). Gates per query are the two-qubit gates of one walk after transpiling to $\{\mathrm{CX},U\}$ \cite{qiskit2024}, with one-qubit gates counted separately and dense primitives that are cited rather than built, the doubled space's discrete cosine transform, counted apart. Ancilla are counted on the composed reflection $V$: the row select, every block's ancilla and, in the descriptor's chain, nothing for the block register, which is part of the state.
+\paragraph{Cost Conventions.} A query is one application of the walk $W$; a preparation costs $d$ queries and an amplified one $(2k_{\mathrm{aa}}+1)d$ (\Cref{eq:total-cost}). Gates per query are the two-qubit gates of one walk after transpiling to $\{\mathrm{CX},U\}$ \cite{qiskit2024}, with one-qubit gates counted separately and dense primitives that are cited rather than built, the doubled space's discrete cosine transform, counted apart. Ancilla are counted on the composed reflection $V$: the row select, every block's ancilla and, in the descriptor's chain, nothing for the block register, which is part of the state.
 
-\paragraph{Fairness.} The standard form is costed with its structured encoding, the cheapest exact encoding of it built (\Cref{sec:standard-exact}), which is looser than the descriptor's (\Cref{sec:standard-hamiltonian,sec:descriptor-cost}). The degree is linear in $\alpha_R$ (\Cref{eq:degree}), so an as-built comparison favours the descriptor by about the ratio of the two encodings' looseness, a factor of the encodings and not of the Hamiltonians. Every comparison is therefore quoted twice: as built, and at the ideal-encoding bound $\alpha_R=\|R\|_2$, the least degree the minimax filter needs through any encoding of the residual (\Cref{prop:ideal-degree}). The difference between a form's two degrees is its encoder's cost; a difference between the forms at the ideal bound is a difference between their Hamiltonians, and only that difference says whether the cost is the Hamiltonian's and whether reformulating the residual lowers it. Where the order of the forms reverses at the ideal bound, the reversal is reported as a finding (\Cref{sec:results-scaling}).
+\paragraph{Fair Comparison.} The standard form is costed with its structured encoding, the cheapest exact encoding of it built (\Cref{sec:standard-exact}), which is looser than the descriptor's (\Cref{sec:standard-hamiltonian,sec:descriptor-cost}). The degree is linear in $\alpha_R$ (\Cref{eq:degree}), so an as-built comparison favours the descriptor by about the ratio of the two encodings' looseness, a factor of the encodings and not of the Hamiltonians. Every comparison is therefore quoted twice: as built, and at the ideal-encoding bound of \Cref{sec:standard-hamiltonian}, the only one that compares the Hamiltonians. Where the order of the forms reverses at the ideal bound, the reversal is reported as a finding (\Cref{sec:results-scaling}).
 
-\paragraph{Tiers and fits.} Every number states its tier. Degrees beyond the emulation's reach are resource estimates: exact for this filter, given the spectrum and the circuit's $\alpha_R$, but with no state prepared, and compared with exact emulation where both exist. Every resource estimate is computed at its own resolution, from that resolution's circuit and reference, and none is extrapolated; the growth of a degree with $N$ is quoted as a measured exponent between stated resolutions.
+\paragraph{Tiers and Fits.} Every number states its tier. Degrees beyond the emulation's reach are resource estimates: exact for this filter, given the spectrum and the circuit's $\alpha_R$, but with no state prepared, and compared with exact emulation where both exist. Every resource estimate is computed at its own resolution, from that resolution's circuit and reference, and none is extrapolated; the growth of a degree with $N$ is quoted as a measured exponent between stated resolutions.
 
 \subsection{Software and Computation}
 \label{sec:pipeline-software}
@@ -287,7 +287,7 @@ The study varies the resolution ($n$ per axis, $n_t$, the modes $M$ and the Carl
 % CITED 2026-10-12: NumPy, SciPy (Crossref) and Setonix (Pawsey's Conditions of Use, which ask
 %   for the DOI citation); the Pawsey acknowledgement is in 1_header/2_acknowledgments.tex.
 
-The pipeline is implemented in \texttt{pihm}, a Python package we wrote, on NumPy \cite{harris2020numpy} and SciPy \cite{virtanen2020scipy} for the classical linear algebra and Qiskit and Qiskit Aer for the circuits and their simulation \cite{qiskit2024}. Each concept has one implementation, shared by both forms and every problem, so a difference between the forms cannot come from different code for the same step. Each claim the thesis makes has a test that recomputes it. The production runs were made on the Setonix supercomputer of the Pawsey Supercomputing Research Centre \cite{pawsey2023setonix} at one tagged version of the code, and every number and figure is regenerated from the archived records by one command. Its architecture, records and commands are given in \Cref{app:software}.
+The pipeline is implemented in \texttt{pihm}, a Python package we wrote (\Cref{app:software}). Each concept has one implementation, shared by both forms and every problem, so a difference between the forms cannot come from different code for the same step, and every number and figure is regenerated from the archived records of one tagged version.
 
 Within this pipeline the forms differ in their residual alone, and a comparison read at the ideal-encoding bound compares their Hamiltonians. Two things rest on assumption or argument: the spectral edge, supplied by the classical reference rather than found on the circuit, and the circuit's output beyond small widths, which the exact emulation supplies by the argument of \Cref{sec:pipeline-verification}. \Cref{sec:results-faithful} tests the pipeline against its reference, its emulation and its error budget before \Cref{sec:results-scaling} measures the degree's two terms in both forms.
 
