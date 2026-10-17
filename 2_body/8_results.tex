@@ -1,117 +1,12 @@
-% =============================================================================
-% Chapter 8  Numerical Study  (8_results.tex)  --  10 pp (plan §4.1, v3.4)
-% rubric: Project Body (Modelling) -- Results & Discussion /30.
-% Plan: ThesisPlanning.md §5.8 (v3.2).
-%
-% PURPOSE     Evidence every claim of the Abstract and of §1.3, "without
-%             reference to any other documents", one section per question or
-%             contribution.
-% CRITERION   "Complete, clearly presented results, with detailed discussion
-%             showing insight... or warranting publication." Every figure is
-%             interpreted in prose; each section ends with what it established.
-% SOURCES     P8's records (results-v1) through \res; the results guide
-%             pihm/docs/06_results_guide/ 82-87; the reports 11_pillar1.md,
-%             12_pillar2.md, 13_descriptor.md, 14_descriptor_gap.md,
-%             15_filters.md, 16_extensions.md, 17_navier_stokes.md; the claims
-%             register 22_claims_register.md; one notebook per figure.
-% NUMBERING   The opening has no heading, so the sections are 8.1-8.5; the
-%             plan's §8.6 (Summary of Findings) was removed 2026-10-16.
-% EVERY NUMBER is a \res from 0_results/ (\prov{...} only where pihm exports no
-%   key yet, each with a REVISE), and every number names its tier.
-% FIRST PASS  2026-10-12, drafted against the results-v1 records (full scratch
-%   export); every key checked to exist. Deviations from plan §5.8, each checked
-%   against the records: F10 (optional) replaced by tab:growth, which carries
-%   the case-by-case comparison by key; Navier--Stokes is prepared (T2, T3) on
-%   12-48 modes and built classically to 80; no circuit simulation was attempted
-%   on R10 (no estimate record exists), so §8.5 quotes the T3 widths instead;
-%   the a/nu = 30 divergence on 28-48 modes is reported as a second instance of
-%   the trusted-kernel finding.
-% REVIEW PASS 2026-10-12, every claim re-read against the records:
-%   - tab:filter-study now quotes e6_qite_worst (QITE's degree from the same
-%     worst-case bound as minimax_certified); e6_qite_certified is QITE's degree
-%     certified on the actual spectrum, a different strength. Moved to App. F.
-%   - R5 evidence restricted to trusted references (R5a from n = 3, R5b from 4,
-%     R5c only at 5 per axis); R5c's growth row daggered.
-%   - the T = 1/8 window: twelve modes already converge at T = 1; the window
-%     restores convergence on 28 modes (plan §5.8 item 5 said "restores it on 12 modes": wrong,
-%     per 17_navier_stokes.md §1.1). 48 modes at T = 1/8 is NOT quoted (2026-10-14): with sine data
-%     each Carleman order corrects one parity (K 2->3 the sine modes, 3->4 the cosines), and its
-%     max-norm error sits on a cosine mode, so K = 2 and 3 agree to rounding (sine modes 4.62 ->
-%     4.05); "stalls on 48" was an artefact. Dropped from the text and from F-NS panel (c).
-%   - verification scoped: whole up to 24 qubits; reflections from 25 qubits are
-%     construction-only (Ch. 7). QITE T1 misses: not set by degree alone.
-%   - gates per query at n = 8 from the T3 records, g(W) = gates/((2k_aa+1)d),
-%     eq:total-cost: parity of the structured and descriptor encodings.
-%   - moved: the edge-underestimate study (App. F), the full growth table
-%     (App. H, tab:catalogue-growth), the tensor layout's per-query numbers
-%     (App. E, tab:lift-circuits, already there); F8 panel (a) and F14 panel (d)
-%     dropped.
-% REVIEW PASS 2 2026-10-13 (Review Mode; 13.3 pp measured against 10), every new
-%   number checked against the full results-v1 export:
-%   - F7 (fig:verification-accuracy) and F8 (fig:decoded-field) moved to App. G;
-%     F13 panel (c) dropped (tab:doubled-kernel holds R6a's dimensions);
-%     tab:growth keeps one-to-three representatives per class (R7, R4d, R5c in
-%     tab:catalogue-growth).
-%   - Burgers: the descriptor's degree is the lower on every case from n_t = 4 only;
-%     at n_t = 3 on half (finding 5 and §8.4's close scoped accordingly).
-%   - F12 (fig:gap-cases) is now the reversals figure (degree against N, R3a, R5b,
-%     R5a), cited from §8.2; the three-problem list is gone (plan §4.1 trim
-%     order): R3a and R5b are §8.2's reversals, R2c a paragraph of §8.3, R5c's
-%     several-dimensional near-kernel a note in App. H.
-%   - the heat reversal scoped to the ideal bound (as built the descriptor is
-%     lower at n = 5 per axis) and to R5b: R5a's ideal-bound degree is the
-%     descriptor's lower at n = 4 and 5 per axis.
-%   - ideal-bound degrees added to R7, R8 and Burgers (fair-comparison rule).
-%   - two-axis T1 widths 26 (R5b) to 28 (R5a, R5c), both keys.
-%   - F9's T2 range: p5_stateprep runs the standard form on p4's grid (to n = 3
-%     on R2a), a choice of grid; its degree at n = 4 is within T2's reach.
-%   - the R3 endpoint mechanism and the Burgers mode argument moved to Ch. 9's
-%     scaffold (sec:disc-applicability).
-% GEMINI REVIEW 2026-10-16 (GeminiReviewPlan.md, Prompt 3): R2c's as-built exponent explained by alpha_R against
-%   ||R||_2 (gap constant n = 7 to 8; alpha-split keys, constant_share, a prediction not a measurement); growth
-%   exponents at two figures (tab:growth, prose; App. H tab:catalogue-growth); Carleman overlap paragraphs in
-%   §8.4 (gamma^2, T2) and §8.5 (p_G, T3), not extrapolated; §8.5's pair counts reworded. Keys overlap/* and
-%   alpha-split/* are placeholders until the exporter reruns.
-% REVISION 2026-10-16 (Review Mode findings, every factual change checked against the full results-v1
-%   export first):
-%   - the Carleman overlap: gamma^2 falls with K (R8 settles, R9c falls, R9e erratic); its minimum is at
-%     K = 4 (overlap/carleman/T2 min_carleman), not K = 5 as the earlier text said; "does not grow" removed.
-%   - R10: the 12-mode verdicts rest on K = 2 to 4 or 5, the 28- and 48-mode verdicts on one ratio
-%     (K = 2 -> 3, the largest built there); the a/nu = 30 negative stated (truncation >= 6% relative at
-%     every M built, the lift diverging from 28 modes).
-%   - rescaling's effect on the degree quantified at the ideal bound from the relative gaps (exact,
-%     eq:minimax-degree; the formula reproduces R2c's ideal_degree key); the as-built unscaled degree
-%     was not estimated; the gate cost pointed to sec:descriptor-rescaling.
-%   - R2c consolidated in §8.3 (its as-built exponent is a rescaling effect); the regular-class exponent
-%     range scoped "but R2c" (every other regular problem, R7 included, lies in R4d..R1).
-%   - Burgers n_t = 3 quoted as built and at the ideal bound (time-axis/R9/n3 ideal_lower).
-%   - tab:time-axis (new) carries the systems' and lifts' degrees; T2 and T3 degrees coincide on every
-%     row where both exist (the degree is a priori), so T3 keys throughout.
-%   - the filter-study count is no longer typed: the cases are named (R1 standard; R3a, R5a descriptor).
-%   - the QITE T1 misses: the 46 records are all the reproduction's (App. I, record keys); wording kept.
-%   - NEW KEYS, placeholders until the exporter reruns: stateprep/R8/descriptor/n8/T2/carleman={2,6},
-%     stateprep/R9c-M4/descriptor/n5/T2/carleman={2,5} (gamma2); build/R10c-M12/.../carleman=5,
-%     build/R10d-M12/.../carleman=4 (lift_err_linf); panel/R10d-M48 (truncation_err).
-% =============================================================================
-
 The formulation chapters made their claims about operators. Each claim predicts a filter degree through \Cref{eq:degree}, and the measurements below ask \emph{whether the measured degrees follow those laws, and on which problems}. They use the benchmark problems of \Cref{tab:ladder} with the pipeline and conventions of \Cref{sec:pipeline}, validated here before any cost is compared, and the minimax filter at $\varepsilon=10^{-6}$ unless stated. Every result is a classical computation, by circuit simulation, exact emulation or resource estimation (\Cref{sec:pipeline-verification}), and a gap, a norm or a reference's error is an exact classical computation on the assembled residual. Every problem in both forms is tabulated in \Cref{app:catalogue-results}; the reproduction of Wu et al.'s example problems, which tests their method rather than the questions posed here, is in \Cref{app:reproduction}.
 
 \subsection{Validation of the Pipeline}
 \label{sec:results-faithful}
-% ~1.5 pp (S1 validation, S3). LAND, in order: (0) the validation paragraph: the standard form
-%   converges spectrally on R1-R5 (best trusted error and its n), the paper-faithful variant one
-%   sentence -> app:reproduction; (1) operators against the assembled residuals in every mode
-%   (F7, in App. G since review pass 2); (2) the circuit against its emulation, <= 1e-10, every minimax T1 record; the QITE misses
-%   -> app:repro-t1; (3) every trusted preparation within eps and its a priori bound, the field
-%   within its budget (F8); (4) what the answer-independent choices cost (gamma; an underestimated
-%   gap); (5) the filter study in one table and two sentences (B-17).
-% NOTE (from Ch. 7's review): consumed here, (a) to (c).
 
 Every number in this chapter is read from one production of $\res{production}{runs}$ runs, each of which left a record of its configuration, its outcome and the source code that produced it (\Cref{app:software-campaigns}). Of these, $\res{production}{ok}$ completed; the other $\res{production}{infeasible}$, all circuit simulations, were refused by their own resource estimators and were not attempted. Solved classically through its reference (\Cref{sec:pipeline-reference}), the standard form converges spectrally on every linear benchmark problem, its smallest trusted error of the decoded field being $\res[2,sci]{build/R2a/standard/best}{field_err_linf}$ on R2a at $n=\res{build/R2a/standard/best}{n}$, $\res[2,sci]{build/R4b/standard/best}{field_err_linf}$ on the inhomogeneous R4b at $n=\res{build/R4b/standard/best}{n}$ and $\res[2,sci]{build/R5b/standard/best}{field_err_linf}$ on the heat equation at $n=\res{build/R5b/standard/best}{n}$ per axis; the descriptor reaches $\res[2,sci]{build/R2a/descriptor/best}{field_err_linf}$ on R2a. These references are the yardstick for every preparation below.
 
 \paragraph{Verification of the Encodings.} Each circuit is compared with an operator assembled independently from the problem, in one of three modes (\Cref{tab:verification-modes}). All $\res{verification/all}{count}$ verifications, $\res{verification/exact}{count}$ exact, $\res{verification/probe}{count}$ by probe and $\res{verification/ir}{count}$ by \gls{ir}, meet their mode's tolerance by at least four orders of magnitude, the least margin a factor of $\res[2,sci]{verification/all}{least_margin}$ (\Cref{fig:verification-accuracy}). The exact mode's worst entrywise error is $\res[2,sci]{encode/R6a/standard/n3}{verify_max_error}$, and its widest verification, a whole reflection of the reproduction on $\res{encode/R4d/faithful/standard/n3}{n_qubits_total}$ qubits, is accurate to $\res[2,sci]{encode/R4d/faithful/standard/n3}{verify_max_error}$. The probe mode's worst is $\res[2,sci]{encode/R10c-M12/descriptor/n2/carleman=2/verify=probe}{verify_max_error}$, on a Navier--Stokes lift's reflection of $\res{encode/R10c-M12/descriptor/n2/carleman=2/verify=probe}{n_qubits_total}$ qubits, and the \gls{ir} mode verifies the tensor layout's coupling on $\res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{modes}$ modes to $\res[2,sci]{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{verify_max_error}$. Between them the exact and probe modes cover every composed Hamiltonian of at most 24 qubits, and the \gls{ir} mode covers every lift and coupling term by term at any size. The $\res{verification/none}{count}$ reflections beyond those reaches, those of the two-axis descriptor problems from $\res{encode/R5b/descriptor/n2x2/verify=none}{n_qubits_total}$ qubits up and of the larger lifts, are built and counted but not independently verified (\Cref{sec:pipeline-verification}).
 
-% MOVED 2026-10-16 from App. G (app:verification-modes), with their labels.
 \begin{table}[!htbp]
     \centering
     \caption[Operator verification modes and their tolerances]{\textbf{Every circuit is compared with an independently assembled operator.} Each verification mode by what it compares, where it is used and its tolerance. $X$, the target: the reflection's block $2H/\alpha_R^2-I$ or an atom's operator; $\alpha$, the circuit's subnormalisation; $\psi$, an input state; \gls{ir}, the compiled term list. The approximation mode applies only to Wu et al.'s approximate encoding of $\G$, which enters resource estimates alone.}
@@ -129,9 +24,6 @@ Every number in this chapter is read from one production of $\res{production}{ru
     \end{tabular}
 \end{table}
 
-% MOVED 2026-10-13 (Ch. 8 review pass 2) from sec:results-faithful: F7, with its label; the body
-%   quotes each mode's worst error and points here.
-% Made by Figs/scripts/make_verification_accuracy.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{Figs/verification_accuracy.pdf}
@@ -184,7 +76,6 @@ Every number in this chapter is read from one production of $\res{production}{ru
 
 \Cref{fig:scaling-headline} follows the three encodings in $N$. Between $n=7$ and $8$, $\|\Hstd\|$ rises from $\res[2,sci]{build/R2a/standard/n7}{hamiltonian_norm}$ by a factor $2^8$ and $\|\Hdesc\|$ from $\res[2,sci]{build/R2a/descriptor/n7}{hamiltonian_norm}$ by $2^2$, while both gaps hold (\Cref{sec:standard-hamiltonian,sec:descriptor-spectrum}); the degree's exponents in \Cref{tab:headline}, two-point slopes of a degree with logarithmic factors, are consistent with $\tilde\Theta(N^{10})$, $\tilde\Theta(N^4)$ and $\tilde\Theta(N)$. The separation between Wu et al.'s curve and the structured one grows as $N^{3k}=N^6$ and disappears under an exact encoding of the same Hamiltonian; the separation between the structured curve and the descriptor's grows as $N^3$, and removing it takes a different Hamiltonian. The norm's growth shows even before a filter runs. Solved classically, the standard form's error on R2a is smallest at $n=\res{build/R2a/standard/best}{n}$ and rises beyond it, to $\res[2,sci]{build/R2a/standard/n10}{field_err_linf}$ at $n=10$, where the descriptor's is $\res[2,sci]{build/R2a/descriptor/n10}{field_err_linf}$, a loss consistent with rounding error amplified by a residual whose norm grows as $N^4$.
 
-% Made by Figs/scripts/make_scaling_headline.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{Figs/scaling_headline.pdf}
@@ -223,11 +114,8 @@ Every number in this chapter is read from one production of $\res{production}{ru
 
 The heat equation R5b, whose reference is trusted from $n=4$ per axis, reverses as built as well as at the ideal bound. At $n=4$ per axis the descriptor's degree is the higher, $\res{stateprep/R5b/descriptor/n4x4/T3/filter=minimax}{degree}$ against $\res{stateprep/R5b/standard/n4x4/T3/filter=minimax}{degree}$ as built and $\res{stateprep/R5b/descriptor/n4x4/T3/filter=minimax}{ideal_degree}$ against $\res{stateprep/R5b/standard/n4x4/T3/filter=minimax}{ideal_degree}$ at the ideal bound. At $n=5$ it is the lower as built, $\res[2,sci]{stateprep/R5b/descriptor/n5x5/T3/filter=minimax}{degree}$ against $\res[2,sci]{stateprep/R5b/standard/n5x5/T3/filter=minimax}{degree}$, and still slightly the higher at the ideal bound, $\res[2,sci]{stateprep/R5b/descriptor/n5x5/T3/filter=minimax}{ideal_degree}$ against $\res[2,sci]{stateprep/R5b/standard/n5x5/T3/filter=minimax}{ideal_degree}$. Its exponent per axis is the smaller (\Cref{tab:growth}), so we expect the order to settle in the descriptor's favour at larger $n$, though no larger resolution was estimated. On the Laplace equation R5a the descriptor's ideal-bound degree is the lower at $n=4$ and $5$ per axis, $\res[2,sci]{stateprep/R5a/descriptor/n5x5/T3/filter=minimax}{ideal_degree}$ against $\res[2,sci]{stateprep/R5a/standard/n5x5/T3/filter=minimax}{ideal_degree}$ at $n=5$.
 
-% Made by Figs/scripts/make_gap_cases.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
-% CUT-CANDIDATE (page pass 2026-10-14; the author's call, not applied): 0.85\linewidth for the
-%   five Ch. 8 figures saves about 0.5 pp together; check the axis labels' legibility after.
     \includegraphics[width=\linewidth]{Figs/gap_cases.pdf}
     \caption[The ideal-bound reversals]{\textbf{At the ideal-encoding bound the standard form's degree is the lower on R3a at every $n$ and on the heat equation R5b at $n=4$ per axis; on the Laplace equation R5a it is not.} The minimax filter's degree against $N$ (per axis on R5), standard (squares) and descriptor (circles), as built (solid) and at the ideal-encoding bound $\alpha_R=\|R\|_2$ (dashed), at the resolutions whose reference is trusted. (a) R3a, Legendre's equation: the descriptor lower as built, higher at the ideal bound. At the ideal bound both degrees grow as $N^2$; as built the standard form's grows as $N^4$, its encoding being loose for R3a's lifted multiplier. (b) R5b, heat: higher at $n=4$ per axis in both comparisons; at $n=5$ lower as built and slightly higher at the ideal bound. (c) R5a, Laplace: lower in both comparisons. Exact emulation (filled) where emulated, resource estimates (open) beyond.}
     \label{fig:gap-cases}
@@ -239,27 +127,11 @@ Measured, the standard form's cost divides as \Cref{sec:standard} argued. With W
 
 \subsection{Descriptor Gap and Rescaling}
 \label{sec:results-gap}
-% ~1.5 pp (the challenge, T-21). LAND, in order: (1) F11 (fig:gap-rescaling): the gap and the field
-%   block's weight, unscaled against rescaled, every panel; gamma^2 against the cap; where the
-%   rescaling stops (two axes); the zeta rule against the grid -> App. D (one sentence; the rule
-%   takes no term, v3.16);
-%   (2) R2c (rescaling's largest gain), one paragraph; the rest -> app:catalogue-results.
-%   v3.3 review pass 2: R3a and R5b are §8.2's reversals and F12 (fig:gap-cases) is cited there;
-%   the three-problem list went under plan §4.1's trim order; R5c's near-kernel -> App. H.
-% NOTE (review pass): R2c is the largest gain among the problems whose leading coefficient does not
-%   vanish (smallest unscaled gap and field weight of those); R3a and R5a gain more in the gap.
-%   Two-axis evidence is from trusted references only: R5a from n = 3, R5b from 4, R5c at 5 per axis.
-% NOTE (2026-10-16): the ideal-bound degree's gain is read from the relative gaps through
-%   eq:minimax-degree, d ~ (Delta/||H||)^{-1/2} at alpha_R = ||R||_2: about 9.8x on R2c, 82x on R3a at
-%   n = 8. Checked: the formula gives 1.76e5 for R2c rescaled, its ideal_degree key.
 
 \Cref{sec:descriptor-gap} traced the descriptor's gap to the derivatives it carries: the gap shrinks where the solution's derivatives are large and closes with $N$ on singular problems and on two axes, and block rescaling restores it on one axis only. \Cref{fig:gap-rescaling} measures this on every benchmark problem with a trusted reference. Unscaled, the gap on the physical subspace at $n=8$ is $\res[3]{build/R2a/descriptor/n8/unscaled}{gap}$ on R2a but $\res[2,sci]{build/R2c/descriptor/n8/unscaled}{gap}$ on the stiff R2c and $\res[2,sci]{build/R3a/descriptor/n8/unscaled}{gap}$ on the singular R3a, and the field block holds as little as $\res[2,sci]{build/R2c/descriptor/n8/unscaled}{field_weight}$ of the ground state on R2c. Rescaled, the gaps are $\res[3]{build/R2a/descriptor/n8}{gap}$, $\res[3]{build/R2c/descriptor/n8}{gap}$ and $\res[3]{build/R3a/descriptor/n8}{gap}$, and the field block's weights $\res[3]{build/R2a/descriptor/n8}{field_weight}$, $\res[3]{build/R2c/descriptor/n8}{field_weight}$ and $\res[3]{build/R3a/descriptor/n8}{field_weight}$. The rescaling raises the norm as well, so the degree gains less than the gap does. At the ideal bound the degree scales as the inverse square root of the relative gap $\Delta/\|\Hdesc\|$ (\Cref{eq:minimax-degree}), which rescaling raises from $\res[2,sci]{build/R2c/descriptor/n8/unscaled}{relative_gap}$ to $\res[2,sci]{build/R2c/descriptor/n8}{relative_gap}$ on R2c and from $\res[2,sci]{build/R3a/descriptor/n8/unscaled}{relative_gap}$ to $\res[2,sci]{build/R3a/descriptor/n8}{relative_gap}$ on R3a, lowering the ideal-bound degree by about an order of magnitude on R2c and by nearly two on R3a; the as-built degree of an unscaled encoding was not estimated. Every reference here is trusted in both versions, so the rescaling changes the filter's work and leaves the prepared field as it was. It adds no ancilla, though it lengthens each query's Pauli expansion by at most a factor that the equation fixes, whatever the resolution (\Cref{sec:descriptor-rescaling}). Since the overlap obeys $\gamma\le w_f^{1/2}$ (\Cref{sec:pipeline-filter}), the field weights are also ceilings on $\gamma^2$, and how near the geometric state comes to its ceiling depends on the guess: on R4b at $n=8$, $w_f=\res[3]{build/R4b/descriptor/n8}{field_weight}$ and $\gamma^2=\res[2]{stateprep/R4b/descriptor/n8/T2/filter=minimax}{gamma2}$ (exact emulation).
 
-% Made by Figs/scripts/make_gap_rescaling.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
-% CUT-CANDIDATE (page pass 2026-10-14; the author's call, not applied): 0.85\linewidth for the
-%   five Ch. 8 figures saves about 0.5 pp together; check the axis labels' legibility after.
     \includegraphics[width=\linewidth]{Figs/gap_rescaling.pdf}
     \caption[Block rescaling: the gap and the field block's weight]{\textbf{Block rescaling restores the descriptor's gap and the field block's weight on one axis; on two axes the gap still falls.} (a) The gap $\Delta$ on the physical subspace against $N$, unscaled (open) and block-rescaled (filled), for R2a and R2c (regular, R2c stiff), R3a and R4a (singular: the leading coefficient vanishes on $[-1,1]$) and R5a--R5c (two axes, per axis), at the resolutions whose reference is trusted. (b) For every problem at $n=8$ ($n=5$ per axis on R5), the field block's weight $w_f$ in the ground state, unscaled against rescaled, with the geometric initial state's overlap $\gamma^2\le w_f$ (crosses) where a preparation ran at that resolution: R2a--c, R4b--d and R5b; R3, R4a, R5a and R5c were prepared only at smaller $n$. Rescaling lifts the one-axis gaps to $\mathcal{O}(1)$ and $w_f$ towards one; on two axes it gains orders of magnitude but the gap still falls with $N$. Exact classical computations (the reference's spectrum); $\gamma^2$ from exact emulation.}
     \label{fig:gap-rescaling}
@@ -271,13 +143,6 @@ On two axes the gap still falls. The Laplace equation's rescaled gap falls from 
 
 \subsection{Systems and Nonlinear Problems}
 \label{sec:results-nonlinear}
-% ~1.5 pp (Ch. 6, Q(iii), S4). LAND, in order (R7 FIRST): (0) R7, the realified z' = -i pi z, both
-%   forms and the chain ablation: field error, the mass form's gap against the chain's, degree,
-%   gamma^2 under the data-weighted state, T1 = T2; (1) R6's kernel beside R8's; (2) R8: the K x n_t
-%   surface and the degree in both forms (C-09); (3) Burgers (F13): the lift's error per order
-%   follows a/nu, not rho; converges at a/nu = 3, diverges at 10 with its kernel trusted. a/nu ~ 5
-%   is an EXTRAPOLATION, never written as measured.
-% F5 (StructuralReview.md): the opening states Q(iii)'s two halves, the close answers both.
 
 \Cref{sec:extensions} claims that a Carleman lift is prepared where the doubled space only projects, and that the descriptor's lower degree survives on the lifted systems, where it enters through the time axis alone (\Cref{sec:prep-vs-proj}). The coupled oscillator R7 comes first, because every lift is a coupled linear system of its kind.
 
@@ -313,11 +178,8 @@ The doubled space's kernel on R6a has dimension $\res{build/R6a/standard/n2}{ker
 
 \Cref{fig:nonlinear-burgers} measures the lift's convergence on viscous Burgers (R9) from the data $a\sin x$, against the strength $a/\nu$ and the number of sine modes $M$, with $\nu=1$. The lift's error, its exact solution against the Galerkin system's, falls by a factor of about $a/(5\nu)$ per order, a fit to the strengths run: at $a/\nu=1$ from $\res[2,sci]{build/R9c-M4/descriptor/n5/carleman=2}{lift_err_linf}$ at $K=2$ to $\res[2,sci]{build/R9c-M4/descriptor/n5/carleman=5}{lift_err_linf}$ at $K=5$, and at $a/\nu=3$ from $\res[2]{build/R9d-M4/descriptor/n5/carleman=2}{lift_err_linf}$ to $\res[2]{build/R9d-M4/descriptor/n5/carleman=5}{lift_err_linf}$. It does not depend on $M$: at $a/\nu=1$ and $K=2$ it is $\res[2,sci]{build/R9c-M16/descriptor/n5/carleman=2}{lift_err_linf}$ on sixteen modes, as on four, while the worst-case ratio of \Cref{eq:carleman-ratio} grows from $\rho=\res[3]{panel/R9c-M4}{rho}$ to $\res[3]{panel/R9c-M16}{rho}$. The lift converges at both ratios although both exceed the bound's condition $\rho<1$, and its convergence follows $a/\nu$ and not $\rho$. At $a/\nu=10$ it diverges, its error growing from $\res[3]{build/R9e-M4/descriptor/n5/carleman=2}{lift_err_linf}$ at $K=2$ to $\res[3]{build/R9e-M4/descriptor/n5/carleman=5}{lift_err_linf}$ at $K=5$ against an amplitude of $10$, while its kernel stays one-dimensional and trusted at every order, with gap ratio $\res[2,sci]{build/R9e-M4/descriptor/n5/carleman=5}{gap_ratio}$ at $K=5$. Both forms prepare it, with infidelity $\res[2,sci]{stateprep/R9e-M4/descriptor/n5/T2/carleman=5/filter=minimax}{infidelity}$ in the descriptor and $\res[2,sci]{stateprep/R9e-M4/standard/n5/T2/carleman=5/filter=minimax}{infidelity}$ in the standard form by exact emulation, and the decoded field is wrong by $\res[3]{stateprep/R9e-M4/descriptor/n5/T2/carleman=5/filter=minimax}{field_err_linf}$. Trust measures how isolated the kernel is and says nothing of the lift's accuracy (\Cref{sec:prep-vs-proj}), and here the two part. The boundary lies between $a/\nu=3$ and $10$; that the fitted factor reaches one near $a/\nu=5$ is an extrapolation.
 
-% Made by Figs/scripts/make_nonlinear_burgers.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
-% CUT-CANDIDATE (page pass 2026-10-14; the author's call, not applied): 0.85\linewidth for the
-%   five Ch. 8 figures saves about 0.5 pp together; check the axis labels' legibility after.
     \includegraphics[width=\linewidth]{Figs/nonlinear_burgers.pdf}
     \caption[Convergence of the Carleman lift]{\textbf{The Carleman lift's convergence follows $a/\nu$, not $\rho$, and past it the kernel stays trusted while the lift diverges.} (a) Viscous Burgers (R9): the lift's error against the Galerkin system against the Carleman order $K$, at $a/\nu=0.03$, $0.3$, $1$, $3$ and $10$, to $K=5$ on $M=4$ sine modes (filled) and to $K=3$ on $M=16$ (rings). Where both are built the two coincide at plot scale, although $\rho$ grows with $M$, from $\res[3]{panel/R9c-M4}{rho}$ to $\res[3]{panel/R9c-M16}{rho}$ at $a/\nu=1$; at $a/\nu=10$ the error grows with $K$. (b) R8 ($y'=-y+y^2$, $\rho=\tfrac12$): the field's error against $n_t$ for $K=2$--$6$, flat at the lift's floor from $n_t=3$. Exact classical computations from the references; every trusted preparation of these lifts meets $\varepsilon$ by exact emulation.}
     \label{fig:nonlinear-burgers}
@@ -329,22 +191,6 @@ A Carleman lift is prepared in both forms on every problem run, from R8 to Burge
 
 \subsection{Two-Dimensional Navier--Stokes}
 \label{sec:results-ns}
-% ~1.25 pp. LAND, in order: (1) F14; Taylor-Green validates F_1, the rows and the time axis (the lift
-%   exact to rounding); (2) the vortex pair at a/nu = 3, 10, 30: the lift's convergence against M,
-%   and its divergence at a/nu = 30 from 28 modes with the kernel trusted (the window T = 1/8);
-%   every exact emulation within eps; (3) the descriptor's time axis lowers the degree in every pair
-%   (C-10), the ratio narrowing as the modes grow; (4) the tensor layout to 316 modes, 2K - 1 terms,
-%   verified, not prepared (B-19); (5) the tier, said plainly: no circuit simulation on R10.
-% SCOPE (checked at results-v1): prepared (T2, T3) on 12-48 modes; built classically to 80
-%   (R10a-M80, R10c-M80, K = 2); the tensor layout's coupling alone to 316.
-% NOTE (review pass): lift errors are n_t-independent (n_t = 4 and 5 agree to every digit), so every
-%   lift error below is quoted at n_t = 4. The window: R10d at T = 1 converges on 12 modes and
-%   diverges from 28; at T = 1/8 it converges on 28 (17_navier_stokes.md §1.1); 48 at T = 1/8 is not quoted (parity
-%   artefact; see the structural-pass note above).
-% NOTE (2026-10-16): orders built at n_t = 4: twelve modes to K = 5 (R10b, R10c) or 4 (R10d, its
-%   window); 20 modes to K = 3 or 4; 28 and 48 modes to K = 3 only. truncation_err is relative to the
-%   field's largest value (derived.py _vorticity_panel); at a/nu = 30 it is 0.167, 0.110, 0.100 and
-%   0.062 on 12, 20, 28 and 48 modes.
 
 Navier--Stokes tests whether both results of \Cref{sec:results-nonlinear}, the descriptor's lower degree and a trusted kernel that can hide a diverging lift, survive when the coupling grows with the modes. \Cref{fig:navier-stokes} carries the lift to two-dimensional incompressible flow, the vorticity equation of \Cref{eq:navier-stokes} with $\nu=1$, prepared by exact emulation on $12$ to $48$ Fourier modes and built classically to $80$. The Taylor--Green vortex (R10a), whose two modes do not interact, has an exact lift, and the pipeline returns it to rounding: the lift's error is $\res[2,sci]{build/R10a-M12/descriptor/n4/carleman=2}{lift_err_linf}$ on twelve modes and $\res[2,sci]{build/R10a-M80/descriptor/n4/carleman=2}{lift_err_linf}$ on eighty. This checks the Galerkin coefficients, the ratio rows on the stated data and the time axis against a known answer; the lift's convergence is tested on the vortex pair.
 
@@ -356,25 +202,9 @@ At one Carleman order the two forms differ only in the time axis (\Cref{sec:prep
 
 No circuit was simulated on Navier--Stokes. The narrowest prepared circuit, the descriptor at $n_t=4$ on twelve modes, has $\res{stateprep/R10a-M12/descriptor/n4/T3/carleman=2/filter=minimax}{n_qubits}$ qubits, wider than any circuit simulated here, and the probe-verified reflections at $n_t=2$ were not prepared. The fluid results are exact emulations, which equal the circuit's output (\Cref{sec:pipeline-verification}), and resource estimates. The tensor layout's coupling, the one native complex encoding built, keeps $2K-1$ terms whatever the number of modes and is verified by \gls{ir} to $\res{lift/R10c-M316/standard/n0/carleman=2/lift=tensor/verify=ir}{modes}$ modes, but prepares no state (\Cref{sec:systems-complex}); its gates per query against the matchings' are given in \Cref{tab:lift-circuits}.
 
-% Made by Figs/scripts/make_navier_stokes.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
-% CUT-CANDIDATE (page pass 2026-10-14; the author's call, not applied): 0.85\linewidth for the
-%   five Ch. 8 figures saves about 0.5 pp together; check the axis labels' legibility after.
     \includegraphics[width=\linewidth]{Figs/navier_stokes.pdf}
     \caption[Two-dimensional Navier--Stokes]{\textbf{Two-dimensional Navier--Stokes is prepared by exact emulation on up to 48 modes, and the descriptor's time axis lowers the degree in every pair.} (a) Vorticity at $t=T$: the field decoded from the prepared state against the Galerkin reference, for the Taylor--Green vortex (R10a, exact lift) and the vortex pair at $a/\nu=10$ (R10c), twelve modes, $K=3$, $n_t=4$; exact emulation. (b) The minimax filter's degree against the number of modes $M$ at $K=2$, $n_t=4$, the form by colour, as built (solid) and at the ideal-encoding bound (dashed), over $M$ for the vortex pair at $a/\nu=10$ (circles) and the Taylor--Green vortex (open triangles), and on twelve modes, the only $M$ estimated at those strengths, for the pair at $a/\nu=3$ and $30$ (side-pointing triangles; filled as built, open at the ideal bound). The ratio of the two forms' degrees falls towards one as $M$ grows. (c) The lift's per-order error ratio against $M$ at $a/\nu=3$, $10$ and $30$ over $T=1$, and at $a/\nu=30$ over the window $T=\tfrac18$ on up to $28$ modes, with the line of unit ratio marked: above it the lift diverges while its kernel stays trusted. Resource estimates in (b); exact classical computations in (c). No circuit simulation was run on this problem.}
     \label{fig:navier-stokes}
 \end{figure}
-
-% CHECKLIST (marker)
-%   1. Is every number's tier marked?
-%   2. Is "could not simulate" kept apart from "cannot reach" (sec:results-faithful, sec:results-scaling, sec:results-ns)?
-%   3. Are there at most three in-depth problems (sec:results-gap)?
-%   4. Does every caption stand alone?
-%   5. Are there at least two negative findings (the reversals; the gap on two axes; the diverging
-%      lifts with trusted kernels; the a/nu = 30 truncation-or-divergence trade)?
-%   6. Is every Abstract number backed here?
-%   7. Is Wu et al.'s reproduction a one-sentence pointer to App. I, not a section?
-% TRAPS  QITE as the comparison's filter; "prepared" beside the doubled space or the tensor layout;
-%        a/nu ~ 5 as measured; a trusted kernel read as a converged lift; an unscoped descriptor
-%        degree, gap or alpha claim; a complex-valued field "prepared" (only its realification is).

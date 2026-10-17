@@ -1,34 +1,7 @@
-% =============================================================================
-% Appendix H  Benchmark Problems and Results by Problem  --  cited from sec:pipeline-inputs and
-% sec:results-gap.   Plan: ThesisPlanning.md §6 (H; was J before the 2026-10-15 restructure).
-% RESTRUCTURE 2026-10-15: this appendix is now the one home for problem definitions and for every
-%   tier-labelled number outside Chapter 8: it gained the fluid problems' data (app:fluid-data,
-%   from the old Appendix H) and the filter and edge studies (app:filter-studies, from Appendix F).
-%
-% CONTENT  R1-R10 AS RUN (T-27: the label names the problem with the data of §4.3):
-%          equations, constraint rows, datum points, references, n-grids and
-%          parameters; a per-problem results table (both forms, tiers). Wu et al.'s
-%          printed rows are the reproduction's and live in Appendix I, not here.
-% SOURCES  pihm/docs/03_problems/01-10 (generated from pihm.problems.ladder; each
-%          problem as run and as printed); pihm/src/pihm/problems/ladder.py, fluids.py;
-%          results-v1.
-% REWRITTEN 2026-10-12 (Verification Mode A1): the linear table used to list the
-%   printed invariant rows under the as-run labels; it now lists the rows as run.
-% =============================================================================
-
 This appendix lists the benchmark problems as run, with their results.
 
 \subsection{Linear Problems}
 \label{app:catalogue-linear}
-% LAND: for each problem the n-grid run and any rescaling (zeta = 40 for R2c, from
-%   eq:zeta-rule). R0 (operator identities, n = 1-10) is described in words only.
-% LANDED 2026-10-16 (first pass, for the author to rewrite): the problems as run (the data set up
-%   from the reference named), tab:catalogue-grids (the grids by stage and tier, from the
-%   results-v1 summaries; the block weight per problem, from pihm.problems.scales.block_scales and
-%   the records' scales column), and R0 in one paragraph. R0's range is NOT uniform: the property
-%   tests run n = 1 to 6, 8 or 10 by identity (tests/property/test_r0_identities.py), so Planning.md
-%   §5.1's "1-10" is not quoted. The R5 descriptor widths (25-33 qubits) are not quoted by key:
-%   the encode records are not in numbers.tex. REVISE if the author wants the widths stated.
 
 Each problem is listed as run, with the data of \Cref{sec:standard-constraints}; the panels as Wu et al.\ print them belong to \Cref{app:reproduction}. The regular datum $f(x_s)$, the reference's value at $x_s$, fixes the scale and has no column. The exact constraint points $x_z$ and the heat equation's initial function at $t=-1$ are set up from the reference (\Cref{app:exact-points,app:datum-slice}), and R3c and R3d are posed for $v=f/\sqrt{1-x^2}$ (\Cref{app:legendre-substitution}).
 
@@ -59,8 +32,6 @@ Each problem is listed as run, with the data of \Cref{sec:standard-constraints};
         \bottomrule
     \end{tabular}
 \end{table}
-% The printed Laplace solution has cosh where cos is meant (A-05); the reference above
-%   satisfies the boundary conditions (§4.3).
 
 \Cref{tab:catalogue-grids} gives the resolutions run. The descriptor's two-axis circuits are wider than either verification mode reaches, and are recorded for their subnormalisation and gate counts alone (\Cref{sec:pipeline-verification}).
 
@@ -125,21 +96,13 @@ The operator identities every run rests on are not benchmark problems. They are 
 
 \paragraph{Fluid Runs.}
 \label{app:fluid-data}
-% RESTRUCTURE 2026-10-15: moved verbatim from app:fluids (was Appendix H, now E), so that every
-%   problem's data sit in this appendix. REVISE: smooth the join ("The runs" opened a sentence
-%   after Burgers' Cole-Hopf solution in its old place). LANDED 2026-10-15: the sentence now names
-%   its problem and points to the Galerkin system and the Cole-Hopf reference.
 Burgers' equation (\Cref{eq:burgers}) is run from $u_0=a\sin x$ over $T=1$ at five ratios $a/\nu=0.03$, $0.3$, $1$, $3$ and $10$ (R9a to R9e), each truncated to $M=4$, $8$ and $16$ sine modes; its Galerkin system, and the Cole--Hopf solution against which the truncation's own error is measured, are derived with the other Fourier--Galerkin operators in \Cref{app:fluids}.
 
 \paragraph{NS Initial Conditions.} The Taylor--Green vortex $\omega_0=2\sin x\sin y=\cos(x-y)-\cos(x+y)$ occupies two modes with $|\mathbf k|^2=2$, whose coupling vanishes, so $\omega=\omega_0e^{-2\nu t}$ exactly in any truncation that holds them, and in the equation itself. Its data lie in a subspace that $F_1$ preserves and on which $F_2$ vanishes, so its lift is exact at every order (\Cref{prop:exact-lift}): R10a validates the lift, the time axis and the preparation at a known answer. The counter-rotating pair is $\pm e^{-|\mathbf x-\mathbf c|^2/(2\sigma^2)}$ with $\sigma^2=\tfrac14$ at $\mathbf c=(3\pi/4,\pi)$ and $(5\pi/4,\pi)$, periodised and projected exactly onto the modes: it has no cosine part, and its sine coefficients are proportional to $(-1)^{k_x+k_y+1}\sin(\pi k_x/4)\,e^{-|\mathbf k|^2/8}$, so modes with $k_x\equiv0\pmod4$ have zero datum. It spans several $|\mathbf k|$, so its triads are active. It is scaled to $\|w_0\|=a$ and run at $a/\nu=3$, $10$ and $30$ (R10b to R10d) over $T=1$, and at $a/\nu=30$ also over $T=1/8$. The reference for the lift and the time axis is the Galerkin system's \gls{ivp}, with its exact sparse Jacobian; the truncation's own error is measured against a pseudo-spectral \gls{dns} of \Cref{eq:navier-stokes} from the same data, whose slope inside the truncation is the Galerkin system's.
 
 \subsection{Run Options}
 \label{app:run-options}
-% MOVED 2026-10-12 from sec:pipeline-inputs (review 2.1, trim candidate 3); the body names the
-%   options and points here.
 
-% MOVED v3.4 (StructuralReview.md F3) from sec:pipeline-inputs: tab:constraint-kinds (T2), with
-%   its label; the body names the four kinds (def:standard-form) and points here.
 A problem's data enter as the four kinds of row of \Cref{def:standard-form}, listed with the problems that use them in \Cref{tab:constraint-kinds}.
 
 \begin{table}[!htbp]
@@ -189,10 +152,6 @@ A problem's data enter as the four kinds of row of \Cref{def:standard-form}, lis
 
 \subsection{Results by Problem}
 \label{app:catalogue-results}
-% LAND: every problem not carried in depth in sec:results-gap, both forms, with its tier -- the
-%   tables the body's pointers from sec:results-faithful and sec:results-gap name. Drafted
-%   2026-10-12 from the results-v1 records, every cell by key. The nonlinear problems R8-R10 are
-%   reported in sec:results-nonlinear and sec:results-ns, every number there by key.
 
 The linear benchmark problems and the coupled oscillator R7 in both forms, with the minimax edge filter at $\varepsilon=10^{-6}$ and the geometric initial state, under the conventions of \Cref{sec:pipeline-design}. \Cref{tab:catalogue-results} gives the largest resolution at which each form's reference is trusted and its preparation was emulated, with the prepared state's infidelity against the reference and the filter's degree. Every one of these preparations meets $\varepsilon$, its a priori bound and its field budget (\Cref{sec:results-faithful}). The standard form's emulations stop at smaller $n$ than the descriptor's because its degree grows as $N^{2k}$; a dash marks a problem with no trusted reference at the resolutions emulated, R2b and R2c in the standard form and the wave equation R5c in both, whose references are trusted only at larger $n$. Below $n=5$ per axis the wave equation's near-kernel is several-dimensional, $\res{build/R5c/descriptor/n4x4}{kernel_dimension}$ at $n=4$, consistent with a solution, $\cos4\pi t\,\sin2\pi x$, not yet resolved in $t$, and no preparation is claimed there. \Cref{tab:catalogue-t3} gives the resource estimates at the largest resolution estimated for every problem, as built and at the ideal-encoding bound $\alpha_R=\|R\|_2$, and \Cref{tab:catalogue-growth} the growth of these degrees with $N$, of which \Cref{tab:growth} carries a representative of each class.
 
@@ -294,15 +253,9 @@ The linear benchmark problems and the coupled oscillator R7 in both forms, with 
 
 \subsection{Filter Studies}
 \label{app:filter-studies}
-% RESTRUCTURE 2026-10-15: moved verbatim from Appendix F (the shared pipeline), where they were the
-%   only tier-labelled results; cited from sec:results-faithful, sec:results-scaling (Ch. 8) and
-%   sec:limitations (Ch. 9). The edge study's arm on Wu et al.'s time rule is the evidence for
-%   claim A-11 (app:paper-claims); it stays here so that the study is reported whole.
 
 \paragraph{Filter Comparison at Equal Error.}
 \label{app:filter-study}
-% Added 2026-10-12 for sec:results-faithful's tab:filter-study; definitions from pihm
-%   docs/15_filters.md ("Like error") and pihm.qsp.filter_comparison.
 A degree means something only at a stated error, so the filter study of \Cref{sec:results-faithful} holds both filters to the same one, at three strengths. \emph{Equal suppression} $\eta$ bounds the excited interval relative to the ground state, $\sup_{x\in[x_1,1]}|P(x)|/|P(x_0)|\le\eta$; it bounds every initial state's infidelity by $\eta^2(1-\gamma^2)/\gamma^2$, depends only on $x_0$ and $x_1$, and is the strength at which the minimax filter is optimal (\Cref{prop:minimax-optimal}). \emph{Equal certified infidelity} $\varepsilon$ is the same bound at the problem's own overlap, $\eta=\gamma\sqrt{\varepsilon/(1-\gamma^2)}$. \emph{Equal measured infidelity} $\varepsilon$ is reached on the problem's own spectrum and initial state, and a degree counts only if every larger degree up to the certified one also reaches $\varepsilon$, so that neither filter's oscillation lands on $\varepsilon$ by coincidence. Imaginary time's $\beta$ is free: each of its degrees is the least over $\beta$, found by a grid search refined about its best point, and so an upper bound on the true least to the refinement's spacing. Both filters are anchored at the spectrum's edge with unit weight (\Cref{prop:filter-normalisation}), so \gls{gqsp} realises either at the same rescaling, and a filter whose success probability falls below $10^{-12}$ is not counted.
 
 On synthetic spectra with the ground state at the edge, gaps from $10^{-8}$ to $10^{-1}$ on the scale of $H'$ and suppressions from $10^{-2}$ to $10^{-10}$, imaginary time needs $\res[3]{filters/synthetic/edge}{low}$--$\res[3]{filters/synthetic/edge}{high}$ times the minimax filter's degree at equal suppression, varying with the suppression and hardly with the gap; above the edge the ratio grows, since imaginary time's value on the ground state then falls with its time. \Cref{tab:filter-study} gives the study on the problems whose references both forms trust. At equal certified infidelity both filters' degrees come from the same worst-case bound, so the ratio is the equal-suppression ratio at the problem's own $\gamma$; every trusted reference has its ground state at the edge, and the ratio lies within the synthetic range in both forms.
@@ -329,11 +282,6 @@ It does not change with the resolution: on R1 in the descriptor it is $\res{filt
         \bottomrule
     \end{tabular}
 \end{table}
-% NOTE (2026-10-12 review of Ch. 8): the certified column quotes e6_qite_worst, QITE's least degree
-%   from the same worst-case bound as e6_minimax_certified (pihm.qsp.filter_comparison,
-%   StateComparison). The earlier draft quoted e6_qite_certified, QITE's degree certified on the
-%   actual spectrum and state, a different strength, which put R3a and R5a (descriptor) below
-%   the synthetic range.
 
 \paragraph{Underestimated Edge.}
 \label{app:edge-study}

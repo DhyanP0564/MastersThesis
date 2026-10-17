@@ -1,47 +1,7 @@
-% =============================================================================
-% Chapter 5  The Descriptor Reformulation  (5_descriptor.tex)  --  9 pp  --  THE CORE
-% rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.5 (headline contribution C).
-%
-% PURPOSE     Answer Q(ii): the headline, written as the methods section of a
-%             journal article, including the reformulation's own challenge and
-%             its cure.
-% CRITERION   Formulation, band 4, "warranting publication". The body carries
-%             the idea, the object (stated once), the cost (a formal result),
-%             the challenge and the interpretation; entries, constructions and
-%             proofs go to Appendices A and D.
-% SOURCES     ThesisPlanning.md §3.4, §3.7, §6.4; pihm/docs/02_methods.md §3.2;
-%             pihm/docs/13_descriptor.md; pihm/docs/14_descriptor_gap.md (the
-%             challenge); companion 12, 13, 50-57; claims B-01-B-07, B-14, B-20,
-%             B-21, C-05, C-06; pihm/src/pihm/assemble/descriptor.py, systems.py,
-%             ir.py, circuits/lcu.py, problems/scales.py.
-% WRITE WHEN  The mathematics now, with numbers as \res; in full at gate G4 (wave W3).
-% EQUATION TEST (STYLE_GUIDE.md §2.6): does the argument break if a reader skips
-%             it? If not, the equation belongs in an appendix.
-% EVIDENCE    Plan T-20's rule (v3.4, StructuralReview.md F1): proofs and exact classical
-%             computations only (norms, gaps, field weights, kernels, alpha/||.|| of built
-%             encodings, sparsity). Filter degrees, gates per query, whole-reflection ancilla
-%             and every tier-labelled number are §8.2-8.3's; this chapter derives the law and
-%             names the section that measures it. Moved in v3.4: the field-error pair (§8.1),
-%             R3a's degrees (§8.2), gates per query and the reflection's ancilla (§8.2), the
-%             n = 8 degrees (tab:headline), the rescaling constants (app:block-rescaling),
-%             the algorithm's line commentary (app:term-ir), the Haar paragraph
-%             (app:haar-success). Moved 2026-10-13 (review): alg:ir-to-lcu itself to
-%             app:term-ir beside its commentary; the min-max detail and the double-zero
-%             derivation to app:descriptor-gap and app:block-rescaling; the gap's lower
-%             bound proved (thm:flat-gap, proof app:flat-gap).
-% =============================================================================
-
 In the standard form the state holds the field alone, and every derivative is represented through the dense differentiation matrix $\G$, so that a term $f^{(j)}$ acts as $\G^j$ on the field's coefficients. \Cref{sec:standard-hamiltonian} found the cost of that form in its operator: with the encoding already tight, $\|\G^k\|_2=\Theta(N^{2k})$ makes $\|\Hstd\|=\Theta(N^{4k})$ for constant coefficients, and the filter's degree grows as $N^{2k}$ against a gap that stays flat. A lower degree therefore needs a different residual, which leaves the question \emph{can the residual be reformulated so that its Hamiltonian is banded and well conditioned without changing its solution, and what does the reformulation cost?}
 
 \subsection{Banded Factorisation}
 \label{sec:descriptor-construction}
-% v3.9 (2026-10-14): the chapter opening, "The Idea" and "The Banded Factorisation" merged into
-%   this one section; the antecedent credit, the factor-keeping move and the norm claim each
-%   stated once. sec:descriptor-idea retired (no \Cref pointed to it).
-% 2026-10-16 (GeminiReviewPlan rows 2, P2): the unbuilt reduction now gives App. A's three reasons in
-%   one sentence and points to sec:limitations for the expectation (written there by Prompt 4); the
-%   several-axis register count is n_f in running text, not a ceiling in the exponent.
 
 Differentiation of a Chebyshev series is dense because the derivative is expanded in the basis of the function, which is also why the tau and collocation methods produce dense, ill-conditioned matrices \cite{olver2013,boyd2001Chebyshev}; into the neighbouring basis, differentiation is banded. The coefficients of a function and of its derivative are tied by a three-term recurrence, each row of which ties one coefficient of the function to two of the derivative (\Cref{app:cheb}). Truncated to $N$ coefficients and written in the normalised basis of \Cref{sec:standard-model}, with $\fhat{0}$ and $\fhat{1}$ the coefficient vectors of $f$ and $f'$, it is the matrix identity
 \begin{equation}
@@ -136,8 +96,6 @@ An exact kernel exists only where the solution lies in the span of the basis and
 
 \subsection{Descriptor Gap}
 \label{sec:descriptor-gap}
-% v3.11 (2026-10-14): def:regular names thm:flat-gap's hypotheses once ("regular", "singular");
-%   every later scope by the leading coefficient cites the class by name (plan §3.4).
 
 While the kernel is the standard form's, the spectrum above it is not. With $E$ the map of \Cref{thm:kernel-equivalence}, the descriptor's Rayleigh quotient on the states that satisfy the recurrences is
 \begin{equation}
@@ -171,10 +129,6 @@ The remedy is to weigh each carried derivative at the equation's own scale. Carr
 
 In the circuit the weights multiply the bands before the block register's patterns are expanded in Pauli words, so they add no ancilla but lengthen the expansion wherever a pattern's entries were equal across its blocks: the terms, and with them the gates per query, grow by at most the $4^{n_f}$ words of the block register, a factor fixed by the equation and not by $n$ (\Cref{app:block-rescaling}; \Cref{sec:results-scaling} counts the rescaled circuit). One weight per block is what keeps that factor bounded; a per-amplitude equilibration \cite{vandersluis1969} would need a diagonal block encoding of its own, at $\Theta(\dim w)$ gates, and no circuit here uses one.
 
-% v3.16 (2026-10-16, GeminiReviewPlan.md rows 5a-5c): the run-in heading "The a priori rule"
-%   dropped and the rule takes no name or term anywhere; added why a simple zero needs zeta ~ N
-%   (app:block-rescaling's quotient), the calibration of the two constants, the dipping
-%   coefficient (zeta-dip keys) and deriving zeta as further work.
 The weight $\zeta$ is computed from the equation's coefficients and the resolution, never from a solution or a spectrum. For a regular problem,
 \begin{equation}
     \zeta = 2\,\bigl(\bar a_j/\bar a_k\bigr)^{1/(k-j)},
@@ -184,9 +138,6 @@ with $j<k$ the lowest order present and $\bar a$ the mean of $|a|$ over the inte
 
 On every one-axis problem the descriptor runs, the rescaled gap no longer falls with $N$, and the field block regains its weight. The gap is the physical subspace's, the one the filter meets, since the padding alone caps the whole spectrum's gap at one. At $n=7$ on R2c the gap rises from $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{gap}$ to $\res[3]{build/R2c/descriptor/n7}{gap}$ and $w_f$ from $\res[2,sci]{build/R2c/descriptor/n7/unscaled}{field_weight}$ to $\res[3]{build/R2c/descriptor/n7}{field_weight}$. On R3a the rescaled gap rises from $\res[3]{build/R3a/descriptor/n5}{gap}$ at $n=5$ to $\res[3]{build/R3a/descriptor/n7}{gap}$ at $n=7$ and levels off, $\res[3]{build/R3a/descriptor/n10}{gap}$ at $n=10$, against $\res[2,sci]{build/R3a/descriptor/n10/unscaled}{gap}$ unscaled.
 
-% CHECKED 2026-10-12 (Ch. 8 drafting, results-v1): ||H_std|| grows x256 per qubit on R4a (n = 7 to 8,
-%   build keys), x16 on R3a; a vanishing coefficient lowers the standard form's norm only where it
-%   vanishes at both ends (R3). Item 1, tab:descriptor-regimes' caption and the summary scoped to that.
 \paragraph{Remaining Limits.}
 \begin{enumerate}
     \item \emph{The norm grows with $\zeta$.} Block $m$ carries $\zeta^m$, so $\|\Hdesc\|\gtrsim\zeta^{2k}\bar a_k^2$. A fixed $\zeta$ changes only the constant; the $\zeta\propto N$ of a simple zero gives $\|\Hdesc\|=\Theta(N^{2k})$ and, at a flat gap, a degree of about $\tilde\Theta(N^{2})$ at second order. A zero at both ends, where the Chebyshev polynomials' derivatives are largest, lowers $\|\Hstd\|$ to the same $N^4$ (R3a, coefficient $1-x^2$; \Cref{sec:standard-hamiltonian}), so there the descriptor gains no exponent at the ideal-encoding bound, only as built, where the structured encoding is loose for the lifted multiplier; a zero at one end leaves $\|\Hstd\|$ at $N^8$ (R4a, coefficient $x-1$), and the lower exponent should survive the bound. \Cref{sec:results-scaling} measures both.
@@ -225,9 +176,6 @@ where the block word $P_t$, a Pauli word $X^xZ^z$ on the block register or $X^x\
 \end{figure}
 
 Two choices in the compilation set the cost of \Cref{fig:descriptor-lcu}. Bands whose axis factors agree are merged across the rows and columns they join, so the recurrences' common $\Dt$ enters the circuit once, not $k$ times. The selectors are factored, one for the block word and, on each axis, one for the diagonal and one for the shift, each only as wide as the distinct values its terms use, so SELECT applies each distinct operation once rather than once per term and the ancilla stay $\mathcal{O}(\log n)$ (\Cref{sec:descriptor-cost}). Two pieces that R2 lacks enter apart: a source's rank-one term $\ket{\hat r}\bra{\tau(x_s)}$, compiled through the feature map and a rotation tree that loads $\hat r$ and added by one further combination, and a system's coupling, a sum of matchings (\Cref{sec:ext-circuits}). The algorithm, its compilation line by line and the check of the terms against the assembled rows are given in \Cref{app:term-ir}.
-
-% v3.4 (StructuralReview.md, smaller items): the line-by-line commentary on alg:ir-to-lcu moved
-%   to app:term-ir ("The compilation, line by line").
 
 \subsection{Cost of the Descriptor Encoding}
 \label{sec:descriptor-cost}
@@ -297,25 +245,3 @@ Carrying the derivatives instead of eliminating them makes the residual banded w
     \item \emph{The limit.} The carried derivatives shrink the gap where the solution's derivatives are large, and make it fall with $N$ on singular problems and on two axes. Block rescaling restores it on one axis without ancilla, at the price of a larger norm on a singular problem; on two axes the gap still falls, and a double zero is beyond any block rescaling.
 \end{enumerate}
 All of this concerns one real scalar field and a linear equation, the scope of Wu et al.'s construction. Coupled fields, complex-valued fields and nonlinear terms each change what the residual must carry, and the nonlinear route Wu et al.\ propose gives the filter no unique ground state to find. \Cref{sec:extensions} takes the reformulation there; \Cref{sec:results-scaling,sec:results-gap} test the cost and the gap on the benchmark problems.
-
-% CHECKLIST (marker)
-%   1. Could a referee re-derive A_desc from the body plus Appendices A and D?
-%   2. Is the Hilbert-space and per-query cost volunteered alongside the gains?
-%   3. Are ultraspherical and first-order least squares credited at sec:bg-spectral
-%      and sec:descriptor-construction?
-%   4. Is the cost result a proposition AND interpreted?
-%   5. Is the ancilla claim O(log n), with optimality hedged to exact LCU?
-%   6. Is the gap's failure owned with its mechanism (sec:descriptor-gap)?
-%   7. Are the rescaling's limits stated (two axes; a double zero; a coefficient that dips),
-%      and its two constants owned as calibrated in-sample, with deriving zeta as further work?
-%   8. Does every body equation pass the equation test?
-% TRAPS  "O(1) ancilla"; "+ 6 ancilla" (now + 8); "bit-identical a-block"; "the
-%        gap is Theta(1)" unscoped (proved only for a regular problem, def:regular,
-%        at fixed zeta: thm:flat-gap); "regular" for a two-axis problem (the term is
-%        one-axis only); "rescaling costs no gates" (it adds no
-%        ancilla, but reweighting the block register's patterns adds Pauli words:
-%        cx per query x1.07-1.44 at n = 3-7, scratch check 2026-10-13, no record);
-%        "zeta fitted" per problem (its two constants were calibrated once on the benchmarks
-%        and held fixed); "a priori" or any other term for the zeta rule; "only the descriptor can
-%        prepare nonlinear solutions"; "Theta(N^2) against the standard form's
-%        Theta(N^4)" at a simple zero (the standard form's norm falls too).

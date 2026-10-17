@@ -1,29 +1,3 @@
-% =============================================================================
-% Appendix F  The Shared Pipeline: Identities and Formulas  (letter unchanged by the
-% 2026-10-15 restructure)
-% Cited from sec:pipeline-walk, sec:pipeline-filter, sec:pipeline-design and
-% sec:pipeline-readout. Plan: ThesisPlanning.md §6 (F); supporting contribution
-% S3 (claims C-03, C-04, B-16, B-17, B-24).
-%
-% CONTENT  (2026-10-12: eq:qite-filter and eq:readout-identity moved here from Ch. 7.)
-%          The stacked residual and the proof of prop:stacked-reflection;
-%          qubitisation; the controlled walk; the minimax edge filter (its
-%          optimality, degree, guarantee and success probability); the
-%          imaginary-time filter (coefficients, certified truncation, time,
-%          guarantee); the proof of prop:filter-normalisation for both filters;
-%          GQSP and its phases; amplification, the total count and the degree at
-%          the ideal-encoding bound; the readout identity for p_G < 1.
-% SOURCES  pihm/docs/companion/40-47; pihm/src/pihm/circuits/{compose,gqsp}.py,
-%          qsp/{minimax,filters,phases,nlft,prepare,initial,readout}.py.
-% FIRST PASS 2026-10-12, from the companion; every statement there carries its
-%          test.
-% RESTRUCTURE 2026-10-15: the filter study (app:filter-study, tab:filter-study) and the
-%   underestimated-edge study (app:edge-study), both exact emulation (T2), moved to Appendix H
-%   (app:filter-studies) so that this appendix holds identities and proofs only (T-20 at
-%   appendix level). The Bessel-overflow numerics and GQSP phase-finding steps 2-4 moved to the
-%   repository (_offload_to_pihm.tex, blocks F1, F2).
-% =============================================================================
-
 This appendix proves the identities of the shared pipeline.
 
 Throughout, $R=[R_1;\dots;R_L]$ is a stacked residual whose block $R_j$ has a block encoding $U_j$ at subnormalisation $\alpha_j$ on one system register with a shared ancilla register $a$, $H=R^\dagger R$, and $\sigma_0\le\sigma_1\le\dots\le\sigma_{\max}$ are the singular values of $R$.
@@ -161,8 +135,6 @@ wherever the denominator is positive. The tail is absolute while the ground stat
 
 \subsection{Unit Weight of Both Filters}
 \label{app:proof-filter-normalisation}
-% MOVED v3.4 (StructuralReview.md F3) from sec:pipeline-filter: the statement, with its labels;
-%   the body keeps one sentence and points here.
 
 \begin{proposition}[Unit weight of both filters]
 \label{prop:filter-normalisation}
@@ -202,7 +174,6 @@ on the signal and $C_0W=\ket0\bra0\otimes W+\ket1\bra1\otimes I$, the circuit is
 On an eigenvector of $W$ with eigenvalue $z$, $C_0W$ acts on the signal as $\operatorname{diag}(z,1)$. Motlagh and Wiebe \cite{motlagh2024gqsp} show that for every $P(z)=\sum_{k\le d}q_kz^k$ with $|P|\le1$ on the unit circle there are phases with $e^{\mathrm{i}\lambda}\bra0R(\theta_d,\phi_d)\operatorname{diag}(z,1)\cdots R(\theta_0,\phi_0)\ket0=P(z)$. $W$ is unitary, hence normal, so the signal's zero block of $U_\Phi$ is $P(W)$ on the walk's register, and restricting once by $\Pi_{\mathrm{in}}$ and applying \Cref{thm:qubitisation} gives \Cref{eq:gqsp-block}. The circuit is $d$ controlled walks and $d+1$ one-qubit rotations on one more qubit than the walk, uses $W$ but never $W^\dagger$, and needs no parity.
 
 Before the phases are found, $P$ is divided by $\sup|P|/(1-\mu)$, $\mu=10^{-2}$, so that $1-|P|^2>0$ on the circle and its logarithm is finite. Both filters have $\sup|P|=1$, so the circuit realises $(1-\mu)P$ and succeeds with probability $(1-\mu)^2p_G=0.9801\,p_G$, a constant that the cost estimates leave out. The phases then follow without root-finding, which is unstable well below the degrees needed here: spectral factorisation of $\log(1-|P|^2)$ gives the outer polynomial $Q$ of degree $d$ with $|P|^2+|Q|^2=1$ on the circle \cite{berntson2025complementary}, the pair $(Q,P)$ is the SU(2) \gls{nlft} of a sequence $(F_k)$ that a fast inverse transform recovers stably because $Q$ is outer \cite{laneve2025gqspnlft,nlfft2025su2}, and the moduli and arguments of the $F_k$ give the angles $\theta_k$ and $\phi_k$.
-% LANDED 2026-10-15: steps 2-4 in one sentence; the recipe is block F2 of _offload_to_pihm.tex.
 The polynomial the angles realise is rebuilt from them alone, in coefficient space, and compared with the target on $4(d+1)$ points of the circle. Acceptance is $10^{-12}$, in double precision throughout. The realised polynomials meet it to degrees of order $10^6$ in the standard form; in the descriptor's filter study the two filters of R3c at $n=7$, at degrees of order $2\times10^5$, reach $\res[2,sci]{filters/R3c/descriptor/n7}{t2_minimax_phases_error}$ and $\res[2,sci]{filters/R3c/descriptor/n7}{t2_qite_phases_error}$.
 
 \subsection{Amplification, Total Count and Ideal-Encoding Degree}

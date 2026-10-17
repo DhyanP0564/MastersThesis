@@ -1,36 +1,3 @@
-% =============================================================================
-% Appendix D  The Descriptor Construction in Full
-% Cited from sec:descriptor-layouts to sec:descriptor-spectrum.
-% Plan: ThesisPlanning.md §6 (D; was G before the 2026-10-15 restructure); headline contribution.
-% RESTRUCTURE 2026-10-15: "The compilation, line by line" (a prose restatement of
-%   alg:ir-to-lcu) moved to the repository (_offload_to_pihm.tex, block D1). Its one
-%   non-duplicate point, that the rescaling must precede the merge of line 4, is already in
-%   "What it changes in the circuit" (app:block-rescaling).
-% v3.16 (2026-10-16, GeminiReviewPlan.md rows 5a-5c): the zeta rule takes no term ("a priori"
-%   removed from tab:app-zeta-rule); "The calibration and its check" now matches §5.4 (constants
-%   selected by calibration, held fixed, check in-sample); the dip paragraph states the classes
-%   are asymptotic. The derivation of zeta ~ N^{2/k} stays here; §5.4 states its result.
-%   Interior simple zero added (Bernstein: zeta ~ N^{1/k}; the rule gives N/2; derived, not run).
-% 2026-10-16 (GeminiReviewPlan.md row 6, Prompt 4): "Weights on the slice rows" and tab:app-trace-weights added after
-%   "Two axes": probe p15 as exported (trace-weights/<R5a|R5b>/n<n>x<n>), unscaled descriptor. Best
-%   s = 1/2; the gap rises 2.4-7.0x, the norm only 1.16-1.25x (NOT "as fast", which docs/14 §5.4
-%   says); s = 1 is no gain on R5a and better than none on R5b; the weighted gap still falls
-%   per qubit (unscaled build gaps at n3x3, n4x4). Not run with block rescaling.
-%
-% CONTENT  The block rows (several axes and coupled fields included); variable
-%          coefficients and the padded block count; kernel equivalence on several
-%          axes and under rescaling; the gap mechanism and the artefacts ruled out;
-%          the proof of thm:flat-gap (the gap on one axis, by compactness);
-%          block rescaling (the rule, its calibration and its limits); the term IR
-%          and its compilation; the proof of prop:descriptor-cost and the norms of
-%          tab:descriptor-regimes; one query's success.
-% SOURCES  pihm docs/companion 50 (chain), 51 (mass form), 52 (kernel
-%          equivalence), 53 (gap mechanism), 54 (block rescaling), 55 (term IR),
-%          56 (cost), 57 (degree scaling); docs/13_descriptor.md;
-%          docs/14_descriptor_gap.md; src/pihm/assemble/descriptor.py, systems.py,
-%          ir.py, circuits/lcu.py, problems/scales.py.
-% =============================================================================
-
 This appendix gives the descriptor's rows, kernel, gap, rescaling and encoding in full.
 
 \subsection{Block Rows}

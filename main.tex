@@ -1,7 +1,7 @@
 \documentclass[12pt]{article}
 
 \input{1_header/0_packages.tex}
-\input{0_results/results.tex} % pihm's numbers, quoted by key: \res{<run>}{<metric>}
+\input{0_results/results.tex}
 
 \begin{document}
 
@@ -47,10 +47,6 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-% Chapters follow ThesisPlanning.md §4.2. Their scaffold comments use the tags
-% of ThesisPlanning.md §4.3: PURPOSE, CRITERION, SOURCES, WRITE WHEN, LAND,
-% FIG, TAB, OFFLOAD, CHECKLIST, TRAPS, REVISE and CITE-NEEDED.
-
 \section{Introduction}
 \label{sec:intro}
 \input{2_body/1_introduction}
@@ -94,7 +90,6 @@
 \newpage
 \section{References}
 \label{sec:ref}
-%\nocite{*}  % Remove at the end, temporary to include all references in the bibliography, even if not cited in the text.
 \printbibliography[heading=none]
 
 \clearpage

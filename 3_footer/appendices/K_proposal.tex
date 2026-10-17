@@ -1,31 +1,3 @@
-% =============================================================================
-% Appendix K  Research Proposal  --  required by the School's guidelines (Part B,
-% item 6): "a copy of the research proposal ... should be contained as an
-% appendix ... and significant deviations from what was proposed should be noted
-% and explained."   Plan: ThesisPlanning.md §6 (K; was M before the 2026-10-15 restructure), §13.4.
-%
-% CONTENT  The deviations table, then the May 2025 proposal verbatim
-%          (3_footer/research_proposal.pdf, copied from Research/Research_Proposal.pdf).
-% DRAFT WORDING for the table (ThesisPlanning.md §13.4), to rewrite in your voice:
-%   QSVT -> GQSVT for complex-valued, non-Hermitian operators
-%     | GQSP used throughout (no parity constraint); complex-valued equations
-%       not treated
-%     | the cost analysis showed the binding constraint is the Hamiltonian's
-%       norm, which had to be solved first.
-%   Nonlinear PDEs (Burgers, nonlinear Schroedinger, Ginzburg-Landau)
-%     | Burgers and 2-D Navier-Stokes via Carleman; NLS and CGL not treated
-%     | the doubled-space route cannot prepare; Carleman needs dissipativity
-%       (NLS is not dissipative).
-%   Data-informed Hamiltonians
-%     | not pursued | scope; future work (sec:future-work).
-%   (not proposed)
-%     | exact reproduction; structured encoding; descriptor reformulation;
-%       verification framework | emerged from auditing the published method.
-% =============================================================================
-
-% DRAFTED 2026-10-14 from the wording above; the NLS/CGL reason checked against Liu et al.'s
-%   hypotheses (dissipative, quadratic) and pihm's carleman.py (any polynomial degree lifts).
-
 This appendix records how the thesis departs from the research proposal of May 2025. The proposal set out to extend Wu et al.'s method to complex-valued nonlinear equations through a generalised \gls{qsvt}, and to add data-informed terms to its Hamiltonian. The direction of  work changed significantly once their examples had been reproduced and costed. \Cref{tab:proposal-deviations} records each deviation and its reason.
 
 \begin{table}[!htbp]

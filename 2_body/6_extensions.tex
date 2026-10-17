@@ -1,36 +1,3 @@
-% =============================================================================
-% Chapter 6  Systems and Nonlinearity  (6_extensions.tex)  --  ~6 pp
-% rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.6 v3.2 (T-31, T-32; supporting contribution S4).
-%
-% PURPOSE     Take the construction from one real scalar field, Wu et al.'s
-%             scope, to several coupled fields, to complex-valued linear
-%             equations, and to polynomial nonlinearity, and answer Q(iii):
-%             separate what the doubled space can claim (an exact encoding, a
-%             projection) from what the Carleman lift can (a preparation, in
-%             both forms), and set up the fluids. Q(iii)'s second half (does the
-%             reformulation's advantage survive there?; StructuralReview.md F5) is
-%             answered in sec:prep-vs-proj: through the time axis only, narrowing
-%             as the coupling grows with the modes.
-% THREAD      Each extension is carried as a coupled linear system on one state,
-%             a block per component; the one route that is not, Wu et al.'s
-%             doubled space, only projects.
-% CRITERION   Formulation, "sufficient detail to permit readers to create
-%             equivalent models": the rows, the data and the circuits of a system
-%             and of a lift rebuildable from the body plus Appendix E.
-% SOURCES     ThesisPlanning.md §5.6, §3.4, §8; pihm/docs/02_methods.md §3.2-3.5,
-%             §6.2; pihm/docs/companion/{21,51,55,60,61,62,63,64,65};
-%             pihm/docs/16_extensions.md; pihm/docs/17_navier_stokes.md;
-%             pihm/docs/03_problems/07_r7.md; claims A-10, B-12, B-18, B-19, B-22,
-%             C-09, C-10; src/pihm/circuits/{systems,tensor,standard,sources,
-%             assemble}.py, ir.py (matching_terms), problems/fluids.py
-%             (real_embedding); Wu et al., p. 11 (the Fourier-basis remark).
-% EVIDENCE    Plan T-20's rule (v3.4, StructuralReview.md F1): proofs and exact classical
-%             computations only (kernels, gaps, alpha/||.|| and term counts of built
-%             couplings). Degrees, preparations and gates per query are §8.4-8.5's (the
-%             tensor layout's CNOTs: tab:lift-circuits).
-% =============================================================================
-
 Every residual so far has carried one real scalar field, the scope Wu et al.\ set themselves. They set complex-valued states aside, because with a Fourier basis, whose differentiation matrix is imaginary, the ground state of the resulting energy would be hard to find \cite{wu2025pihm}, and they carry a quadratic term in the doubled space of \Cref{sec:pihm-doubled}. The doubled space's kernel is degenerate, so there is no gap above the ground value and \Cref{eq:degree} gives no finite degree; as the degree grows, a filter returns the initial state's projection onto the kernel. A filter needs a unique ground state, which leaves the question \emph{can the solution of a nonlinear equation be prepared as the unique ground state of a Hamiltonian, and does the reformulation's advantage survive there?}
 
 Each extension that prepares is the same object, a coupled linear system on one state with one block per component: several fields directly, a complex field by realification as two real ones, and a polynomial nonlinearity by the Carleman lift, whose components are the field's monomials. The system is built first because the lift that answers the question is an instance of it; the doubled space is the one route that is not. The constructions and proofs in full are in \Cref{app:nonlinear}.
@@ -65,9 +32,6 @@ and the data rows are $(\Frat/y_a)\otimes\Brow(x^*)$. The kernel of $\Frat$ is e
 
 \subsection{Complex-Valued Linear Equations}
 \label{sec:systems-complex}
-% TRAPS: "handles complex equations" unscoped; "a complex-valued field was prepared"; the tensor
-%   layout called "prepared"; the legacy DESolverLib cited; the section billed above its evidence
-%   (2026-10-14 review: the real Fourier bases of R9-R10 lead, R7 is the smallest instance).
 
 The Fourier bases that led Wu et al.\ to set complex-valued states aside are carried here on real bases. The fluids of \Cref{sec:fluids} use sine modes for Burgers' odd solution, and $\cos(\mathbf k\cdot\mathbf x)$ and $\sin(\mathbf k\cdot\mathbf x)$ for the vorticity, an isometric real embedding of the complex Fourier variables in which the truncated system is real (\Cref{app:realification}). In these problems $k$ denotes a wavenumber and $\mathbf k$ a wavevector; elsewhere $k$ is an equation's order. With complex coefficients, data or sources the stacked residual $R$ is complex, yet $H=R^\dagger R$ is Hermitian and positive semi-definite with the smallest right singular vector of $R$ as its ground state, and the reflection and filter of \Cref{sec:pipeline} need only $H$. The filter never sees $R$. Every residual prepared here is real, so this describes the formulation and no run.
 
@@ -108,8 +72,6 @@ The proof is given in \Cref{app:proof-no-penalty}. A filter returns the initial 
 
 \subsection{Carleman Lift in Space and Time}
 \label{sec:carleman}
-% TRAPS: re-deriving the space-time rows (they are eq:system-rows with A -> A_K); the lift's
-%   preparation stated without the convergence caveat; rho < 1 as necessary.
 
 The Carleman lift of a polynomial system is a linear system on the system's monomials \cite{carleman1932,kowalskisteeb1991,liu2021carleman,krovi2023improved} (\Cref{sec:bg-carleman}), so it is built from the same rows and data rows as any other system: the components are monomials, the ratio rows carry the data's moments at $t=0$, and $\Acoup$ is replaced by the lifted generator $\Acoup_K$ in \Cref{eq:system-rows}, in either form. For $u\in\mathbb{R}^M$,
 \begin{equation}
@@ -136,15 +98,8 @@ The truncated lift is a linear \gls{ivp} with its data fixed up to scale, so the
 \end{equation}
 with $z^{(K)}_1$ the first level of the truncated lift's exact solution. The lift truncation does not depend on $n_t$ and the time-axis discretisation falls spectrally to rounding, so the field's error falls with $n_t$ until it meets the floor set by the lift and then holds; every run records both terms.
 
-% CUT-CANDIDATE (page pass 2026-10-14, about 0.5 pp; the author's call, not applied): keep one body
-%   paragraph (matchings encoded at the sum of their largest entries, the same factor in both forms;
-%   the tensor layout's 2K - 1 terms; the nodal fold exact at alpha = 2) and move the construction
-%   detail and the Ucg/DCT budgeting to App. E (app:matchings, app:systems).
 \subsection{Circuits for the Coupling and the Products}
 \label{sec:ext-circuits}
-% 2026-10-16 (GeminiReviewPlan row 8): one sentence comparing the matchings' alpha <= (2delta-1)||Gamma||_max
-%   with sparse access (gilyen2019qsvt, STOC §5.2: alpha = sqrt(s_r s_c) ||A||_max; arXiv Lemma 48); the
-%   documented alternative is Pauli words, qualitatively (pihm decision 42's numbers are not in results-v1).
 
 Everything in a system's or a lift's rows except its coupling is built from the bands and rank-one rows of \Cref{sec:descriptor-block-encoding}; the ratio rows are three \gls{lcu} terms.
 
@@ -158,9 +113,6 @@ A product of two series is folded back to one by transforming to node values, mu
 
 \subsection{Burgers and Navier--Stokes Equations}
 \label{sec:fluids}
-% NOTATION: k is the wavenumber in this section only (the equation's order elsewhere); bold k is
-%   a wavevector. Stated to the reader once, at the end of sec:systems-complex's realification
-%   paragraph.
 
 The lift is tested on two periodic flows whose quadratic terms are convolutions. Truncated to finitely many Fourier modes on a real basis (\Cref{sec:systems-complex}) they are polynomial systems of the form of \Cref{eq:carleman-lift}. Truncating to Fourier modes adds a third error beside the two of \Cref{eq:carleman-error}: the Galerkin truncation, measured against the equation itself, whereas the lift truncation is measured against the Galerkin system's \gls{ivp}. The systems, their couplings and the parameters of every run are given in \Cref{app:fluids}.
 
@@ -203,25 +155,3 @@ with $\nu=1$, the vorticity on the real modes $\cos(\mathbf k\cdot\mathbf x)$ an
 A trusted kernel certifies that the residual singles out the truncated lift's solution (last column of the table). It says nothing about the distance of that solution from the nonlinear one, the lift truncation error, which is measured separately. The two come apart on Burgers' lift: past its convergence boundary the kernel stays trusted while the lift diverges (\Cref{sec:results-nonlinear}).
 
 On a lift the descriptor's effect enters through the time axis. At one Carleman order the two forms differ only by the left factor $I\otimes\Bt_\xi$ (\Cref{eq:system-rows}), so the time axis contributes $\|\Dt_\xi\|=2(N_t-1)$ to the norm of the mass form against $\|\G_\xi\|=\Theta(N_t^2)$ to that of the standard form. The coupling term has norm $\tfrac T2\|\Acoup_K\|$ in the standard form and $\|\Bt_\xi\|_2\in[2,2+\sqrt2]$ times that in the mass form (\Cref{sec:descriptor-construction}); it is of the same order in both and grows with the modes. The truncated lift is a regular first-order system (\Cref{def:regular}), the class for which \Cref{eq:descriptor-degree} predicts $d=\tilde\Theta(N_t)$ at a fixed truncation, so the mass form's degree should grow more slowly with $N_t$. At fixed $n_t$ the advantage should narrow as the truncation widens and the coupling term comes to dominate both norms, and on a coarse time axis the factor $\|\Bt_\xi\|_2$ can make the mass form's norm the larger. \Cref{sec:results-nonlinear,sec:results-ns} measure both effects, from the scalar R8 to two-dimensional Navier--Stokes.
-
-% CHECKLIST (marker)
-%   1. Is the scope gap stated from Wu et al.'s own words, and Q(iii) posed at the head?
-%   2. Is the thread (one state, a coupled linear system) visible in the opening and in
-%      sec:carleman's first sentence?
-%   3. Are systems and lifts rebuildable from body and Appendix E?
-%   4. Is the mass form applied, not redefined (sec:descriptor-layouts owns it)?
-%   5. Is realification stated as the route run, with R7 as its instance, and every complex-valued
-%      claim scoped (formulation; one encoding verified; preparation not built)?
-%   6. Is "prepared" never used for the doubled space?
-%   7. Is rho < 1 stated as SUFFICIENT, not necessary?
-%   8. Is the nodal fold's alpha = 2 called tight (within 1.27 of ||n_1||_2 at n = 2), not optimal?
-%   9. Is the DCT named as unbuilt, with the reason?
-%  10. Is uniqueness attributed to Carleman (the lifted IVP), not to a form?
-%  11. Is trust distinguished from convergence (sec:prep-vs-proj)?
-%  12. Is each construction stated once in the chapter (matchings, ratio rows, the time axis)?
-% TRAPS (chapter): "handles complex equations" unscoped; any complex-valued result resting on the
-%   legacy DESolverLib (never cited); redefining the mass form or restating its kernel theorem;
-%   calling the tensor encoding "prepared"; claiming higher-order systems were run;
-%   "vector-valued solver"; "K^2 terms" (it is 2K - 1); "both forms" for the doubled space (it is
-%   standard-form only); rho < 1 as necessary; "optimal" for the fold; re-deriving the
-%   space-time rows.

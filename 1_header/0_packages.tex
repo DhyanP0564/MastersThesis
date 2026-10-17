@@ -1,8 +1,6 @@
 \usepackage[utf8]{inputenc}
-%slippery gypsy packages that need to come first, since others call them after
 \usepackage[x11names,dvipsnames,svgnames,table]{xcolor}
 
-% general incantations
 \usepackage[export]{adjustbox}
 \usepackage{afterpage}
 
@@ -16,32 +14,23 @@
 \usepackage[most]{tcolorbox}
 \usepackage{calligra}
 \usepackage{caption}
-\captionsetup{font=footnotesize, labelfont=bf} % captions smaller than body text; "Figure N:" in bold
-% Float placement: LaTeX's defaults send any float taller than 70% of a page to a
-% float page of its own, which need only be half full, so a large figure or table
-% leaves a page of white space. Let floats fill more of a text page, allow more of
-% them per page, and require a float-only page to be mostly full before making one.
-\renewcommand{\topfraction}{0.9}        % max fraction of a page for top floats
-\renewcommand{\bottomfraction}{0.8}     % max fraction of a page for bottom floats
-\renewcommand{\textfraction}{0.07}      % min fraction of a text page that is text
-\renewcommand{\floatpagefraction}{0.8}  % min fraction of a float page that is floats
+\captionsetup{font=footnotesize, labelfont=bf}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.8}
 \setcounter{topnumber}{3}
 \setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{4}
-% A float never appears before the point where it is defined (flafter, with [!htbp]: here, top or
-% bottom of a later page, or a float page), so it may sit a page or two after its mention but never
-% above it. A \FloatBarrier before each \section or \subsection was tried (2026-10-16) and cost
-% about 3 body pages of blank space: do not restore it.
 \usepackage{flafter}
 \usepackage{datetime}
-% \usepackage{dblfnote} % removed 2026-10-12: incompatible with the current LaTeX kernel (undefined \dfn@elt@getht) once a footnote is used; the thesis needs single-column footnotes only
 \usepackage{dirtytalk}
 \usepackage{dsfont}
 \usepackage{etex}
 \usepackage{fancyhdr}
 \usepackage{fix-cm}
 \usepackage[T1]{fontenc}
-\usepackage{textcomp,gensymb} %for \degree C symbol
+\usepackage{textcomp,gensymb}
 \usepackage{graphicx}
 \usepackage{lipsum}
 \usepackage{listings}
@@ -58,17 +47,13 @@
 \usepackage{pdfpages}
 \usepackage{placeins}
 \usepackage[document]{ragged2e}
-% Conventional paragraphs: the first line indented, no space between paragraphs. Under ragged2e's
-% document-wide \RaggedRight the indent is \RaggedRightParindent, not \parindent.
 \setlength{\parindent}{1.5em}
 \setlength{\RaggedRightParindent}{\parindent}
 
-%For fixing indentation running formulas into the margin:
 \tolerance=1000
 \setlength{\emergencystretch}{3em}
 
 \setlength{\parskip}{0pt plus 1pt}
-% Tables and their notes are not running text: no paragraph indent inside them.
 \AddToHook{env/tabular/begin}{\setlength{\RaggedRightParindent}{0pt}}
 \AddToHook{env/tabularx/begin}{\setlength{\RaggedRightParindent}{0pt}}
 \AddToHook{env/longtable/begin}{\setlength{\RaggedRightParindent}{0pt}}
@@ -80,25 +65,19 @@
 \usepackage{threeparttable}
 \usepackage[normalem]{ulem}
 \usepackage{verbatim}
-\usepackage{soul} %highlighting, strike through etc.
+\usepackage{soul}
 
-%Automated appendices
-\usepackage[titletoc,title,header]{appendix} %advanced functionality
+\usepackage[titletoc,title,header]{appendix}
 
-%language settings
 \usepackage[utf8]{inputenc}
 \usepackage[australian]{babel}
 \usepackage{csquotes}
 
-%page setup
-%this where we adjust the binding offset, if relevant
 \usepackage[a4paper,margin=1.5cm]{geometry}
-\usepackage{lastpage} % for page 1 of n footers
+\usepackage{lastpage}
 
-%cross referencing
 \usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
-% Section references print as the section symbol (§ 3.1, §§ 3.1, 3.2) to save space
 \crefname{section}{\S}{\S\S}
 \Crefname{section}{\S}{\S\S}
 \crefname{subsection}{\S}{\S\S}
@@ -106,13 +85,10 @@
 \crefname{subsubsection}{\S}{\S\S}
 \Crefname{subsubsection}{\S}{\S\S}
 
-% Quantum computing packages
 \usepackage{tikz}
-\usetikzlibrary{positioning,arrows.meta,calc,fit} % fig:pipeline; fit for fig:pihm-architecture
+\usetikzlibrary{positioning,arrows.meta,calc,fit}
 \usepackage{quantikz}
 
-% Placeholder figure: draws a boxed, described stand-in for a figure not yet
-% produced. Usage: \placeholderfigure[height][list-of-figures title]{caption}{label}{description}
 \NewDocumentCommand{\placeholderfigure}{O{6cm} o m m m}{%
   \begin{figure}[htbp]
     \centering
@@ -126,8 +102,6 @@
   \end{figure}%
 }
 
-% -----------------------------------------------------------------------------
-%maths stuff
 \usepackage{amsmath}
 \numberwithin{equation}{section}
 
@@ -136,97 +110,66 @@
 \usepackage{braket}
 
 \usepackage{amsthm}
-% Definitions usually use upright text
-% Define a new theorem style for definitions
 \newtheoremstyle{boldnote}
-  {\topsep}       % Space above
-  {\topsep}       % Space below
-  {\normalfont}   % Body font (upright text for definitions)
-  {}              % Indent amount
-  {\bfseries}     % Theorem head font (this makes the header bold)
-  {:}             % Punctuation after theorem head
-  {.5em}          % Space after theorem head
-  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}} % Theorem head spec
+  {\topsep}
+  {\topsep}
+  {\normalfont}
+  {}
+  {\bfseries}
+  {:}
+  {.5em}
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
 
-% 3. Apply the custom style to definitions
 \theoremstyle{boldnote}
 \newtheorem{definition}{Definition}
 
-% 4. Apply the default plain style to theorems and corollaries
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
 \newtheorem{lemma}{Lemma}
 
-% -----------------------------------------------------------------------------
-% Thesis notation (ThesisPlanning.md §8, decisions T-06 to T-09 and T-16).
-% Typeface (T-06, v3.6): matrices italic; calligraphic for the maps that change
-% the register (lifts \M, folds \nfold) and the Gram map; blackboard bold only
-% for number sets and expectation. Wu et al. print every non-unitary matrix in
-% blackboard bold, said once in Chapter 3. The macro names are the ones pihm's
-% Sphinx configuration uses (\G, \Bt, \Dt), so an equation copies between the
-% code documentation and the thesis unchanged. \G is the coefficient-space
-% differentiation matrix, f -> f' (strictly upper triangular); Wu et al. print
-% the same matrix as \mathbb{G}_n^T.
-\newcommand{\G}{G}                        % differentiation matrix
-\newcommand{\Bt}{\tilde{B}}               % banded factor: \G = \Bt^{-1}\Dt
-\newcommand{\Dt}{\tilde{D}}               % banded factor
-\newcommand{\M}{\mathcal{M}}              % multiplication: \M_{x^p} (lift), \M_a (Olver-Townsend's \mathcal{M}[a])
-\newcommand{\nfold}{\mathcal{N}}          % product-to-sum fold: \nfold_1, \nfold_x
-% Constraint rows: still blackboard bold, typeface pending (ThesisPlanning.md T-06).
-\newcommand{\Brow}{\mathbb{B}}            % rank-one zero (invariant) constraint row
-\newcommand{\Dzero}{\mathbb{D}^{(0)}}     % rank-one collapse (regular) constraint row
-\newcommand{\Frat}{\mathbb{F}}            % ratio row (direction fixed, scale free)
-\newcommand{\Slice}{\mathbb{S}}           % datum-slice row, \Slice_a(x^*)
-\newcommand{\Acoup}{\Gamma}               % a system's coupling matrix; \Acoup_K the Carleman generator
-\newcommand{\Ucg}{U_{\mathrm{CG}}}        % Chebyshev--Gauss transform (nodal fold)
-\newcommand{\Uodd}{U_{\mathrm{odd}}}      % average of the odd-offset truncated shifts
-\newcommand{\Astd}{A_{\mathrm{std}}}      % standard-form residual
-\newcommand{\Adesc}{A_{\mathrm{desc}}}    % descriptor-form residual
-\newcommand{\Hstd}{H_{\mathrm{std}}}      % standard-form Hamiltonian
-\newcommand{\Hdesc}{H_{\mathrm{desc}}}    % descriptor-form Hamiltonian
-\newcommand{\fhat}[1]{\hat{f}^{(#1)}}     % coefficients of the #1-th derivative (a descriptor block)
-
-% -----------------------------------------------------------------------------
+\newcommand{\G}{G}
+\newcommand{\Bt}{\tilde{B}}
+\newcommand{\Dt}{\tilde{D}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\nfold}{\mathcal{N}}
+\newcommand{\Brow}{\mathbb{B}}
+\newcommand{\Dzero}{\mathbb{D}^{(0)}}
+\newcommand{\Frat}{\mathbb{F}}
+\newcommand{\Slice}{\mathbb{S}}
+\newcommand{\Acoup}{\Gamma}
+\newcommand{\Ucg}{U_{\mathrm{CG}}}
+\newcommand{\Uodd}{U_{\mathrm{odd}}}
+\newcommand{\Astd}{A_{\mathrm{std}}}
+\newcommand{\Adesc}{A_{\mathrm{desc}}}
+\newcommand{\Hstd}{H_{\mathrm{std}}}
+\newcommand{\Hdesc}{H_{\mathrm{desc}}}
+\newcommand{\fhat}[1]{\hat{f}^{(#1)}}
 
 \setcounter{secnumdepth}{3}
 
-% figures and tables numbered by section (Figure 4.2) and by appendix (Table K.3)
 \counterwithin{figure}{section}
 \counterwithin{table}{section}
 
-%lists
 \usepackage{enumitem}
 
-%working collaboratively
 \usepackage[backgroundcolor=yellow]{todonotes}
 
-% Provisional numbers (decision T-15): pihm's numbers are quoted with \res
-% (0_results/results.tex, input by main.tex). \prov{...} wraps a number pihm
-% does not produce yet, and renders coloured until a \res replaces it. The
-% pre-submission check (ThesisPlanning.md §14) fails on any remaining \prov.
 \newcommand{\prov}[1]{\textcolor{BrickRed}{#1}}
 
-%reference list
-\usepackage[backend=biber,bibstyle=ieee,citestyle=numeric-comp]{biblatex} %IEEE reference list; citations grouped in one bracket with ranges compressed ([1--3], [1, 4]).
-\addbibresource{3_footer/ref.bib} %Imports bibliography file
-% ref.bib's note fields are internal provenance for this repo's own audit (T-29):
-% where an entry's details were inferred rather than stated by the citing text, not
-% a reader-facing annotation. Suppress them from every rendered reference.
+\usepackage[backend=biber,bibstyle=ieee,citestyle=numeric-comp]{biblatex}
+\addbibresource{3_footer/ref.bib}
 \AtEveryBibitem{\clearfield{note}}
-\usepackage{url} %for URL fonts
+\usepackage{url}
 \urlstyle{same}
 
-%glossary for acronyms
 \usepackage[acronym,nomain,nonumberlist]{glossaries}
 \makeglossaries
 \setglossarystyle{listdotted}
 \input{1_header/glossary}
 
-%line spacing
 \linespread{1.15}
 \setstretch{1.05}
 
-% Public code release (Appendix J, Summary of Student Achievement); set the real URL here.
 \newcommand{\pihmrepo}{https://github.com/USERNAME/pihm-public}

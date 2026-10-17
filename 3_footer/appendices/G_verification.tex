@@ -1,33 +1,7 @@
-% =============================================================================
-% Appendix G  Verification and the Classical Reference  --  cited from sec:pipeline-reference and
-% sec:pipeline-verification.   Plan: ThesisPlanning.md §6 (G; was I before the 2026-10-15
-% restructure).
-% RESTRUCTURE 2026-10-15: structured probes and per-atom checks condensed to a REVISE in the
-%   modes subsection; the Lanczos shift, window and sigma_max detail moved to the repository
-%   (_offload_to_pihm.tex, blocks G1, G2). The T1 memory and time model is kept whole: its
-%   refusal rule, and so "could not simulate" against "cannot reach", depends on it.
-%
-% CONTENT  The verification modes, sizes and tolerances; the structured probes;
-%          per-atom checks; the eigh-against-SVD comparison and Wedin's bound
-%          against the eigensolver's (moved from Ch. 4's earlier draft); the
-%          iterative reference; the trust threshold; the circuit-simulation memory
-%          and time model; the acceptance criteria and the error budget.
-%          (The structured-probe and per-atom subsections were removed 2026-10-15.)
-% SOURCES  pihm/docs/companion/70-76; pihm/src/pihm/verify.py, classical/,
-%          qsp/{prepare,budget,feasibility}.py.
-% FIRST PASS 2026-10-12, from the companion.
-% =============================================================================
-
 This appendix specifies how the circuits, the classical reference and the error budget are verified.
 
 \subsection{Modes, Sizes and Tolerances}
 \label{app:verification-modes}
-% MOVED v3.4 (StructuralReview.md F3) from sec:pipeline-verification: tab:verification-modes (T4),
-%   with its label; the body describes the three modes in three sentences and points here.
-
-% MOVED 2026-10-16 to sec:results-faithful (Ch. 8), after the verification paragraph, with their
-%   labels: tab:verification-modes (T4) and fig:verification-accuracy (F7). The modes are described
-%   below and cited by \Cref.
 
 A block encoding $(U,\alpha)$ of an operator $X$ is exact when $\alpha\,\Pi_{\mathrm{out}}U\Pi_{\mathrm{in}}=X$, the projectors fixing the ancilla at zero. Every mode of \Cref{tab:verification-modes} compares that block, or its action on vectors, with a target built from the problem by the operator library and the residual's assembly, never from the compiler that produced the circuit; a target rebuilt from the circuit's own parts would check the compiler against itself. The pipeline's usual target is the stacked reflection's block $2H/\alpha_R^2-I$ with $H$ formed from the assembled residual; the atoms (the derivative, a lift, a feature-map row) are compared with their operators in the same way.
 
@@ -56,8 +30,6 @@ Random probes therefore estimate the root-mean-square error $\|E\|_F/\sqrt D$, a
 Circuits wider than the probe ceiling are construction-only records: their subnormalisation, register split and gate counts are recorded, with no verdict.
 
 The four structured inputs of the probe mode are placed where a defect confined to one column arises, because a random input sees such a defect only at about $\delta/\sqrt D$ (\Cref{prop:haar-probes}), while the basis vector that selects its column sees it at full strength. The first basis vector is the $T_0$ mode and the start of every chain of shifts, and the last is where a truncated shift must not wrap round to the start of the register. The middle one, index $D/2$, sets only the most significant qubit, so it sits on the edge between the two halves of a register and between the blocks of a padded state, where block offsets and axis orders go wrong; the uniform vector tests the sum of all columns at once. A defect in a column that none of them selects is left to the random probes. Every atom is also verified alone before it is composed: the structured factorisation of $\G$ (\Cref{app:structured}), the lifts and folds, the feature-map rows, each band of the descriptor (\Cref{app:term-ir}) and the matchings of a coupling, each exactly at small $n$ and by probe or \gls{ir} beyond; the banded factorisation $\Bt\G=\Dt$ holds to rounding for $n=1$ to $10$. The composed reflection is then verified whole, so that correct atoms cannot hide an error made in composing them, such as a wrong block offset or a mis-ordered register.
-% LANDED 2026-10-15: one paragraph for the structured probes and per-atom checks; the full text is
-%   block G1 of _offload_to_pihm.tex.
 
 \subsection{Classical Reference: Eigensolver Versus SVD}
 \label{app:eigh-vs-svd}
@@ -82,8 +54,6 @@ The first is Wedin's $\sin\Theta$ theorem for singular subspaces \cite{wedin1972
 
 The ratio of the two is $\sigma_{\max}/(\sigma_1+\sigma_0)$, the residual's condition number on the complement of its near-kernel: the eigensolver loses that factor. When $\sigma_0\ll\sigma_1$ the SVD's bound is about $\epsilon_{\mathrm{mach}}\sqrt{\|H\|/\Delta}$, the square root of the eigensolver's. Both require $\sigma_0$ to be isolated, the trusted-kernel condition of \Cref{app:trust-threshold}. On the standard form the eigensolver's bound grows with $n$ by the factor that $\sigma_{\max}/\sigma_1$ grows, $2^{2k}$ per qubit at order $k$, until it saturates, and Wedin's, smaller by that factor, stays below one; on R2a the eigensolver's angle reaches order one by $n=8$, where the SVD's is still small (\Cref{tab:eigh-vs-svd}). The bounds are what a backward-stable algorithm can promise: on the standard form the smallest singular value is returned at the floor $\epsilon_{\mathrm{mach}}\sigma_{\max}$ rather than at its true, smaller value, which is why the kernel is detected by a ratio against that floor. A single-precision residual has $\epsilon_{32}\sigma_{\max}/(\sigma_1-\sigma_0)>10^{-3}$ on R2a from $n=5$, and is refused.
 
-% Every cell is a derived key (reference/R2a/<regime>/n<n>, pihm/tools/thesis/derived.py), on the
-%   physical columns, against pihm.classical.reference_target.
 \begin{table}[!htbp]
     \centering
     \caption[Accuracy of the classical reference: eigensolver against SVD]{\textbf{The eigensolver loses the residual's condition number; the SVD does not.} Sine of the angle between the classical reference and the state of the exact coefficients on R2a ($f''+4f'+4f=0$): the standard form by a symmetric eigensolver on $R_{\mathrm{std}}^{\top}R_{\mathrm{std}}$ and by \gls{svd} of $R_{\mathrm{std}}$, and the descriptor by \gls{svd}, on its physical columns. At $n=2$ and $3$ the truncation dominates both routes; from $n=4$ the angle is the solver's. Classical computation.}
@@ -151,8 +121,6 @@ with $M_0$ the interpreter and libraries, eight statevector-sized buffers at the
 \subsection{Acceptance and Error Budget}
 \label{app:error-budget}
 
-% MOVED 2026-10-12 from sec:pipeline-verification (review 2.1), with the body's one-sentence summary.
-% MOVED 2026-10-13 from sec:pipeline-verification (review 2): eq:error-budget, with its label.
 \begin{table}[!htbp]
     \centering
     \caption[Acceptance criteria for a state preparation]{\textbf{Every preparation is judged at five levels, each against a bar it can be measured to.} Applied to every preparation whose reference is trusted; a run that fails a bar is reported as a finding, never re-judged. $\psi$, $\psi_{\mathrm{ref}}$, prepared and reference states; $\varepsilon$, target suppression; $p_G$, post-selection success probability; $d$, filter degree; $\varepsilon_{\mathrm{disc}}$, discretisation error; $B(d_{\mathrm{total}})$, the error budget. The state bar's a priori bound follows from the spectral edge, $\gamma$ and the filter (\Cref{prop:minimax-guarantee}); the circuit bar is judged before normalising, which divides rounding by $\sqrt{p_G}$, and on normalised states only where $p_G\ge10^{-12}$ (\Cref{lem:normalising}).}
@@ -170,7 +138,6 @@ with $M_0$ the interpreter and libraries, eight statevector-sized buffers at the
         \bottomrule
     \end{tabular}
 \end{table}
-
 
 \begin{lemma}[Normalising amplifies differences]
 \label{lem:normalising}
@@ -216,9 +183,6 @@ The bound is an inequality, not a first-order estimate, and it holds on states f
 \end{equation}
 where $f_{\mathrm{ref}}$ is the classical reference's own field, so that $\varepsilon_{\mathrm{disc}}$ is the discretisation's error, and $B(d)$ is linear in $d$ for small $d$. The budget is taken on the physical columns, since the descriptor's padding decouples and every state is zero on it.
 
-% MOVED 2026-10-13 (Ch. 8 review pass 2) from sec:results-faithful: F8, with its label; the body
-%   quotes the field error, eps_disc and the budget at n = 4 and 8 and points here.
-% Made by Figs/scripts/make_decoded_field.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.72\linewidth]{Figs/decoded_field.pdf}

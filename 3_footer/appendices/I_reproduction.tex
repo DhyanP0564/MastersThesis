@@ -1,62 +1,7 @@
-% =============================================================================
-% Appendix I  Reproduction and Audit of Wu et al.  --  cited from sec:pihm-assessment, the validation
-%   paragraph of sec:standard-form, sec:pipeline-filter and sec:limitations.
-% Plan: ThesisPlanning.md §6 (I; was K before the 2026-10-15 restructure); supporting contribution S1.
-% RESTRUCTURE 2026-10-15: the one home for every test of the paper (T-36). Gained the paper-faithful
-%   conventions (from the standard form's appendix), the Laplace invariant set, and the whole of
-%   the former Appendix D (Wu et al.'s circuits, app:pihm-circuit). The two per-panel tables are
-%   merged. Order: the variant, the panels, the Fig. 5 triage, the panels not reproduced, the
-%   claims (with their derivations), the circuits, the filter, the tau ablation, the QITE T1 records.
-% DRAFTED 2026-10-15: the variant's conventions, the panels' paragraph, the invariant sets
-%   (tab:app-pde-invariants, which sec:pihm-residual's "the sets are listed" points to), the
-%   hypotheses for Figs 6 and 7, the claims' derivations (adapted from the Chapter 4 first pass,
-%   now deleted), the rebuild's deviations from Fig. 9, the tau paragraph. Written as a record with
-%   derivations, not a narrative (plan §6).
-%
-% CONTENT  Table T6 (tab:eta-reproduction) and Figure F6 (fig:faithful-vs-corrected),
-%          moved here from Ch. 8 on 2026-10-12; all 16 panels, as printed and as run;
-%          the Fig. 5 triage; the
-%          unreproduced panels (R-D1 to R-D3) and the printed errors (M-02,
-%          M-07); the paper-claims register A-01 to A-13 with verdicts; the
-%          tau-truncation ablation (decision 11).
-% SOURCES  pihm/docs/10_reproduction.md (generated from the P2 campaign, 327 runs)
-%          and docs/issues/ISSUE-001 to ISSUE-008; docs/22_claims_register.md (A-01 to A-13);
-%          docs/12_pillar2.md §10, §12 (readout, time rule); Planning.md §5.2, §8.1, §9.4.
-% Every number in the tables below is quoted from the P2 records with \res
-%   (0_results/results.tex), computed as 10_reproduction.md computes it; the claim
-%   verdicts are \prov text. dagger = ground state not trusted (a degenerate
-%   kernel, or a gap ratio below 20), set by the record's trusted flag. Errors
-%   are L-infinity on 1001 points (101 x 101 on two axes).
-% \prov NUMBERS: the hypothesis tests for Figs 6 and 7 (ISSUE-002, ISSUE-003) and the printed
-%   Laplace form's eta (ISSUE-006) come from pihm/tools/triage/p2_triage.py, which writes no
-%   record, so they have no key. Either export them from the triage or keep them as \prov and
-%   clear them by hand before the pre-submission check.
-% =============================================================================
-
 This appendix rebuilds each panel of Wu et al.'s Figs~3--7 \cite{wu2025pihm} with their choices as printed and with the standard form's, and gives each claim we tested a verdict. Unless a tier is named, every number is an exact classical computation on the assembled residual: the ground state is the smallest right singular vector of the stacked residual (\Cref{sec:pipeline-reference}), errors are $L^\infty$ on 1001 points ($101\times101$ on two axes), and a dagger marks a ground state that is not trusted.
 
 \subsection{Paper-Faithful Variant}
 \label{app:faithful-conventions}
-% LAND: cited from sec:standard-rebuilt (§4.1). What "faithful" keeps, stated so the rebuild can be
-%   repeated: (1) the normalised basis for the state and the raw tau in every rank-one row (the
-%   Wu et al.'s convention; M-04); (2) the differentiation matrix acting on coefficients, upper
-%   triangular, which Wu et al.\ print as G_n^T (T-16); (3) variable coefficients and sources lifted
-%   from n to n + 1 qubits (M_{x^p}, M_a; app:lifts-folds); (4) Neumann data as B(x_m) G; (5) the
-%   printed constraint points, the Maclaurin sources (orders 3, 5, 7) and the PDE invariant sets;
-%   (6) the doubled space for the quadratic panels (handed to Ch. 6); (7) the Gram sum
-%   H = sum_i A_i^dagger A_i. Each convention in one line, with the printed value it reproduces; the
-%   printed SM §A matrices: ONE sentence (claim A-01, reproduced entry by entry, and checked by the
-%   golden tests in the repository at results-v1); the transcription itself is not reproduced
-%   (restructure 2026-10-15: app:sm-matrices, never written and never cited, removed). The scale eta_e = ||b||^2 is stated in
-%   sec:standard-rebuilt (eq:eta-e), not here.
-% OFFLOAD: nothing further; the defects of these choices are sec:standard-passage's, not this
-%   subsection's.
-% TRAPS: calling the rebuild "corrected" (it is as printed); a convention argued here AND in §4.3.
-% MOVED 2026-10-15 from the standard form's appendix (now B): "paper-faithful" belongs here only (T-27).
-% NOTE (drafting): (1)-(4) and (7) are shared with the standard form (pihm uses the raw tau
-%   everywhere; Planning.md M-04), so the text separates what the variant shares from what it alone
-%   keeps. The datum points and the two-row reading of B(+-1) are pihm's choices where the paper is
-%   silent (ladder.py docstring; docs/21_decision_log.md).
 
 The paper-faithful variant is a panel with every choice Wu et al.\ print, and it runs only in this appendix. It shares with the standard form the conventions that fix Wu et al.'s matrices: the state holds the solution's coefficients in the normalised Chebyshev basis; every rank-one row uses the feature vector $\tau(x)$ unnormalised; $\G$ is the upper-triangular matrix acting on coefficients, the transpose of the $\mathbb{G}_n$ Wu et al.\ print; a polynomial coefficient or source enters through the lifts $\M_{x^p}$ from $n$ to $n+1$ qubits; an invariant constraint on a derivative is the row $\Brow(x_m)\G^{j}$; and $H$ is the Gram sum of \Cref{eq:pihm-hamiltonian}, which equals $R^\dagger R$ for the residual that stacks its operators. With these conventions the construction reproduces entry by entry the matrices $\G$, $\M_{x^p}$, $\nfold_1$ and $\Brow$ that Wu et al.'s supplementary material prints at $n=2$ (claim A-01), and the exact solution's $\eta_e=\|b\|^2$ (\Cref{eq:eta-e}) gives the printed scale factor of every ordinary panel (\Cref{tab:eta-reproduction}).
 
@@ -64,10 +9,7 @@ What the variant alone keeps is the data as printed. Its constraint points are t
 
 \subsection{All Panels}
 \label{app:repro-panels}
-% MOVED 2026-10-12 from Ch. 8 (plan §4.3: Ch. 8 loses its reproduction section): Table T6.
 
-% RESTRUCTURE 2026-10-15: tab:eta-reproduction (Table T6) and tab:app-repro-errors merged into one
-%   table, one row per panel (tab:app-repro-errors was cited nowhere). Check the width in the PDF.
 \begin{table}[!htbp]
     \centering
     \caption[Printed scale factors and errors of Wu et al.'s panels, as printed and as run]{\textbf{The exact solution reproduces the printed scale factor of every ordinary panel, to within one unit of the last printed digit, and of no partial differential or nonlinear panel.} Per panel of Wu et al.\ at their printed $n$: the printed scale factor $\eta$, the exact solution's $\eta_e=\|b\|^2$ ($b$, its Chebyshev coefficients; \Cref{eq:eta-e}) and the paper-faithful ground state's $\eta$; then the $L^\infty$ error of the panel as printed (the paper-faithful variant) and of the problem as run, at the printed $n$, and the problem's least error over $n$, on 1001 points ($101\times101$ on two axes). $^\dagger$Ground state not trusted (degenerate kernel, or gap ratio below 20); $^\ast$one unit low in the last printed digit; --, the doubled space (R6), whose kernel is never trusted. Classical computation.}
@@ -100,27 +42,18 @@ What the variant alone keeps is the data as printed. Its constraint points are t
         \bottomrule
     \end{tabular}
 \end{table}
-% LAND: the corrected variants converge spectrally down to the standard form's
-%   double-precision floor; Wedin's bound eps sigma_max / (sigma_1 - sigma_0)
-%   rises about 16-fold per qubit because sigma_max grows like N^4, so the best
-%   error is reached at n ~ 4-6 and rises beyond (to 3e-7 for Fig. 3b at n = 10).
-% NOTE (drafting): the best n over the ordinary problems is 3-6 (build/<p>/standard/best), not
-%   4-6; R2a at n = 10 is 1.4e-6 in results-v1, not the 3e-7 of the earlier report.
 
 Only the ordinary panels' scale factors reproduce, and the agreement is the exact solution's; as printed, the panels' own ground states fall short of it. R2b, R3c and R3d have no trusted ground state at the printed $n$. R3c and R3d, multiplied through by $1-x^2$, have solutions with a branch point at each end, which a Chebyshev series approximates only algebraically (\Cref{app:legendre-substitution}), and Fig.~5's panels hold at the floors of \Cref{app:repro-triage}. As run, every ordinary problem converges spectrally until the standard form's conditioning stops it. Wedin's bound $\epsilon_{\mathrm{mach}}\sigma_{\max}/(\sigma_1-\sigma_0)$ (\Cref{prop:wedin}) grows by a factor of about $16$ per qubit on a second-order equation with constant coefficients, whose $\sigma_{\max}$ grows as $N^4$, so the least error is reached between $n=3$ and $6$ and the error rises beyond it, to \res[2,sci]{build/R2a/standard/n10}{field_err_linf} on R2a at $n=10$. The partial differential and doubled-space panels reproduce no printed scale factor, by the exact solution or by any ground state (\Cref{app:repro-unreproduced}).
 
 \subsection{Fig.~5 Triage}
 \label{app:repro-triage}
-% MOVED 2026-10-12 from Ch. 8: Figure F6.
 
-% Made by Figs/scripts/make_faithful_vs_corrected.py from pihm's results-v1 records.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{Figs/faithful_vs_corrected.pdf}
     \caption[The paper-faithful variant against the problems as run, Fig.~5]{\textbf{As printed, each panel of Wu et al.'s Fig.~5 holds at an error floor that no resolution removes; as run, it converges spectrally.} R4a--R4d. Top: the analytic solution, the paper-faithful ground state (printed constraint point, Maclaurin source) and the problem as run (exact root, Chebyshev source) at the printed $n$; the three coincide at plot scale, the paper-faithful errors there lying between $\res[2,sci]{build/R4a/faithful/standard/n3}{field_err_linf}$ (R4a) and $\res[2,sci]{build/R4d/faithful/standard/n4}{field_err_linf}$ (R4d). Bottom: the $L^\infty$ field error against $n$ for both variants (open where the reference is not trusted), the printed $n$ dotted. The paper-faithful error holds at its floor (\Cref{tab:app-fig5-triage}); as run it falls to between $\res[2,sci]{build/R4a/standard/best}{field_err_linf}$ and $\res[2,sci]{build/R4b/standard/best}{field_err_linf}$ at $n=4$ or $5$, then rises with the standard form's conditioning (\Cref{prop:wedin}). On R4b the printed $n=3$ is itself under-resolved: as run, the error there is $\res[2,sci]{build/R4b/standard/n3}{field_err_linf}$. Classical computation (dense \gls{svd}).}
     \label{fig:faithful-vs-corrected}
 \end{figure}
-
 
 \begin{table}[!htbp]
     \centering
@@ -138,36 +71,14 @@ Only the ordinary panels' scale factors reproduce, and the agreement is the exac
         \bottomrule
     \end{tabular}
 \end{table}
-% LAND: the printed point and the printed source each alone set an error floor no resolution
-%   removes; only exact versions of both converge. The point's floor is a caveat of print (a paper
-%   prints a root to finite precision), not a weakness of the paper (2026-10-16). 5a's source is a polynomial
-%   (represented exactly), so only its printed point applies. For 5d the
-%   order-7 Maclaurin source is wrong by 130% at x = -1 (ISSUE-004, R-D3:
-%   explained). The legacy notes' "~1e-2 inhomogeneous floor" came from the
-%   printed choices, not from the rank-one construction (ISSUE-007).
-% NOTE (drafting): the legacy floor is not mentioned (legacy material is never cited).
 
 R4a's source is a polynomial, represented exactly, so its printed point acts alone. The printed $f'(-0.2)=0$ stands for an extremum at $x\approx-0.196$, a value a paper prints to finite precision, so reproducing the panel from the printed digits carries a floor that is a caveat of print and not a property of the method: the error holds at \res[2,sci]{build/R4a/faithful/standard/floor}{high} for every $n$ from 4 to 10, against \res[2,sci]{build/R4a/standard/best}{field_err_linf} at $n=\res{build/R4a/standard/best}{n}$ at the exact point. On R4b to R4d the printed point and the printed source each alone set a floor, and only exact versions of both converge. The source dominates on R4d, whose order-7 Maclaurin polynomial departs from the source near $x=-1$ by more than the source's own largest value: with the exact root, raising the order to 11 and to 15 lowers the error at $n=4$ from \res[2,sci]{build/R4d/standard/n4/maclaurin-7}{field_err_linf} to \res[2,sci]{build/R4d/standard/n4/maclaurin-11}{field_err_linf} and \res[2,sci]{build/R4d/standard/n4/maclaurin-15}{field_err_linf}, against \res[2,sci]{build/R4d/standard/n4}{field_err_linf} with the Chebyshev source.
 
 \subsection{Panels Not Reproduced and Printed Errors}
 \label{app:repro-unreproduced}
-% LAND: R-D1 (Fig. 6: Laplace off by 1.8e-4 relative, heat by 0.8%, wave by 10%)
-%   and R-D2 (Fig. 7: 6.5% and 82%), each with its hypotheses and the
-%   discriminating runs; recorded as not reproduced, the authors not contacted
-%   (decision 17). M-02: the printed Laplace solution has cosh where cos is
-%   meant. M-07: beyond the printed n Wu et al.'s Fig. 6 invariant sets
-%   degenerate (Laplace from n = 5, heat and wave from n = 6), and data at t = 0
-%   make the heat equation backward on [-1, 0]; the corrected heat equation
-%   imposes its solution at t = -1 (ISSUE-008).
-% NOTE (drafting): ISSUE-002 called the Laplace ground state at n = (3,3) untrusted; under the
-%   threshold of 20 (ISSUE-016) its record is trusted (gap ratio 43), so the text no longer says so.
-%   The sampled readout (ISSUE-002's H7) and the doubled-space readout (ISSUE-003's H5) were never
-%   run at the printed resolutions (pihm docs/12_pillar2.md §10), so both stay untested.
 
 \paragraph{Printed Errors.} Wu et al.\ print the solution of their Laplace example as $\operatorname{csch}\pi\,\cosh(\pi x/2)\sinh(\pi(y+1)/2)$ (claim A-05). It is not harmonic, its two second derivatives summing to $\tfrac{\pi^2}{2}f$, and it violates $f(\pm1,y)=0$, since $\cosh(\pi/2)\ne0$. The solution, and the reference throughout, is $\cos(\pi x/2)\sinh(\pi(y+1)/2)/\sinh\pi$. The printed scale factor was not computed from the printed form either, which gives $\eta_e=\prov{48.57}$ at $n=(3,3)$. Wu et al.'s heat data, stated at $t=0$ inside the time domain $[-1,1]$, pose a backward heat problem on $[-1,0]$ (\Cref{app:datum-slice}).
 
-% MOVED 2026-10-15 from the standard form's appendix (now B): the PDE invariant sets' rank loss
-%   is the audit's (T-36).
 \begin{table}[!htbp]
     \centering
     \caption[Wu et al.'s invariant sets for their partial differential examples]{\textbf{Each of Wu et al.'s invariant sets for their partial differential examples admits a family of solutions, which the truncation suppresses only near the printed resolution.} The constraints Wu et al.\ impose on Laplace's equation (R5a, their Fig.~6b), the heat equation $f_t=\tfrac1{25}f_{xx}$ (R5b, Fig.~6d) and the wave equation $f_{tt}=4f_{xx}$ (R5c, Fig.~6f); the solutions that satisfy the equation and every constraint, $\ell$ a positive integer and $\phi_\ell$ a phase fixed by the constraints in $t$; the printed $n$ per axis; and the least $n$ per axis above the printed one at which the paper-faithful residual's near-kernel is degenerate, with its dimension. Classical computation (dense \gls{svd}).}
@@ -238,26 +149,11 @@ with $\beta_{\mathrm{rule}}$ the rule's least time. The rule permits longer time
 
 \subsection{Wu et al.'s Circuits}
 \label{app:pihm-circuit}
-% RESTRUCTURE 2026-10-15: the former Appendix D (The Published Circuits as Built), moved here whole
-%   so that every test of the paper sits in one appendix (T-36). Its verdict table
-%   (tab:published-verdicts) duplicated rows A-06 to A-08 of tab:paper-claims and was dropped
-%   (_offload_to_pihm.tex, block I1). Sources: Planning.md §3.7, §6.3, App. A-4; claims A-06 to
-%   A-08 (pihm docs/18_claims.md: tests/claims/test_pillar1.py);
-%   pihm/src/pihm/circuits/standard.py (published_derivative_encoding,
-%   derivative_ladder_error_bound). The ladder's per-bit coefficient is written mu (Wu et al.'s
-%   alpha): beta is imaginary time (T-08) and alpha a subnormalisation.
 
 \Cref{sec:pihm-encoding} gives the idea of the circuit Wu et al.\ use to load $\G$'s entries as rotation amplitudes \cite{wu2025pihm}. This section rebuilds the circuit and bounds its entrywise error, which Wu et al.\ describe only as ``negligible'' and decreasing ``exponentially'' with $n$; the bound is compared with the error measured on the circuit as built (\Cref{tab:app-epsilon-G}).
 
 \subsubsection{Circuits as Built}
 \label{app:published-build}
-% LAND: Figs 2 and 8 (feature map + zero-state reflection; B on n + 2 qubits,
-%   alpha_B = sqrt(2^{n+1}); D0 with alpha divided by f(x_s)); Fig. 9's mechanism
-%   built with our own registers, not its wiring, and the caption angles (the omega_c flag, the
-%   X ancilla, the offset register with its Hadamard sandwich, the value
-%   ancilla; U_R and U_C). EVERY deviation from the printed figure, one line
-%   each. The subtractor/validity structure is shared with the structured
-%   encoding (app:structured); only the value load differs.
 
 \paragraph{Constraint Rows (Figs~2 and~8).} $\Brow(x)$ and $\Dzero(x_s)$ are block-encoded by the inverse feature map $U_\tau^\dagger(x)$ followed by $\hat S_{n+1} = 2\ket{0}\!\bra{0}-I$ controlled inside a Hadamard sandwich on one ancilla, a two-term \gls{lcu} on $n+2$ qubits. The encoded block is $\Brow(x)/\sqrt{2^{n+1}}$, and $\Dzero(x_s)/\bigl(\sqrt{2^{n+1}}/f(x_s)\bigr)$ for the collapse row. The global phase of $-1$ in $\hat S_{n+1}$ becomes a relative phase once the circuit is controlled, and cannot be dropped.
 
@@ -265,7 +161,6 @@ with $\beta_{\mathrm{rule}}$ the rule's least time. The rule permits longer time
 
 \paragraph{Rebuild.} The angles of Fig.~9 can be read from its caption, but the wiring of $\hat U_R$ and $\hat U_C$ cannot be read from the figure, so the rebuild realises the same mechanism with registers of its own. The offset register is prepared in a uniform superposition over odd offsets only. Every non-zero entry of $\G$ has $p-k$ odd, and an even offset, $d=0$ above all, would load a value onto the diagonal and onto entries that must vanish, which the superposition drawn in Fig.~9 does not exclude. The row index is formed by subtracting the offset from the system register with a borrow, the arithmetic of the structured encoding (\Cref{app:structured}), in place of the cyclic shifts and swaps. A copy of the borrow masks the offsets that would carry the row below zero, and an all-zero test on the difference flags row~0, on which a second ladder loads the row's correction, the role of the angles $\varphi_k$ in $\hat U_C$. The value is loaded by the ladder of \Cref{app:ladder} with Wu et al.'s angles. Carry, borrow, its copy, the row-0 flag and the value qubit bring the circuit to $2n+5$ qubits.
 
-% Moved from Chapter 4 (plan §6, I; T-36): the verdict on each of Wu et al.'s circuit claims.
 \paragraph{Costing the Rebuild.} With the ladder coefficient $\mu=2/\|\G\|_S$ and the weight $2/N$ that the odd-offset superposition gives each entry, the rebuilt circuit block-encodes $\G$ at $\alpha=N/\mu=N\|\G\|_S/2$.
 
 \begin{lemma}[Wu et al.'s norm of $\G$]
@@ -279,7 +174,6 @@ $(\G^{\top}\G)_{pq}=\sum_k\G_{kp}\G_{kq}$ is non-zero only for $p\equiv q\pmod 2
 The rebuilt circuit's $\alpha=N\|\G\|_S/2$ is therefore a third of the printed prefactor $\tfrac{3N}{2}\|\G\|_S$ of \Cref{eq:pihm-published-prefactor}, so every cost quoted for Wu et al.'s encoding is on the kinder side of the printed one. With $\|\G\|_S\sim N^4/3$ and $\|\G\|_2\sim N^2/(2j_{-3/4,1})$ (\Cref{thm:G-limit}), the printed prefactor's looseness is $\tfrac{3N}{2}\cdot\tfrac{N^4}{3}\cdot\tfrac{2j_{-3/4,1}}{N^2}=j_{-3/4,1}N^3$, approached from below.
 
 \paragraph{Claims Tested.} Rows A-06 to A-08 of \Cref{tab:paper-claims} give the verdict on each claim Wu et al.\ make for their circuits. The rows of Figs~2 and~8 hold exactly. For Fig.~9 the gate count holds as a bound and the error to leading order in $\mu$ (\Cref{prop:epsilon-G}). Its qubit count is not testable, since the rebuild's own registers make $2n+5$, which neither confirms nor refutes the printed $2n+3$. The prefactor is valid but exceeds $\|\G\|_2$ by a factor growing as $N^3$ (\Cref{sec:standard-published}).
-
 
 \subsubsection{Small-Angle Ladder and Error}
 \label{app:ladder}
@@ -320,14 +214,6 @@ The bound is leading order, valid once the largest single argument, $2^{n-1}\mu$
 
 \subsubsection{Measured Resources and Error}
 \label{app:published-resources}
-% LAND: Wu et al.'s claims against the build, n = 2 ... 8: qubits (claimed
-%   2n + 3 for G), gates after MCX decomposition (claimed O(n^3)), the measured
-%   eps_G(n) beside the bound of prop:epsilon-G rescaled by the published
-%   prefactor (eq:pihm-published-prefactor), and alpha / ||G||_2.
-% Every cell is a derived key (derivative-circuit/n<n>, pihm/tools/thesis/derived.py): the encoding
-%   as rebuilt (pihm.circuits.standard.published_derivative_encoding), its transpiled two-qubit
-%   gates, the bound of prop:epsilon-G times the encoding's alpha, and the largest entry error of
-%   the encoded G from the circuit's block, column by column, to n = 7.
 
 \begin{table}[!htbp]
     \centering
@@ -351,10 +237,6 @@ The bound is leading order, valid once the largest single argument, $2^{n-1}\mu$
 
 \subsection{Wu et al.'s Filter and Parameters}
 \label{app:paper-filter}
-% RECEIVED FROM sec:pihm-encoding (2026-10-04 contraction). The body keeps the idea,
-%   the time rule, the examples' times and degrees and the O(1/Delta) expectation;
-%   this holds the detail. Tested in app:paper-claims and, for the filter study,
-%   sec:pipeline-filter. Wu et al.'s t is written beta (T-08).
 Wu et al.\ realise imaginary time by \gls{qsvt} on a block encoding of $\tilde H = H/\|H\|_F$ \cite{wu2025pihm}. The target $p(x)\approx e^{-\beta x}$ has indefinite parity, so they find one set of phase angles for its even part and one for its odd part, of maximal degrees $d^e$ and $d^o$, run the two opposite-parity \gls{qsvt} sequences and sum them by an \gls{lcu}. Each sequence uses the unitary dilation
 \begin{equation}
     U(\tilde H) = \begin{pmatrix} \tilde H & \sqrt{I-\tilde H\tilde H^\dagger} \\ \sqrt{I-\tilde H^\dagger\tilde H} & -\tilde H^\dagger \end{pmatrix},
@@ -392,8 +274,6 @@ Wu et al.\ solve the equation by least squares over all its rows. The Chebyshev 
 
 \subsection{Imaginary-Time Filter Circuit Simulations}
 \label{app:repro-t1}
-% Cited from sec:results-faithful (C-08's scope, plan §2.1). Drafted 2026-10-12 from the
-%   results-v1 records.
 The reproduction runs Wu et al.'s imaginary-time filter in the standard form, by circuit simulation as well as by exact emulation, at $n=2$ and $3$, on the panels as printed and as run. Each circuit simulation is compared with the emulation before normalising, against the bar of $10^{-10}$ that the minimax records all meet (\Cref{sec:results-faithful}). All but \res{agreement/T1/qite}{misses} of the \res{agreement/T1/qite}{count} imaginary-time records meet it too (\Cref{tab:app-qite-t1}). The misses are among the highest degrees run, of order $10^5$, where the statevector's rounding accumulates over the controlled walks, but the degree alone does not set the difference: on R4a at $n=3$ a record at a comparable degree passes just under the bar, and on the wave equation R5c records at higher degrees pass by more than an order of magnitude. The difference therefore depends on the problem's spectrum and filter as well as on the degree. The bar is kept at every degree, so these are reported as misses and not re-judged. They concern the circuit simulator's arithmetic, not the filter: the emulation is exact for the circuit as built (\Cref{sec:pipeline-verification}), and the minimax filter, whose degrees are smaller at equal suppression, meets the bar on every record.
 
 \begin{table}[!htbp]

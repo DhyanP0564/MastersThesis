@@ -1,21 +1,3 @@
-% =============================================================================
-% Appendix C  The Structured Exact Encoding of the Differentiation Matrix
-% Cited from sec:standard-factorisation and sec:standard-cost.
-% Plan: ThesisPlanning.md §6 (C; was E before the 2026-10-15 restructure); supporting
-% contribution S2 (claims C-01, C-02).
-%
-% CONTENT  The proof of prop:G-factorisation; Lambda, U_odd (subtraction with a
-%          borrow flag) and R_0 as circuits; the resource derivation behind
-%          prop:standard-cost; alpha / ||G||_2 across n; the standard form's gap bounded
-%          above independently of N, and the degree floor it gives (prop:std-gap-bound, added
-%          2026-10-13; not in pihm/docs, which record the gap as measured: checked numerically
-%          on R2a for n = 2..8: the Rayleigh maximum on S is 60.4 at every n, against
-%          lambda_1 = 29.2 at n = 2 and 7.04 from n = 3).
-% SOURCES  Planning.md §3.7 ("Standard form, structured exact"), App. A-4;
-%          pihm/src/pihm/circuits/standard.py (structured_derivative_encoding),
-%          arithmetic.py (register_subtractor); pihm/docs/PILLAR1.md.
-% =============================================================================
-
 This appendix proves the exact factorisation of the differentiation matrix and costs its encoding.
 
 \subsection{Proof of \texorpdfstring{\Cref{prop:G-factorisation}}{the factorisation} and the Diagonal Factors}
@@ -154,7 +136,6 @@ The bound uses nothing about the solution and holds for variable coefficients, R
 
 \subsection{Subnormalisation Across \texorpdfstring{$n$}{n}}
 \label{app:alpha-G}
-% Values from the derivative/n<n> keys (exact classical computation).
 
 \begin{table}[!htbp]
     \centering

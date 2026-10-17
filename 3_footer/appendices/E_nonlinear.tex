@@ -1,28 +1,3 @@
-% =============================================================================
-% Appendix E  Systems and the Nonlinear Route in Full  --  cited from Chapter 6
-% (sec:extensions). Plan: ThesisPlanning.md §6 (E; was H before the 2026-10-15 restructure),
-% §5.6 v3.2; supporting contribution S4.
-%
-% CONTENT  Systems (app:systems): R7's rows in both forms, the padding, the ratio rows'
-%          spectrum and circuit, the matchings (app:matchings), realification and the real
-%          embedding. The doubled space (app:doubled-space) and the proof of prop:no-penalty.
-%          The Carleman lift's layouts, spectrum, level scale, tensor circuit and exact case
-%          (app:carleman-layouts); the time axis, uniqueness and the error split
-%          (app:carleman-spacetime). The folds, with prop:fold-exact (moved from sec:ext-circuits
-%          in the 2026-10-12 cut) and its proof (app:proof-fold). The Burgers and
-%          Navier-Stokes Galerkin operators (app:fluids).
-% RESTRUCTURE 2026-10-15: the fluid problems' data (R9's runs; the Taylor-Green and vortex-pair
-%   initial conditions) moved to Appendix H (app:fluid-data), beside the other problem
-%   definitions. The energy and enstrophy conservation of the inviscid truncation moved to the
-%   repository (_offload_to_pihm.tex, block E1). REVISE (optional): one clause in
-%   app:fluids saying the inviscid truncation conserves both, checked in the repository.
-% SOURCES  pihm/docs/companion/{21,51,55,60,61,62,63,64,65}; docs/16_extensions.md;
-%          docs/17_navier_stokes.md; docs/03_problems/{07_r7,08_r8,09_r9,10_r10}.md;
-%          src/pihm/assemble/systems.py, circuits/{systems,tensor,folds}.py, ir.py
-%          (matching_terms), operators/constraints.py (ratio_rows), carleman.py,
-%          problems/fluids.py (real_embedding, burgers_couplings, vorticity_couplings).
-% =============================================================================
-
 This appendix gives coupled systems, the doubled space and the Carleman lift in full.
 
 \subsection{Systems}

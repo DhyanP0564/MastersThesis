@@ -1,121 +1,9 @@
-% =============================================================================
-% Chapter 1  Introduction  --  ~3 pp  --  rubric: Introduction & Literature
-% Review /20.   Plan: ThesisPlanning.md §5.1 (v3.13: restructured to an unheaded
-% opening and two subsections).
-%
-% PURPOSE     Establish that quantum DE solvers matter and that the physics-
-%             informed Hamiltonian route has a specific, *located* cost problem its
-%             authors left open; then state what this thesis contributes, and what
-%             it does not.
-% CRITERION   "Comprehensive, superior understanding of the historical background
-%             and state of the art, with excellent connection of the current field
-%             to the project" (>= 18/20). The introduction converges; it does not
-%             survey (the families and their judgement are Chapter 2's).
-% FORM (v3.13) An unheaded opening of four paragraphs (target -> the method -> the
-%             cost it left open -> the number), then two subsections. The opening
-%             mirrors Chapter 10's first paragraph, so the thesis opens and closes on
-%             the same tension. No internal labels in the prose (C, S1-S4, Q(i)-(iii),
-%             tier names other than T1-T3 once); no run-in \emph{Heading.} paragraphs.
-% SOURCES     ThesisPlanning.md §0.1 (story), §3.1 (contributions), §3.2 (questions),
-%             §3.3 (spine sentence), §3.4 (vocabulary); 10_conclusions.tex (the
-%             verdicts this chapter must promise, no more); the closing sentence of each
-%             8_results.tex section.
-% WRITE WHEN  Last (wave W6), so it promises only what was delivered.
-% FIRST PASS  2026-10-14, against the drafted Chs 2-10 (Ch. 10's verdicts, §8.6's findings);
-%             every number by key; Wu et al.'s two quotations checked against the paper's
-%             Discussion.
-% =============================================================================
-
-% --- Opening (no heading; ~1.5 pp) -------------------------------------------
-% LAND, in order (one paragraph each):
-%   1. THE TARGET (~0.3 pp). Differential equations model fluids, fields and
-%      finance; a register of n qubits holds a function of N = 2^n values, which
-%      is why quantum solvers are proposed. Their output is a state, read only by
-%      measurement, and their cost is queries x gates per query on a register of
-%      qubits, on a fault-tolerant machine. Every route's cost grows with a ratio its
-%      discretisation fixes (a linear system's condition number, a lift's ratio of
-%      nonlinearity to dissipation, an encoded Hamiltonian's norm against its gap):
-%      Chapter 2's thread in ONE sentence, no family-by-family survey. The thesis
-%      compares quantum formulations with one another and claims no advantage over
-%      classical solvers.
-%   2. THE METHOD (~0.35 pp). Wu et al.'s method attributed at FIRST mention
-%      (\cite{wu2025pihm}), with its lineage in one clause: differentiable quantum
-%      circuits (\cite{kyriienko2021differentiable}) -> the Chebyshev latent space
-%      and its lifts (\cite{paine2023physicsinformed}) -> the physics-informed
-%      effective Hamiltonian. Three sentences: Chebyshev coefficients as amplitudes;
-%      the equation and its data as operators that annihilate the solution; their
-%      Gram sum H, whose ground state is the solution, prepared by a filter with no
-%      training. Their claim: every term has a circuit of poly(n) gates.
-%   3. THE COST LEFT OPEN (~0.45 pp). A polynomial gate count prices ONE query;
-%      the number of queries is the filter's degree, d = Theta(sqrt(alpha_H/Delta)
-%      log 1/eps) with alpha_H >= ||H|| for any block encoding (inline; the
-%      labelled eq:degree is Chapter 2's). Wu et al.'s two open problems, quoted:
-%      "the spectral gap dependence" and "the cost of differentiation". They are
-%      the degree's denominator and, on our reading, its numerator. The thesis's
-%      questions in ONE prose sentence (after Chapter 10's first paragraph): what
-%      sets the number of queries, the encoder or the Hamiltonian; whether it can
-%      be lowered by changing the residual rather than the circuit, without
-%      changing the solution; and whether the answer survives nonlinear equations,
-%      where Wu et al.'s construction projects rather than prepares. No italic
-%      list: the questions are derived and stated formally once, in
-%      sec:pihm-assessment.
-% PARAGRAPH 4 (THE NUMBER) DROPPED 2026-10-15 by decision: the introduction quotes no result.
-%   Neither exemplar's introduction does (Green: gaps, significance, organisation; Snow:
-%   motivation, contributions, outline), and the rubric asks for no number there. The R2a
-%   three-encoding comparison (as built and at the ideal bound) belongs to Ch. 4 / Ch. 8.
-
 Differential equations govern how dynamic systems evolve in broad fields of physics and engineering. For a classical numerical solver, the cost grows with the resolution: $N$ unknowns along $D$ axes makes $N^D$ unknowns in all. A register of $n$ qubits holds a vector of $N=2^n$ amplitudes, and this exponential compression is the reason quantum algorithms for differential equations are proposed \cite{berry2014highorder,childsliu2020spectral,liu2021carleman}. Such algorithms return a quantum state, from which we measure only a few properties of the solution \cite{aaronson2015fineprint}. Cost is primarily determined by asymptotic scaling in circuit depth, gate complexity, qubit count, and/or shots.
 
 Each established route has its own limitation. For quantum linear-system algorithms applied to a discretised equation \cite{berry2014highorder,childsliu2020spectral}, the cost depends on the condition number of the discretisation, which grows with the resolution. Hamiltonian simulation and its extensions to dissipative dynamics \cite{anliulin2023lchs,jinliuyu2023schrodingerisation} solve only linear systems, and the generator's norm times the evolution time also grows with the resolution. Linearisation such as Carleman's has a truncation that is controlled only where dissipation dominates \cite{liu2021carleman}. Variational circuits trained on the equation's residual \cite{lubasch2020variational,kyriienko2021differentiable} can solve nonlinear equations, but their training can stall on a barren plateau, where the cost landscape is flat and resolving a descent direction takes exponentially many measurements \cite{larocca2025barren}. The remaining route prepares the solution as the ground state of a Hamiltonian built from the equation, with a ground-state filter and nothing to train \cite{lintong2020filtering}. This thesis takes up that route, following the \gls{pihm} of Wu, Paine, Philip, Gentile and Kyriienko \cite{wu2025pihm}.
 
 \subsection{Contributions and Scope}
 \label{sec:contributions}
-% ~1.1 pp
-% LAND, in order:
-%   1. THE PRINCIPAL CONTRIBUTION, one paragraph (the descriptor reformulation):
-%      keep the dense G as its banded factors, G = B~^{-1} D~, carrying the
-%      intermediate derivatives as unknowns (the chain, order >= 2) or multiplying
-%      a first-order equation or system through by B~ (the mass form); the kernel
-%      is unchanged in both. Antecedents credited in the same paragraph
-%      (\cite{olver2013}, \cite{cai1994fosls}); the increment is the transfer to a
-%      block-encoded Hamiltonian and its measured consequences. ||H_desc|| =
-%      Theta(N^2) against the standard form's Theta(N^{4k}); one flat LCU with
-%      O(log n) ancilla (ceil(log2(n+4)) + 8 for R2's system rows); on a regular
-%      problem the gap is proved Theta(1) and the degree is Theta~(N) against
-%      Theta~(N^{2k}). COSTS, volunteered: the block register; more two-qubit gates
-%      per query than the structured standard form at the sizes built on
-%      constant-coefficient problems; about N^2 on singular problems, where block
-%      rescaling restores the gap without ancilla but not free in
-%      gates, and Legendre's equation favours the standard form at the ideal bound;
-%      on two axes the gap falls even when rescaled, and on the heat equation at
-%      small n the standard form needs the lower degree; a double zero is beyond
-%      any rescaling. Close on the spine sentence (ThesisPlanning.md §3.3),
-%      reworded. Pointer: sec:descriptor, sec:results-scaling, sec:results-gap.
-%   2. THE FOUR SUPPORTING CONTRIBUTIONS (decision 2026-10-15): one narrative paragraph, not an
-%      enumerate, no figures; baseline (standard form, T10, validation -> app:reproduction),
-%      the fairness device (structured encoding), the extension beyond one real field, the
-%      pipeline, each with one pointer.
-%   3. THE SCOPE, one paragraph, plainly: every result is a classical computation:
-%      circuit simulation (T1) to 20 qubits, exact emulation (T2), provably equal
-%      to the circuit's post-selected output, to filter degrees of 2^20, and
-%      resource estimates (T3) beyond. "Beyond the simulation budget" is never
-%      "cannot reach". Nothing ran on hardware. The field is read out classically,
-%      decoded from the prepared state's field blocks; Wu et al.'s interferometric
-%      protocol is built and verified only at small n (R1, R2a, R5a), with our
-%      correction for p_G < 1, and is further work. The spectral edge is taken from
-%      the classical reference (a stated limitation).
-%   4. WHAT IS NOT CLAIMED, one short paragraph (prose, not a list): a poly-log
-%      end-to-end cost (neither form is); an advantage over classical solvers (on
-%      one axis a classical spectral solver needs O(N) operations); a floor for
-%      every algorithm (the floor is for polynomial filters of the walk, hedged to
-%      what Lin & Tong support); preparation from a degenerate formulation; native
-%      complex preparation (realification only); a converged lift certified by its
-%      kernel.
-%   5. THE DEPARTURE FROM THE PROPOSAL (2026-10-14 review), one short paragraph: what was
-%      proposed; the reason (the query count's growth with N, from the dense G's encoding and
-%      norm, inherited by any extension, so settled first); GQSP lifts the proposal's two QSVT
-%      restrictions and R^dag R is Hermitian (keep the two reasons apart: GQSP does not handle
-%      non-Hermitian operators); what is left. Detail and table in app:proposal.
 
 The principal contribution is a reformulation of the residual which the Hamiltonian is built from, which we call the descriptor form. Chebyshev differentiation is dense, but it factorises into two banded matrices which are (up to a factor of two) the conversion and differentiation operators of Olver and Townsend's ultraspherical spectral method \cite{olver2013}. We were motivated by the query count, which is set by the Hamiltonian's norm against its gap, and by the observation that forming the dense product inflates the norm. The descriptor form therefore uses the two factors, and carries intermediate derivatives as unknowns, the idea of \gls{fosls} \cite{cai1994fosls}. The reformulation does not change the kernel of the Hamiltonian, so the state prepared is the same solution, but its Hamiltonian is banded and its norm is smaller.
 
@@ -129,35 +17,7 @@ The work departs from its research proposal, which intended an extension of the 
 
 \subsection{Outline}
 \label{sec:outline}
-% ~0.4 pp
-% LAND: ONE paragraph of prose (no bullets), each chapter by its heading verbatim
-%   and its job in one clause: Chapter 2 the routes, the spectral methods and the
-%   primitives, judged; Chapter 3 Wu et al.'s method as reviewed prior art, closing
-%   on the three questions; Chapter 4 the standard form, stated once, and where its
-%   cost lies; Chapter 5 the descriptor reformulation; Chapter 6 the step from one
-%   real field to coupled and nonlinear ones; Chapter 7 how the
-%   answers are tested and the design of the numerical experiment; Chapter 8 the
-%   evidence, one section per question; Chapters 9-10 the mechanism, the limits
-%   and the further work. Mark Chapter 3 as prior art and Chapters 4-7 as this
-%   thesis's model. One closing sentence for the appendices: the proofs and
-%   constructions (B-I), the catalogue (J), the reproduction and audit of Wu et
-%   al.'s examples (K), the records (L), the proposal and its deviations (M).
-%   This is the thesis's only section roadmap (ThesisPlanning.md §3.5 rule 1).
 
 In \Cref{sec:background}, we first examine the current landscape of quantum algorithms for differential equations, and then detail classical spectral methods we rely on further in. We present \gls{pihm} in \Cref{sec:pihm}, assess it as prior art and articulate three specific questions later chapters answer. \Cref{sec:standard} states our construction of the standard form, which we reformulate in \Cref{sec:descriptor}. Both are extended into coupled systems, complex-valued fields and nonlinear equations in \Cref{sec:extensions}. The design of the numerical experiment and its results are given in \Cref{sec:pipeline,sec:results}. We tie these together in the discussion, \Cref{sec:discussion} and present conclusions and future work in \Cref{sec:conclusions}.
 
 The main body is accompanied by a rather extensive appendix, which holds the identities, proofs and more detailed constructions behind each chapter, as well as a comprehensive set of results from $\res{production}{runs}$ computation runs.
-
-% CHECKLIST (marker)
-%   1. Can a non-specialist physicist state the problem after the opening?
-%   2. (dropped 2026-10-15: the introduction quotes no number; see the note under the opening.)
-%   3. Is every contribution falsifiable, with its evidence named?
-%   4. Is the scope statement explicit, including the tier vocabulary and
-%      "no hardware"?
-%   5. Is Wu et al. attributed at first mention, not at first critique?
-%   6. Does the outline match the headings verbatim?
-%   7. Is every promise here answered in Chapter 10's opening paragraph, and nothing more promised?
-% TRAPS  Leading with the descriptor's advantage before the reader knows the
-%        baseline; claiming a speed-up (Style Trap 9); listing the structured
-%        encoding as a competing method; an unscoped descriptor claim (Trap 17);
-%        the three questions as an italic list (they are §3.5's).

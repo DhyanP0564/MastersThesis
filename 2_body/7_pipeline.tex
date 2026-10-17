@@ -1,57 +1,5 @@
-% =============================================================================
-% Chapter 7  Preparing and Verifying the Ground State  (7_pipeline.tex)  --  6 pp
-% rubric: Project Body (Modelling) -- Model Formulation /30.
-% Plan: ThesisPlanning.md §5.7 (v3.2); supporting contribution S3.
-%
-% PURPOSE     Specify everything shared by both forms after the residual is
-%             built, and design the numerical experiment, so a reader could
-%             "create equivalent models". The forms differ only in the
-%             residual, so every difference in Ch. 8 is a difference of
-%             residuals: of Hamiltonians, or of their encodings (sec:pipeline-design
-%             separates the two).
-% CRITERION   (Modelling, verbatim) "described in sufficient detail to permit
-%             readers to create equivalent models. This should include: a
-%             description of any software tools used and/or created; a
-%             description and/or diagram of the model configuration; descriptions
-%             of the model input options selected (boundary conditions ...)".
-%             Band 3 names "poor design of numerical experiment": the experiment
-%             design lives here, in the body (sec:pipeline-design).
-% SOURCES     pihm/docs/02_methods.md (all sections; this chapter's source of
-%             truth); pihm/docs/companion/40-47 and 70-76; pihm/docs/15_filters.md;
-%             claims C-03, C-04, C-08, B-13, B-16, B-17, B-24; ThesisPlanning.md
-%             §3.4-3.5, §5.7, §6 (F, G).
-% NUMBERING   The opening has no heading (no stacked headings), so the plan's
-%             §7.2-7.9 are this file's 7.1-7.8. Every pointer is a \Cref.
-% Bare H, A and R are correct in this chapter only: its statements are
-% regime-independent (decision T-07).
-% FIRST PASS  2026-10-12, drafted against companion 40-47, 70-76 and the
-%             pre-P8 records (scratch export); every number by key.
-% REVIEW      2026-10-12 (Review Mode) fixes applied: the fairness declaration
-%             (as built favours the descriptor; the ideal bound isolates the
-%             Hamiltonian); antecedent credit for the reflection; the filter
-%             study's and the verification's numbers moved to sec:results-faithful
-%             (see the NOTE there); trim candidates 1-3 executed: F2 dropped,
-%             tab:run-inputs -> App. H, the iterative reference and the T1 cost
-%             model -> App. G; tab:acceptance -> App. G; eq:qite-filter and the
-%             readout identity -> App. F; the ladder's reference column dropped.
-% v3.4        StructuralReview.md F3 (11 pp -> about 6): tab:constraint-kinds -> App. H;
-%             prop:filter-normalisation (statement) and the imaginary-time detail -> App. F;
-%             the verification modes' protocols to three sentences (tab:verification-modes in
-%             App. G); the trust threshold's rationale, the controlled walk's detail and the
-%             GQSP phase method to one clause each; the readout to one paragraph. F1: no
-%             result here (the T1 frontier and the fairness numbers are §8.1's and §8.2's).
-% REVIEW 2    2026-10-13 (Review Mode, 8.3 pp measured -> about 6): the Lin--Tong attribution
-%             corrected (sec:bg-filtering); R2a's relative gap -> sec:descriptor-spectrum and the
-%             iterative reference's reach -> app:iterative-reference (evidence rule); GQSP and the
-%             filter's optimality left to sec:bg-qsp and sec:bg-filtering; the heights, the
-%             amplification footnote and eq:error-budget -> App. F and G; the Gram-sum aside cut;
-%             the probe mode's claim narrowed to an estimate; a closing hand-off added.
-% =============================================================================
-
 \Cref{sec:standard,sec:descriptor,sec:extensions} each end with a residual and a prediction: the filter's degree grows as $\sqrt{\alpha_H/\Delta}$ (\Cref{eq:degree}), with a norm and a gap that each chapter derived for its own form. \emph{Can both terms of that ratio be measured the same way for both forms?} Only if each form is judged against the same classical reference, filtered to the same suppression from the same answer-independent initial state, and costed with the encoder's share of $\alpha_H$ kept apart from the Hamiltonian's. One pipeline therefore serves every residual (\Cref{fig:pipeline}). The two forms enter only through the residual they hand to it, so a difference measured between them in \Cref{sec:results} is a difference between their Hamiltonians $H=R^\dagger R$ or between their encodings, which the design of the experiment separates (\Cref{sec:pipeline-design}). The statements hold for any stacked residual, so $R$, $H$ and $\alpha_R$ carry no form subscript here.
 
-% FIG: fig:pipeline (F1), the most important figure in the thesis: its caption must stand alone as
-%   a summary of the model. Check the boxes against pihm's stages at results-v1.
 \begin{figure}[!htbp]
     \centering
     \begin{tikzpicture}[
@@ -92,26 +40,13 @@
 
 \subsection{Problems and Model Inputs}
 \label{sec:pipeline-inputs}
-% ~0.75 pp. LAND: the ladder by pointer (tab:ladder, T3, moved to sec:standard-model by
-%   StructuralReview.md F7); the constraint kinds named (def:standard-form),
-%   the rubric's "boundary conditions", tabulated in App. H (tab:constraint-kinds, T2; v3.4);
-%   a problem is data; the printed panels only in App. I (T-27); the run options, named here,
-%   tabulated in App. H (tab:run-inputs).
 
 A problem is data: its fields and axes; its equation, as a sum of terms, each a coefficient function, a derivative order on an axis, a field and possibly a source; its constraint rows; its regular datum; and its reference solution. Nothing downstream depends on a problem except through these. The benchmark problems R1--R10 of \Cref{tab:ladder} are given in this way, each with its equation, reference, constraint rows, resolutions and parameters in \Cref{app:catalogue}; the panels as printed are run only to test the published method (\Cref{app:reproduction}). The data enter as rows of the four kinds of \Cref{def:standard-form}, the model's boundary and initial conditions, each the same in both forms and listed with the problems that use them in \Cref{tab:constraint-kinds}. Two kinds of datum are set up from the reference solution when the problem is built, for the reasons of \Cref{sec:standard-constraints}: the exact constraint points of R4 and R6b, and the heat equation's initial function at $t=-1$. Every other datum is the problem's statement.
-
 
 A run is a problem at a resolution with a set of options: the form and, for the descriptor, its layout and block rescaling; the encoding of $\G$; the treatment of a nonlinearity; the filter; the target $\varepsilon=10^{-6}$; and the initial state. Their values and defaults are listed in \Cref{tab:run-inputs} (\Cref{app:run-options}). The defaults are the configuration every comparison of \Cref{sec:results} uses; the alternatives are controls, labelled ablations, or the printed choices kept to test the published method.
 
 \subsection{Classical Reference}
 \label{sec:pipeline-reference}
-% ~0.5 pp. LAND: the smallest right singular vector; Wedin's bound against the eigensolver's (the
-%   bounds and the table -> app:eigh-vs-svd; R2a's relative gap is sec:descriptor-spectrum's); the
-%   iterative reference beyond 8,192 physical columns (its reach -> app:iterative-reference); trust
-%   at gap ratio 20 (the placement rule and the angle bound -> app:trust-threshold); three metric
-%   levels.
-% NOTE (standing fact): the code trusts a gap ratio of AT LEAST 20 (classical.reference,
-%   DEFAULT_MIN_GAP_RATIO); CLAUDE.md says "above 20" (plan §2.2 TODO).
 
 Every result is judged against a classical reference: the ground state of $H$, computed from $R$ and never from $H$, a departure from Wu et al.'s eigenvector of the formed Hamiltonian (\Cref{tab:deviations}). With the \gls{svd} $R=\sum_j\sigma_j\,u_jv_j^\dagger$, $\sigma_0\le\sigma_1\le\dots\le\sigma_{\max}$, the reference is $\ket{\psi_{\mathrm{ref}}}=v_0=\operatorname{arg\,min}_{\|\psi\|=1}\|R\psi\|_2$, the eigenvalues of $H$ are $\lambda_j=\sigma_j^2$ and its gap is $\Delta=\sigma_1^2-\sigma_0^2$. Working from $R$ keeps its conditioning unsquared. A backward-stable \gls{svd} of $R$ resolves the ground state to about $\epsilon_{\mathrm{mach}}\sigma_{\max}/(\sigma_1-\sigma_0)$ by Wedin's theorem \cite{wedin1972perturbation}, an eigensolver on the formed $H$ only to about $\epsilon_{\mathrm{mach}}\sigma_{\max}^2/(\sigma_1^2-\sigma_0^2)$ by the Davis--Kahan theorem \cite{daviskahan1970rotation}, larger by about the residual's effective condition number $\sigma_{\max}/\sigma_1$ and above one once the relative gap $\Delta/\|H\|$ falls below $\epsilon_{\mathrm{mach}}$, as the standard form's does at moderate $n$ (\Cref{sec:descriptor-spectrum,prop:wedin,app:eigh-vs-svd}). The dense \gls{svd} is used up to $8{,}192$ physical columns, the descriptor's decoupled padding excluded (\Cref{prop:padding-decouples}); beyond, shift-invert Lanczos iteration on an augmented system that never forms $R^\dagger R$ gives the smallest singular triplets, with an a posteriori bound on the ground state's error (\Cref{app:iterative-reference}).
 
@@ -119,12 +54,6 @@ A computed spectrum always has a smallest value, and the reference must decide w
 
 \subsection{Block Encoding and the Quantum Walk}
 \label{sec:pipeline-walk}
-% ~0.75 pp. LAND: the stacked encoding (eq:stacked-encoding), a quadrature combination; the
-%   proposition (C-03; the construction credited to qubitisation/QSVT), proof ->
-%   app:proof-stacked-reflection; the walk (eq:walk); the spectrum on [-1, 1] and the gap divided by
-%   alpha_R; controlled V from controlled reflections.
-% CUT 2026-10-13 (review 2): the hedged comparison with a Gram-term combination (App. I does not
-%   record Wu et al.'s); the padding sentence (sec:pipeline-reference and App. D carry it).
 
 Each block $R_j$ of the residual, the equation's rows and each constraint's, is block-encoded by its form's circuits at a subnormalisation $\alpha_j$ (\Cref{sec:standard-cost,sec:descriptor-block-encoding,sec:ext-circuits}). The blocks are stacked rather than summed: a row-select register of $\lceil\log_2L\rceil$ qubits is prepared in $\sum_j(\alpha_j/\alpha_R)\ket{j}$ and $U_j$ is applied when it holds $j$, and unlike the selector of a \gls{lcu} the register is never returned by an inverse preparation, so that
 \begin{equation}
@@ -159,20 +88,6 @@ for one power of $W$ followed by one projection; controlling $W$ controls only i
 
 \subsection{Filter and Parameters}
 \label{sec:pipeline-filter}
-% ~1 pp. LAND (T-23: MINIMAX IS PRIMARY): GQSP (eq:gqsp-block); the minimax edge filter and its
-%   degree (eq:minimax-filter, eq:minimax-degree); a priori parameters and the known-edge
-%   assumption; unit weight of both filters (one sentence; prop:filter-normalisation in App. F,
-%   v3.4); why minimax (B-17: the numbers are §8.1's), imaginary time as Wu et al.'s filter
-%   (-> app:qite-filter); phases (one clause -> app:gqsp-phases);
-%   initial states (eq:geometric-state; a system's fields weighted by w0/||w0||, which in a Carleman
-%   lift sit on the level-one blocks only, higher levels at zero: 2026-10-16, GeminiReviewPlan
-%   row 7); success, amplification and the total count
-%   (eq:total-cost); deviations pointer to tab:deviations.
-%   (Review 2, 2026-10-13: GQSP's construction and the filter's optimality are sec:bg-qsp's and
-%   sec:bg-filtering's; the heights and the infidelity bound App. F's; the amplification footnote
-%   -> app:amplification.)
-% CITE-CHECK: Chebyshev's inequality in borweinerdelyi1995 (Ch. 5, "Chebyshev's inequality"):
-%   confirm the section before submission (now cited in sec:bg-filtering and App. F, not here).
 
 A filter is a polynomial $P$ of $H'$. \Gls{gqsp} \cite{motlagh2024gqsp} applies $d$ walks, each controlled on one signal qubit, between single-qubit rotations of that qubit, with no parity constraint (\Cref{sec:bg-qsp}). On the signal's zero, restricted once by $\Pi_{\mathrm{in}}$, the circuit block-encodes
 \begin{equation}
@@ -234,14 +149,6 @@ linear in $1/\gamma$ for small $\gamma$. The count takes $\gamma$ from the class
 
 \subsection{Verification and the Error Budget}
 \label{sec:pipeline-verification}
-% ~0.75 pp. LAND: operator verification in three modes (protocols and tab:verification-modes,
-%   T4, in App. G; v3.4), why IR is not a tautology; the tiers and the T2 = T1 argument BEFORE
-%   any T2 number; the pre-run estimate (-> app:t1-model), the frontier itself §8.1's;
-%   acceptance (tab:acceptance -> app:error-budget); the error budget (eq:error-budget, moved to
-%   app:error-budget 2026-10-13, review 2), eps_BE = eps_sample = 0. The verification outcomes
-%   are §8.1's.
-%   (Resolved 2026-10-12: the circuit-simulation reach checked at results-v1, 20 qubits;
-%   CLAUDE.md corrected; plan §2.2.)
 
 Two questions are kept apart: whether each circuit encodes the operator it claims to, and whether the filter prepares the ground state. The first, \emph{operator verification}, targets the reflection's whole block $2H/\alpha_R^2-I$, with $H$ formed from the residual assembled from the problem, never from the compiler that produced the circuit, and runs in three modes (\Cref{tab:verification-modes}). The \emph{exact} mode reconstructs the block, one statevector evolution per input column, and certifies the circuit completely at that size. The \emph{probe} mode compares the circuit's action on twenty structured and Haar-random vectors with sparse products of the target; it estimates the root-mean-square error without bounding the worst entry (\Cref{prop:haar-probes}), and covers every circuit of at most 24 qubits that the exact mode does not. Where these two modes reach, the composed Hamiltonian is verified whole. The \emph{\gls{ir}} mode sums the compiled terms of a lift or coupling into a sparse matrix and compares it with the assembled operator at any size; the two sides are independent constructions from the problem, so the comparison is not a tautology, and the exact and probe modes close the step from terms to gates where a circuit can be simulated. Wider circuits are recorded for their subnormalisation and gate counts alone.
 
@@ -253,9 +160,6 @@ Each preparation is accepted against bars at every level (\Cref{tab:acceptance})
 
 \subsection{Readout}
 \label{sec:pipeline-readout}
-% ~0.25 pp (plan §5.7 item 7: ONE PARAGRAPH, T-24). Classical decoding first; Wu et al.'s protocol
-%   attributed, built and verified at small n, its correction for p_G < 1 (eq:readout-identity and
-%   its derivation -> app:readout-identity), further work.
 
 The field is read out classically: it is decoded from the prepared state's field blocks and scaled by the regular datum. With $\ell_x(\psi)=\braket{\tau(x)|D\psi}$ the field's value functional, $D$ the map from the state to the field's coefficients (the field block; for a lift, its first level times the scale $s$),
 \begin{equation}
@@ -268,9 +172,6 @@ so the state's global phase and norm cancel and the decoded field carries the si
 
 \subsection{Experimental Design}
 \label{sec:pipeline-design}
-% ~0.5 pp. LAND: what varies and what is fixed; what counts as a gate and an ancilla; FAIRNESS,
-%   DECLARED, with its true bias: as built favours the descriptor (its encoder is the tighter); the
-%   ideal bound alpha = ||R|| isolates the Hamiltonian (T-25); the tier on every number.
 
 The study varies the resolution ($n$ per axis, $n_t$, the modes $M$ and the Carleman order $K$), the form, the encoding of $\G$, the filter, the target $\varepsilon$ and the initial state, one at a time from the defaults of \Cref{tab:run-inputs}. Within a comparison of the forms everything else is fixed: the problem and its constraint rows, $\varepsilon=10^{-6}$, the minimax filter, the geometric initial state on the field block and the readout.
 
@@ -282,24 +183,7 @@ The study varies the resolution ($n$ per axis, $n_t$, the modes $M$ and the Carl
 
 \subsection{Software and Computation}
 \label{sec:pipeline-software}
-% ~0.25 pp. NO code listings ("no need to include detailed codes"). Detail -> app:software.
-%   The last paragraph is the chapter's closing hand-off (plan §3.5 rule 1; review 2).
-% CITED 2026-10-12: NumPy, SciPy (Crossref) and Setonix (Pawsey's Conditions of Use, which ask
-%   for the DOI citation); the Pawsey acknowledgement is in 1_header/2_acknowledgments.tex.
 
 The pipeline is implemented in \texttt{pihm}, a Python package we wrote (\Cref{app:software}). Each concept has one implementation, shared by both forms and every problem, so a difference between the forms cannot come from different code for the same step, and every number and figure is regenerated from the archived records of one tagged version.
 
 Within this pipeline the forms differ in their residual alone, and a comparison read at the ideal-encoding bound compares their Hamiltonians. Two things rest on assumption or argument: the spectral edge, supplied by the classical reference rather than found on the circuit, and the circuit's output beyond small widths, which the exact emulation supplies by the argument of \Cref{sec:pipeline-verification}. \Cref{sec:results-faithful} tests the pipeline against its reference, its emulation and its error budget before \Cref{sec:results-scaling} measures the degree's two terms in both forms.
-
-% CHECKLIST (marker)
-%   1. Is there a configuration diagram (fig:pipeline), with a caption that stands alone?
-%   2. Is every input option named, with its value (tab:run-inputs in App. H, tab:constraint-kinds)?
-%   3. Is the software described (sec:pipeline-software)?
-%   4. Is the experiment's design and fairness justified, with its true bias (sec:pipeline-design)?
-%   5. Are the deviations from Wu et al.\ pointed to tab:deviations (§7.2, §7.4, §7.6)?
-%   6. Is the T2 = T1 argument stated before any T2 number is used?
-%   7. Is the readout classical, the protocol attributed to Wu et al.?
-% TRAPS  A software manual; "Pillar" and "tier" jargon; QITE presented as the comparison's filter;
-%        the readout presented as new or as the method's readout; "could not simulate" written as
-%        "cannot reach"; the legacy Gram-sum composition's ancilla (never cited); the as-built
-%        comparison called conservative.
