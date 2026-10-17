@@ -188,8 +188,9 @@ Wu et al.\ treat at most two variables. On any number of axes a term is the Kron
 %   1. Wu et al.'s rows (Eqs 9-11): B(x) maps a series to the constant f_N(x); B(x)G^j vanishes
 %      exactly where f^{(j)}(x) = 0; D0(x_s) maps the solution to 1 whatever its scale; both
 %      homogeneous; the regular datum fixes the scale (§4.1).
-%   2. DEPARTURE (constraint points): rounded zeros/extrema -> the exact point; a zero the
-%      solution lacks floors the error (numbers: app:repro-triage). The exact point is
+%   2. Constraint points (NOT a critique, NOT a row of T10; 2026-10-16): the construction takes the
+%      exact point, the root of the solution's derivative nearest Wu et al.'s value. That the paper
+%      prints its points to two decimals is a caveat of print, App. I's alone. The exact point is
 %      answer-dependent set-up, NOT answer-independent; why the invariant row is kept, and
 %      the point-datum alternative, are app:exact-points' (Tier B, 2026-10-13), now also one
 %      sentence here, scoped to R4 and R6b (2026-10-16, GeminiReviewPlan row 3).
@@ -205,14 +206,14 @@ Wu et al.\ treat at most two variables. On any number of axes a term is the Kron
 %      app:legendre-substitution); v = f / sqrt(1 - x^2); the descriptor's form.
 %   6. (Cut in review, 2026-10-13: the definition carries ratio rows; the misprinted Laplace
 %      solution (A-05) is app:repro-unreproduced's alone.)
-% CHECKLIST  Every departure a defect and a property; no "we fixed"; the T-27 rule (no variant
+% CHECKLIST  Every departure a defect and a property (the constraint points are not one); no "we fixed"; the T-27 rule (no variant
 %   names here).
 % TRAPS  "answer-independent" for the exact points; restating Wu et al.'s sets at length
 %   (§3.2 has them); the heat problem "corrected".
 
 The constraints are built from Wu et al.'s rank-one rows \cite{wu2025pihm}. The zero row $\Brow(x)=\sqrt{N}\ket{0}\bra{\tau(x)}$ maps a series to the constant function $f_N(x)$, so $\Brow(x)\G^{j}$ annihilates exactly the series whose $j$-th derivative vanishes at $x$. The collapse row $\Dzero(x_s)=\Brow(x_s)/f(x_s)$ maps the solution to the constant $1$ whatever its scale, which is what lets a source enter \Cref{eq:standard-equation}.
 
-A zero row is exact only at a point where the solution's derivative of that order vanishes. Wu et al.'s rounded constraint points (\Cref{sec:pihm-residual}) demand a zero the solution lacks, least squares trades it against the equation, and the error floors at every $n$ (\Cref{app:repro-triage}). The standard form takes the exact point, the root of the solution's derivative nearest Wu et al.'s value. The root depends on the answer: we compute it from the reference solution, outside the method, so a new problem must supply its constraint points with its data (\Cref{app:exact-points}). Only R4 and R6b, the nonlinear $f''-2f^2+x=0$ of Wu et al.'s Fig.~7c, need such a point; for both we keep Wu et al.'s invariant row, moved to the exact root, so that the residual differs from the printed one only in the defect (\Cref{app:exact-points}).
+A zero row is exact only at a point where the solution's derivative of that order vanishes. The standard form takes the point exactly, the root of the solution's derivative nearest Wu et al.'s value (\Cref{sec:pihm-residual}). The root depends on the answer: we compute it from the reference solution, outside the method, so a new problem must supply its constraint points with its data (\Cref{app:exact-points}). Only R4 and R6b, the nonlinear $f''-2f^2+x=0$ of Wu et al.'s Fig.~7c, need such a point; for both we keep Wu et al.'s invariant row, moved to the exact root, so that the residual differs from the printed one only in the point (\Cref{app:exact-points}).
 
 For an ordinary equation of order $k$ whose leading coefficient has no zero on $[-1,1]$, the invariant constraints fix the solution up to its scale, which the regular datum then fixes, exactly when they have rank $k-1$ on the equation's $k$-dimensional solution space (\Cref{prop:uniqueness-count}). The rank is that on the solutions, not of the functionals, so $k-1$ constraints chosen without regard to the equation can fail. Where the count does not apply, for an inhomogeneous equation or a vanishing leading coefficient, and for the gap at a given $n$, the computed kernel decides. We call it \emph{trusted} when the residual's near-kernel is one-dimensional, its smallest singular value separated from the next by a ratio of at least $20$ (\Cref{sec:pipeline-reference}). Trust certifies that the residual singles out one state, not that the field it decodes to has converged, which is measured separately.
 
@@ -268,39 +269,38 @@ For a linear problem on one or more Chebyshev axes, the \emph{standard form} is 
 
 \begin{table}[!htbp]
     \centering
-    \caption[Departures of the standard form and pipeline from the printed method]{\textbf{Every departure from the printed method removes a defect of the printed choice or extends what the residual can carry.} Our standard form and pipeline against the method of Wu et al.\ \cite{wu2025pihm}; only the pipeline rows change the cost. $\G$, Chebyshev differentiation matrix; $R_{\mathrm{std}}$ and $\Hstd=R_{\mathrm{std}}^\dagger R_{\mathrm{std}}$, the standard form's stacked residual and Hamiltonian; $\alpha_R$, the residual's subnormalisation; $\|H\|_F$, Frobenius norm; $\varepsilon$, target suppression; $p_G$, post-selection success probability; Where, the section that argues the row. Evidence for every row: \Cref{app:reproduction}.}
+    \caption[Departures of the standard form and pipeline from the printed method]{\textbf{Every departure from the printed method replaces a choice of Wu et al.\ or extends what the residual can carry.} Our standard form and pipeline against the method of Wu et al.\ \cite{wu2025pihm}; only the pipeline rows change the cost. $\G$, Chebyshev differentiation matrix; $R_{\mathrm{std}}$ and $\Hstd=R_{\mathrm{std}}^\dagger R_{\mathrm{std}}$, the standard form's stacked residual and Hamiltonian; $\alpha_R$, the residual's subnormalisation; $\|H\|_F$, Frobenius norm; $\varepsilon$, target suppression; $p_G$, post-selection success probability; Where, the section that argues the row. Evidence for every row: \Cref{app:reproduction}.}
     \label{tab:deviations}
     \footnotesize
     \begin{tabular}{@{}p{0.14\textwidth} p{0.34\textwidth} p{0.36\textwidth} p{0.10\textwidth}@{}}
         \toprule
-        Choice & This thesis & Defect of the printed choice & Where \\
+        Choice & This thesis & Wu et al.'s choice & Where \\
         \midrule
         \multicolumn{4}{@{}l}{\textit{Data: what the residual carries}} \\
         \addlinespace[2pt]
-        Constraint points & the exact point, set up from the reference solution & a rounded zero the solution lacks floors the error & \Cref{sec:standard-constraints} \\
-        Sources & Chebyshev coefficients on the lifted register & a truncated Maclaurin series poses a different equation & \Cref{sec:standard-operators} \\
-        PDE data & datum slices for initial and boundary functions; the heat data at $t=-1$ & hand-picked invariant sets let the near-kernel grow with $n$; data at $t=0$ pose a backward heat problem & \Cref{sec:standard-constraints} \\
-        Double zero & R3c and R3d solved for $v=f/\sqrt{1-x^2}$ & a branch point limits convergence to algebraic & \Cref{sec:standard-constraints} \\
+        Sources & Chebyshev coefficients on the lifted register & a truncated Maclaurin series of the source, which poses a different equation & \Cref{sec:standard-operators} \\
+        PDE data & datum slices for initial and boundary functions; the heat data at $t=-1$ & hand-picked invariant sets, whose near-kernel grows with $n$; the heat data at $t=0$, which pose a backward problem & \Cref{sec:standard-constraints} \\
+        Double zero & R3c and R3d solved for $v=f/\sqrt{1-x^2}$ & R3c and R3d solved for $f$ directly, a branch point limiting convergence to algebraic & \Cref{sec:standard-constraints} \\
         \midrule
         \multicolumn{4}{@{}l}{\textit{Reach: what the residual can express}} \\
         \addlinespace[2pt]
-        Axes & any number (two run) & a limit of scope: two axes & \Cref{app:pihm-multi-axis} \\
-        Fields & several fields on one state, ratio rows, realification & a limit of scope: one real scalar field & \Cref{sec:extensions} \\
-        Nonlinearity & the Carleman lift, in both forms; the doubled space kept in the standard form & the doubled space projects onto a kernel of dimension at least $2^{2n-1}$ & \Cref{sec:doubled-space,sec:carleman} \\
+        Axes & any number (two run) & one axis & \Cref{app:pihm-multi-axis} \\
+        Fields & several fields on one state, ratio rows, realification & one real scalar field & \Cref{sec:extensions} \\
+        Nonlinearity & the Carleman lift, in both forms; the doubled space kept in the standard form & the doubled space, which projects onto a kernel of dimension at least $2^{2n-1}$ & \Cref{sec:doubled-space,sec:carleman} \\
         \midrule
         \multicolumn{4}{@{}l}{\textit{Pipeline: how the residual is encoded, filtered, solved and read}} \\
         \addlinespace[2pt]
-        Hamiltonian & the stacked residual, solved and encoded from $R_{\mathrm{std}}$; $\Hstd$ never formed & forming $H$ squares the residual's conditioning & \Cref{sec:standard-form,sec:pipeline-reference} \\
-        Encoding of $\G$ & an exact factorisation, $\alpha$ within a factor $2.12$ of $\|\G\|_2$ & an approximate encoding, $\alpha$ looser than $\|\G\|_2$ by about $N^3$ & \Cref{sec:standard-factorisation} \\
-        Filter & the minimax edge filter, its degree set a priori & the time rule does not reach the suppression $\varepsilon$ & \Cref{sec:pipeline-filter} \\
-        Phases and scale & \gls{gqsp} phases from the target alone; scaled by $\alpha_R^2$ & fitted phases carry no guarantee; $\|H\|_F$ is not a subnormalisation & \Cref{sec:pipeline-walk,sec:pipeline-filter} \\
+        Hamiltonian & the stacked residual, solved and encoded from $R_{\mathrm{std}}$; $\Hstd$ never formed & $H$ formed explicitly, which squares the residual's conditioning & \Cref{sec:standard-form,sec:pipeline-reference} \\
+        Encoding of $\G$ & an exact factorisation, $\alpha$ within a factor $2.12$ of $\|\G\|_2$ & an approximate encoding, with $\alpha$ looser than $\|\G\|_2$ by about $N^3$ & \Cref{sec:standard-factorisation} \\
+        Filter & the minimax edge filter, its degree set a priori & the imaginary-time filter with the paper's time rule, which does not reach the suppression $\varepsilon$ & \Cref{sec:pipeline-filter} \\
+        Phases and scale & \gls{gqsp} phases from the target alone; scaled by $\alpha_R^2$ & fitted phases, which carry no guarantee; scaled by $\|H\|_F$, which is not a subnormalisation & \Cref{sec:pipeline-walk,sec:pipeline-filter} \\
         Initial state & the geometric product state; its overlap $\gamma$ reported & not specified & \Cref{sec:pipeline-filter} \\
-        Readout & the field decoded classically from the prepared state & the interferometric identity assumes $p_G=1$ & \Cref{sec:pipeline-readout} \\
+        Readout & the field decoded classically from the prepared state & the interferometric identity, which assumes $p_G=1$ & \Cref{sec:pipeline-readout} \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-The baseline is validated against Wu et al.'s printed results. With every printed choice restored, the rounded points, the Maclaurin sources and the hand-picked invariant sets, the same construction reproduces the matrices printed in Wu et al.'s supplementary material at $n=2$ entry by entry, which checks the operators. Its basis gives, for the exact solution, the printed scale factor of each of Wu et al.'s eleven ordinary examples to within one unit of the last printed digit, which checks the normalisation: for Fig.~3b, as printed at $n=3$, the exact solution gives $\eta_e=\res[places=5]{build/R2a/faithful/standard/n3}{eta_ideal}$ against the printed $1.29$. The printed scale factors of their three partial differential and two nonlinear examples are not reproduced, by the exact solution's $\eta_e$ or by any ground state we computed, and the cause is not settled. The record of every example, the triage of the printed choices and the verdict on each of Wu et al.'s claims are given in \Cref{app:reproduction}.
+The baseline is validated against Wu et al.'s printed results. With every printed choice restored, the constraint points as printed, the Maclaurin sources and the hand-picked invariant sets, the same construction reproduces the matrices printed in Wu et al.'s supplementary material at $n=2$ entry by entry, which checks the operators. Its basis gives, for the exact solution, the printed scale factor of each of Wu et al.'s eleven ordinary examples to within one unit of the last printed digit, which checks the normalisation: for Fig.~3b, as printed at $n=3$, the exact solution gives $\eta_e=\res[places=5]{build/R2a/faithful/standard/n3}{eta_ideal}$ against the printed $1.29$. The printed scale factors of their three partial differential and two nonlinear examples are not reproduced, by the exact solution's $\eta_e$ or by any ground state we computed, and the cause is not settled. The record of every example, the triage of the printed choices and the verdict on each of Wu et al.'s claims are given in \Cref{app:reproduction}.
 
 \subsection{Encoding the Derivative}
 \label{sec:standard-factorisation}

@@ -91,7 +91,7 @@ where the amplitudes of $\ket{\psi}$ are the series' weighted coefficients and $
 %      11-14); the general residual in words (its display is Ch. 4's eq:standard-equation;
 %      the earlier eq:pihm-A-source was cut in review, 2026-10-12). The printed p-bar = 3, 5, 7.
 %   3. Invariant data constraints B(x_z), B(x_m)G (Eqs 9-10) at points the authors choose:
-%      boundaries, and rounded zeros and extrema of the known solution (-0.2, -0.73, 0.91,
+%      boundaries, and zeros and extrema of the known solution (printed -0.2, -0.73, 0.91,
 %      -0.75); one invariant constraint per second-order ODE example.
 %   4. Two variables by Kronecker products (Eqs 22-28) and the PDE invariant sets as printed
 %      (Laplace's three homogeneous sides; heat's f(t,+-1) = 0 and d_x f(t,+-3/4) = 0; wave's
@@ -101,7 +101,7 @@ where the amplitudes of $\ket{\psi}$ are the series' weighted coefficients and $
 %   6. Pointer: the worked N = 4 residual and the lifts' entries -> App. B.
 % CHECKLIST  Nothing of ours (no exact-kernel claim, no stacked R, no k-1 count, no norm).
 % TRAPS  "Collocation"; Theta(N^2) for ||G|| here (§4.2); calling the printed points "rounded"
-%   as a criticism (that is §3.5's; here: "printed to two decimal places").
+%   anywhere in the body (the rounding is a caveat of print, App. I's alone, not a weakness).
 
 Differentiation acts on the coefficients by a fixed matrix, $f_q'(x)=\braket{\tau(x)|\G|\psi}_n$, with $\G$ the Chebyshev differentiation matrix.\footnote{Wu et al.\ define the lower-triangular $\mathbb{G}_n$ and apply its transpose, $\mathbb{G}_n^{\top}$, to the coefficient vector. We write that upper-triangular matrix as $\G$ throughout.} $\G$ is dense, because the derivative of $T_p$ contains every $T_k$ of the opposite parity below it \cite{olver2013}: one high coefficient of $f$ reaches every lower coefficient of $f'$. Its entries are given in \Cref{sec:standard-operators}. Higher derivatives are its powers, so a homogeneous linear \gls{ode} with constant coefficients, $\sum_j a_jf^{(j)}=0$, is represented by
 \begin{equation}
@@ -188,8 +188,8 @@ so that $f^{(i)}f^{(j)}$ becomes $\nfold_1(\G^{i}\otimes\G^{j})$ on $\ket{\Psi}$
 %                  the units of the expected O(1/Delta); one query vs the number of queries;
 %                  the G prefactor loose against ||G||_2 -> sec:standard-published.
 %                  NO Theta(N^{4k}) and no degree here: those are Ch. 4's results.
-%        evidence: the printed points and Maclaurin sources floor the error ->
-%                  sec:standard-operators, sec:standard-constraints, app:reproduction; the PDE
+%        evidence: the Maclaurin sources floor the error ->
+%                  sec:standard-operators, app:reproduction; the PDE
 %                  invariant sets (omit the data, read off the solution, degenerate beyond the
 %                  printed n; heat at t = 0 would be backward and ill posed) ->
 %                  sec:standard-constraints; "positive-definite" -> sec:standard-form; the time
@@ -212,7 +212,7 @@ so that $f^{(i)}f^{(j)}$ becomes $\nfold_1(\G^{i}\otimes\G^{j})$ on $\ket{\Psi}$
 
 \paragraph{Weaknesses in Cost.} A filter's degree grows as $\sqrt{\alpha_H/\Delta}$ with $\alpha_H\ge\|H\|$ for any encoding (\Cref{eq:degree}), which for a sum of Gram matrices is bounded below by the effective condition number of the equation and constraint operators taken together, so the spectrum of $H$ may set the cost whatever its circuits. Each derivative enters $A$ as a power of the dense $\G$, whose norm grows as $N^2$ (\Cref{sec:standard-operators}) \cite{olver2013}. For an equation with constant coefficients, at a gap that does not grow with $N$, the query count therefore grows with each derivative eliminated through $\G$. Classical least squares avoids the same growth by carrying the derivatives as unknowns, in first-order-system least squares \cite{cai1994fosls}. Wu et al.'s expected time hides the norm in the normalisation of $\tilde H$ (\Cref{app:paper-filter}). Separately, the prefactor of \Cref{eq:pihm-published-prefactor} exceeds $\|\G\|_2$ by a factor growing with $N$; \Cref{sec:standard-published,sec:standard-hamiltonian} separate this looseness from the operator's norm.
 
-\paragraph{Weaknesses in Evidence.} The printed examples carry error floors that no increase in $n$ removes: their constraint points are rounded zeros and extrema of the known solution, demanding a zero the solution lacks, and their truncated Maclaurin sources pose a different equation (\Cref{sec:standard-operators,sec:standard-constraints}, \Cref{app:reproduction}). The \gls{pde} examples' invariant sets are read off the known solution and omit the initial or boundary function that fixes it, so the kernel degenerates beyond the printed resolution; the heat example's initial function, at $t=0$ inside the time domain, would pose a backward, ill-posed problem (\Cref{sec:standard-constraints}). Wu et al.\ describe $H$ as positive definite, yet it is singular in the very case the method aims at, a solution represented exactly (\Cref{sec:standard-form}). The time rule (\Cref{eq:pihm-time-rule}) contains no $\varepsilon$ and needs $\lambda_{\max}$ and $\lambda_2$ in advance, so it certifies no accuracy (\Cref{app:paper-claims}).
+\paragraph{Weaknesses in Evidence.} The printed examples carry error floors that no increase in $n$ removes: their truncated Maclaurin sources pose a different equation (\Cref{sec:standard-operators}, \Cref{app:reproduction}). The \gls{pde} examples' invariant sets are read off the known solution and omit the initial or boundary function that fixes it, so the kernel degenerates beyond the printed resolution; the heat example's initial function, at $t=0$ inside the time domain, would pose a backward, ill-posed problem (\Cref{sec:standard-constraints}). Wu et al.\ describe $H$ as positive definite, yet it is singular in the very case the method aims at, a solution represented exactly (\Cref{sec:standard-form}). The time rule (\Cref{eq:pihm-time-rule}) contains no $\varepsilon$ and needs $\lambda_{\max}$ and $\lambda_2$ in advance, so it certifies no accuracy (\Cref{app:paper-claims}).
 
 \paragraph{Weaknesses in Scope.} The nonlinear route projects rather than prepares: any function of $H$ is a scalar on its zero-energy eigenspace, of dimension at least $2^{2n-1}$, so a filter returns the initial state's projection onto it, a direction set by the initial state and not by the equation (\Cref{sec:doubled-space}). The readout identity assumes the ground state is prepared with certainty, though post-selection succeeds with probability below one, and yields one point of the field per measurement campaign (\Cref{sec:pipeline-readout}). The construction carries one real scalar field: complex-valued states are set aside, since with a Fourier basis the energy is ``of a complicated form, rendering it difficult to find the ground state'' \cite{wu2025pihm} (\Cref{sec:extensions}).
 
